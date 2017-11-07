@@ -1,0 +1,440 @@
+\chapter{Tensor calculus}
+\section{General definition}
+	\begin{definition}[Einstein summation convention]\index{Einstein!summation convention}
+    	This notation is a useful tool to reduce long formulas. Summations over indices are assumed implicitly if they occur once as a subscript and once as a superscript.
+        \begin{equation}
+			\label{tensorcalculus:einstein_summation}
+            \sum_ip_ix^i = p_ix^i
+		\end{equation}
+	\end{definition}
+	In the following sections we will use this notation without further notice.
+
+	\begin{definition}[Contravariant]
+		A tensor component that transforms by the following rule is called contravariant:
+        \begin{equation}
+			\label{tensorcalculus:contravariant}
+            v^i = v'^j\pderiv{x^i}{x'^j}
+		\end{equation}
+	\end{definition}
+    \remark{As can be seen in the equation, a superscript in the denominator can be regarded as a normal subscript.}
+    
+    \begin{definition}[Covariant]
+		A tensor component that transforms by the following rule is called covariant:
+        \begin{equation}
+			\label{tensorcalculus:covariant}
+            p_i = p'_j\pderiv{x'^j}{x^i}
+		\end{equation}
+	\end{definition}
+    
+    \begin{example}[Mixed tensor]
+		As an example of a mixed tensor we give the transformation formula for the mixed third-order tensor $T_{\ ij}^k$:
+        \[
+        	T_{\ ij}^k = T_{\ \ uv}'^w\pderiv{x'^u}{x^i}\pderiv{x'^v}{x^j}\pderiv{x^k}{x'^w}
+        \]
+	\end{example}
+    
+\subsection{Second-order tensors}
+	\begin{definition}[Tensor of rank 2]
+		A contravariant tensor $T^{ij}$ transforms as:
+        \begin{equation}
+			\label{tensorcalculus:rank2_tranform_contravariant}
+            T^{ij} = \pderiv{x^i}{x'^k}\pderiv{x^j}{x'^l}T'^{kl}
+		\end{equation}
+        A covariant tensor $T_{ij}$ transforms as:
+        \begin{equation}
+			\label{tensorcalculus:rank2_tranform_covariant}
+            T_{ij} = \pderiv{x'^k}{x^i}\pderiv{x'^l}{x^j}T'_{kl}
+		\end{equation}
+	\end{definition}
+    \remark{These definitions can easily be generalized to higher dimensions}
+    
+    \newformula{Product of second-order tensor and vector}{\label{tensorcalculus:vector_tensor_product}Let $\vector{v}$ be a vector and let $\mathbf{T}$ be a second-order tensor.
+    	\begin{equation}
+			\mathbf{T}(\vector{v}) = \sum_{i=1}^n \left(\sum_{j=1}^nT_{ij}v_j\right)\vector{e}_i
+		\end{equation}
+    }
+    
+\subsection{Transformation}    
+    \newprop{Inverse transformation}{
+    	From equation \ref{tensorcalculus:contravariant} we know that a contravariant tensor transforms as follows \[(A')^j = \pderiv{(x')^j}{x^i}A^i\]
+        The inverse transformation is given by\footnotemark:
+        \begin{equation}
+			A^i = \pderiv{x^i}{(x')^j}(A')^j
+		\end{equation}
+    }
+    \sremark{It is important to note that we do not just invert the derivatives as that is only valid in Cartesian coordinates.}
+    \footnotetext{This can be checked by substitution of the second formula in the first one.}
+    
+    \begin{theorem}[Quotient rule]Assume we have an equation such as $K_iA^{jk} = B_i^{\ jk}$ or $K_i^{\ j}A_{jl}^{\ \ k} = B_{il}^{\ \ k}$ with $A$ and $B$ two known tensors\footnotemark. The quotient rule asserts the following: "If the equation of interest holds under all transformations, then $K$ is a tensor of the indicated rank and covariant/contravariant character".\end{theorem}
+    \sremark{This rule is a useful substitute for the "illegal" division of tensors.}
+    \footnotetext{This rule does not necessarily hold when $B = 0$ as transformations rules are not defined for the null-tensor.}
+
+\section{Tensor product}
+\subsection{Tensor product}\index{tensor!product}
+
+	There are two possible ways to introduce the components of a tensor (on finite dimensional spaces). One way is to interpret tensors as multilinears maps another way is to interpret the components as expansion coefficients with respect to the tensor space basis.
+    
+    \newdef{Multilinear map}{
+    	One way to define the tensor components is as follows: Let $\mathbf{T}$ be a tensor that takes $r$ vectors and $s$ covectors as input and returns a scalar. The different components are given by  $\mathbf{T}(e_i, ..., e_j, e^k, ...., e^l) = T_{i...j}^{\ \ \ \ k...l}$.
+    }
+    
+	\begin{definition}\label{tensor:tensor_product}
+    	The tensor product of vector spaces $V$ and $W$ is defined as\footnotemark\ the set of multilinear maps on the Cartesian product $V^*\times W^*$. Let $v, w$ be vectors in respectively $V$ and $W$. Let $g, h$ be vectors in the corresponding dual spaces. The tensor product of $v$ and $w$ is then defined as:
+        \begin{equation}
+            \boxed{(v\otimes w)(g, h) = v(g)w(h)}
+        \end{equation}
+    \end{definition}
+    \footnotetext{"isomorphic to" would be a better terminology. See the "universal property" \ref{tensor:prop:universal_property}. For a complete proof and explanation, see \cite{principal_bundles}.}
+    
+     \begin{property}[Universal property]\index{universal property}
+    \label{tensor:prop:universal_property}
+    	A set $X$ together with a bilinear map $\mathcal{T}:V\times W\rightarrow X$ is said to have the universal property if for every bilinear map $f:V\times W\rightarrow Z$, where $Z$ is some other vector space, there exists a unique linear map $f':X\rightarrow Z$ such that $f = f'\circ\mathcal{T}$.
+    \end{property}
+    \begin{result}
+    	The tensor product is unique up to a linear isomorphism. This results in
+    	\begin{equation}
+		\label{tensor:prop:change}
+	        	V\otimes W \cong W\otimes V
+	\end{equation}
+    \end{result}
+    \begin{result}
+		Let $v\in V$ and $f\in V^*$.
+        \begin{equation}
+        	v(f) \equiv f(v)
+        \end{equation}
+    \end{result}
+    
+    \begin{notation}[Tensor power]\index{tensor!power}
+    	\begin{equation}
+    		V^{\otimes n} = \underbrace{V\otimes...\otimes V}_{n\text{ copies}}
+    	\end{equation}
+    \end{notation}
+    \begin{remark}
+    	More generally, the tensor product of $r$ copies of $V$ and $s$ copies of $V^*$ is the vector space $\mathcal{T}^r_s(V) = V^{\otimes r}\otimes V^{*\otimes s}$. These tensors are said to be of \textbf{type} $(r, s)$.
+    \end{remark}
+
+    \begin{definition}[Tensor product basis]\index{tensor!type}
+    	\label{tensor:type}
+    	The tensor space $\mathcal{T}^r_s(V)$ is spanned by the basis \[\underbrace{e_i\otimes...\otimes e_j}_{r\text{ basis vector}}\otimes\underbrace{e^k\otimes...\otimes e^l_{\textcolor{white}{a}}}_{s\text{ dual basis vectors}}\] where the operation $\otimes$ satisfies following properties:
+        \begin{enumerate}
+        	\item Associativity: $u\otimes(v\otimes w) = u \otimes v\otimes w$
+            \item Multilinearity: $a(v\otimes w) = (av)\otimes w = v\otimes (aw)$ and $v\otimes (u+w) = v\otimes u + v\otimes w$
+        \end{enumerate}
+        The expansion coefficients in this basis are written as $T^{i...j}_{\ \ \ \ k...l}$
+    \end{definition}
+    \newprop{Dimension of tensor product}{
+    	From the previous construction it follows that the dimension of $\mathcal{T}^r_s(V)$ is equal to $rs$.
+    }
+    
+    \begin{theorem}
+    	We now have to proof that the values of the tensor operating on $r$ vectors and $s$ covectors are equal to the corresponding expansion coefficients.
+      	\begin{proof}
+        	Let $\mathbf{T} = T_{i...j}^{\ \ \ \ k...l}e^i\otimes...\otimes e^j\otimes e_k\otimes...\otimes e_l$. Applying \ref{tensor:tensor_product} and using the definition of the dual vectors we have:
+            \[
+            \begin{array}{ccl}
+            	\mathbf{T}(e_a, ..., e_b, e^m, ..., e^n) &=& T_{i...j}^{\ \ \ \ k...l}e^i(e_a)...e^j(e_b)e_k(e^m)...e_l(e^n)\\
+                &=& T_{i...j}^{\ \ \ \ k...l}\delta_a^i...\delta_b^j\delta_k^m...\delta_l^n\\
+                &=& T_{a...b}^{\ \ \ \ m...n}
+            \end{array}
+			\]
+            This is exactly the same result as the one we get by applying the first definition.\qed
+      	\end{proof}
+    \end{theorem}
+    
+    \begin{example}
+    	The scalars (elements of the base field) are in fact $(0,0)$ tensors. From the transformation rule for tensors it follows that scalars are invariant under any kind of transformation, which was allready a well known fact. Vectors and covectors are respectively $(1, 0)$ and $(0, 1)$ tensors.
+    \end{example}
+    \begin{example}
+    	The linear operators on a vector space $V$ are isomorphic to elements of the tensor space $V^*\otimes V$ or by property \ref{tensor:prop:change} to $\mathcal{T}^r_s(V)$:
+        \[
+        \begin{array}{ccl}
+        	\mathbf{T}(v) &=& T_i^{\ j}e_je^i(v^ke_k)\\
+            &=& v^iT_i^{\ j}e_j
+        \end{array}
+        \]
+        The last line is exactly the componentwise transformation of vectors.
+    \end{example}
+	
+\subsection{General operations}
+	\newdef{Contraction}{\index{contraction}
+    	Let $A$ be a tensor of type $(n, m)$. Setting a sub- and superscript equal and summing over this index gives a new tensor of type $(n-1, m-1)$. This operation is called the contraction of $A$. It is given by the evaluation map
+    	\eq{
+    		\label{tensor:contraction}
+    		V\otimes V^*:e_i\otimes e^j\mapsto e^j(e_i)
+    	}
+    }
+    
+    \newdef{Direct product}{\index{direct product}
+    	Let $A$ and $B$ be two random tensors (both rank and co-/contravariancy). The tensor constructed by the componentwise multiplication of $A$ and $B$ is called the direct product of $A$ and $B$.
+    }
+    \begin{example}
+		Let $A_{\ k}^i$ and $B_{\ lm}^j$ be two tensors. The direct product is equal to: \[C_{\ k\ lm}^{i\ j} = A_{\ k}^iB_{\ lm}^j\]
+	\end{example}
+    
+    \newformula{Operator product}{
+    	It is also possible to combine operators working on different vector spaces so to make them work on the tensor product space. To do this we use following definition:
+        \begin{equation}
+        	\label{tensor:operator_product}
+            \boxed{(\hat{A}\otimes\hat{B})(v\otimes w) = (\hat{A}v)\otimes(\hat{B}w)}
+        \end{equation}
+    }
+    \sremark{
+    	Consider an operator $\hat{A}$ working on a space $\mathcal{H}_1$. When working with a combined space $\mathcal{H}_1\otimes\mathcal{H}_2$ the corresponding operator is in fact $\hat{A}\otimes\mathbbm{1}$ but it is often still denoted by $\hat{A}$ in physics.
+    }
+
+\subsection{Differentiation}
+	\begin{property}
+		\begin{equation}
+        	\vecnabla\cdot(\vector{A}\otimes\vector{B}) = (\vecnabla\cdot\vector{A})\vector{B}+(\vector{A}\cdot\vecnabla)\vector{B}
+		\end{equation}
+	\end{property}    
+    
+\subsection{Levi-Civita tensor}
+	\newdef{Levi-Civita tensor}{\index{Levi-Civita!symbol}
+    	Let $e^i$ be the dual vector to $e_i$. In $n$ dimensions, we define the Levi-Civita tensor as follows:
+    	\begin{equation}
+        	\label{tensor:levi_civita_symbol}
+			\boldsymbol{\varepsilon} = \varepsilon_{12...n}e^1\otimes e^2\otimes...\otimes e^n
+        \end{equation}
+		where
+        \[
+            \varepsilon_{i...n} = 
+            \left\{
+            \begin{array}{rcl}
+				1&\qquad&\text{if }(i...n)\text{ is an even permutation of }(12...n)\\
+                -1&\qquad&\text{if }(i...n)\text{ is an odd permutation of }(12...n)\\
+                0&\qquad&\text{if any of the indices occurs more than once}
+			\end{array}
+            \right.
+		\]
+    }
+    \remark{
+    	\label{tensor:remark:levi_civita_symbol}The Levi-Civita symbol is not a tensor, but a pseudotensor. This means that the sign changes under reflections (or any transformation with determinant $-1$).
+    	}
+    \newformula{Cross product}{By using the Levi-Civita symbol, we can define the $i$-th component of the cross product\footnotemark\ of two vectors $\vector{v},\vector{w}$ as follows:
+    	\begin{equation}
+			\boxed{(\vector{v}\times\vector{w})_i = \varepsilon_{ijk}v_jw_k}
+		\end{equation}
+    }
+    \footnotetext{Following from remark \ref{tensor:remark:levi_civita_symbol} we can see that the cross product is in fact not a vector, but a pseudovector.}
+    
+\section{(Anti)symmetric tensors}
+\subsection{Symmetric tensors}
+	\begin{notation}
+		The space of symmetric $(0,n)$ tensors is denoted by $S^n(V^*)$. The space of symmetric $(n, 0)$ tensors is denoted by $S^n(V)$.
+	\end{notation}
+    
+\subsection{Antisymmetric tensors}
+	\newdef{Antisymmetric tensor}{
+		Tensors that change sign under the interchange of any two indices.
+	}
+	\begin{notation}
+		\label{tensor:not:antysimmetric_space}
+		The space of antisymmetric $(0,n)$ tensors is denoted by $\Lambda^n(V^*)$. The space of antisymmetric $(n, 0)$ tensors is denoted by $\Lambda^n(V)$.
+	\end{notation}
+    \begin{remark*}\index{bivectors}\index{k-blades}
+    	Elements of $\Lambda^2(V)$ are also known as \textbf{bivectors}. Elements of $\Lambda^k(V)$ are generally known as $k$-\textbf{blades}.
+    \end{remark*}
+    
+    \begin{property}
+    	Let $n = \dim(V)$. $\Lambda^r(V)$ equals the null-space for all $r\geq n$.
+    \end{property}
+    
+\subsection{Wedge product}
+	\newdef{Wedge product}{\index{wedge product}
+		\begin{equation}
+			\label{tensor:wedge_product}
+			\boxed{f\wedge g = f\otimes g - g\otimes f}
+		\end{equation}
+		From this definition it immediately follows that the wedge product is antisymmetric.
+	}
+    
+    \begin{formula}
+    Let $\{P_i\}_i$ be the set of all permutations of the sequence $(1, ..., k)$.
+    	\begin{equation}
+    		e_1 \wedge ... \wedge e_k = \sum_i \sgn(P_i)e_{P_i(1)}\otimes...\otimes e_{P_i(k)}
+    	\end{equation}
+    \end{formula}
+    
+\begin{construct}
+    	Let $\{e_i\}_{1 \leq i\leq n}$ be a basis for $V$. It is clear from the definition \ref{tensor:wedge_product} that a basis for $\Lambda^r(V)$ is given by
+	\[
+		\{e_{i_1}\wedge...\wedge e_{i_r}\ |\ \forall k: 1\leq i_k \leq \dim(V)\}
+	\]
+	The dimension of this space is given by:
+	\eq{
+		\label{tensor:wedge_dimension}
+		\dim\Lambda^k(V) = \binom{n}{k}
+	}
+\end{construct}
+\begin{remark}
+		For $k=0$, the above construction is not useful, so we just define $\Lambda^0(V) = \mathbb{R}$.
+\end{remark}
+    
+    \newformula{Levi-Civita symbol}{\index{Levi-Civita!symbol}
+    	The Levi-Civita tensor in $n$ dimensions as introduced in \ref{tensor:levi_civita_symbol} can now be rewritten more concisely as:
+        \begin{equation}
+        	\boldsymbol{\varepsilon} = e_1\wedge...\wedge e_n
+        \end{equation}
+    }
+    
+    \begin{formula}\index{cross product}
+    	In 3 dimensions there exists an important isomorphism $J:\Lambda^2(\mathbb{R}^3)\rightarrow\mathbb{R}^3$:
+        \begin{equation}
+		\label{tensor:wedge_to_cross}
+	        	J(\lambda)^i = \frac{1}{2}\varepsilon^i_{\ jk}\lambda^{jk}
+        \end{equation}
+        where $\lambda\in\Lambda^2(\mathbb{R}^3)$.
+
+	Looking at the definition of the cross product \ref{linalgebra:cross_product}, we can see that $\vector{v}\times\vector{w}$ is actually the same as $J(\vector{v}\wedge\vector{w})$. One can thus use the wedge product to generalize the cross product to higher dimensions.
+    \end{formula}
+    
+    \begin{example}
+    	Let $A, B$ and $C$ be three vectors in $V$. Now consider following expression:
+        \[
+        	(C\wedge B)(L(A), \cdot)
+        \]
+        where $L(A)$ is the metric dual of $A$ (see \ref{linalgebra:metric_dual}). Evaluating this formula using the properties of the wedge and tensor products leads to the well known BAC-CAB rule of triple cross products:
+        \[
+        	(C\cdot A)B - (B\cdot A)C
+        \]
+    \end{example}
+    
+    \remark{
+    	The wedge product can also be defined without prior knowledge of tensor products. The wedge product is then defined by letting $V\wedge W$ be the smallest space such that for all elements $v\in V, w\in W$ the following property holds:
+    	\eq{
+    		v\wedge w = -w\wedge v
+    	}
+    	Now, let $\{e_i\}_{i\leq m}$ be an ordered basis for $V$ and let $\{d_j\}_{j\leq n}$ be an ordered basis for $W$. The wedge product $V\wedge W$ is spanned by the basis $\{e_i\wedge d_j\}_{i\leq m, j\leq n}$.
+    }
+    
+\subsection{Exterior algebra}
+	
+	\newdef{Exterior power}{\index{exterior!power}
+		In the theory of exterior algebras, the space $\Lambda^k(V)$ is often called the $k^{th}$ exterior power of $V$.
+	}
+	\newdef{Exterior algebra}{\index{exterior!algebra}\index{Grassmann!algebra}\label{tensor:exterior_algebra}
+		We can define a graded vector space\footnotemark\ $\Lambda^*(V)$ as follows:
+		\[
+			\Lambda^*(V) = \bigoplus_{k\geq0}\Lambda^k(V)
+		\]
+		Then we can turn this graded vector space into a graded algebra by taking the wedge product as the multiplication:
+		\[
+			\wedge:\Lambda^k(V)\times\Lambda^l(V)\rightarrow \Lambda^{k+l}(V)
+		\]
+		This algebra is called the exterior algebra or \textbf{Grassmann algebra} of $V$.
+	}
+	\footnotetext{See definition \ref{linalgebra:graded_vector_space}.}
+	\newadef{$\dag$}{\label{tensor:adef_exterior_algebra}
+    		Let $T(V)$ be the (free) tensor algebra over the vector space $V$, i.e.
+	    	\begin{equation}
+			T(V) = \bigoplus_{k\geq0} T^{\otimes k}(V)
+		\end{equation}
+		where $T^{\otimes k}(V)$ is the $k^{th}$ tensor power of $V$. The exterior algebra over $V$ is generally defined as the quotient of $T(V)$ by the two-sided ideal $I$ generated by $\{v\otimes v|v\in V\}$.
+	}
+	
+	\begin{property}
+		The exterior algebra is both an associative algebra and a unital algebra with unit element $1\in\mathbb{R}$. Furthermore it is also commutative in the graded sense (see \ref{group:graded_commutativity}).
+	\end{property}
+	
+\subsection{Hodge star}
+It follows from equation \ref{tensor:wedge_dimension} that the spaces $\Lambda^k(V)$ and $\Lambda^{n-k}(V)$ have the same dimension, so there exists an isomorphism between them. This map is given by the Hodge star $\ast$. However this map can only be defined independent of the choice of (ordered) basis if we restrict ourselves to vector spaces equipped with a non-degenerate Hermitian form \ref{linalgebra:NDH_form}.
+
+	\newdef{Volume element}{\index{volume}
+	    	Let $V$ be an $n$-dimensional vector space with ordered basis $\{e_i\}_{i\leq n}$. The volume element on $V$ is defined as:
+	    	\eq{
+    			\label{tensor:volume_form}
+    			\text{Vol}(V) := e_1\wedge...\wedge e_n
+	    	}
+	    	It is clear that this is an element of $\Lambda^n(V)$.
+	}
+	\newdef{Orientation}{\index{orientation}
+		\label{tensor:orientation}
+		Let $\omega\in\Lambda(V)$ be an element of degree $n$. From the previous definition it follows that this $k$-blade is a scalar multiple of $\text{Vol}$ because $\Lambda^n(V)$ is one-dimensional: \[\omega = r\text{Vol}(V)\] The $k$-blade $\omega$ induces an orientation on $V$ in the following way. If the scalar $r>0$ then the orientation is said to be \textbf{positive}. If $r<0$ then the orientation is \textbf{negative}.
+	}
+	
+	\begin{formula}[Inner product]\index{inner product}
+		Let $V$ be equipped with an inner product $\langle\cdot,\cdot\rangle$. Then we can define an inner product on $\Lambda^k(V)$ by:
+		\eq{
+			\label{tensor:wedge_inner_product}
+			\boxed{\langle v_1\wedge...\wedge v_k | w_1\wedge...\wedge w_k \rangle_k = \det(\langle v_i, w_j\rangle)}
+		}
+		For an orthogonal basis, this formula factorises into:
+		\eq{
+			\langle v_1\wedge...\wedge v_k | w_1\wedge...\wedge w_k \rangle_k = \langle v_1|w_1 \rangle\cdots \langle v_k|w_k \rangle
+		}
+	\end{formula}
+	\newdef{Hodge star}{\index{Hodge star}
+		The Hodge star $\ast: \Lambda^k(V)\rightarrow\Lambda^{n-k}(V)$ is defined as the isomorphism such that for all $\omega\in\Lambda^k(V)$ and $\rho\in\Lambda^{n-k}(V)$ we have the following equality:
+		\eq{
+			\label{tensor:hodge_star}
+			\omega\wedge\rho = \langle\ast\omega, \rho\rangle_{n-k}\text{Vol}(V)
+		}
+		where $\langle\cdot,\cdot\rangle$ is the inner product \ref{tensor:wedge_inner_product} on $\Lambda^{n-k}(V)$. Furthermore, this isomorphism is unique.
+		\begin{proof}
+			Because $\omega\wedge\rho$ is an element of $\Lambda^n(V)$ it is a scalar multiple of $\text{Vol}(V)$. This implies that it can be written as \[c(\rho)\text{Vol}(V)\] The map $c : \Lambda^{n-k}(V)\rightarrow\mathbb{R}:\rho\mapsto c(\rho)$ is a linear map and thus a continuous map, so we can apply Riesz' representation theorem to identify $c$ with a unique element $\ast\omega\in\Lambda^{n-k}(V)$ such that \[c(\rho) = \langle\ast\omega, \rho\rangle_{n-k}\]\qed
+		\end{proof}
+	}
+	
+	\begin{formula}
+		Let $\{e_i\}_{i\leq n}$ be a positively oriented ordered orthonormal basis for $V$. An explicit formula for the Hodge star is given by the following construction. Let $\{i_1, ..., i_k\}$ and $\{j_1 ,...,j_{n-k}\}$ be two complementary index sets with increasing subindices. Let $\omega = e_{i_1}\wedge...\wedge e_{i_k}$.
+		\eq{
+			\label{tensor:explicit_hodge_star}
+			\boxed{\ast\omega =\sgn(\tau)\prod_{m = 1}^{n-k}\langle e_{j_m}|e_{j_m} \rangle e_{j_1}\wedge...\wedge e_{j_{n-k}}}
+		}
+		where $\tau$ is the permutation that maps $e_{i_1}\wedge...\wedge e_{i_k}\wedge e_{j_1}\wedge...\wedge e_{j_{n-k}}$ to $\text{Vol}(V)$
+	\end{formula}
+	
+	\begin{result}\index{cross product}
+		\label{tensor:hodge_star_vectorcalculus}
+		Consider three vectors $u, v, w\in\mathbb{R}^3$.
+		\begin{align}
+			\ast(v\wedge w) &= v\times w \label{tensor:cross_by_hodge_star}\\
+			\ast(v\times w) &= v\wedge w\\
+			\ast(u\wedge v\wedge w) &= u\cdot(v\times w)
+		\end{align}
+	\end{result}
+	\begin{remark}
+		Formula \ref{tensor:wedge_to_cross} is an explicit evaluation of the first equation \ref{tensor:cross_by_hodge_star}.
+		\begin{proof}
+			The sign $\sgn(\tau)$ can be written using the Levi-Civita symbol $\varepsilon_{ijk}$ as defined in \ref{tensor:levi_civita_symbol}. The factor $\frac{1}{2}$ is introduced to correct for the double counting due to the contraction over both the indices $j$ and $k$.
+		\end{proof}
+	\end{remark}
+	
+	\begin{property}
+		Consider an inner product space $V$, then
+		\eq{
+			\boxed{\ast\ast\ \omega = (-1)^{k(n-k)}\omega}
+		}
+		In $n=4$ this leads to $\ast\ast\omega = \omega$ which means that the Hodge star is an involution in 4-dimensional inner product spaces.
+	\end{property}
+	
+	\newdef{Self-dual}{\index{dual!self-dual}
+		Let $V$ be a 4-dimensional inner product space. Consider $\omega\in\Lambda^2(V)$. Then $\omega$ is said to be self-dual if $\ast\omega = \omega$. Furthermore every $v\in\Lambda^2(V)$ can be uniquely decomposed as the sum of a self-dual and an anti-self-dual 2-form.
+	}
+	
+\subsection{Grassmann numbers}
+
+	Although this section does not really belong to the chapter about tensors, we have included it here as it is an application of the concept of exterior algebras. The concept of Grassmann numbers (or variables) is used in QFT when performing calculations in the fermionic sector.
+	
+	\newdef{Grassmann numbers}{\index{Grassmann!number}\label{tensor:grassmann_number}
+		Let $V$ be a complex vector space spanned by a set of generators $\theta_i$. The Grassmann algebra with Grassmann variables $\theta_i$ is the exterior algebra over $V$. The wedge symbol of Grassmann variables is often ommitted when writing the product: $\theta_i\wedge\theta_j \equiv \theta_i\theta_j$.
+	}
+	\begin{remark}
+		Furthermore, from the anti-commutativity it follows that we can regard the Grassmann variables as being non-zero square-roots of zero.
+	\end{remark}
+	
+	\begin{property}
+		Consider a one-dimensional Grassmann algebra. When constructing the polynomial ring $\mathbb{C}[\theta]$ generated by $\theta$, we see that, due to the anti-commutativity, $\mathbb{C}[\theta]$ is spanned only by $1$ and $\theta$. All higher degree terms vanish because $\theta^2 = 0$. This implies that the most general polynomial over a one-dimenisonal Grassmann algebra can be written as
+		\begin{equation}
+			p(\theta) = a + b\theta
+		\end{equation}
+	\end{property}
+	
+	\begin{definition}\index{DeWitt!convention for Grassmann variables}
+		We can equip the exterior algebra $\Lambda$ with Grassmann variables $\theta_i$ with an involution similar to that on $\mathbb{C}$:
+		\begin{equation}
+			(\theta_i\theta_j...\theta_k)^* = \theta_k...\theta_j\theta_i
+		\end{equation}
+		Elements $z\in\Lambda$ such that $z^* = z$ are called \textbf{(super)real}, elements such that $z^* = -z$ are called \textbf{(super)imaginary}. This convention is called the \textit{DeWitt} convention.
+	\end{definition}

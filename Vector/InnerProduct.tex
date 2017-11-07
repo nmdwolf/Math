@@ -1,0 +1,168 @@
+\section{Inner product}\label{linalgebra:innerproduct}
+	In the following section all vector spaces $V$ will be $\mathbb{R}$- or $\mathbb{C}$-vector spaces.
+    
+	\newnot{Inner product}{\index{inner product}
+    	Let $v, w$ be two vectors in $V$. The map $\langle \cdot|\cdot \rangle:V\times V\rightarrow K$ is called an inner product on $V$ if it satisfies the following 3 properties:
+    	\begin{enumerate}
+    		\item \textbf{Conjugate symmetry:} $\langle v|w\rangle = \langle w|v\rangle^*$
+            \item \textbf{Linearity in the first argument:} $\langle \lambda u + v|w\rangle = \lambda\langle u|w\rangle + \langle v|w\rangle$
+            \item \textbf{Non-degeneracy: } $\langle v|v\rangle = 0 \iff v = 0$
+            \item \textbf{Positive-definiteness:} $\langle v|v\rangle \geq 0$
+    	\end{enumerate}
+    }
+\remark{\index{Hermitian!form}
+	\label{linalgebra:NDH_form}
+    	Inner products are special cases of \textbf{non-degenerate Hermitian forms} which do not possses the positive-definiteness property.
+}
+
+    \begin{result}
+    	The first two properties have the result of conjugate linearity in the second argument:
+    	\begin{equation}
+			\langle f|\lambda g + \mu h\rangle = \overline{\lambda}\langle f|g \rangle + \overline{\mu}\langle f|h \rangle
+		\end{equation}
+    \end{result}
+    
+\subsection{Inner product space}
+	
+	\newdef{Inner product space\footnotemark}{
+		\footnotetext{Sometimes called a \textbf{prehilbert space}.}
+		A vector space equipped with an inner product $\langle\cdot|\cdot\rangle$ is called an inner product space.
+	}
+
+        \newdef{Metric dual\footnotemark}{\footnotetext{See also definition \ref{manifolds:flat_map}.}
+        	Using the inner product (or any other non-degenerate Hermitian form) one can define the metric dual of a vector $v$ by the following map:
+            \begin{equation}
+            	\label{linalgebra:metric_dual}
+            	L:V\rightarrow V^*:v\mapsto \langle v|\cdot \rangle
+            \end{equation}
+        }
+        \newdef{Adjoint operator}{\index{Hermitian!adjoint}\index{self-adjoint}\label{linalgebra:adjoint_operator}
+		Let $A$ be a linear operator on $V$. Let $v, w$ be two vectors in $V$. The \textit{Hermitian} adjoint of $A$ is defined as the linear operator $A^\dag$ that satisfies:
+		\begin{equation}
+			\langle A^\dag v, w\rangle = \langle v, Aw\rangle
+		\end{equation}
+		Alternatively one can define the adjoint using the metric dual $L(\cdot)$ as follows:
+		\begin{equation}
+			\boxed{A^\dag = L^{-1} \circ A^T \circ L}
+		\end{equation}
+		If $A = A^\dag$ then A is said to be \textbf{Hermitian} or \textbf{self-adjoint}.
+	}
+	
+    \begin{result}
+    	The Hermitian adjoint of a complex matrix $A\in\mathbb{C}^{m\times n}$ is given by:
+        \begin{equation}
+			A^\dag = \overline{A}^T
+		\end{equation}
+        where $\overline{A}$ denotes the complex conjugate of $A$ and $A^T$ the transpose of $A$.
+    \end{result}
+    
+	The definition of an adjoint operator \ref{linalgebra:adjoint_operator} can be generalized to the case where $A^\dag$ is not unique (for example when $A$ is not globally defined) in the following way:
+	\newdef{Conjugate operators}{
+		Two operators $B$ and $C$ are said to be conjugate if:
+		\begin{equation}
+			\langle Bx, y\rangle = \langle x, Cy\rangle
+		\end{equation}
+	}
+    
+    \begin{example}\index{Lie!algebra}\index{isometry}
+    	The Lie algebra associated with the group of isometries $\text{Isom}(V)$ of a non-degenerate Hermitian form satisfies following condition:
+        \begin{equation}
+        	\label{linalgebra:lie_isometry}
+        	\langle Xv, w \rangle = -\langle v, Xw \rangle
+        \end{equation}
+        for all Lie algebra elements $X$. It follows that the Lie algebra consists of all anti-hermitian operators.
+    \end{example}
+    
+\subsection{Orthogonality}\label{linalgebra:section:orthogonality}
+	
+	\newdef{Orthogonal}{
+		Let $v, w \in V$. The vectors $v$ and $w$ are said to be orthogonal, denoted by $v\perp w$,  if they obey the following relation:
+		\begin{equation}
+			\label{linalgebra:orthogonal}
+			\langle v|w \rangle = 0
+		\end{equation}
+		An orthogonal \textbf{system} is a set of vectors, none of them the null vector, that are mutually orthogonal.
+	}
+	\begin{property}
+		Orthogonal systems are linearly independent.
+	\end{property}
+	
+	\newdef{Orthonormal}{
+		A set of vectors $\{v_n\}$ is said to be orthonormal if it is orthogonal and if all the elements $v_n$ obey the following relation:
+		\begin{equation}
+			\label{linalgebra:orthonormal}
+			\langle v|v \rangle = 1
+		\end{equation}
+	}
+        \newdef{Orthogonal complement\footnotemark}{\label{linalgebra:orthogonal_complement}Let $W$ be a subspace of $V$. The following subspace is called the orthogonal complement of $W$:
+        	\begin{equation}
+                W^\perp = \{v\in V\ |\ \forall w\in W:\langle v|w\rangle = 0\}
+			\end{equation}
+        }
+        \footnotetext{$W^\perp$ is pronunciated as 'W-perp'.}
+        
+        	\begin{property}
+		The inner-product is invariant under transformations between orthonormal bases.
+	\end{property}
+        
+        \begin{property}
+        	\label{linalgebra:W_W_perp_intersection}
+			\begin{equation}
+				W \cap W^\perp = \{0\}
+			\end{equation}
+		\end{property}
+        \begin{property}
+			Let $V$ be a finite-dimensional K-vector space. The orthogonal complement $W^\perp$ is a complementary subspace\footnotemark\ to W, i.e. $W\leq V$: $W\oplus W^\perp=V$.
+		\end{property}
+        \footnotetext{hence the name}
+        \begin{result}
+        	\label{linalgebra:perp_of_perp}
+			Let $W\leq V$ where $V$ is a finite-dimensional K-vector space. We have the following relation:
+            \begin{equation}
+	            (W^\perp)^\perp = W
+			\end{equation}
+		\end{result}
+    
+    	\newdef{Orthogonal projection}{\label{linalgebra:orthogonal_projection}Let $V$ be a finite-dimensional K-vector space. Let $W\leq V$. Let $w\in W$ and let $\{w_1, ..., w_k\}$ be an orthonormal basis of $W$. We define the projection of $v\in V$ on $W$ and $w\in W$ as follows:
+        	\begin{equation}
+				\text{proj}_W(v) = \sum_{i=1}^k\langle v|w_i \rangle w_i
+			\end{equation}
+            \begin{equation}
+				\text{proj}_w(v) = \stylefrac{\langle v|w \rangle}{\langle w|w \rangle}w
+			\end{equation}
+        }
+        \begin{property}\ 
+			\begin{enumerate}
+				\item $\forall w\in W:\text{proj}_W(w) = w$
+                \item $\forall u\in W^\perp:\text{proj}_W(u) = 0$
+			\end{enumerate}
+		\end{property}
+        
+	\newmethod{Gram-Schmidt orthonormalisation}{
+		Let $\{u_n\}$ be a set of linearly independent vectors. We can construct an orthonormal set $\{e_n\}$ out of $\{u_n\}$ in the following way:
+		\begin{equation}
+			\label{linalgebra:inner_product:gramm_schmidt}
+			\begin{aligned}
+				&w_1 = u_1&\\
+				&w_2 = u_2 - \stylefrac{\langle u_2|w_1\rangle}{||u_2||^2}w_1&\\
+				&\vdots&\\
+				&w_n = u_n - \sum_{k = 1}^{n-1}\stylefrac{\langle u_n|w_k\rangle}{||u_n||^2}w_k&
+			\end{aligned}\qquad
+			\begin{aligned}
+				&e_1 = \stylefrac{w_1}{||w_1||}&\\
+				&e_2 = \stylefrac{w_2}{||w_2||}&\\
+				&\vdots&\\
+				&e_n = \stylefrac{w_n}{||w_n||}&
+			\end{aligned}
+		\end{equation}
+	}
+        
+\subsection{Angle}
+	
+	\newdef{Angle}{\index{angle}
+		Let $v,w$ be elements of an inner product space. The angle $\theta$ between $v$ and $w$ is defined as:
+		\begin{equation}
+			\label{linalgebra:angle}
+			\boxed{\cos\theta = \stylefrac{\langle v|w \rangle}{||v||||w||}}
+		\end{equation}
+	}

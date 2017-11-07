@@ -1,0 +1,286 @@
+\section{Connections}
+\subsection{Vertical bundle}
+	
+	Because smooth fibre bundles (which include smooth principal G-bundles) are also smooth manifolds we can define the traditional notions for them, such as the tangent bundle. We use this to construct the notions of horizontal and vertical bundles:
+	\newdef{Vertical vector}{\index{vertical vector}
+		Let $\pi:E\rightarrow B$ be a smooth fibre bundle. The subbundle $\ker(T\pi)$ of $TE$ is called the vertical bundle of $E$. Fibrewise this gives us $V_x = T_x(E_{\pi(x)})$.
+	}
+
+	For principal G-bundles we can use an equivalent definition:
+	\begin{adefinition}
+		Consider a smooth principal $G$-bundle $G\hookrightarrow P\xrightarrow{\pi} M$. We first construct a map $\iota_p$ for every element $p\in P$:
+		\eq{
+			\iota_p:G\rightarrow P: g\mapsto p\cdot g
+		}
+		We then define a tangent vector $v\in T_p P$ to be vertical if it lies in the image of $T_e\iota_p$, i.e. $\text{Vert}(T_pP) = \text{im}(T_e\iota_p)$. This construction is supported by the exactness of following short sequence:
+		\begin{equation}
+			0\xrightarrow{} \mathfrak{g} \xrightarrow{T_e\iota_p} T_p P\xrightarrow{T_p\pi} T_xM \xrightarrow{} 0
+		\end{equation}
+	\end{adefinition}
+	\begin{property}[Dimension]
+		It follows from the second definition that the vertical vectors of a principal G-bundle are nothing but the pushforward of the Lie algebra $\mathfrak{g}$ under the right action of $G$ on $P$. Furthermore, the exactness of the sequence implies that $T_e\iota_p:\mathfrak{g}\rightarrow\text{Vert}(T_pP)$ is an isomorphism of vector spaces. In particular, it implies that
+		\begin{equation}
+			\label{manifolds:vertical_dimension}
+			\dim\text{Vert}(T_pP) = \dim\mathfrak{g} = \dim G
+		\end{equation}
+	\end{property}
+	
+	\newdef{Fundamental vector field}{
+		Consider a principle $G$-bundle. Let $A\in\mathfrak{g}$, where $\mathfrak{g}$ is the Lie algebra corresponding to $G$. The vertical vector field $A^\#:P\rightarrow TP$ given by
+		\begin{equation}
+			\label{manifolds:fundamental_vector_field}
+			A^\#(p) = \iota_{p,\ast}(A)\in\text{Vert}(T_pP)
+		\end{equation}
+		is called the fundamental vector field associated to $A$.
+	}
+	\begin{property}
+		The map $(\cdot)^\#:\mathfrak{g}\rightarrow\Gamma(TP)$ is a Lie algebra morphism:
+		\begin{equation}
+			[A, B]^\# = [A^\#, B^\#]
+		\end{equation}
+		where the Lie bracket on the left is that in $\mathfrak{g}$ and the Lie bracket on the right is that in $\mathfrak{X}(M)$ given by \ref{manifolds:lie_bracket}.
+	\end{property}
+	
+		\begin{property}
+		The vertical bundle satisfies the following $G$-equivariance condition:
+		\begin{equation}
+			R_{g, \ast}(\text{Vert}(T_pP)) = \text{Vert}(T_{pg}P)
+		\end{equation}
+		
+		By differentiating the equality \[R_g\circ\iota_p = \iota_{pg}\circ\text{ad}_{g^{-1}}\] and using \ref{manifolds:fundamental_vector_field} and \ref{lie:adjoint_rep_of_group} we obtain the following algebraic formulation of the $G$-equivariance condition:
+		\begin{equation}
+			R_{g, \ast}\left(A^\#(p)\right) = \left(\text{Ad}_{g^{-1}}A\right)^\#(pg)
+		\end{equation}
+	\end{property}
+	
+\subsection{Horizontal bundle}
+
+	\newdef{Connection}{\index{connection}
+		\label{manifolds:connection}
+		Consider a principal bundle $P$ with structure group $G$. A connection on $P$ is the selection of a subspace $\text{Hor}(T_pP)\leq T_pP$ for every $p\in P$ such that:
+		\begin{itemize}
+			\item $\text{Vert}(T_pP)\oplus\text{Hor}(T_pP) = T_pP$
+			\item The selection depends smoothly on $p$.\footnote{See the definiton of a (smooth) distribution \ref{manifolds:distribution}.}
+			\item The subspace $\text{Hor}(T_pP)$ is $G$-equivariant:
+			\begin{equation}
+				R_{g, \ast}(\text{Hor}(T_pP)) = \text{Hor}(T_{pg}P)
+			\end{equation}
+		\end{itemize}
+		The elements of $\text{Hor}(T_pP)$ are said to be \textbf{horizontal vectors} with respect to the connection.
+	}
+	\begin{remark}
+		Remark that the $G$-invariance condition for vertical bundles is an intrinsic property while we have to require it by definition for the horizontal bundle.
+	\end{remark}
+	
+	\newdef{Horizontal bundle}{
+		The horizontal bundle $\text{Hor}(TP)$ is defined as $\bigcup_{p\in P}\text{Hor}(T_pP)$. It is a subbundle of $TP$. The $G$-invariance condition then implies that this subbundle is invariant under (the pushforward of) the  right action of $G$.
+	}
+	
+	\begin{property}[Dimension]
+		Properties \ref{manifolds:principal_bundle_dimension}, \ref{manifolds:vertical_dimension} and the direct sum decomposition of $T_pP$ imply the following relation:
+		\begin{equation}
+			\dim\text{Hor}(T_pP) = \dim M
+		\end{equation}
+	\end{property}
+	\begin{property}
+		\label{manifolds:connection_dimensions}
+		We take some time to summarize all dimensional relations between the components of a principal $G$-bundle over a base manifold $M$:
+		\begin{empheq}[box=\widefbox]{align}
+			\dim P &= \dim M + \dim G\\
+			\dim M &= \dim\text{Hor}(T_pP)\\
+			\dim G &= \dim\text{Vert}(T_pP)
+		\end{empheq}
+		for all $p\in P$.
+	\end{property}
+	
+	\newdef{Dual connection}{\index{dual!connection}
+		First we define the dual of the horizontal bundle:
+		\begin{equation}
+			\text{Hor}(T_p^*P) = \{h^*\in T_p^*P|h^*(v)=0, v\in\text{Vert}(T_pP)\}
+		\end{equation}
+		Equivalently, the horizontal covector bundle is defined as the set of linear functionals that annihilate vertical vectors. Just as with the vertical bundle this structure is independent of any connection on $P$.
+		
+		A dual connection can then be defined as the selection of a vertical covector bundle $\text{Vert}(T_p^*P)$ satisfying the conditions of definition \ref{manifolds:connection} where $\text{Vert}$ and $\text{Hor}$ should be interchanged.
+	}
+	
+\subsection{Ehresmann connection}\index{Ehresmann connection}
+
+	\newdef{Ehresmann connection}{
+		Let $(P, M, \pi, G)$ be a principal bundle. An Ehresmann connection is a $\mathfrak{g}$-valued 1-form $\omega:TP\rightarrow\mathfrak{g}$ that satisfies following 2 conditions:
+		
+		\begin{enumerate}
+			\item
+			\begin{equation}
+				\omega\circ R_{g, \ast} = \text{Ad}_{g^{-1}}\circ\omega
+			\end{equation}
+			\item
+			\begin{equation}
+				\omega(A^\#) = A
+			\end{equation}
+		\end{enumerate}
+		The horizontal subspaces are then defined as $\text{Hor}(T_pP) = \ker\omega|_p$.
+	}
+	
+	\begin{property}
+		Consider two principal $G$-bundles $\xi_1$ and $\xi_2$. Let $\omega$ be an Ehresmann connection on $\xi_1$ and let $F;\xi_1\rightarrow \xi_2$ be a bundle map covering a smooth map $f$. The map $F^*\omega$ defines an Ehresmann connection on $\xi_2$.
+	\end{property}
+	
+	\begin{example}
+		Consider a principal $G$-bundle. An Ehresmann connection on this bundle is given by the following map:
+		\begin{equation}
+			\omega = (T_e\iota_p)^{-1}\circ\pr_V
+		\end{equation}
+		where $\pr_V$ is the projection $TP\rightarrow\text{Vert}(TP)$ associated to the decomposition from definition \ref{manifolds:connection}.
+	\end{example}
+	
+	\newdef{Horizontal and vertical forms}{\index{horizontal!form}\index{vertical!form}\label{forms:horizontal_form}
+		Let $\omega$ be an Ehresmann connection on a principal bundle $\prin{G}{P}{M}$. Let $\theta\in\Omega^k(P)$ be a $k$-form. We define following notions:
+		\begin{itemize}
+			\item $\theta$ is said to be horizontal if
+			\begin{equation}
+				\theta(v_1, ..., v_k) = 0
+			\end{equation}
+			whenever at least 1 of the $v_i$ lies in $\text{Vert}(T_pP)$.
+			\item $\theta$ is said to be vertical if
+			\begin{equation}
+				\theta(v_1, ..., v_k) = 0
+			\end{equation}
+			whenever at least 1 of the $v_i$ lies in $\text{Hor}(T_pP)$.
+		\end{itemize}
+		For functions $f\in\Omega^0(P)$ it is vacuously true that they are both vertical and horizontal.
+	}
+	
+\subsection{Maurer-Cartan form}
+
+	\newdef{Maurer-Cartan form}{\index{Maurer-Cartan form}\index{Cartan!(connection) form|see{Maurer-Cartan}}
+		For every $g\in G$ we have that the tangent space $T_gG$ is isomorphic to $T_eG\cong\mathfrak{g}$. The isomorphism $T_gG\rightarrow\mathfrak{g}$ is given by the Maurer-Cartan form:
+		\begin{equation}
+			\boxed{\Omega := L_{g^{-1},\ast}}
+		\end{equation}
+	}
+	
+	\begin{definition}
+		Consider a manifold $M = \{x\}$. When constructing a principal $G$-bundle over $M$ we see that the total space $P = \{x\}\times G$ can be identified with the structure group $G$. From the relations in property \ref{manifolds:connection_dimensions} we see that the horizontal spaces are null-spaces (which defines a smooth distribution and thus a connection according to \ref{manifolds:connection}) and that the vertical spaces are equal to the tangent spaces, i.e. $\text{Vert}(T_gG) = T_gG$ (where we already made the association $P\cong G$).
+		
+		The simplest way to define a connection form $\omega$ on this bundle would be the trivial projection $TP\rightarrow\text{Vert}(TP) = \mathbbm{1}_{TP}$. The image of this map would however be $T_gG$ and not $\mathfrak{g}$ as required. This can be solved by using the Maurer-Cartan form $\Omega:T_gG\rightarrow\mathfrak{g}$, i.e. we define $\omega(v) = \Omega(v)$.
+	\end{definition}
+	
+	\begin{property}
+		The Maurer-Cartan form is the unique Ehresmann connection on the bundle $G\hookrightarrow G\rightarrow \{x\}$.
+	\end{property}
+	
+\subsection{Horizontal lifts and parallel transport}
+	
+	\begin{property}\index{horizontal!lift}
+		Consider a principal $G$-bundle $G\hookrightarrow P\rightarrow M$ and a curve $\gamma:[0, 1]\rightarrow M$. Let $p_0\in \pi^{-1}(\gamma(0))$. There exists a unique curve $\widetilde{\gamma}_{p_0}:[0, 1]\rightarrow P$ satisfying the following conditions:
+		\begin{itemize}
+			\item $\widetilde{\gamma}_{p_0}(0) = p_0$
+			\item $\pi\circ\widetilde{\gamma}_{p_0} = \gamma$
+			\item $\widetilde{\gamma}_{p_0}'(t)\in\text{Hor}(TP)$ for all $t\in[0, 1]$
+		\end{itemize}
+		The curve $\widetilde{\gamma}_{p_0}$ is said to be the horizontal lift of $\gamma$ starting at $p_0$. When it is clear from the context what the basepoint $p_0$ is, the subscript is often ommited and we write $\widetilde{\gamma}$ instead of $\widetilde{\gamma}_{p_0}$.
+	\end{property}
+	\begin{remark}[Horizontal curve]\index{horizontal!curve}
+		Curves satisfying the last condition are said to be horizontal.
+	\end{remark}
+	
+	\newdef{Parallel transport on principal bundles}{\index{parallel transport!on principal bundles}
+		The parallel transport map is defined as follows:
+		\begin{equation}
+			\text{Par}_t^\gamma:\pi^{-1}(\gamma(0))\rightarrow\pi^{-1}(\gamma(t)):p_0\mapsto \widetilde{\gamma}_{p_0}(t)
+		\end{equation}
+		This map is $G$-equivariant and it is a diffeomorphism of fibres.
+	}
+	
+	\begin{formula}
+		Consider a principal bundle $G\hookrightarrow P\rightarrow M$. Let $\gamma(t)$ be a curve in $M$ and let $\omega$ be an Ehresmann connection on this bundle. The horizontal lift of $\gamma(t)$ can be parametrized as $(\gamma(t), g(t)$ where $g(t)$ is some unique curve in $G$. To determine $\widetilde{\gamma}(t)$ it is thus sufficient to find $g(t)$. The following uniquely (and globally) characterizes $g(t)$:
+		\begin{equation}
+			g'(t) = -\omega(\gamma(t), e, \gamma'(t), 0)g(t)
+		\end{equation}
+		Using the trivial section $s:U\rightarrow U\times G$ where $U$ is an open subset of $M$ we can rewrite this formula. First we consider the action of the pullback $s^*\omega$ on the derivative $T\gamma(t, 1) = (\gamma(t), \gamma'(t))$. Using the fact that it is linear (because it is a 1-form) we can write\[s^*\omega(\gamma(t), \gamma'(t)) = A(\gamma(t))\gamma'(t)\]where $A:M\rightarrow\text{Hom}(\mathbb{R}^m, \mathfrak{g})$ gives a linear map for each point $\gamma(t)\in M$. The action can also be rewritten using the relation $f^*\omega = \omega\circ f_\ast$ as\[s^*\omega(\gamma(t), \gamma'(t)) = \omega[s_\ast(\gamma(t), \gamma'(t)))] = \omega(\gamma(t), e, \gamma'(t), 0)\]
+		Combining these relations with the ODE for $g(t)$ gives
+		\begin{equation}
+			\left(\deriv{}{t} + A(\gamma(t))\gamma'(t)\right)g(t) = 0
+		\end{equation}
+		where $\deriv{}{t}$ is a matrix given by the scalar multiplication of the derivative $\deriv{}{t}$ and the unit matrix $I$.
+	\end{formula}
+	
+\subsection{Koszul connections and covariant derivatives}
+
+	\newdef{Parallel transport on vector bundles}{
+		Consider a principal bundle $G\hookrightarrow P\rightarrow M$ where we explicitly require $P$ to be trivial, i.e. $P = M\times G$. Suppose that the Lie group $G$ acts on a vector space $V$ by a representation $\rho:G\rightarrow GL_m$ . We can then construct an associated vector bundle $\pi_1:M\times V\rightarrow M$.
+		
+		Parallel transport on this vector bundle is then defined as follows. Let $\gamma(t)$ be a curve in $M$ such that $\gamma(0)=x_0$ and $x_1 = \gamma(1)$. Furthemore, let the horizontal lift $\widetilde{\gamma}(t)$ have $\widetilde{\gamma}(0)=(x_0, h)$ as initial condition. The parallel transport of the point $(x_0, v_0)\in M\times V$ along $\gamma$ is given by the following map:
+		\begin{equation}
+			\text{Par}^\gamma_t:\pi^{-1}_1(x_0)\rightarrow\pi^{-1}_1(\gamma(t)):(x_0, v_0)\mapsto \big(\gamma(t), \rho\big(g(t)h^{-1}\big)v_0\big)
+		\end{equation}
+		It should be noted that this map is independent of the initial element $h\in G$. Furthermore, $\text{Par}^\gamma_t$ is an isomorphism of vector spaces and can thus be used to identify distant fibers (as long as they lie in the same path-component).
+	}
+	\begin{remark}
+		Two remarks have to be made. First of all, although the previous construction explicitly used trivial bundles, it is also valid for general non-trivial vector bundles. Secondly, following remark \ref{manifolds:vector_principal_correspondence} we can construct a principal bundle for any vector bundle and use the parallel transport on this bundle to define parallel transport of vectors. The previous construction is thus possible for every vector bundle.
+	\end{remark}
+	
+	\newdef{Covariant derivative}{\index{covariant!derivative}
+		Consider a vector bundle with model fibre space $V$ and its associated principal $GL(V)$-bundle with Ehresmann connection $\omega$, both over a base manifold $M$. Let $\sigma:M\rightarrow E$ be a section of the vector bundle and let $X$ be a vector field on $M$. The covariant derivative of $\sigma$ with respect to $X$ is defined as:
+		\begin{equation}
+			\nabla_X\sigma(x_0) = \lim_{t\rightarrow+\infty}\stylefrac{(\text{Par}_t^\gamma)^{-1}\sigma(\gamma(t)) - \sigma(x_0)}{t}
+		\end{equation}
+		where $\gamma(t)$ is any curve such that $\gamma(0) = x_0$ and $\gamma'(0) = X(x_0)$.
+	}
+	\begin{property}
+		Let $\pi:E\rightarrow M$ be a vector bundle. Let $\sigma, X$ and $f$ be respectively a section on $E$, a vector field on $M$ and a $C^\infty$ function on $M$. The covariant derivative along $X$ satisfies following properties:
+		\begin{itemize}
+			\item $\nabla_X\sigma$ is a smooth section on $E$.
+			\item The map $(X, \sigma)\mapsto\nabla_X\sigma$ is bilinear over $\mathbb{R}$.
+			\item $\nabla_{(fX)}\sigma = f\nabla_X\sigma$
+			\item $\nabla_X(f\sigma) = f\nabla_X\sigma + X(f)\sigma$
+		\end{itemize}
+	\end{property}
+	\begin{remark}
+		The last two properties show the major difference between the Lie derivative and the covariant derivative when $\sigma$ is a section of the tangent bundle, i.e. a vector field. Lie derivatives depend on the local behaviour of both $X$ and $\sigma$. The covariant derivative on the other hand only depends on the value of $X$ at $p\in M$ and on the local behaviour of $\sigma$.
+	\end{remark}
+	
+	\newdef{Koszul connection}{\index{Koszul!connection}
+		The map
+		\begin{equation}
+			\Gamma(TM)\times\Gamma(E)\rightarrow\Gamma(E):(X, \sigma)\mapsto\nabla_X\sigma
+		\end{equation}
+		is called a Koszul connection if the above properties hold. From the above constructions it also follows that every Ehresmann connection on a principal bundle induces a Koszul connection on all of its associated vector bundles.
+	}
+	
+	\newdef{Exterior covariant derivative}{\index{exterior!covariant derivative}
+		Consider a principal bundle $\prin{G}{P}{M}$ equipped with an Ehresmann connection $\omega$. Let $\theta\in \Omega^k(P)$ be a differential $k$-form. The exterior covariant derivative $D\theta$ is defined as follows:
+		\begin{equation}
+			D\theta(v_0, ..., v_k) = d\theta(v_0^H, ..., v_k^H)
+		\end{equation}
+		where $d$ is the exterior derivative \ref{forms:def:exterior_derivative} and $v_i^H$ is the projection of $v_i$ on the horizontal subspace $\text{Hor}(T_pP)$ associated to the Ehresmann connection $\omega$. From the definition it follows that the covariant derivative $D\theta$ is a horizontal form \ref{forms:horizontal_form}.
+	}
+	\begin{remark}
+		The exterior covariant derivative can also be defined for general $W$-valued $k$-forms where $W$ is a vector space. This can be done by defining it component-wise with respect to a given basis on $W$. Afterwards one can prove that the choice of basis plays no role.
+	\end{remark}
+	
+	\begin{formula}
+		Using the Koszul connection on the tangent bundle $TP$ we can rewrite the action of the exterior covariant derivative as follows:
+		\begin{equation}
+			D\theta(v_0, ..., v_k) = \sum_i^k(-1)^i\nabla_{v_i}\theta(v_0, ..., \hat{v}_i, ..., v_k) + \sum_{i<j}^k(-1)^{i+j}\theta([v_i, v_j], v_0, ..., \hat{v}_i, ..., \hat{v}_j, ..., v_k)
+		\end{equation}
+		where $\hat{v}_i$ means that this vector is omitted. As an example we explicitly give the formula for a 1-form $\Phi$:
+		\begin{equation}
+			D\Phi(X, Y) = \nabla_X(\Phi(Y)) - \nabla_Y(\Phi(X)) - \Phi([X, Y])
+		\end{equation}
+		which should remind the reader of the analogous formula for the ordinary exterior derivative \ref{forms:1form_exterior_derivative}.
+	\end{formula}
+	
+\subsection{Curvature of a connection}
+
+	\newdef{Curvature}{\index{curvature}
+		Let $\omega$ be an Ehresmann connection on a principal bundle $\prin{G}{P}{M}$. The curvature of $\omega$ is defined as the exterior covariant derivative $D\omega$.
+	}
+	\newdef{Flat connection}{
+		An Ehresmann connection $\omega$ is said to be flat if its curvature $D\omega$ vanishes everywhere.
+	}
+	
+	The following property is an immediate consequence of the Frobenius integrability theorem \ref{manifolds:frobenius} and the fact that an Ehresmann connection vanishes on the horizontal subbundle.
+	\begin{property}\index{integrable}
+		Let $\omega$ be an Ehresmann connection. The associated horizontal distribution\footnote{See \ref{manifolds:distribution} for the definition of a distribution of vector spaces.}\[p\mapsto\text{Hor}(T_pP)\]is integrable if and only if the connection $\omega$ is flat. The vertical distribution is always integrable.
+	\end{property}

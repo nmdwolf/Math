@@ -1,0 +1,187 @@
+\chapter{Quantum Field Theory}
+
+	In this chapter we adopt the standard Minkowskian signature $(+, -, -, -)$ unless otherwise stated. This follows the introductory literature and courses such as Peskin \& Schroeder \cite{Peskin}. Furthermore we also work in natural units unless stated otherwise, i.e. $\hbar = c = 1$.
+	
+\section{Noether's theorem}\index{Noether's theorem}
+
+	\begin{theorem}[Noether's theorem$^\dag$]\label{qft:noethers_theorem}\index{Noether!charge}
+		Consider a field transformation
+		\begin{equation}
+			\label{qft:noether}
+			\phi(x)\rightarrow \phi(x) + \alpha\Delta\phi(x)
+		\end{equation}
+		where $\alpha$ is an infinitesimal quantity and $\Delta\phi$ is a certain field deformation. In case of a symmetry the Lagrangian should remain invariant up to a 4-divergence:
+		\begin{equation}
+			\mathcal{L}(x)\rightarrow \mathcal{L}(x) + \alpha\partial_\mu\mathcal{J}^\mu(x)
+		 \end{equation}
+		 
+		 Combining this last equation with the one obtained by varying the field explicitly gives us:
+		 \begin{equation}
+		 	\label{qft:conserved_current}
+		 	\partial_\mu\left(\pderiv{\mathcal{L}}{(\partial_\mu\phi)}\Delta\phi - \mathcal{J}^\mu\right) = 0
+		 \end{equation}
+		 The factor between parentheses can thus be interpreted as a conserved current $j^\mu(x)$. Every symmetry of the form \ref{qft:noether} leads to such a current.
+		 
+		 The conservation can also be expressed in terms of a charge\footnote{The conserved current and its associated charge are called the \textbf{Noether current} and \textbf{Noether charge}.}:
+		 \begin{equation}
+		 	\deriv{Q}{t} = \deriv{}{t}\int j^0d^3x = 0
+		 \end{equation}
+	\end{theorem}
+
+	\begin{definition}[Stress-energy tensor]\index{stress-energy tensor}
+		Consider a field transformation
+		\[
+			\phi(x)\rightarrow\phi(x+a) = \phi(x) + a^\mu\partial_\mu\phi(x)
+		\]
+		Because the Lagrangian is a scalar it transforms similarly:
+		\begin{equation}
+			\mathcal{L}\rightarrow\mathcal{L} + a^\mu\partial_\mu\mathcal{L} = \mathcal{L} + a^\nu\partial_\mu(\delta^\mu_{\ \nu}\mathcal{L})
+		\end{equation}
+		This leads to the existence of 4 conserved currents. These can be used to define the stress-energy tensor:
+		\begin{equation}
+			\boxed{T^\mu_{\ \nu} = \pderiv{\mathcal{L}}{(\partial_\mu\phi)}\partial_\nu\phi - \mathcal{L}\delta^\mu_{\ \nu}}
+		\end{equation}
+	\end{definition}
+
+\section{Klein-Gordon Field}
+
+\subsection{Lagrangian and Hamiltonian}
+
+	The simplest Lagrangian (density) is given by:
+	\begin{equation}
+		\label{qft:klein_gordon_lagrangian}
+		\boxed{\mathcal{L} = \frac{1}{2}(\partial_\mu\phi)^2 - \frac{1}{2}m^2\phi^2}
+	\end{equation}
+	
+	Using the principle of least action we obtain the following Euler-Lagrange equations\footnote{See formula \ref{lagrange:second_kind}.}:
+	\begin{equation}
+		\left(\partial^\mu\partial_\mu + m^2\right)\phi = 0
+	\end{equation}
+	or by introducing the \textbf{d'Alembertian} $\Box = \partial^\mu\partial_\mu$:
+	\begin{equation}
+		\label{qft:klein_gordon_equation}
+		\boxed{(\Box+m^2)\phi = 0}
+	\end{equation}
+	This equation is called the Klein-Gordon equation. In the limit $m\rightarrow0$ it reduces to the well-known wave equation.
+	
+	From the Lagrangian \ref{qft:klein_gordon_lagrangian} we can also derive a Hamiltonian function using relation \ref{hamilton:hamiltonian}:
+	\begin{equation}
+		\boxed{H = \int d^3x \frac{1}{2}\left[\pi^2(x) + (\nabla\phi(x))^2 + m^2\phi^2(x)\right]}
+	\end{equation}
+	
+	
+\subsection{Raising and lowering operators}
+
+	Fourier expanding the scalar field $\phi(\vector{x}, t)$ in momentum space and inserting it into the Klein-Gordon equation gives:
+	\begin{equation}
+		\left(\partial_t^2 +p^2+m^2\right)\phi(\vector{p}, t) = 0
+	\end{equation}
+	This is the equation for a simple harmonic oscillator with frequency $\omega_{\vector{p}} = \sqrt{p^2 + m^2}$.
+	
+	Analogous to ordinary quantum mechanics we define the raising and lowering operators $a_{\vector{p}}^\dag$ and $a_{\vector{p}}$ such that:
+	\begin{align}
+		\phi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}\stylefrac{1}{\sqrt{2\omega_{\vector{p}}}}\left(a_{\vector{p}}e^{i\vector{p}\cdot\vector{x}} + a_{\vector{p}}^\dag e^{-i\vector{p}\cdot\vector{x}}\right)\\
+		\pi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}(-i)\sqrt{\stylefrac{\omega_{\vector{p}}}{2}}\left(a_{\vector{p}}e^{i\vector{p}\cdot\vector{x}} - a_{\vector{p}}^\dag e^{-i\vector{p}\cdot\vector{x}}\right)
+	\end{align}
+	An equivalent definition is obtained by performing the transformation $\vector{p}\rightarrow-\vector{p}$ in the second term of $\phi(\vector{x})$ and $\pi(\vector{x})$:
+	\begin{empheq}[box=\widefbox]{align}
+		\phi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}\stylefrac{1}{\sqrt{2\omega_{\vector{p}}}}\left(a_{\vector{p}} + a_{-\vector{p}}^\dag\right)e^{i\vector{p}\cdot\vector{x}}\\
+		\pi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}(-i)\sqrt{\stylefrac{\omega_{\vector{p}}}{2}}\left(a_{\vector{p}} - a_{-\vector{p}}^\dag\right)e^{i\vector{p}\cdot\vector{x}}
+	\end{empheq}
+	
+	When we impose the commutation relation
+	\begin{equation}
+		\label{qft:ladder_comutation}
+		[a_{\vector{p}}, a_{\vector{q}}^\dag] = (2\pi)^3\delta(\vector{p}-\vector{q})
+	\end{equation}
+	we obtain the following commutation relation for the scalar field and its conjugate momentum:
+	\begin{equation}
+		[\phi(\vector{x}), \pi(\vector{y})] = i\delta(\vector{x} - \vector{y})
+	\end{equation}
+	
+	Combining the previous formulas gives us the following important commutation relations:
+	\begin{empheq}[box=\widefbox]{align}
+		[H, a_{\vector{p}}^\dag] &= \omega_pa_{\vector{p}}^\dag\\
+		[H, a_{\vector{p}}] &= -\omega_pa_{\vector{p}}
+	\end{empheq}
+	
+	The Hamiltonian can also be explicitly calculated:
+	\begin{equation}
+		H = \int\frac{d^3p}{(2\pi)^3}\omega_{\vector{p}}\left(a_{\vector{p}}^\dag a_{\vector{p}} + \frac{1}{2}[a_{\vector{p}}, a_{\vector{p}}^\dag]\right)
+	\end{equation}
+	It is however immediately clear from \ref{qft:ladder_comutation} that the second term in this integral diverges. This is a consequence of both the fact that space is infinite, i.e. the $d^3x$ integral diverges, and the "large $p$" limit in the the $d^3p$ integral. The first divergence can be resolved by applying some kind of boundary and considering the energy density instead of the energy itself. The second divergence follows from the fact that by including very large values for $p$ in the integral we enter a parameter range where our theory is likely to break down. So we should introduce a "high $p$" cut-off. A more practical solution is to note that only energy differences are physical and so we can drop the second term altogether as it is merely a "constant".
+
+\subsection{Complex scalar fields}
+
+	\newformula{Pauli-Jordan function}{\index{Pauli-Jordan function}
+		\begin{equation}
+			[\phi(x), \phi(y)] = i\underbrace{\int\frac{d^3p}{(2\pi)^3}\frac{1}{2\omega_p}\left(e^{-ip\cdot(x-y)} - e^{ip\cdot(x-y)}\right)}_{\Delta(x-y)}
+		\end{equation}
+	}
+
+\section{Lorentz invariant integrals}
+
+	When applying a Lorentz boost $\Lambda$ the delta function $\delta(\vector{p}-\vector{q})$ transforms\footnote{This follows from property \ref{distribution:delta_of_function}.} as $\delta(\Lambda\vector{p} - \Lambda\vector{q})\frac{\Lambda E}{E}$. This is clearly not a Lorentz invariant quantity and cannot be used for normalisation. It is however also clear that the quantity $2E\delta(\vector{p}-\vector{q})$ is Lorentz invariant. (The constant $2$ is merely introduced for future convenience.)
+	The correct normalisation for the momentum representation thus becomes:
+	\begin{equation}
+		\langle p|q \rangle = 2E_p(2\pi)^3\delta(\vector{p}-\vector{q})
+	\end{equation}
+	where the factors 2 and $(2\pi)^3$ are again a matter of convention.
+	
+	The factor $2E_p$ does not only occur in the normalisation conditions. To define a Lorentz invariant measure for evaluating integrals in spacetime we define define the following integral:
+	\begin{equation}
+		\int\frac{d^3p}{2E_p} = \left.\int d^4p\ \delta(p^2-m^2)\right|_{p^0>0}
+	\end{equation}
+	This means that the integral of any Lorentz invariant function $f(p)$ using the measure $\frac{d^3p}{2E_p}$ will be Lorentz invariant.
+	
+	Computing the quantity $\langle 0|\phi(\vector{x})|\vector{p} \rangle$ gives $e^{i\vector{x}\cdot\vector{p}}$. This coincides with the position representation from quantum mechanics of the state $|\vector{p}\rangle$ and so we will also interpret it in QFT as the position representation of the single particle state $|\vector{p}\rangle$.
+	
+\section{Wick's theorem}
+\subsection{Bosonic fields}
+	\newdef{Contraction for neutral bosonic fields}{\index{contraction}
+		\begin{equation}
+			\contraction{}{\phi}{(x)}{\phi}\phi(x)\phi(y)=
+			\begin{cases}
+				[\phi(x)^{(+)}, \phi(y)^{(-)}]\qquad x^0>y^0\\
+				[\phi(y)^{(+)}, \phi(x)^{(-)}]\qquad y^0>x^0
+			\end{cases}
+		\end{equation}
+	}
+	\newformula{Feynman propagator}{\index{Feynman!propagator}
+		\begin{equation}
+			\contraction{}{\phi}{(x)}{\phi}\phi(x)\phi(y) = i\underbrace{\lim_{\varepsilon\rightarrow 0^+}i\int\frac{d^4k}{(2\pi)^4}\frac{e^{-ik\cdot(x-y)}}{k^2 - m^2 + i\varepsilon}}_{\Delta_F(x-y)}
+		\end{equation}
+	}
+	
+	\newdef{Contraction for charged bosonic fields}{
+		\begin{equation}
+			\contraction{}{\phi}{(x)}{\overline\phi}\phi(x)\overline\phi(y)=
+			\begin{cases}
+				[\phi(x)^{(+)}, \overline\phi(y)^{(-)}]\qquad x^0>y^0\\
+				[\phi(y)^{(+)}, \overline\phi(x)^{(-)}]\qquad y^0>x^0
+			\end{cases}
+		\end{equation}
+	}
+	\begin{remark}
+		In the case of charged bosons, only contractions of the form $\contraction{}{\phi}{(x)}{\overline\phi}\phi(x)\overline\phi(y)$ will remain because $[a, b^+] = 0$ for charged bosons.
+	\end{remark}
+
+\subsection{Fermionic fields}
+	\newdef{Contraction}{
+		\begin{equation}
+			\contraction{}{\psi}{(x)}{\overline\psi}\psi(x)\overline\psi(y)=
+			\begin{cases}
+				\{\psi(x)^{(+)}, \overline\psi(y)^{(-)}\}_+\qquad x^0>y^0\\
+				-\{\psi(y)^{(+)}, \overline\psi(x)^{(-)}\}_+\qquad y^0>x^0
+			\end{cases}
+		\end{equation}
+	}
+	\begin{remark}
+		Only contractions of the form $\contraction{}{\psi}{(x)}{\overline\psi}\psi(x)\overline\psi(y)$ will remain because $\{a, b^+\}_+ = 0$.
+	\end{remark}
+	
+	\newformula{Feynman propagator}{\index{Feynman!propagator}
+		\begin{equation}
+			\contraction{}{\psi}{(x)}{\overline\psi}\psi(x)\overline\psi(y) = i\underbrace{\lim_{\varepsilon\rightarrow 0^+}\int\frac{d^4p}{(2\pi)^4}\frac{\slashed{p} + m}{p^2 - m^2 + i\varepsilon}e^{-ip\cdot(x-y)}}_{S_F(x-y)}
+		\end{equation}
+	}

@@ -1,0 +1,122 @@
+\chapter{Metric spaces}
+\section{General definitions}
+    	\newdef{Metric}{\index{metric}
+        	\label{topology:metric}
+        	A metric (or distance) on a set M is a map $d: M\times M\rightarrow\mathbb{R}^+$ that has the following properties:
+            \begin{itemize}
+				\item Non-degeneracy: $d(x,y) = 0 \iff x = y$
+                \item Symmetry: $d(x,y) = d(y,x)$
+                \item Triangle inequality: $d(x,z) \leq d(x,y) + d(y,z)$\quad $,\forall x,y,z\in M$
+			\end{itemize}
+        }
+        \newdef{Metric space}{
+        	A set $M$ equipped with a distance function $d$ is called a metric space and is denoted by $(M,d)$.
+        }
+        
+        \newdef{Diameter}{\index{diameter}
+        	The diamater of a subset $U\subset M$ is defined as
+            \begin{equation}
+            	\text{diam}(U) = \sup_{x, y\in U}d(x, y)
+            \end{equation}
+        }
+        \newdef{Bounded}{
+        	A subset $U\subseteq M$ is bounded if $\text{diam}(U) < +\infty$.
+        }
+        
+        \newdef{Open ball}{\index{ball}
+        	An open ball centered on a point $x_0\in M$ with radius $R>0\in\mathbb{R}$ is defined as the set:
+            \begin{equation}
+				\label{topology:open_ball}
+                \boxed{B(x_0,R) = \{x\in M : d(x,x_0) < R\}}
+			\end{equation}
+        }
+        \newdef{Closed ball}{
+        	The closed ball $\overline{B}(x_0,R)$ is defined as the union of the open ball $B(x_0,R)$ and its boundary, i.e. $\overline{B}(x_0,R) = \{x\in M:d(x,x_0) \leq R\}$.
+		}
+        
+        \newdef{Interior point/neighbourhood}{\index{neighbourhood}\index{interior point}
+        	Let $N$ be a subset of $M$. A point $x\in N$ is said to be an interior point of $N$ if there exists an $R>0$ such that $B(x, R)\subset M$. Furthermore, $N$ is said to be a neighbourhood of $x$.
+        }
+        
+        \newdef{Open}{\index{open}
+        	A subset $N\subset M$ is said to be open if every point $x\in N$ is an interior point of $N$.
+        }
+        \newdef{Closed}{\index{closed}
+        	A subset $V\subset M$ is said to be closed if its complement is open.
+		}
+        
+        \newdef{Limit point}{\index{limit point}
+        	Let $S$ be a subset of $X$. A point $x\in X$ is called a limit point of $S$ if every neighbourhood of $x$ contains at least one point of $S$ different from $x$.
+        }
+        \newdef{Accumulation point}{
+        	Let $x\in X$ be a limit point of $S$. $x$ is an accumulation point of $S$ if every open neighbourhood of $x$ contains infinitely many points of $S$. 
+        }
+        
+        \begin{property}
+        	A metric space $(M,d)$ has the following properties:
+            \begin{itemize}
+				\item $M$ and $\emptyset$ are open.
+                \item The union of open sets is open.
+                \item The intersection of a \textbf{finite} number of open sets is open.
+			\end{itemize}
+        \end{property}
+        
+        \newdef{Convergence}{\index{convergence}
+        	A sequence $(x_n)_{n\in\mathbb{N}}:\mathbb{N}\rightarrow M$ in a metric space $(M, d)$ is said to be convergent to a point $a\in M$ if:
+            \begin{equation}
+				\label{topology:convergence}
+                \forall\varepsilon>0:\exists N_0\in\mathbb{N}:\forall n\geq N_0:d(x_n,a)<\varepsilon
+			\end{equation}
+        }
+        \newdef{Continuity}{\index{continuity}
+        	Let $(M, d)$ and $(M',d')$ be two metric spaces. A function $f:M\rightarrow M'$ is said to be continuous at a point $a\in$ dom$(f)$ if:
+            \begin{equation}
+				\label{topology:continuity}
+                \forall\varepsilon>0:\exists\delta_\varepsilon:\forall x\in\text{dom}(f):d(a,x)<\delta_\varepsilon\implies d'(f(a),f(x))<\varepsilon
+			\end{equation}
+        }
+	
+	\begin{property}
+		Let $(M, d)$ be a metric space. The distance function $d:M\times M\rightarrow\mathbb{R}$ is a continuous function.
+	\end{property}
+        
+\section{Constructions}
+
+	\newdef{Product space}{\index{product space}
+		The cartesian product \[M = M_1\times M_2\times ... \times M_n\text{ with }\forall n:(M_n,d_n)\] is a metric space. If equipped with the distance function $d(x,y) = \underset{1\leq i\leq n}{\max}\ d_i(x_i,y_i)$ it is also a metric space. This space is called the product space.
+	}
+	\newdef{Projection}{\index{projection}
+		The projection associated with the set $M_j$ is defined as:
+		\begin{equation}
+			\label{topology:projection}
+			\text{pr}_j:M\rightarrow M_j:(a_1,...,a_n)\mapsto a_j
+		\end{equation}
+	}
+	\remark{A sequence in a product space $M$ converges if and only if every component $(\text{pr}_j(x_m))_{m\in\mathbb{N}}$ converges in $(M_j, d_j)$.}
+
+	\begin{example}[Supremum distance]
+		Let $K\subset\mathbb{R}^n$ be a compact set. Denote the set of continuous functions $f:K\rightarrow\mathbb{C}$ by $\mathcal{C}(K,\mathbb{C})$. The following map defines a metric on $\mathcal{C}(K,\mathbb{C})$:
+		\begin{equation}
+			\label{topology:supremum_distance}
+			d_\infty(f,g) = \sup_{x\in K}|f(x) - g(x)|
+		\end{equation}
+	\end{example}
+
+	\begin{example}[p-metric]
+		We can define following set of metrics on $\mathbb{R}^n$:
+		\begin{equation}
+			\label{topology:p_metric}
+			\boxed{d_p(x,y) = \left(\sum_{i=1}^n|x_i-y_i|^p\right)^{^1/_p}}
+		\end{equation}
+	\end{example}
+        \begin{example}[Chebyshev distance]\index{Chebyshev!distance}
+			\begin{equation}
+            	\label{topology:chebyshev_distance}
+            	d_\infty(x,y) = \max_{1\leq i\leq n}|x_i - y_i|
+			\end{equation}
+            It is also called the \textbf{maximum metric}.
+		\end{example}
+        \remark{
+        	This metric is also an example of a product metric defined on the Euclidean product space $\mathbb{R}^n$. The notation $d_\infty$, as used for the supremum distance, can be justified if the space $\mathbb{R}^n$ is identified with the set of maps $\{1,...,n\}\rightarrow \mathbb{R}$ equipped with the supremum distance. Another justification is the following relation:
+            \[d_\infty(x,y) = \lim_{p\rightarrow\infty}\ d_p(x,y)\]
+        }   	

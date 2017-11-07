@@ -1,0 +1,257 @@
+\chapter{Lie groups and Lie algebras}\label{chapter:lie}
+\section{Lie groups}
+    
+	\newdef{Lie group}{\index{Lie!group}\label{group:lie_group}
+		A Lie group is a group that is also a differentiable manifold such that both the multiplication and inversion are smooth functions.
+	}
+	
+	\newdef{Lie subgroup}{
+		A subset of a Lie group is a Lie subgroup if it is both a subgroup and a closed submanifold.
+	}
+	\begin{theorem}[Closed subgroup theorem\footnotemark]
+		\footnotetext{Sometimes called \textit{Cartan's theorem}.}
+		If $H$ is a closed\footnotemark\ subgroup of a Lie group $G$ then $H$ is a Lie subgroup of $G$.
+		\footnotetext{With respect to the group topology on $G$.}
+	\end{theorem}
+	
+    	\newdef{Dimension}{\index{dimension}
+		The dimension of a Lie group equals the number of parameters needed to parametrize the group.
+	}
+	
+	\begin{property}\label{lie:prop_connected}
+		Let $G$ be a connected Lie group. Every neighbourhood $U_e$ of the identity $e$ generates $G$, i.e. every element $g\in G$ can be written as a word in $U_e$.
+	\end{property}
+
+\subsection{Left invariant vector fields}
+	
+	\newdef{Left Invariant Vector Field (LIVF)}{\index{LIVF (left invariant vector field)}
+		Let $G$ be a Lie group. Let $X$ be a vector field on $G$. $X$ is left invariant if the following equivariance relation holds for all $g\in G$:
+		\eq{
+			L_{g,\ast}X(h) = X(g\cdot h)
+		}
+		where $L_g$ denotes the left action map associated with $g$.
+	}
+	\begin{property}
+		The set $\mathcal{L}(G)$ of LIVF's on a Lie group $G$ is a vector space over $\mathbb{R}$.
+	\end{property}
+	\begin{property}
+		\label{lie:livf_prop}
+		The map $L_{g,\ast}$ is an isomorphism for every $g\in G$. It follows that a LIVF is uniquely determined by its value at the identity of $G$. Furthermore, for every $v\in T_e(G)$, there exists a LIVF $X\in\mathcal{L}(G)$ such that $X(e) = v$ and this mapping is an isomorphism from $T_e(G)$ to $\mathcal{L}(G)$.
+	\end{property}
+
+\subsection{One-parameter subgroups}
+        \newdef{One-parameter subgroup}{\index{one-parameter subgroup}
+        	\label{group:one_parameter_subgroup}
+        	A one-parameter (sub)group is a continuous group homomorphism $\Phi:\mathbb{R}\rightarrow G$ from the additive group of real numbers to a Lie group $G$.
+        }
+
+        \begin{property}
+        	\label{group:OPS_composition}
+        	Let $\Phi:\mathbb{R}\rightarrow G$ be a one-parameter subgroup of $G$. Let $\Psi:G\rightarrow H$ be a continuous group homomorphism. Then $\Psi\circ\Phi:\mathbb{R}\rightarrow H$ is a one-parameter subgroup of $H$.
+        \end{property}
+        
+        \begin{property}
+        	Let $X$ be a LIVF on a Lie group $G$. Let $\gamma_X$ be the integral curve of $X$ through $e\in G$. The maximal flow domain $D(X)$ is $]-\infty, +\infty[$ and the flow\footnotemark\ $\sigma_t$ determines a one-parameter subgroup on $G$. Furthermore, for every one-parameter subgroup $\phi(t)$ we can construct a LIVF $X = \phi'(0)$. This correspondence is a bijection.
+        	\footnotetext{See definition \ref{manifolds:flow}.}
+        \end{property}
+
+\subsection{Cocycles}
+	\newdef{Cocycle}{\index{cocycle}\label{group:cocycle}
+		Let $M$ be a smooth manifold and $G$ a Lie group. A cocycle on $M$ with values in $G$ is a family of smooth functions $g_{ij}:U_i\cap U_j\rightarrow G$ that satisfy the following condition:
+		\begin{equation}
+			\label{group:cocycle_condition}
+			g_{ij} = g_{ik}\circ g_{kj}
+		\end{equation}
+	}
+	\begin{property}
+		Let $\{g_{ij}\}_{i,j}$ be a cocycle on $M$. We have the following properties:
+		\begin{itemize}
+			\item $g_{ii}(x) = \mathbbm{1}_M$
+			\item $g_{ij}(x) = (g_{ji}(x))^{-1}$
+		\end{itemize}
+		for all $x\in M$.
+	\end{property}
+
+
+\section{Lie algebras}
+    	There are two ways to define a Lie algebra. The first one is a stand-alone definition using a vector space equipped with a multiplication operation. The second one establishes a direct relation between Lie groups (see \ref{group:lie_group}) and real Lie algebras.
+        
+\subsection{Definitions}
+        \newdef{Lie algebra}{\index{Lie!algebra}\index{Jacobi!identity}
+        	\label{linalgebra:lie_algebra}
+        	Let $V$ be a vector space equipped with a binary operation $[\cdot, \cdot]:V\times V\rightarrow V$ is a Lie algebra if the Lie bracket $[\cdot, \cdot]$ satisfies the following conditions:
+            \begin{enumerate}
+            	\item Bilinearity: $[ax + y, z] = a[x, z] + [y, z]$
+                \item Alternativity: $[v, v] = 0$
+                \item Jacobi identity: $[a, [b, c]] + [b, [c, a]] + [c, [a, b]] = 0$
+            \end{enumerate}
+        }
+        \begin{remark}[Lie bracket]\index{commutator}\index{Lie!bracket}
+        	For the general linear group GL$_n$ the Lie bracket is given by the commutator:
+            \begin{equation}
+            	\boxed{[X, Y] = XY - YX}
+            \end{equation}
+            This follows from the definition $[X, Y] = \left.\deriv{}{t}\text{Ad}_{\gamma(t)}(Y)\right|_{t=0}$ with $\gamma(0) = e$ and $\gamma'(0) = X$.
+        \end{remark}
+        
+	\begin{definition}
+		Let $G$ bie a Lie group. The tangent space $T_eG$ has the structure of a Lie algebra where the Lie bracket is given by the commutator of vector fields \ref{manifolds:lie_bracket}.
+	\end{definition}
+        
+        The following remark gives the equality of the set of LIVF's on a Lie group $G$ and the Lie algebra $\mathfrak{g} := T_eG$:
+        \begin{remark}
+        	From the second part of property \ref{lie:livf_prop} it follows that the Lie algebra $\mathfrak{g}$ associated to $G$ is (isomorphically) equivalent to the set of LIVF's on $G$. Using property \ref{manifolds:lie_bracket} we can show that the Lie bracket also defines a LIVF on $G$. It follows that $\mathfrak{g}$ is closed under Lie brackets.
+        \end{remark}
+        
+        \begin{notation}
+        	Lie algebras are denoted by fraktur symbols. For example, the Lie algebra associated with the Lie group $G$ is mostly denoted by $\mathfrak{g}$.
+        \end{notation}
+        
+	\begin{theorem}[Ado's theorem]\index{Ado!theorem on Lie algebras}
+		Every finite-dimensional Lie algebra can be embedded as a subalgebra of $\mathfrak{gl}_n$.
+	\end{theorem}
+	
+	\newdef{Lie algebra homomorphism}{\index{homomorphism!of Lie algebras}
+		A map $\Phi:\mathfrak{g}\rightarrow\mathfrak{h}$ is a Lie algebra homomorphism if it satisfies following condition
+		\begin{equation}
+			\Phi([X, Y]) = [\Phi(X), \Phi(Y)]
+		\end{equation}
+		for all $X, Y\in\mathfrak{g}$.
+	}
+	\begin{property}
+		\label{lie:prop_hom}
+		Let $G, H$ be Lie groups with $G$ simply-connected. A linear map $\Phi:\mathfrak{g}\rightarrow\mathfrak{h}$ is the differential of a Lie group homomorphism $\phi:G\rightarrow H$ if and only if $\Phi$ is a Lie algebra homomorphism.
+	\end{property}
+
+\subsection{Examples}
+        \begin{example}
+        	The cross product $\times:\mathbb{R}^3\times\mathbb{R}^3\rightarrow\mathbb{R}^3$ turns $\mathbb{R}^3$ into a Lie algebra.
+        \end{example}
+        \begin{example}
+        	An interesting example is the Lie algebra associated to the Lie group of invertible complex\footnotemark\ matrices $GL(n, \mathbb{C})$. This Lie group is a subset of its own Lie algebra $\mathfrak{gl}(n, \mathbb{C}) = M_n(\mathbb{C})$. It follows that for every $A\in GL(n, \mathbb{C})$ and every $B\in\mathfrak{gl}(n, \mathbb{C})$ the following equality holds:
+        	\eq{
+        		L_{A,\ast}(B) = L_A(B)
+        	}
+        	\footnotetext{As usual, this result is also valid for real matrices.}
+        \end{example}
+        
+        Following two examples of Lie algebras can be checked using condition \ref{linalgebra:lie_isometry}:
+        \begin{example}[Lie algebra of $O(3)$]
+        	The set of $3\times3$ anti-symmetric matrices. It is also important to note that $\mathfrak{o}(3) = \mathfrak{so}(3)$.
+        \end{example}
+        \begin{example}[Lie algebra of $SU(2)$]
+        	The set of $2\times2$ traceless anti-Hermitian matrices. This result can be generalized to arbitrary $n\in\mathbb{N}$.
+        \end{example}
+
+\subsection{Exponential map}
+	\newformula{Exponential map}{\index{exponential map}
+		Let $X\in\mathfrak{g}$ be a LIVF on $G$. We define the exponential map $\exp:\mathfrak{g}\rightarrow G$ as:
+		\eq{
+			\boxed{\exp(X) := \gamma_X(1)}
+		}
+		where $\gamma_X$ is the corresponding one-parameter subgroup.
+	}
+	
+	\begin{property}
+		The exponential map is the unique map $\mathfrak{g}\rightarrow G$ such that exp$(0) = e$, whose differential at the origin in $\mathfrak{g}$ is given by the identity $\mathbbm{1}_\mathfrak{g}$ and for which the restrictions to the lines through the origin in $\mathfrak{g}$ are one-parameter subgroups of $G$.
+	\end{property}
+	\begin{result}
+		Because the identity element $\mathbbm{1}_\mathfrak{g} = \exp_{e,\ast}$ is an isomorphism, the inverse function theorem \ref{manifolds:theorem:inverse_function_theorem} implies that the image of $exp$ will contain a neighbourhood of the identity $e\in G$. If $G$ is connected then property \ref{lie:prop_connected} implies that $\exp$ generates all of $G$.
+		
+		Together with the property that $\psi\circ\exp = \exp\circ\ \psi_\ast$ for every Lie group homomorphism $\psi:G\rightarrow H$ it follows that \textit{if $G$ is connected, a Lie group homomorphism $\psi:G\rightarrow H$ is completely determined by its differential $\psi_\ast$ at the identity $e\in G$}.
+	\end{result}
+	
+	\begin{example}[Matrix Lie groups]\index{matrix!exponentiation}
+		For matrix Lie groups we define the classic matrix exponential:
+		\eq{
+			e^{tX} = \sum_{k=0}^{+\infty}\stylefrac{(tX)^k}{k!}
+		}
+		This operation defines a curve $\gamma(t)$ which can be used as a one-parameter subgroup on $G$. It should be noted that this formula converges for every $X\in M_{m,n}$ and is invertible with the inverse given by $\exp(-X)$.
+	\end{example}
+
+\subsection{Structure}  
+        \newdef{Structure constants}{\index{structure constants}
+        	As Lie algebras are closed under Lie brackets, every Lie bracket can be expanded in term of a chosen basis $\{X_k\}_{k\in I}$ as follows:
+            \begin{equation}
+            	[X_i, X_j] = \sum_{k\in I}c_{ij}^{\ \ k}X_k
+            \end{equation}
+            where the factors $c_{ij}^{\ \ k}$ are called the structure constants\footnotemark\ of the Lie algebra.
+            
+            An important use of these structure constants lies in the fact that two Lie algebras $\mathfrak{g}, \mathfrak{h}$ are isomorphic if one can find bases $\mathcal{B}$ for $\mathfrak{g}$ and $\mathcal{C}$ for $\mathfrak{h}$ such that the associated structure constants are equal for all indices $i, j$ and $k$.
+	\footnotetext{Note that these constants are basis-dependent.}
+        }
+
+        \newformula{Baker-Campbell-Hausdorff formula}{\index{Baker-Campbell-Hausdorff formula}
+        	This formula is the solution of the equation
+            \begin{equation}
+            	Z = \log(\exp(X)\exp(X))
+            \end{equation}
+            for $X, Y\in\mathfrak{g}$. The solution is given by following formula
+            \begin{equation}
+            	\label{linalgebra:bch_formula}
+                e^Xe^Y = \exp\left(X + Y + \frac{1}{2}[X, Y] + \frac{1}{12}[X, [X, Y]] - \frac{1}{12}[Y, [X, Y]] + \cdot\right)
+            \end{equation}
+            However this formula will only converge if $X, Y$ are sufficiently small (for matrix Lie algebras this means, using the Hilbert-Schmidt norm \ref{linalgebra:hilbert_schmidt_norm}: $||X|| + ||Y|| < \frac{\ln(2)}{2}$). Due to the closure under commutators (see Lie algebra definition) the exponent in the BCH formula is also an element of the Lie algebra. So the formula gives an expression for Lie group multiplication in terms of Lie algebra elements (whenever the formula converges). 
+        }
+        \begin{result}[Lie product formula\footnotemark]\index{Lie!product formula}
+        \footnotetext{Also called the Lie-Trotter formula.}
+        	Let $\mathfrak{g}$ be a Lie algebra. Consider $X, Y\in\mathfrak{g}$. The following formula applies to any such $X$ and $Y$:
+            \begin{equation}
+            	\label{linalgebra:lie_product_formula}
+                e^{X + Y} = \lim_{n\rightarrow+\infty}\left(e^{\frac{X}{n}}e^{\frac{Y}{n}}\right)^n
+            \end{equation}
+        \end{result}
+            
+\subsection{Killing form}
+	\newdef{Killing form}{\index{Killing!form}
+		Let $\mathfrak{g}$ be a finite-dimensional Lie algebra. Define the symmetric bilinear form\footnotemark
+                \begin{equation}
+                	\label{linalgebra:killing_form}
+                	\boxed{K(X, Y) = \text{tr}(\text{ad}_X\text{ad}_Y)}
+                \end{equation}
+                \footnotetext{This is a symmetric $(0,2)$-tensor in $\mathfrak{g}^*\otimes\mathfrak{g}^*$. (See \ref{tensor:type})}
+	}
+	\begin{theorem}[Cartan's criterion]\index{Cartan!criterion}
+		A Lie algebra is semisimple if and only if its Killing form is non-degenerate.
+	\end{theorem}
+	\begin{result}
+		If a Lie algebra is semisimple its Killing form induces a metric
+                \begin{equation}
+                	g:(X, Y)\mapsto -\ \text{tr}(\text{Ad}_X, \text{Ad}_Y)
+                \end{equation}
+                which turns the corresponding Lie group $G$ into a Riemannian manifold.
+	\end{result}
+            
+	\begin{property}
+		The Killing-form is $\text{Ad}$-invariant, i.e.
+                \begin{equation}
+                    K(\text{Ad}_g(X), \text{Ad}_g(Y)) = K(X, Y)
+		\end{equation}
+                for all $g\in G$. From this it follows that $\text{Ad}:G\rightarrow\text{Isom}(\mathfrak{g})$.
+	\end{property}
+
+\subsection{Universal enveloping algebra}
+
+	\newdef{Universal enveloping algebra}{\index{universal!enveloping algebra}
+		Let $\mathfrak{g}$ be a Lie algebra with Lie bracket $[\cdot, \cdot]$. First construct the tensor algebra $T(\mathfrak{g})$. The universal enveloping algebra $U(\mathfrak{g})$ is defined as quotient of $T(\mathfrak{g})$ by the two-sided ideal generated by the elements $g\otimes h - h\otimes g - [g, h]$.
+	}
+	
+	\newdef{Casimir invariant\footnotemark}{\index{Casimir!invariant}\label{lie:casimir_invariant}
+		\footnotetext{Also known as a \textit{Casimir operator} or \textit{Casimir element}.}
+		Let $\mathfrak{g}$ be a Lie algebra. A Casimir invariant $J$ is an element of the center of $U(\mathfrak{g})$, the universal enveloping algebra of $\mathfrak{g}$.
+	}
+
+\subsection{Poisson algebras and Lie superalgebras}
+
+	\newdef{Poisson algebra}{\index{Poisson!algebra}
+		Let $V$ be a vector space equipped with two bilinear operation $\star$ and $\{\cdot, \cdot\}$ that satisfy the following conditions:
+		\begin{itemize}
+			\item The couple $(V, \star)$ is an associative algebra.
+			\item The couple $(V, \{\cdot, \cdot\})$ is a Lie algebra.
+			\item the \textbf{Poisson bracket} acts as a derivation\footnote{See definition \ref{manifolds:derivation}.} with respect to the operation $\star$, i.e. \[\{x, y\star z\} = \{x, y\}\star z + y\star\{x, z\}\]
+		\end{itemize}
+	}
+	
+	\newdef{Gerstenhaber algebra}{\index{Gerstenhaber algebra}
+		
+	}

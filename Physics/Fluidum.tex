@@ -1,0 +1,131 @@
+\chapter{Fluid mechanics}
+
+\section{Material derivative}
+
+	\newdef{Lagrangian derivative\footnotemark}{\index{Lagrange!derivative}\index{material!derivative}
+		\footnotetext{Also known as the \textbf{material} derivative.}
+	    	Let $a(\vector{r}, \vector{v}, t)$ be a property of a fluidum defined at every point of the fluidum. The Lagrangian derivative along a path $(\vector{r}(t), \vector{v}(t))$ is given by:
+	    	\begin{align}
+	    		\label{fluidum:lagrangian_derivative}
+		    	\ds\Deriv{a}{t} &= \lim_{\Delta t\rightarrow0}\ds\frac{a(\vector{r} + \Delta\vector{r}, \vector{v} + \Delta\vector{v}, t+\Delta t) - a(\vector{r}, \vector{v}, t)}{\Delta t}\nonumber\\
+		        &= \pderiv{a}{t} + \deriv{\vector{r}}{t}\cdot\pderiv{a}{\vector{r}} + \deriv{\vector{v}}{t}\cdot\pderiv{a}{\vector{v}}\nonumber\\
+		        &= \pderiv{a}{t} + \vector{v}\cdot\nabla a + \deriv{\vector{v}}{t}\cdot\pderiv{a}{\vector{v}}
+	    	\end{align}
+	    	The second term $\vector{v}\cdot\nabla a$ in this equation is called the \textbf{advective} term.
+    	}
+    \begin{remark}
+    	In the case that $a(\vector{r}, \vector{v}, t)$ is a tensor field the gradient $\nabla$ has to be replaced by the covariant derivative. The advective term is then called the \textbf{convective} term.
+    \end{remark}
+    
+    \begin{result}
+    	If we take $a = \vector{r}$ we obtain:
+    	\begin{equation}
+            \Deriv{\vector{r}}{t} = \vector{v}
+    	\end{equation}
+    \end{result}
+
+\section{Liouville's theorem}
+    \begin{formula}[Liouville's lemma]
+    	Consider a phase space volume element $dV_0$ moving along a path $(\vector{r}(t), \vector{v}(t)) \equiv (\vector{x}(t))$. The Jacobian $J(\vector{x}, t)$ associated with this movement is given by:
+        \begin{equation}
+        	J(\vector{x}, t) = \deriv{V}{V_0} = \left|\pderiv{\vector{x}}{\vector{x}_0}\right| = \sum_{ijklmn}\varepsilon_{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}
+        \end{equation}
+        The Lagrangian derivative of this Jacobian then becomes:
+        \begin{equation}
+        	\label{fluidum:jacobian_derivative}
+        	\Deriv{J}{t} = (\nabla\cdot\vector{x})J
+        \end{equation}
+        Furthermore using the Hamiltonian equations \ref{lagrange:hamilton_equations} it is easy to prove that
+        \begin{equation}
+        	\nabla\cdot\vector{x} = 0
+        \end{equation}
+        It follows that the phase space volume containing a fixed set particles is invariant with respect to time-evolution.
+    \end{formula}
+    \begin{theorem}[Liouville's theorem]\index{Liouville!theorem on phase spaces}
+    	Let $V(t)$ be a phase space volume containing a fixed set of particles. Application of Liouville's lemma gives:
+    	\begin{equation}
+        	\label{fluidum:liouvilles_theorem}
+    		\Deriv{V}{t} = \Deriv{}{t}\int_{\Omega(t)}d^6x = \Deriv{}{t}\int_{\Omega_0}J(\vector{x}, t)d^6x_0 = 0
+    	\end{equation}
+    \end{theorem}
+    \newformula{Boltzmann's transport equation}{\index{Boltzmann!transport equation}
+    	Let $F(\vector{r}, \vector{v}, t)$ be the mass distribution function such that $M_{tot} = \int_{\Omega(t)}F(\vector{x}, t)d^6x$. From the conservation of mass we can derive the following formula:
+    	\begin{equation}
+    		\label{fluidum:boltzmann_transport_equation}
+            \Deriv{F}{t} = \pderiv{F}{t} + \deriv{\vector{r}}{t}\cdot\pderiv{F}{\vector{r}} - \nabla V\cdot\pderiv{F}{\vector{v}} = 0
+    	\end{equation}
+        This formula is a partial differential equation in 7 variables which can be solved to obtain $F(\vector{x}, t)$.
+    }
+    
+\section{Continuity equation}
+	
+    \newformula{Reynolds transport theorem}{\index{Reynolds!transport theorem}
+    	Consider a quantity \[F = \int_{V(t)}f(\vector{r}, \vector{v}, t)dV\] Using equation \ref{fluidum:jacobian_derivative} and the divergence theorem \ref{vectorcalculus:divergence_theorem} we can obtain:
+        \begin{equation}
+        	\label{fluidum:reynolds_transport_theorem}
+    		\Deriv{F}{t} = \int_V\pderiv{f}{t}dV + \oint_Sf\vector{v}\cdot d\vector{S}
+    	\end{equation}
+    }
+    \newformula{Continuity equations}{\index{continuity equation}
+    	For a conserved quantity the equation above becomes:
+        	\begin{equation}
+            	\label{fluidum:lagrangian_continuity_equation}
+        		\Deriv{f}{t} + (\nabla\cdot\vector{v})f = 0
+        	\end{equation}
+            \begin{equation}
+            	\label{fluidum:eulerian_continuity_equation}
+            	\pderiv{f}{t} + \nabla\cdot(f\vector{v}) = 0
+            \end{equation}
+            If we set $f = \rho$ (mass density) then the first equation is called the \textbf{Lagrangian continuity equation} and the second equation is called the \textbf{Eulerian continuity equation}. Both equations can be found by pulling the Lagrangian derivative inside the integral on the left-hand side of \ref{fluidum:reynolds_transport_theorem}.
+    }
+    \begin{result}
+    	Combining the Reynolds transport theorem with the Lagrangian continuity equation gives the following identity for an arbitrary function $f$:
+    	\begin{equation}
+        	\label{fluidum:result1}
+    		\Deriv{}{t}\int_V\rho fdV = \int_V\rho\Deriv{f}{t}dV
+    	\end{equation}
+    \end{result}
+
+\section{Cauchy stress tensor}
+
+	\begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!stress theorem}
+		\footnotetext{Also known as \textbf{Cauchy's fundamental theorem}.}
+	    	Knowing the stress vectors acting on the coordinate planes through a point $A$ is sufficient to calculate the stress vector acting on an arbitrary plane passing through $A$.
+	\end{theorem}
+
+	The \textit{Cauchy stress theorem} is equivalent to the existence of the following tensor:
+	\newdef{Cauchy stress tensor}{\index{Cauchy!stress tensor}
+    	The Cauchy stress tensor is a $(0,2)$-tensor $\mathbf{T}$ that gives the relation between a stress vector associated to a plane and the normal vector $\vector{n}$ to that plane:
+        \begin{equation}
+        	\vector{t}_{(\vector{n})} = \mathbf{T}(\vector{n})
+        \end{equation}
+    }
+    \begin{example}
+    	For identical particles, the stress tensor is given by:
+        \begin{equation}
+        	\mathbf{T} = -\rho \langle\vector{w}\otimes\vector{w}\rangle
+        \end{equation}
+        where $\vector{w}$ is the random component of the velocity vector and $\langle\cdot\rangle$ denotes the expectation value (see \ref{prop:expectation_value}).
+    \end{example}
+    
+    \begin{theorem}[Cauchy's lemma]\index{Cauchy!lemma}
+    	The stress vectors acting on opposite planes are equal in magnitude but opposite in direction:
+        \begin{equation}
+        	\vector{t}_{(-\vector{n})} = -\vector{t}_{(\vector{n})}
+        \end{equation}
+    \end{theorem}
+    
+    \newformula{Cauchy momentum equation}{\index{Cauchy!momentum equation}
+    	From Newton's second law \ref{forces:force} it follows that:
+        \begin{equation}
+        	\Deriv{\vector{P}}{t} = \int_V\vector{f}(\vector{x}, t)dV + \oint_S\vector{t}(\vector{x}, t)dS
+        \end{equation}
+        where $\vector{P}$ is the momentum density, $\vector{f}$ are body forces and $\vector{t}$ are surface forces (such as shear stress). Using Cauchy's stress theorem and the divergence theorem \ref{vectorcalculus:divergence_theorem} we get
+        \begin{equation}
+        	\Deriv{\vector{P}}{t} = \int_V\left[\vector{f}(\vector{x}, t) + \nabla\cdot\mathbf{T}(\vector{x}, t)\right]dV
+        \end{equation}
+        The left-hand side can be rewritten using \ref{fluidum:result1} as
+        \begin{equation}
+        	\int_V\rho\Deriv{\vector{v}}{t}dV = \int_V\left[\vector{f}(\vector{x}, t) + \nabla\cdot\mathbf{T}(\vector{x}, t)\right]dV
+        \end{equation}
+    }

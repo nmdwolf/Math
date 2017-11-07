@@ -1,0 +1,85 @@
+\chapter{Integration theory and symplectic manifolds}
+
+\section{Integration on manifolds}
+
+\subsection{Orientation}
+	\newdef{Orientation}{\index{orientation}\index{volume}
+		Similar to definition \ref{tensor:orientation} we can define an orientation on a differentiable manifold $M$. First we modify the definition of the volume element a little bit. A \textbf{volume form} on $M$ is a nowhere-vanishing top-dimensional form $\text{Vol}\in\Omega^n(M)$ where $n = \dim(M)$. The definition of an orientation is then equivalent to that in \ref{tensor:orientation}.
+		
+		An \textbf{oriented atlas} is given by all charts of $M$ for which the pullback of the Euclidean volume form is a positive multiple of $\text{Vol}$. This also means that the transition functions have a positive Jacobian determinant\footnotemark. The existence of a volume form turns a differentiable manifold into an \textbf{orientable manifold}.
+		\footnotetext{This is in fact an equivalent definition.}
+		
+		An orientable manifold with volume form $\omega$ is said to be \textbf{positively oriented} if $\omega(v_1, ..., v_n)>0$ where $(v_1, ..., v_n)$ is a basis for $T_pM$.
+	}
+	
+	\begin{example}\index{determinant}
+		Let $M=\mathbb{R}^n$. The canonical Euclidean volume form is given by the determinant map
+		\eq{
+			\det:(u_1, ..., u_n)\mapsto\det(u_1, ..., u_n)
+		}
+		where the $u_n$'s are expressed in the canonical basis $(e_1, ..., e_n)$. The name `volume form' is justified by noting that the determinant map gives the signed volume of the n-dimensional parallelotope spanned by the vectors $\{u_1, ..., u_n\}$.
+	\end{example}
+	
+	\begin{property}
+		Let $\omega_1, \omega_2$ be two volume forms on $M$. Then there exists a smooth function $f$ such that
+		\[\omega_1 = f\omega_2\]
+		Furthermore, the sign of this function is constant on every connected component of $M$.
+	\end{property}
+	
+\subsection{Integration of top-dimensional forms}
+	\begin{formula}
+		Let $\theta$ be a top-dimensional form on $M$ with compact support. Let $\{\varphi_i\}_i$ be a partition of unity\footnotemark\ subordinate to an atlas $\{(U_i, \varphi_i)\}_i$.
+		\eq{
+			\label{forms:integration}
+			\int_M\theta = \sum_i\int_{U_i}\varphi_i\theta dx_1...dx_n
+		}
+		\footnotetext{See definition \ref{topology:partition_of_unity}.}
+	\end{formula}
+
+\subsection{Stokes' theorem}	
+	\begin{theorem}[Stokes' theorem]\index{Stokes!theorem for differential forms}
+		Let $\Sigma$ be an orientable smooth manifold. Denote the boundary of $\Sigma$ by $\partial\Sigma$. Let $\omega$ be a differential $k$-form on $\Sigma$. We have the following equality:
+		\eq{
+			\label{forms:theorem:stokes_theorem}
+			\boxed{\int_{\partial\Sigma}\omega = \int_\Sigma d\omega}
+		}
+	\end{theorem}
+	\begin{result}
+		The Kelvin-Stokes theorem \ref{vectorcalculus:stokes_theorem}, the divergence theorem \ref{vectorcalculus:divergence_theorem} and Green's identity \ref{vectorcalculus:green_indentity} are immediate results of this (generalized) Stokes' theorem.
+	\end{result}
+
+\subsection{de Rham Cohomology}\index{cochain}\index{de Rham!cohomology}
+
+	Now we can also give a little side note about why the de Rham cohomology groups \ref{forms:de_rham_cohomology} really form a cohomology theory. For this we need some concepts from homology which can be found in section \ref{section:homology}. Let $M$ be a compact differentiable manifold and let $\{\lambda_i:\Delta^k\rightarrow M\}$ be the set of singular $k$-simplexes on $M$.
+	
+	Now suppose that we want to integrate over a singular $k$-chain $C$ on $M$, i.e. $C = \sum_{i=0}^ka_i\lambda_i$. Formula \ref{forms:integration} says that we can pair the $k$-form $\omega$ and the chain $C$ such that they act as duals to each other (hence $p$-forms are also called $p$-\textbf{cochains}), producing a real number\footnote{This requires the chain group to have real coefficients instead of integer coefficients as is mostly used in homology.}:
+	\begin{equation}
+		\langle\cdot,C\rangle:\Omega^n(M)\rightarrow\mathbb{R}:\omega\mapsto\int_C\omega = \sum_{i=0}^ka_i\int_{\Delta_k}\lambda_i^{*}\omega
+	\end{equation}
+	where $\lambda_i^*$ pulls back $\omega$ to $\Delta^k$ which is a subset of $\mathbb{R}^k$ as required. Now Stokes' theorem \ref{forms:theorem:stokes_theorem} tells us that
+	\begin{equation}
+		\int_Cd\omega = \int_{\partial C}\omega
+	\end{equation}
+	Using the paring $\langle\cdot,\cdot\rangle$ this becomes
+	\begin{equation}
+		\langle d\omega, C\rangle = \langle \omega, \partial C\rangle
+	\end{equation}
+	The operators $d$ and $\partial$ can thus be interpreted as formal adjoints. After checking (again using Stokes' theorem) that all chains $C$ and cochains $\omega$ belonging to the same equivalence classes $[C]\in H_k(M, \mathbb{R})$ and $[\omega]\in H^k(M, \mathbb{R})$ give rise to the same number\footnote{Suppose that $A, B\in [C]$ and $\phi, \chi\in[\omega]$ then $\langle \phi, A \rangle = \langle \chi, B \rangle$.} $\langle\omega, C\rangle$ we see that the singular homology groups and the de Rham cohomology groups on $M$ are well defined dual groups. The name cohomology is thus wel chosen for \ref{forms:de_rham_cohomology}.
+
+\section{Symplectic manifolds}
+\subsection{Symplectic form}
+
+	\newdef{Symplectic form}{\index{symplectic!form}
+		Let $\omega\in\Omega^2(M)$ be a differential 2-form. $\omega$ is said to be a symplectic form if it satisfies following properties:
+		\begin{itemize}
+			\item Closed: $d\omega = 0$
+			\item Non-degeneracy: if $\omega(u, v) = 0, \forall u\in TM$ then $v=0$
+		\end{itemize}
+	}
+	\newdef{Symplectic manifold}{\index{symplectic!manifold}
+		A manifold $M$ equipped with a symplectic 2-form is called a symplectic manifold.
+	}
+	
+	\begin{property}
+		From the antisymmetry (valid for all differential $k$-forms) and the non-degeneracy of the symplectic form, it follows that $M$ is even dimensional.
+	\end{property}

@@ -1,0 +1,103 @@
+\section{Eigenvectors}
+	\begin{definition}[Eigenvector]
+		A vector $v\in V\setminus\{0\}$ is called an \textbf{eigenvector} of the linear operator $f: V\rightarrow V$ if it satisfies the following equation:
+        \begin{equation}
+			f(v) = \lambda v
+		\end{equation}
+        Where $\lambda \in K$ is the \textbf{eigenvalue} belonging to $v$.
+	\end{definition}
+    \begin{definition}[Eigenspace]
+		The subspace of $V$ consisting of the zero vector and the eigenvectors of an operator is called the \textbf{eigenspace} associated with that operator:
+        \begin{equation}
+			\text{ker}(\lambda\boldsymbol{1}_V - f)
+		\end{equation}
+	\end{definition}
+
+	\begin{theorem}[Characteristic equation\footnotemark]
+    	\label{linalgebra:theorem:eigenvalue_characteristic_equation}
+    	Let $f\in\text{End}_K(V)$ be a linear operator. A scalar $\lambda\in K$ is an eigenvalue of $f$ if and only if it satisfies the characteristic equation \ref{linalgebra:characteristic_equation}.
+	\end{theorem}
+    \footnotetext{This theorem also holds for the eigenvalues of a matrix $A\in M_n(K)$.}
+    
+    \begin{theorem}
+		A linear operator $f\in\text{End}_K(V)$ defined over an $n$-dimensional K-vector space $V$ has at most $n$ different eigenvalues.\footnote{This theorem also holds for a matrix $A\in M_n(K)$.}
+	\end{theorem}
+    
+    \begin{method}[Finding the eigenvectors of a matrix $\mathbf{A}$]\leavevmode
+		\begin{enumerate}
+			\item First we find the eigenvalues $\lambda_i$ of $\mathbf{A}$ by applying theorem \ref{linalgebra:theorem:eigenvalue_characteristic_equation}.
+            \item Then we find the eigenvector $v_i$ belonging to the eigenvalue $\lambda_i$ by using the following equation:
+            \begin{equation}
+				\label{linalgebra:eigenvectors:eigenspace}
+                \left(\mathbf{A} - \lambda_i\mathbf{1}_V\right)v_i = 0
+			\end{equation}
+		\end{enumerate}
+	\end{method}
+    
+    \subsection{Diagonalization}
+    	\newdef{Diagonalizable operator}{An operator $f\in\text{End}_K(V)$ on a finite-dimensional K-vector space $V$ is diagonalizable if there exists a matrix representation $A\in M_n(K)$ of $f$ such that $A$ is a diagonal matrix.}
+    
+    	\begin{theorem}
+			\label{linalgebra:theorem:diagonalizable_basis}
+            A linear operator $f$ defined on a finite-dimensional K-vector space $V$ has a diagonal matrix as matrix representation if and only if the set of eigenvectors of $f$ is a basis of $V$.
+		\end{theorem}
+		
+        \begin{theorem}
+        	\label{linalgebra:theorem:diagonalizable_PQP}
+            A matrix $A\in M_n(K)$ is diagonalizable if and only if there exists a matrix $P\in GL_n(K)$ such that $P^{-1}AP$ is diagonal.
+        \end{theorem}
+        \begin{result}\index{trace}
+        	Using the fact that the trace of a linear operator is invariant under similarity transformations (see property \ref{linalgebra:trace_invariance}) we get following useful formula:
+            \begin{equation}
+            	\boxed{\text{tr}(f) = \sum_i\lambda_i}
+            \end{equation}
+            where $\{\lambda_i\}_{0\leq i\leq n}$ are the eigenvalues of $f$.
+        \end{result}
+        
+        \begin{property}
+        	\label{linalgebra:diagonalization_properties}
+			Let $V$ be an $n$-dimensional K-vector space. Let $f\in \text{End}_K(V)$ be a linear operator. We find the following properties of the eigenvectors/eigenvalues of $f$:
+            \begin{enumerate}
+				\item The eigenvectors of $f$ belonging to different eigenvalues are linearly independent.
+                \item If $f$ has exactly $n$ eigenvalues, $f$ is diagonalizable.
+                \item If $f$ is diagonalizable, $V$ is the direct sum of the eigenspaces of $f$ belonging to the different eigenvalues of $f$.
+			\end{enumerate}
+		\end{property}
+        
+        \newdef{Multiplicity}{\index{multiplicity}
+        	Let $V$ be a K-vector space. Let $f\in \text{End}_K(V)$ be a linear operator with characteristic polynomial\footnotemark:
+        	\[\chi_f(x) = \prod_{i=1}^n(x-\lambda_i)^{n_i}\]
+            We can define the following multiplicities:
+            \begin{enumerate}
+				\item The \textit{algebraic multiplicity} of an eigenvalue $\lambda_i$ is equal to $n_i$.
+                \item The \textit{geometric multiplicity} of an eigenvalue $\lambda_i$ is equal to the dimension of the eigenspace belonging to that eigenvalue.
+			\end{enumerate}
+        }
+        \footnotetext{We assume that the characteristic polynomial can be written in this form. This depends on the possibility to completely factorize the polynomial in $K$ (i.e. it has 'enough' roots in $K$). If not, $f$ cannot even be diagonalized. However, there always exists a field $F$ containing $K$, called a \textbf{splitting field}, where the polynomial has 'enough' roots.}
+        \remark{The geometric multiplicity is always at least 1.}
+        \begin{property}
+			The algebraic multiplicity is always greater than or equal to the geometric multiplicity.
+		\end{property}
+        \begin{theorem}
+			\label{linalgebra:theorem:diagonalizable_multiplicity}
+            Let $f\in\text{End}_K(V)$ be a linear operator. $f$ is diagonalizable if and only if for every eigenvalue the algebraic multiplicity is equal to the geometric multiplicity.
+		\end{theorem}
+        
+        \begin{property}\index{Hermitian}
+        	\label{linalgebra:diagonalizable_hermitian}
+			Every Hermitian operator $f\in\text{End}_K(\mathbb{C}^n)$ has the following properties:
+            \begin{enumerate}
+				\item All the eigenvalues of $f$ are real.
+                \item Eigenvectors belonging to different eigenvalues are orthogonal.
+                \item $f$ is diagonalizable and there always exists an orthonormal basis of eigenvectors of $f$.
+			\end{enumerate}
+		\end{property}
+        
+        \begin{property}\index{commutator}
+			Let $A, B \in \text{End}_K(V)$ be two linear operators. If the commutator $[A, B] = 0$, then the two operators have a common eigenbasis.
+		\end{property}
+        
+        \begin{theorem}[Sylvester's law of inertia]\index{Sylvester's law of inertia}
+        	Let $S$ be a symmetric matrix. The number of positive and negative eigenvalues is invariant with respect to similarity transformations\footnotemark.
+        \end{theorem}
+        \footnotetext{Also with respect to conjugation, which are equivalent to similarity transformations according to property \ref{linalgebra:con_equivalence}.}

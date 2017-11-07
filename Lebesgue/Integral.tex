@@ -1,0 +1,207 @@
+\section{Lebesgue integral}
+	\subsection{Simple functions}
+    	\newdef{Indicator function}{\index{indicator function}
+        	An important function when working with sets is the following one:
+            \begin{equation}
+            	\label{lebesgue:indicator_function}
+				\boxed{\mathbbm{1}_A(x) = \left\{
+                \begin{array}{ccc}
+					1&\text{if}&x\in A\\
+                    0&\text{if}&x\not\in A
+				\end{array}\right.}
+			\end{equation}
+        }
+		\newdef{Simple function}{\index{simple function}
+    		Let $f$ be a function that takes on a finite number of non-negative values $\{a_i\}$ with for every $i\neq j: f^{-1}(a_i)\cap f^{-1}(a_j) = \emptyset$. $f$ is called a simple function if it can be expanded in the following way:
+        	\begin{equation}
+				\label{lebesgue:simple_function}
+            	f(x) = \sum_{i=1}^n a_i\mathbbm{1}_{A_i}(x)
+			\end{equation}
+        	with $A_i = f^{-1}(a_i)\in\mathcal{M}$
+    	}
+        \begin{remark}[Step function]\index{step function}
+        	\label{lebesgue:step_function}
+        	If the sets $A_i$ are intervals, the simple function is often called a 'step function'.
+		\end{remark}
+        
+        \newformula{Lebesgue integral of simple functions}{\index{Lebesgue}
+        	Let $\varphi$ be a simple function as defined in equation \ref{lebesgue:simple_function}. Let $\mu:\mathcal{M}\rightarrow\mathbb{R}$ be a Lebesgue measure and let $E$ be a measurable set. The Lebesgue integral of $\varphi$ over a $E$ with respect to $\mu$ is given by:
+            \begin{equation}
+				\label{lebesgue:integral_simple_function}
+                \int_E\varphi d\mu = \sum_{i=1}^na_i\mu(E\cap A_i)
+			\end{equation}
+        }
+        \begin{example}
+			Let $\mathbbm{1}_\mathbb{Q}$ be the indicator function of the set of rational numbers. This function is clearly a simple function. Previous formula makes it possible to integrate the rational indicator function over the real line, which is not possible in the sense of Riemann:
+            \begin{equation}
+				\int_\mathbb{R}\mathbbm{1}_\mathbb{Q}dm = 1\times m(\mathbb{Q}) + 0\times m(\mathbb{R}\backslash\mathbb{Q}) = 0
+			\end{equation}
+            where the measure of the rational numbers is 0 because it is a countable set (see corollary \ref{lebesgue:theorem:countable_set_is_null}.
+		\end{example}
+        
+	\subsection{Measurable functions}
+        \newformula{Lebesgue integral}{\index{Lebesgue}
+        	Let $f$ be a non-negative measurable function. Let $A$ be measurable set. The Lebesgue integral of $f$ over $E$ is defined as:
+            \begin{equation}
+				\label{lebesgue:integral}
+                \int_Efdm = \sup\left\{\int_E\varphi dm:\varphi \text{ a simple function such that } \varphi\leq f\right\}
+			\end{equation}
+        }
+        \begin{property}
+			The Lebesgue integral $\int_Efdm$ of a measurable function $f$ is always non-negative.
+		\end{property}
+        
+        \begin{notation}
+        	The following notation is frequently used (both in the sense of Riemann and Lebesgue):
+			\begin{equation}
+				\int fdm = \int_\mathbb{R}fdm
+			\end{equation}
+		\end{notation}
+        \begin{formula}
+			The following equality is easily proved as for every set $A\subseteq\mathbb{R}:A\cup A^c = \mathbb{R}$.
+            \begin{equation}
+            	\label{lebesgue:interchanging_domains_with_indicator_function}
+				\int_Afdm = \int f\mathbbm{1}_Adm
+			\end{equation}
+		\end{formula}
+        
+        \begin{theorem}
+			Let $f$ be a non-negative measurable function. Then $f=0$ a.e. if and only if $\int_\mathbb{R} fdm = 0$.
+		\end{theorem}
+        \begin{property}
+			The Lebesgue integral over a null set is 0.
+		\end{property}
+        \begin{property}\index{Mean value theorem}
+			Let $f,g$ me measurable functions. The Lebesgue integral has the following properties:
+            \begin{itemize}
+            	\item $f\leq g$ a.e. implies $\int fdm\leq\int gdm$.
+                \item Let $A$ be a measurable set. Let $B\subset A$. Then $\int_B fdm\leq\int_A fdm$.
+                \item The Lebesgue integral is linear.
+                \item For every two disjoint measurable sets $A$ and $B$ we have that $\int_{A\cup B}fdm = \int_A fdm + \int_B fdm$.
+                \item \textbf{Mean value theorem}: If $a\leq f(x)\leq b$, then $am(A)\leq\int_Afdm\leq bm(A)$.
+			\end{itemize}
+		\end{property}
+        
+        \begin{theorem}
+			Let $f$ be a non-negative measurable function. There exists an increasing sequence $(\varphi_i)_{i\in\mathbb{N}}$ of simple functions such that $\varphi_i\nearrow f$.
+		\end{theorem}
+        \begin{theorem}
+			Let $f$ be a bounded measurable function defined on the interval $[a,b]$. For every $\varepsilon>0$ there exists a step function\footnotemark\ $h$ such that $\int_a^b|f-h|dm<\varepsilon$.
+		\end{theorem}
+        \footnotetext{See remark \ref{lebesgue:step_function}.}
+        
+
+\subsection{Integrable functions}
+        \newdef{Integrable function}{\index{integrable}
+        	Let $E\in\mathcal{M}$. A measurable function $f$ is said to be integrable over $E$ if both $\int_Ef^+dm$ and $\int_Ef^-dm$ are finite. The Lebesgue integral of $f$ over $E$ is defined as:
+            \begin{equation}
+				\label{lebesgue:integrable_function}
+                \int_E fdm = \int_E f^+dm - \int_E f^-dm
+			\end{equation}
+        }
+        \sremark{The difference between the integral \ref{lebesgue:integral} and the integral of an integrable function is that with the latter $f$ does not have to be non-negative.}
+        
+        \begin{theorem}
+			$f$ is integrable if and only if $|f|$ is integrable. Furthermore, $\int_E|f|dm = \int_E f^+dm + \int_E f^-dm$.
+		\end{theorem}
+        \begin{property}
+			Let $f,g$ be integrable functions. The following important properties apply:
+            \begin{itemize}
+				\item $f+g$ is also integrable.
+                \item $\forall E\in\mathcal{M}, \int_Efdm\leq\int_Egdm\implies f\leq g$ a.e.
+                \item Let $c\in\mathbb{R}$. $\int_E(cf)dm = c\int_Efdm$.
+                \item $f$ is finite a.e.
+                \item $|\int fdm|\leq\int|f|dm$
+                \item $f\geq0\land\int fdm=0\implies f=0$ a.e.
+			\end{itemize}
+		\end{property}
+        
+        \begin{theorem}\index{L$^1$}
+        	\label{lebesgue:L1}
+			The set of functions integrable over a set $E\in\mathcal{M}$ forms a vector space. It is denoted by $\mathcal{L}^1(E)$.
+		\end{theorem}
+        
+        \begin{property}
+        	Let $f\in\mathcal{L}^1$ and $\varepsilon>0$. There exists a continuous function $g$, vanishing outside some finite interval, such that $\int|f-g|dm<\varepsilon$.
+		\end{property}
+        
+        \begin{property}\index{continuity!absolute continuity}
+        	\label{lebesgue:theorem:measure_by_integral}
+			Let $f\geq0$. The mapping $E\mapsto\int_Efdm$ is a measure on $E$ (if it exists, hence if $f$ is integrable). Furthermore, this measure is said to be \textbf{absolutely continuous}.
+		\end{property}
+        \sremark{See section \ref{lebesgue:section:Radon-Nikodym} for further information.}
+
+    \subsection{Convergence theorems}
+    	\begin{theorem}[Fatou's lemma]\index{Fatou's lemma}
+			Let $(f_n)_{n\in\mathbb{N}}$ be a sequence of non-negative measurable functions.
+            \begin{equation}
+				\label{lebesgue:theorem:fatous_lemma}
+                \int_E\left(\liminf_{n\rightarrow\infty}f_n\right)dm \leq \liminf_{n\rightarrow\infty}\int_Ef_ndm
+			\end{equation}
+		\end{theorem}
+        \begin{theorem}[Monotone convergence theorem]\index{monotone}\index{monotone convergence theorem}
+			Let $E\in\mathcal{M}$. Let $(f_n)_{n\in\mathbb{N}}$ be an increasing sequence of non-negative measurable functions such that $f_n\nearrow f$ pointwise a.e. We have the following powerful equality:
+            \begin{equation}
+				\label{lebesgue:theorem:monotone_convergence_theorem}
+                \boxed{\int_E fdm = \lim_{n\rightarrow\infty}\int_E f_n(x)dm}
+			\end{equation}
+		\end{theorem}
+        
+        \begin{method}
+        	 \label{lebesgue:method:linear_proofs}
+			To prove 'linear' results concerning integrable functions in spaces such as $\mathcal{L}^1(E)$ we proceed according to the following steps:
+            \begin{enumerate}
+            	\item Verify that the property holds for indicator functions. (This often follows by definition.)
+                \item Use the linearity to extend the property to simple functions.
+                \item Apply the monotone convergence theorem to show that the property holds for all non-negative measurable functions.
+                \item Extend the property to all integrable functions by writing $f = f^+ - f^-$ and applying the linearity again.
+			\end{enumerate}
+		\end{method}
+        
+        \begin{theorem}[Dominated convergence theorem]\index{dominated convergence theorem}
+			Let $E\in\mathcal{M}$. Let $(f_n)_{n\in\mathbb{N}}$ be a sequence of measurable functions with $\forall n:|f_n|\leq g$ a.e. for a function $g\in\mathcal{L}^1(E)$. If $f_n\rightarrow f$ pointwise a.e. then $f$ is integrable over $E$ and
+            \begin{equation}
+				\label{lebesgue:theorem:dominated_convergence_theorem}
+                \int_E fdm = \lim_{n\rightarrow\infty}\int_E f_n(x)dm
+			\end{equation}
+		\end{theorem}
+        
+        \begin{property}
+			Let $(f_n)_{n\in\mathbb{N}}$ be a sequence of non-negative measurable functions. The following equality applies:
+            \begin{equation}
+				\int\sum_{n=1}^{+\infty}f_n(x)dm = \sum_{n=1}^{+\infty}\int f_n(x)dm
+			\end{equation}
+            We cannot conclude that the right-hand side is finite a.e., so the series on the left-hand side need not be integrable.
+		\end{property}
+        
+        \begin{theorem}[Beppo-Levi]\index{Levi|see{Beppo-Levi}}\index{Beppo-Levi}
+			Suppose that
+            \[\sum_{i=1}^\infty\int|f_n|(x)dm\text{ is finite.}\]
+            The series $\sum_{i=1}^\infty f_n(x)$ converges a.e. Furthermore, the series is integrable and
+            \begin{equation}
+				\label{lebesgue:theorem:beppo_levi}
+                \int\sum_{i=1}^\infty f_n(x)dm = \sum_{i=1}^\infty\int f_n(x)dm
+			\end{equation}
+		\end{theorem}
+        
+        \begin{theorem}[Riemann-Lebesgue lemma]\index{Riemann!Riemann-Lebesgue lemma}\label{lebesgue:riemann_lebesue_lemma}
+			Let $f\in\mathcal{L}^1$. The sequences \[s_k = \int_{-\infty}^{+\infty}f(x)\sin(kx)dx\] and \[c_k = \int_{-\infty}^{+\infty}f(x)\cos(kx)dx\] both converge to 0.
+		\end{theorem}
+        \sremark{This theorem is useful in Fourier analysis.}
+
+\subsection{Relation to the Riemann integral}
+	\begin{theorem}[Fundamental theorem of calculus]
+		If $f:[a,b]\rightarrow\mathbb{R}$ is continuous then $f$ is integrable and the function $F:x\mapsto\int_a^xfdm$ is differentiable for $x\in]a,b[$ such that $F'=f$.
+	\end{theorem}
+    
+    \begin{theorem}
+		Let $f:[a,b]\rightarrow\mathbb{R}$ be a bounded function.
+        \begin{itemize}
+        	\item $f$ is Riemann-integrable if and only if $f$ is continuous a.e. with respect to the Lebesgue measure on $[a,b]$.
+            \item Riemann-integrable functions on $[a,b]$ are integrable with respect to the Lebesgue measure on $[a,b]$ and the integrals coincide.
+		\end{itemize}
+	\end{theorem}
+    
+    \begin{theorem}
+		If $f\geq0$ and the improper Riemann integral \ref{calculus:improper_integral} exists, then the Lebesgue integral $\int fdm$ exists and the two integrals coincide.
+	\end{theorem}

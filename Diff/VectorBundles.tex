@@ -1,0 +1,613 @@
+
+\section{Vector bundles}
+	The tangent space and tangent bundle, as introduced in subsection \ref{diff:section:tangent_space}, can also be introduced in a more topological way:
+	
+\subsection{Tangent bundles}
+
+	\begin{construct}[Tangent bundle]\index{tangent!bundle}
+		Let $M$ be a manifold with atlas $\{(U_i, \varphi_i)\}_{i\leq n}$. Consider for every open set $U$ an associated set $TU = U\times\mathbb{R}^n$. For every smooth function $f$ we can define an associated smooth function on $TU$, called the differential of $f$, by:
+		\begin{equation}
+			\label{diff:manifolds:T_function}
+			Tf:U\times\mathbb{R}^n\rightarrow f(U)\times\mathbb{R}^n:(x, v)\mapsto(f(x), Df(x)v)
+		\end{equation}
+		where $Df(x):\mathbb{R}^n\rightarrow\mathbb{R}^n$ is the linear operator associated with the Jacobian matrix of $f$ in $x$. Applying this definition to the transition functions $\psi_{ji}$ we obtain a new set of functions $\widetilde{\psi}_{ji} := T\psi_{ji}$ given by:
+		\eq{
+			\widetilde{\psi}_{ji}(\varphi_i(x), v) = \left(\varphi_j(x), (\varphi_j\circ\varphi_i^{-1})'(\varphi_i(x))v\right)
+		}
+		
+		Now we take the disjoint union of all the sets $T(\varphi_i(U_i))$ (where we implicitly consider the restriction to $U_i\cap U_j$), equipped with the disjoint union topology (see \ref{topology:disjoint_union}). From this set, we construct a quotient space (see \ref{topology:quotient_space}) by applying following equivalence relation $\approx$:
+		\begin{equation}
+			x\approx y\iff y = \widetilde{\psi}_{ji}(x)
+		\end{equation}		
+		This construction gives the tangent bundle:
+		\begin{equation}
+			\label{diff:manifolds:tangent_bundle_2}
+			TM = \left(\bigsqcup_{i\leq n} TU_i\right)/\approx
+		\end{equation}
+		We can define an atlas on $TM$ by remarking that the map $x\mapsto[x]$ is a homeomorphism\footnote{This follows from the fact that every $x\in TU_i$ is only equivalent to one point in every other set $TU_j$, because $\widetilde{\psi}_{ii} = \mathbbm{1}, \forall i$.} (and even a diffeomorphism). So we can use the image $\widetilde{U}_i$ of this map together with its inverse $\widetilde{\varphi}_i:TM\rightarrow\varphi_i(U_i)\times\mathbb{R}^n$ to construct a smooth atlas\footnote{The charts in this atlas are called \textbf{natural charts}.} $\{(\widetilde{U}_i, \widetilde{\varphi}_i)_{i\leq n}\}$ with transition functions given by $\widetilde{\psi}_{ji}$.
+		
+		Finally, we also define a projection map $\pi:TM\rightarrow M$ which is induced by the local projection $\varphi_i(U_i)\times\mathbb{R}^n\mapsto\varphi_i(U_i)$. This map is called the \textbf{tangent bundle map} and together with the \textit{total space} $TM$ we get the tangent bundle on $M$. Using the natural charts we can also see that $TM$ is isomorphic to $\mathbb{R}^{2n}$ and thus has twice the dimension of $M$.
+	\end{construct}
+	
+	\newdef{Tangent space}{\index{tangent!space}
+		Let $x\in M$. The topological definition of the tangent space is given by the fibre
+		\begin{equation}
+			T_xM := \tau_M^{-1}(x)
+		\end{equation}
+		If we use the natural charts to map $T_xM$ to the set $\varphi_i(x)\times\mathbb{R}^n$, we see that $T_xM$ is isomorphic to $\mathbb{R}^n$ and thus also to $M$ itself. Furthermore, we can equip every fibre with the following vector space structure:
+		\begin{align*}
+			(x, v_1)+(x, v_2)&:=(x, v_1 + v_2)\\
+			r(x, v)&:=(x, rv)
+		\end{align*}
+	}
+	\begin{remark}
+		Now it is clear that the rule "\textit{a vector is something that transforms like a vector}" stems from the fact that:
+		\[\text{a vector }v\in T_xM\text{ is tangent to }\varphi_i(x)\text{ in a chart }(U_i, \varphi_i)\]
+		if and only if
+		\[D(\varphi_j\circ\varphi_i^{-1})(\varphi_i(x))v\text{ is tangent to }\varphi_j(x)\text{ in a chart }(U_j, \varphi_j)\]
+		Comparing this property to \ref{diff:manifolds:tangent_curve_transformation}, we see that tangent vectors defined through equivalence classes of tangent curves are indeed tangent vectors according to our new construction.
+	\end{remark}
+	
+	\newdef{Differential}{\index{differential}\label{manifolds:differential}
+		The map $T$ from \ref{diff:manifolds:T_function} can be generalized to arbitrary smooth manifolds as the map $Tf:TM\rightarrow TN$. Furthermore, let $x\in U\subseteq M$ and let $V = f(U)$. By looking at the restriction of $Tf$ to $T_xM$, denoted by $T_xf$, we see that it maps $T_xU$ to $T_{f(x)}V$ (where $V=f(U)$) linearly. So $T_xf$ is a linear map on fibres.
+	}
+	
+	\begin{property}
+		The map $Tf: TM\rightarrow TN$ (see \ref{diff:manifolds:T_function}) has following properties\footnotemark:
+		\begin{itemize}
+			\item $T(\mathbbm{1}_M) = \mathbbm{1}_{TM}$
+			\item Let $f, g$ be two smooth functions on smooth manifolds. Then $T(f\circ g) = Tf\circ Tg$.
+		\end{itemize}
+	\end{property}
+	\footnotetext{This turns the map $T$ into a functor on the category of smooth manifolds. We can view $T$ as a functorial derivative.}
+	
+	\begin{remark*}
+		We can also use a construction similar to that of the tangent bundle to reconstruct the original manifold $M$ from the sets $\varphi_i(U_i)$.
+	\end{remark*}
+	
+	\newdef{Rank}{\index{rank}
+		\label{manifolds:rank}
+		Let $f:M\rightarrow N$ be a differentiable map between smooth manifolds. Using the fact that $Tf$ is a linear map of fibres\footnotemark, we define the rank of $f$ at $p\in M$ as the rank (as in \ref{linalgebra:image_rank}) of the differential $Tf:T_pM\rightarrow T_{f(p)}N$.
+	}
+	\footnotetext{See definition \ref{manifolds:differential}.}
+	
+	\begin{theorem}[Inverse function theorem]\index{inverse function theorem}\label{manifolds:theorem:inverse_function_theorem}
+		A $C^\infty$ map $f:M\rightarrow N$ between smooth manifolds is locally homeomorphic (resp. locally diffeomorphic) if and only if its differential $Tf:T_pM\rightarrow T_pN$ is an isomorphism (resp. diffeomorphism) at $p$.
+	\end{theorem}
+
+\subsection{Vector bundles}
+
+	Instead of restricting ourselves by letting the typical fibre be a Euclidean space with the same dimension as the base manifold, we can generalize the construction of the tangent bundle in the following way:
+		
+	\begin{construct}[Vector bundle]\index{vector!bundle}\index{fibre}\index{local!trivialization}
+		\label{manifolds:vector_bundle_construction}
+		Consider a smooth $n$-dimensional manifold $M$ with atlas $\{(U_i, \varphi_i)\}_{i\leq n}$, a cocycle $\{g_{ji}: U_i\cap U_j\rightarrow G\}_{i,j\leq n}$ with values in a Lie group $G$ and a smooth representation $\rho:G\rightarrow GL(V)$, where $V$ is a vector space.
+		
+		Now we can construct a new topological space $E$, similar to the construction of the tangent bundle, by taking the disjoint union of the sets $\varphi_i(U_i)\times V$ and quotienting out using the functions $\widetilde{g}_{ji}:(\varphi_i(x), v)\mapsto(\varphi_j(x), g_{ji}(x)\cdot v)$, where $g\cdot v\equiv \rho(g)v$. This gives us a set of natural charts\footnotemark\ $\{(\widetilde{U}_i, \widetilde{\varphi}_i)\}_{i\leq n}$, a projection map $\pi:E\rightarrow M$ induced by the local projection $\varphi_i(U_i)\times V\rightarrow\varphi_i(U_i)$ and a naturally defined vector space on every fibre $V_x:=\pi^{-1}(x)$. Furthermore every fibre $V_x$ is (although not necessarilly canonically) isomorphic to $V$.
+		
+		This set $E$ is called a \textbf{smooth vector bundle} over $M$ with \textit{typical fibre} $V$ and \textit{projection map} $\pi$.
+		\footnotetext{We could instead use any other kind of topological space. The point is that a vector bundle is a fibre bundle \ref{manifolds:fibre_bundle} for which the typical fibres are vector spaces.}
+	\end{construct}
+
+	\begin{remark}
+		As is also the case for tangent bundles (which are specific cases of vector bundles where the typical fibre has the same dimension as the manifold) the choice of charts on $E$ is not random. To preserve the structure of fibres, the use of the natural charts is imperative.
+	\end{remark}
+	\begin{remark}
+		Vector bundles are smooth fibre bundles where the typical fibre is a vector space $V$ and the structure group is given by $GL(V)$.
+	\end{remark}
+	
+	\newdef{Associated vector bundle}{\label{manifolds:associated_vector_bundle}
+		Consider a representation\newline $\rho:GL(\mathbb{R}^n)\rightarrow GL(\mathbb{R}^l)$ and the cocycle $t_{ji} := D(\psi_{ji})\circ\varphi_i$ as defined for tangent bundles. The composition $\rho\circ t_{ji}:U_i\cap U_j\overset{t_{ji}}{\rightarrow} GL(\mathbb{R}^n) \overset{\rho}{\rightarrow} GL(\mathbb{R}^l)$ is again a cocycle and can thus be used to define a new vector bundle on $M$. The vector bundle $E = \rho(TM)$ so obtained is called the associated bundle of the tangent bundle induced by $\rho$.
+	}
+	\begin{remark}
+		\label{manifolds:vector_principal_correspondence}
+		It should also be noted that every vector bundle is associated to a principle $GL(V)$-bundle where the cocycles $g_{ji}$ now act by left multiplication on elements of $GL(V)$.
+	\end{remark}
+
+	\begin{example}[Contravariant vectors]\index{contravariant}
+		By noting that the $k^{th}$ tensor power $\otimes^k$ induces a representation given by the tensor product of the representations, we can construct the bundle of $k^{th}$ order contravariant vectors $\otimes^k(TM)$ with the cocycle given by $x\mapsto t_{ji}(x)\otimes\cdots\otimes t_{ji}(x)$.
+	\end{example}
+	\begin{example}[Cotangent bundle]\index{covariant}
+		Another (smooth) representation is given by $A\mapsto (A^*)^{-1}=(A^{-1})^*$ for every linear map $A$. The vector bundle constructed this way, where the cocycle is given by $(t_{ji}^*)^{-1}$, is called the cotangent bundle on $M$ and is denoted by $T^*M$. Elements of the fibres are called covariant vectors or covectors.
+	\end{example}
+	\begin{notation}
+		A combination of the cocycle $t_{ji}$ and its dual $(t_{ji}^*)^{-1}$ can also be used to define the bundle of $k^{th}$ order contravariant and $l^{th}$ order covariant vectors on $M$. This bundle is denoted by $T^{(k, l)}M$.
+	\end{notation}
+	
+	\begin{example}[Pseudovectors]\index{pseudovector}
+		If we consider the representation \eq{\rho:A\mapsto \sgn\det(A)A} we can construct a bundle similar to the tangent bundle. The sign of the cocycle functions $t_{ji}$ now has an influence on the fibres. Elements of these fibres are called \textbf{pseudovectors}.
+	\end{example}
+	
+	\newdef{Subbundle}{\index{subbundle}
+		A subbundle of a vector bundle $\pi:E\rightarrow M$ is a collection of subspaces $U_x$ of fibres $E_x$ that make up a vector bundle on their own.
+	}
+	
+	\newdef{Whitney sum}{\index{Whitney!sum}
+		Consider two vector bundles $W, W'$ with fibres $E, E'$ respectively. Then we can construct a new vector bundle $W\oplus W'$ by defining the new typical fibre to be the direct sum $E\oplus E'$, i.e. the fibre above b is given by $E_b\oplus E_b'$.  This operation is called the Whitney sum or direct sum of vector bundles.
+	}
+	
+\subsection{Sections}
+	\begin{remark*}
+		Vector fields can be regarded as sections of the tangent bundle. Similarly, 1-forms can be regarded as sections of the cotangent bundle.
+	\end{remark*}
+	
+	\newdef{Frame}{\index{frame}\label{diff:frame}
+		A frame of a vector bundle $E$ is a tuple $(s_1, ..., s_n)$ of smooth sections such that $(s_1(b), ..., s_n(b))$ is a basis of the fibre $\pi^{-1}(b)$ for all $b\in B$.
+	}
+	\begin{property}
+		A vector bundle is trivial if and only if there exists a frame of global sections.
+	\end{property}
+
+\subsection{Metric}	
+	\begin{definition}[Metric]\index{metric}
+		Consider the bundle of second order covariant vectors. Following from \ref{tensor:tensor_product} every section $g$ of this bundle gives a bilinear map \[g_x:T_xM\times T_xM\rightarrow\mathbb{R}\]
+		for all $x\in M$. If this map is symmetric and non-degenerate it is called a (Lorentzian) \textbf{metric} on $M$. Furthermore, if it is also positive-definite then it is called a Riemann(ian) metric.
+		
+		The maps $\{g_x\}_{x\in M}$ can be `glued' together to form a global metric $g$, defined on the fibre product\footnotemark\ $TM\diamond TM$. Defining this map on $TM\times TM$ is not possible as tangent vectors belonging to different points in $M$ cannot be `compared'. The collection $\{\langle\cdot|\cdot\rangle_x|x\in M\}$ is called a \textbf{bundle metric}\index{metric!bundle}.
+	\end{definition}
+	\footnotetext{See definition \ref{manifolds:fibre_product}.}
+	
+	A Riemannian metric also induces a duality between $TM$ and $T^*M$. This is given by the \textit{flat} and \textit{sharp} isomorphisms:
+	\newdef{Musical isomorphisms}{\index{musical isomorphism}
+		Let $g:TM\times TM\rightarrow\mathbb{R}$ be the Riemannian metric on $M$. The \textbf{flat} isomorphism is defined as:
+		\eq{
+			\label{manifolds:flat_map}
+			\flat:v\mapsto g(v, \cdot)
+		}
+		The \textbf{sharp} isomorphism is defined as the inverse map:
+		\eq{
+			\label{manifolds:sharp_map}
+			\sharp:p\mapsto v
+		}
+		such that $p(\cdot) = g(v, \cdot)$. These \textit{musical} isomorphisms can be used to lower and raise tensor indices.
+	}
+	
+	\begin{theorem}[Whitney's theorem]\index{Whitney's theorem}
+		Every paracompact\footnotemark\ smooth manifold admits a Riemannian metric.
+	\end{theorem}
+	\footnotetext{See definition \ref{topology:paracompact}.}
+	
+	\newdef{Unit sphere bundle}{\index{unit!sphere bundle}
+		Let $V$ be a normed vector space. Consider a vector bundle $\prin{V}{E}{B}$. From this bundle we can derive a new bundle where we replace the typical fibre $V$ by the unit sphere $\{v\in V : ||v|| = 1\}$. It should be noted that this new bundle is not a vector bundle as the unit sphere is not a vector space.
+	}
+	\begin{remark}[Unit disk bundle]\index{unit!disk bundle}
+		A similar construction can be made by replacing the unit sphere by the unit disk $\{v\in V : ||v||\leq1\}$.
+	\end{remark}
+	
+\subsection{Hilbert bundles}
+	
+	\newdef{Hilbert bundle}{\index{Hilbert!bundle}
+		A vector bundle for which the typical fibre is a Hilbert space is called a Hilbert bundle.
+	}
+	\newdef{Compatible Hilbert bundle}{
+		Consider the isomorphisms
+		\begin{equation}
+			l_x:F_x\rightarrow\mathcal{H}:h\mapsto\varphi_i(x, h)\in\pi(x)
+		\end{equation}
+		where $\mathcal{H}$ is the typical fibre and where $\{(U_i, \varphi_i)\}_{i\in I}$ is a trivializing cover. These maps $l_x$ are called \textbf{point-trivializing maps}.
+		
+		Using these maps we can extend the metric structure of the typical fibre $\mathcal{H}$ to the fibres $F_x$ for all $x$ by:
+		\begin{equation}
+			\langle v|w \rangle_x = \langle l_x(v)|l_x(w) \rangle_{\mathcal{H}}
+		\end{equation}
+		The Hilbert bundle is said to be compatible (with the metric structure on $\mathcal{H}$) if the above extension is valid for all $v, w \in F_x$.
+	}
+	
+	\begin{remark*}
+		For compatible Hilbert bundles, the transition maps $l_{x\rightarrow y} = l_y^{-1}\circ l_x:\pi^{-1}(x)\rightarrow\pi^{-1}(y)$ are easily seen to be isometries.
+	\end{remark*}
+
+\section{Vector fields}
+	\newdef{Vector field}{\index{vector!field}
+		A smooth section $s\in\Gamma(TM)$ of the tangent bundle is called a vector field.
+	}
+	\begin{notation}
+		The set of all vector fields on a manifold $M$ is often denoted by $\mathfrak{X}(M)$.
+	\end{notation}
+	
+	\newdef{Pullback}{\index{pullback}
+		Let $X$ be vector field on $M$ and let $\varphi:M\rightarrow N$ be a diffeomorphism between smooth manifolds. The pullback of $X$ along $\varphi$ is defined as:
+		\eq{
+			\label{manifolds:pullback}
+			(\varphi^*X)_p = T\varphi^{-1}(X_{\varphi(p)})
+		}
+	}
+	\newdef{Pushforward}{\index{pushforward}
+		Let $X\in\mathfrak{X}(M)$ and let $\varphi:M\rightarrow N$ be a diffeomorphism between smooth manifolds. Using the differential $T\varphi$ we can define the pushforward of $X$ along $\varphi$ as:
+		\eq{
+			\label{manifolds:pushforward}
+			(\varphi_*X)_{\varphi(p)} = T\varphi(X_p)
+		}
+		which we can rewrite using the pullback as:
+		\eq{
+			\label{manifolds:pullback_pushforward}
+			\varphi_*X = \varphi^{-1*}X
+		}
+		Or equivalently we can define a vector field on $N$ by:
+		\eq{
+			(\varphi_*X)_q(f) = X_{\varphi^{-1}(q)}(f\circ\varphi)
+		}
+		for all smooth functions $f:N\rightarrow\mathbb{R}$ and points $q\in N$.
+	}
+	
+	\begin{remark*}
+		For both the pullback and pushforward, we need the map $\varphi$ to be a diffeomorphism. For differential forms this is only necessary for the definition of pushforwards. (See definitions \ref{forms:pullback} and \ref{forms:pushforward}).
+	\end{remark*}
+	
+\subsection{Integral curves}
+	\newdef{Integral curve}{\index{integral!curve}
+		Let $X\in\mathfrak{X}(M)$ and let $\gamma:\ ]a, b[\rightarrow M$ be a smooth curve on $M$. $\gamma$ is said to be an integral curve of $X$ if:
+		\eq{
+			\label{manifolds:integral_curve}
+			\boxed{\gamma'(t) = X(\gamma(t))}
+		}
+		for all $t\in]a,b[$ where we defined $\gamma'(t) := T\gamma(t, 1)$ using the functorial derivative \ref{diff:manifolds:T_function}.
+		
+		This equation can be seen as a system of ordinary differential equations in the second argument. Using Picard's existence theorem\footnotemark\ together with the initial value condition $\gamma(0) = p$ we can find a unique curve on $]a, b[$ satisfying the defining equation \ref{manifolds:integral_curve}. Furthermore we can extend the interval $]a, b[$ to a maximal interval such that the solution is still unique. This solution, denoted by $\gamma_p$, is called the \textbf{integral curve of $X$ through $p$}.
+		\footnotetext{Also Picard-Lindel\"of theorem.}
+	}
+	
+	\newdef{Flow}{\index{flow}
+		Let $X\in\mathfrak{X}(M)$. The function $\sigma_t$:
+		\eq{
+			\label{manifolds:flow}
+			\sigma_t(p) = \gamma_p(t)
+		}
+		is called the flow of $X$ at time $t$. The flow domain is defined as the set $D(X) = \{(t, p)\in\mathbb{R}\times M\ |\ t\in ]a_p, b_p[\}$ where $]a_p, b_p[$ is the maximal interval on which $\gamma_p(t)$ is defined.
+	}
+	\begin{property}
+		Suppose that $D(X) = \mathbb{R}\times M$. The flow $\sigma_t$ has following properties for all $s, t\in\mathbb{R}$:
+		\begin{itemize}
+			\item $\sigma_0 = \mathbbm{1}_M$
+			\item $\sigma_{s+t} = \sigma_s\circ\sigma_t$
+			\item $\sigma_{-t} = (\sigma_t)^{-1}$
+		\end{itemize}
+		These three properties\footnote{The third property follows from the other two.}\ say that $\sigma_t$ is a bijective group action from $M$ to the additive group of real numbers. This implies that $\sigma_t$ is indeed a \textbf{flow} in the general mathematical sense.
+	\end{property}
+	
+	\newdef{Complete vector field}{\index{complete!vector field}
+		A vector field $X$ is called complete if the flow domain for every flow is whole $\mathbb{R}$.
+	}
+	
+	\begin{property}
+		The flow $\sigma_t$ of a vector field is of class $C^\infty$. If $X$ is complete it follows from previous definition that the flow is a diffeomorphism from $M$ onto itself.
+	\end{property}
+
+	
+\subsection{Lie derivative}
+
+	\newformula{Lie derivative for smooth functions}{\index{Lie!derivative}
+		Let $X\in\mathfrak{X}(M)$ and let $f:M\rightarrow\mathbb{R}$ be a smooth function. The Lie derivative of $f$ with respect to $X$ at $p\in M$ is defined as:
+		\eq{
+			\label{manifolds:lie_derivative_functions}
+			\boxed{(\mathcal{L}_Xf)(p) = \lim_{t\rightarrow0}\stylefrac{f(\gamma_p(t)) - f(p)}{t}}
+		}
+		which closely resembles the standard derivative in Euclidean space.
+	}
+	
+	\begin{formula}[$\dag$]\label{manifolds:ex:lie_derivative_function}
+		Working out previous formula and rewriting it as an operator equality gives:
+		\eq{
+			\label{manifolds:lie_derivative_function_expansion}
+			\boxed{\mathcal{L}_X = \sum_kX_k\pderiv{}{x^k}}
+		}
+		It is clear that this is just the vector field $X$ expanded in the basis \ref{diff:manifolds:tangent_vector_partial}. We also recover the behaviour of a tangent vector as a derivation. So for smooth functions $f:M\rightarrow\mathbb{R}$ we obtain:
+		\eq{
+			\mathcal{L}_Xf(p) = X_p(f)
+		}
+	\end{formula}
+	
+	\newformula{Lie derivative for vector fields$^\dag$}{\label{manifolds:ex:lie_derivative_vector_fields}
+		Let $X, Y\in\mathfrak{X}(M)$
+		\eq{
+			\label{manifolds:lie_derivative_vector_field}
+			\boxed{\mathcal{L}_XY = \left.\deriv{}{t}(\sigma_t^*X)(\gamma_p(t))\right|_{t=0}}
+		 }
+	}
+	\begin{property}\index{Lie!bracket}
+		Let $X, Y\in\mathfrak{X}(M)$ be vector fields of class $C^k$. The Lie derivative has following properties:
+		\begin{itemize}
+			\item $\mathcal{L}_XY$ is a vector field.
+			\item \textbf{Lie bracket}:
+				\eq{
+					\label{manifolds:lie_bracket}
+					\mathcal{L}_XY = [X, Y]
+				}
+				which is also a derivation on $C^{k-1}(M, \mathbb{R})$ due to the cancellation of second-order derivatives in the local representation.
+			\item The Lie derivative is antisymmetric:\eq{\mathcal{L}_XY = -\mathcal{L}_YX} This follows from the previous property.
+		\end{itemize}
+	\end{property}
+	
+\subsection{Frobenius theorem}
+
+	Looking at property \ref{linalgebra:grassmannian_construction} and noting that GL$_n(\mathbb{C})$ is a Lie group, we can endow the Grassmannian Gr$(k, \mathbb{R}^n)$ \ref{linalgebra:grassmannian} with a differentiable structure, turning it into a smooth manifold. With this we can construct a new bundle\footnotemark\ by applying the usual 'gluing' process:
+	\footnotetext{Due to the fact that the Grassmannian is not a vector space, we construct a general fibre bundle and not a vector bundle.}
+	
+	\begin{construct}[Grassman bundle]\index{Grassman!bundle}
+		First define the transition functions:
+		\eq{
+			\psi_{ji}:\varphi_i(U_i\cap U_j)\times \text{Gr}(k, \mathbb{R}^n) \rightarrow \varphi_j(U_i\cap U_j)\times \text{Gr}(k, \mathbb{R}^n):(\varphi_i(x), V)\mapsto(\varphi_j(x), t_{ji}(x)\cdot V)
+		}
+		where $\{t_{ji}\}_{i, j\leq n}$ is the tangent bundle cocycle, but now with an action on the compact manifold Gr$(k, \mathbb{R}^n)$ instead of the vector space $\mathbb{R}^n$. Using this set of transition functions we use a construction similar to \ref{manifolds:vector_bundle_construction} to create a new (fibre) bundle where every fibre is diffeomorphic to Gr$(k, \mathbb{R}^n)$, namely it is the Grassmannian Gr$(k, T_pM)$ associated to the tangent space in every point $p\in M$.
+	\end{construct}
+	\begin{notation}
+		The Grassman $k$-plane bundle is denoted by Gr$(k, TM)$.
+	\end{notation}
+	
+	\newdef{Distribution}{\index{distribution!of $k$-planes}\label{manifolds:distribution}
+		A smooth section of the Grassman $k$-plane bundle is called a distribution of $k$-planes.
+	}
+	
+	\begin{definition}[Integrable]\index{integrable!manifold}
+		Let $M$ be a smooth manifold and let $W\in\Gamma(\text{Gr}(k, TM))$ be a distribution of $k$-planes. A submanifold $N\subseteq M$ is said to integrate $W$ with initial condition $p_0\in M$ if for every $p\in N$ we find that $W(p) = T_pN$ and $p_0\in N$. $W$ is said to be integrable if there exists such a submanifold $N$.
+	\end{definition}
+	
+	\newdef{Frobenius integrability condition}{\index{Frobenius!integrability condition}
+		A distribution of $k$-planes $W$ over a smooth manifold $M$ is said to satisfy the Frobenius integrability condition in an open set $U\subseteq M$ if for every two vector fields $X, Y$ defined on $U$, such that $X(p)\in W(p)$ and $Y(p)\in W(p)$ for all $p\in U$, there Lie bracket $[X, Y](p)$ is also an element of $W(p)$ for all $p\in U$.
+	}
+	\begin{theorem}[Frobenius' integrability theorem]\index{Frobenius!integrability theorem}\label{manifolds:frobenius}
+		Let $W$ be a distribution of $k$-planes over a smooth manifold $M$. Then $W$ is integrable if and only if $W$ satisfies the Frobenius integrability condition.
+	\end{theorem}
+
+\section{Differential \texorpdfstring{$k$}\ -forms}
+
+	\newdef{Differential form}{\index{differential form}
+		A differential $k$-form is a map
+		\eq{
+			\boxed{\omega: T^{\diamond k}M\rightarrow \mathbb{R}}
+		}
+		such that the restriction of $\omega$ to each fibre of the fibre product\footnotemark\ $T^{\diamond k}M$ is multilinear and antisymmetric.
+		
+		The space of all differential $k$-forms on a manifold $M$ is denoted by $\Omega^k(M)$. $\Omega^0(M)$ is defined as the space of smooth functions $C^\infty:M\rightarrow\mathbb{R}$.
+	}
+	\footnotetext{See definition \ref{manifolds:fibre_product}.}
+	
+	\begin{adefinition}
+		An alternative definition goes as follows. Consider the representation \[\rho_k:GL(R^{m*})\rightarrow GL(\Lambda^k(\mathbb{R}^{m*})): T\mapsto T\wedge...\wedge T\] where $T$ is a linear map. This representation induces an associated vector bundle\footnotemark\ $\rho_k(\tau_M^*)$ of the cotangent bundle on $M$. A differential $k$-form is then given by a section of $\rho_k(\tau_M^*)$. $\Omega^k(M)$ can then be defined as follows: \[\Omega^k(M) = \Gamma(\rho_k(\tau_M^*))\]
+	\end{adefinition}
+	\footnotetext{See definition \ref{manifolds:associated_vector_bundle}.}
+	
+	\begin{construct}
+		We can construct a graded algebra by equipping the graded vector space
+		\eq{
+			\Omega(M) = \bigoplus_{k\geq0}\Omega^k(M)
+		}
+		with the wedge product of differential forms (which is induced by the wedge product on $\Lambda^k(\mathbb{R}^{m*})$ through the alternative definition). This graded algebra is associative, graded-commutative and unital with the constant function $1\in C^{\infty}(M)$ as identity element.
+	\end{construct}
+
+	\newdef{Pullback}{\index{pullback}
+		Let $f:M\rightarrow N$ be a smooth function between smooth manifolds and let $\omega$ be a differential $k$-form on $N$. The pullback of $\omega$ by $f$ is defined as:
+		\eq{
+			\label{forms:pullback}
+			\boxed{f^*(\omega) = \omega\circ Tf:TM\rightarrow\mathbb{R}}
+		}
+		So $f^*$ can be seen as a map pulling elements from $T^*N$ back to $T^*M$.
+	}
+	\newdef{Pushforward}{\index{pushforward}
+		Let $f:M\rightarrow N$ be a diffeomorphism between smooth manifolds and let $\omega$ be a differential $k$-form on $M$. The pushforward $\omega$ by $f$ is defined as:
+		\eq{
+			\label{forms:pushforward}
+			f_*(\omega): \omega\circ Tf^{-1}: TN\rightarrow\mathbb{R}
+		}
+		or using the pullback:
+		\eq{
+			f_*(\omega) = f^{-1*}(\omega)
+		}
+	}
+	\begin{remark*}
+		Note that the pushforward of differential $k$-form is only defined for diffeomorphisms, in constrast to pullbacks which only require smooth functions. Furthermore this also explains why differential forms are the most valuable elements in differential geomeotry. Vector fields can't even be pulled back in general by smooth maps.
+	\end{remark*}
+	
+	\newformula{Dual basis}{\index{basis}
+		Consider the basis $\{\left.\pderiv{}{x_i}\right|_p\}_{i\leq n}$ from definition \ref{diff:manifolds:tangent_vector_partial} for the tangent space $T_pM$. From this set we can construct a natural dual basis for the cotangent space $T_p^*M$ using the natural pairing of these spaces:
+		\eq{
+			\label{forms:basis}
+			\left\langle\pderiv{}{x_i}, dx_j\right\rangle = \delta_{ij}
+		}
+	}
+	
+\subsection{Exterior derivative}
+
+	\newdef{Exterior derivative}{\index{exterior!derivative}\index{differential}\label{forms:def:exterior_derivative}
+		The exterior derivative $d_k$ is a map defined on the graded algebra of differential $k$-forms:
+		\[
+			d_k:\Omega^k(M)\rightarrow\Omega^{k+1}(M)
+		\]
+		For $k=0$ it is given by\footnotemark:
+		\eq{
+			\label{forms:function_derivative}
+			df = \sum_{i=1}^n\pderiv{f}{x_i}dx_i
+		}
+		where we remark that the `infinitesimals' are in fact unit vectors with norm $1$. This formula can be generalized to higher dimensions as follows:
+		\eq{
+			\label{forms:exterior_derivative}
+			\boxed{d(fdx_{i_1}\wedge...\wedge dx_{i_k}) = df\wedge dx_{i_1}\wedge...\wedge dx_{i_k}}
+		}
+	}
+	\footnotetext{For $f\in\Omega^0(M)$, we call $df$ the \textbf{differential} of $f$.}
+	
+	\begin{result}
+		It follows immediately from \ref{forms:exterior_derivative} that
+		\eq{
+			d(dx_i) = 0
+		}
+		for all $i\leq n$.
+	\end{result}
+	
+	\begin{property}\index{Leibniz!rule}
+		\label{forms:exterior_derivative_properties}
+		The exterior derivatives have following properties:
+		\begin{itemize}
+			\item For all $k\geq 0$, for all $\omega\in\Omega^k(M)$: $d_k\circ d_{k+1} = 0$, so $\text{im}(d_k)\subseteq\text{ker}(d_{k+1})$.
+			\item The exterior derivative is an $\mathbb{R}$-linear map.
+			\item Graded Leibniz rule: \eq{d(\omega_1\wedge\omega_2) = d\omega_1\wedge\omega_2 + (-1)^j\omega_1\wedge d\omega_2} where $\omega_1\in\Omega^j(M), \omega_2\in\Omega^k(M)$.
+			\item Let $f\in C^\infty(M)$: $f^*(d\omega) = d(f^*\omega)$ where $f^*$ denotes the pullback \ref{forms:pullback}.
+		\end{itemize}
+	\end{property}
+	
+	\begin{remark}[$\dag$]\index{gradient}\index{rotor}\index{divergence}\label{forms:vector_calculus}
+		The gradient, rotor (curl) and divergence from standard vector calculus can be rewritten using exterior derivatives as follows: Let $\vector{f} = (f_1, f_2, f_3)$ with $f_i$ smooth for every $i$ and let $f$ be a smooth function. Denote the canonical isomorphism between $\mathbb{R}^3$ and $\mathbb{R}^{3*}$ by $\sim$.
+		\begin{empheq}[box=\fbox]{align}
+			\sim df &= \nabla f \\
+			\sim (\ast d\alpha) &= \nabla\times\vector{f} \\
+			\ast d\omega &= \nabla\cdot\vector{f}
+		\end{empheq}
+	\end{remark}
+	
+	\begin{example}
+		Let $f\in C^\infty(M, \mathbb{R})$. Let $\gamma$ be a curve on $M$. From the definition \ref{forms:basis} of the basis $\{dx_k\}_{k\leq n}$ we obtain following result:
+		\[
+			\langle df(x), \gamma'(t) \rangle = \sum_k \pderiv{f}{x_k}(x)\gamma_k'(t) = (f\circ\gamma')(t)
+		\]
+	\end{example}
+	
+	\begin{example}
+		An explicit formula for the exterior derivative of a 1-form $\Phi$ is:
+		\begin{equation}
+			\label{forms:1form_exterior_derivative}
+			d\Phi(X, Y) = X(\Phi(Y)) - Y(\Phi(X)) - \Phi([X, Y])
+		\end{equation}
+	\end{example}
+
+\subsection{Lie derivative}
+	
+	\newformula{Lie derivative of differential forms}{\index{Lie!derivative}
+		\eq{
+			\label{manifolds:lie_derivative_forms}
+			\boxed{\mathcal{L}_X\omega(p) = \lim_{t\rightarrow0}\stylefrac{\sigma_t^*\omega - \omega}{t}(p)}
+		}
+	}
+
+	\begin{formula}[Lie derivative of smooth functions]
+		Using the definition of the exterior derivative of smooth functions \ref{forms:function_derivative} and the definition of the dual (cotangent) basis \ref{forms:basis} we can rewrite the Lie derivative \ref{manifolds:lie_derivative_function_expansion} as:
+		\eq{
+			Xf(p)= df_p(X(p))
+		}
+	\end{formula}
+	
+	\begin{formula}
+		The Lie derivative also has following Leibniz-type property with respect to differential forms:
+		\eq{
+			\mathcal{L}_X(\omega (Y)) = (\mathcal{L}_X\omega)(Y) + \omega(\mathcal{L}_XY)
+		}
+		where $X, Y$ are two vector fields and $\omega$ is a 1-form.
+	\end{formula}
+	
+	\newformula{Lie derivative of tensor fields}{
+		By comparing the definitions of the Lie derivatives of vector fields \ref{manifolds:lie_derivative_vector_field} and differential forms \ref{manifolds:lie_derivative_forms} we can see that both definitions are identical upon replacing $X$ by $\omega$. This leads to the definition of a Lie derivative of a general tensor field $\mathcal{T}\in\Gamma(T^{(k, l)}M)$:
+		\eq{
+			\boxed{\mathcal{L}_X\mathcal{T}(p) = \left.\deriv{}{t}\sigma_t^*\mathcal{T}(\gamma_p(t))\right|_{t=0}}
+		}
+	}
+	
+\subsection{Interior product}
+
+	\newdef{Interior product}{\index{interior!product}
+		Aside from the differential (exterior derivative) we can also define another operation on the algebra of differential forms:
+		\begin{equation}
+			\label{forms:interior_derivative}
+			\iota_X:(\iota_X\omega)(v_1, ..., v_{k-1})\mapsto\omega(X, v_1, ..., v_{k-1})
+		\end{equation}
+		This antiderivation (of degree $-1$) from $\Omega^k(M)$ to $\Omega^{k-1}(M)$ is called the \textbf{interior product} or \textbf{interior derivative}. This can be seen as a generalization of the contraction map \ref{tensor:contraction}.
+	}
+	
+	\newformula{Cartan\footnotemark}{\index{Cartan!formula for Lie derivative}
+		\footnotetext{Sometimes called \textit{Cartan's magic formula} or \textit{Cartan's (infinitesimal) homotopy formula}.}
+		Let $X$ be a vector field and let $\omega$ be a differential $k$-form. The Lie derivative of $\omega$ along $X$ is given by the following formula:
+		\begin{equation}
+			\label{forms:cartan_magic_formula}
+			\mathcal{L}_X\omega = \iota_X(d\omega) + d(\iota_X\omega)
+		\end{equation}
+	}
+	
+\subsection{de Rham Cohomology}
+
+	\newdef{Exact form}{\index{exact}
+		Let $\omega\in\Omega^k(M)$. If $\omega$ can be written as $\omega = d\chi + 0$ for some $\chi\in\Omega^{k-1}(M)$ and $0\in\Omega^0(M)$ the zero function then $\omega$ is said to be exact. It follows that
+		\eq{
+			\text{im}(d_k) = \{\omega\in\Omega^{k+1}(M):\omega\text{ is exact}\}
+		}
+	}
+	\newdef{Closed form}{\index{closed}
+		Let $\omega\in\Omega^k(M)$. If $d\omega = 0$ then $\omega$ i said to be closed. It follows that
+		\eq{
+			\{\omega\in\Omega^k(M):\omega\text{ is closed}\}\subseteq\text{ker}(d_k)
+		}
+	}
+	
+	\begin{remark}
+		\label{forms:remark:closed_exact}
+		From the first item of property \ref{forms:exterior_derivative_properties} it follows that every exact form is closed. The converse however is not true\footnotemark.
+	\end{remark}
+	\footnotetext{See result \ref{forms:theorem:poincare} for more information.}
+	
+	\newdef{Cochain complex}{\index{cochain!complex}\index{boundary}\index{differential}\index{cocycle}
+		Let $(A_k)_{k\in\mathbb{N}}$ be a sequence of Abelian groups or modules together with a sequence $(\partial_k)_{k\in\mathbb{N}}$ of homomorphisms, called the \textbf{boundary operators} or \textbf{differentials},  such that for all $k$:
+		\eq{
+			\partial_k:A_k\rightarrow A_{k+1}
+		}
+		Furthermore let $\partial_k^{\ 2} = 0$ for every $k\in\mathbb{N}$. This structure is called a cochain complex\footnotemark. Elements in $\text{im}(\partial_k)$ are called \textbf{coboundaries} and elements in $\text{ker}(\partial_k)$ are called \textbf{cocycles}.
+		\footnotetext{A chain complex is constructed similarly. For this structure we consider a descending order, i.e.: $\partial_k:A_k\rightarrow A_{k-1}$.}
+	}
+	
+	\newdef{de Rham complex}{\index{de Rham!complex}
+		The structure given by the chain
+		\[
+			0\rightarrow\Omega^0(M)\overset{d}{\rightarrow}\Omega^1(M)\overset{d}{\rightarrow}...
+		\]
+		together with the sequence of exterior derivatives $d_k$ forms a cochain complex. This complex is called the de Rham complex.
+	}
+	
+	
+	The relation between closed and exact forms can be used to define the de Rham cohomology groups.
+	\newdef{de Rham cohomology}{\index{de Rham!cohomology}\index{Poincar\'e}
+		The $k^{th}$ de Rham cohomology group on $M$ is defined as the following quotient space:
+		\eq{
+			\label{forms:de_rham_cohomology}
+			\boxed{H^k_{\text{dr}}(M) = \frac{\text{ker}(d_{k+1})}{\text{im}(d_k)}}
+		}
+		This quotient space is a vector space. Two elements of the same equivalence class in $H^k_{dr}(M)$ are said to be \textbf{cohomologous}.
+		
+		One can construct a graded ring \ref{group:graded_ring} from these cohomology groups, called the cohomology ring $H^*$. The product is called the \textbf{cup product} $\smile$ and it is a graded-commutative product (see \ref{group:graded_commutativity}).
+	}
+	\newdef{Cup product}{\index{cup product}
+		Let $[\nu]\in H^k_{\text{dr}}$ and $[\omega]\in H^l_{\text{dr}}$, where we used $[\cdot]$ to show that the elements are in fact equivalence relations belonging to differential forms $\nu$ and $\omega$. The cup product is defined as follows: $[\nu]\smile[\omega] = [\nu\wedge\omega]$.
+	}
+	
+	\begin{theorem}[Poincar\'e's lemma\footnotemark]\label{forms:theorem:poincare}
+		\footnotetext{The original theorem states that on a contractible space (see definition \ref{topology:contractible_space}) every closed form is exact.}
+		 For every point $p\in M$ there exists a neighbourhood on which the de Rham cohomology is trivial:
+		\eq{
+			\forall p\in M:\exists U\subseteq M: H^k_{\text{dr}}(U) = 0
+		}
+		This implies that every closed form is locally exact.
+	\end{theorem}
+
+\subsection{Vector-valued differential forms}
+
+	\newdef{Vector-valued differential form}{\index{vector-valued differential form}
+		Let $V$ be a vector space and $E$ a vector bundle with $V$ as typical fibre. A vector-valued differential form can be defined in two ways. Firstly we can define a vector-valued $k$-form as a map $\omega:\bigotimes^kTM\rightarrow V$. A more general definition is based on sections of a corresponding vector bundle:
+		\begin{equation}
+			\Omega^k(M, E) = \Gamma(E\otimes\Lambda^kT^*M)
+		\end{equation}
+	}
+
+	\newformula{Wedge product}{\index{wedge product}
+		Let $\omega\in\Omega^k(M, E_1)$ and $\nu\in\Omega^p(M, E_2)$. The wedge product of these differential forms is defined as:
+		\begin{equation}
+			\omega\wedge\nu(v_1, ..., v_{k+p}) = \stylefrac{1}{(k+p)!}\sum_{\sigma\in S_{k+p}}\sgn(\sigma)\omega(v_{\sigma(1)}, ..., v_{\sigma(k)})\otimes\nu(v_{\sigma(k+1)}, ..., v_{\sigma(p)})
+		\end{equation}
+		This is a direct generalization of the formula for the wedge product of ordinary differential forms where we replaced the (scalar) product (product in the algebra $\mathbb{R}$) by the tensor product (product in the general tensor algebra). It should be noted that result of this operation is not an element of any of the original bundles $E_1$ or $E_2$ but of the product bundle $E_1\otimes E_2$.
+	}
+
+	\newdef{Lie-algebra-valued differential form}{
+		A vector-valued differential form where the vector space $V$ is equipped with a Lie algebra structure.
+	}
+
+	\newformula{Wedge product}{\index{wedge product}
+		Let $\omega\in\Omega^k(M, \mathfrak{g})$ and $\nu\in\Omega^p(M, \mathfrak{g})$. The wedge product of these differential forms is defined as:
+		\begin{equation}
+			[\omega\wedge\nu](v_1, ..., v_{k+p}) = \stylefrac{1}{(k+p)!}\sum_{\sigma\in S_{k+p}}\sgn(\sigma)[\omega(v_{\sigma(1)}, ..., v_{\sigma(k)}),\nu(v_{\sigma(k+1)}, ..., v_{\sigma(p)})]
+		\end{equation}
+		where $[\cdot, \cdot]$ is the Lie bracket in $\mathfrak{g}$.
+	}

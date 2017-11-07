@@ -1,0 +1,200 @@
+\chapter{Lagrangian and Hamiltonian formalism}
+
+	\begin{definition}[Generalized coordinates]\index{generalized coordinates}
+		The generalized coordinates $q_k$ are independent coordinates that completely describe the current configuration of a system relative to a reference configuration.
+		
+		When a system has $N$ degrees of freedom and $n_c$ constraints, there are $(N - n_c)$ generalized coordinates. Furthermore, every set of generalized coordinates, describing the same system, should contain exactly $(N - n_c)$ coordinates.
+	\end{definition}
+    \begin{definition}[Generalized velocities]
+		The generalized velocities $\dot{q}_k$ are the derivatives of the generalized coordinates with respect to time.
+	\end{definition}
+    \begin{notation}
+		\begin{equation}
+			\label{lagrange:notational_convention_1}
+            L\left(\vector{q}(t), \dot{\vector{q}}(t), t\right) \equiv L\left(q_1(t), ..., q_n(t), \dot{q}_1(t), ..., \dot{q}_n(t), t\right)
+		\end{equation}
+	\end{notation}
+    
+	\begin{definition}[Action]\index{action}
+		\begin{equation}
+			\label{lagrange:action}
+            \boxed{S = \int_{t_1}^{t_2}L\left(\vector{q}(t), \dot{\vector{q}}(t), t\right)dt}
+		\end{equation}
+	\end{definition}
+
+\section{Euler-Lagrange equations\texorpdfstring{$^\dag$}\ }\index{Lagrange!equations of motion}\index{Euler-Lagrange|see{Lagrange}}
+	\begin{formula}[Euler-Lagrange equation of the first kind]
+    	\begin{equation}
+        	\label{lagrange:first_kind}
+			\boxed{\deriv{}{t}\left(\pderiv{T}{\dot{q}^k}\right) - \pderiv{T}{q^k} = Q_k}
+		\end{equation}
+		where $T$ is the total kinetic energy.
+    \end{formula}
+	\begin{formula}[Euler-Lagrange equation of the second kind]
+    	\begin{equation}
+        	\label{lagrange:second_kind}
+            \boxed{\deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) - \pderiv{L}{q^k} = 0}
+        \end{equation}
+    \end{formula}
+
+\section{Conservation laws and symmetry properties}
+	\begin{definition}[Conjugate momentum]\index{momentum!conjugate}
+    	Also called the \textbf{canonically conjugate momentum}.
+    	\begin{equation}
+			\label{lagrange:conjugate_momentum}
+            p_k = \pderiv{L}{\dot{q}^k}
+		\end{equation}
+	\end{definition}
+    \begin{definition}[Cyclic coordinate]
+    	If the lagrangian $L$ does not explicitly depend on a coordinate $q_k$, the coordinate is called a cyclic coordinate.
+	\end{definition}
+    
+	\begin{property}
+		The conjugate momentum of a cyclic coordinate is a conserved quantity.
+		\begin{equation}
+			\dot{p}_k \overset{\ref{lagrange:conjugate_momentum}}{=} \deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) \overset{{\ref{lagrange:second_kind}}}{=}\pderiv{L}{q^k} \overset{\underset{\text{\tiny{coord.}}}{\text{\tiny{cyclic}}}}{=} 0
+		\end{equation}
+	\end{property}
+
+\section{Hamilton's equations}
+
+	\newdef{Canonical coordinates}{\index{canonical!coordinates}
+		Consider the generalized coordinates $(q, \dot{p}, t)$ from the Lagrangian formalism. Using these we can define a new set of coordinates, called canonical coordinates, by exchanging the time-derivatives $\dot{q}^i$ in favour of the conjugate momenta $p_i$ (see definition \ref{lagrange:conjugate_momentum}) and leaving the coordinates $q^i$ and $t$ invariant.
+	}
+
+	\newdef{Hamiltonian function}{\index{Hamilton!Hamiltonian function}
+		The (classical) Hamiltonian function is defined as follows:
+		\begin{equation}
+    			\label{hamilton:hamiltonian}
+			H(q, p, t) = \sum_ip_i\dot{q}^i - L(q, p, t)
+		\end{equation}
+	}
+
+	\newformula{Hamilton's equations\footnotemark}{\index{Hamilton!equations of motion}\footnotetext{Also known as the \textit{canonical equations of Hamilton}.}
+    		\begin{empheq}[box=\widefbox]{align}
+		        	\label{lagrange:hamilton_equations}
+    			\dot{q}^i &= \pderiv{H}{p_i}\\
+    			-\dot{p_i} &= \pderiv{H}{q^i}\\
+    			-\pderiv{L}{t} &= \pderiv{H}{t}
+	    	\end{empheq}
+	}
+
+	The formula to obtain the Hamiltonian from the Lagrangian is an application of the following more general Legendre transformation:
+	\newdef{Legendre transformation}{\index{Legendre!transformation}
+		Consider an equation of the following form:
+		\begin{equation}
+			\label{lagrange:legendre1}
+			df = udx + vdy
+		\end{equation}
+		where $u = \pderiv{f}{x}$ and $v = \pderiv{f}{y}$.
+		
+		Suppose we want to perform a coordinate transformation $(x, y)\rightarrow (u, y)$ while preserving the general form of \ref{lagrange:legendre1} for differential quantities. To do this we consider the function
+		\begin{equation}
+			\label{lagrange:legendre}
+			g = f - ux
+		\end{equation}
+		Differentiating gives
+		\begin{align}
+			dg &= df - udx - xdu\nonumber\\
+			&= (udx + vdy) - udx - xdu\nonumber\\
+			&= vdy - xdu\nonumber
+		\end{align}
+		which has the form of \ref{lagrange:legendre1} as desired. The quantities $v$ and $x$ are now given by
+		\begin{equation}
+			x = -\pderiv{g}{u}\qquad\text{and}\qquad v=\pderiv{g}{y}
+		\end{equation}
+		
+		The transition $f\rightarrow g$ defined by equations \ref{lagrange:legendre1} and \ref{lagrange:legendre} is called a Legendre transformation.
+	}
+	\begin{remark}
+		Although the previous derivation used only 2 coordinates, the definition of Legendre transformations can easily be generalized to more coordinates.
+	\end{remark}
+
+\section{Hamilton-Jacobi equation}
+\subsection{Canonical transformations}
+
+	\newdef{Canonical transformations}{\index{canonical!transformation}
+		A canonical transformation is a transformation that leaves the Hamiltonian equations of motion unchanged. Mathematically this means that the transformations leave the action invariant up to a constant, or equivalently, they leave the Lagrangian invariant up to a complete time-derivative:
+		\begin{equation}
+			\sum_i \dot{q}^ip_i - H(q, p, t) = \sum_i \dot{Q}^iP_i - K(Q, P, t) - \deriv{G}{t}(Q, P, t)
+		\end{equation}
+		The function $G$ is called the generating function of the canonical transformation. The choice of $G$ uniquely determines the transformation.
+	}
+    
+	\newformula{Hamilton-Jacobi equation}{\index{Jacobi!Hamilton-Jacobi equation}\index{Hamilton!Hamilton-Jacobi equation}\index{Hamilton!principal function}
+		Sufficient conditions for the generating function $S$ are given by:
+		\begin{align}
+			P_i &=\ds\pderiv{S}{Q^i}\nonumber\\
+			Q^i &=\ds\pderiv{S}{P_i}\nonumber
+		\end{align}
+		and \[K = H + \pderiv{S}{t}\]
+		Choosing the new Hamiltonian function $K$ to be 0 gives the Hamilton-Jacobi equation:
+		\begin{equation}
+			\label{lagrange:hamilton-jacobi_equation}
+			\boxed{H\left(q, \pderiv{S}{q}\right)+\pderiv{S}{t} = 0}
+		\end{equation}
+		The function $S$ is called \textbf{Hamilton's principal function}.
+	}
+	
+	\begin{property}
+		The new coordinates $P_i$ and $Q^i$ are all constants of motion. This follows immediately from the choice $K = 0$.
+	\end{property}
+    
+	\newdef{Hamilton's characteristic function}{\index{Hamilton!characteristic function}\index{energy}
+		If the system is time-\newline independent it follows from the HJE that the principal function is of the form
+		\begin{equation}
+			S(q, p, t) = W(q, p) - Et
+		\end{equation}
+		where $E$ is a constant. The time-independent function $W$ is called Hamilton's characteristic function.
+        
+		Substituting this result in the HJE results in
+		\begin{equation}
+			\label{lagrange:time_independent_hje}
+			H\left(q, \pderiv{S}{q}\right) = E
+		\end{equation}
+		In time-independent systems the Hamiltonian function is thus a constant of motion and we call it the \textbf{energy} of the system.
+	}
+
+\subsection{St\"ackel potential}
+	
+	\begin{remark}
+		If the principal function can be separated into $n$ equations, the HJE splits up into $n$ equations of the form
+		\begin{equation}
+			h_i\left(q^i, \deriv{S}{q^i}, \alpha_i\right) = 0
+		\end{equation}
+		The partial differential equation for $S$ can thus be rewritten as a system of $n$ ordinary differential equations.
+	\end{remark}
+
+	\begin{theorem}[St\"ackel condition]\index{St\"ackel potential}
+		Using an orthogonal coordinate system,\newline the Hamilton-Jacobi equation is separable if and only if the potential is of the following form:
+		\begin{equation}
+			\label{lagrange:stackel_condition}
+			V(q) = \sum_{i=1}^n\ds\frac{1}{G_i^2(q)}W_i(q^i)
+		\end{equation}
+		whenever the Hamiltonian function can be written as
+		\begin{equation}
+			H(q, p) = \frac{1}{2}\sum_i\stylefrac{p_i^2}{G^2_i(q)} + V(q)
+		\end{equation}
+		These potentials are called \textbf{St\"ackel potentials}.
+	\end{theorem}
+    
+\section{Phase space}
+
+	\newdef{Phase space}{\index{phase space}
+		The set of all possible $n$-tuples $(q^i, p_i)$ of coordinates and associated momenta is called the phase space of the system.
+	}
+    
+	\newdef{Rotation}{\index{rotation}
+		A rotation is the change of a coordinate for which every possible value is allowed.
+	}
+	\newdef{Libration}{\index{libration}
+		A libration is the change of coordinate for which only a subset of the total range is allowed. It is thus a generalization of an oscillation.
+	}
+    
+\section{Relativistic action}\index{action}
+
+	\newformula{Relativistic free particle}{
+    	\begin{equation}
+    		S = -m_0c\int ds
+    	\end{equation}
+    }

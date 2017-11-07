@@ -1,0 +1,278 @@
+\section{Vector spaces}
+	In this and coming sections all vector spaces can be finite- or infinite-dimensional. If necessary, the dimension will be specified.
+
+	\newdef{K-vector space}{\label{linalgebra:vector_space}
+		Let $K$ be a field. A $K$-vector space $V$ is a set equipped with two operations, vector addition $V\times V\rightarrow V$ and scalar multiplication $K\times V\rightarrow V$, that satisfy the following 8 axioms:
+		\begin{enumerate}
+			\item $V$ is an Abelian group under vector addition.
+			\item $a(b\vec{v}) = (ab)\vec{v}$
+			\item $1_K\vec{v} = \vec{v}$ where $1_K$ is the identity element of the field $K$
+			\item Distributivity of scalar multiplication with respect to vector addition: $a(\vec{v} + \vec{w}) = a\vec{v} + a\vec{w}$
+		\end{enumerate}
+	}
+
+	\newdef{Linear combination}{
+		The vector $w$ is a linear combination of elements in the set $\{v_n\}$ if it can be written as:
+		\begin{equation}
+			\label{linalgebra:linear_combination}
+			w = \sum_n\lambda_n v_n
+		\end{equation}
+	}
+	\newdef{Linear independence}{
+		A set $\{v_n\}$ is said to be linearly independent if the following relation holds:
+		\begin{equation}
+			\label{linalgebra:linear_independence}
+			\sum_n\lambda_n v_n = 0 \iff \forall n:\lambda_n = 0
+		\end{equation}
+	}
+
+	\newdef{Span}{\index{span}
+		A set of vectors $\{v_n\}$ is said to span $V$ if every vector $v \in V$ can be written as a linear combination of $\{v_n\}$.
+	}
+	\newdef{Basis}{\index{basis}
+		A set $\{v_n\}$ is said to be a basis of $V$ if all the elements $v_n$ are linearly independent and if $\{v_n\}$ spans $V$.
+	}
+	\remark{Every set $T$ that spans $V$ contains a basis of $V$.}
+	
+	Here it is time for a little side note. In the previous definition we implicitly used the concept of a \textit{Hamel} basis, which is based on the condition that all linear combinations contain only finitely many terms\footnotemark. It follows that for finite-dimensional spaces we do not have to worry. In infinitely-dimensional spaces however we have to keep this in mind.
+	\footnotetext{An alternative, which allows infinitely many terms, is given by the concept of a \textit{Schauders} basis.}
+	
+	We continue by defining this peculiar type of basis.
+	\newdef{Hamel basis}{\index{Hamel basis}
+		Consider the set of all linearly independent subsets of $V$. Under the relation of inclusion this set becomes a partially ordered set\footnote{See definition \ref{set:poset}.}. From Zorn's lemma\footnote{See theorem \ref{set:zorns_lemma}.}\ it follows that there exists at least one maximal linearly independent set. Such a set is called a Hamel basis of $V$.
+	}
+	\begin{remark*}
+		This construction clearly assumes the ZFC axioms of set theory, only ZF does not suffice. It can even be shown that the existence of a Hamel basis for every vector space is equivalent to the axiom of choice (and thus to Zorn's lemma ).
+	\end{remark*}
+    
+\subsection{Subspaces}
+	\newdef{Subspace}{\label{linalgebra:subspace}
+		Let $V$ be a K-vector space. A subset $W$ of $V$ is a subspace if $W$ itself is a K-vector space under the operations of V. Alternatively we can write this as:
+		\begin{equation}
+			W \leq V\iff \forall w_1, w_2 \in W:\forall \lambda, \mu \in K:\lambda w_1 + \mu w_2 \in W
+		\end{equation}
+	}
+
+	\newdef{Grassmannian}{\index{Grassmannian}\label{linalgebra:grassmannian}
+		Let $V$ be a $K$-vector space. The set consisting of all $k$-dimensional subspaces of $V$ is denoted by $\text{Gr}(k, V)$.
+	}
+	\begin{property}[$\dag$]\label{linalgebra:grassmannian_construction}
+		The action of $GL(V)$ acts transitively\footnote{See definition \ref{group:transitive}} on all $k$-dimensional subspaces of $V$. It follows that the coset space\footnotemark\ $GL(V)/H_W$ for any stabilizer $H_W$ of some $W\in \text{Gr}(k, V)$ is isomorphic (as a set) to $\text{Gr}(k, V)$.
+		\footnotetext{See definition \ref{group:coset}.}
+	\end{property}
+    
+    \subsection{Algebra}
+        \newdef{Algebra}{\index{algebra}
+            \label{linalgebra:algebra}
+            Let $V$ be a K-vector space. Let V be equipped with the binary operation $\star: V\times V\rightarrow V$. $(V,\star)$ is called an algebra over $K$ if it satisfies the following conditions\footnotemark:
+            \begin{enumerate}
+                \item Right distributivity: $(\vec{x} + \vec{y})\star\vec{z} = \vec{x}\star\vec{z} + \vec{y}\star\vec{z}$
+                \item Left distributivity: $\vec{x}\star(\vec{y} + \vec{z}) = \vec{x}\star\vec{y} + \vec{x}\star\vec{z}$
+                \item Compatibility with scalars: $(a\vec{x})\star(b\vec{y}) = (ab)(\vec{x}\star\vec{y}$)
+            \end{enumerate}
+            These conditions turn the binary operation into a bilinear operation.
+        }
+        \footnotetext{These conditions imply that the binary operation is a bilinear map.}
+        \newdef{Unital algebra}{
+        	An algebra $V$ is said to be unital if it contains an identity element with respect to the bilinear map $\star$.
+        }
+    
+    	\newdef{Clifford algebra}{\index{Clifford!algebra}
+        	Let $V$ be a unital associative algebra over the field $K$. If the bilinear map is a quadratic form then $V$ is called a Clifford algebra.
+        }
+        \begin{notation}
+        	Let $V$ be an algebra and $Q$ a quadratic form. The Clifford algebra is denoted by $C\ell(V, Q)$.
+        \end{notation}
+    
+    \subsection{Sum and direct sum}
+    	\newdef{Sum}{
+        	\label{linalgebra:sum}Let $V$ be a K-vector space. Let $W_1, W_2,..., W_k$ be subspaces of $V$. The 'sum' of the subspaces $W_1,..., W_k$ is defined as follows:
+        	\begin{equation}
+				W_1+...+W_k:=\left\{\sum_{i=1}^kw_i : w_i\in W_i\right\}
+			\end{equation}
+        }
+        \newdef{Direct sum}{\index{direct sum}
+        	\label{linalgebra:direct_sum}If every element $v$ of the sum as defined in definition \ref{linalgebra:sum} can be written as a unique linear combination, then the sum is called a direct sum.
+		}
+        \newnot{Direct sum}{
+        	\label{linalgebra:notation:direct_sum}
+            \begin{equation*}
+                W_1\oplus...\oplus W_k = \bigoplus_{i=1}^kW_i
+            \end{equation*}
+		}
+        
+        \begin{theorem}
+			\label{linalgebra:theorem:direct_sum}
+            Let $V$ be a K-vector space. Let $W, W_1, W_2$ be three subspaces of $V$ such that $W=W_1\oplus W_2$. We have the following properties:
+            \begin{itemize}
+				\item If $\mathcal{B}_1$ is a basis of $W_1$ and if $\mathcal{B}_2$ is a basis of $W_2$, $\mathcal{B}_1\cup\mathcal{B}_2$ is a basis of $W$.
+                \item $\dim(W) = \dim(W_1) + \dim(W_2)$
+			\end{itemize}
+		\end{theorem}
+        \begin{theorem}
+			\label{linalgebra:theorem:sum}
+            Let $V$ be a finite-dimensional K-vector space. Let $W_1, W_2$ be two subspaces of $V$. Then the following relation holds:
+            \begin{equation}
+				\dim(W_1 + W_2) = \dim(W_1) + \dim(W_2) - \dim(W_1\cap W_2)
+			\end{equation}
+            The second item in previous property is a direct consequence of this property.
+		\end{theorem}
+
+        \newdef{Complement}{\index{complement}
+        	\label{linalgebra:complement}Let $V$ be a K-vector space. Let $W$ be a subspace of $V$. A subspace $W'$ of $V$ is called a complement of $W$ if $V = W\oplus W'$.
+		}
+        \begin{theorem}
+			\label{linalgebra:theorem:complement}
+            Let $V$ be a K-vector space. Let $U,W$ be two subspaces of $V$. If $\ V = U+W$, then there exists a subspace $Y\leq U$ such that $V = W\oplus Y$. Furthermore every subset $W$ of $V$ has a complement in $V$.
+		\end{theorem}
+        
+\subsection{Graded vector space}
+	Similar to definition \ref{group:graded_ring} we can define the following:
+	\newdef{Graded vector space}{\index{degree}\index{graded!vector space}
+		Let $V_n$ be a vector space for all $n\in\mathbb{N}$. The vector space
+		\begin{equation}
+			\label{linalgebra:graded_vector_space}
+			V = \bigoplus_{n\in\mathbb{N}} V_n
+		\end{equation}
+		is called a graded vector space.
+	}
+	
+	\newdef{Graded algebra}{\index{graded!algebra}
+		Let $V$ be a graded vector space with the additional structure of an algebra given by the multiplication $\star$. Then $V$ is a graded algebra if $\star$ maps $V^k\times V^l$ to $V^{k+l}$.
+	}
+	
+	\begin{example}[Superalgebra]\index{superalgebra}
+		Let $A$ be a $\mathbb{Z}_2$-graded algebra, i.e.:
+		\eq{
+			\label{linalgebra:superalgebra}
+			A = A_0\oplus A_1
+		}
+		such that for all $i, j \mod 2$:
+		\eq{
+			A_i\star A_j \subseteq A_{i+j}
+		}
+	\end{example}
+        
+\section[Linear maps]{Linear maps\footnote{Other names are 'linear mapping' and 'linear transformation'.}}
+	
+    \newdef{Zero map}{\label{linalgebra:zero_map}Let $f:A\rightarrow B$ be a (linear) map. The map $f$ is called a zero map if:
+    	\begin{equation}
+        	\forall a\in A:f(a) = 0
+		\end{equation}
+	}
+    \newdef{Restriction}{Let $f:A\rightarrow B$ be a (linear) map. Let $C\subset A$. The (linear) map $f|_C:C\rightarrow B:c\rightarrow f(c)$ is called the restriction of $f$ to $C$.}
+    \newdef{Injective}{\label{linalgebra:injective}A map $f:A\rightarrow B$ is called injective if the following condition is satisfied:
+    	\begin{equation}
+            \forall a, a'\in A:f(a)=f(a')\implies a=a'
+		\end{equation}
+    }
+    \newnot{Injective map}{\[f:A\hookrightarrow B\]}
+    \newdef{Surjective}{\label{linalgebra:surjective}A map $f:A\rightarrow B$ is called surjective if the following condition is satisfied:
+    	\begin{equation}
+            \forall b\in B, \exists a\in A:f(a) = b
+		\end{equation}
+    }
+    \newnot{Surjective map}{\[f:A\twoheadrightarrow B\]}
+    \newdef{Bijective}{A map is called bijective if it is both injective and surjective.}
+    \newnot{Bijective map}{\[f:A\xrightarrow{\sim} B\]}
+    \newdef{Isomorphism}{\index{isomorphism}
+    	A linear bijective map $f$ between two K-vector spaces is called an isomorphism.
+	}
+    \newnot{Isomorphic}{If two K-vector spaces $V, W$ are isomorphic we denote it as following:\[V\cong W\]
+    }
+    \newdef{Automorphism}{\index{automorphism}\label{linalgebra:automorphism}
+    	An isomorphism from V to V is called an automorphism. The set of all automorphisms  on $V$, which is in fact a group, is denoted by $\text{Aut}(V)$.}
+
+	\newdef{$C^r$-diffeomorphism}{\index{diffeomorphism}
+    	\label{linalgebra:diffeomorphism}
+        An isomorphism of class $C^r(K)$ with an inverse that is also of class $C^r(K)$ is called a $C^r$-diffeomorphism.
+	}
+    
+    \begin{theorem}
+\label{linalgebra:theorem:inverse}
+		Let $f:A\rightarrow B$ be a map. The following statements are equivalent:
+        \begin{enumerate}
+			\item There exists a map\footnotemark\ $g:B\rightarrow A$ such that $f\circ g = \boldsymbol{1}_B$ and $g\circ f = \boldsymbol{1}_A$.
+            \item f is bijective.
+		\end{enumerate}
+	\end{theorem}
+    \footnotetext{The map g is called the \textbf{inverse} of f.}
+    \begin{result}
+		From theorem \ref{linalgebra:theorem:inverse} and the definition of isomorphisms we can conclude that isomorphisms are precisely those maps that are invertible.
+	\end{result}
+    
+    \newdef{General linear group\footnotemark}{\index{General Linear Group}
+    	The set of all automorphisms $f:V\rightarrow V$ is called the general linear group $GL_K(V)$ of $GL(V)$.
+	}
+    \footnotetext{This group is isomorphic to the general linear group of invertable matrices, hence the similar name and notation. (See definition \ref{linalgebra:GL_matrices})}
+
+    \newdef{Rank}{\index{rank}
+    	\label{linalgebra:image_rank}The dimension of the image of a linear map is called the rank.
+	}
+	\newdef{Kernel}{\index{kernel}
+    	\label{linalgebra:kernel}
+        The kernel of a linear map $f: V \rightarrow W$ is the following subset of $V$:
+        \begin{equation}
+            \text{ker}(f) = \{v\in V\ |\ f(v) = 0\}
+        \end{equation}
+	}
+    \newdef{Nullity}{
+    	\label{linalgebra:kernel_nullity}The dimension of the kernel is called the nullity.
+	}
+    
+	\begin{theorem}
+    	A linear map $f:V\rightarrow W$ is injective if and only if $\text{ker}(f) = \{0\}$.
+	\end{theorem}
+    \begin{property}
+		\label{linalgebra:theorem:restriction_kernel_image}
+        Let $f:V\rightarrow W$ be a linear map. Let $U\leq V$. We have the following two properties of the restriction $f|_U$ of $f$ to $U$:
+        \begin{itemize}
+			\item $\text{ker}\left(f|_U\right) = \text{ker}(f)\cap U$
+            \item $\text{im}\left(f|_U\right) \leq \text{im}(f)$
+		\end{itemize}
+	\end{property}
+    
+	\subsection{Linear operator}
+    	\begin{definition}[Linear operator]\index{endomorphism}
+    	A linear automorphism $f: V \rightarrow V$ is called a linear operator. It is also more generally known as an \textbf{endomorphism} on $V$.
+    \end{definition}
+    	\begin{property}
+			Let $\lambda, \mu \in K$. An operator $f: V \rightarrow V$ is called linear if it satisfies the following condition:
+            \begin{equation}
+				\label{linalgebra:operators:linearity}
+                f(\lambda v_1 + \mu v_2) = \lambda f(v_1) + \mu f(v_2)
+			\end{equation}
+		\end{property}
+        
+        \begin{theorem}
+			Let V be finite-dimensional K-vector space. Let $f:V\rightarrow V$ be a linear operator. The following statements are equivalent:
+            \begin{itemize}
+            	\item f is injective
+				\item f is surjective
+                \item f is bijective
+			\end{itemize}
+		\end{theorem}
+        
+	\subsection{Dimension}
+    	\newdef{Dimension}{\index{dimension}
+        	Let $V$ be a finite-dimensional K-vector space. Let $\{v_n\}$ be a basis for $V$ that contains $n$ elements. We then define the dimension of $V$ as following:
+        	\begin{equation}
+				\label{linalgebra:dimension}
+                \boxed{\dim(V) = n}
+			\end{equation}
+        }
+        \begin{property}
+			Let $V$ be a finite-dimensional K-vector space. Every basis of $V$ has the same number of elements.
+		\end{property}
+        \begin{theorem}[Dimension theorem\footnotemark]\index{Rank-Nullity theorem}
+            Let $f: V \rightarrow W$ be a linear map.
+            \begin{equation}
+                \label{linalgebra:dimension_theorem}
+                \dim(\text{\upshape im}(f)) + \dim(\text{\upshape ker}(f)) = \dim(\text{\upshape V})
+            \end{equation}
+        \end{theorem}
+        \footnotetext{Also called the 'rank-nullity theorem'.}\index{Rank-nullity theorem}
+        \begin{theorem}
+        	\label{linalgebra:isomorphic_dimension}
+			Two K-vector spaces are isomorphic if and only if they have the same dimension.
+		\end{theorem}

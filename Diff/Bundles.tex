@@ -2,6 +2,11 @@
 
 \section{Fibre bundles}
 
+	\newdef{Fibered manifold}{\index{fibered manifold}
+		A fibered manifold is a surjective submersion\footnote{See definition \ref{manifolds:submersion}.} $\pi:E\rightarrow B$ where $E$ is called the \textbf{total space} and $B$ the \textbf{base space}.
+	}
+
+	The most important example of a fibered manifold is a fibre bundle:
 	\newdef{Fibre bundle}{\index{fibre!bundle}\index{local!trivialization}\index{structure group}
 		\label{manifolds:fibre_bundle}
 		A fibre bundle is a tuple $(E, B, \pi, F, G)$ where $E, B$ and $F$ are topological spaces and $G$ is a topological group (called the \textbf{structure group}), such that there exists a smooth surjective map $\pi:E\rightarrow B$ and an open cover $\{U_i\}_{i\in I}$ of $B$ for which there exists a family of homeomorphisms $\{\varphi_i:\pi^{-1}(U_i)\rightarrow U_i\times F\}_{i\in I}$ that make the following diagram commute:
@@ -19,7 +24,7 @@
 			\end{tikzpicture}
 		\end{figure}
 		
-		We call $E$ and $B$ the \textbf{total} space and \textbf{base} space respectively, $F$ the \textbf{(typical) fibre}, $\varphi_i$ a \textbf{local trivialization}\footnote{This name follows from the fact that locally we have $E\cong U\times\mathbb{R}^n$, which is the definition of a trivial bundle (see \ref{manifolds:trivial_bundle}).}, $(U_i, \varphi_i)$ a \textbf{bundle chart}\footnote{This is due to the similarities with the charts as defined for manifolds.} and the set $\{(U_i, \varphi_i)\}_{i\in I}$ a \textbf{trivializing cover}.
+		We call $E$ and $B$ the \textbf{total space} and \textbf{base space} respectively, $F$ the \textbf{(typical) fibre}, $\varphi_i$ a \textbf{local trivialization}\footnote{This name follows from the fact that locally we have $E\cong U\times\mathbb{R}^n$, which is the definition of a trivial bundle (see \ref{manifolds:trivial_bundle}).}, $(U_i, \varphi_i)$ a \textbf{bundle chart}\footnote{This is due to the similarities with the charts as defined for manifolds.} and the set $\{(U_i, \varphi_i)\}_{i\in I}$ a \textbf{trivializing cover}.
 		
 		The transition maps $\varphi_j\circ\varphi_i^{-1}:(U_i\cap U_j)\times F\rightarrow (U_i\cap U_j)\times F$ can be identified with the cocycle\footnote{See definition \ref{group:cocycle}.} $g_{ji}:U_i\cap U_j\rightarrow G$, associated to the (left) action, which we require to be faithful\footnote{See definition \ref{group:faithful_action}.}, of $G$ on every fibre, by the following relation:
 		\eq{
@@ -47,7 +52,7 @@
 		or more compactly $F\hookrightarrow E\xrightarrow{\ \pi\ }{B}$. A drawback of these notations is that we do not immediately know what the structure group of the bundle is.
 	\end{notation}
 
-	\newdef{fibre}{\index{fibre}
+	\newdef{Fibre}{\index{fibre}
 		Let $F\hookrightarrow E\xrightarrow{\ \pi\ }B$ be a fibre bundle over a base space $B$. The fibre over $b\in B$ is defined as the set $\pi^{-1}(b)$.
 	}
 	
@@ -99,12 +104,64 @@
 			F_1\diamond F_2 = \{f\times g\in F_1\times F_2: \pi_1(f) = \pi_2(g)\}
 		}
 	}
+	
+\subsection{Sections}
 
+	\newdef{Section}{\index{section}
+		A \textbf{global} section on a fibre bundle $\pi:E\rightarrow B$ is a smooth function $s:B\rightarrow E$ such that $\pi\circ s = \mathbbm{1}_B$. For any open subset $U\subset B$ we define a local section as a smooth function $s_U:U\rightarrow E$ such that $\pi\circ s_U(b) = b$ for all $b\in U$.
+	}
+	\begin{notation}
+		The set of all global sections on a bundle $E$ is denoted by $\Gamma(E)$. The set of local sections on $U\subset E$ is similarly denoted by $\Gamma(U)$.
+	\end{notation}
 
+\subsection{Jet bundles}
+
+	\newdef{Jet}{\index{jet}
+		Consider a fibre bundle $(E, B, \pi)$ with its sections $\Gamma(E)$. Two sections $\sigma, \xi\in\Gamma(E)$ with local coordinates $(\sigma^i)$ and $(\xi^i)$ define the same $r$-jet at a point $p\in B$ if and only if:
+		\begin{equation}
+			\left.\mpderiv{\alpha}{\sigma^i}{x}\right|_p = \left.\mpderiv{\alpha}{\xi^i}{x}\right|_p
+		\end{equation}
+		for all $0\leq i\leq \dim E$ and every multi-index $\alpha$ such that $0\leq|\alpha|\leq r$. It is clear that this relation defines an equivalence relation. The $r$-jet at $p\in B$ with representative $\sigma$ is denoted by $j_p^r\sigma$. The number $r$ is called the \textbf{order} of the jet.
+	}
+	
+	\newdef{Jet manifold}{
+		Consider a fibre bundle $(E, B, \pi)$. The $r$-jet manifold $J^r(\pi)$ of the projection $\pi$ is defined as:
+		\begin{equation}
+			J^r(\pi) = \{j_p^r\sigma: \sigma\in\Gamma(E), p\in B\}
+		\end{equation}
+		The set $J^0(\pi)$ is identified with the total space $E$.
+	}
+	
+	\newdef{Jet projections}{
+		Let $(E, B, \pi)$ be a fibre bundle with $r$-jet manifolds $J^r(\pi)$. The \textbf{source projection} $\pi_r$ and \textbf{target projection} $\pi_{r, 0}$ are defined as the maps
+		\begin{align}
+			\pi_r&:J^r(\pi)\rightarrow B:j_p^r\sigma\mapsto p\\
+			\pi_r&:J^r(\pi)\rightarrow E:j_p^r\sigma\mapsto \sigma(p)
+		\end{align}
+		These projections satisfy $\pi_r = \pi\circ\pi_{r, 0}$. We can also define a \textbf{$k$-jet projection} $\pi_{r, k}$ as the map
+		\begin{equation}
+			\pi_{r, k}:J^r(\pi)\rightarrow J^k(\pi):j_p^r\sigma\mapsto j_p^k\sigma
+		\end{equation}
+		where $k\leq r$. The $k$-jet projections satisfy a transitivity property $j_{k, m} = j_{r, m}\circ j_{k, r}$.
+	}
+	\newdef{Jet prolongation}{
+		Let $\sigma$ be a section on a fibre bundle $(E, B, \pi)$. The $r$-jet prolongation $j^r\sigma$ corresponding to $\sigma$ is defined as the following map:
+		\begin{equation}
+			j^r\sigma:B\rightarrow J^r(\pi):p\mapsto j_p^r\sigma
+		\end{equation}
+	}
+	
+	\newdef{Jet bundle}{
+		The $r$-jet bundle corresponding to the projection $\pi$ is then defined as the triple $(J^r(\pi), B, \pi_r)$. The bundle charts $(U_i, \varphi_i)$\footnote{Where $\varphi_i = (x^k, u^\alpha)$ with $x^k$ the base space coordinates and $u^\alpha$ the total space coordinates.} on $E$ define \textit{induced} bundle charts on $J^r(\pi)$ in the following way:
+		\begin{align}
+			U_i^r &= \{j_p^r\sigma: \sigma(p)\in U_i\}\\
+			\varphi_i^r &= \left(x^k, u^\alpha, \left.\mpderiv{I}{u^\alpha}{x}\right|_p \right)
+		\end{align}
+		where $I$ is a multi-index such that $0\leq|I|\leq r$. The partial derivatives $\left.\mpderiv{I}{u^\alpha}{x}\right|_p$ are called the \textbf{derivative coordinates} on $J^r(\pi)$.
+	}
 
 \section{Principal bundles}
 
-	The following construction is very similar to the construction of a vector bundle (see \ref{manifolds:vector_bundle_construction}).
 	\begin{definition}[Principal bundle]\index{principal bundle}\index{local trivializations}\index{fibre}\index{structure group}
 		A principal bundle is a fibre bundle $(E, B, \pi, G, G)$ such that the structure group and the typical fibre are the same, i.e. we identify the structure group with the group of left translations of $G$.
 	\end{definition}	
@@ -173,15 +230,6 @@
 	\end{example}
 	
 \subsection{Sections}
-
-	Following definition is analogous to that for vector bundles.
-	\newdef{Section}{\index{section}
-		A \textbf{global} section on a fibre bundle $\pi:E\rightarrow B$ is a smooth function $s:B\rightarrow E$ such that $\pi\circ s = \mathbbm{1}_B$. For any open subset $U\subset B$ we define a local section as a smooth function $s_U:U\rightarrow E$ such that $\pi\circ s_U(b) = b$ for all $b\in U$.
-	}
-	\begin{notation}
-		The set of all global sections on a bundle $E$ is denoted by $\Gamma(E)$. The set of local sections on $U\subset E$ is similarly denoted by $\Gamma(U)$.
-	\end{notation}
-	
 	Where every vector bundle has at least one global section, the \textbf{zero section}\footnotemark, a general principal bundle does not necessarily have a global section. This is made clear by the following property:
 	\footnotetext{This is the map $s:b\rightarrow\vector{0}$ for all $b\in B$.}
 	\begin{property}

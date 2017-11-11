@@ -1,16 +1,32 @@
 \chapter{Set theory}
-	\newdef{Power set}{\index{power set}
-    	\label{set:power_set}
-    	Let $S$ be a set. The power set is defined as the set of all subsets of $S$ and is (often) denoted by $P(S)$ or $2^S$.
-    }
-    \result{$S\subset P(S)$}
-    
-    \newdef{Partition}{\index{partition}
-    	A  partition of $X$ is a family of disjoint subsets $(A_i)_{i\in I} \subset X$ such that $\bigcup_{i\in I}A_i = X$.
-    }
-    \newdef{Refinement}{\index{refinement}
-    	Let $P$ be a partition of $X$. A refinement $P'$ of $P$ is a finite collection of subsets such that every $A\in P$ can be written as a disjoint union of elements in $P'$. Hence $P'$ is also a partition.
-    }
+\section{Collections}
+
+	\newdef{Power set}{\index{power set}\label{set:power_set}
+	    	Let $S$ be a set. The power set is defined as the set of all subsets of $S$ and is (often) denoted by $P(S)$ or $2^S$. The existence of this set is stated by the \textit{axiom of power set}.
+	}
+	\result{$S\subset P(S)$}
+
+	\newdef{Collection}{\index{collection}
+		Let $A$ be a set. A collection of elements in A is a subset of $A$.
+	}
+	\newdef{Family}{\index{family}
+		Let $A$ be a set and let $I$ be another set, called the \textbf{index set}. A family of elements of $A$ is a map $f:I\rightarrow A$. A family with index set $I$ is often denoted by $(x_i)_{i\in I}$. In contrast to collections a family can 'contain' multiple copies of a single element.
+	}
+	
+	\newdef{Helly family}{\index{Helly family}\label{set:helly_family}
+		A Helly family of order $k$ is a pair $(X, F)$ with $F\subset 2^X$ such that for every finite $G\subset F$:
+		\begin{equation}
+			\bigcap_{V\in G}V = \emptyset\implies \exists H\subset G: \bigcap_{V\in H}V = \emptyset \land |H| \leq k
+		\end{equation}
+		A Helly family of order 2 is sometimes said to have the \textbf{Helly property}.
+	}
+
+	\newdef{Partition}{\index{partition}
+    		A  partition of $X$ is a family of disjoint subsets $(A_i)_{i\in I} \subset X$ such that $\bigcup_{i\in I}A_i = X$.
+	}
+	\newdef{Refinement}{\index{refinement}
+    		Let $P$ be a partition of $X$. A refinement $P'$ of $P$ is a finite collection of subsets such that every $A\in P$ can be written as a disjoint union of elements in $P'$. Hence $P'$ is also a partition.
+	}
     
 	\newdef{Cover}{\index{cover}
 		A cover of $S$ is a collection of sets $\mathcal{F}\subseteq2^S$ such that
@@ -21,33 +37,31 @@
 	}
 
 \section{Set operations}
-	\subsection{Difference}
+
     	\newdef{Symmetric difference}{\index{symmetric difference}
         	\begin{equation}
-				\label{set:symmetric_difference}
-                A\Delta B = (A\backslash B)\cup(B\backslash A)
-			\end{equation}
+			\label{set:symmetric_difference}
+	                A\Delta B = (A\backslash B)\cup(B\backslash A)
+		\end{equation}
         }
-        
-        
-    \subsection{Complement}
+
     	\newdef{Complement}{\index{complement}
             	Let $\Omega$ be the universal set . Let $E\subseteq\Omega$. The complement of $E$ is defined as:
                 \begin{equation}
-					\label{set:complement}
-                    E^c = \Omega \backslash E
-				\end{equation}
-		}
+			\label{set:complement}
+	                E^c = \Omega \backslash E
+		\end{equation}
+	}
 
         \newformula{de Morgan's laws}{\index{de Morgan's laws}
         	\begin{equation}
-            	\label{set:de_morgan_union}
-				\left(\bigcup_i A_i\right)^c = \bigcap_i A_i^c
-			\end{equation}
-            \begin{equation}
-            	\label{set:de_morgan_intersection}
-				\left(\bigcap_i A_i\right)^c = \bigcup_i A_i^c
-			\end{equation}
+        	    	\label{set:de_morgan_union}
+			\left(\bigcup_i A_i\right)^c = \bigcap_i A_i^c
+		\end{equation}
+        	\begin{equation}
+            		\label{set:de_morgan_intersection}
+			\left(\bigcap_i A_i\right)^c = \bigcup_i A_i^c
+		\end{equation}
         }
 
 \section{Ordered sets}
@@ -158,88 +172,81 @@
 	}
 
 \section{Algebra of sets}
-	\newdef{Algebra of sets}{\index{algebra!of sets}
-    	\label{set:algebra_of_sets}
-    	A collection $\mathcal{F}$ of subsets of $X$ is a called an algebra over $X$ if it is closed under finite unions, finite intersections and complements. The pair $(X,\mathcal{F})$ is called a field of sets.
-    }
 	
-\subsection{\texorpdfstring{$\sigma$}\ -algebra}
-    \newdef{$\sigma$-algebra}{\index{$\sigma$-algebra}
-    	\label{set:sigma_algebra}
-    	A family of sets $\Sigma$ is a $\sigma$-algebra over a set $X$ if it satisfies the following 3 axioms:
-        \begin{enumerate}
+	\newdef{Algebra of sets}{\index{algebra!of sets}\label{set:algebra_of_sets}
+	    	A collection $\mathcal{F}$ of subsets of $X$ is a called an algebra over $X$ if it is closed under finite unions, finite intersections and complements. The pair $(X,\mathcal{F})$ is also called a \textbf{field of sets}.
+	}
+	
+\subsection{\texorpdfstring{$\sigma$}{sigma}-algebra}
+    
+	\newdef{$\sigma$-algebra}{\index{$\sigma$-algebra}\label{set:sigma_algebra}
+	    	A collection of sets $\Sigma$ is a $\sigma$-algebra over a set $X$ if it satisfies the following 3 axioms:
+        	\begin{enumerate}
 			\item $X\in\Sigma$
-            \item Closed under complements: $\forall E\in\Sigma: E^c\in\Sigma$
-            \item Closed under countable unions: $\{E_i\}_{i=1}^n\subset\Sigma:\bigcup_{i=1}^nE_i\in\Sigma$
+        		\item Closed under complements: $\forall E\in\Sigma: E^c\in\Sigma$
+		        \item Closed under countable unions: $\forall\{E_i\}_{i=1}^n\subset\Sigma:\bigcup_{i=1}^nE_i\in\Sigma$
 		\end{enumerate}
-    }
+	}
 	\begin{remark}
-    		Due to axioms $(2)$ and $(3)$ together with de Morgan's laws\footnotemark, a $\sigma$-algebra is also closed under countable intersections.
+    		Axioms $(2)$ and $(3)$ together with de Morgan's laws\footnotemark\ imply that a $\sigma$-algebra is also closed under countable intersections.
+    		\footnotetext{See equations \ref{set:de_morgan_union} and \ref{set:de_morgan_intersection}.}
 	\end{remark}
-	\footnotetext{See equations \ref{set:de_morgan_union} and \ref{set:de_morgan_intersection}.}
 	
 	\begin{result}
 		Every algebra of sets is also a $\sigma$-algebra.
 	\end{result}
     
-    \begin{property}
+	\begin{property}
 		The intersection of a family of $\sigma$-algebras is again a $\sigma$-algebra.
 	\end{property}
     
-    \begin{definition}
-		A $\sigma$-algebra $\mathcal{G}$ is said to be generated by a family of sets $\mathcal{A}$ if
-        \begin{equation}
+	\begin{definition}
+		A $\sigma$-algebra $\mathcal{G}$ is said to be generated by a collection of sets $\mathcal{A}$ if
+        	\begin{equation}
 			\label{set:generated_sigma_algebra}
-            \mathcal{G} = \bigcap\{\mathcal{F}:\mathcal{F} \text{ is a } \sigma\text{-algebra that contains } \mathcal{A}\}
+        		\mathcal{G} = \bigcap\{\mathcal{F}:\mathcal{F} \text{ is a } \sigma\text{-algebra that contains } \mathcal{A}\}
 		\end{equation}
-        It is thus the smallest $\sigma$-algebra containing $\mathcal{A}$.
+	        It is the smallest $\sigma$-algebra containing $\mathcal{A}$.
 	\end{definition}
-    \begin{notation}
-    	\label{set:notation:generated_sigma_algebra}
-		The $\sigma$-algebra generated by a family of sets $\mathcal{A}$ is often denoted by $\mathcal{F}_\mathcal{A}$ or $\sigma(\mathcal{A})$.
+	\begin{notation}\label{set:notation:generated_sigma_algebra}
+		The $\sigma$-algebra generated by a collection of sets $\mathcal{A}$ is often denoted by $\mathcal{F}_\mathcal{A}$ or $\sigma(\mathcal{A})$.
 	\end{notation}
     
-    \newdef{Borel set}{\index{Borel!set}
-    	Let $\mathcal{B}$ be the $\sigma$-algebra generated by all open\footnotemark\ intervals $O\subseteq\mathbb{R}$. The elements $B\in\mathcal{B}$ are called Borel sets.
-    }
-    \footnotetext{Closed and half-open (both types) intervals generate the same $\sigma$-algebra.}
+	\newdef{Borel set}{\index{Borel!set}
+    		Let $\mathcal{B}$ be the $\sigma$-algebra generated by all open\footnotemark\ sets $O\subset X$. The elements $B\in\mathcal{B}$ are called Borel sets.
+    		\footnotetext{For $X=\mathbb{R}$ we find that open, closed and half-open (both types) intervals generate the same $\sigma$-algebra.}
+	}
 
-	\newdef{Product \texorpdfstring{$\sigma$-}\ algebra}{\label{set:product_of_sigma_algebras}
+	\newdef{Product $\sigma$-algebra}{\label{set:product_of_sigma_algebras}
 		The smallest $\sigma$-algebra containing the products $A_1\times A_2$ for all $A_1\in\mathcal{F}_1, A_2\in\mathcal{F}_2$ is called the product $\sigma$-algebra of $\mathcal{F}_1$ and $\mathcal{F}_2$.
 	}
 	\begin{notation}
 		The product $\sigma$-algebra of $\mathcal{F}_1$ and $\mathcal{F}_2$ is denoted by $\mathcal{F}_1\times\mathcal{F}_2$.
 	\end{notation}
     
-    \begin{adefinition}
+	\begin{adefinition}
 		The product $\sigma$-algebra $\mathcal{F}$ can also be equivalently defined in the following two ways:
-        \begin{enumerate}
-			\item $\mathcal{F}$ is generated by the family of sets
-            \[
-            	\mathcal{C} = \{A_1\times \Omega_2:A_1\in\mathcal{F}_1\}\cup\{\Omega_1\times A_2:A_2\in\mathcal{F}_2\}
-            \]
-            \item $\mathcal{F}$ is the smallest $\sigma$-algebra such that the following projections are measurable (see \ref{lebesgue:measurable_function}):
-            \[
-            	\text{Pr}_1:\Omega\rightarrow\Omega_1:(\omega_1,\omega_2)\mapsto\omega_1
-            \]
-            \[
-            	\text{Pr}_2:\Omega\rightarrow\Omega_2:(\omega_1,\omega_2)\mapsto\omega_2
-            \]
+        	\begin{enumerate}
+			\item $\mathcal{F}$ is generated by the collection
+	            		\[\mathcal{C} = \{A_1\times \Omega_2:A_1\in\mathcal{F}_1\}\cup\{\Omega_1\times A_2:A_2\in\mathcal{F}_2\}\]
+		        \item $\mathcal{F}$ is the smallest $\sigma$-algebra such that the following projections are measurable (see \ref{lebesgue:measurable_function}):
+			        \[\text{Pr}_1:\Omega\rightarrow\Omega_1:(\omega_1,\omega_2)\mapsto\omega_1\]
+        	    		\[\text{Pr}_2:\Omega\rightarrow\Omega_2:(\omega_1,\omega_2)\mapsto\omega_2\]
 		\end{enumerate}
 	\end{adefinition}
-    
-    \sremark{Previous definitions can easily be generalized to higher dimensions.}
+    	\sremark{Previous definitions can easily be generalized to higher dimensions.}
     
 \subsection{Monotone class}
-    \newdef{Monotone class}{\index{monotone class}
-    	Let $\mathcal{A}$ be a family of sets. $\mathcal{A}$ is called a monotone class if it has the following two properties:
-        \begin{itemize}
-			\item For every increasing sequence $A_1\subset A_2\subset ...$\[\bigcup_{i=1}^{+\infty}A_i\in\mathcal{A}\]
-            \item For every decreasing sequence $A_1\supset A_2\supset ...$\[\bigcap_{i=1}^{+\infty}A_i\in\mathcal{A}\]
+	
+	\newdef{Monotone class}{\index{monotone class}
+    		Let $\mathcal{A}$ be a collection of sets. $\mathcal{A}$ is called a monotone class if it has the following two properties:
+        	\begin{itemize}
+			\item For every increasing sequence $A_1\subset A_2\subset ...$\ :\[\bigcup_{i=1}^{+\infty}A_i\in\mathcal{A}\]
+		        \item For every decreasing sequence $A_1\supset A_2\supset ...$\ :\[\bigcap_{i=1}^{+\infty}A_i\in\mathcal{A}\]
 		\end{itemize}
-    }
-    \begin{theorem}[Monotone class theorem]
-    	\label{set:theorem:monotone_class}
+	}
+
+	\begin{theorem}[Monotone class theorem]\label{set:theorem:monotone_class}
 		Let $\mathcal{A}$ be an algebra of sets \ref{set:algebra_of_sets}. If $\mathcal{G}_\mathcal{A}$ is the smallest monotone class containing $\mathcal{A}$ then it coincides with the $\sigma$-algebra generated by $\mathcal{A}$.
 	\end{theorem}
 

@@ -1,7 +1,24 @@
 \chapter{Derivations: Mathematics}
 
-\section{Linear algebra}
+\section{Calculus}
 
+\subsection{Proof of method \ref{calculus:borel_transform}}
+	The function $F(x)$ is defined as follows:
+	\begin{equation}
+		F(x) = \ds\sum_{n=0}^{+\infty}\stylefrac{a_n}{n!}x^n
+	\end{equation}
+	We now perform a Borel transform:
+	\begin{equation}
+    		\begin{array}{ccl}
+    			\ds\int_0^{+\infty}F(xt)e^{-t}dt&=&\ds\sum_{n=0}^N\int_0^{+\infty}\stylefrac{a_n}{n!}x^nt^ne^{-t}dt\\
+        		&=&\ds\sum_{n=0}^N\frac{a_n}{n!}x^n\int_0^{+\infty}t^ne^{-t}dt\\
+		        &=&\ds\sum_{n=0}^N\frac{a_n}{n!}x^n\Gamma(n+1)\\
+		        &=&\ds\sum_{n=0}^Na_nx^n
+	    	\end{array}
+       	\end{equation}
+       	where we used the definition of the Gamma function \ref{calculus:gamma_function} on line 3 and the relation between the factorial function and the Gamma function \ref{calculus:gamma_factorial_relation} on line 4.\qed
+
+\section{Linear algebra}
 \subsection{Explanation for property \ref{linalgebra:grassmannian_construction}}\label{proof:stabilizer}
 
 	Pick a subspace $W\in \text{Gr}(k, V)$. The stabilizer of $W$ with respect to $GL(V)$ is the set \[H_W = \{g\in GL(V)| g\cdot W = W\}\]
@@ -29,59 +46,56 @@
 	We do however have to pay attention to one little detail. As mentioned in \ref{tensor:adef_exterior_algebra} the general definition uses the ideal $I$ to construct the quotient space. The other construction is only equivalent when working over a field with a characteristic different from 2. This follows from the fact that we have to divide by 2 when trying to obtain the ideal $I$ from the RHS by setting $u=v$.
 
 \section{Vector fields \& differential forms}
+\subsection{Explanation for example \ref{manifolds:ex:lie_derivative_function}}\index{Landau!little-o notation}
 
-\subsection{Explanation for example \ref{manifolds:ex:lie_derivative_function}}
-\index{Landau!little-o notation}
-
-In this derivation we use the Landau little-o notation $o(t)$, i.e.:
-		\eq{
-			\lim_{t\rightarrow0}\frac{o(t)}{t} = 0
-		}
-		Now assume that $X$  is a smooth vector field and $f$ is a smooth function. Because the Lie derivative is a local operation we can work in a local chart such that $\gamma$ is (again locally) equivalent to a curve\footnotemark\ $\beta_p:U\rightarrow\mathbb{R}^n$ and such that we can expand $\beta_p(t)$ around $p\in U$:
-		\begin{align}
-			\mathcal{L}_Xf(p) &= \lim_{t\rightarrow0}\left[\stylefrac{f(\beta_p(0) + t\beta_p'(0) + o(t)) - f(p)}{t}\right]\nonumber\\
-			&= \lim_{t\rightarrow0}\left[\stylefrac{f(p + tX(p) + o(t)) - f(p)}{t}\right]\nonumber\\
-			&= \lim_{t\rightarrow0}\left[\stylefrac{f(p) + tDf(p)\cdot X(p) + o(t) - f(p)}{t}\right]\nonumber\\
-			&= \sum_k\pderiv{f}{x^k}(p)X_k(p) + \lim_{t\rightarrow0}\stylefrac{o(t)}{t}\nonumber\\
-			&= \sum_k\pderiv{f}{x^k}(p)X_k(p)\label{manifolds:lie_derivative_calc}
-		\end{align}
-		where we used the defining condition \ref{manifolds:integral_curve} for integral curves on line 2. If we now rewrite this equation as an operator equality, we obtain:
-		\eq{
-			\boxed{\mathcal{L}_X = \sum_kX_k\pderiv{}{x^k}}
-		}
-		
-		\footnotetext{The vector field $X(p) = (p, Y(p))$ where $Y$ is a smooth vector field on $\mathbb{R}^n$ can also be identified with $Y$ itself. This is implicitly done in the derivation by using the notation $X$ for both vector fields.}
+	In this derivation we use the Landau little-o notation $o(t)$, i.e.:
+	\begin{equation}
+		\lim_{t\rightarrow0}\frac{o(t)}{t} = 0
+	\end{equation}
+	Now assume that $X$  is a smooth vector field and $f$ is a smooth function. Because the Lie derivative is a local operation we can work in a local chart such that $\gamma$ is (again locally) equivalent to a curve\footnotemark\ $\beta_p:U\rightarrow\mathbb{R}^n$ and such that we can expand $\beta_p(t)$ around $p\in U$:
+	\begin{align}
+		\mathcal{L}_Xf(p) &= \lim_{t\rightarrow0}\left[\stylefrac{f(\beta_p(0) + t\beta_p'(0) + o(t)) - f(p)}{t}\right]\nonumber\\
+		&= \lim_{t\rightarrow0}\left[\stylefrac{f(p + tX(p) + o(t)) - f(p)}{t}\right]\nonumber\\
+		&= \lim_{t\rightarrow0}\left[\stylefrac{f(p) + tDf(p)\cdot X(p) + o(t) - f(p)}{t}\right]\nonumber\\
+		&= \sum_k\pderiv{f}{x^k}(p)X_k(p) + \lim_{t\rightarrow0}\stylefrac{o(t)}{t}\nonumber\\
+		&= \sum_k\pderiv{f}{x^k}(p)X_k(p)\label{manifolds:lie_derivative_calc}
+	\end{align}
+	where we used the defining condition \ref{manifolds:integral_curve} for integral curves on line 2. If we now rewrite this equation as an operator equality, we obtain:
+	\begin{equation}
+		\boxed{\mathcal{L}_X = \sum_kX_k\pderiv{}{x^k}}
+	\end{equation}
+	\footnotetext{The vector field $X(p) = (p, Y(p))$ where $Y$ is a smooth vector field on $\mathbb{R}^n$ can also be identified with $Y$ itself. This is implicitly done in the derivation by using the notation $X$ for both vector fields.}
 		
 \subsection{Explanation for formula \ref{manifolds:ex:lie_derivative_vector_fields}}
 
- For vector fields we cannot just take the difference at two different points because the tangent spaces generally do not coincide. We can solve this by using the flow \ref{manifolds:flow}:
-		\eq{
-			\label{derivmath:lie_derivative_vector_fields}
-			\mathcal{L}_XY = \lim_{t\rightarrow0}\stylefrac{(T\sigma_t)^{-1}[X(\gamma_p(t))] - X(p)}{t}
-		}
-		where the $T\sigma_t$ is the differential \ref{manifolds:differential} of the flow which satisfies $(T\sigma)^{-1} = T\sigma_{-t}$. To see that this definition makes sense we have to show that $(T\sigma_t)^{-1}[X(\gamma_p(t))]\in T_pM$. This goes as follows:
-		\begin{align*}
-			(T\sigma_t)^{-1}[X(\gamma_p(t))](f) &= T\sigma_{-t}[X(\gamma_p(t))](f)\\
-			&= X(\sigma_{-t}\circ\gamma_p(t))(f\circ\sigma_{-t})\\
-			&= X(\sigma_{-t}\circ\sigma_t(p))(f\circ\sigma_{-t})\\
-			&= X(p)(f\circ\sigma_{-t})\\
-			&\in T_pM
-		\end{align*}
-		for all $f\in C^k(M, \mathbb{R})$. On line 3 we used the definition of the flow \ref{manifolds:flow}.
+	For vector fields we cannot just take the difference at two different points because the tangent spaces generally do not coincide. We can solve this by using the flow \ref{manifolds:flow}:
+	\begin{equation}
+		\label{derivmath:lie_derivative_vector_fields}
+		\mathcal{L}_XY = \lim_{t\rightarrow0}\stylefrac{(T\sigma_t)^{-1}[X(\gamma_p(t))] - X(p)}{t}
+	\end{equation}
+	where the $T\sigma_t$ is the differential \ref{manifolds:differential} of the flow which satisfies $(T\sigma)^{-1} = T\sigma_{-t}$. To see that this definition makes sense we have to show that $(T\sigma_t)^{-1}[X(\gamma_p(t))]\in T_pM$. This goes as follows:
+	\begin{align*}
+		(T\sigma_t)^{-1}[X(\gamma_p(t))](f) &= T\sigma_{-t}[X(\gamma_p(t))](f)\\
+		&= X(\sigma_{-t}\circ\gamma_p(t))(f\circ\sigma_{-t})\\
+		&= X(\sigma_{-t}\circ\sigma_t(p))(f\circ\sigma_{-t})\\
+		&= X(p)(f\circ\sigma_{-t})\\
+		&\in T_pM
+	\end{align*}
+	for all $f\in C^k(M, \mathbb{R})$. On line 3 we used the definition of the flow \ref{manifolds:flow}.
 		
-		We can also rewrite the second term in the numerator of \ref{derivmath:lie_derivative_vector_fields} using the flow:
-		\[
-			X(p) = X(\sigma_0(p)) = T\sigma_0(X)
-		\]
-		Using the definition of the pushforward of vector fields \ref{manifolds:pushforward} the Lie derivative can be rewritten as:
-		\begin{align*}
-			\mathcal{L}_XY &= \lim_{t\rightarrow0}\stylefrac{\sigma_{-t*}X(\gamma_p(t)) - \sigma_{0*}X(\gamma_p(0))}{t}\\
-			&= \left.\deriv{}{t}(\sigma_{-t*}X)(\gamma_p(t))\right|_{t=0}
-		\end{align*}
-		Or finally by using the relation between pushforward and pullback \ref{manifolds:pullback_pushforward} this becomes:
-		\eq{
-			\boxed{\mathcal{L}_XY = \left.\deriv{}{t}(\sigma_t^*X)(\gamma_p(t))\right|_{t=0}}
-		 }
+	We can also rewrite the second term in the numerator of \ref{derivmath:lie_derivative_vector_fields} using the flow:
+	\[
+		X(p) = X(\sigma_0(p)) = T\sigma_0(X)
+	\]
+	Using the definition of the pushforward of vector fields \ref{manifolds:pushforward} the Lie derivative can be rewritten as:
+	\begin{align*}
+		\mathcal{L}_XY &= \lim_{t\rightarrow0}\stylefrac{\sigma_{-t*}X(\gamma_p(t)) - \sigma_{0*}X(\gamma_p(0))}{t}\\
+		&= \left.\deriv{}{t}(\sigma_{-t*}X)(\gamma_p(t))\right|_{t=0}
+	\end{align*}
+	Or finally by using the relation between pushforward and pullback \ref{manifolds:pullback_pushforward} this becomes:
+	\begin{equation}
+		\boxed{\mathcal{L}_XY = \left.\deriv{}{t}(\sigma_t^*X)(\gamma_p(t))\right|_{t=0}}
+	\end{equation}
 		 
 \subsection{Explanation for remark \ref{forms:vector_calculus}}
 

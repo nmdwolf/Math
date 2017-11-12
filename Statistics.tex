@@ -1,8 +1,10 @@
 \chapter{Statistics}
-In this chapter, all (or most) definitions and formulas will be based on either a standard calculus approach or a data-driven approach. For a measure-theory based approach see chapter \ref{chapter:propability}.
 
-\section{Data sample}
-	\subsection{Moment}
+In this chapter, most definitions and formulas will be based on either a standard calculus approach or a data-driven approach. For a measure-theory based approach see chapter \ref{chapter:probability}.
+
+\section{Data samples}
+\subsection{Moment}
+
     	\newformula{$r^{th}$ sample  moment}{\index{moment}
         	\begin{equation}
             	\label{statistics:sample_moment}
@@ -16,100 +18,110 @@ In this chapter, all (or most) definitions and formulas will be based on either 
 			\end{equation}
         }
 	
-    \subsection{Average}\index{mean}\index{average|see{mean}}
-        \newdef{Arithmetic mean}{The arithmetic mean is used to average out differences between measurements. It is also equal to the $1^{st}$ moment:
+\subsection{Mean}\index{mean}
+
+        \newdef{Arithmetic mean}{The arithmetic mean is used to average out differences between measurements. It is equal to the $1^{st}$ sample moment:
         	\begin{equation}
-            	\label{statistics:arithmetic_mean}
-            	\boxed{\overline{x} = \stylefrac{1}{N}\sum_{i=1}^Nx_i}
-			\end{equation}
+            		\label{statistics:arithmetic_mean}
+            		\boxed{\overline{x} = \stylefrac{1}{N}\sum_{i=1}^Nx_i}
+		\end{equation}
         }
         \newformula{Weighted mean}{
-        	Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a weight function. The weighted mean is given by:
-            \begin{equation}
-            	\overline{x} = \stylefrac{\sum_if(x_i)x_i}{\sum_if(x_i)}
-            \end{equation}
+        	Let $f:\mathbb{R}\rightarrow\mathbb{R}^+$ be a weight function. The weighted mean is given by:
+		\begin{equation}
+            		\overline{x} = \stylefrac{\sum_if(x_i)x_i}{\sum_if(x_i)}
+	        \end{equation}
         }
-        
-        \result{If the data has been grouped in bins, the weight function is given by the number of elements in each bin. Knowing this the mean becomes:
+        \begin{result}
+        	If the data has been grouped in bins, the weight function is given by the number of elements in each bin. Knowing this the (binned) mean becomes:
         	\begin{equation}
-				\label{statistics:binned_arithmetic_mean}
-                \overline{x} = \stylefrac{1}{N}\sum_{i=1}n_ix_i
-			\end{equation}
-        }
-        \remark{
-        	The measurements $x_i$ can be replaced by function values $f(x_i)$ to calculate the mean of the function $f(x)$.
-		}
-        \remark{
-        	It is also important to notice that $\overline{f}(x) \neq f(\overline{x})$. The equality only holds for linear functions.
-		}
+			\label{statistics:binned_arithmetic_mean}
+	                \overline{x} = \stylefrac{1}{N}\sum_{i=1}n_ix_i
+		\end{equation}
+        \end{result}
+        \remark{In the above defintions the measurements $x_i$ can be replaced by function values $f(x_i)$ to calculate the mean of the function $f(x)$.}
+        \remark{It is also important to notice that $\overline{f}(x) \neq f(\overline{x})$. The equality only holds for linear functions.}
         
         \newdef{Geometric mean}{
-        	The geometric mean is used to average out \textit{normalized} measurements, i.e. ratios with respect to a reference value.
+        	Let $\{x_i\}$ be a positive data set\footnotemark. The geometric mean is used to average out \textit{normalized} measurements, i.e. ratios with respect to a reference value.
         	\begin{equation}
-            	\label{statistics:geometric_mean}
-                g = \left(\prod_{i=1}^Nx_i\right)^{1/N}
-            \end{equation}
-            The following relation exists between the arithmetic and geometic mean:
-            \begin{equation}
-            	\ln\ g = \overline{\ln\ x}
-            \end{equation}
+	            	\label{statistics:geometric_mean}
+        	        g = \left(\prod_{i=1}^Nx_i\right)^{1/N}
+        	\end{equation}
+	        The following relation exists between the arithmetic and geometic mean:
+        	\begin{equation}
+            		\ln g = \overline{\ln x}
+	        \end{equation}
+	        \footnotetext{A negative data set is also allowed. The real condition is that all values should have the same sign.}
         }
         
-         \newdef{Harmonic mean}{
+	\newdef{Harmonic mean}{
         	\begin{equation}
-            	\label{statistics:harmonic_mean}
-                h = \left(\stylefrac{1}{N}\prod_{i=1}^Nx_i^{-1}\right)^{-1}
-            \end{equation}
-            The following relation exists between the arithmetic and harmonic mean:
-            \begin{equation}
-            	\frac{1}{h} = \overline{x^{-1}}
-            \end{equation}
+        	    	\label{statistics:harmonic_mean}
+        	        h = \left(\stylefrac{1}{N}\sum_{i=1}^Nx_i^{-1}\right)^{-1}
+        	\end{equation}
+	        The following relation exists between the arithmetic and harmonic mean:
+        	\begin{equation}
+            		\frac{1}{h} = \overline{x^{-1}}
+	        \end{equation}
         }
+        
+        \begin{property}
+        	Let $\{x_i\}$ be a positive data set.
+        	\begin{equation}
+	        	h\leq g\leq\overline{x}
+	        \end{equation}
+	        where the equalities only hold when all $x_i$ are equal.
+        \end{property}
         
         \newdef{Mode}{\index{mode}
         	The most occurring value in a dataset.
-		}
+	}
         \newdef{Median}{\index{median}
         	The median of dataset is the value $x_i$ such that half of the values is greater than $x_i$ and the other half is smaller than $x_i$.
-		}
+	}
         
-	\subsection{Dispersion}
+\subsection{Dispersion}
+
     	\newdef{Range}{\index{range}
         	The simplest indicator for statistical dispersion. It is however very sensitive for extreme values.
         	\begin{equation}
-	            R = x_{max} - x_{min}
-			\end{equation}
+		        R = x_{max} - x_{min}
+		\end{equation}
         }
     	
         \newdef{Mean absolute difference}{
         	\begin{equation}
-				\text{MD} = \stylefrac{1}{N}\sum_{i=1}^N|x_i - \overline{x}|
-			\end{equation}
+			\text{MD} = \stylefrac{1}{N}\sum_{i=1}^N|x_i - \overline{x}|
+		\end{equation}
         }
         
         \newdef{Sample variance}{\index{variance}
         	\begin{equation}
-				\label{statistics:sample_variance}
-                V(X) = \stylefrac{1}{N}\sum_{i=1}^N(x_i-\overline{x})^2
-			\end{equation}
+			\label{statistics:sample_variance}
+        	        V(X) = \stylefrac{1}{N}\sum_{i=1}^N(x_i-\overline{x})^2
+		\end{equation}
         }
-        \newdef{Standard deviation}{
-        	\begin{equation}
-        		\sigma(X) = \sqrt{V(x)}
-        	\end{equation}
-        }
-        \result{The variance can also be written in the following way:
+        \begin{formula}
+        	The variance can also be written in the following way:
         	\begin{equation}
 			\label{statistics:variance_without_sum}
 	                \boxed{V(X) = \overline{x^2} - \overline{x}^2}
 		\end{equation}
-        }
-        \remark{A better estimator for the variance of a sample is the following formula:
+        \end{formula}
+	\begin{remark}
+        	A better estimator for the variance of a sample is the following formula:
         	\begin{equation}
 			\label{statistics:bessel_correction}
         	        \hat{s} = \stylefrac{1}{N-1}\sum_{i=1}^N(x_i - \overline{x})^2
 		\end{equation}
-        	When using equation \ref{statistics:sample_variance} it is more correct to exchange the sample mean $\overline{x}$ by the "true" mean $\mu$. Otherwise one should use the estimator \ref{statistics:bessel_correction}. 
+        	Equation \ref{statistics:sample_variance} gives a good estimation when the sample mean $\overline{x}$ is replaced by the "true" mean $\mu$. Otherwise one should use the estimator \ref{statistics:bessel_correction}. 
+        \end{remark}
+        
+        \newdef{Standard deviation}{
+        	\begin{equation}
+        		\sigma(X) = \sqrt{V(x)}
+        	\end{equation}
         }
         
         \newdef{Skewness}{\index{skewness}
@@ -134,152 +146,139 @@ In this chapter, all (or most) definitions and formulas will be based on either 
         	        m_4 = c\sigma^4
 		\end{equation}
         }
-        \begin{remark}[Excess kurtosis]
-		The excess kurtosis is defined as $c-3$. All univariate normal distributions have 0 excess. A positive excess is an indicator for long "fat" tails, a negative excess indicates short "thin" tails.
-	\end{remark}
+        \newdef{Excess kurtosis}{
+		The excess kurtosis is defined as $c-3$. This fixes the excess kurtosis of all univariate normal distributions at 0. A positive excess is an indicator for long "fat" tails, a negative excess indicates short "thin" tails.
+	}
         
         \newdef{Percentile}{\index{percentile}
-        	The $p^{th}$ percentile $c_p$ is defined as the number such that it is larger than $p\%$ of the measurements.
+        	The $p^{th}$ percentile $c_p$ is defined as the value that is larger than $p\%$ of the measurements. The median is the $50^{th}$ percentile.
         }
-        \sremark{From the previous definition it follows that the median is the $50^{th}$ percentile.}
+        
         \newdef{Interquartile range}{
         	The interquartile range is the difference between the upper and lower quartile ($75^{th}$ and $25^{th}$ percentile respectively).
         }
         
         \newdef{FWHM}{\index{FWHM}
-        	The Full Width at Half Maximum is the difference between the two values of the independent variable where the dependent variable is half of its maximum.
+        	The \textbf{Full Width at Half Maximum} is the difference between the two values of the independent variable where the dependent variable is half of its maximum.
         }
         \begin{property}
         	For Gaussian distributions the following relation exists between the FWHM and the standard deviation $\sigma$:
-            \begin{equation}
-            	\text{FWHM} = 2.35\sigma
-            \end{equation}
+         	\begin{equation}
+            		\text{FWHM} = 2.35\sigma
+	        \end{equation}
         \end{property}
         
-	\subsection{Multivariate datasets}
+\subsection{Multivariate datasets}
+
         When working with bivariate (or even multivariate) distributions it is useful to describe the relationship between the different random variables. The following two definitions are often used.
         
         \newdef{Covariance}{\index{covariance}
         	Let $X, Y$ be two random variables. The covariance of $X$ and $Y$ is defined as follows:
-            \begin{equation}
-				\label{statistics:covariance}
-                \text{cov}(X,Y) = \stylefrac{1}{N}\sum_{i=1}^N(x_i-\overline{x})(y_i - \overline{y}) = \overline{xy} - \overline{x}\ \overline{y}
-			\end{equation}
+	        \begin{equation}
+			\label{statistics:covariance}
+        	        \text{cov}(X,Y) = \stylefrac{1}{N}\sum_{i=1}^N(x_i-\overline{x})(y_i - \overline{y}) = \overline{xy} - \overline{x}\ \overline{y}
+		\end{equation}
+		The covariance of $X$ and $Y$ is often denoted by $\sigma_{XY}$.
         }
-		\sremark{The covariance of $X$ and $Y$ is often denoted as $\sigma_{XY}$. Furthermore it is important to observe the following equality: \[\sigma_X^2 = \sigma_{XX}\]}
+	\begin{formula}
+		The covariance and standard deviation are related by the following equality:
+		\begin{equation}
+			\sigma_X^2 = \sigma_{XX}
+		\end{equation}
+	\end{formula}
 
         \newdef{Correlation coefficent}{\index{correlation}
         	\begin{equation}
-				\label{statistics:correlation_coefficient}
-                \rho_{XY} = \stylefrac{\text{cov}(X,Y)}{\sigma_X\sigma_Y}
-			\end{equation}
-            
-            \noindent The correlation coefficient is bounded to the interval $[-1,1]$. Furthermore its magnitude is an indicator only for the linear dependence.
+			\label{statistics:correlation_coefficient}
+        	        \rho_{XY} = \stylefrac{\text{cov}(X,Y)}{\sigma_X\sigma_Y}
+		\end{equation}
+		The correlation coefficient is bounded to the interval $[-1,1]$. It should be noted that its magnitude is only an indicator for the linear dependence.
         }
-        \remark{
-        	For multivariate distributions these two definitions can be generalized using the following matrices:
-            \begin{equation}
-				\label{statistics:covariance_matrix}
-                V_{ij} = \text{cov}(x_{(i)}, x_{(j)})
-			\end{equation}
-            \begin{equation}
-				\label{statistics:correlation_matrix}
-                \rho_{ij} = \rho_{(i)(j)}
-			\end{equation}
-            where $\text{cov}(x_{(i)}, x_{(j)})$ and $\rho_{(i)(j)}$ are defined as in equations \ref{statistics:covariance} and \ref{statistics:correlation_coefficient}.
-            
-            Using these notations we get the following general equality:
-            \begin{equation}
-            	\label{statistics:general_variance_formula}
-				\boxed{V_{ij} = \rho_{ij}\sigma_i\sigma_j}
-			\end{equation}
-        }
-        \remark{
-        	From equation \ref{statistics:general_variance_formula} it is clear that the diagonal elemets $\rho_{ii}$ are equal to 1.
-        }
+        \begin{remark}
+        	For multivariate distributions the above definitions can be generalized using matrices:
+	        \begin{equation}
+			\label{statistics:covariance_matrix}
+        	        V_{ij} = \text{cov}(x_{(i)}, x_{(j)})
+		\end{equation}
+        	\begin{equation}
+			\label{statistics:correlation_matrix}
+                	\rho_{ij} = \rho_{(i)(j)}
+		\end{equation}
+	        where $\text{cov}(x_{(i)}, x_{(j)})$ and $\rho_{(i)(j)}$ are defined using equations \ref{statistics:covariance} and \ref{statistics:correlation_coefficient}. The following general equality exists:
+	        \begin{equation}
+        	    	\label{statistics:general_variance_formula}
+			V_{ij} = \rho_{ij}\sigma_i\sigma_j
+		\end{equation}
+        \end{remark}
 
 \section{Law of large numbers}
-	\begin{theorem}[Law of large numbers]\index{Large numbers}
-    	\label{statistics:theorem:large_numbers}
+
+	\begin{theorem}[Law of large numbers]\index{Large numbers}\label{statistics:theorem:large_numbers}
 		If the size $N$ of a sample tends towards infinity, then the observed frequencies tend towards the theoretical propabilities.
 	\end{theorem}
-
-    \begin{result}[Frequentist propability\footnotemark]
+	\begin{result}[Frequentist probability\footnotemark]
+		\footnotetext{Also called the \textbf{empirical probability}.}
 		\begin{equation}
-			\label{statistics:frequentist_propability}
-            P(X) = \lim_{n\rightarrow\infty}\stylefrac{f_n(X)}{n}
+			\label{statistics:frequentist_probability}
+		        P(X) = \lim_{n\rightarrow\infty}\stylefrac{f_n(X)}{n}
 		\end{equation}
 	\end{result}
-    \footnotetext{Also called the empirical propability.}
 
-\section{Propability densities}
-	\sremark{In the following sections and subsections, all distributions will be taken to be continuous. The formulas can be modified for use with discrete distributions by replacing the integral with a summation.}
+\section{probability densities}
+
+	\begin{remark*}
+		In the following sections and subsections, all distributions will be taken to be continuous. The formulas can be modified for use with discrete distributions by replacing the integral with a summation.
+	\end{remark*}
     
-	\newdef{Propability density functions p.d.f}{\index{pdf|see{propability density function}}\index{propability density function}
-    	Let $X$ be a random variable and $P(X)$ the associated propability distribution. The p.d.f. $f(X)$ is defined as follows:
-        \begin{equation}
+	\newdef{probability density functions p.d.f}{\index{pdf|see{probability density function}}\index{probability density function}
+    		Let $X$ be a random variable and $P(X)$ the associated probability distribution. The p.d.f. $f(X)$ is defined as follows:
+	        \begin{equation}
 			\label{statistics:pdf}
-            \boxed{P(x_1\leq X \leq x_2) = \int_{x_1}^{x_2}f(X)dX}
+        		\boxed{P(x_1\leq X \leq x_2) = \int_{x_1}^{x_2}f(X)dX}
 		\end{equation}
-        \noindent An alternative definition\footnotemark\ is the following:
-        \begin{equation}
+		An alternative definition\footnotemark\ is the following:
+	        \begin{equation}
 			\label{statistics:pdf_derivative}
-            f(X) = \lim_{\delta x\rightarrow 0} \stylefrac{P(x\leq X\leq x+\delta x)}{\delta x}
+        		f(X) = \lim_{\delta x\rightarrow 0} \stylefrac{P(x\leq X\leq x+\delta x)}{\delta x}
 		\end{equation}
-    }
-    \footnotetext{A more formal definition uses measure-theory and the Radon-Nikodym derivative.}
+		\footnotetext{A more formal definition uses \textit{measure theory} and the \textit{Radon-Nikodym derivative}.}
+	}
 	
-    \newdef{Cumulative distribution function c.d.f.}{\index{cdf|see{cumulative distribution function}}\index{cumulative distribution function}
-    	Let $X$ be a random variable and $f(X)$ the associated p.d.f. The cumulative distribution function $F(X)$ is defined as follows: 
-        \begin{equation}
+	\newdef{Cumulative distribution function c.d.f.}{\index{cdf|see{cumulative distribution function}}\index{cumulative distribution function}
+    		Let $X$ be a random variable and $f(X)$ the associated p.d.f. The cumulative distribution function $F(X)$ is defined as follows: 
+        	\begin{equation}
 			\label{statistics:cdf}
-            F(x) = \int_{-\infty}^xf(X)dX
+        		F(x) = \int_{-\infty}^xf(X)dX
 		\end{equation}
-    }
-    \begin{theorem}
-		Let $X$ be a random variable. Let $P(X)$ and $F(X)$ be the associated propability and c.d.f.
-        \begin{equation}
+	}
+	\begin{theorem}
+		Let $X$ be a random variable. Let $P(X)$ and $F(X)$ be the associated p.d.f. and c.d.f. Using standard calculus the following equality can be proven:
+        	\begin{equation}
 			P(x_1\leq X\leq x_2) = F(x_2) - F(x_1)
 		\end{equation}
 	\end{theorem}
-    \begin{theorem}
+	\begin{theorem}
 		$F(X)$ is continuous if and only if $P_X(\{y\}) = 0$ for every $y\in\mathbb{R}$.
 	\end{theorem}
     
-    \begin{remark}[Normalization]\index{normalization}
+	\begin{remark}[Normalization]\index{normalization}
 		\begin{equation}
-        	\label{statistics:normalization}
-        	F(\infty) = 1
+        		\label{statistics:normalization}
+        		F(\infty) = 1
 		\end{equation}
 	\end{remark}
-    \begin{formula}
-		The $p^{th}$ percentile $c_p$ can be computed as follows\footnotemark:
-        \begin{equation}
+
+	\begin{formula}
+		The $p^{th}$ percentile $c_p$ can be computed as follows\footnote{This is clear from the definition of a percentile, as this implies that $F(c_p) = p$.}:
+	        \begin{equation}
 			c_p = F^{-1}(p)
 		\end{equation}
 	\end{formula}
-    \footnotetext{This is clear from the definition of a percentile, as this implies that $F(c_p) = p$.}
     
-    \newdef{Parametric family}{\index{parametric family}
-    	A parametric family of propability densities $f(X;\vec{\theta})$ is a set of densities described by one or more parameters $\vec{\theta}$.
-    }
-    
-\subsection{Theoretical moments}
-    \newformula{Moment generating function}{\index{moment!generating function}
-    	\begin{equation}
-			\label{statistics:moment_generating_function}
-            M_X(t) = E[e^{tX}] = \int_{-\infty}^{\infty}e^{tX}P(X)dX
-		\end{equation}
-    }
-    \begin{theorem}
-		If the above function exists we can derive the following useful result\footnotemark\ by using the series expansion \ref{calculus:taylor_exponential_function}:
-        \begin{equation}
-			\label{statistics:theorem:moment_generating_function}
-            E[X^n] = \left.\mderiv{n}{M_X(t)}{t}\right|_{t=0}
-		\end{equation}
-	\end{theorem}
-    \footnotetext{This property is the reason why \ref{statistics:moment_generating_function} is called the moment generating function.}
-    
+	\newdef{Parametric family}{\index{parametric family}
+    		A parametric family of probability densities $f(X;\vec{\theta})$ is a set of densities described by one or more parameters $\vec{\theta}$.
+	}
+
 \subsection{Function of a random variable}\index{random variable}
 	\begin{formula}
     	Let $X$ be random variable and $f(X)$ the associated p.d.f. Let $a(X)$ be a function of $X$. The random variable $A = a(X)$ has an associated p.d.f. $g(A)$. If the function $a(x)$ can be inverted, then $g(A)$ can be computed as follows:
@@ -292,7 +291,7 @@ In this chapter, all (or most) definitions and formulas will be based on either 
 \subsection{Multivariate distributions}
 	\sremark{In this section all defintions and thereoms will be given for bivariate distributions, but can be easily generalized to more random variables.}
     
-	\newdef{Joint density}{\index{propability density function!joint pdf}
+	\newdef{Joint density}{\index{probability density function!joint pdf}
     	Let $X, Y$ be two random variables. The joint p.d.f. $f_{XY}(x, y)$ is defined as follows:
         \begin{equation}
 			\label{statistics:joint_pdf}
@@ -303,9 +302,9 @@ In this chapter, all (or most) definitions and formulas will be based on either 
 			\end{array}\right.
 		\end{equation}
     }
-    \remark{As $f_{XY}$ is a propability density, the normalization condition \ref{statistics:normalization} should be fulfilled.}
+    \remark{As $f_{XY}$ is a probability density, the normalization condition \ref{statistics:normalization} should be fulfilled.}
     
-    \newdef{Conditional density}{\index{propability density function!conditional pdf}
+    \newdef{Conditional density}{\index{probability density function!conditional pdf}
     	The conditional p.d.f. of $X$ when $Y$ has the value y is given by the following formula:
         \begin{equation}
 			\label{statistics:conditional_pdf}
@@ -440,7 +439,7 @@ In this chapter, all (or most) definitions and formulas will be based on either 
 		\end{equation}
 	\end{formula}
     \begin{theorem}
-		If two Poisson processes $P(r;\lambda_a)$ and $P(r;\lambda_b)$ occur simultaneously and if there is no distinction between the two, then the propability of $r$ events is also described by a Poisson distribution with average $\lambda_a+\lambda_b$. 
+		If two Poisson processes $P(r;\lambda_a)$ and $P(r;\lambda_b)$ occur simultaneously and if there is no distinction between the two, then the probability of $r$ events is also described by a Poisson distribution with average $\lambda_a+\lambda_b$. 
 	\end{theorem}
     \result{The number of events coming from $A$ is given by a binomial distribution $P(r_a;\Lambda_a, r)$ where $\Lambda_a = \stylefrac{\lambda_a}{\lambda_a + \lambda_b}$.}
     \remark{For large values of $\lambda$ ($\lambda\rightarrow\infty$), the Poisson distribution $P(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{G}(x;\lambda,\sqrt{\lambda})$.
@@ -659,7 +658,7 @@ In this chapter, all (or most) definitions and formulas will be based on either 
 \subsection{Likelihood function}
 	\newdef{Likelihood}{\index{likelihood}
     	\label{likelihood}
-    	The likelihood $\mathcal{L}(a;\vec{x})$ is the propability to find a set of measurements $\vec{x} = \{x_1,...,x_N\}$ given a distribution $P(X;a)$:
+    	The likelihood $\mathcal{L}(a;\vec{x})$ is the probability to find a set of measurements $\vec{x} = \{x_1,...,x_N\}$ given a distribution $P(X;a)$:
         \begin{equation}
 			\label{statistics:likelihood}
             \mathcal{L}(a;\vec{x}) = \prod_{i=1}^NP(x_i;a)
@@ -845,10 +844,10 @@ In this chapter, all (or most) definitions and formulas will be based on either 
         
         \begin{itemize}
         	\item The denominator $p(\text{result})$ does not play a real role, it is a normalization constant.
-        	\item The propability $p(x|X)$  to have measurement $x$ when the true parameter is $X$ is a Gaussian distribution $\mathcal{G}(x;X,\sigma)$
+        	\item The probability $p(x|X)$  to have measurement $x$ when the true parameter is $X$ is a Gaussian distribution $\mathcal{G}(x;X,\sigma)$
         \end{itemize}
     }
-    \remark{If nothing is known about the theory, $p(X)$ is (exaggerated assumption) a uniform propability \ref{statistics:uniform_distr}.}
+    \remark{If nothing is known about the theory, $p(X)$ is (exaggerated assumption) a uniform probability \ref{statistics:uniform_distr}.}
     
 \subsection{Interval for a sample mean}
 	\newformula{Interval with known variance}{
@@ -901,7 +900,7 @@ In this chapter, all (or most) definitions and formulas will be based on either 
     }
     
     \newdef{Significance}{\index{significance}
-    	The propability of making a type I error:
+    	The probability of making a type I error:
         \begin{equation}
 			\label{statistics:significance}
             \boxed{\alpha = \int P_{H_0}(x)dx}
@@ -914,7 +913,7 @@ In this chapter, all (or most) definitions and formulas will be based on either 
     \sremark{Type I errors occur occasionally. They cannot be prevented, they should however be controlled.}
     
     \newdef{Power}{\index{power}
-    	The propability of not making a type II error:
+    	The probability of not making a type II error:
         \begin{equation}
 			\label{statistics:power}
             \boxed{\beta = \int P_{H_1}(x)dx\qquad\rightarrow\qquad\text{power: }1-\beta}
@@ -939,90 +938,94 @@ In this chapter, all (or most) definitions and formulas will be based on either 
     
 \subsection{Confindence intervals and decisions}
 
-\section{Goodness of fit}\index{Goodness of fit}
+\section{Goodness of fit}\index{goodness of fit}
+	
 	Let $f(x|\vec{\theta})$ be the fitted function with $N$ measurements.
-	\subsection{\texorpdfstring{$\chi^2$}\ -test}\index{Goodness of fit!$\chi^2$-test}
+	
+\subsection{\texorpdfstring{$\chi^2$}{chi square}-test}\index{Goodness of fit!$\chi^2$-test}
+    	
     	\begin{formula}
-            \begin{equation}
-				\label{statistics:gof:chi_square}
-                \chi^2 = \sum_{i=1}^N\frac{\left[y_i - f\left(x_i\right)\right]^2}{\sigma_i^2}
-			\end{equation}
-		\end{formula}
+		\begin{equation}
+			\label{statistics:gof:chi_square}
+	                \chi^2 = \sum_{i=1}^N\frac{\left[y_i - f\left(x_i\right)\right]^2}{\sigma_i^2}
+		\end{equation}
+	\end{formula}
         \begin{property}If there are $N - n$ fitted parameters we have:
-            \begin{equation}
-				\label{statistics:gof:chance_for_chi_square}
-                \int_{\chi^2}^\infty f(\chi^2|n)d\chi^2 \approx 1\implies \left\{
-                \begin{aligned}
-                &\circ\text{good fit}\\
-                &\circ\text{errors were overestimated}\\
-                &\circ\text{selected measurements}\\
-                &\circ\text{lucky shot}
-                \end{aligned}
-                \right.
-			\end{equation}
-		\end{property}
+		\begin{equation}
+			\label{statistics:gof:chance_for_chi_square}
+                	\int_{\chi^2}^\infty f(\chi^2|n)d\chi^2 \approx 1\implies
+	                \begin{cases}
+				\circ\text{ good fit}\\
+	                	\circ\text{ errors were overestimated}\\
+	                	\circ\text{ selected measurements}\\
+	                	\circ\text{ lucky shot}
+        	        \end{cases}
+		\end{equation}
+	\end{property}
         \begin{property}[Reduced chi-squared $\chi^2_{\text{red}}$]
-			Define the reduced chi-squared value as follows: $\chi^2_{\text{red}} = \chi^2/n$ where $n$ is the number of degrees of freedom.
-            \begin{itemize}
-                \item $\chi^2_{\text{red}} >> 1$: Poor modelling.
-                \item $\chi^2_{\text{red}} > 1$: Bad modelling or underestimation of the uncertainties.
-                \item $\chi^2_{\text{red}} = 1$: Good fit.
-                \item $\chi^2_{\text{red}} < 1$: Impropable, overestimation of the uncertainties. 
-            \end{itemize}
+		Define the reduced chi-squared value as follows: $\chi^2_{\text{red}} = \chi^2/n$ where $n$ is the number of degrees of freedom.
+		\begin{itemize}
+                	\item $\chi^2_{\text{red}} >> 1$: Poor modelling.
+                	\item $\chi^2_{\text{red}} > 1$: Bad modelling or underestimation of the uncertainties.
+                	\item $\chi^2_{\text{red}} = 1$: Good fit.
+                	\item $\chi^2_{\text{red}} < 1$: Impropable, overestimation of the uncertainties. 
+		\end{itemize}
 	\end{property}
     
-\subsection{Runs test}\index{Goodness of fit!Runs test}
+\subsection{Runs test}\index{runs test}
+	
 	A good $\chi^2$-test does not mean that the fit is good. As mentioned in property \ref{statistics:gof:chance_for_chi_square} it is possible that the errors were overestimated. Another condition for a good fit is that the data points vary around the fit, i.e. there are no long sequences of points that lie above/underneath the fit. (It is a result of the 'randomness' of a data sample') This condition is tested with a runs test \ref{statistics:runs_distr_even}/\ref{statistics:runs_distr_odd}.
     
-    \remark{The $\chi^2$-test and runs test are complementary. The $\chi^2$-test only takes the absolute value of the differences between the fit and data points into account, the runs test only takes the signs of the differences into account.}
+	\begin{remark}
+		The $\chi^2$-test and runs test are complementary. The $\chi^2$-test only takes the absolute value of the differences between the fit and data points into account, the runs test only takes the signs of the differences into account.
+	\end{remark}
     
-    \newformula{Runs distribution}{\index{Distribution!Runs}
-    	\begin{equation}
-        	\label{statistics:runs_distr_even}
-        	\boxed{P(r_{even}) = 2\stylefrac{C^{N_B - 1}_{\frac{r}{2} - 1}C^{N_O - 1}_{\frac{r}{2} - 1}}{C^N_{N_B}}}
+	\newformula{Runs distribution}{\index{distribution!runs}
+	    	\begin{equation}
+			\label{statistics:runs_distr_even}
+			\boxed{P(r_{even}) = 2\stylefrac{C^{N_B - 1}_{\frac{r}{2} - 1}C^{N_O - 1}_{\frac{r}{2} - 1}}{C^N_{N_B}}}
 		\end{equation}
-        \begin{equation}
-        	\label{statistics:runs_distr_odd}
-        	\boxed{P(r_{odd}) = \stylefrac{C^{N_B - 1}_{\frac{r - 3}{2}}C^{N_O - 1}_{\frac{r - 1}{2}} + C^{N_O - 1}_{\frac{r - 3}{2}}C^{N_B - 1}_{\frac{r - 1}{2}}}{C^N_{N_B}}}
+		\begin{equation}
+			\label{statistics:runs_distr_odd}
+			\boxed{P(r_{odd}) = \stylefrac{C^{N_B - 1}_{\frac{r - 3}{2}}C^{N_O - 1}_{\frac{r - 1}{2}} + C^{N_O - 1}_{\frac{r - 3}{2}}C^{N_B - 1}_{\frac{r - 1}{2}}}{C^N_{N_B}}}
 		\end{equation}
-        
-        \begin{equation}
+		\begin{equation}
 			E(r) = 1 + 2\stylefrac{N_B N_O}{N}
 		\end{equation}
-        \begin{equation}
+	        \begin{equation}
 			V(r) = 2\stylefrac{N_B N_O}{N}\stylefrac{2N_B N_O - 1}{N(N-1)}
 		\end{equation}
-    }
-    \remark{For $r > 10-15$ the runs distribution approximates a Gaussian distribution.}
+	}
+	\remark{For $r > 10-15$ the runs distribution approximates a Gaussian distribution.}
     
-\subsection{Kolmogorov test}\index{Kolmogorov!goodness of fit test}
-	\newdef{Empirical distribution function}{\index{empirical distribution function}
-    	\begin{equation}
+\subsection{Kolmogorov test}
+	
+	\newdef{Empirical distribution function}{
+	    	\begin{equation}
 			\label{statistics:empirical_distribution_function}
-            F_n(x) = \frac{1}{n}\sum_{i=1}^n\mathbbm{1}_{]-\infty,x]}(x_i)
+        		F_n(x) = \frac{1}{n}\sum_{i=1}^n\mathbbm{1}_{]-\infty,x]}(x_i)
 		\end{equation}
-        where $\mathbbm{1}_A(x)$ is the indicator function \ref{lebesgue:indicator_function}.
-    }
+	        where $\mathbbm{1}_A(x)$ is the indicator function \ref{lebesgue:indicator_function}.
+	}
 	\newdef{Kolmogorov-Smirnov statistic}{\index{Kolmogorov!Kolmogorov-Smirnov statistic}
-    	Let $F(x)$ be a given cumulative distribution function. The $n^{th}$ Kolmogorov-Smirnov statistic is defined as:
-    	\begin{equation}
+    		Let $F(x)$ be a given cumulative distribution function. The $n^{th}$ Kolmogorov-Smirnov statistic is defined as:
+    		\begin{equation}
 			\label{statistics:kolmogorov_smirnov_statistic}
-            D_n = \sup_x|F_n(x) - F(x)|
+        		D_n = \sup_x|F_n(x) - F(x)|
 		\end{equation}
-    }
+	}
     
-    \newdef{Kolmogorov distribution}{\index{Kolmogorov!distribution}
-    	\begin{equation}
+	\newdef{Kolmogorov distribution}{\index{Kolmogorov!distribution}
+	    	\begin{equation}
 			\label{statistics:kolmogorov_distribution_cumulative}
-            P(K\leq x) = 1 - 2\sum_{i=1}^{+\infty}(-1)^{i-1}e^{-2i^2x^2} = \stylefrac{\sqrt{2\pi}}{x}\sum_{i=1}^{+\infty}e^{-(2i-1)^2\pi^2/(8x^2)}
+        		P(K\leq x) = 1 - 2\sum_{i=1}^{+\infty}(-1)^{i-1}e^{-2i^2x^2} = \stylefrac{\sqrt{2\pi}}{x}\sum_{i=1}^{+\infty}e^{-(2i-1)^2\pi^2/(8x^2)}
 		\end{equation}
-    }
+	}
     
-    \newprop{Kolmogorov-Smirnov test}{
-    	Let the null hypothesis $H_0$ state that a given data sample is described by a continuous distribution $P(x)$ with cumulative distribution function $F(x)$. The null hypothesis is rejected at significance level $\alpha$ if:
-        \begin{equation}
+	\newprop{Kolmogorov-Smirnov test}{
+	    	Let the null hypothesis $H_0$ state that a given data sample is described by a continuous distribution $P(x)$ with cumulative distribution function $F(x)$. The null hypothesis is rejected at significance level $\alpha$ if:
+        	\begin{equation}
 			D_n\sqrt{n} > K_{\alpha}
 		\end{equation}
-        where $K_{\alpha}$ is defined by using the Kolmogorov distribution: $P(K\leq K_{\alpha}) = 1-\alpha$
-    }
-	
+        	where $K_{\alpha}$ is defined by using the Kolmogorov distribution: $P(K\leq K_{\alpha}) = 1-\alpha$
+	}

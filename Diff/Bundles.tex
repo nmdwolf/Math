@@ -70,26 +70,54 @@
 	
 	\newdef{Compatible\footnotemark\ bundle charts}{\index{compatible!bundle charts}
 		\footnotetext{Also called an \textbf{admissible chart}.}
-		A bundle chart $(U, \varphi)$ is compatible with a trivializing cover $\{(U_i, \varphi_i)\}_{i\in I}$ if whenever $U\cap U_i\neq\emptyset$ their exists a map $h_i:U\cap U_i\rightarrow G$ such that:
+		A bundle chart $(V, \psi)$ is compatible with a trivializing cover $\{(U_i, \varphi_i)\}_{i\in I}$ if whenever $V\cap U_i\neq\emptyset$ their exists a map $h_i:V\cap U_i\rightarrow G$ such that:
 		\begin{equation}
-			\varphi\circ\varphi_i^{-1}(b, x) = (b, h_i(b)x)
+			\psi\circ\varphi_i^{-1}(b, x) = (b, h_i(b)x)
 		\end{equation}
-		for all $b\in U\cap U_i$ and $x\in F$. Two trivializing covers are \textit{equivalent} if all bundle charts are cross-compatible. As in the case of manifolds, this gives rise to the notion of a \textbf{G-atlas}. A \textbf{G-bundle} is then defined as a fibre bundle eqipped with an equivalence class of $G$-atlases.
+		for all $b\in V\cap U_i$ and $x\in F$. Two trivializing covers are \textit{equivalent} if all bundle charts are cross-compatible. As in the case of manifolds, this gives rise to the notion of a \textbf{G-atlas}. A \textbf{G-bundle} is then defined as a fibre bundle eqipped with an equivalence class of $G$-atlases.
 	}
 	
-	\newdef{Equivalent fibre bundles}{
-		Two fibre bundles $\pi_1:F_1\rightarrow B$ and $\pi_2:F_2\rightarrow B$ (over the same base space $B$) are equivalent if there exist trivializing covers\footnotemark\ $\{(U_i, \varphi_i)\}_{i\in I}$ and $\{(U_i, \varphi'_i)\}_{i\in I}$ and a family of smooth functions $\{\rho_i:U_i\rightarrow G\}_{i\in I}$ such that:
+	\newdef{Bundle map}{\index{bundle!map}
+		A bundle map between two fibre bundles $\pi_1:E_1\rightarrow B_1$ and $\pi_2:E_2\rightarrow B_2$ is a pair $(f_E, f_B)$ of continuous maps that make diagram \ref{tikz:bundle_map} commute:
+		
+		\begin{figure}[ht!]
+		\centering	
+		\begin{tikzpicture}
+			\matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
+				E_1 \& E_2\\
+				B_1 \& B_2\\
+			};
+			\path[-stealth]
+				(m-1-1) edge node [left] {$\pi_1$} (m-2-1)
+					edge node [above] {$f_E$} (m-1-2)
+				(m-2-1) edge node [below] {$f_B$} (m-2-2)
+				(m-1-2) edge node [right] {$\pi_2$} (m-2-2);
+		\end{tikzpicture}
+		\caption{Bundle map between fibre bundles.}
+		\label{tikz:bundle_map}
+		\end{figure}
+		
+	}
+	\newdef{Isomorphic fibre bundles}{
+		Two fibre bundles $F$ and $G$ are isomorphic if there exist bundle maps $f:F\rightarrow G$ and $g:G\rightarrow F$ such that $f\circ g = \mathbbm{1}_G$ and $g\circ f = \mathbbm{1}_F$.
+	}
+	
+	\newdef{Equivalent fibre bundles}{\index{gauge!transformation}
+		Two fibre bundles $\pi_1:E_1\rightarrow B$ and $\pi_2:E_2\rightarrow B$ (with the same typical fibre and structure group) are equivalent if there exist trivializing covers\footnotemark\ $\{(U_i, \varphi_i)\}_{i\in I}$ and $\{(U_i, \varphi'_i)\}_{i\in I}$ and a family of smooth functions $\{\rho_i:U_i\rightarrow G\}_{i\in I}$ such that:
 		\begin{equation}
 			g'_{ji}(b) = \rho_j(b)\circ g_{ji}(b)\circ\rho_i^{-1}(b)
 		\end{equation}
-		for every $b\in U_i\cap U_j$.
+		for every $b\in U_i\cap U_j$. An explicit form of these functions is given by:
+		\begin{equation}
+			\rho_i = \varphi_i'\circ\varphi_i^{-1}
+		\end{equation}
+		This transformation is called a \textbf{gauge transformation} (especially in physics) .
 		\footnotetext{Remark that the collection $\{U_i\}_{i\in I}$ is the same for both trivializing covers.}
 	}
 	\begin{property}
-		Two fibre bundles over the same base space are equivalent if and only if they are isomorphic\footnotemark. Furthermore, if there exists a bundle map between two fibre bundles over the same base space, then they are equivalent.
-		\footnotetext{Two fibre bundles $F$ and $G$ are isomorphic if there exist bundle maps $f:F\rightarrow G$ and $g:G\rightarrow F$ such that $f\circ g = \mathbbm{1}_G$ and $g\circ f = \mathbbm{1}_F$.}
+		Two fibre bundles over the same base space are equivalent if and only if they are isomorphic. Furthermore, every bundle map between bundles over the same base space induces an equivalence (and thus also an isomorphism).
 	\end{property}
-	
+		
 	\newdef{Trivial bundle}{\label{manifolds:trivial_bundle}
 		A fibre bundle $(E, B, \pi, F)$ is trivial if $E = B\times F$.
 	}
@@ -113,23 +141,6 @@
 	\begin{notation}
 		The set of all global sections on a bundle $E$ is denoted by $\Gamma(E)$. The set of local sections on $U\subset E$ is similarly denoted by $\Gamma(U)$.
 	\end{notation}
-
-\subsection{Reduction of the structure group}
-
-	\begin{construct}
-		Consider a fibre bundle $\mathcal{F} = (E, B, \pi, F, G)$. Let $H$ be a subgroup of $G$. If there exists a fibre bundle with structure group $H$ equivalent to $\mathcal{F}$ then we say that the structure group $G$ can be reduced to $H$.
-	\end{construct}
-	
-	\begin{property}\index{orientation}
-		An $n$-dimensional manifold is orientable if and only if the structure group $GL(\mathbb{R}^n)$ of its frame bundle $F(M)$ is reducible to $GL^+(\mathbb{R}^n)$, i.e. the group of invertible matrices with positive determinant. 
-	\end{property}
-	
-	\newdef{$G$-structure}{\index{$G$-structure}
-		Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group $GL(\mathbb{R}^n)$ of the frame bundle $F(M)$ to a subgroup $G\subset GL(\mathbb{R}^n)$.
-	}
-	\begin{example}
-		An $O(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}.
-	\end{example}
 
 \subsection{Jet bundles}
 
@@ -208,7 +219,7 @@
 		\end{equation}
 	\end{property}
 	
-	\newdef{Bundle map}{\index{bundle map}
+	\newdef{Bundle map}{\index{bundle!map}
 		A bundle map $F:P_1\rightarrow P_2$ between principal $G$-bundles is a pair of smooth maps $(f_B, f_E)$ such that:
 		\begin{enumerate}
 			\item The diagram \ref{tikz:principal_bundle_map} below commutes.
@@ -244,6 +255,23 @@
 	
 	\begin{example}[Frame bundle]\index{frame bundle}\index{frame}
 		Let $V$ be an $n$-dimensional vector space. Denote the set of ordered bases, also called \textbf{frames}, of $V$ by $F(V)$. This set is isomorphic to the group $GL(\mathbb{R}^n)$ which follows from the fact that every basis transformation is given by the action of an element of the general linear group. We can thus construct a principal bundle associated to the vector bundle $E$ by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong$ GL$(\mathbb{R}^n)$.
+	\end{example}
+	
+\subsection{Reduction of the structure group}
+
+	\begin{construct}
+		Consider a fibre bundle $\mathcal{F} = (E, B, \pi, F, G)$. Let $H$ be a subgroup of $G$. If there exists a fibre bundle with structure group $H$ equivalent to $\mathcal{F}$ then we say that the structure group $G$ can be reduced to $H$.
+	\end{construct}
+	
+	\begin{property}\index{orientation}
+		An $n$-dimensional manifold is orientable if and only if the structure group $GL(\mathbb{R}^n)$ of its frame bundle $F(M)$ is reducible to $GL^+(\mathbb{R}^n)$, i.e. the group of invertible matrices with positive determinant. 
+	\end{property}
+	
+	\newdef{$G$-structure}{\index{G-structure}
+		Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group $GL(\mathbb{R}^n)$ of the frame bundle $F(M)$ to a subgroup $G\subset GL(\mathbb{R}^n)$.
+	}
+	\begin{example}
+		An $O(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} using the transpose inverse of the transition maps of the tangent bundle $TM$, which for maps in $O(n)$ is equal to the oringinal maps, these two bundles are equivalent. The isomorphism is given by the \textit{musical isomorphisms}\footnote{See definition \ref{riemann:musical_isomorphisms}.}.
 	\end{example}
 	
 \subsection{Sections}

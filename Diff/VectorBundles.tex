@@ -1,10 +1,10 @@
 \section{Vector bundles}
-	The tangent space and tangent bundle, as introduced in subsection \ref{diff:section:tangent_space}, can also be introduced in a more topological way:
+	The tangent space, as introduced in subsection \ref{diff:section:tangent_space}, can also be introduced in a more topological way:
 	
-\subsection{Tangent bundles}
+\subsection{Tangent bundle}
 
 	\begin{construct}[Tangent bundle]\index{tangent!bundle}
-		Let $M$ be a manifold with atlas $\{(U_i, \varphi_i)\}_{i\leq n}$. Consider for every open set $U$ an associated set $TU = U\times\mathbb{R}^n$. For every smooth function $f$ we can define an associated smooth function on $TU$, called the differential of $f$, by:
+		Let $M$ be an $n$-dimensional manifold with atlas $\{(U_i, \varphi_i)\}_{i\leq n}$. Construct for every open set $U$ an associated set $TU = U\times\mathbb{R}^n$ and construct for every smooth function $f$ an associated smooth function on $TU$, called the \textbf{differential} or \textbf{derivative} of $f$, by:
 		\begin{equation}
 			\label{diff:manifolds:T_function}
 			Tf:U\times\mathbb{R}^n\rightarrow f(U)\times\mathbb{R}^n:(x, v)\mapsto(f(x), Df(x)v)
@@ -13,11 +13,26 @@
 		\begin{equation}
 			\widetilde{\psi}_{ji}(\varphi_i(x), v) = \left(\varphi_j(x), (\varphi_j\circ\varphi_i^{-1})'(\varphi_i(x))v\right)
 		\end{equation}
-		Because the transition functions are diffeomorphisms the Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $GL(\mathbb{R}^n)$. The tangent bundle is now obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n, GL(\mathbb{R}^n))$ together with the cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\in I}$.
+		Because the transition functions are diffeomorphisms, the Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $GL(\mathbb{R}^n)$. The tangent bundle is now obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n, GL(\mathbb{R}^n))$ together with the cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\in I}$.
 	\end{construct}
 	\begin{remark*}
-		The charts in the atlas of the constructed bundle are sometimes called \textbf{natural charts}.
+		The charts in the atlas of the constructed bundle are sometimes called \textbf{natural charts} because the first $n$ coordinates are equal to the coordinates of the base space.
 	\end{remark*}
+	\begin{adefinition}
+		The above construction eventually comes down to the following (easier) definition of the tangent bundle:
+		\begin{equation}
+			TM = \bigsqcup_{p\in M}T_pM
+		\end{equation}
+		equipped with the disjoint union topology \ref{topology:disjoint_union} and the projection map\footnote{The single-valuedness of $\pi$ is ensured because the tangent bundle is defined as the disjoint union of the tangent spaces.}
+		\begin{equation}
+			\pi:TM\rightarrow M:(p, X)\mapsto p
+		\end{equation}
+		where $X$ is a tangent vector in $T_pM$. An atlas on $TM$ is then given by the charts $(\pi^{-1}(U), \theta)$ with
+		\begin{equation}
+			\theta:TM\rightarrow\mathbb{R}^{2n}:(p, X)\mapsto(\varphi(p), X^1, ..., X^n)
+		\end{equation}
+		where $X = X^i\left.\pderiv{}{x^i}\right|_p\in T_pM$ and where $(U, \varphi)$ is a chart on $M$ around the point $p\in M$.
+	\end{adefinition}
 	
 	\begin{property}
 		Let $M$ be an $n$-dimensional manifold. Using the natural charts on $TM$ which give a local homeomorphism \[\psi_i:TM\rightarrow U_i\times\mathbb{R}^n\cong\mathbb{R}^n\times\mathbb{R}^n\] we can see that $TM$ is isomorphic to $\mathbb{R}^{2n}$. This implies that the tangent bundle is a manifold of dimension $2n$.
@@ -39,7 +54,6 @@
 		\[\text{a vector }v\in T_xM\text{ is tangent to }\varphi_i(x)\text{ in a chart }(U_i, \varphi_i)\]
 		if and only if
 		\[D(\varphi_j\circ\varphi_i^{-1})(\varphi_i(x))v\text{ is tangent to }\varphi_j(x)\text{ in a chart }(U_j, \varphi_j)\]
-		Comparing this property to \ref{diff:manifolds:tangent_curve_transformation}, we see that tangent vectors defined through equivalence classes of tangent curves are indeed tangent vectors according to our new construction.
 	\end{remark}
 	
 	\newdef{Differential}{\index{differential}\label{manifolds:differential}
@@ -62,8 +76,8 @@
 	\newdef{Rank}{\index{rank}
 		\label{manifolds:rank}
 		Let $f:M\rightarrow N$ be a differentiable map between smooth manifolds. Using the fact that $Tf$ is a linear map of fibres\footnotemark, we define the rank of $f$ at $p\in M$ as the rank (as in \ref{linalgebra:image_rank}) of the differential $Tf:T_pM\rightarrow T_{f(p)}N$.
+		\footnotetext{See definition \ref{manifolds:differential}.}
 	}
-	\footnotetext{See definition \ref{manifolds:differential}.}
 	
 	\begin{theorem}[Inverse function theorem]\index{inverse function theorem}\label{manifolds:theorem:inverse_function_theorem}
 		A $C^\infty$ map $f:M\rightarrow N$ between smooth manifolds is locally homeomorphic (resp. locally diffeomorphic) if and only if its differential $Tf:T_pM\rightarrow T_pN$ is an isomorphism (resp. diffeomorphism) at $p$.
@@ -168,10 +182,6 @@
 		\end{equation}
 		for all smooth functions $f:N\rightarrow\mathbb{R}$ and points $q\in N$.
 	}
-	
-	\begin{remark*}
-		For both the pullback and pushforward, we need the map $\varphi$ to be a diffeomorphism. For differential forms this is only necessary for the definition of pushforwards. (See definitions \ref{forms:pullback} and \ref{forms:pushforward}).
-	\end{remark*}
 	
 \subsection{Integral curves}
 	\newdef{Integral curve}{\index{integral!curve}
@@ -293,7 +303,7 @@
 		Let $W$ be a distribution of $k$-planes over a smooth manifold $M$. Then $W$ is integrable if and only if $W$ satisfies the Frobenius integrability condition.
 	\end{theorem}
 
-\section{Differential \texorpdfstring{$k$}{k}\ -forms}
+\section{Differential \texorpdfstring{$k$}{k}-forms}
 
 	\newdef{Differential form}{\index{differential form}
 		A differential $k$-form is a map
@@ -303,16 +313,16 @@
 		such that the restriction of $\omega$ to each fibre of the fibre product\footnotemark\ $T^{\diamond k}M$ is multilinear and antisymmetric.
 		
 		The space of all differential $k$-forms on a manifold $M$ is denoted by $\Omega^k(M)$. $\Omega^0(M)$ is defined as the space of smooth functions $C^\infty:M\rightarrow\mathbb{R}$.
+		\footnotetext{See definition \ref{manifolds:fibre_product}.}
 	}
-	\footnotetext{See definition \ref{manifolds:fibre_product}.}
 	
 	\begin{adefinition}
 		An alternative definition goes as follows. Consider the representation \[\rho_k:GL(R^{m*})\rightarrow GL(\Lambda^k(\mathbb{R}^{m*})): T\mapsto T\wedge...\wedge T\] where $T$ is a linear map. This representation induces an associated vector bundle\footnotemark\ $\rho_k(\tau_M^*)$ of the cotangent bundle on $M$. A differential $k$-form is then given by a section of $\rho_k(\tau_M^*)$. $\Omega^k(M)$ can then be defined as follows: \[\Omega^k(M) = \Gamma(\rho_k(\tau_M^*))\]
+		\footnotetext{See definition \ref{manifolds:associated_vector_bundle}.}
 	\end{adefinition}
-	\footnotetext{See definition \ref{manifolds:associated_vector_bundle}.}
 	
 	\begin{construct}
-		We can construct a graded algebra by equipping the graded vector space
+		We can construct a Grassmann algebra\footnote{As in definition \ref{tensor:exterior_algebra}.} by equipping the graded vector space
 		\begin{equation}
 			\Omega(M) = \bigoplus_{k\geq0}\Omega^k(M)
 		\end{equation}
@@ -323,7 +333,7 @@
 		Let $f:M\rightarrow N$ be a smooth function between smooth manifolds and let $\omega$ be a differential $k$-form on $N$. The pullback of $\omega$ by $f$ is defined as:
 		\begin{equation}
 			\label{forms:pullback}
-			\boxed{f^*(\omega) = \omega\circ Tf:TM\rightarrow\mathbb{R}}
+			\boxed{f^*(\omega) = \omega\circ f_*:TM\rightarrow\mathbb{R}}
 		\end{equation}
 		So $f^*$ can be seen as a map pulling elements from $T^*N$ back to $T^*M$.
 	}
@@ -331,11 +341,7 @@
 		Let $f:M\rightarrow N$ be a diffeomorphism between smooth manifolds and let $\omega$ be a differential $k$-form on $M$. The pushforward $\omega$ by $f$ is defined as:
 		\begin{equation}
 			\label{forms:pushforward}
-			f_*(\omega): \omega\circ Tf^{-1}: TN\rightarrow\mathbb{R}
-		\end{equation}
-		or using the pullback:
-		\begin{equation}
-			f_*(\omega) = f^{-1*}(\omega)
+			f_*(\omega): \omega\circ (f^{-1})_*: TN\rightarrow\mathbb{R}
 		\end{equation}
 	}
 	\begin{remark*}
@@ -343,11 +349,12 @@
 	\end{remark*}
 	
 	\newformula{Dual basis}{\index{basis}
-		Consider the basis $\{\left.\pderiv{}{x_i}\right|_p\}_{i\leq n}$ from definition \ref{diff:manifolds:tangent_vector_partial} for the tangent space $T_pM$. From this set we can construct a natural dual basis for the cotangent space $T_p^*M$ using the natural pairing of these spaces:
+		Consider the basis $\{\left.\pderiv{}{x_i}\right|_p\}_{i\leq n}$ from definition \ref{diff:manifolds:tangent_vector_partial} for the tangent space $T_pM$. From this set we can construct\footnotemark\ a natural dual basis for the cotangent space $T_p^*M$ using the natural pairing of these spaces:
 		\begin{equation}
 			\label{forms:basis}
-			\left\langle\pderiv{}{x_i}, dx_j\right\rangle = \delta_{ij}
+			\left\langle\pderiv{}{x^i}, dx^j\right\rangle = \delta_i^j
 		\end{equation}
+		\footnotetext{It should however be noted that $dx^i$ is not just a notation. These basis vectors are in fact constructed by applying the exterior derivative \ref{forms:def:exterior_derivative} to the coordinate maps $x^i$.}
 	}
 	
 \subsection{Exterior derivative}
@@ -399,7 +406,7 @@
 			\sim (\ast d\alpha) &= \nabla\times\vector{f} \\
 			\ast d\omega &= \nabla\cdot\vector{f}
 		\end{empheq}
-		The properties in section \ref{vectorcalculus:mixed_properties} then follows from the identity $d^2 = 0 $.
+		The properties in section \ref{vectorcalculus:mixed_properties} then follow from the identity $d^2 = 0 $.
 	\end{remark}
 	
 	\begin{example}

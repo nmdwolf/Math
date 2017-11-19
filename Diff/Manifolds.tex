@@ -59,6 +59,7 @@
 \section{Tangent vectors}\label{diff:section:tangent_space}
 
 	\newdef{Tangent vector}{\index{tangent!vector}\index{derivation}\label{manifolds:derivation}
+		\nomenclature[S]{$\mathcal{F}_p(M)$}{Ring/algebra of all smooth functions $f:M\rightarrow\mathbb{R}$ defined on a neighbourhood of $p\in M$.}
 	    	Let $M$ be a smooth manifold and $p\in M$. Let $f, g:M\rightarrow\mathbb{R} \in \mathcal{F}_p(M)$. A tangent vector on $M$ is a differential operator $v_p$ satisfying the following properties:
 	        \begin{enumerate}
 			\item Linearity: $v_p(af + g) = av_p(f) + v_p(g)$
@@ -73,72 +74,45 @@
 	        \end{equation}
 	\end{property}
     
-	\newdef{Tangent space}{\index{tangent!space}\index{basis}
-    		Following from the previous definition, we can construct a tangent (vector) space $T_pM$ in each point $p\in M$. First we construct a tangent vector:
+	\newdef{Tangent space}{\index{tangent!space}\index{basis}\label{diff:manifolds:tangent_vector_partial}
+    		Following from the previous definition, we can construct a tangent (vector) space $T_pM$ in each point $p\in M$. The basis vectors are given by:
         	\begin{equation}
-        		\label{diff:manifolds:tangent_vector_partial}
         		\boxed{\left.\ds\pderiv{}{q^i}\right|_{p}:\mathcal{F}_p(M, \mathbb{R})\rightarrow\mathbb{R}:f\mapsto \pderiv{}{q^i}\left(f\circ\varphi^{-1}\right)(\varphi(p))}
         	\end{equation}
-        	where $(U, \varphi)$ is a coordinate chart such that $p\in U$ and $(q^1, ..., q^n)$ are local coordinates. These tangent vectors $\pderiv{}{q^i}|_{p}$ form a basis for $T_pM$.
+        	where $(U, \varphi)$ is a coordinate chart such that $p\in U$ and $(q^1, ..., q^n)$ are local coordinates.
 	}
 	\remark{Due to the explicit dependence of the tangent vectors on the point $p\in M$, it is clear that for curved manifolds the tangent spaces belonging to different points will not be the same.}
+	\begin{property}
+		From the above tangent space construction it follows that:
+        	\begin{equation}
+        		\boxed{\dim(T_p M) = \dim(M)}
+        	\end{equation}
+        	This also implies that the tangent spaces over two distinct points $p, q\in M$ are isomorphic.
+	\end{property}
     
 	\newdef{Curve}{\index{curve}
 	   	A smooth function $\gamma:\mathbb{R}\rightarrow M$ with $\gamma(0) = m$ is called a smooth curve through $m\in M$.
 	}
-	\newadef{Tangent space}{
-	    	The alternative construction goes as follows. Two smooth curves $\gamma_1, \gamma_2$ through $p\in M$ are said to be tangent at $p$ if:
+	\newadef{Tangent space}{\label{manifolds:alternative_definition}
+	    	The alternative construction goes as follows. Let $(U, \varphi)$ be a chart for the point $p\in M$. Two smooth curves $\gamma_1, \gamma_2$ through $p\in M$ are said to be tangent at $p$ if:
 	    	\begin{equation}
 	    		\deriv{(\varphi\circ\gamma_1)}{t}(0) = \deriv{(\varphi\circ\gamma_2)}{t}(0)
 	    	\end{equation}
-	    	equivalently, if there local representatives are tangent in 0. Furthermore, these formulae transform as follows:
-	    	\begin{equation}
-	    		\label{diff:manifolds:tangent_curve_transformation}
-	    		\deriv{(\psi\circ\gamma)}{t}(0) = D(\psi\circ\varphi^{-1})(\varphi(p))\deriv{(\varphi\circ\gamma)}{t}(0)
-	    	\end{equation}
-		This relation in fact imposes an equivalence relation on the set of smooth curves through $p$. One then defines the tangent space at $p$ as the set of equivalence classes of tangent curves through $p$. Explicitly these equivalence classes are constructed as follows:
+	    	or equivalently, if their local representatives are tangent in 0. This relation imposes an equivalence relation\footnote{The relation is well-defined (under a change of chart) because the transition maps (and their Jacobian matrices) are invertible and thus non-singular.} on the set of smooth curves through $p$. One then defines\mnote{def} the tangent space at $p$ as the set of equivalence classes of tangent curves through $p$. Explicitly these equivalence classes are constructed as follows:
     	
-		We can define the following tangent vector to the curve $c$ through $p$:
+		We can define the following tangent vector to the curve $c(t)$ through $p$ as:
 	    	\begin{equation}
-	    		v_p(f) = \left.\deriv{(f\circ c)}{t}\right|_{t=0}
+	    		\boxed{v_p(f) = \left.\deriv{(f\circ c)}{t}\right|_{t=0}}
 	    	\end{equation}
 	    	Applying the chain rule gives us
 	    	\begin{equation}
-	    		\label{diff:manifolds:tangent_vector_expansion}
+	    		\label{diff:manifolds:tangent_vector_chain_rule}
 	    		v_p(f) = \pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{q^i}{t}(0)
 		\end{equation}
 		where $q^i = (\varphi\circ c)^i$. The first factor depends only on the point $p$ and the second factor is equal for all tangent curves through $p$. We thus see that tangent curves define the same tangent vector.
 	}
     
-	Now we should prove that both definitions of the tangent space are in fact really equivalent.
-	\newproof{
-	    	Using \ref{diff:manifolds:tangent_vector_partial} we can rewrite equation \ref{diff:manifolds:tangent_vector_expansion} as follows:
-	    	\begin{equation}
-	    		v_p(f) = \left.\pderiv{f}{q^i}\right|_p\deriv{q^i}{t}(0)
-	    	\end{equation}
-		Because the partial derivatives \ref{diff:manifolds:tangent_vector_partial} are also basis vectors for the tangent space, we see that this equation is in fact an expansion in those basis vectors. So the representatives of the equivalence classes of tangent curves are indeed tangent vectors according to the first definition.
-	
-		To prove the other direction we have to show that the partial derivative operators can be constructed as tangent vectors to curves.
-	
-		A tangent vector (from the first definition) can be expanded as
-		\begin{equation}
-			\label{manifolds:tangent_vector_expansion}
-			v_p = v^i\left.\pderiv{}{q^i}\right|_p
-		\end{equation}
-		with $v = (v^1, ..., v^n)$. By constructing the curve $\gamma: t\mapsto \varphi^{-1}(q_0+vt)$ we see that this tangent vector $v_p$ is indeed tangent to a curve. So we have an isomorphism between the tangent vectors from the first definition and the equivalence classes of tangent curves. Both definitions of the tangent space are thus equivalent.\qed
-	}
-	\begin{remark}\index{directional derivative}
-    		From \ref{manifolds:tangent_vector_expansion} it follows that the tangent vectors can be viewed as directional derivatives.
-	\end{remark}
-    
-	\newdef{Tangent bundle}{\index{tangent!bundle}
-		The disjoint union\footnote{See definition \ref{topology:disjoint_union}.} of all tangent spaces
-		\begin{equation}
-			\label{diff:manifolds:tangent_bundle}
-			TM = \bigsqcup_{p\in M}T_pM
-		\end{equation}
-		is called the tangent bundle on $M$.
-	}
+	The proof that both definitions of the tangent space are in fact equivalent is given in the appendices.
 
 \section{Curvature}
 	\newformula{Riemann Curvature Tensor}{\index{Riemann!curvature tensor}
@@ -184,7 +158,7 @@
 	}
 
 	\newdef{Immersion}{\index{immersion}
-		Let $f:M\rightarrow N$ be a differentiable function between smooth manifolds. $f$ is called an immersion if its derivative is everywhere injective, or equivalently if its derivative has maximal rank\footnotemark\ everywhere:
+		Let $f:M\rightarrow N$ be a differentiable function between smooth manifolds. $f$ is called an immersion if its derivative\footnote{This is formally defined in \ref{diff:manifolds:T_function}. For now it is the map represented by the Jacobian matrix.} is everywhere injective, or equivalently if its derivative has maximal rank\footnotemark\ everywhere:
 		\footnotetext{See definition \ref{manifolds:rank}.}
 		\begin{equation}
 			\text{rk}_p(f) = \dim(M), \forall p\in M

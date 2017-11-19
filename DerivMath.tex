@@ -44,7 +44,34 @@
 	
 	We do however have to pay attention to one little detail. As mentioned in \ref{tensor:adef_exterior_algebra} the general definition uses the ideal $I$ to construct the quotient space. The other construction is only equivalent when working over a field with a characteristic different from 2. This follows from the fact that we have to divide by 2 when trying to obtain the ideal $I$ from the RHS by setting $u=v$.
 
-\section{Vector fields \& differential forms}
+\section{Manifolds and bundles}
+\subsection{Proof of equivalence of tangent space constructions. (Definitions \ref{diff:manifolds:tangent_vector_partial} and \ref{manifolds:alternative_definition})}
+
+	Let $(U, \varphi)$ be a chart around the point $p\in M$. Using the first definition of a tangent vector (\ref{diff:manifolds:tangent_vector_partial}), i.e.:
+		\[\left.\ds\pderiv{}{q^i}\right|_{p}:\mathcal{F}_p(M, \mathbb{R})\rightarrow\mathbb{R}:f\mapsto \pderiv{}{q^i}\left(f\circ\varphi^{-1}\right)(\varphi(p))\]
+	we can rewrite equation \ref{diff:manifolds:tangent_vector_chain_rule}:
+		\[v_p(f) = \pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{q^i}{t}(0)\]
+	as follows:
+		\[v_p(f) = \left.\pderiv{f}{q^i}\right|_p\deriv{q^i}{t}(0)\]
+	Because the partial derivatives as defined in \ref{diff:manifolds:tangent_vector_partial} form a basis for the tangent space (by construction), we see that this equation is in fact an expansion of the tangent vector $v_p$ in terms of that basis. It follows that vectors tangent to curves\footnote{More precisely: representatives of equivalence classes of vectors tangent to curves.} are also tangent vectors according to the first definition.
+
+	To prove the other direction we have to show that the partial derivative operators can be constructed as vectors tangent to curves.
+
+	A tangent vector can be expanded, according to the first construction, in the following way:
+	\[
+		v_p = v^i\left.\pderiv{}{q^i}\right|_p
+	\]
+	where we also define $v = (v^1, ..., v^n)$. We can then construct the curve $\gamma: t\mapsto \varphi^{-1}(q_0+vt)$. It is obvious that the tangent vector $v_p$ is tangent to the curve $\gamma$. From this it follows that we have an isomorphism between the tangent vectors from to the first definition and the equivalence classes of vectors tangent to curves from the second definition. These definitions are thus equivalent.\qed
+	
+	Although the previous equivalence implies that the tangent space construction using germs of curves gives us a vector space we could also check the vector space axioms directly. First we prove that the sum of vectors tangent to the curves $\gamma$ and $\delta$ is again a vector tangent to some curve $\chi:\mathbb{R}\rightarrow M$. For this let us define the curve \[\chi(t) \equiv \varphi^{-1}\circ\Big(\varphi\circ\gamma(t) + \varphi\circ\delta(t) - \varphi(p)\Big)\] where $\varphi$ is again the coordinate map in some chart $(U, \varphi)$ around $p\in M$. Using equation \ref{diff:manifolds:tangent_vector_chain_rule} we find:
+	\begin{align*}
+		v_{p, \chi}(f) =& \pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{(\varphi^i\circ\chi)}{t}(0)\\
+		=&\pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{}{t}\left(\varphi^i\circ\gamma + \varphi^i\circ\delta - \varphi^i(p)\right)\\
+		=&\pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\left(\deriv{(\varphi^i\circ\gamma)}{t} + \deriv{(\varphi^i\circ\delta)}{t}\right)\\
+		=&v_{p, \gamma}(f) + v_{p, \delta}(f)
+	\end{align*}
+	The constant term $-\varphi(p)$ in the definition of $\chi(t)$ is necessary to make sure that $\chi(0) = \gamma(0) = \delta(0) = p$. The scalar multiplication by a number $\lambda\in K$ can be proven by defining the curve $\chi(t) = \varphi^{-1}\circ\left[\lambda\Big(\varphi\circ\gamma(t)\Big)\right]$.
+
 \subsection{Explanation for example \ref{manifolds:ex:lie_derivative_function}}\index{Landau!little-o notation}
 
 	In this derivation we use the Landau little-o notation $o(t)$, i.e.:
@@ -96,9 +123,9 @@
 		\boxed{\mathcal{L}_XY = \left.\deriv{}{t}(\sigma_t^*X)(\gamma_p(t))\right|_{t=0}}
 	\end{equation}
 		 
-\subsection{Explanation for remark \ref{forms:vector_calculus}}
+\subsection{Connection between vector calculus and differential geometry (Remark \ref{forms:vector_calculus})}
 
-Looking at formula \ref{forms:function_derivative} for the exterior derivative of a smooth function and remembering the definition of the gradient \ref{vectorcalculus:gradient} we see that these two definitions appear very similar. The major difference lies in the fact that $\nabla f$ is a vector in $\mathbb{R}^3$ and $df$ is a covector in $\mathbb{R}^{*3}$. However there exists an isomorphism between these spaces and so we can identify $\nabla f$ and $df$.
+	Looking at formula \ref{forms:function_derivative} for the exterior derivative of a smooth function and remembering the definition of the gradient \ref{vectorcalculus:gradient} we see that these two definitions appear very similar. The major difference lies in the fact that $\nabla f$ is a vector in $\mathbb{R}^3$ and $df$ is a covector in $\mathbb{R}^{*3}$. However there exists an isomorphism between these spaces and so we can identify $\nabla f$ and $df$.
 		
 		Similar relations hold for the rotor \ref{vectorcalculus:rotor} and divergence \ref{vectorcalculus:divergence}, however here we have to use a different construction as we will be working with the spaces $\Lambda^1$ and $\Lambda^2$. However we can use the Hodge star \ref{tensor:hodge_star} to obtain the correct dimensions.
 		

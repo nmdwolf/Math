@@ -1,83 +1,10 @@
 \chapter{Tensor calculus}
-\section{General definition}
-	\begin{definition}[Einstein summation convention]\index{Einstein!summation convention}
-    	This notation is a useful tool to reduce long formulas. Summations over indices are assumed implicitly if they occur once as a subscript and once as a superscript.
-        \begin{equation}
-			\label{tensorcalculus:einstein_summation}
-            \sum_ip_ix^i = p_ix^i
-		\end{equation}
-	\end{definition}
-	In the following sections we will use this notation without further notice.
-
-	\begin{definition}[Contravariant]
-		A tensor component that transforms by the following rule is called contravariant:
-        \begin{equation}
-			\label{tensorcalculus:contravariant}
-            v^i = v'^j\pderiv{x^i}{x'^j}
-		\end{equation}
-	\end{definition}
-    \remark{As can be seen in the equation, a superscript in the denominator can be regarded as a normal subscript.}
-    
-    \begin{definition}[Covariant]
-		A tensor component that transforms by the following rule is called covariant:
-        \begin{equation}
-			\label{tensorcalculus:covariant}
-            p_i = p'_j\pderiv{x'^j}{x^i}
-		\end{equation}
-	\end{definition}
-    
-    \begin{example}[Mixed tensor]
-		As an example of a mixed tensor we give the transformation formula for the mixed third-order tensor $T_{\ ij}^k$:
-        \[
-        	T_{\ ij}^k = T_{\ \ uv}'^w\pderiv{x'^u}{x^i}\pderiv{x'^v}{x^j}\pderiv{x^k}{x'^w}
-        \]
-	\end{example}
-    
-\subsection{Second-order tensors}
-	\begin{definition}[Tensor of rank 2]
-		A contravariant tensor $T^{ij}$ transforms as:
-        \begin{equation}
-			\label{tensorcalculus:rank2_tranform_contravariant}
-            T^{ij} = \pderiv{x^i}{x'^k}\pderiv{x^j}{x'^l}T'^{kl}
-		\end{equation}
-        A covariant tensor $T_{ij}$ transforms as:
-        \begin{equation}
-			\label{tensorcalculus:rank2_tranform_covariant}
-            T_{ij} = \pderiv{x'^k}{x^i}\pderiv{x'^l}{x^j}T'_{kl}
-		\end{equation}
-	\end{definition}
-    \remark{These definitions can easily be generalized to higher dimensions}
-    
-    \newformula{Product of second-order tensor and vector}{\label{tensorcalculus:vector_tensor_product}Let $\vector{v}$ be a vector and let $\mathbf{T}$ be a second-order tensor.
-    	\begin{equation}
-			\mathbf{T}(\vector{v}) = \sum_{i=1}^n \left(\sum_{j=1}^nT_{ij}v_j\right)\vector{e}_i
-		\end{equation}
-    }
-    
-\subsection{Transformation}    
-    \newprop{Inverse transformation}{
-    	From equation \ref{tensorcalculus:contravariant} we know that a contravariant tensor transforms as follows \[(A')^j = \pderiv{(x')^j}{x^i}A^i\]
-        The inverse transformation is given by\footnotemark:
-        \begin{equation}
-			A^i = \pderiv{x^i}{(x')^j}(A')^j
-		\end{equation}
-    }
-    \sremark{It is important to note that we do not just invert the derivatives as that is only valid in Cartesian coordinates.}
-    \footnotetext{This can be checked by substitution of the second formula in the first one.}
-    
-    \begin{theorem}[Quotient rule]Assume we have an equation such as $K_iA^{jk} = B_i^{\ jk}$ or $K_i^{\ j}A_{jl}^{\ \ k} = B_{il}^{\ \ k}$ with $A$ and $B$ two known tensors\footnotemark. The quotient rule asserts the following: "If the equation of interest holds under all transformations, then $K$ is a tensor of the indicated rank and covariant/contravariant character".\end{theorem}
-    \sremark{This rule is a useful substitute for the "illegal" division of tensors.}
-    \footnotetext{This rule does not necessarily hold when $B = 0$ as transformations rules are not defined for the null-tensor.}
 
 \section{Tensor product}
 \subsection{Tensor product}\index{tensor!product}
 	\nomenclature[O]{$X\otimes Y$}{Tensor product of the vector spaces $X$ and $Y$.}
 
 	There are two possible ways to introduce the components of a tensor (on finite dimensional spaces). One way is to interpret tensors as multilinears maps another way is to interpret the components as expansion coefficients with respect to the tensor space basis.
-    
-	\newdef{Multilinear map}{
-    		One way to define the tensor components is as follows: Let $\mathbf{T}$ be a tensor that takes $r$ vectors and $s$ covectors as input and returns a scalar. The different components are given by  $\mathbf{T}(e_i, ..., e_j, e^k, ...., e^l) = T_{i...j}^{\ \ \ \ k...l}$.
-	}
     
 	\begin{definition}\label{tensor:tensor_product}
     		The tensor product of vector spaces $V$ and $W$ is defined as\footnotemark\ the set of multilinear maps on the Cartesian product $V^*\times W^*$. Let $v, w$ be vectors in respectively $V$ and $W$. Let $g, h$ be vectors in the corresponding dual spaces. The tensor product of $v$ and $w$ is then defined as:
@@ -86,6 +13,9 @@
 	        \end{equation}
 	        \footnotetext{"isomorphic to" would be a better terminology. See the "universal property" \ref{tensor:prop:universal_property}. For a complete proof and explanation, see \cite{principal_bundles}.}
 	\end{definition}
+	\newdef{Tensor component}{
+    		One way to define the tensor components is as follows: Let $\mathbf{T}$ be a tensor that takes $r$ vectors and $s$ covectors as input and returns a scalar. The different components are given by  $\mathbf{T}(e_i, ..., e_j, e^k, ...., e^l) = T_{i...j}^{\ \ \ \ k...l}$.
+	}
     
 	\begin{property}[Universal property]\index{universal property}\label{tensor:prop:universal_property}
 	   	A set $X$ together with a bilinear map $\mathcal{T}:V\times W\rightarrow X$ is said to have the universal property if for every bilinear map $f:V\times W\rightarrow Z$, where $Z$ is some other vector space, there exists a unique linear map $f':X\rightarrow Z$ such that $f = f'\circ\mathcal{T}$.
@@ -96,65 +26,91 @@
 			\label{tensor:prop:change}
 	        	V\otimes W \cong W\otimes V
 		\end{equation}
-	\end{result}
-	\begin{result}
-		Let $v\in V$ and $f\in V^*$.
+		The isomorphism is given by:
 	        \begin{equation}
 	        	v(f) \equiv f(v)
 	        \end{equation}
+	        where $v\in V$ and $f\in V^*$.
 	\end{result}
     
-    \begin{notation}[Tensor power]\index{tensor!power}
-    	\begin{equation}
-    		V^{\otimes n} = \underbrace{V\otimes...\otimes V}_{n\text{ copies}}
-    	\end{equation}
-    \end{notation}
-    \begin{remark}
-    	More generally, the tensor product of $r$ copies of $V$ and $s$ copies of $V^*$ is the vector space $\mathcal{T}^r_s(V) = V^{\otimes r}\otimes V^{*\otimes s}$. These tensors are said to be of \textbf{type} $(r, s)$.
-    \end{remark}
-
-    \begin{definition}[Tensor product basis]\index{tensor!type}
-    	\label{tensor:type}
-    	The tensor space $\mathcal{T}^r_s(V)$ is spanned by the basis \[\underbrace{e_i\otimes...\otimes e_j}_{r\text{ basis vector}}\otimes\underbrace{e^k\otimes...\otimes e^l_{\textcolor{white}{a}}}_{s\text{ dual basis vectors}}\] where the operation $\otimes$ satisfies following properties:
-        \begin{enumerate}
-        	\item Associativity: $u\otimes(v\otimes w) = u \otimes v\otimes w$
-            \item Multilinearity: $a(v\otimes w) = (av)\otimes w = v\otimes (aw)$ and $v\otimes (u+w) = v\otimes u + v\otimes w$
-        \end{enumerate}
-        The expansion coefficients in this basis are written as $T^{i...j}_{\ \ \ \ k...l}$
-    \end{definition}
-    \newprop{Dimension of tensor product}{
-    	From the previous construction it follows that the dimension of $\mathcal{T}^r_s(V)$ is equal to $rs$.
-    }
-    
-    \begin{theorem}
-    	We now have to proof that the values of the tensor operating on $r$ vectors and $s$ covectors are equal to the corresponding expansion coefficients.
-      	\begin{proof}
-        	Let $\mathbf{T} = T_{i...j}^{\ \ \ \ k...l}e^i\otimes...\otimes e^j\otimes e_k\otimes...\otimes e_l$. Applying \ref{tensor:tensor_product} and using the definition of the dual vectors we have:
-            \[
-            \begin{array}{ccl}
-            	\mathbf{T}(e_a, ..., e_b, e^m, ..., e^n) &=& T_{i...j}^{\ \ \ \ k...l}e^i(e_a)...e^j(e_b)e_k(e^m)...e_l(e^n)\\
-                &=& T_{i...j}^{\ \ \ \ k...l}\delta_a^i...\delta_b^j\delta_k^m...\delta_l^n\\
-                &=& T_{a...b}^{\ \ \ \ m...n}
-            \end{array}
-			\]
-            This is exactly the same result as the one we get by applying the first definition.\qed
-      	\end{proof}
-    \end{theorem}
-    
-    \begin{example}
-    	The scalars (elements of the base field) are in fact $(0,0)$ tensors. From the transformation rule for tensors it follows that scalars are invariant under any kind of transformation, which was allready a well known fact. Vectors and covectors are respectively $(1, 0)$ and $(0, 1)$ tensors.
-    \end{example}
-    \begin{example}
-    	The linear operators on a vector space $V$ are isomorphic to elements of the tensor space $V^*\otimes V$ or by property \ref{tensor:prop:change} to $\mathcal{T}^r_s(V)$:
-        \[
-        \begin{array}{ccl}
-        	\mathbf{T}(v) &=& T_i^{\ j}e_je^i(v^ke_k)\\
-            &=& v^iT_i^{\ j}e_j
-        \end{array}
-        \]
-        The last line is exactly the componentwise transformation of vectors.
-    \end{example}
+	\begin{notation}[Tensor power]\index{tensor!power}
+	    	\begin{equation}
+	    		V^{\otimes n} = \underbrace{V\otimes...\otimes V}_{n\text{ copies}}
+	    	\end{equation}
+	\end{notation}
+	\begin{remark}
+	    	More generally, the tensor product of $r$ copies of $V$ and $s$ copies of $V^*$ is the vector space $\mathcal{T}^r_s(V) = V^{\otimes r}\otimes V^{*\otimes s}$. These tensors are said to be of \textbf{type} $(r, s)$.
+	\end{remark}
 	
+	\begin{remark}
+		Generally the space $\mathcal{T}^1_1V$ is only isomorphic to the space $\text{End}(V^*)$. The isomorphism is given by the map $\hat{T}:V^*\rightarrow V^*:\omega\mapsto\mathbf{T}(\cdot, \omega)$ for every $\mathbf{T}\in\mathcal{T}^1_1V$. Furthermore the spaces $\mathcal{T}^0_1V$ and $V^*$ are isomorphic.
+		
+		For finite-dimensional vector spaces the space $\mathcal{T}^1_1V$ is also isomorphic to $\text{End}(V)$ (see property \ref{linalgebra:dual_space_dimension}). The space $\mathcal{T}^1_0V$ will also be isomorphic to $V$ itself.
+	\end{remark}
+	\begin{definition}
+	    	The scalars (elements of the base field $K$) are by definition the $(0,0)$ tensors.
+	\end{definition}
+
+	\begin{adefinition}\index{tensor!type}\label{tensor:type}
+    		The tensor space $\mathcal{T}^r_s(V)$ is spanned by the basis \[\underbrace{e_i\otimes...\otimes e_j}_{r\text{ basis vector}}\otimes\underbrace{\varepsilon^k\otimes...\otimes \varepsilon^l_{\textcolor{white}{a}}}_{s\text{ dual basis vectors}}\] where the operation $\otimes$ satisfies following properties:
+        	\begin{enumerate}
+        		\item Associativity: $u\otimes(v\otimes w) = u \otimes v\otimes w$
+		        \item Multilinearity: $a(v\otimes w) = (av)\otimes w = v\otimes (aw)$ and $v\otimes (u+w) = v\otimes u + v\otimes w$
+	        \end{enumerate}
+	        The expansion coefficients in this basis are written as $T^{i...j}_{\ \ \ \ k...l}$
+	\end{adefinition}
+
+	\newprop{Dimension of tensor product}{
+	    	From the previous construction it follows that the dimension of $\mathcal{T}^r_s(V)$ is equal to $rs$.
+	}
+    
+    	We now have to proof that the values of the tensor operating on $r$ basis vectors and $s$ basis covectors are equal to the corresponding expansion coefficients:
+      	\begin{proof}
+        	Let $\mathbf{T} = T_{i...j}^{\ \ \ \ k...l}e^i\otimes...\otimes e^j\otimes e_k\otimes...\otimes e_l$. Applying \ref{tensor:tensor_product} and using the definition of the dual vectors \ref{linalgebra:dual_basis_2} we have:
+		\[
+            	\begin{array}{ccl}
+            		\mathbf{T}(e_a, ..., e_b, \varepsilon^m, ..., \varepsilon^n) &=& T_{i...j}^{\ \ \ \ k...l}e^i(e_a)...e^j(e_b)e_k(e^m)...e_l(e^n)\\
+                	&=& T_{i...j}^{\ \ \ \ k...l}\delta_a^i...\delta_b^j\delta_k^m...\delta_l^n\\
+                	&=& T_{a...b}^{\ \ \ \ m...n}
+	        \end{array}
+		\]
+		This is exactly the same result as the one we get by applying the first definition.\qed
+      	\end{proof}
+
+\section{Transformation rules}
+
+	Let the basis for $V$ transform as $e_i' = A^j_{\ i}e_j$ and $e_i = B^j_{\ i}e_j'$. Because the basis transformations $A$ and $B$ should be well-defined, they are each other's inverse: $B = A^{-1}$.
+
+	\begin{definition}[Contravariant]
+		A tensor component that transforms by the following rule is called contravariant:
+	        \begin{equation}
+			\label{tensorcalculus:contravariant}
+		        v^i = A^i_{\ j}v'^j
+		\end{equation}
+	\end{definition}
+    
+	\begin{definition}[Covariant]
+		A tensor component that transforms by the following rule is called covariant:
+	        \begin{equation}
+			\label{tensorcalculus:covariant}
+		        p_i = B^j_{\ i}\ p'_j
+		\end{equation}
+	\end{definition}
+    
+	\begin{example}[Mixed tensor]
+		As an example of a mixed tensor we give the transformation formula for the mixed third-order tensor $T_{\ ij}^k$:
+	        \[
+	        	T_{\ ij}^k = A^k_{\ w}B^u_{\ i}B^v_{\ j}T_{\ \ uv}'^w
+	        \]
+	\end{example}
+
+	\begin{theorem}[Quotient rule]
+		Assume we have an equation such as $K_iA^{jk} = B_i^{\ jk}$ or $K_i^{\ j}A_{jl}^{\ \ k} = B_{il}^{\ \ k}$ with $A$ and $B$ two known tensors\footnotemark. The quotient rule asserts the following: "If the equation of interest holds under all transformations, then $K$ is a tensor of the indicated rank and covariant/contravariant character".
+		\footnotetext{This rule does not necessarily hold when $B = 0$ as transformations rules are not defined for the null-tensor.}
+	\end{theorem}
+	\sremark{This rule is a useful substitute for the "illegal" division of tensors.}
+
+\section{Tensor operations}
 \subsection{General operations}
 
 	\newdef{Contraction}{\index{contraction}
@@ -180,8 +136,24 @@
 	        \end{equation}
 	}
 	\begin{remark*}
-	    	Consider an operator $\hat{A}$ working on a space $\mathcal{H}_1$. When working with a combined space $\mathcal{H}_1\otimes\mathcal{H}_2$ the corresponding operator is in fact $\hat{A}\otimes\mathbbm{1}$ but it is often still denoted by $\hat{A}$ in physics.
+	    	Consider an operator $\hat{A}$ working on a space $V_1$. When working with a combined space $V_1\otimes V_2$ the corresponding operator is in fact $\hat{A}\otimes\mathbbm{1}$ but it is often still denoted by $\hat{A}$ in physics.
 	\end{remark*}
+	
+\subsection{Determinant}
+
+	\newdef{$n$-form}{\index{form}\index{volume!form}
+		An $n$-form is a totally anti-symmetric element $\omega\in\mathcal{T}^0_nV$. $\dim V$-forms are also called \textbf{top forms} or \textbf{volume forms}.
+	}
+	
+	\newdef{Determinant}{\index{determinant}
+		Let $\varphi$ be an element in $\mathcal{T}^1_1V\cong\text{End}(V)$. Let $\omega$ be a volume form and let $\{e_i\}_{i\leq n}$ be a basis for $V$. The determinant of $\varphi$ is then defined as:
+		\begin{equation}
+			\det\varphi = \frac{\omega(\varphi(e_1), ..., \varphi(e_n))}{\omega(e_1, ..., e_n)}
+		\end{equation}
+		This definition is well-defined, i.e. it is independent of the choice of volume form and basis. Furthermore it coincides with definition \ref{linalgebra:operator_determinant}.
+		
+		One should note that the determinant is only well-defined for $(1,1)$-tensors. Although other types of tensors can also be represented as matrices, definition \ref{linalgebra:operator_determinant} would not be independent of a choice of basis anymore. An alternative concept can be defined using principal bundles and more precisely frame bundles (see section \ref{manifolds:section:principal_bundles}).
+	}
 
 \subsection{Differentiation}
 	
@@ -245,6 +217,7 @@
 
 \section{(Anti)symmetric tensors}
 \subsection{Symmetric tensors}
+
 	\begin{notation}
 		The space of symmetric $(0,n)$ tensors is denoted by $S^n(V^*)$. The space of symmetric $(n, 0)$ tensors is denoted by $S^n(V)$.
 	\end{notation}
@@ -266,6 +239,7 @@
     \end{property}
     
 \subsection{Wedge product}
+
 	\newdef{Wedge product}{\index{wedge product}
 		\begin{equation}
 			\label{tensor:wedge_product}

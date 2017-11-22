@@ -11,9 +11,9 @@
 		\end{equation}
 		where $Df(x):\mathbb{R}^n\rightarrow\mathbb{R}^n$ is the linear operator associated with the Jacobian matrix of $f$ in $x$. Applying this definition to the transition functions $\psi_{ji}$ we obtain a new set of functions $\widetilde{\psi}_{ji} := T\psi_{ji}$ given by:
 		\begin{equation}
-			\widetilde{\psi}_{ji}(\varphi_i(x), v) = \left(\varphi_j(x), (\varphi_j\circ\varphi_i^{-1})'(\varphi_i(x))v\right)
+			\widetilde{\psi}_{ji}(\varphi_i(x), v) = \left(\varphi_j(x), D(\varphi_j\circ\varphi_i^{-1})(\varphi_i(x))v\right)
 		\end{equation}
-		Because the transition functions are diffeomorphisms, the Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $GL(\mathbb{R}^n)$. The tangent bundle is now obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n, GL(\mathbb{R}^n))$ together with the cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\in I}$.
+		Because the transition functions are diffeomorphisms, the Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $GL(\mathbb{R}^n)$. The tangent bundle is now obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n, GL(\mathbb{R}^n))$ together with the base cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\in I}$.
 	\end{construct}
 	\begin{remark*}
 		The charts in the atlas of the constructed bundle are sometimes called \textbf{natural charts} because the first $n$ coordinates are equal to the coordinates of the base space.
@@ -139,9 +139,6 @@
 	}
 	
 \subsection{Sections}
-	\begin{remark*}
-		Vector fields can be regarded as sections of the tangent bundle. Similarly, 1-forms can be regarded as sections of the cotangent bundle.
-	\end{remark*}
 	
 	\newdef{Frame}{\index{frame}\label{diff:frame}
 		A frame of a vector bundle $E$ is a tuple $(s_1, ..., s_n)$ of smooth sections such that $(s_1(b), ..., s_n(b))$ is a basis of the fibre $\pi^{-1}(b)$ for all $b\in B$.
@@ -149,14 +146,24 @@
 	\begin{property}
 		A vector bundle is trivial if and only if there exists a frame of global sections.
 	\end{property}
+	
+	\begin{theorem}[Serre \& Swan]
+		The set of all smooth sections $\Gamma(E)$ over a vector bundle $E$ with base space $M$ is a finitely generated projective $C^\infty(M)$-module.
+	\end{theorem}
 
 \section{Vector fields}
+
 	\newdef{Vector field}{\index{vector!field}
-		A smooth section $s\in\Gamma(TM)$ of the tangent bundle is called a vector field.
+		A smooth section $s\in\Gamma(TM)$ of the tangent bundle is called a vector field. The set of vector fields forms a $C^\infty(M)$-module.
 	}
 	\begin{notation}
+		\nomenclature[S]{$\mathfrak{X}(M)$}{$C^\infty(M)$-module of vector fields on the manifold $M$.}
 		The set of all vector fields on a manifold $M$ is often denoted by $\mathfrak{X}(M)$.
 	\end{notation}
+	
+	\begin{theorem}[Hairy ball theorem]\index{hairy ball theorem}
+		There exists no nowhere vanishing vector field on an even-dimensional sphere $S^{2n}$.
+	\end{theorem}
 	
 	\newdef{Pullback}{\index{pullback}
 		Let $X$ be vector field on $M$ and let $\varphi:M\rightarrow N$ be a diffeomorphism between smooth manifolds. The pullback of $X$ along $\varphi$ is defined as:
@@ -306,13 +313,14 @@
 \section{Differential \texorpdfstring{$k$}{k}-forms}
 
 	\newdef{Differential form}{\index{differential form}
+		\nomenclature[S]{$\Omega^k(M)$}{$C^\infty(M)$-module of differential $k$-forms on the manifold $M$.}
 		A differential $k$-form is a map
 		\begin{equation}
 			\boxed{\omega: T^{\diamond k}M\rightarrow \mathbb{R}}
 		\end{equation}
 		such that the restriction of $\omega$ to each fibre of the fibre product\footnotemark\ $T^{\diamond k}M$ is multilinear and antisymmetric.
 		
-		The space of all differential $k$-forms on a manifold $M$ is denoted by $\Omega^k(M)$. $\Omega^0(M)$ is defined as the space of smooth functions $C^\infty:M\rightarrow\mathbb{R}$.
+		The space of all differential $k$-forms on a manifold $M$ is denoted by $\Omega^k(M)$. Just like $\mathfrak{X}(M)$ it forms a $C^\infty(M)$-module. The set $\Omega^0(M)$ is defined as the space of smooth functions $C^\infty:M\rightarrow\mathbb{R}$.
 		\footnotetext{See definition \ref{manifolds:fibre_product}.}
 	}
 	
@@ -417,11 +425,13 @@
 	\end{example}
 	
 	\begin{example}
-		An explicit formula for the exterior derivative of a 1-form $\Phi$ is:
-		\begin{equation}
-			\label{forms:1form_exterior_derivative}
-			d\Phi(X, Y) = X(\Phi(Y)) - Y(\Phi(X)) - \Phi([X, Y])
-		\end{equation}
+		An explicit formula for the exterior derivative of a k-form $\Phi$ is:
+		\begin{align}
+			d\Phi(X_1, ...n X_{k+1}) = \sum_{i=0}^{k+1} &(-1)^i X_i(\Phi(X_1, ..., \hat{X}_i, ..., X_{k+1}))\nonumber\\
+				\label{forms:k_form_exterior_derivative}
+				&-\sum_{i<j} \Phi([X_i, X_j], X_1, ..., \hat{X}_i, ..., \hat{X}_j, ..., X_{k+1})
+		\end{align}
+		where $\hat{X}$ means that this argument is omitted.
 	\end{example}
 
 \subsection{Lie derivative}

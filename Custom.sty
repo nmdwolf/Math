@@ -4,7 +4,7 @@
 \usepackage[xindy]{imakeidx}
 \usepackage{hyperref}
 \usepackage[title, titletoc]{appendix}
-\usepackage{color, xcolor, graphicx, float, enumerate, manfnt, empheq, cancel}
+\usepackage{color, xcolor, graphicx, float, enumerate, manfnt, empheq, cancel, fp}
 \usepackage{gensymb, textcomp, amsmath, amssymb, tabu, esint, siunitx, bbm, dsfont, ytableau, simplewick, slashed}
 \usepackage[amsthm]{ntheorem}
 
@@ -87,6 +87,79 @@
 \newcommand{\mnote}[1]{\marginpar{#1}}
 \newcommand{\pr}{\text{pr}}
 \newcommand{\prin}[3]{#1\hookrightarrow#2\rightarrow#3}
+
+\newcommand{\dynk}{
+	\begin{tikzpicture}[scale=.4]
+		\draw[xshift=0 cm,thick] (0 cm,0) circle (.3cm);
+	\end{tikzpicture}
+}
+\newcommand{\dynkA}[1]{
+	\FPeval{\result}{#1 - 1}
+	\begin{tikzpicture}[scale=.4]
+		\foreach \x in {0,...,\result}
+			\draw[xshift=\x cm,thick] (\x cm,0) circle (.3cm);
+		\FPeval{\result}{#1 - 1.85}
+		\foreach \y in {0.15,...,\result}
+			\draw[xshift=\y cm,thick] (\y cm,0) -- +(1.4 cm,0);
+	\end{tikzpicture}
+}
+\newcommand{\dynkB}[1]{
+	\FPeval{\result}{#1 - 1}
+	\begin{tikzpicture}[scale=.4]
+		\foreach \x in {0,...,\result}
+			\draw[xshift=\x cm,thick] (\x cm,0) circle (.3cm);
+		\FPeval{\result}{#1 - 2.85}
+		\ifnum#1>2
+			\foreach \y in {0.15,...,\result}
+				\draw[xshift=\y cm,thick] (\y cm, 0) -- +(1.4 cm,0);
+		\else\fi
+		\FPeval{\result}{#1 - 1.85}
+		\draw[xshift=\result cm,thick] (\result cm, 0.1) -- +(1.4 cm,0);
+		\draw[xshift=\result cm,thick] (\result cm, -0.1) -- +(1.4 cm,0);
+		\FPeval{\result2}{\result + 0.45}
+		\draw[xshift=\result2 cm,thick,rotate around={-135:(\result2,0)}] (\result2 cm, 0) -- +(0.8 cm,0);
+		\draw[xshift=\result2 cm,thick,rotate around={135:(\result2,0)}] (\result2 cm, 0) -- +(0.8 cm,0);
+	\end{tikzpicture}
+}
+\newcommand{\dynkC}[1]{
+	\FPeval{\result}{#1 - 1}
+	\begin{tikzpicture}[scale=.4]
+		\foreach \x in {0,...,\result}
+			\draw[xshift=\x cm,thick] (\x cm,0) circle (.3cm);
+		\FPeval{\result}{#1 - 2.85}
+		\ifnum#1>2
+			\foreach \y in {0.15,...,\result}
+				\draw[xshift=\y cm,thick] (\y cm, 0) -- +(1.4 cm,0);
+		\else\fi
+		\FPeval{\result}{#1 - 1.85}
+		\draw[xshift=\result cm,thick] (\result cm, 0.1) -- +(1.4 cm,0);
+		\draw[xshift=\result cm,thick] (\result cm, -0.1) -- +(1.4 cm,0);
+		\FPeval{\result2}{\result + 0.35}
+		\draw[xshift=\result2 cm,thick,rotate around={-45:(\result2,0)}] (\result2 cm, 0) -- +(0.8 cm,0);
+		\draw[xshift=\result2 cm,thick,rotate around={45:(\result2,0)}] (\result2 cm, 0) -- +(0.8 cm,0);
+	\end{tikzpicture}
+}
+
+\newcommand{\dynkD}[1]{
+	\begin{tikzpicture}[scale=.4]
+		\FPeval{\result}{#1 - 3}
+		\foreach \x in {0,...,\result}
+			\FPeval{\newx}{\x * 2}
+			\draw[thick] (\newx cm,0) circle (.3cm);
+		\FPeval{\result2}{#1 - 4}
+		\foreach \y in {0,...,\result2}
+			\FPeval{\start}{2 * \y + 0.3}
+			\draw[thick] (\start cm,0) -- +(1.4 cm,0);
+		
+		\FPeval{\tilted}{2 * \result + 2.2}
+		\FPeval{\cross}{2 * result + 3.8}
+		\FPeval{\crossc}{2 * result + 4}
+		\draw[thick] (\tilted, .2 cm) -- (\cross cm, 1.5cm);
+		\draw[thick] (\tilted, -.2 cm) -- (\cross cm, -1.5cm);
+		\draw[thick] (\crossc cm, 1.7 cm) circle (.3 cm);
+		\draw[thick] (\crossc cm, -1.7 cm) circle (.3 cm);
+	\end{tikzpicture}
+}
 
 \def\Xint#1{\mathchoice
    {\XXint\displaystyle\textstyle{#1}}%

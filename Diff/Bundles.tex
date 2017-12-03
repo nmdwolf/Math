@@ -56,7 +56,7 @@
 	\end{notation}
 
 	\newdef{Fibre}{\index{fibre}
-		Let $F\hookrightarrow E\xrightarrow{\ \pi\ }B$ be a fibre bundle over a base space $B$. The fibre over $b\in B$ is defined as the set $\pi^{-1}(b)$.
+		Let $F\hookrightarrow E\xrightarrow{\ \pi\ }B$ be a fibre bundle over a base space $B$. The fibre over $b\in B$ is defined as the set $\pi^{-1}(b)$. It is often denoted by $F_b$.
 	}
 	
 	\newdef{Smooth fibre bundle}{
@@ -85,7 +85,7 @@
 				\begin{equation}
 					\varphi_i^{-1}:(x, f)\mapsto [(x, f)]
 				\end{equation}
-				where $[A]$ means the equivalence class of $A$.
+				where $[A]$ means the equivalence class of $A$ in $T/\sim$.
 		\end{enumerate}
 	\end{construct}
 	
@@ -132,7 +132,7 @@
 		\begin{equation}
 			\rho_i = \varphi_i'\circ\varphi_i^{-1}
 		\end{equation}
-		This transformation is called a \textbf{gauge transformation} (especially in physics) .
+		This transformation is called a \textbf{gauge transformation} (notably in physics) .
 		\footnotetext{Remark that the collection $\{U_i\}_{i\in I}$ is the same for both trivializing covers.}
 	}
 	\begin{property}
@@ -224,6 +224,10 @@
 		where $I$ is a multi-index such that $0\leq|I|\leq r$. The partial derivatives $\left.\mpderiv{I}{u^\alpha}{x}\right|_p$ are called the \textbf{derivative coordinates} on $J^r(\pi)$.
 	}
 
+
+\input{Diff/VectorBundles}
+
+
 \section{Principal bundles}\label{manifolds:section:principal_bundles}
 
 	\begin{definition}[Principal bundle]\index{principal!bundle}\index{local trivializations}\index{fibre}\index{structure group}
@@ -256,39 +260,44 @@
 		\end{equation}
 	\end{property}
 	
-	\newdef{Bundle map}{\index{bundle!map}
-		A bundle map $F:P_1\rightarrow P_2$ between principal $G$-bundles is a pair of smooth maps $(f_B, f_E)$ such that:
+	\newdef{Principal bundle map}{\index{bundle!map}
+		A bundle map $F:P_1\rightarrow P_2$ between principal $G$-bundles is a pair of smooth maps $(f_B, f_P)$ such that:
 		\begin{enumerate}
-			\item The diagram \ref{tikz:principal_bundle_map} below commutes.
-			\item $f_E$ is $G$-equivariant\footnotemark.
+			\item $(f_B, f_P)$ is a bundle map in the sense of fibre bundles.
+			\item $f_P$ is $G$-equivariant\footnotemark.
 		\end{enumerate}
-		The map $f_E$ is said to \textbf{cover} $f_B$.
+		The map $f_P$ is said to \textbf{cover} $f_B$.
 		\footnotetext{See definition \ref{group:equivariant}.}
-
-		\begin{figure}[ht!]
-		\centering	
-		\begin{tikzpicture}
-			\matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
-				E_1 \& E_2\\
-				B_1 \& B_2\\
-			};
-			\path[-stealth]
-				(m-1-1) edge node [left] {$\pi_1$} (m-2-1)
-					edge node [above] {$f_E$} (m-1-2)
-				(m-2-1) edge node [below] {$f_B$} (m-2-2)
-				(m-1-2) edge node [right] {$\pi_2$} (m-2-2);
-		\end{tikzpicture}
-		\caption{Bundle map between principal $G$-bundles.}
-		\label{tikz:principal_bundle_map}
-		\end{figure}
 	}
+
+\subsection{Associated bundles}
 	
-	\begin{example}[Associated principal bundle]
-		For every fibre bundle $(E, B, \pi, F, G)$ we can construct an associated principal $G$-bundle by replacing the fibre $F$ by $G$ itself.
-	\end{example}
+	\begin{construct}[Associated principal bundle]
+		For every fibre bundle we can construct an associated principal $G$-bundle by replacing the fibre $F$ by $G$ itself.
+	\end{construct}	
+	
 	\begin{property}
 		A fibre bundle $\xi$ is trivial if and only if the associated principal bundle is trivial. More generally, two fibre bundles are isomorphic if and only if their associated principal bundles are isomorphic.
 	\end{property}
+	
+	\begin{construct}[Associated bundle to a principal bundle]
+		Consider a principal bundle $\prin{G}{P}{M}$ and let $F$ be a smooth manifold equipped with a left $G$-action $\vartriangleright$. One can then construct an associated bundle $P_F \equiv P \times_\vartriangleright F$ in the following way:
+		\begin{enumerate}
+			\item Define an equivalence relation $\sim_G$ on the product manifold $P\times F$ given by:
+			\begin{equation}
+				(p, f)\sim_G (p', f')\iff \exists g\in G: (p', f') = (p\cdot g, g^{-1}\vartriangleright f)
+			\end{equation}
+			\item The total space of the associated bundle is then given by the following quotient manifold:
+			\begin{equation}
+				P_F := (P\times F)/\sim_G
+			\end{equation}
+			\item The projection map $\pi_F:P_F\rightarrow M$ is defined as
+			\begin{equation}
+				\pi_F:[p, f]\mapsto \pi(p)
+			\end{equation}
+			where $[p, f]$ is the equivalence class of $(p, f)\in P\times F$ in the quotient manifold $P_F$.
+		\end{enumerate}
+	\end{construct}
 	
 	\begin{example}[Frame bundle]\index{frame!bundle}\index{frame}\label{bundles:frame_bundle}
 		Let $V$ be an $n$-dimensional vector space. Denote the set of ordered bases, also called \textbf{frames}, of $V$ by $F(V)$. It follows rom the fact that every basis transformation is given by the action of an element of the general linear group that $F(V)$ is isomorphic to $GL(V)\cong GL(\mathbb{R}^n)$. We can thus construct a principal bundle associated to the vector bundle $E$ by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong$ GL$(\mathbb{R}^n)$.

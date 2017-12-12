@@ -1,4 +1,4 @@
-\chapter{Topology}
+\chapter{General topology}
 \section{Topological spaces}
 
 	\newdef{Topology}{\index{topology}
@@ -261,7 +261,7 @@
 		Let $X$ be a connected space. Let $f:X\rightarrow\mathbb{R}$ be a continuous function. If $a, b\in f(X)$ then for every $c\in ]a, b[$ we have that $c\in f(X)$.
 	\end{theorem}
 
-	\newdef{Path-connected space\protect\footnotemark}{\index{arc}
+	\newdef{Path-connected space\protect\footnotemark}{\index{arc}\index{path-connected}
 		\footnotetext{A similar notion is that of \textbf{arcwise-connectedness} where the function $\varphi$ is required to be a homeomorphism.}
 		Let $X$ be a topological space. If for every two points $x, y\in X$ there exists a continuous function $\varphi:[0, 1]\rightarrow X$ (i.e. a \textbf{path}) such that $\varphi(0)=x$ and $\varphi(1)=y$ then the space is said to be path-connected.
 	}
@@ -325,6 +325,10 @@
 	\begin{theorem}[Tychonoff's theorem]\index{Tychonoff's!compactness theorem}
 		Any product\footnote{Finite, countably infinite or even uncountably infinite.} of compact topological spaces is again compact when equipped with the (Tychonoff) product topology \ref{topology:tychonoff_topology}.
 	\end{theorem}
+	
+	\newdef{Relatively compact}{\label{topology:relatively_compact}
+		A topological space is called relatively compact if its closure is compact.
+	}
 
 	\newdef{Locally compact}{
     		A topological space is locally compact if every point $x\in X$ has a compact neighbourhood.
@@ -451,46 +455,47 @@
 	\end{formula}
 
 \section{Homology}\label{section:homology}
-\subsection{Simplexes}
-	\newdef{Simplex}{\index{simplex}
+\subsection{simplices}
+	\newdef{Simplex}{\index{simplex}\index{vertex}
 		A $k$-simplex $\sigma^k$ is defined as the following set:
 		\begin{equation}
 			\sigma^k = \left\{\left.\sum_{i=0}^k\lambda_it_i\right|\sum_{i=0}^k\lambda_i = 1\text{ and }\lambda_i\geq0\right\}
 		\end{equation}
-		where the points (vertices) $t_i$ are linearly independent, i.e. the vectors $t_i-t_0$ are linearly independent. Equivalently it is the convex hull of the $k+1$ vertices $\{t_0, ..., t_k\}$.
+		where the points (\textbf{vertices}) $t_i\in\mathbb{R}^n$ are linearly independent, i.e. the vectors $t_i-t_0$ are linearly independent. Equivalently it is the convex hull of the $k+1$ vertices $\{t_0, ..., t_k\}$.
 	}
-	\newdef{Barycentric coordinates}{
-		The coordinates $\lambda_i$ from previous defintion are called barycentric coordinates. This comes from the fact that the point $\sum_{i=0}^k\lambda_it_i$ represents the barycenter of a gravitational system consisting of masses $\lambda_i$ placed at the points $t_i$.
-	}
+	\begin{remark}[Barycentric coordinates]
+		The coordinates $\lambda_i$ from previous definition are called barycentric coordinates. This follows from the fact that the point $\sum_{i=0}^k\lambda_it_i$ represents the barycenter of a gravitational system consisting of masses $\lambda_i$ placed at the points $t_i$.
+	\end{remark}
 	
 	\newdef{Simplicial complex}{\index{simplicial complex}
-		A simplicial complex $\mathcal{K}$ is a set of simplexes satisfying following conditions:
+		A simplicial complex $\mathcal{K}$ is a set of simplices satisfying following conditions:
 		\begin{itemize}
 			\item If $\sigma$ is a simplex in $\mathcal{K}$ then so are its faces.
-			\item If $\sigma_1, \sigma_2\in\mathcal{K}$ then we have $\sigma_1\cap\sigma_2 = \emptyset$ or $\sigma_1\cap\sigma_2$ is a face of both $\sigma_1$ and $\sigma_2$.
+			\item If $\sigma_1, \sigma_2\in\mathcal{K}$ then either $\sigma_1\cap\sigma_2 = \emptyset$ or $\sigma_1\cap\sigma_2$ is a face of both $\sigma_1$ and $\sigma_2$.
 		\end{itemize}
 		A simplicial $k$-complex is a simplicial complex where every simplex has dimension at most $k$.
-	}
-	
-	\newdef{Polyhedron}{\index{polyhedron}
-		Let $\mathcal{K}$ be a simplicial complex. The polyhedron associated with $\mathcal{K}$ is the topological spaces constructed by equipping $\mathcal{K}$ with the Euclidean subspace topology.
 	}
 	
 	\newdef{Path-connectedness}{\index{path-connected}
 		Let $\mathcal{K}$ be a simplicial complex. $\mathcal{K}$ is said to be path-connected if every two vertices in $\mathcal{K}$ are connected by edges in $\mathcal{K}$.
 	}
 	
+	\newdef{Polyhedron}{\index{polyhedron}
+		Let $\mathcal{K}$ be a simplicial complex. The polyhedron associated with $\mathcal{K}$ is the topological space constructed by equipping $\mathcal{K}$ with the Euclidean subspace topology.
+	}
+	
 	
 	\newdef{Triangulable spaces}{\index{triangulation}
-		Let $X$ be a topological space and let $\mathcal{K}$ be a polyhedron. If there exists a homeomorphism $\varphi:\mathcal{K}\rightarrow X$ then we say that $X$ is \textbf{triangulable} and we call $\mathcal{K}$ a \textbf{triangulation} of $X$.
+		Let $X$ be a topological space and let $\mathcal{K}$ be a polyhedron. If there exists a homeomorphism $\varphi:\mathcal{K}\rightarrow X$ then we say that $X$ is triangulable and we call $\mathcal{K}$ a \textbf{triangulation} of $X$.
 	}
 	\begin{theorem}
-		Let $\mathcal{K}$ be a path-connected polyhedron with basepoint $a_0$. Let $\mathcal{C}\subset\mathcal{K}$ be a contractible 1-dimensional subpolyhedron containing all vertexes of $\mathcal{K}$. Let $G$ be the free group generated by the elements $g_{ij}$ corresponding to the ordered 1-simplexes $[v_i,v_j]\in\mathcal{C}$. If the generators $g_{ij}$ satisfy following two relations:
+		Let $\mathcal{K}$ be a path-connected polyhedron with basepoint $a_0$. Let $\mathcal{C}\subset\mathcal{K}$ be a contractible 1-dimensional subpolyhedron containing all vertices of $\mathcal{K}$. Let $G$ be the free group generated by the elements $g_{ij}$ corresponding to the ordered 1-simplices $[v_i,v_j]\in\mathcal{C}$.
+		
+		The group $G$ is isomorphic to the fundamental group $\pi_1(\mathcal{K}, a_0)$ if the generators $g_{ij}$ satisfy following two relations:
 		\begin{itemize}
 			\item $g_{ij}g_{jk} = g_{ik}$ for every ordered 2-simplex $[v_i,v_j,v_k]\in\mathcal{K}\backslash\mathcal{C}$
 			\item $g_{ij} = e$ if $[v_i,v_j]\in\mathcal{C}$.
 		\end{itemize}
-		then the group $G$ is isomorphic to fundamental group $\pi_1(\mathcal{K}, a_0)$.
 	\end{theorem}
 	\begin{result}
 		From the theorem that homeomorphic spaces have the same homotopy groups it follows that the fundamental group of a triangulable space can be computed by looking at its triangulations.
@@ -498,7 +503,7 @@
 
 \subsection{Simplicial homology}	
 	\newdef{Chain group}{\index{chain!group}\label{topology:chain_group}
-		Let $\mathcal{K}$ be a simplicial $n$-complex. The $k$-th chain group $C_k(\mathcal{K})$ is defined as the free Abelian (additive) group generated by the $k$-simplexes in $\mathcal{K}$:
+		Let $\mathcal{K}$ be a simplicial $n$-complex. The $k^{th}$ chain group $C_k(\mathcal{K})$ is defined as the free Abelian group generated by the $k$-simplices in $\mathcal{K}$:
 		\begin{equation}
 			C_k(\mathcal{K}) = \left\{\left.\sum_ia_i\sigma_i\ \right|\sigma_i\text{ is a $k$-simplex in $\mathcal{K}$}\text{ and }a_i\in\mathbb{Z}\right\}
 		\end{equation}
@@ -506,34 +511,38 @@
 	}
 	
 	\newdef{Boundary operator}{\index{boundary}
-		The boundary operator $\partial_k:C_k(\mathcal{K})\rightarrow C_{k-1}(\mathcal{K})$ is the homomorphism defined by following properties:
+		The boundary operator $\partial_k:C_k(\mathcal{K})\rightarrow C_{k-1}(\mathcal{K})$ is the group morphism defined by following properties:
 		\begin{itemize}
-			\item $\partial_k$ is linear, i.e. $\partial_k(\sum_ia_i\sigma_i) = \sum_ia_i\partial_k(\sigma_i)$
-			\item For every oriented $k$-simplex $[v_0, ..., v_k]$ we have that
+			\item Linearity:
+			\begin{equation}
+				\partial_k\left(\sum_ia_i\sigma_i\right) = \sum_ia_i\partial_k\sigma_i
+			\end{equation}
+			\item For every oriented $k$-simplex $[v_0, ..., v_k]$:
 			\begin{equation}
 				\partial_k[v_0, ..., v_k] = \sum_{i=0}^k(-1)^i[v_0, ..., \hat{v}_i, ..., v_k]
 			\end{equation}
-			\item The boundary of every 0-chain is 0.
+			where $[v_0, ..., \hat{v}_i, ..., v_k]$ denotes the $(k-1)$-simplex obtained by removing the vertex $v_i$.
+			\item The boundary of every 0-chain is the identity 0.
 		\end{itemize}
-		where $[v_0, ..., \hat{v}_i, ..., v_k]$ denotes the $(k-1)$-simplex obtained by removing the vertex $v_i$.
 	}
+	
 	\begin{property}\index{chain!complex}
 		The boundary operators satisfy following relation:
 		\begin{equation}
 			\label{topology:boundary_operator_relation}
-			\partial_k\circ\partial_{k-1} = 0
+			\partial_k\circ\partial_{k+1} = 0
 		\end{equation}
-		This property turns the system $(C_k, \partial_k)$ into a so-called \textbf{chain complex}.
+		This property turns the system $(C_k, \partial_k)$ into a chain complex\footnote{See definition \ref{group:chain_complex}.}.
 	\end{property}
 	
 	\newdef{Cycle group}{\index{cycle}
-		The $k^{th}$ cycle group $Z_k(\mathcal{K})$ is defined as the set of $k$-chains $\sigma_k$ such that $\partial_k\sigma_k = 0$. These chains are also called \textbf{cycles}.
+		The $k^{th}$ cycle group $Z_k(\mathcal{K})$ is defined as the set of $k$-chains $\sigma_k$ such that $\partial_k\sigma_k = 0$. These chains are called \textit{cycles}.
 	}
 	\newdef{Boundary group}{
-		The $k^{th}$ boundary group $B_k(\mathcal{K})$ is defined as the set of $k$-chains $\sigma_k$ for which there exists a $(k+1)$-chain $N$ such that $\partial_{k+1}N = \sigma_k$. These chains are called \textbf{boundaries}.
+		The $k^{th}$ boundary group $B_k(\mathcal{K})$ is defined as the set of $k$-chains $\sigma_k$ for which there exists a $(k+1)$-chain $N$ such that $\partial_{k+1}N = \sigma_k$. These chains are called \textit{boundaries}.
 	}
 	\newdef{Homology group}{\index{homology!simplicial}
-		From property \ref{topology:boundary_operator_relation} it follows that $B_k(\mathcal{K})$ is a subgroup of $Z_k(\mathcal{K})$. We can thus define the $k^{th}$ homology group $H_k(\mathcal{K})$ as the following quotient:
+		From property \ref{topology:boundary_operator_relation} it follows that $B_k(\mathcal{K})$ is a subgroup of $Z_k(\mathcal{K})$. We can thus define the $k^{th}$ homology group $H_k(\mathcal{K})$ as the following quotient group:
 		\begin{equation}
 			H_k(\mathcal{K}) = Z_k(\mathcal{K}) / B_k(\mathcal{K})
 		\end{equation}
@@ -541,36 +550,42 @@
 	}	
 	
 	\begin{property}
-		If two topological spaces are of the same homotopy type then they have isomorphic homology groups. It follows that homeomorphic spaces have isomorphic homology groups.
+		If two topological spaces have the same homotopy type then they have isomorphic homology groups. It follows that homeomorphic spaces have isomorphic homology groups.
 	\end{property}
 	\begin{result}
-		It follows from the definition of a triangulation that we can (easily) construct the homology groups for a given triangulable space by looking at one of its triangulations.
+		As was the case for the fundamental group, tt follows from the definition of a triangulation that we can construct the homology groups for a given triangulable space by looking at one of its triangulations.
 	\end{result}
 	
 	\newdef{Betti numbers}{\index{Betti number}
-		The numbers $R_k(\mathcal{X})$ from the definition of homology groups are called the Betti numbers of $\mathcal{X}$.
+		The numbers $R_k(\mathcal{K})$ from the definition of homology groups are called the Betti numbers of $\mathcal{K}$.
 	}
 	\begin{formula}[Euler characteristic]\index{Euler!characteristic}\index{Euler-Poincar\'e formula}
-		The Euler characteristic of a triangulable space $X$ is defined as follows\footnote{This formula is sometimes called the \textit{Euler-Poincar\'e} or \textit{Poincar\'e} formula.}:
+		The Euler characteristic of a triangulable space $X$ is defined as follows\footnote{This formula is sometimes called the \textit{Poincar\'e} or \textit{Euler-Poincar\'e} formula.}:
 		\begin{equation}
 			\boxed{\chi(X) = \sum_i(-1)^iR_i(X)}
 		\end{equation}
 	\end{formula}
 	
-	\begin{definition}
+	\begin{construct}
 		The definition of homology groups can be generalized by letting the (formal) linear combinations used in the definition of the chain group (see \ref{topology:chain_group}) be of the following form:
 		\begin{equation}
 			c^k = \sum_ig_i\sigma_i^k
 		\end{equation}
-		where $G = \{g_i\}$ is an Abelian group and $\sigma_i^k$ are $k$-simplexes. The $k^{th}$ homology group of $X$ with coefficients in $G$ is denoted by $H_k(X; G)$. In case of $G$ being a field, such as $\mathbb{Q}$ or $\mathbb{R}$, the torsion subgroups $T_k$ vanish. The relation between integral homology and homology with coefficients in a group (or field) is given by the \textit{Universal coefficient theorem}.
-	\end{definition}
+		where $G = \{g_i\}$ is an Abelian group and $\sigma_i^k$ are $k$-simplices. The $k^{th}$ homology group of $X$ with coefficients in $G$ is denoted by $H_k(X; G)$.
+	\end{construct}
+	\begin{property}
+		When $G$ is a field, such as $\mathbb{Q}$ or $\mathbb{R}$, the torsion subgroups $T_k$ vanish. The relation between integral homology and homology with coefficients in a group is given by the \textit{Universal coefficient theorem}.
+	\end{property}
+	
 	\newformula{K\"unneth formula}{\index{K\"unneth formula}
 		Let $X, Y$ be two triangulable spaces. The homology groups of the Cartesian product $X\times Y$ with coefficients in a field $F$ is given by:
 		\begin{equation}
 			H_k(X\times Y; F) = \bigoplus_{k = i+j}H_i(X;F)\otimes H_j(Y;F)
 		\end{equation}
-		When $F$ is replaced by the set of integers the torsion subgroups have to be taken into account. This will not be done here.
 	}
+	\begin{remark*}
+		When the requirement of $F$ being a field is relaxed to it merely being a group, the torsion subgroups have to be taken into account. This will not be done here.
+	\end{remark*}
 	
 \subsection{Relative homology}
 
@@ -587,25 +602,25 @@
 		\begin{equation}
 			\overline\partial_k(c_k+C_k(L)) = \partial_k c_k + C_{k-1}(L)
 		\end{equation}
-		where $c_k\in C_k(K)$. This operator is, just like the ordinary boundary operator $\partial_k$, a homomorphism.
+		where $c_k\in C_k(K)$. This operator is a group morphism, just like the ordinary boundary operator $\partial_k$.
 	}
 	\newdef{Relative homology groups}{\index{homology!relative}
 		The relative cycle and relative boundary groups are defined analogous to their ordinary counterparts. The relative homology groups are then defined as follows:
 		\begin{equation}
 			H_k(K, L) = \stylefrac{\ker\overline\partial_k}{\im\overline\partial_{k+1}}
 		\end{equation}
-		Elements $h_k\in H_k(K, L)$ can thus be written as $h_k=z_k + C_p(L)$ where $z_k$ does not have to be a relative $k$-cycle. We merely require that $\partial_kz_k$ is a chain in $C_{k-1}(L)$.
+		Elements $h_k\in H_k(K, L)$ can thus be written as $h_k=z_k + C_k(L)$ where $z_k$ does not have to be a relative $k$-cycle but merely  a chain in $C_{k-1}(L)$.
 	}
 	\newdef{Homology sequence}{
 		Using the relative homology groups we obtain following (long) exact sequence:
 		\begin{equation}
 			\cdots\rightarrow H_k(L)\xrightarrow{i_\ast}H_k(K)\xrightarrow{j_\ast}H_k(K, L)\xrightarrow{\partial_k}H_{k-1}(L)\rightarrow\cdots
 		\end{equation}
-		where $i_\ast$ and $j_\ast$ are the homology homomorphisms induced by the inclusions $i:L\rightarrow K$ and $j:K\rightarrow (K, L)$.
+		where $i_\ast$ and $j_\ast$ are the homology morphisms induced by the inclusions $i:L\rightarrow K$ and $j:K\rightarrow (K, L)$.
 	}
 
 	\begin{theorem}[Excision theorem]\index{excision theorem}\label{topology:theorem:excision}
-		Let $X, U, V$ be a triangulable spaces such that $U\subset V\subset X$. If the closure $\overline{U}$ is contained in the interior $V\degree$ then:
+		Let $U, V$ and $X$ be triangulable spaces such that $U\subset V\subset X$. If the closure $\overline{U}$ is contained in the interior $V\degree$ then:
 		\begin{equation}
 			H_k(X, V) = H_k(X\backslash U, V\backslash U)
 		\end{equation}
@@ -616,20 +631,20 @@
 	\newdef{Singular simplex}{\index{simplex!singular}\index{simplex!standard}
 		Consider the \textbf{standard} $k$-simplex $\Delta^k$:
 		\begin{equation}
-			\Delta^k = \{(x_0, ..., x_k)\in\mathbb{R}^{k+1}|\sum_ix_i = 1 \text{ and }x_i\geq0\}
+			\Delta^k = \left\{(x_0, ..., x_k)\in\mathbb{R}^{k+1}:\sum_ix_i = 1 \text{ and }x_i\geq0\right\}
 		\end{equation}
 		A singular $k$-simplex in a topological space $X$ is defined as a continuous map $\sigma^k:\Delta^k\rightarrow X$. The name singular comes from the fact that the maps $\sigma^k$ need not be invertible.
 	}
 	
 	\newdef{Singular chain group}{\index{chain}
-		The singular chain group $S_k(X)$ with coefficients in a group $G$ is defined as the set of formal linear combinations $\sum_ig_i\sigma_i^k$. The basis of this freely generated group is in most cases infinite as there are multiple ways to map $\Delta^k$ to $X$.
+		The singular chain group $S_k(X)$ with coefficients in a group $G$ is defined as the set of formal linear combinations $\sum_ig_i\sigma_i^k$. The basis of this free group is in most cases infinite as there are multiple ways to map $\Delta^k$ to $X$.
 	}
 	\newdef{Singular boundary operator}{
-		The singular boundary operator $\partial$ (we use the same notation as for simplicial boundary operators) is defined by its linear action of the singular chain group $S_k(X)$. It follows that we only have to know the action on the singular simplexes $\sigma^k$.
+		The singular boundary operator $\partial$ (we use the same notation as for simplicial boundary operators) is defined by its linear action on the singular chain group $S_k(X)$. It follows that we only have to know the action on the singular simplices $\sigma^k$.
 		
-		We first introduce the notation $[v_0, ..., v_k] := [\sigma^k(e_0), ..., \sigma^k(e_k)]$ where $e_i$ is the $i^{th}$ vertex of the standard simplex $\Delta^k$. The action on the singular simplex $\sigma^k$ is then given by:
+		We first introduce the notation $[e_0, ..., e_k] = \Delta_k$ where $e_i$ is the $i^{th}$ vertex of the standard simplex $\Delta^k$. The action on the singular simplex $\sigma^k$ is then given by:
 		\begin{equation}
-			\partial\sigma^k = \sum_i^k(-1)^k[v_0, ..., \hat{v}_i, ..., v_k]
+			\partial\sigma^k = \sum_i^k(-1)^k\sigma^k\Big([e_0, ..., \hat{e}_i, ..., e_k]\Big)
 		\end{equation}
 		The singular boundary operators satisfy the same relation as in the simplicial case:
 		\begin{equation}
@@ -643,9 +658,9 @@
 		\end{equation}
 	}
 	
-	\begin{theorem}
+	\begin{property}
 		Let $X$ be a triangulable space. The $k^{th}$ singular homology group of $X$ is isomorphic to the $k^{th}$ simplicial homology group of $X$.
-	\end{theorem}
+	\end{property}
 	\begin{remark}
 		When $X$ is not triangulable the previous theorem is not valid. The singular approach to homology is thus a more general construction, but it is often more difficult to compute the homology groups (even in the case of triangulable spaces).
 	\end{remark}
@@ -653,7 +668,7 @@
 \subsection{Examples}
 
 	\begin{example}
-		Let $X$ be a contractible space. We then find that:
+		Let $X$ be a contractible space. We find that:
 		\begin{equation}
 			H_k(X) = \begin{cases}
 				\mathbb{Z}&k=0\\
@@ -662,7 +677,7 @@
 		\end{equation}
 	\end{example}
 	\begin{example}
-		Let $P$ be a connected polyhedron. We then find that:
+		Let $P$ be a connected polyhedron. We find that:
 		\begin{equation}
 			H_0(P) = \mathbb{Z}
 		\end{equation}
@@ -680,7 +695,7 @@
 \subsection{Axiomatic approach}
 
 	\newdef{Eilenberg-Steenrod axioms}{\index{Eilenberg-Steenrod axioms}
-		All homology theories have the following properties in common. By treating these properties as axioms we can construct homology theories as a sequence of functors $H_k$. The axioms are as follows:
+		All homology theories have a set of properties in common. By treating these properties as axioms we can construct homology theories as a sequence of functors $H_k$. The axioms are as follows:
 		\begin{enumerate}
 			\item \textbf{Homotopy}: If $f, g$ are homotopic maps then their induced homology maps are the same.
 			\item \textbf{Excision}\footnotemark: If $U\subset V\subset X$ and $\overline U\subset V\degree$ then $H_k(X, V) \cong H_k(X\backslash U, V\backslash U)$
@@ -690,7 +705,7 @@
 			\begin{equation}
 				\cdots\rightarrow H_k(A)\xrightarrow{i_\ast}H_k(X)\xrightarrow{j_\ast}H_k(X, A)\xrightarrow{\partial_k}H_{k-1}(A)\rightarrow\cdots
 			\end{equation}
-			where $i_\ast$ and $j_\ast$ are the homology homomorphisms induced by the inclusions $i:A\rightarrow X$ and $j:X\rightarrow (X, A)$.
+			where $i_\ast$ and $j_\ast$ are the homology morphisms induced by the inclusions $i:A\rightarrow X$ and $j:X\rightarrow (X, A)$.
 		\end{enumerate}
 		\footnotetext{See also theorem \ref{topology:theorem:excision}.}
 		Let $X$ be a singleton. The group $H_0(X)$ is called the \textbf{coefficient group} and gives the coefficients used in the construction of the free Abelian chain groups $C_k$.
@@ -700,6 +715,22 @@
 	\end{remark}
 
 \section{Sheaf theory}
+\subsection{Presheafes}
+
+	\newdef{Presheaf}{\index{presheaf}\index{section}
+		Let $X$ be a topological space. A presheaf over $X$ consists of an algebraic structure $S_U$ for every open set $U\subseteq X$ and a morphism $\Phi^U_V:S_U\rightarrow S_V$ for every two open sets $U, V\subseteq X$ with $V\subseteq U$ such that the following conditions are satisfied:
+		\begin{itemize}
+			\item If $U=\emptyset$ then $S_U = 0$, where 0 is the zero object in the category corresponding to the algebraic structure of $S_U$.
+			\item $\Phi^U_U = \text{Id}_{U, V}$
+			\item If $W\subseteq V\subseteq U$ then $\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
+		\end{itemize}
+		The set $S_U$ is called the set of \textbf{sections} over $U$ and the morphisms $\Phi^U_V$ are called the \textbf{restriction maps}.
+	}
+	
+	\newdef{Morphism of presheaves}{\index{morphism!of presheaves}\index{germ}
+		Let $S, S'$ be two presheaves. A morphism $S\rightarrow S'$ is a set of morphisms $\Psi_U:S_U\rightarrow S_U'$ that commute with the maps $\Phi^U_V$.
+	}
+
 \subsection{Sheafs}
 	
 	\newdef{Sheaf}{\index{sheaf}
@@ -712,28 +743,13 @@
 	\newdef{Stalk}{\index{stalk}
 		The preimage $\pi^{-1}(x)$ is called the stalk over $x$ and is often denoted by $S_x$.
 	}
-	\newdef{Homomorphism of sheaves}{\index{homomorphism!of sheaves}
-		Let $S, S'$ be two sheaves over the same space with projections $\pi$ and $\pi'$. A homomorphism of sheaves is a map $\Phi$ satisfying the following conditions:
+	\newdef{morphism of sheaves}{\index{morphism!of sheaves}
+		Let $S, S'$ be two sheaves over the same space with projections $\pi$ and $\pi'$. A morphism of sheaves is a map $\Phi$ satisfying the following conditions:
 		\begin{itemize}
 			\item $\Phi:S\rightarrow S'$ is continuous.
 			\item $\pi = \pi'\circ\Phi$, i.e. $\Phi$ maps stalks in $S$ to corresponding stalks in $S'$.
-			\item For each $x\in X$, the restriction $\Phi|_x:S_x\rightarrow S'_x$ is a homomorphism of the algebraic structures corresponding to the stalks.
+			\item For each $x\in X$, the restriction $\Phi|_x:S_x\rightarrow S'_x$ is a morphism of the algebraic structures corresponding to the stalks.
 		\end{itemize}
-	}
-	
-\subsection{Presheafes}
-
-	\newdef{Presheaf}{\index{presheaf}
-		Let $X$ be a topological space. A presheaf over $X$ consists of an algebraic structure $S_U$ for every open set $U\subseteq X$ and a homomorphism $\Phi^U_V:S_U\rightarrow S_V$ for every two open sets $U, V\subseteq X$ with $V\subseteq U$ such that the following conditions are satisfied:
-		\begin{itemize}
-			\item If $U=\emptyset$ then $S_U = 0$, where 0 is the zero object in the category corresponding to the algebraic structure of $S_U$.
-			\item $\Phi^U_U = \mathbbm{1}_X$
-			\item If $W\subseteq V\subseteq U$ then $\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
-		\end{itemize}
-	}
-	
-	\newdef{Homomorphism of presheaves}{\index{homomorphism!of presheaves}\index{germ}
-		Let $S, S'$ be two presheaves. A homomorphism $S\rightarrow S'$ is a set of homomorphisms $\Psi_U:S_U\rightarrow S_U'$ that commute with the maps $\Phi^U_V$.
 	}
 	
 	\begin{construct}\label{sheaf:associated_construction}

@@ -1,14 +1,14 @@
-\chapter{Quantum Field Theory}
+\chapter{Canonical quantization}
 
-	In this chapter we adopt the standard Minkowskian signature $(+, -, -, -)$ unless otherwise stated. This follows the introductory literature and courses such as \cite{Peskin}. Furthermore we also work in natural units unless stated otherwise, i.e. $\hbar = c = 1$.
+	In this and the following chapters we adopt the standard Minkowskian signature $(+, -, -, -)$ unless otherwise stated. This follows the introductory literature and courses such as \cite{Peskin}. Furthermore we also work in natural units unless stated otherwise, i.e. $\hbar = c = 1$.
 
-\section{Klein-Gordon Field}
+\section{Klein-Gordon field}
 \subsection{Lagrangian and Hamiltonian}
 
 	The simplest Lagrangian (density) is given by:
 	\begin{equation}
 		\label{qft:klein_gordon_lagrangian}
-		\boxed{\mathcal{L} = \frac{1}{2}(\partial_\mu\phi)^2 - \frac{1}{2}m^2\phi^2}
+		\boxed{\mathcal{L} = \frac{1}{2}\partial_\mu\phi\partial^\mu\phi - \frac{1}{2}m^2\phi^2}
 	\end{equation}
 	
 	Using the principle of least action we obtain the following Euler-Lagrange equations\footnote{See formula \ref{lagrange:second_kind}.}:
@@ -20,10 +20,11 @@
 		\label{qft:klein_gordon_equation}
 		\boxed{(\Box+m^2)\phi = 0}
 	\end{equation}
-	This equation is called the Klein-Gordon equation. In the limit $m\rightarrow0$ it reduces to the well-known wave equation.
+	This equation is called the Klein-Gordon equation. In the limit $m\rightarrow0$ this equation reduces to the well-known wave equation.
 	
 	From the Lagrangian \ref{qft:klein_gordon_lagrangian} we can also derive a Hamiltonian function using relation \ref{hamilton:hamiltonian}:
 	\begin{equation}
+		\label{qft:klein_gordon_hamiltonian}
 		\boxed{H = \int d^3x \frac{1}{2}\left[\pi^2(x) + (\nabla\phi(x))^2 + m^2\phi^2(x)\right]}
 	\end{equation}
 	
@@ -63,11 +64,13 @@
 		[H, a_{\vector{p}}] &= -\omega_pa_{\vector{p}}
 	\end{empheq}
 	
-	The Hamiltonian can also be explicitly calculated:
+	Now, the Hamiltonian can be calculated explicitly:
 	\begin{equation}
 		H = \int\frac{d^3p}{(2\pi)^3}\omega_{\vector{p}}\left(a_{\vector{p}}^\dag a_{\vector{p}} + \frac{1}{2}[a_{\vector{p}}, a_{\vector{p}}^\dag]\right)
 	\end{equation}
-	It is however immediately clear from \ref{qft:ladder_comutation} that the second term in this integral diverges. This is a consequence of both the fact that space is infinite, i.e. the $d^3x$ integral diverges, and the "large $p$" limit in the the $d^3p$ integral. The first divergence can be resolved by applying some kind of boundary and considering the energy density instead of the energy itself. The second divergence follows from the fact that by including very large values for $p$ in the integral we enter a parameter range where our theory is likely to break down. So we should introduce a "high $p$" cut-off. A more practical solution is to note that only energy differences are physical and so we can drop the second term altogether as it is merely a "constant".
+	It is however clear from \ref{qft:ladder_comutation} that the second term in this integral diverges. There are two reasons for this divergence. Firstly, space is infinite, i.e. the $d^3x$ integral in \ref{qft:klein_gordon_hamiltonian} diverges. This problem can be resolved by restricting the system to a (finite) part of space or by considering the energy density instead of the energy itself. Secondly, by including very large values for $p$ in the integral we enter a parameter range where our theory is likely to break down. So we should introduce a "high $p$" cut-off\footnote{See \textit{regularization}.}.
+	
+	A more practical solution however is to note that only energy differences are physical and so we can drop the second term altogether as it is merely a "constant".
 
 \subsection{Complex scalar fields}
 
@@ -80,13 +83,17 @@
 	
 
 \section{Lorentz invariant integrals}
+\subsection{Normalization constant}
 
-	When applying a Lorentz boost $\Lambda$ the delta function $\delta(\vector{p}-\vector{q})$ transforms\footnote{This follows from property \ref{distribution:delta_of_function}.} as $\delta(\Lambda\vector{p} - \Lambda\vector{q})\frac{\Lambda E}{E}$. This is clearly not a Lorentz invariant quantity and cannot be used for normalisation. It is however also clear that the quantity $2E\delta(\vector{p}-\vector{q})$ is Lorentz invariant. (The constant $2$ is merely introduced for future convenience.)
+	When applying a Lorentz boost $\Lambda$ the delta function $\delta(\vector{p}-\vector{q})$ transforms\footnote{This follows from property \ref{distribution:delta_of_function}.} as $\delta(\Lambda\vector{p} - \Lambda\vector{q})\frac{\Lambda E}{E}$. Although this is clearly not Lorentz invariant, the quantity $2E\delta(\vector{p}-\vector{q})$ is Lorentz invariant. (The constant $2$ is merely introduced for future convenience.)
+	
 	The correct normalisation for the momentum representation thus becomes:
 	\begin{equation}
 		\langle p|q \rangle = 2E_p(2\pi)^3\delta(\vector{p}-\vector{q})
 	\end{equation}
-	where the factors 2 and $(2\pi)^3$ are again a matter of convention.
+	where the constants are again a matter of convention.
+
+\subsection{Integration measure}
 	
 	The factor $2E_p$ does not only occur in the normalisation conditions. To define a Lorentz invariant measure for evaluating integrals in spacetime we define define the following integral:
 	\begin{equation}
@@ -94,10 +101,13 @@
 	\end{equation}
 	This means that the integral of any Lorentz invariant function $f(p)$ using the measure $\frac{d^3p}{2E_p}$ will be Lorentz invariant.
 	
-	Computing the quantity $\langle 0|\phi(\vector{x})|\vector{p} \rangle$ gives $e^{i\vector{x}\cdot\vector{p}}$. This coincides with the position representation from quantum mechanics of the state $|\vector{p}\rangle$ and so we will also interpret it in QFT as the position representation of the single particle state $|\vector{p}\rangle$.
-	
-\section{Wick's theorem}
+\section{Contractions and Wick's theorem}
 \subsection{Bosonic fields}
+	
+	In the following definitions (field) operators will be decomposed as
+	\[\phi = \phi^{(+)} + \phi^{(-)}\]
+	where the + symbol denotes the 'positive frequency' part, i.e. the part consisting of annihilation operators. The 'negative frequency' part is defined analogously.
+
 	\newdef{Contraction for neutral bosonic fields}{\index{contraction}
 		\begin{equation}
 			\contraction{}{\phi}{(x)}{\phi}\phi(x)\phi(y)=
@@ -122,11 +132,26 @@
 			\end{cases}
 		\end{equation}
 	}
+	
+	\newdef{Normal ordering}{\index{normal!ordering}
+		The normal ordering\footnote{Sometimes denoted by $:\ \ :$} $\mathcal{N}$ of a sequence of field operators is defined as the permuted sequence in which all annihilation operators appear on the right of the creation operators. For example: \[\mathcal{N}\Big(\phi(x)\phi^\dag(y)\phi(z)\Big) = \phi^\dag(y)\phi(x)\phi(z)\]
+	}
+	\begin{property}
+		The vacuum state expectation value of a normal ordered sequence is 0.
+	\end{property}
+	
+	\newformula{Wick's theorem for bosonic fields}{\index{Wick!theorem for time-ordered integrals}
+		\begin{equation}
+			\mathcal{T}\Big(\underbrace{\phi(x_1)\phi(x_2)...\phi(x_n)}_{S}\Big) = \mathcal{N}\Big(\phi(x_1)...\phi(x_n) + \text{all possible contractions}\Big)
+		\end{equation}
+	}
+	
 	\begin{remark}
-		In the case of charged bosons, only contractions of the form $\contraction{}{\phi}{(x)}{\overline\phi}\phi(x)\overline\phi(y)$ will remain because $[a, b^+] = 0$ for charged bosons.
+		In the case of charged bosons, only contractions of the form $\contraction{}{\phi}{(x)}{\overline\phi}\phi(x)\overline\phi(y)$ will remain because $[a, b^+] = 0$.
 	\end{remark}
 
 \subsection{Fermionic fields}
+
 	\newdef{Contraction}{
 		\begin{equation}
 			\contraction{}{\psi}{(x)}{\overline\psi}\psi(x)\overline\psi(y)=
@@ -144,18 +169,4 @@
 		\begin{equation}
 			\contraction{}{\psi}{(x)}{\overline\psi}\psi(x)\overline\psi(y) = i\underbrace{\lim_{\varepsilon\rightarrow 0^+}\int\frac{d^4p}{(2\pi)^4}\frac{\slashed{p} + m}{p^2 - m^2 + i\varepsilon}e^{-ip\cdot(x-y)}}_{S_F(x-y)}
 		\end{equation}
-	}
-	
-\section{Axiomatic approach}
-
-	 \begin{theorem}[Axiom of microcausality]\index{microcausality}\label{qft:microcausality}
-	 	Let $\hat{O}$ be an observable and let $x, y$ be two spacetime points. If $x-y$ is a space-like vector then $[\hat{O}(x), \hat{O}(y)] = 0$.
-	 \end{theorem}
-	 
-\subsection{Wightman axioms}
-
-\section{Quantum Chromodynamics}
-
-	\newprop{OZI rule}{\index{OZI rule}
-		Decay processes for which the corresponding Feynman diagrams become disconnected (initial states and final states are disconnected) when removing internal gluon lines are suppressed with respect to other processes.
 	}

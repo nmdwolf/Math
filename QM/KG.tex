@@ -39,7 +39,7 @@
 	
 	Analogous to ordinary quantum mechanics we define the raising and lowering operators $a_{\vector{p}}^\dag$ and $a_{\vector{p}}$ such that:
 	\begin{align}
-		\phi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}\stylefrac{1}{\sqrt{2\omega_{\vector{p}}}}\left(a_{\vector{p}}e^{i\vector{p}\cdot\vector{x}} + a_{\vector{p}}^\dag e^{-i\vector{p}\cdot\vector{x}}\right)\\
+		\phi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}\stylefrac{1}{\sqrt{2\omega_{\vector{p}}}}\left(a_{\vector{p}}e^{i\vector{p}\cdot\vector{x}} + a_{\vector{p}}^\dag e^{-i\vector{p}\cdot\vector{x}}\right)\label{qft:phi}\\
 		\pi(\vector{x}) &= \iiint\stylefrac{d^3p}{(2\pi)^3}(-i)\sqrt{\stylefrac{\omega_{\vector{p}}}{2}}\left(a_{\vector{p}}e^{i\vector{p}\cdot\vector{x}} - a_{\vector{p}}^\dag e^{-i\vector{p}\cdot\vector{x}}\right)
 	\end{align}
 	An equivalent definition is obtained by performing the transformation $\vector{p}\rightarrow-\vector{p}$ in the second term of $\phi(\vector{x})$ and $\pi(\vector{x})$:
@@ -72,7 +72,7 @@
 	
 	A more practical solution however is to note that only energy differences are physical and so we can drop the second term altogether as it is merely a "constant".
 
-\subsection{Complex scalar fields}
+\subsection{Scalar propagator}
 
 	\newformula{Pauli-Jordan function}{\index{Pauli-Jordan function}
 		\begin{equation}
@@ -81,32 +81,43 @@
 		In the case that $x^0 = y^0$ (ETCR) or $(x - y)^2 < 0$ the Pauli-Jordan function is identically 0.\footnote{See also the axiom of microcausality \ref{qft:microcausality}}
 	}
 	
-
-\section{Lorentz invariant integrals}
 \subsection{Normalization constant}
 
-	When applying a Lorentz boost $\Lambda$ the delta function $\delta(\vector{p}-\vector{q})$ transforms\footnote{This follows from property \ref{distribution:delta_of_function}.} as $\delta(\Lambda\vector{p} - \Lambda\vector{q})\frac{\Lambda E}{E}$. Although this is clearly not Lorentz invariant, the quantity $2E\delta(\vector{p}-\vector{q})$ is Lorentz invariant. (The constant $2$ is merely introduced for future convenience.)
+	Under a general Lorentz boost $\Lambda$ the delta function $\delta^{(3)}(\vector{p}-\vector{q})$ transforms\footnote{This follows from property \ref{distribution:delta_of_function}.} as $\delta^{(3)}(\Lambda\vector{p} - \Lambda\vector{q})\frac{\Lambda E}{E}$. Although this is clearly not Lorentz invariant, we see that the quantity $E_p\delta^{(3)}(\vector{p}-\vector{q})$ is an invariant.
 	
 	The correct normalisation for the momentum representation thus becomes:
 	\begin{equation}
-		\langle p|q \rangle = 2E_p(2\pi)^3\delta(\vector{p}-\vector{q})
+		\sqrt{2E_p}a_{\mathbf{p}}^\dag|0\rangle = |\mathbf{p}\rangle
 	\end{equation}
-	where the constants are again a matter of convention.
+	and hence
+	\begin{equation}
+		\langle \mathbf{p}|\mathbf{q} \rangle = 2E_p(2\pi)^3\delta^{(3)}(\vector{p}-\vector{q})
+	\end{equation}
+	where the constants are a matter of convention (to cancel the constants in \ref{qft:phi}).
 
-\subsection{Integration measure}
+\subsection{Invariant integration measure}
 	
-	The factor $2E_p$ does not only occur in the normalisation conditions. To define a Lorentz invariant measure for evaluating integrals in spacetime we define define the following integral:
+	The factor $2E_p$ does not only occur in the normalisation conditions. To find a Lorentz invariant integration measure in spacetime we consider the following integral:
 	\begin{equation}
 		\int\frac{d^3p}{2E_p} = \left.\int d^4p\ \delta(p^2-m^2)\right|_{p^0>0}
 	\end{equation}
-	This means that the integral of any Lorentz invariant function $f(p)$ using the measure $\frac{d^3p}{2E_p}$ will be Lorentz invariant.
+	By using this measure we ensure that the integral of any Lorentz invariant function $f(p)$ is again Lorentz invariant.
+	\begin{example}[One-particle identity operator]\index{identity!operator}
+		\begin{equation}
+			\hat{\mathbbm{1}}_1 = \int\frac{d^3p}{2E_p}|\mathbf{p}\rangle\langle\mathbf{p}|
+		\end{equation}
+	\end{example}
+
+\section{Dirac field}
+
 	
+
 \section{Contractions and Wick's theorem}
 \subsection{Bosonic fields}
 	
 	In the following definitions (field) operators will be decomposed as
 	\[\phi = \phi^{(+)} + \phi^{(-)}\]
-	where the + symbol denotes the 'positive frequency' part, i.e. the part consisting of annihilation operators. The 'negative frequency' part is defined analogously.
+	where the + symbol denotes the 'positive frequency' part, i.e. the part consisting of annihilation operators\footnote{By looking at equation \ref{qft:phi}, we see that the annihilators always occur together with a positive sign exponential.}. The 'negative frequency' part is defined analogously.
 
 	\newdef{Contraction for neutral bosonic fields}{\index{contraction}
 		\begin{equation}
@@ -170,3 +181,10 @@
 			\contraction{}{\psi}{(x)}{\overline\psi}\psi(x)\overline\psi(y) = i\underbrace{\lim_{\varepsilon\rightarrow 0^+}\int\frac{d^4p}{(2\pi)^4}\frac{\slashed{p} + m}{p^2 - m^2 + i\varepsilon}e^{-ip\cdot(x-y)}}_{S_F(x-y)}
 		\end{equation}
 	}
+	
+	\begin{remark}[Normal ordering]
+		One should take into account the Fermi-Dirac statistics when permuting fermionic field operators under a normal ordering. A general factor $\sgn(P)$, where $P$ is the permutation of the operators, will arise in every term.
+		
+		For example: \[\mathcal{N}\Big(\psi(x)\overline\psi(y)\psi(z)\Big) = -\overline\psi(y)\psi(x)\psi(z)\]
+		A similar remark should be made for the time ordering $\mathcal{T}$.
+	\end{remark}

@@ -8,29 +8,31 @@
     
 	\begin{definition}\label{tensor:tensor_product}
     		The tensor product of vector spaces $V$ and $W$ is defined as\footnotemark\ the set of multilinear maps on the Cartesian product $V^*\times W^*$. Let $v, w$ be vectors in respectively $V$ and $W$. Let $g, h$ be vectors in the corresponding dual spaces. The tensor product of $v$ and $w$ is then defined as:
+    		\footnotetext{\textit{isomorphic to} would be a better terminology. See the "universal property" \ref{tensor:prop:universal_property}. For a complete proof and explanation, see \cite{principal_bundles}.}
         	\begin{equation}
         		\boxed{(v\otimes w)(g, h) = v(g)w(h)}
 	        \end{equation}
-	        \footnotetext{"isomorphic to" would be a better terminology. See the "universal property" \ref{tensor:prop:universal_property}. For a complete proof and explanation, see \cite{principal_bundles}.}
 	\end{definition}
+	
 	\newdef{Tensor component}{
     		One way to define the tensor components is as follows: Let $\mathbf{T}$ be a tensor that takes $r$ vectors and $s$ covectors as input and returns a scalar. The different components are given by  $\mathbf{T}(e_i, ..., e_j, e^k, ...., e^l) = T_{i...j}^{\ \ \ \ k...l}$.
 	}
     
-	\begin{property}[Universal property]\index{universal property}\label{tensor:prop:universal_property}
-	   	A set $X$ together with a bilinear map $\mathcal{T}:V\times W\rightarrow X$ is said to have the universal property if for every bilinear map $f:V\times W\rightarrow Z$, where $Z$ is some other vector space, there exists a unique linear map $f':X\rightarrow Z$ such that $f = f'\circ\mathcal{T}$.
+	The following property can also be seen as the defining property of a tensor product (also in the case of infinite-dimensional spaces):
+	\begin{property}[Universal property]\index{universal!property}\label{tensor:prop:universal_property}
+	   	Let $Z$ be a vector space. For every bilinear map $T:V\times W\rightarrow Z$ there exists a linear map $f:V\otimes W\rightarrow Z$ such that $T = f\circ\varphi$, where $\varphi$ is the bilinear map $V\times W\rightarrow V\otimes W$.
 	\end{property}
 	\begin{result}
-	    	The tensor product is unique up to a linear isomorphism. This results in
+	    	The tensor product is unique up to a linear isomorphism. This results in the commutativity of the tensor product:
 	    	\begin{equation}
 			\label{tensor:prop:change}
 	        	V\otimes W \cong W\otimes V
 		\end{equation}
-		The isomorphism is given by:
+		where the isomorphism is explicitly given by:
 	        \begin{equation}
 	        	v(f) \equiv f(v)
 	        \end{equation}
-	        where $v\in V$ and $f\in V^*$.
+	        for all $v\in V$ and $f\in V^*$.
 	\end{result}
     
 	\begin{notation}[Tensor power]\index{tensor!power}
@@ -45,14 +47,16 @@
 	\begin{remark}
 		Generally the space $\mathcal{T}^1_1V$ is only isomorphic to the space $\text{End}(V^*)$. The isomorphism is given by the map $\hat{T}:V^*\rightarrow V^*:\omega\mapsto\mathbf{T}(\cdot, \omega)$ for every $\mathbf{T}\in\mathcal{T}^1_1V$. Furthermore the spaces $\mathcal{T}^0_1V$ and $V^*$ are isomorphic.
 		
-		For finite-dimensional vector spaces the space $\mathcal{T}^1_1V$ is also isomorphic to $\text{End}(V)$ (see property \ref{linalgebra:dual_space_dimension}). The space $\mathcal{T}^1_0V$ will also be isomorphic to $V$ itself.
+		For finite-dimensional vector spaces the space $\mathcal{T}^1_1V$ is also isomorphic to $\text{End}(V)$ (see property \ref{linalgebra:dual_space_dimension}) and the space $\mathcal{T}^1_0V$ will also be isomorphic to $V$ itself.
 	\end{remark}
 	\begin{definition}
 	    	The scalars (elements of the base field $K$) are by definition the $(0,0)$ tensors.
 	\end{definition}
 
 	\begin{adefinition}\index{tensor!type}\label{tensor:type}
-    		The tensor space $\mathcal{T}^r_s(V)$ is spanned by the basis \[\underbrace{e_i\otimes...\otimes e_j}_{r\text{ basis vector}}\otimes\underbrace{\varepsilon^k\otimes...\otimes \varepsilon^l_{\textcolor{white}{a}}}_{s\text{ dual basis vectors}}\] where the operation $\otimes$ satisfies following properties:
+    		The tensor space $\mathcal{T}^r_s(V)$ is spanned by the elements
+    		\[\underbrace{e_i\otimes...\otimes e_j}_{r\text{ basis vector}}\otimes\underbrace{\varepsilon^k\otimes...\otimes \varepsilon^l_{\textcolor{white}{a}}}_{s\text{ dual basis vectors}}\]
+    		where the operation $\otimes$ satisfies following properties:
         	\begin{enumerate}
         		\item Associativity: $u\otimes(v\otimes w) = u \otimes v\otimes w$
 		        \item Multilinearity: $a(v\otimes w) = (av)\otimes w = v\otimes (aw)$ and $v\otimes (u+w) = v\otimes u + v\otimes w$
@@ -77,9 +81,23 @@
 		This is exactly the same result as the one we get by applying the first definition.\qed
       	\end{proof}
 
+\subsection{Quotient space}
+
+	On infinite-dimensional spaces there exists a more general definition (that coincides with the previous one on finite-dimensional spaces):
+	\begin{construct}[Tensor product]\index{tensor!product}
+		Consider two vector spaces $V, W$ over a field $K$. First construct the free vector space $F(V\times W)$ over $K$. Then construct the two-sided ideal $I$ generated by the following elements:
+		\begin{itemize}
+			\item $(v+v', w) - (v, w) - (v', w)$
+			\item $(v, w+w') - (v, w) - (v, w')$
+			\item $(kv, w) - k(v, w)$
+			\item $(v, lw) - l(v, w)$
+		\end{itemize}
+		where $k,l\in K$. The tensor product $V\otimes W$ is then given by the quotient $F(V\times W)/I$.
+	\end{construct}
+
 \section{Transformation rules}
 
-	Let the basis for $V$ transform as $e_i' = A^j_{\ i}e_j$ and $e_i = B^j_{\ i}e_j'$. Because the basis transformations $A$ and $B$ should be well-defined, they are each other's inverse: $B = A^{-1}$.
+	Let the basis for $V$ transform as $e_i' = A^j_{\ i}e_j$ and $e_i = B^j_{\ i}e_j'$. Because the basis transformation should be well-defined, the operators $A$ and $B$ are each other's inverses: $B = A^{-1}$.
 
 	\begin{definition}[Contravariant]
 		A tensor component that transforms by the following rule is called contravariant:
@@ -140,7 +158,7 @@
 	\end{remark*}
 	
 	\begin{notation}
-		Consider a tensor with two indices $T_{ij}$. The antisymmetric part can then be written as:
+		Consider a tensor with two indices $T_{ij}$. The antisymmetric part is written as follows:
 		\begin{equation}
 			T_{[ij]} = \frac{1}{2}\left(T_{ij} - T_{ji}\right)
 		\end{equation}
@@ -148,12 +166,15 @@
 	
 \subsection{Determinant}
 
-	\newdef{$n$-form}{\index{form}\index{volume!form}
-		An $n$-form is a totally anti-symmetric element $\omega\in\mathcal{T}^0_nV$. $\dim V$-forms are also called \textbf{top forms} or \textbf{volume forms}.
+	\newdef{Form}{\index{form}
+		An $n$-form is a totally anti-symmetric element $\omega\in\mathcal{T}^0_nV$.
+	}
+	\newdef{Volume form}{\index{volume!form}
+		A form of rank $\dim V$ is also called a \textbf{top form} or \textbf{volume form}.
 	}
 	
 	\newdef{Determinant}{\index{determinant}
-		Let $\varphi$ be an element in $\mathcal{T}^1_1V\cong\text{End}(V)$. Let $\omega$ be a volume form and let $\{e_i\}_{i\leq n}$ be a basis for $V$. The determinant of $\varphi$ is then defined as:
+		Let $V$ be finite-dimensional with basis $\{e_i\}_{i\leq n}$. Let $\varphi$ be a tensor in $\mathcal{T}^1_1V\cong\text{End}(V)$ and let $\omega$ be a volume form. The determinant of $\varphi$ is then defined as:
 		\begin{equation}
 			\det\varphi = \frac{\omega(\varphi(e_1), ..., \varphi(e_n))}{\omega(e_1, ..., e_n)}
 		\end{equation}
@@ -166,7 +187,7 @@
 	
 	\begin{property}
 		\begin{equation}
-        		\vecnabla\cdot(\vector{A}\otimes\vector{B}) = (\vecnabla\cdot\vector{A})\vector{B}+(\vector{A}\cdot\vecnabla)\vector{B}
+        		\nabla\cdot(\vector{A}\otimes\vector{B}) = (\nabla\cdot\vector{A})\vector{B}+(\vector{A}\cdot\nabla)\vector{B}
 		\end{equation}
 	\end{property}    
     
@@ -195,11 +216,11 @@
     	\end{remark}
 
 	\newformula{Cross product}{
-		By using the Levi-Civita symbol, we can define the $i$-th component of the cross product\footnotemark\ of two vectors $\vector{v},\vector{w}$ as follows:
+		By using the Levi-Civita symbol, we can define the $i$-th component of the cross product\footnotemark\ as follows:
+		\footnotetext{Following from remark \ref{tensor:remark:levi_civita_symbol} we can see that the cross product is in fact not a vector, but a pseudovector.}
 		\begin{equation}
 			\boxed{(\vector{v}\times\vector{w})_i = \varepsilon_{ijk}v_jw_k}
 		\end{equation}
-		\footnotetext{Following from remark \ref{tensor:remark:levi_civita_symbol} we can see that the cross product is in fact not a vector, but a pseudovector.}
 	}
 
 \subsection{Complexification}
@@ -209,14 +230,14 @@
 		\begin{equation}
 			V^{\mathbb{C}} = V\otimes\mathbb{C}
 		\end{equation}
-		On its own this remains a real vector space. However we can turn this space into a complex vector space by generalizing the scalar product as follows:
+		As such this is still a real vector space. However we can turn this space into a complex vector space by generalizing the scalar product as follows:
 		\begin{equation}
 			\alpha(v\otimes\beta) = v\otimes(\alpha\beta)
 		\end{equation}
 		for all $\alpha,\beta\in\mathbb{C}$.
 	}
 	\begin{property}
-		By noting that every element $\overline{v}\in V^{\mathbb{C}}$ can be written as \[\overline{v} = (v_1\otimes1) + (v_2\otimes i)\] we can decompose the complexification as follows:
+		By noting that every element $v_{\mathbb{C}}\in V^{\mathbb{C}}$ can be written as \[v_{\mathbb{C}} = (v_1\otimes1) + (v_2\otimes i)\] we can decompose the complexification as follows:
 		\begin{equation}
 			V^{\mathbb{C}} \cong V\oplus iV
 		\end{equation}

@@ -1,6 +1,6 @@
-\chapter{Banach spaces and Hilbert spaces}
+\chapter{Normed vector spaces}
 
-	In this chapter the term "linear operator", which is normally reserved for maps of the form $f:V\rightarrow V$, is used instead of "linear map". This was done to keep the vocabulary in track with that of the standard literature on Banach spaces and operator spaces.
+	In this chapter the term "linear operator", which is normally reserved for isomorphisms of the form $f:V\rightarrow V$, is used instead of "linear map". This was done to keep the vocabulary in track with that of the standard literature on Banach spaces and operator spaces.
 	
 	For a revision of inner product spaces see section \ref{linalgebra:innerproduct}.
 
@@ -79,7 +79,7 @@
 	\newdef{Operator norm}{\index{operator!norm}
     		The operator norm of $L$ is defined as follows:
     		\begin{equation}
-    			||L||_{op} = \inf\{M|M\text{ satisfies condition \ref{operator:bounded_operator}}\}
+    			||L||_{op} = \inf\{M\in\mathbb{C}:M\text{ satisfies condition \ref{operator:bounded_operator}}\}
     		\end{equation}
     		As the name suggests it is a norm on $\mathcal{B}(V, W)$. The topology induced by this norm is called the norm topology.
     		
@@ -112,32 +112,6 @@
 		\footnotetext{See definition \ref{linalgebra:adjoint_operator}.}
 	\end{property}
 
-\subsection{Spectrum}
-
-	\newdef{Resolvent set}{\index{resolvent set}
-		\nomenclature[S]{$\rho(A)$}{The resolvent set of a bounded linear operator $A$.}
-		Let $A$ be a bounded linear operator on a normed space $V$. The resolvent set $\rho(A)$ consists of all scalar $\lambda\in\mathbb{C}$ such that $(A-\lambda\mathbbm{1})^{-1}$ is a bounded linear operator, called the resolvent of $A$, on a dense subset of $V$. These scalars $\lambda$ are called \textbf{regular values} of $A$.
-	}
-	\newdef{Spectrum}{\index{spectrum}
-		The set of scalars $\mu\not\in\rho(A)$ is called the spectrum of $A$.
-	}
-	
-	\begin{remark}
-		It is obvious from the definition of an eigenvalue that every eigenvalue of $A$ belongs to the spectrum of $A$. The converse however is not true.
-	\end{remark}
-	
-	\newdef{Point spectrum}{
-		The set of scalars $\mu\in\mathbb{C}$ for which the resolvent of $A$ fails to be injective is called the point spectrum of $A$. This set coincides with the set of eigenvalues of $A$.
-	}
-	\newdef{Continuous spectrum}{
-		\nomenclature[S]{$\sigma_r(A)$}{The residual spectrum of a bounded linear operator $A$.}
-		The set of scalars $\mu\in\mathbb{C}$ for which the resolvent of $A$ fails to be surjective but for which the range of the resolvent is dense in $V$ is called the continuous spectrum of $A$. The scalars for which the range is not dense is called the \textbf{residual spectrum} $\sigma_r(A)$.
-	}
-	\newdef{Compression spectrum}{
-		\nomenclature[S]{$\sigma(A)$}{The compression spectrum of a bounded linear operator $A$.}
-		The set of scalars $\mu\in\mathbb{C}$ for which the resolvent of $A$ fails to have a dense range in $V$ is called the compression spectrum $\sigma(A)$. It follows that $\sigma_r(A)\subseteq\sigma(A)$.
-	}
-	
 \subsection{Fredholm operators}
 
 	\newdef{Compact operator}{\index{compact!operator}\label{banach:compact_operator}
@@ -157,6 +131,43 @@
 	}
 	\begin{property}
 		An operator $F:V\rightarrow W$ is a Fredholm operator if and only if there exists a bounded linear operator $G\in\mathcal{B}(W, V)$ such that $\mathbbm{1}_V - FG$ and $\mathbbm{1}_W - GF$ are compact on $V$ and $W$ respectively.
+	\end{property}
+
+\subsection{Spectrum}
+
+	\newdef{Resolvent operator}{\index{resolvent}
+		Let $A$ be a bounded linear operator on a normed space $V$. The resolvent operator of $A$ is defined as the operator $(A - \lambda\mathbbm{1}_V)^{-1}$,	where $\lambda\in\mathbb{C}$.
+	}
+
+	\newdef{Resolvent set}{
+		\nomenclature[S]{$\rho(A)$}{The resolvent set of a bounded linear operator $A$.}
+		The resolvent set $\rho(A)$ consists of all scalars $\lambda\in\mathbb{C}$ for which the resolven operator of A is a bounded linear operator on a dense subset of $V$. These scalars $\lambda$ are called \textbf{regular values} of $A$.
+	}
+	\newdef{Spectrum}{\index{spectrum}
+		The set of scalars $\mu\in\mathbb{C}\setminus \rho(A)$ is called the spectrum $\sigma(A)$.
+	}
+	
+	\begin{remark}
+		It is obvious from the definition of an eigenvalue that every eigenvalue of $A$ belongs to the spectrum of $A$. The converse however is not true.
+	\end{remark}
+	
+	\newdef{Point spectrum}{
+		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to be injective is called the point spectrum $\sigma_p(A)$. This set coincides with the set of eigenvalues of $A$.
+	}
+	\newdef{Continuous spectrum}{
+		\nomenclature[S]{$\sigma_r(A)$}{The residual spectrum of a bounded linear operator $A$.}
+		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to be surjective but for which the range of the resolvent is dense in $V$ is called the continuous spectrum of $A$. The scalars for which the range is not dense is called the \textbf{residual spectrum} $\sigma_r(A)$.
+	}
+	\newdef{Compression spectrum}{
+		\nomenclature[S]{$\sigma(A)$}{The compression spectrum of a bounded linear operator $A$.}
+		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to have a dense range in $V$ is called the compression spectrum $\sigma(A)$. It follows that $\sigma_r(A)\subseteq\sigma(A)$.
+	}
+	
+	\newdef{Essential spectrum}{\index{essential!spectrum}
+		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ for which $A-\mu\mathbbm{1}_V$ is not a Fredholm operator is called the essential spectrum $\sigma_{ess}(A)$.
+	}
+	\begin{property}
+		Let $A$ be a bounded linear operator and let $T$ be a compact operator. The essential spectra of $A$ and $A+T$ coincide.
 	\end{property}
 
 \section{Hilbert space}

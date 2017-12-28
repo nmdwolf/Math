@@ -94,6 +94,15 @@
 \section{Pin group}
 \subsection{Clifford group}
 
+	\newdef{Transposition}{\index{transposition}
+		Let $\{e_i\}_{i\leq n}$ be a basis for $V$. On the tensor algebra $T(V)$ there exists an anti-automorphism $v^t$ that reverses the order of the basis vectors:
+		\begin{equation}
+			\label{clifford:transposition}
+			^t:e_i\otimes e_j\otimes\cdots\otimes e_k\mapsto e_k\otimes\cdots\otimes e_j\otimes e_i
+		\end{equation}
+		Because the ideal in the definition of a Clifford algebra is invariant under this map, it induces an anti-automorphism, called the transposition or \textbf{reversal}, on $C\ell(V)$.
+	}
+
 	\newdef{Main involution}{\index{involution}\index{inversion}
 		Let $V_0, V_1$ be respectively the grade 0 and 1 components of the Clifford algebra $C\ell(V, Q)$. Consider the following operator:
 		\begin{equation}
@@ -106,49 +115,55 @@
 	}
 	
 	\newformula{Twisted conjugation}{
-		Let $v\in V$ be a vector and let $s\in C\ell(V, Q)$ be an invertible element of the Clifford algebra over $V$. The twisted conjugation of $v$ by $s$ is given by the map:
+		Let $v\in V$ be a vector and let $s\in C\ell(V, Q)$ be a unit of the Clifford algebra over $V$, i.e. $Q(s) \neq 0$. The twisted conjugation of $v$ by $s$ is given by the map:
 		\begin{equation}
 			\chi: C\ell(V, Q)\times V: \chi(s)v = sv\hat{s}^{-1}
 		\end{equation}
+		This map clearly preserves the norm on $V$ and hence $\chi(s)$ is an element of $O(V, Q)$ for all units $s$.
 	}
 	\newdef{Clifford group}{\index{Clifford!group}
 		The Clifford group $\Gamma(V, Q)$ is defined as follows:
 		\begin{equation}
-			\Gamma(V, Q) = \{s\in C\ell(V, Q) : sv\hat{s}^{-1} \in V, v\in V\}
+			\Gamma(V, Q) = \{s\in C\ell_{hom}(V, Q): sv\hat{s}^{-1} \in V, v\in V\}
 		\end{equation}
-		It is the set of Clifford algebra elements that stabilize $V$ under twisted conjugation. Furthermore this set is closed under multiplication and forms a group. It contains all invertible elements $s\in V$, i.e. all elements $s\in V$ for which $Q(v)\neq0$.
+		where the subscript $hom$ indicates that we only look at the homogeneous Clifford vectors. Because the units of $C\ell(V)$ form a group, $\Gamma(V, Q)$ also forms a group.
 	}
 	\begin{property}
-		If $V$ is finite-dimensional, the map
+		When looking at the units of $C\ell(V)$ that belong to $V$ itself, the twisted conjugation is given by a Householder transformation\footnote{See definition \ref{linalgebra:householder_transformation}.}.
+	\end{property}
+	
+	\begin{property}
+		If $V$ is finite-dimensional and $Q$ non-degenerate, the map
 		\begin{equation}
 			\chi:\Gamma(V, Q)\rightarrow O(V, Q): s\mapsto\chi(s)
 		\end{equation}
-		defines a representation\footnote{The surjectiveness of the map $\chi$ follows from the \textit{Cartan-Dieudonn\'e theorem}.} called the \textit{vectorial representation}. Furthermore, from the first isomorphism theorem \ref{group:theorem:first_isomorphism_theorem} it follows that $O(V, Q)$ is isomorphic to $\Gamma(V, Q)/\ker\chi$ where $\ker\chi = \mathbb{R}\backslash\{0\}$. This isomorphism\footnote{Together with the \textit{Cartan-Dieudonn\'e theorem}.} also implies that the Clifford group is given by the the set of finite products of invertible elements $v\in V$:
+		defines a representation\footnote{In char$(K)\neq2$, the surjectiveness of the map $\chi$ follows from the \textit{Cartan-Dieudonn\'e theorem}. But even in characteristic 2, the surjectiveness holds.} called the \textit{vectorial representation}. Furthermore, from the first isomorphism theorem \ref{group:theorem:first_isomorphism_theorem} it follows that $O(V, Q)$ is isomorphic to $\Gamma(V, Q)/\ker\chi$ where $\ker\chi = \mathbb{R}_0$. This isomorphism also implies\footnote{Again using the \textit{Cartan-Dieudonn\'e theorem}, valid only when char$(K)\neq2$.} that the Clifford group is given by the set of finite products of invertible elements $v\in V$:
 		\begin{equation}
-			\Gamma(V, Q) = \left\{\prod_i^ks_i : s_i\text{ invertible in }V, n\in\mathbb{N}\right\}
+			\Gamma(V, Q) = \left\{\prod_i^n s_i : s_i\text{ invertible in }V, n\in\mathbb{N}\right\}
 		\end{equation}
 	\end{property}
 	\begin{result}
 		By nothing that pure rotations can be decomposed as an even number of reflections we find that:
 		\begin{equation}
-			\Gamma^+(V, Q)/\mathbb{R}_0 = SO(V, Q)
+			\Gamma^+(V, Q)/\mathbb{R}_0 = \text{SO}(V, Q)
 		\end{equation}
 		where $\Gamma^+$ is the intersection of the even Clifford algebra and the Clifford group.
 	\end{result}
 
 \subsection{Pin and Spin groups}
+
 	\newformula{Spinor norm}{
-		On $\Gamma(V, Q)$ (and in fact on al of $C\ell(V, Q)$ by using the linearity) one can define the spinor norm:
+		On $\Gamma(V, Q)$ one can define the spinor norm:
 		\begin{equation}
-			\mathcal{N}(x) = \hat{x}x
+			\mathcal{N}(x):\Gamma(V, Q)\rightarrow K^\times:x\mapsto xx^t
 		\end{equation}
-		where $\hat{\ }$ is the main involution. The map $|\mathcal{N}|$ then gives a group homomorphism from $\Gamma(V, Q)$ to $\mathbb{R}_0^+$.
+		where $x^t$ is the transposition \ref{clifford:transposition}. On $V$, $\mathcal{N}$ coincides with the norm induced by $Q$.
 	}
 	\newdef{Pin and spin groups}{\index{pin group}\index{spin!group}
 		\nomenclature[S]{$\text{Pin}(V)$}{The pin group of the Clifford algebra $C\ell(V, Q)$.}
 		Using the spinor norm $\mathcal{N}$ we can now define the pin and spins groups as follows:
 		\begin{equation}
-			\text{Pin}(V) = \{s\in\Gamma(V, Q): |\mathcal{N}|(s) = 1\}
+			\text{Pin}(V) = \{s\in\Gamma(V, Q): \mathcal{N}(s) = 1\}
 		\end{equation}
 		and
 		\begin{equation}
@@ -164,7 +179,7 @@
 		\begin{equation}
 			\text{Pin}(V, Q)/\mathbb{Z}_2 \cong O(V, Q)
 		\end{equation}
-		and analogously for the Spin group and $SO(V, Q)$. These relations also imply that the Pin and Spin groups form a double covering group\footnotemark\ for respectively the orthogonal and special orthogonal groups.
+		and analogously for the Spin group and SO$(V, Q)$. These relations also imply that the Pin and Spin groups form a double cover\footnotemark\ of respectively the orthogonal and special orthogonal groups.
 		\footnotetext{A covering group is a topological group that is also a covering space. See definition \ref{topology:covering_space} for more information about the latter.}
 	\end{property}
 	

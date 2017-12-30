@@ -47,7 +47,7 @@
 				\& B\\
 			};
 			\path[-stealth]
-				(m-1-1) [right hook ->] edge node [above] {} (m-1-2)
+				(m-1-1) [->] edge node [above] {} (m-1-2)
 				(m-1-2) [->] edge node [right] {$\pi$} (m-2-2);
 			\end{tikzpicture}
 		\end{figure}
@@ -244,7 +244,7 @@
 		Together these properties imply that the typical fibre $F$ and structure group $G$ can be identified.
 	\end{definition}
 	\begin{property}
-		A corrolary of this definition is that the bundle $E\xrightarrow{\pi}M$ is isomorphic to the bundle $E\xrightarrow{\rho}E/G$ where $E/G$ denotes the orbit space of $E$ with respect to the G-action and $\rho$ is the projection onto an equivalence class in the orbit space. (This property could have been used as part of the definition instead of the fibrewise transitivity.)
+		A corrolary of this definition is that the bundle $E\xrightarrow{\pi}M$ is isomorphic to the bundle $E\xrightarrow{\rho}E/G$ where $E/G$ denotes the orbit space of $E$ with respect to the $G$-action and $\rho$ is the projection onto an equivalence class in the orbit space. (This property could have been used as part of the definition instead of the fibrewise transitivity.)
 	\end{property}
 	\begin{remark}\index{torsor}
 		We remark that although the fibres are homeomorphic to $G$, they do not carry a group structure due to the lack of a distinct identity element. This turns them into G-torsors\footnote{See definition \ref{group:torsor}.}. However it is possible to locally (i.e. in a neighbourhood of a point $p\in M$), but not globally, endow the fibres with a group structure by choosing an element of every fibre to be identity element.
@@ -286,10 +286,13 @@
 	\end{property}
 	
 	\begin{example}[Frame bundle]\index{frame!bundle}\index{frame}\label{bundles:frame_bundle}
-		Let $V$ be an $n$-dimensional vector space. Denote the set of ordered bases (or \textbf{frames}) of $V$ by $F(V)$. It follows from the fact that every basis transformation is given by the action of an element of the general linear group that $F(V)$ is isomorphic to $GL(V)\cong GL(\mathbb{R}^n)$.
+		Let $V$ be an $n$-dimensional vector space. Denote the set of ordered bases (or \textbf{frames}) of $V$ by $F(V)$. It follows from the fact that every basis transformation is given by the action of an element of the general linear group that $F(V)$ is isomorphic to $\text{GL}(V)\cong\text{GL}(\mathbb{R}^n)$.
 		
-		Given a vector bundle $E$ we can thus construct a principal bundle associated to the vector bundle $E$ by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong$ GL$(\mathbb{R}^n)$. The right action on this bundle by $g\in GL(\mathbb{R}^n)$ is given by the basis transformation $\widetilde{e}_j = g^i_je_i$.
+		Given a vector bundle $E$ we can thus construct a principal bundle associated to the vector bundle $E$ by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong$ GL$(\mathbb{R}^n)$. The right action on this bundle by $g\in\text{GL}(\mathbb{R}^n)$ is given by the basis transformation $\widetilde{e}_j = g^i_je_i$.
 	\end{example}
+	\begin{property}
+		Property \ref{diff:prop:trivial_vector_bundle} can now be reformulated as follows: A vector bundle is trivial if and only if its associated frame bundle admits a global section.
+	\end{property}
 	
 	\begin{construct}[Associated bundle to a principal bundle]
 		Consider a principal bundle $\prin{G}{P}{M}$ and let $F$ be a smooth manifold equipped with a left $G$-action $\vartriangleright$. One can then construct an associated bundle $P_F \equiv P \times_\vartriangleright F$ in the following way:
@@ -349,12 +352,32 @@
 	\end{construct}
 	
 	\begin{property}\index{orientation}
-		An $n$-dimensional manifold is orientable if and only if the structure group $GL(\mathbb{R}^n)$ of its frame bundle $F(M)$ is reducible to $GL^+(\mathbb{R}^n)$, i.e. the group of invertible matrices with positive determinant. 
+		An $n$-dimensional manifold is orientable if and only if the structure group GL$(n)$ of its frame bundle $F(M)$ is reducible to GL$^+(n)$, i.e. the group of invertible matrices with positive determinant. 
 	\end{property}
 	
 	\newdef{$G$-structure}{\index{G-structure}
-		Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group $GL(\mathbb{R}^n)$ of the frame bundle $F(M)$ to a subgroup $G\subset GL(\mathbb{R}^n)$.
+		Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group GL$(n)$ of the frame bundle $F(M)$ to a subgroup $G\subset\text{GL}(n)$.
 	}
 	\begin{example}
-		An $O(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} using the transpose inverse of the transition maps of the tangent bundle $TM$, which for maps in $O(n)$ is equal to the oringinal maps, these two bundles are equivalent. The isomorphism is given by the \textit{musical isomorphisms}\footnote{See definition \ref{riemann:musical_isomorphisms}.}.
+		An O$(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} using the transpose inverse, which leaves O$(n)$ invariant, of the transition maps of the tangent bundle $TM$ these two bundles are equivalent. The isomorphism is given by the \textit{musical isomorphisms}\footnote{See definition \ref{riemann:musical_isomorphisms}.}.
 	\end{example}
+	
+\subsection{Spinor bundles}
+
+	In this subsection we work only with Riemannian manifolds $(M, g)$ as this this ensures the existence of an O$(n)$ reduction of the tangent bundle $TM$ (see the example above).
+
+	\newdef{Spin structure}{\index{spin!structure}
+		Consider the oriented orthonormal frame bundle $\pi_{SO}:F_{SO}(M)\rightarrow M$. This bundle is obtained by reducing the structure group of the frame bundle $F(M)$ from GL$(n)$ to SO$(n)$. Furthermore, let $\pi_{spin}:F_{spin}(M)\rightarrow M$ be a principal Spin$(n)$-bundle over $M$.
+		
+		The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $F_{spin}$, i.e. a lifting $\xi:F_{spin}(M)\rightarrow F_{SO}(M)$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy:
+		\begin{itemize}
+			\item $\pi_{SO}\circ\xi = \pi_{spin}$
+			\item $\xi(p\vartriangleleft g) = \xi(p)\cdot\rho(g)$
+		\end{itemize}
+		for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold}.
+		\footnotetext{See definition \ref{topology:covering_space}.}
+	}
+	
+	\begin{property}
+		A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes.
+	\end{property}

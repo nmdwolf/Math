@@ -10,9 +10,98 @@
 			\item For every morphism in hom$_S$ both the source and target are in ob$_S$.
 			\item For every pair of morphisms in hom$_S$ the composition is also in hom$_S$.
 		\end{itemize}
-		A subcategory is said to be \textbf{full} if for every two objects $X, Y\in\text{ob}_S:$ \[\text{Hom}_S(X, Y) = \text{Hom}_C(X, Y)\]
+		A subcategory is said to be \textbf{full} if for every two objects $X, Y\in\text{ob}_S:$ \[\text{hom}_S(X, Y) = \text{hom}_C(X, Y)\]
 	}
+	
+	\newdef{Small category}{\index{small}
+		A category $C$ is said to be small if both ob$(C)$ and hom$(C)$ are sets. A category $C$ is said to be locally small if for every two objects $X, Y\in\text{ob}(C)$ the collection of morphisms hom$_C(X, Y)$ is a set.
+	}
+	
+	\newdef{Opposite categopy}{
+		Let $C$ be a category. The opposite category $C^{op}$ is defined by reversing all arrows (morphisms) in $C$.
+	}
+	\begin{property}
+		From the definition of the opposite category it easily follows that
+		\begin{equation}
+			(C^{op})^{op} = C
+		\end{equation}
+	\end{property}
 
+\subsection{Functors}
+
+	\newdef{Covariant functor}{\index{functor}
+		Let $A, B$ be categories. A (covariant) functor $F$ is a map $A\rightarrow B$ satisfying following conditions:
+		\begin{itemize}
+			\item $F$ maps every object $X\in\text{ob}(A)$ to an object $F(X)\in\text{ob}(B)$.
+			\item $F$ maps every morphism $\phi\in\text{hom}_A(X, Y)$ to a morphism $F(\phi)\in\text{hom}_B(F(X), F(Y))$.
+			\item $F(\mathbbm{1}_X) = \mathbbm{1}_{F(X)}$
+			\item $F(\phi\circ\psi) = F(\phi)\circ F(\psi)$
+		\end{itemize}
+	}
+	\newdef{Contravariant functor}{
+		Let $A, B$ be categories. A contravariant functor $F$ is a map $A\rightarrow B$ satisfying following conditions:
+		\begin{itemize}
+			\item $F$ maps every object $X\in\text{ob}(A)$ to an object $F(X)\in\text{ob}(B)$.
+			\item $F$ maps every morphism $\phi\in\text{hom}_A(X, Y)$ to a morphism $F(\phi)\in\text{hom}_B(F(Y), F(X))$.
+			\item $F(\mathbbm{1}_X) = \mathbbm{1}_{F(X)}$
+			\item $F(\phi\circ\psi) = F(\psi)\circ F(\phi)$
+		\end{itemize}
+	}
+	\remark{A contravariant functor can also be defined as a covariant functor in the opposite category.}
+	
+	\newdef{Faithful functor}{\index{faithful}
+		A functor $F:C\rightarrow D$ is said to be faithful if the map hom$_C(X, Y)\rightarrow \text{hom}_D(F(X), F(Y))$ is injective for all objects $X, Y\in\text{ob}(C)$.
+	}
+	\newdef{Full functor}{\index{full}
+		A functor $F:C\rightarrow D$ is said to be full if the map hom$_C(X, Y)\rightarrow \text{hom}_D(F(X), F(Y))$ is surjective for all objects $X, Y\in\text{ob}(C)$.
+	}
+	
+	
+	\begin{example}[hom-functor]
+		Let $C$ be a locally small category. Every object $X\in\text{ob}(C)$ induces a functor $h^X:C\rightarrow\text{Set}$ defined as follows:
+		\begin{itemize}
+			\item $h^X$ maps every object $Y\in\text{ob}(C)$ to the set hom$(X, Y)$.
+			\item For all $Y, Z\in\text{ob}(C)$, $h^X$ maps every morphism $f\in\text{hom}_C(Y, Z)$ to the morphism $f\circ-:\text{hom}_C(X, Y)\rightarrow\text{hom}_C(X, Z):g\mapsto f\circ g$.
+		\end{itemize}
+	\end{example}
+	\remark{The contravariant hom-functor $h_X$ is defined by replacing hom$(X, -)$ by hom$(-, X)$.}
+	
+	\newdef{Natural transformation}{\index{natural!transformation}
+		Let $F, G$ be two functors between the categories $C$ and $D$. A natural transformation $\psi$ from $F$ to $G$ consists of a collection of morphisms satisfying two conditions:
+		\begin{itemize}
+			\item For every object $X\in\text{ob}(C)$ there exists a morphism $\psi_X:F(X)\rightarrow G(X)$ in $\text{hom}(D)$. This morphism is called the component of $\psi$ at $X$.
+			\item For every morphism $f\in\text{hom}_C(X, Y)$ we have $\psi_Y\circ F(f) = G(f)\circ\psi_X$.
+		\end{itemize}
+		It is often said that \textit{$\psi_X$ is natural in $X$}.
+	}
+	\begin{notation}
+		A natural transformation $\psi$ from a functor $F$ to a functor $G$ is denoted by $\psi: F\Rightarrow G$.
+	\end{notation}
+	
+	\newdef{Representable functor}{\index{representation}
+		Let $C$ be a locally small category. A functor $F:C\rightarrow\text{Set}$ is said to be representable if there exists an object $X\in\text{ob}(C)$ such that $F$ is naturally isomorphic to $h^X$. The pair $(X, \psi)$, where $\psi$ is the natural isomorphism, is called a \textbf{representation} of $F$.
+	}
+	
+	\newdef{Functor category}{\index{functor!category}
+		Let $C$ be a small category and let $D$ be a category. The functors $F:C\rightarrow D$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $[C, D]$ or $D^C$ analogous to \ref{set:function_set}.
+	}
+	
+	\begin{theorem}[Yoneda's lemma]\index{Yoneda}
+		Let $C$ be a locally small category and let $F:C\rightarrow\text{Set}$ be a functor. For every object $X\in\text{ob}(C)$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations Nat$(h^X, F)$ and $F(X)$.
+		\footnotetext{Here we used the fact that Nat$(h^-, -)$ can be seen as a functor from the product category Set$^C\times C$ to the category Set.}
+	\end{theorem}
+	\sremark{The image of a natural transformation $\psi\in\text{Nat}(h^X, F)$ is given by $\psi_X(\mathbbm{1}_X)$.}
+	\begin{result}[Yoneda embedding]
+		When $F$ is another hom-functor $h^Y$ we obtain the following result:
+		\begin{equation}
+			\text{Nat}(h^X, h^Y)\cong\text{hom}_C(Y, X)
+		\end{equation}
+		where one should pay attention to the right hand side where $Y$ appears in the \underline{first} argument.
+		
+		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\text{hom}_C(Y,X)$. The (contravariant) functor $h^-$ mapping every object $X\in\text{ob}(C)$ to its hom-functor hom$(A, -)$ and every morphism $f\in\text{hom}_C(Y, X)$ to the natural transformation hom$(f, -)$ can also be interpreted as a covariant functor $G:C^{op}\rightarrow\text{Set}^C$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $C^{op}$ to the functor category Set$^C$.
+		
+		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:C\hookrightarrow\text{Set}^{C^{op}}$, called the Yoneda embedding. 
+	\end{result}
 
 \section{Operad theory}
 \subsection{Operads}

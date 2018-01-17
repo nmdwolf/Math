@@ -2,7 +2,7 @@
 \section{Topological spaces}
 
 	\newdef{Topology}{\index{topology}
-		\nomenclature[S]{$\text{Top}$}{The category of topological spaces.}
+		\nomenclature[S_catop]{$\text{Top}$}{The category of topological spaces.}
     		Let $\Omega$ be a set. Let $\tau\subseteq 2^\Omega$. The set $\tau$ is a topology on $\Omega$ if it satisfies following axioms:
 	        \begin{enumerate}
         		\item $\emptyset\in\tau$ and $\Omega\in\tau$
@@ -14,7 +14,7 @@
 	\sremark{On topological spaces the open sets are thus defined by axioms.}
 	
 	\begin{property}
-		\nomenclature[S]{$\text{Open}(X)$}{The category of open subsets of a topological space $X$.}
+		\nomenclature[S_caop]{$\text{Open}(X)$}{The category of open subsets of a topological space $X$.}
 		Consider a topological space $(X, \tau)$. Let $U\subseteq V\in\tau$. The inclusion maps $U\hookrightarrow V$ are morphisms. The set of these morphisms together with the topology $\tau$ form a (small) category $\text{Open}(X)$.
 	\end{property}
 
@@ -66,13 +66,20 @@
 	\newdef{Pointed topological space}{\label{topology:pointed_space}
 		Let $x_0\in X$. The triple $(X, \tau, x_0)$ is called a pointed topological space with base point $x_0$.
 	}
-	\newdef{Suspension}{\index{suspension}
+	\begin{construct}[Suspension]\index{suspension}
 		Let $X$ be a topological space. The suspension of $X$ is defined as the following quotient space:
 		\begin{equation}
 			\label{topology:suspension}
 			SX = 	(X\times [0, 1])/\{(x, 0) \sim (y, 0)\text{ and }(x, 1) \sim (y, 1)|x, y\in X\}
 		\end{equation}
-	}
+	\end{construct}
+	
+	\begin{construct}[Attaching space]\index{attaching space}\label{topology:attaching_space}
+		Let $X, Y$ be two topological spaces and consider a subspace $A\subseteq Y$. For every continuous map $f:A\rightarrow X$, called the \textbf{attaching map}, we can construct the attaching space\footnote{Sometimes called the \textbf{adjunction space}.} $X\cup_f Y$ in the following way:
+		\begin{equation}
+			X\cup_f Y = (X\sqcup Y)/\{A\sim f(A)\}
+		\end{equation}
+	\end{construct}
     
 \section{Neighbourhoods}
 \subsection{Neighbourhoods}
@@ -252,6 +259,9 @@
 	\newdef{Universal covering space}{
 		A covering space $C$ is said to be universal if it is simply-connected\footnote{See definition \ref{topology:simply_connected}.}.
 	}
+	\begin{uproperty}
+		Let $X$ be a topological space and let $C_X$ be the universal covering space of $X$, every other covering space $C$ of $X$ is also covered by $C_X$.
+	\end{uproperty}
 	
 \section{Connectedness}
 	
@@ -420,12 +430,17 @@
 		A topological space $X$ is said to be contractible if the identity map $\mathbbm{1}_X$ is null-homotopic. Equivalently, a space is called contractible if it is homotopy-equivalent to a point.
 	}
 	
+	\begin{property}[Homotopy category]
+		\nomenclature[S_caho]{hTop}{The homotopy category.}
+		The homotopy category hTop has as objects the topological spaces and as morphisms the homotopy classes of continuous maps. It is immediately clear that there exists a functor $F:\text{Top}\rightarrow\text{hTop}$ that maps topological spaces to themselves and continuous maps to their homotopy classes.
+	\end{property}
+	
 \subsection{Fundamental group}
 
 	In this subsection we will always assume to be working with pointed spaces \ref{topology:pointed_space}. The base point will be denoted by $x_0$.
 	
 	\newdef{Loop space}{\index{loop}
-		\nomenclature[SE]{$\Omega X$}{The loop space on $X$.}
+		\nomenclature[S_lo]{$\Omega X$}{The loop space on $X$.}
 		The set of all \textbf{loops} in $X$, i.e. all continuous functions $\delta:[0, 1]\rightarrow X$ for which $\delta(0) = \delta(1)$. It is denoted by $\Omega X$. This set can be equipped with a multiplication operation corresponding to the concatenation of loops\footnote{It should be noted that the speed at which the concatenated loops are traversed is doubled because the parameter $t$ should remain an element of $[0, 1]$.}.
 	}
 	
@@ -442,7 +457,7 @@
 	
 	The definition of a fundamental group can be generalized to arbitrary dimensions in the following way\footnote{Note however that we replace the interval $[0, 1]$ by the sphere $S^1$. This is nonrestrictive as we can construct $S^n$ by mapping (identifying) the boundary of $[0,1]^n$ to the basepoint $x_0$.}:
 	\newdef{Homotopy group}{\index{homotopy!group}
-		\nomenclature[S]{$\pi_n(X, x_0)$}{The $n^{th}$ homotopy space on $X$ based at $x_0\in X$.}
+		\nomenclature[S_hos]{$\pi_n(X, x_0)$}{The $n^{th}$ homotopy space on $X$ based at $x_0\in X$.}
 		The homotopy group $\pi_n(X, x_0)$ is defined as the set of homotopy classes of continuous maps $f:S^n\rightarrow X$ based at $x_0\in X$. The set $\pi_0(X, x_0)$ is defined as the set of path-connected components of $X$.
 	}
 	
@@ -467,6 +482,10 @@
 		\end{equation}
 		where $\otimes$ denotes the direct product of groups \ref{group:direct_product}.
 	\end{formula}
+	
+	\newdef{$n$-connected space}{\index{connected}
+		A topological space is said to be $n$-connected if its first $n$ homotopy groups are trivial.
+	}
 	
 \subsection{Fibrations}
 
@@ -493,7 +512,7 @@
 	}
 	
 	\newdef{Hurewicz fibration}{\index{fibration}
-		A map $\pi$ satisfying the homotopy lifting property with respect to every topological space $X$ is called a (Hurewicz) fibration.\footnote{If the homotopy lifting property only holds with respect to $CW$ complexes then it is called a \textbf{Serre fibration}.}
+		A map $\pi$ satisfying the homotopy lifting property with respect to every topological space $X$ is called a (Hurewicz) fibration.\footnote{If the homotopy lifting property only holds with respect to CW complexes (see definition \ref{topology:cw_complex}) then it is called a \textbf{Serre fibration}.}
 	}
 	\begin{property}
 		Consider a fibration $\pi:E\rightarrow B$ with $B$ path-connected. All fibres, i.e. sets $\pi^{-1}(\{b\})$ where $b\in B$, are homotopy equivalent. Therefore a fibration is often denoted by the diagram $\prin{F}{E}{B}$.

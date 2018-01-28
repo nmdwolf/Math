@@ -3,7 +3,7 @@
 	
 	Because smooth fibre bundles (which include smooth principal $G$-bundles) are also smooth manifolds we can define the traditional notions for them, such as the tangent bundle. We use this to construct the notions of horizontal and vertical bundles:
 	\newdef{Vertical vector}{\index{vertical!vector}
-		Let $\pi:E\rightarrow B$ be a smooth fibre bundle. The subbundle $\ker(T\pi)$ of $TE$ is called the vertical bundle of $E$. Fibrewise this gives us $V_x = T_x(E_{\pi(x)})$.
+		Let $\pi:E\rightarrow B$ be a smooth fibre bundle. The subbundle $\ker(\pi_\ast)$ of $TE$ is called the vertical bundle of $E$. Fibrewise this gives us $V_x = T_x(E_{\pi(x)})$.
 	}
 
 	For principal $G$-bundles we can use an equivalent definition:
@@ -12,14 +12,14 @@
 		\begin{equation}
 			\iota_p:G\rightarrow P: g\mapsto p\cdot g
 		\end{equation}
-		We then define a tangent vector $v\in T_p P$ to be vertical if it lies in the image of $T_e\iota_p$, i.e. $\text{Vert}(T_pP) = \text{im}(T_e\iota_p)$. This construction is supported by the exactness of following short sequence:
+		We then define a tangent vector $v\in T_p P$ to be vertical if it lies in the image of $\iota_{p,\ast}$, i.e. $\text{Vert}(T_pP) = \text{im}(\iota_{p,\ast})$. This construction is supported by the exactness of following short sequence:
 		\begin{equation}
-			0\xrightarrow{} \mathfrak{g} \xrightarrow{T_e\iota_p} T_p P\xrightarrow{T_p\pi} T_xM \xrightarrow{} 0
+			0\xrightarrow{} \mathfrak{g} \xrightarrow{\iota_{p,\ast}} T_p P\xrightarrow{\pi_\ast} T_xM \xrightarrow{} 0
 		\end{equation}
 	\end{adefinition}
 	
 	\begin{property}[Dimension]
-		It follows from the second definition that the vertical vectors of a principal $G$-bundle are nothing but the pushforward of the Lie algebra $\mathfrak{g}$ under the right action of $G$ on $P$. Furthermore, the exactness of the sequence implies that $T_e\iota_p:\mathfrak{g}\rightarrow\text{Vert}(T_pP)$ is an isomorphism of vector spaces. In particular, it implies that
+		It follows from the second definition that the vertical vectors of a principal $G$-bundle are nothing but the pushforward of the Lie algebra $\mathfrak{g}$ under the right action of $G$ on $P$. Furthermore, the exactness of the sequence implies that $\iota_{p,\ast}:\mathfrak{g}\rightarrow\text{Vert}(T_pP)$ is an isomorphism of vector spaces. In particular, it implies that
 		\begin{equation}
 			\label{manifolds:vertical_dimension}
 			\dim\text{Vert}(T_pP) = \dim\mathfrak{g} = \dim G
@@ -27,13 +27,21 @@
 	\end{property}
 	
 	\newdef{Fundamental vector field}{
-		Consider a principle $G$-bundle. Let $A\in\mathfrak{g}$, where $\mathfrak{g}$ is the Lie algebra corresponding to $G$. The vertical vector field $A^\#:P\rightarrow TP$ given by
+		Consider a principal $G$-bundle. Let $A\in\mathfrak{g}$, where $\mathfrak{g}$ is the Lie algebra corresponding to $G$. The vertical vector field $A^\#:P\rightarrow TP$ given by
 		\begin{equation}
 			\label{manifolds:fundamental_vector_field}
 			A^\#(p) = \iota_{p,\ast}(A)\in\text{Vert}(T_pP)
 		\end{equation}
 		is called the fundamental vector field associated to $A$.
 	}
+	\begin{adefinition}
+		An equivalent definition of the fundamental vector field $A^\#(p)$ is given by:
+		\begin{equation}
+			A^\#_p(f) = \left.\deriv{}{t}f(p\cdot\exp(tA))\right|_{t=0}
+		\end{equation}
+		where $f\in C^\infty(P)$.
+	\end{adefinition}
+	
 	\begin{property}
 		The map $(\cdot)^\#:\mathfrak{g}\rightarrow\Gamma(TP)$ is a Lie algebra morphism:
 		\begin{equation}
@@ -42,9 +50,10 @@
 		where the Lie bracket on the left is that in $\mathfrak{g}$ and the Lie bracket on the right is that in $\mathfrak{X}(M)$ given by \ref{manifolds:lie_bracket}.
 	\end{property}
 	
-		\begin{property}
+	\begin{property}
 		The vertical bundle satisfies the following $G$-equivariance condition:
 		\begin{equation}
+			\label{diff:vert_g_equivariance}
 			R_{g, \ast}(\text{Vert}(T_pP)) = \text{Vert}(T_{pg}P)
 		\end{equation}
 		
@@ -66,15 +75,16 @@
 			\begin{equation}
 				R_{g, \ast}(\text{Hor}(T_pP)) = \text{Hor}(T_{pg}P)
 			\end{equation}
+			where $R_g$ denotes the right action of $G$ on $P$
 		\end{itemize}
 		The elements of $\text{Hor}(T_pP)$ are said to be \textbf{horizontal vectors} with respect to the connection.
 	}
 	\begin{remark}
-		Remark that the $G$-invariance condition for vertical bundles is an intrinsic property while we have to require it by definition for the horizontal bundle.
+		Remark that the $G$-invariance condition for vertical bundles is an intrinsic property (equation \ref{diff:vert_g_equivariance}) while we have to require it by definition for the horizontal bundle.
 	\end{remark}
 	
 	\newdef{Horizontal bundle}{
-		The horizontal bundle $\text{Hor}(TP)$ is defined as $\bigcup_{p\in P}\text{Hor}(T_pP)$. It is a subbundle of $TP$. The $G$-invariance condition then implies that this subbundle is invariant under (the pushforward of) the  right action of $G$.
+		The horizontal bundle $\text{Hor}(TP)$ is defined as $\bigsqcup_{p\in P}\text{Hor}(T_pP)$. It is a subbundle of $TP$. The $G$-invariance condition then implies that this subbundle is invariant under (the pushforward of) the  right action of $G$.
 	}
 	
 	\begin{property}[Dimension]
@@ -107,32 +117,31 @@
 \subsection{Ehresmann connection}\index{Ehresmann connection}
 
 	\newdef{Ehresmann connection}{
-		Let $(P, M, \pi, G)$ be a principal bundle. An Ehresmann connection is a $\mathfrak{g}$-valued 1-form $\omega:TP\rightarrow\mathfrak{g}$ that satisfies the following 2 conditions:
+		Let $\prb$ be a principal bundle. An Ehresmann connection is a $\mathfrak{g}$-valued 1-form $\omega:\Gamma(TP)\rightarrow\mathfrak{g}$ that satisfies the following 2 conditions:
 		
 		\begin{enumerate}
-			\item $G$-equivariance:
-			\begin{equation}
-				\omega\circ R_{g, \ast} = \text{Ad}_{g^{-1}}\circ\omega
-			\end{equation}
 			\item Annihilation of fundamental vector fields:
 			\begin{equation}
 				\omega(A^\#) = A
 			\end{equation}
+			\item $G$-equivariance:
+			\begin{equation}
+				\omega\circ R_{g, \ast} = \text{Ad}_{g^{-1}}\circ\omega
+			\end{equation}
 		\end{enumerate}
 		The horizontal subspaces are then defined as $\text{Hor}(T_pP) = \ker\omega|_p$.
-	}
+	}	
+	\begin{formula}
+		Consider a principal $G$-bundle $P$. Given a connection on $P$, the associated Ehresmann connection is given by the following map:
+		\begin{equation}
+			\omega = (\iota_{p,\ast})^{-1}\circ\pr_V
+		\end{equation}
+		where $\pr_V$ is the projection $TP\rightarrow\text{Vert}(TP)$ associated to the decomposition from definition \ref{manifolds:connection}.
+	\end{formula}
 	
 	\begin{property}
 		Consider two principal $G$-bundles $\xi_1$ and $\xi_2$. Let $\omega$ be an Ehresmann connection on $\xi_1$ and let $F:\xi_1\rightarrow \xi_2$ be a bundle map. The map $F^*\omega$ defines an Ehresmann connection on $\xi_2$.
 	\end{property}
-	
-	\begin{example}
-		Consider a principal $G$-bundle. An Ehresmann connection on this bundle is given by the following map:
-		\begin{equation}
-			\omega = (T_e\iota_p)^{-1}\circ\pr_V
-		\end{equation}
-		where $\pr_V$ is the projection $TP\rightarrow\text{Vert}(TP)$ associated to the decomposition from definition \ref{manifolds:connection}.
-	\end{example}
 	
 	\newdef{Horizontal and vertical forms}{\index{horizontal!form}\index{vertical!form}\label{forms:horizontal_form}
 		Let $\omega$ be an Ehresmann connection on a principal bundle $\prin{G}{P}{M}$. Let $\theta\in\Omega^k(P)$ be a $k$-form. We define following notions:
@@ -160,16 +169,61 @@
 		\end{equation}
 	}
 	
-	\begin{definition}
-		Consider a manifold $M = \{x\}$. When constructing a principal $G$-bundle over $M$ we see that the total space $P = \{x\}\times G$ can be identified with the structure group $G$. From the relations in property \ref{manifolds:connection_dimensions} we see that the horizontal spaces are null-spaces (this defines a smooth distribution and thus a connection according to \ref{manifolds:connection}) and that the vertical spaces are equal to the tangent spaces, i.e. $\text{Vert}(T_gG) = T_gG$ (where we used the association $P\cong G$).
+	\begin{construct}
+		Consider a manifold $M = \{x\}$. When constructing a principal $G$-bundle over $M$ we see that the total space $P = \{x\}\times G$ can be identified with the structure group $G$. From the relations in property \ref{manifolds:connection_dimensions} it follows that the horizontal spaces are null-spaces (which indeed defines a smooth distribution and thus a connection according to \ref{manifolds:connection}) and that the vertical spaces are equal to the tangent spaces, i.e. $\text{Vert}(T_gG) = T_gG$ (where we used the association $P\cong G$).
 		
 		The simplest way to define a connection form $\omega$ on this bundle would be the trivial projection $TP\rightarrow\text{Vert}(TP) = \mathbbm{1}_{TP}$. The image of this map would however be $T_gG$ and not $\mathfrak{g}$ as required. This can be solved by using the Maurer-Cartan form $\Omega:T_gG\rightarrow\mathfrak{g}$, i.e. we define $\omega(v) = \Omega(v)$.
-	\end{definition}
+	\end{construct}
 	
 	\begin{property}
 		The Maurer-Cartan form is the unique Ehresmann connection on the bundle $G\hookrightarrow G\rightarrow \{x\}$.
 	\end{property}
+
+\subsection{Local representation}
+
+	\newdef{Yang-Mills field}{\index{Yang-Mills!field}
+		Consider a principal bundle $\prb$ and an open subset $U\subseteq M$. Given an Ehresmann connection $\omega$ on $P$ and a local section $\sigma:U\rightarrow P$, we define the Yang-Mills field $\omega^U:\Gamma(TU)\rightarrow\mathfrak{g}$ as follows:
+		\begin{equation}
+			\omega^U = \sigma^*\omega
+		\end{equation}
+	}
 	
+	\newdef{Local representation}{
+		Consider a principal bundle $\prb$. Let $(U, \varphi)$ be a chart on $M$. The local representation of an Ehresmann connection $\omega$ on $P$ with respect to the chart $(U, \varphi)$ is given by $(\varphi^{-1})^*\omega$.
+	}
+	
+	\begin{formula}
+		Consider an Ehresmann connection $\omega$ on a principal bundle $\prb$. According to property \ref{diff:prin_section_triv} every local section $\sigma:U\rightarrow P$ induces both a Yang-Mills field $\omega^U$ and a local representation of $\omega$. These two forms are related by the following equation:
+		\begin{equation}
+			h^*\omega_{(m, g)}(v, X) = \text{Ad}_{g^{-1}}(\omega^U_m(v)) + \Omega_g(X)
+		\end{equation}
+		where $v\in T_mM, X\in\mathfrak{g}$, $\Omega$ is the Maurer-Cartan form on $G$ and $h$ is the local trivialization induced by $\sigma$.
+	\end{formula}
+	
+	\begin{formula}[Compatibility condition]
+		Consider a principal bundle $\prb$ and 2 open subsets $U, V$ of $M$. Given 2 local sections $\sigma_U:U\rightarrow P$ and $\sigma_V:V\rightarrow P$ and an Ehresmann connection $\omega$ on $P$, we can define two Yang-Mills field $\omega^U$ and $\omega^V$ on $M$.
+		
+		On the intersection $U\cap V$ we can find a (unique) gauge transformation $\xi:U\cap V\rightarrow G$ such that $\sigma_V(m) = \sigma_U(m)\cdot\xi(m)$. Using this gauge transformation we can relate $\omega^U$ and $\omega^V$ as follows:
+		\begin{equation}
+			\label{diff:prin:local_compatibility}
+			\omega^V_m = \text{Ad}_{\xi(m)^{-1}}\omega^U_m + (\xi^*\Omega)_m
+		\end{equation}
+		where $\Omega$ is the Maurer-Cartan form on $G$.
+	\end{formula}
+	
+	\begin{example}[General linear group\footnotemark]
+		\footnotetext{A derivation can be found in the lecture 22 of \cite{schuller}.}
+		Let $G=\text{GL}(\mathbb{R}^n)$. The second term in equation \ref{diff:prin:local_compatibility} can be written as follows:
+		\begin{equation}
+			(\xi^*\Omega)^i_{\ j} = (\xi(m)^{-1})^i_{\ k}\pderiv{}{x^\mu}\xi(p)^k_{\ j}dx^\mu
+		\end{equation}
+		at every point $m\in M$. Formally this can be written coordinate-independently as:
+		\begin{equation}
+			\label{diff:prin:mc_pullback}
+			\xi^*\Omega = \xi^{-1}d\xi
+		\end{equation}
+	\end{example}
+
 \subsection{Horizontal lifts and parallel transport}
 	
 	\begin{property}\index{horizontal!lift}

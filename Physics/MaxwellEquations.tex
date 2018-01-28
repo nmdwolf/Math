@@ -33,89 +33,127 @@
             \nabla\times\vector{E} = -\pderiv{\vector{B}}{t}
 		\end{equation}
     }
-    \newformula{Maxwell's law\footnotemark}{
-    	\begin{equation}
+	\newformula{Maxwell's law\footnotemark}{
+		\footnotetext{Also called the law of Maxwell-Amp\`ere.}
+	    	\begin{equation}
 			\label{maxwell:maxwell}
-            \nabla\times\vector{H} = \pderiv{\vector{D}}{t} + \vector{J}
+		        \nabla\times\vector{B} = \varepsilon\mu\pderiv{\vector{E}}{t} + \mu\vector{J}
 		\end{equation}
-    }
-    \footnotetext{Also called the law of Maxwell-Amp\`ere.}
+	}
     
 \section{Potentials}
-	\subsection{Decomposition in potentials}
-        Remembering the Helmholtz decomposition (equation \ref{vectorcalculus:helmholtz_decomposition}) we can derive the following general form for $\vector{B}$ starting from Gauss' law \ref{maxwell:gauss_magnetism}:
+\subsection{Decomposition in potentials}
 
+        Following the Helmholtz decomposition \ref{vectorcalculus:helmholtz_decomposition} we can derive the following general form for $\vector{B}$ starting from Gauss' law \ref{maxwell:gauss_magnetism}:
         \begin{equation}
-            \label{maxwell:magnetic_potential}
-            \boxed{\vector{B} = \nabla\times\vector{A}}
+	        \label{maxwell:magnetic_potential}
+	        \boxed{\vector{B} = \nabla\times\vector{A}}
         \end{equation}
         where $\vector{A}$ is the magnetic potential.
 
-        Combining equation \ref{maxwell:magnetic_potential} with Faraday's law \ref{maxwell:faraday} and rewriting it a bit, gives the following general form for $\vector{E}$:
+        Combining equation \ref{maxwell:magnetic_potential} with Faraday's law \ref{maxwell:faraday} and rewriting it a bit gives the following general form for $\vector{E}$:
         \begin{equation}
-            \label{maxwell:electric_potential}
-            \boxed{\vector{E} = -\nabla V - \pderiv{\vector{A}}{t}}
+	        \label{maxwell:electric_potential}
+	        \boxed{\vector{E} = -\nabla V - \pderiv{\vector{A}}{t}}
         \end{equation}
         where $V$ is the electrostatic potential.
         
-	\subsection{Conditions}
-    	Substituting the expressions \ref{maxwell:magnetic_potential} and \ref{maxwell:electric_potential} into Gauss' law \ref{maxwell:gauss_electricity} and Maxwell's law \ref{maxwell:maxwell} gives the following two (coupled) conditions for the electromagnetic potentials:
-        \begin{align}
-        	\label{maxwell:potential_conditions_A}
+	\begin{property}
+    		Substituting the expressions \ref{maxwell:magnetic_potential} and \ref{maxwell:electric_potential} into Gauss' law \ref{maxwell:gauss_electricity} and Maxwell's law \ref{maxwell:maxwell} gives the following two (coupled) conditions for the electromagnetic potentials:
+        	\begin{align}
+        		\label{maxwell:potential_conditions_A}
 			&\lap\vector{A} - \varepsilon\mu\mpderiv{2}{\vector{A}}{t} = \nabla\left(\nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t}\right) - \mu\vector{J}\\
-            \label{maxwell:potential_conditions_V}
-            &\lap V - \varepsilon\mu\mpderiv{2}{V}{t} = -\pderiv{}{t}\left(\nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t}\right) - \stylefrac{\rho}{\varepsilon}
+        		\label{maxwell:potential_conditions_V}
+		        &\lap V - \varepsilon\mu\mpderiv{2}{V}{t} = -\pderiv{}{t}\left(\nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t}\right) - \stylefrac{\rho}{\varepsilon}
 		\end{align}
+	\end{property}
 
-	\subsection{Gauge transformations}\index{gauge}
-    	Looking at equation \ref{maxwell:magnetic_potential}, it is clear that a transformation $\vector{A}\rightarrow\vector{A} + \nabla\psi$ has no effect on $\vector{B}$ due to property \ref{vectorcalculus:rotor_of_gradient}. To compensate this in equation \ref{maxwell:electric_potential}, we also have to perform the transformation $V\rightarrow V - \pderiv{\psi}{t}$.
+\subsection{Gauge transformations}\index{gauge!transformation}
+
+    	Looking at equation \ref{maxwell:magnetic_potential}, it is clear that a transformation $\vector{A}\longrightarrow\vector{A} + \nabla\psi$ has no effect on $\vector{B}$ due to property \ref{vectorcalculus:rotor_of_gradient}. To compensate this in equation \ref{maxwell:electric_potential}, we also have to perform a transformation $V\longrightarrow V - \pderiv{\psi}{t}$.
         
         The (scalar) function $\psi(\vector{r}, t)$ is called a \textbf{gauge function}. The transformations are called \textbf{gauge transformations}.
-
         \newdef{Gauge fixing conditions}{
             Conditions that fix a certain gauge (or class of gauge transformations) are called gauge fixing conditions. These select one of many physically equivalent configurations.
         }
 
-	\subsection{Lorenz gauge}\index{Lorenz!gauge}
-        \noindent A first example of a gauge fixing condition is the Lorenz gauge\footnotemark\ :
-        \begin{equation}
-			\label{maxwell:lorenz_gauge}
-            \boxed{\nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t} = 0}
+	\begin{example}[Lorenz gauge]\index{Lorenz!gauge}
+                A first example of a gauge fixing condition is the Lorenz gauge\footnote{Named after Ludvig Lorenz. Not to be confused with Hendrik Lorentz.}:
+        	\begin{equation}
+        		\label{maxwell:lorenz_gauge}
+		        \boxed{\nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t} = 0}
 		\end{equation}
-        \footnotetext{Named after Ludvig Lorenz. Not to be confused with Hendrik Lorentz.}
-        
-        \noindent When using this gauge fixing condition, equations \ref{maxwell:potential_conditions_A} and \ref{maxwell:potential_conditions_V} become uncoupled and can be rewritten as:
-        \begin{align}
+        	When using this gauge fixing condition, equations \ref{maxwell:potential_conditions_A} and \ref{maxwell:potential_conditions_V} become uncoupled and can be rewritten as:
+        	\begin{align}
 			&\Box\vector{A} = -\mu\vector{J}\\
-            &\Box V = -\stylefrac{\rho}{\varepsilon}
+        		&\Box V = -\stylefrac{\rho}{\varepsilon}
 		\end{align}
-        
-        \noindent To see which gauge functions $\psi$ are valid in this case we perform a transformation as explained above:\[\vector{A}' = \vector{A} + \nabla\psi\qquad\text{ and }\qquad V'=V-\pderiv{\psi}{t}\]
-        Substituting these transformations in equation \ref{maxwell:lorenz_gauge} and using the fact that both sets of potentials $(\vector{A}, V)$ and $(\vector{A}', V)$ satisfiy the Lorenz gauge \ref{maxwell:lorenz_gauge} gives the following condition for the gauge function $\psi$:
-        \begin{equation}
+        	To see which gauge functions $\psi$ are valid in this case we perform a transformation as explained above:
+        	\begin{equation}
+        		\label{maxwell:gauge_transformations}
+        		\vector{A}' = \vector{A} + \nabla\psi\qquad\text{ and }\qquad V'=V-\pderiv{\psi}{t}
+        	\end{equation}
+        	Substituting these transformations in equation \ref{maxwell:lorenz_gauge} and using the fact that both sets of potentials $(\vector{A}, V)$ and $(\vector{A}', V')$ satisfiy the Lorenz gauge \ref{maxwell:lorenz_gauge} gives the following condition for the gauge function $\psi$:
+        	\begin{equation}
 			\label{maxwell:lorenz_gauge_condition}
-            \Box\psi = 0
+        		\Box\psi = 0
 		\end{equation}
+	\end{example}
         
-	\begin{example}[Alternative gauges]
-        Apart from the Lorenz gauge \ref{maxwell:lorenz_gauge}, there is also the Coulomb gauge:
-        \begin{equation}\index{Coulomb!gauge}
+	\begin{example}[Coulomb gauge]\index{Coulomb!gauge}
+        	Apart from the Lorenz gauge \ref{maxwell:lorenz_gauge}, there is also the Coulomb gauge:
+        	\begin{equation}\index{Coulomb!gauge}
 			\label{maxwell:coulomb_gauge}
-            \nabla\cdot\vector{A} = 0
+        		\nabla\cdot\vector{A} = 0
 		\end{equation}
 	\end{example}
         
 \section{Energy and momentum}
-	\newdef{Poynting vector}{\index{Poynting vector}
-    	\begin{equation}
+
+	\newdef{Poynting vector}{\index{Poynting}
+	    	\begin{equation}
 			\label{maxwell:poynting_vector}
-            \boxed{\vector{S} = \vector{E}\times\vector{H}}
+			\boxed{\vector{S} = \vector{E}\times\vector{H}}
 		\end{equation}
-    }
+	}
     
-    \newdef{Energy density}{
-    	\begin{equation}
+	\newdef{Energy density}{
+	    	\begin{equation}
 			\label{maxwell:energy_density}
-            \boxed{W = \stylefrac{1}{2}\left(\vector{E}\cdot\vector{D} + \vector{B}\cdot\vector{H}\right)} 
+		        \boxed{W = \stylefrac{1}{2}\left(\vector{E}\cdot\vector{D} + \vector{B}\cdot\vector{H}\right)} 
 		\end{equation}
-    }
+	}
+    
+\section{Differential geometry}
+
+	Using the tools given (e.g. differential forms) in chapter \ref{diff:chapter:vector_bundles} we can rewrite all of the above formulas in a more elegant form, which will also allow us to generalize them to higher dimensions and more general settings. See for example \cite{principal_bundles} for a complete derivation and interpretation. It should be noted that we used \textit{Gaussian units} thoughout this section.
+	
+	\newdef{Field strength}{\index{field!strength}
+		Let \[\mathbf{E} = E_1dx^1 + E_2dx^2 + E_3dx^3\] and \[\mathbf{B} = B_1dx^2\wedge dx^3 + B_2dx^3\wedge dx^1 + B_3dx^1\wedge dx^2\] be the electric and magnetic field forms respectively. Using these forms we can define the field strength as follows:
+		\begin{equation}
+			\mathbf{F} = \mathbf{B} - dt \wedge \mathbf{E}
+		\end{equation}
+	}
+	
+	\begin{formula}[Maxwell's equations]
+		Denote the electric 4-current by \[\mathbf{J} = \rho dt - J_1dx^1 - J_2dx^2 - J_3dx^3\] Maxwell's equations can now be rewritten as follows:
+		\begin{align}
+			d\mathbf{F} &= 0\label{maxwell:diff_homogeneous}\\
+			\ast d(\ast \mathbf{F}) &= 4\pi\mathbf{J}
+		\end{align}
+		where $\ast$ is the Hodge operator \ref{tensor:explicit_hodge_star}.
+	\end{formula}
+	
+	\newdef{Potential}{\index{potential}\index{gauge!field}
+		The homogeneous equation \ref{maxwell:diff_homogeneous} together with Poincar\'e's lemma\footnote{See theorem \ref{forms:theorem:poincare}.} implies that there exists a differential 1-form $\mathbf{A}$ such that
+		\begin{equation}
+			\mathbf{F} = d\mathbf{A}
+		\end{equation}
+		This 1-form is called the potential or \textbf{gauge field}. This field can be related to the ordinary scalar potential $V$ and vectorial potential $\vector{A}$ as follows:
+		\begin{equation}
+			\mathbf{A} = -Vdt + A_1dx^1 + A_2dx^2 + A_3dx^3
+		\end{equation}
+	}
+	\begin{property}[Gauge transformation]\index{gauge!transformation}
+		Because $d^2 = 0$ the above equation is invariant under a transformation $\mathbf{A}\longrightarrow\mathbf{A}+df$ for any $f\in C^\infty$. This gives us exactly the gauge transformations from equation \ref{maxwell:gauge_transformations} when written out in coordinates.
+	\end{property}

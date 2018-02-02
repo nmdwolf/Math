@@ -299,6 +299,7 @@
 		\begin{enumerate}
 			\item Define an equivalence relation $\sim_G$ on the product manifold $P\times F$ by:
 			\begin{equation}
+				\label{diff:prin:associated_bundle_equivalence}
 				(p, f)\sim_G (p', f')\iff \exists g\in G: (p', f') = (p\cdot g, g^{-1}\vartriangleright f)
 			\end{equation}
 			\item The total space of the associated bundle is then given by the following quotient manifold:
@@ -318,7 +319,7 @@
 		
 		Consider the left $G$-action $\vartriangleright$ given by:
 		\begin{equation}
-			\vartriangleright:G\times\mathbb{R}^n\rightarrow\mathbb{R}^n : (g\vartriangleright f)^i = (g^{-1})^i_jf^j
+			\vartriangleright:G\times\mathbb{R}^n\rightarrow\mathbb{R}^n : (g\vartriangleright f)^i = g^i_{\ j}f^j
 		\end{equation}
 		The tangent bundle is bundle isomorphic to the associated bundle $LM\times_\vartriangleright \mathbb{R}^n$ where the bundle map is defined as $[e, v]\mapsto v^ie_i \in TM$.
 	\end{example}
@@ -356,6 +357,21 @@
 	\begin{theorem}
 		A vector bundle is trivial if and only if its associated principal bundle is trivial.
 	\end{theorem}
+	
+	\begin{property}\label{diff:prin:section_bijection}
+		Let $\prb$ be a principal bundle and let $P_F$ be an associated bundle. There exists a bijection between the sections of $P_F$ and the $G$-equivariant maps $\phi:P\rightarrow F$, i.e. maps satisfying $\phi(p\cdot g) = g^{-1}\cdot\phi(p)$.
+		
+		An explicit correspondence is given by:
+		\begin{equation}
+			\sigma_\phi:M\rightarrow P_F:m\mapsto [p, \phi(p)]
+		\end{equation}
+		where $p$ is any point\footnote{This is well defined due to equation \ref{diff:prin:associated_bundle_equivalence}.} in $\pi^{-1}(\{m\})$. In the other direction we find:
+		\begin{equation}
+			\label{diff:prin:section_bijection_phi}
+			\phi_\sigma:P\rightarrow F: p\mapsto j_p^{-1}\circ\sigma(\pi(p))
+		\end{equation}
+		where $j_p:F\rightarrow P_F:f\mapsto[p, f]$ is a bijection.
+	\end{property}
 
 \section{Reduction of the structure group}
 
@@ -363,33 +379,43 @@
 		Consider a fibre bundle $\mathcal{F} = (E, B, \pi, F, G)$. Let $H$ be a subgroup of $G$. If there exists a fibre bundle with structure group $H$ equivalent to $\mathcal{F}$ then we say that the structure group $G$ can be reduced to $H$.
 	\end{construct}
 	
-	\begin{property}\index{orientation}
-		An $n$-dimensional manifold is orientable if and only if the structure group GL$(n)$ of its frame bundle $F(M)$ is reducible to GL$^+(n)$, i.e. the group of invertible matrices with positive determinant. 
-	\end{property}
-	
 	\newdef{$G$-structure}{\index{G-structure}
 		Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group GL$(n)$ of the frame bundle $F(M)$ to a subgroup $G\subset\text{GL}(n)$.
 	}
-	\begin{example}
-		An O$(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} using the transpose inverse, which leaves O$(n)$ invariant, of the transition maps of the tangent bundle $TM$ these two bundles are equivalent. The isomorphism is given by the \textit{musical isomorphisms}\footnote{See definition \ref{riemann:musical_isomorphisms}.}.
+	
+	\begin{example}[Orientable manifold]\index{orientation}
+		An $n$-dimensional manifold is orientable if and only if the structure group GL$(n)$ of its frame bundle $F(M)$ is reducible to GL$^+(n)$, i.e. the group of invertible matrices with positive determinant. 
+	\end{example}
+	\begin{example}[Riemannian manifold]
+		An O$(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} using the transpose inverse, which leaves O$(n)$ invariant, of the transition maps of the tangent bundle $TM$ these two bundles are equivalent. The isomorphism is given by the musical isomorphism(s)\footnote{See definition \ref{riemann:musical_isomorphisms}.}.
 	\end{example}
 	
 \subsection{Spinor bundles}
 
-	In this subsection we work only with Riemannian manifolds $(M, g)$ as this this ensures the existence of an O$(n)$ reduction of the tangent bundle $TM$ (see the example above).
+	In this subsection we only work with Riemannian manifolds\footnote{This also works for Lorentzian manifolds and Spin$(1, n-1)$ groups.} $(M, g)$ because this ensures the existence of an O$(n)$ reduction of the tangent bundle $TM$ (see the example above).
 
-	\newdef{Spin structure}{\index{spin!structure}
-		Consider the oriented orthonormal frame bundle $\pi_{SO}:F_{SO}(M)\rightarrow M$. This bundle is obtained by reducing the structure group of the frame bundle $F(M)$ from GL$(n)$ to SO$(n)$. Furthermore, let $\pi_{spin}:F_{spin}(M)\rightarrow M$ be a principal Spin$(n)$-bundle over $M$.
+	\newdef{Spin structure}{\index{spin!structure}\index{spin!frame}
+		Consider the (oriented) orthonormal frame bundle $\pi_{SO}:F_{SO}(M)\rightarrow M$ which is obtained by reducing the structure group of the frame bundle $F(M)$ from GL$(n)$ to SO$(n)$. Furthermore, let $\pi_{spin}:P_{spin}\rightarrow M$ be a principal Spin$(n)$-bundle over $M$.
 		
-		The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $F_{spin}$, i.e. a lifting $\xi:F_{spin}(M)\rightarrow F_{SO}(M)$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy:
+		The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $P_{spin}$, i.e. a morphism $\xi:P_{spin}\rightarrow F_{SO}(M)$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy:
 		\begin{itemize}
 			\item $\pi_{SO}\circ\xi = \pi_{spin}$
 			\item $\xi(p\vartriangleleft g) = \xi(p)\cdot\rho(g)$
 		\end{itemize}
-		for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold}.
+		for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold} and the principal Spin$(n)$-bundle $P$ is called the \textbf{spin frame bundle}.
 		\footnotetext{See definition \ref{topology:covering_space}.}
 	}
 	
 	\begin{property}
 		A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes.
 	\end{property}
+	\begin{property}
+		A special case occurs when $\dim M = 3$. We then have that $M$ is spin if it is compact and orientable.
+	\end{property}
+	
+	\newdef{Spin bundle}{\index{spin!bundle}
+		A spin bundle is a vector bundle associated to a spin frame bundle.
+	}
+	\newdef{Spinor field}{\index{spinor}
+		A spinor field is a (smooth) section of a spin bundle.
+	}

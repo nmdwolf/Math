@@ -120,7 +120,7 @@
 		Let $\prb$ be a principal bundle. An Ehresmann connection is a $\mathfrak{g}$-valued 1-form $\omega:\Gamma(TP)\rightarrow\mathfrak{g}$ that satisfies the following 2 conditions:
 		
 		\begin{enumerate}
-			\item Annihilation of fundamental vector fields:
+			\item Cancellation of fundamental vector fields:
 			\begin{equation}
 				\omega(A^\#) = A
 			\end{equation}
@@ -137,6 +137,14 @@
 			\omega = (\iota_{p,\ast})^{-1}\circ\pr_V
 		\end{equation}
 		where $\pr_V$ is the projection $TP\rightarrow\text{Vert}(TP)$ associated to the decomposition from definition \ref{manifolds:connection}.
+	\end{formula}
+	
+	\begin{formula}
+		Consider a principal bundle $\prb$ and an associated vector bundle $P\times_G V$. For every $G$-equivariant map $\phi:P\rightarrow V$ and any $X\in\mathfrak{g}$ we find that
+		\begin{equation}
+			d\phi(X^\#) + [\omega\wedge\phi](X^\#) = 0
+		\end{equation}
+		where the left action of $\mathfrak{g}$ is induced by the representation of $G$ on $V$.
 	\end{formula}
 	
 	\begin{property}
@@ -184,6 +192,7 @@
 	\newdef{Yang-Mills field}{\index{Yang-Mills!field}
 		Consider a principal bundle $\prb$ and an open subset $U\subseteq M$. Given an Ehresmann connection $\omega$ on $P$ and a local section $\sigma:U\rightarrow P$, we define the Yang-Mills field $\omega^U:\Gamma(TU)\rightarrow\mathfrak{g}$ as follows:
 		\begin{equation}
+			\label{diff:prin:yang_mills_field}
 			\omega^U = \sigma^*\omega
 		\end{equation}
 	}
@@ -212,7 +221,7 @@
 	\end{formula}
 	
 	\begin{example}[General linear group\footnotemark]
-		\footnotetext{A derivation can be found in the lecture 22 of \cite{schuller}.}
+		\footnotetext{A derivation can be found in lecture 22 of \cite{schuller}.}
 		Let $G=\text{GL}(\mathbb{R}^n)$. The second term in equation \ref{diff:prin:local_compatibility} can be written as follows:
 		\begin{equation}
 			(\xi^*\Omega)^i_{\ j} = (\xi(m)^{-1})^i_{\ k}\pderiv{}{x^\mu}\xi(p)^k_{\ j}dx^\mu
@@ -221,6 +230,13 @@
 		\begin{equation}
 			\label{diff:prin:mc_pullback}
 			\xi^*\Omega = \xi^{-1}d\xi
+		\end{equation}
+	\end{example}
+	
+	\begin{example}[Christoffel symbols]\index{Christoffel!symbols}
+		Let $\Gamma^i_{\ j\mu}, \overline{\Gamma}^k_{\ l\nu}$ be the Yang-Mills fields corresponding to a connection of a frame bundle, where the sections are induced by a choice of coordinates ($x^i$ and $y^i$ respectively). In this case, the expansion coefficients of the Yang-Mills field are called the \textbf{Christoffel symbols}\footnote{See also equation \ref{diff:christoffel_symbol}.}. Using equations \ref{diff:prin:local_compatibility} and \ref{diff:prin:mc_pullback} this becomes:
+		\begin{equation}
+			\overline{\Gamma}^i_{\ j\mu} = \pderiv{y^\nu}{x^\mu}\left(\pderiv{x^i}{y^k}\Gamma^k_{\ l\nu}\pderiv{y^l}{x^j} + \pderiv{x^i}{y^k}\frac{\partial^2y^k}{\partial x^j\partial x^\nu}\right)
 		\end{equation}
 	\end{example}
 
@@ -233,11 +249,61 @@
 			\item $\pi\circ\widetilde{\gamma}_{p_0} = \gamma$
 			\item $\widetilde{\gamma}_{p_0}'(t)\in\text{Hor}(TP)$ for all $t\in[0, 1]$
 		\end{itemize}
-		The curve $\widetilde{\gamma}_{p_0}$ is said to be the horizontal lift of $\gamma$ starting at $p_0$. When it is clear from the context what the basepoint $p_0$ is, the subscript is often ommited and we write $\widetilde{\gamma}$ instead of $\widetilde{\gamma}_{p_0}$.
+		The curve $\widetilde{\gamma}_{p_0}$ is said to be the \textbf{horizontal lift}\mnote{def} of $\gamma$ starting at $p_0$. When it is clear from the context what the basepoint $p_0$ is, the subscript is often ommited and we write $\widetilde{\gamma}$ instead of $\widetilde{\gamma}_{p_0}$.
 	\end{property}
 	\begin{remark}[Horizontal curve]\index{horizontal!curve}
-		Curves satisfying the last condition are said to be horizontal.
+		Curves satisfying the last condition in the above property are said to be horizontal.
 	\end{remark}
+	
+	\begin{method}
+		Consider a principal bundle $G\hookrightarrow P\rightarrow M$. Let $\gamma(t)$ be a curve in $M$ and let $\omega$ be an Ehresmann connection on $P$. For general structure groups $G$, the horizontal lift can be found as follows: Let $\delta(t)$ be a curve in $P$ that projects onto $\gamma(t)$, i.e. $\pi\circ\delta=\gamma$, such that $\widetilde\gamma_{p_0}(t)=\delta(t)\cdot g(t)$ for some curve $g(t)$ in $G$. The curve $g(t)$ can then be found as the unique solution of the following first order ODE:
+		\begin{equation}
+			\label{diff:prin:horizontal_ode}
+			\text{Ad}_{g(t)^{-1}}\omega_{\delta(t)}(X_{\delta, \delta(t)}) + \Omega_{g(t)}(Y_{g, g(t)}) = 0
+		\end{equation}
+		where $X_\delta, Y_g$ are tangent vectors to respectively the curves $\delta(t)$ and $g(t)$ and where $\Omega$ is the Maurer-Cartan form on $G$. As initial value condition we use $\delta(0)\cdot g(0) = p_0$.
+	\end{method}
+	\begin{remark}
+		When given a local section $\sigma:U\rightarrow P$ we can rewrite the ODE in a more explicit form. First we remark that the section induces a curve $\delta = \sigma\circ\gamma$. Taking the derivative yields $X_\delta = \sigma_*(X_\gamma)$. Using this we can rewrite the ODE as
+		\begin{equation}
+			\text{Ad}_{g(t)^{-1}}\omega_{\delta(t)}(\sigma_*X_{\gamma, \gamma(t)}) + \Omega_{g(t)}(Y_{g, g(t)}) = 0
+		\end{equation}
+		By using the equality $f^*\omega = \omega\circ f_*$ and introducing the Yang-Mills field $A = \sigma^*\omega$ this becomes:
+		\begin{equation}
+			\text{Ad}_{g(t)^{-1}}A(X_{\gamma, \gamma(t)}) + \Omega_{g(t)}(Y_{g, g(t)}) = 0
+		\end{equation}
+	\end{remark}
+	
+	\begin{example}
+		 For matrix Lie groups the above ODE can be reformulated as follows: Given the trivial section $s:U\rightarrow U\times G:x\mapsto (x, e)$, where $U$ is an open subset of $M$, the horizontal lift of $\gamma(t)$ can locally be parametrized as $\widetilde{\gamma}(t) = \underbrace{(s\circ\gamma)(t)}_{\delta(t)}\cdot g(t) = (\gamma(t), g(t))$ where $g(t)$ is a curve in $G$. To determine $\widetilde{\gamma}(t)$ it is thus sufficient to find $g(t)$. The ODE \ref{diff:prin:horizontal_ode} then becomes:
+		\begin{equation}
+			\label{diff:prin:horizontal_ode_matrix}
+			g'(t) = -\omega(\gamma(t), e, \gamma'(t), 0)g(t)
+		\end{equation}
+		
+		Using the trivial section we can rewrite this formula. First we consider the action of the Yang-Mills field $s^*\omega$ on the derivative $\gamma_* = (\gamma(t), \gamma'(t))$. Using the fact that it is linear in the second argument we can write: \[s^*\omega(\gamma(t), \gamma'(t)) = A(\gamma(t))\gamma'(t)\] where $A:M\rightarrow\text{Hom}(\mathbb{R}^{\dim M}, \mathfrak{g})$ gives a linear map for each point $\gamma(t)\in M$. The action can also be rewritten using the relation $f^*\omega = \omega\circ f_\ast$ as\[s^*\omega(\gamma(t), \gamma'(t)) = \omega\Big(s_\ast(\gamma(t), \gamma'(t))\Big) = \omega(\gamma(t), e, \gamma'(t), 0)\]
+		Combining these relations with the ODE \ref{diff:prin:horizontal_ode_matrix} gives:
+		\begin{equation}
+			\label{diff:prin:horizontal_ode_derivative}
+			\left(\deriv{}{t} + A(\gamma(t))\gamma'(t)\right)g(t) = 0
+		\end{equation}
+		where $\deriv{}{t}$ is the matrix given by the scalar multiplication of the derivative $\deriv{}{t}$ and the identity matrix $I$.
+	\end{example}
+	
+	\begin{method}
+		The ODE \ref{diff:prin:horizontal_ode} can now be solved. We explicitly assume that $G$ is a matrix Lie group such that we can start from equation \ref{diff:prin:horizontal_ode_derivative}. Direct intergation and iteration gives us:
+		\begin{equation}
+			g(t) = \left[I - \int_0^tdt_1A(\gamma'(t_1)) + \int_0^tdt_1\int_0^{t_1}dt_2A(\gamma'(t_1))A(\gamma'(t_2)) - ...\right]g(0)
+		\end{equation}
+		where $A$ is the Yang-Mills field corresponding to the local section $\sigma$. This can be rewritten using the standard "square integration" trick\footnote{Well known from the Dyson series \ref{QM:dyson_series}.} as:
+		\begin{equation}
+			g(t) = \left[I - \int_0^tdt_1A(\gamma'(t_1)) + \frac{1}{2!}\int_0^tdt_1\int_0^{\textcolor{red}{t}}dt_2\mathcal{T}\Big(A(\gamma'(t_1))A(\gamma'(t_2))\Big) - ...\right]g(0)
+		\end{equation}
+		By noting that this formula is equal to the path-ordered exponential series we find:
+		\begin{equation}
+			\boxed{g(t) = \mathcal{T}\exp\left(-\int_0^tdt'A(\gamma'(t'))\right)g(0)}
+		\end{equation}
+	\end{method}
 	
 	\newdef{Parallel transport on principal bundles}{\index{parallel transport!on principal bundles}
 		\nomenclature[O]{$\text{Par}_t^\gamma$}{Parallel transport map with respect to the curve $\gamma$.}
@@ -245,28 +311,16 @@
 		\begin{equation}
 			\text{Par}_t^\gamma:\pi^{-1}(\gamma(0))\rightarrow\pi^{-1}(\gamma(t)):p_0\mapsto \widetilde{\gamma}_{p_0}(t)
 		\end{equation}
-		This map is $G$-equivariant and it is a diffeomorphism of fibres.
+		This map is $G$-equivariant and it is an isomorphism of fibres.
 	}
-	
-	\begin{formula}
-		Consider a principal bundle $G\hookrightarrow P\rightarrow M$. Let $\gamma(t)$ be a curve in $M$ and let $\omega$ be an Ehresmann connection on this bundle. The horizontal lift of $\gamma(t)$ can locally be parametrized as $\widetilde{\gamma}(t) = (\gamma(t), g(t))$ where $g(t)$ is some unique curve in $G$. To determine $\widetilde{\gamma}(t)$ it is thus sufficient to find $g(t)$. The following parametrization uniquely characterizes $g(t)$:
-		\begin{equation}
-			g'(t) = -\omega(\gamma(t), e, \gamma'(t), 0)g(t)
-		\end{equation}
-		Using the trivial section $s:U\rightarrow U\times G:x\mapsto (x, e)$ where $U$ is an open subset of $M$ we can rewrite this formula as follows: First we consider the action of the pullback $s^*\omega$ on the derivative $\gamma_*: \mathbb{R}\times\mathbb{R}\rightarrow TM:(t, 1) \mapsto (\gamma(t), \gamma'(t))$. Using the fact that it is linear in the second argument we can write\[s^*\omega(\gamma(t), \gamma'(t)) = A(\gamma(t))\gamma'(t)\]where $A:M\rightarrow\text{Hom}(\mathbb{R}^{\dim M}, \mathfrak{g})$ gives a linear map for each point $\gamma(t)\in M$. The action can also be rewritten using the relation $f^*\omega = \omega\circ f_\ast$ as\[s^*\omega(\gamma(t), \gamma'(t)) = \omega\Big(s_\ast(\gamma(t), \gamma'(t))\Big) = \omega(\gamma(t), e, \gamma'(t), 0)\]
-		Combining these relations with the ODE for $g(t)$ gives
-		\begin{equation}
-			\left(\deriv{}{t} + A(\gamma(t))\gamma'(t)\right)g(t) = 0
-		\end{equation}
-		where $\deriv{}{t}$ is a matrix given by the scalar multiplication of the derivative $\deriv{}{t}$ and the unit matrix $I$.
-	\end{formula}
 	
 	\newdef{Holonomy group}{\index{holonomy}
 		\nomenclature[S]{$\text{Hol}_p(\omega)$}{Holonomy group at $p$ with respect to the connection $\omega$.}
-		Consider a principal bundle $\prin{G}{P}{M}$. Let $\Omega^{ps}_mM\subset\Omega M$ be the loop space with basepoint $m\in M$ of piecewise smooth loops. The holonomy group $\text{Hol}_p(\omega)$ based at $p\in\pi^{-1}(m)\subset P$ with respect to the connection form $\omega$ is given by:
+		Consider a principal bundle $\prin{G}{P}{M}$. Let $\Omega^{ps}_mM\subset\Omega_m M$ be the subset of the loop space with basepoint $m\in M$ consisting of piecewise smooth loops. The holonomy group $\text{Hol}_p(\omega)$ based at $p\in\pi^{-1}(m)\subset P$ with respect to the connection form $\omega$ is given by:
 		\begin{equation}
-			\text{Hol}_p(\omega) = \{g\in G: p \text{ and } p\cdot g \text{ can be connected by a $\widetilde\gamma$}, \gamma\in\Omega^{ps}_mM\}
+			\text{Hol}_p(\omega) = \{g\in G: p \sim p\cdot g\}
 		\end{equation}
+		where two point $p, q\in P$ are equivalent if there exists a loop $\gamma\in\Omega_m^{ps}M$ such that the horizontal lift $\widetilde{\gamma}$ connects $p$ and $q$.
 	}
 	\newdef{Reduced holonomy group}{
 		The reduced holonomy group $\text{Hol}_p^0(\omega)$ is defined as the subset of $\text{Hol}_p(\omega)$ using only contractible loops.
@@ -274,17 +328,31 @@
 	
 \subsection{Koszul connections and covariant derivatives}
 
-	\newdef{Parallel transport on vector bundles}{
-		Consider a principal bundle $G\hookrightarrow P\rightarrow M$ where we explicitly require $P$ to be trivial, i.e. $P = M\times G$. Suppose that the Lie group $G$ acts on a vector space $V$ by a representation $\rho:G\rightarrow\text{GL}_m$ . We can then construct an associated vector bundle $\pi_1:M\times V\rightarrow M$.
+	\newdef{Horizontal lifts on associated bundles}{\index{horizontal!lift}
+		Let $P_F = P\times_G F$ be an associated bundle of a principal bundle $\prb$. Let $\gamma$ be a curve in $M$ with horizontal lift $\widetilde{\gamma}_p$ in $P$. The horizontal lift of $\gamma$ in $P_F$ through a point $[p, f]\in P_F$ is defined as follows:
+		\begin{equation}
+			\widetilde{\gamma}^{P_F}_{[p, f]}(t) = [\widetilde{\gamma}_p(t), f]
+		\end{equation}
+		Although the fibre element $f$ seems to stay constant along the horizontal lift, it in fact changes according to formula \ref{diff:prin:associated_bundle_equivalence}.
+	}
+	\newdef{Parallel transport on associated bundles}{
+		Similar to the case of principal bundles $P$, the parallel transport map on an associated bundle $P_F$ is defined as:
+		\begin{equation}
+			\text{Par}_t^\gamma:\pi_F^{-1}(\gamma(0))\rightarrow\pi_F^{-1}(\gamma(t)):[p, f]\mapsto \widetilde{\gamma}^{P_F}_{[p, f]}(t)
+		\end{equation}
+	}
+
+	\begin{example}[Parallel transport on vector bundles]
+		Consider a principal bundle $G\hookrightarrow P\rightarrow M$. Suppose that the Lie group $G$ acts on a vector space $V$ by a representation $\rho:G\rightarrow\text{GL}_m$ . We can then construct an associated vector bundle $\pi_1:P\times_{GL(V)} V\rightarrow M$. Assume further that we work on a chart $(U, \varphi)$ such that we can locally write $P, P_V$ as product bundles.
 		
-		Parallel transport on this vector bundle is then defined as follows. Let $\gamma(t)$ be a curve in $M$ such that $\gamma(0)=x_0$ and $x_1 = \gamma(1)$. Furthemore, let the horizontal lift $\widetilde{\gamma}(t)$ have $\widetilde{\gamma}(0)=(x_0, h)$ as initial condition. The parallel transport of the point $(x_0, v_0)\in M\times V$ along $\gamma$ is given by the following map:
+		Parallel transport on this vector bundle is then defined as follows. Let $\gamma(t)$ be a curve in $M$ such that $\gamma(0)=x_0$ and $\gamma(1) = x_1$. Furthermore, let the horizontal lift $\widetilde{\gamma}(t) = (\gamma(t), g(t))$ satisfy $\widetilde{\gamma}(0)=(x_0, h)$ as initial condition. The parallel transport of the point $(x_0, v_0)\in U\times V$ along $\gamma$ is given by the following map:
 		\begin{equation}
 			\text{Par}^\gamma_t:\pi^{-1}_1(x_0)\rightarrow\pi^{-1}_1(\gamma(t)):(x_0, v_0)\mapsto \big(\gamma(t), \rho\big(g(t)h^{-1}\big)v_0\big)
 		\end{equation}
-		It should be noted that this map is independent of the initial element $h\in G$. Furthermore, $\text{Par}^\gamma_t$ is an isomorphism of vector spaces and can thus be used to identify distant fibers (as long as they lie in the same path-component).
-	}
+		It should be noted that this map is independent of the initial element $h\in G$ (despite the presence of the factor $h^{-1}$). Furthermore, $\text{Par}^\gamma_t$ is an isomorphism of vector spaces and can thus be used to identify distant fibers (as long as they lie in the same path-component).
+	\end{example}
 	\begin{remark}
-		Two remarks have to be made. First of all, although the previous construction explicitly used trivial bundles, it is also valid for general non-trivial vector bundles. Secondly, for every vector bundle one can construct the frame bundle and use the parallel transport map on this bundle to define parallel transport of vectors. Hence the previous construction is valid for any vector bundle.
+		For every vector bundle one can construct the frame bundle and use the parallel transport map on this bundle to define parallel transport of vectors. Hence the previous construction is valid for any vector bundle.
 	\end{remark}
 	
 	\newdef{Covariant derivative}{\index{covariant!derivative}
@@ -296,7 +364,7 @@
 	}
 	
 	\begin{property}
-		Let $\pi:E\rightarrow M$ be a vector bundle. Let $\sigma, X$ and $f$ be respectively a section on $E$, a vector field on $M$ and a $C^\infty$ function on $M$. The covariant derivative along $X$ satisfies following properties\footnote{The last property, the Leibniz property, turns the covariant derivative into a derivation of the space of sections.}:
+		Let $\pi:E\rightarrow M$ be a vector bundle. Let $\sigma, X$ and $f$ be respectively a section on $E$, a vector field on $M$ and a $C^\infty$ function on $M$. The covariant derivative along $X$ satisfies following properties\footnote{The last property, the Leibniz property, turns the covariant derivative into a derivation on the space of sections.}:
 		\begin{itemize}
 			\item $\nabla_X\sigma$ is a smooth section on $E$.
 			\item The map $(X, \sigma)\mapsto\nabla_X\sigma$ is bilinear over $\mathbb{R}$.
@@ -316,12 +384,14 @@
 		is called a Koszul connection if the above properties hold. From the above constructions it also follows that every Ehresmann connection on a principal bundle induces a Koszul connection on all of its associated vector bundles.
 	}
 	
+\subsection{Exterior covariant derivative}
+
 	\newdef{Exterior covariant derivative}{\index{exterior!covariant derivative}
 		Consider a principal bundle $\prin{G}{P}{M}$ equipped with an Ehresmann connection $\omega$. Let $\theta\in \Omega^k(P)$ be a differential $k$-form. The exterior covariant derivative $D\theta$ is defined as follows:
 		\begin{equation}
 			D\theta(v_0, ..., v_k) = d\theta(v_0^H, ..., v_k^H)
 		\end{equation}
-		where $d$ is the exterior derivative \ref{forms:def:exterior_derivative} and $v_i^H$ is the projection of $v_i$ on the horizontal subspace $\text{Hor}(T_pP)$ associated to the Ehresmann connection $\omega$. From the definition it follows that the covariant derivative $D\theta$ is a horizontal form\footnote{See definition \ref{forms:horizontal_form}.}.
+		where $d$ is the exterior derivative \ref{forms:def:exterior_derivative} and $v_i^H$ is the projection of $v_i$ on the horizontal subspace $\text{Hor}(T_pP)$ associated to the Ehresmann connection $\omega$. From the definition it follows that the exterior covariant derivative $D\theta$ is a horizontal form\footnote{See definition \ref{forms:horizontal_form}.}.
 	}
 	\begin{remark}
 		The exterior covariant derivative can also be defined for general $W$-valued $k$-forms where $W$ is a vector space. This can be done by defining it component-wise with respect to a given basis on $W$. Afterwards one can prove that the choice of basis plays no role.
@@ -339,7 +409,33 @@
 		which should remind the reader of the analogous formula for the ordinary exterior derivative \ref{forms:k_form_exterior_derivative}.
 	\end{formula}
 	
-\subsection{Curvature of a connection}
+	By property \ref{diff:prin:section_bijection} we can use the following construction to find an explicit expression for the covariant derivative on an associated vector bundle:
+	\begin{construct}\index{covariant!derivative}
+		Let $\prb$ be a principal bundle and let $P_V := P\times_G V$ be an associated vector bundle. Given a section $\sigma:M\rightarrow P_V$ we can construct a $G$-equivariant map $\phi:P\rightarrow V$ using formula \ref{diff:prin:section_bijection_phi}.
+		
+		First we construct the exterior covariant derivative of $\phi$:
+		\begin{equation}
+			D\phi(X) = d\phi(X) + [\omega\wedge\phi](X)
+		\end{equation}
+		where $X\in T_pP$. Now given an additional (local) section $\varphi:U\subseteq M\rightarrow P$ we can pull back the previous structure. This gives us:
+		\begin{equation}
+			(\varphi^*D\phi)(Y) = d(\varphi^*\phi)(Y) + [\varphi^*\omega\wedge\varphi^*\phi](Y)
+		\end{equation}
+		where $Y\in T_mM$. After introducing the notations $S:=\varphi^*\phi$ and $\nabla_YS:=(\varphi^*D\phi)(Y)$ and remembering the definition of the Yang-Mills field \ref{diff:prin:yang_mills_field} this becomes:
+		\begin{equation}
+			\label{diff:prin:local_covariant_derivative}
+			\boxed{\nabla_YS = dS(Y) + \omega^U(Y)\cdot S}
+		\end{equation}
+	\end{construct}
+	\begin{example}
+		Let $G=\text{GL}(\mathbb{R}^n)$. In local coordinates equation \ref{diff:prin:local_covariant_derivative} becomes:
+		\begin{equation}
+			(\nabla_YS)^i = \pderiv{S^i}{x^k}Y^k + \Gamma^i_{\ jk}S^jY^k
+		\end{equation}
+		which is exactly the formula known from classic differential geometry and relativity. 
+	\end{example}
+
+\subsection{Curvature}
 
 	\newdef{Curvature}{\index{curvature}
 		Let $\omega$ be an Ehresmann connection on a principal bundle $\prin{G}{P}{M}$. The curvature $\Omega$ of $\omega$ is defined as the exterior covariant derivative $D\omega$.
@@ -347,6 +443,9 @@
 	\newdef{Flat connection}{\index{flat}
 		An Ehresmann connection $\omega$ is said to be flat if its curvature $\Omega$ vanishes everywhere.
 	}
+	\begin{example}
+		Let $\omega_G$ be the Maurer-Cartan form on a Lie group $G$. It follows from the fact that the only horizontal vector on the bundle $\prin{G}{G}{\{x\}}$ is the zero vector, that the curvature of $\omega_G$ is 0. Hence the Maurer-Cartan form is a flat connection.
+	\end{example}
 	
 	\begin{property}[Bianchi identity]\index{Bianchi identity}
 		Let $\omega$ be an Ehresmann connection with curvature $\Omega$.
@@ -355,13 +454,13 @@
 		\end{equation}
 	\end{property}
 	\begin{remark}
-		One should however pay attention not to generalize this result to general differential forms. Only the exterior derivative satisfies the coboundary condition $d^2 \equiv 0$, the exterior covariant derivative does not.
+		One should however pay attention not to generalize this result to general differential forms. \mnote{\dbend} Only the exterior derivative satisfies the coboundary condition $d^2 \equiv 0$, the exterior covariant derivative does not.
 	\end{remark}
 	
 	\newformula{Cartan structure equation}{\index{Cartan!structure equation}
 		Let $\omega$ be an Ehresmann connection and let $\Omega$ be its curvature form.
 		\begin{equation}
-			\boxed{\Omega = d\omega + \frac{1}{2}[\omega\wedge\omega]}
+			\boxed{\Omega = d\omega + [\omega\wedge\omega]}
 		\end{equation}
 	}
 	
@@ -370,6 +469,40 @@
 		Let $\omega$ be an Ehresmann connection. The associated horizontal distribution\footnote{See \ref{manifolds:distribution} for the definition of a distribution of vector spaces.}\[p\mapsto\text{Hor}(T_pP)\]is integrable if and only if the connection $\omega$ is flat. Furthermore, the vertical distribution is always integrable.
 	\end{property}
 	
-	\begin{example}
-		Let $\omega_G$ be the Maurer-Cartan form on a Lie group $G$. It follows from the fact that the only horizontal vector on the bundle $\prin{G}{G}{\{x\}}$ is the zero vector, that the curvature of $\omega_G$ is 0.
-	\end{example}
+	\newdef{Yang-Mills field strength}{\index{Yang-Mills!field strength}
+		Let $\prb$ be a principal bundle equipped with an Ehresmann connection $\omega$. Given a local section $\sigma:U\subseteq M\rightarrow P$ we define the Yang-Mills field strength $F$ as the pullback $\sigma^*\Omega$, where $\Omega=D\omega$ is the curvature of $\omega$.
+	}
+	
+\subsection{Torsion}
+
+	\newdef{Solder form}{\index{solder form}
+		Let $\prb$ be a principal bundle. Let $V$ be a $\dim M$-dimensional vector space equipped with a representation $\rho:G\rightarrow\text{GL}(V)$ such that $TM\cong P\times_G V$ in the sense of associated bundles. A solder(ing) form $\theta$ on $P$ is a $V$-valued one-form that satisfies the following conditions:
+		\begin{itemize}
+			\item For all $p\in P$: $\ker\theta_p\leq\text{Vert}(T_pP)$
+			\item $\rho(g)\circ R_g^*\theta = \theta$
+		\end{itemize}
+		where $R_g$ is the right action of $G$ on $P$.
+	}
+	
+	\newdef{Torsion}{\index{torsion}
+		Let $\prb$ be a principal bundle equipped with an Ehresmann connection $\omega$ and a solder form $\theta$. The torsion $\Theta$ is defined as the exterior covariant derivative $D\theta$.
+	}
+	
+	\begin{formula}
+		Let $\omega$ be an Ehresmann connection, $\theta$ a solder form and $\Theta$ its torsion form.
+		\begin{equation}
+			\Theta = d\theta + \omega\barwedge\theta
+		\end{equation}
+		where the wedge product is defined analogously\footnote{For forms with $\deg\geq1$ we sum over all permutations of the arguments.} to \ref{forms:vector_valued_wedge} and \ref{forms:lie_algebra_valued_wedge} using the representation of $\mathfrak{g}$ on $V$ induced by the representation $\rho:G\rightarrow\text{GL}(V)$:
+		\begin{equation}
+			\omega\barwedge\theta(v, w) = \frac{1}{2!}\Big[\omega(v)\cdot\theta(w) - \omega(w)\cdot\theta(v)\Big]
+		\end{equation}
+		where $\cdot$ denotes the representation of $\mathfrak{g}$ on $V$.
+	\end{formula}
+	
+	\begin{property}[Second Bianchi identity]\index{Bianchi identity}
+		Let $\omega$ be an Ehresmann connection, $\Omega$ its curvature, $\theta$ a soldr form and $\Theta$ its torsion.
+		\begin{equation}
+			\boxed{D\Theta = \Omega\barwedge\theta}
+		\end{equation}
+	\end{property}

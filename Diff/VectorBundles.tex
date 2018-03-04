@@ -17,8 +17,9 @@
 		\end{equation}
 		Because the transition functions are diffeomorphisms, the Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $GL(\mathbb{R}^n)$. The tangent bundle is now obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n, GL(\mathbb{R}^n))$ together with the base cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\leq n}$.
 	\end{construct}
-	\newdef{Natural chart}{\index{natural!chart}
-		The charts in the atlas of the constructed bundle are sometimes called \textbf{natural charts} because the first $n$ coordinates are equal to the coordinates of the base space.
+	
+	\newdef{Natural chart}{\index{natural!chart}\index{adapted chart|see{natural chart}}
+		The charts in the atlas of the constructed bundle are sometimes called \textbf{natural charts} or \textbf{adapted charts} because the first $n$ coordinates are equal to the coordinates of the base space.
 	}
 	\begin{adefinition}
 		The above construction eventually comes down to the following, more intuitive, definition of the tangent bundle:
@@ -158,11 +159,11 @@
 		where $\{t_{ji}\}_{i, j\leq n}$ is the tangent bundle cocycle, but now with an action on the compact manifold Gr$(k, \mathbb{R}^n)$ instead of the vector space $\mathbb{R}^n$. This set of transition functions is then used to create a new fibre bundle where every fibre is diffeomorphic to Gr$(k, \mathbb{R}^n)$, namely it is the Grassmannian Gr$(k, T_pM)$ associated to the tangent space in every point $p\in M$.
 	\end{construct}
 	\begin{notation}
-		The Grassman $k$-plane bundle is denoted by Gr$(k, TM)$.
+		The Grassmann $k$-plane bundle is denoted by Gr$(k, TM)$.
 	\end{notation}
 	
 	\newdef{Tautological bundle}{\index{tautological!bundle}
-		Consider the Grassmanian Gr$(k, V)$ of an $(n+k)$-dimensional vector space $V$. The total space of the tautological $k$-bundle $\gamma_{n, k}$ is defined as the set of points $(W, w)$ where $W\in\text{Gr}(k, V)$ and $w\in W$. Local trivializations are constructed as follows:
+		Consider the Grassmannian Gr$(k, V)$ of an $(n+k)$-dimensional vector space $V$. The total space of the tautological $k$-bundle $\gamma_{n, k}$ is defined as the set of points $(W, w)$ where $W\in\text{Gr}(k, V)$ and $w\in W$. Local trivializations are constructed as follows:
 		\begin{equation}
 			\varphi:\pi^{-1}(U)\rightarrow \text{Gr}(k, V)\times Z: (W, w)\mapsto (W, \text{proj}_Z(w))
 		\end{equation}
@@ -312,6 +313,17 @@
 				This follows from the previous property.
 		\end{itemize}
 	\end{property}
+	
+	\newdef{Holonomic basis}{\index{holonomic!basis}
+		A basis $\{e_i\}$ of $T_pM$ is said to be holonomic (on a neighbourhood $U\subseteq M$) if all the Lie derivatives vanish on $U$:
+		\begin{equation}
+			\mathcal{L}_{e_i}e_j = 0
+		\end{equation}
+		Equivalently, if the structure coefficients of the Lie algebra $\mathfrak{X}(M)$ vanish on $U$.
+	}
+	\begin{property}
+		For every holonomic basis there exists a coordinate system for $M$ such that the basis coincides with coordinate-induced basis.
+	\end{property}
 
 \subsection{Frobenius theorem}
 	
@@ -447,9 +459,9 @@
 	\begin{example}
 		An explicit formula for the exterior derivative of a k-form $\Phi$ is:
 		\begin{align}
-			d\Phi(X_1, ...n X_{k+1}) = \sum_{i=0}^{k+1} &(-1)^i X_i(\Phi(X_1, ..., \hat{X}_i, ..., X_{k+1}))\nonumber\\
-				\label{forms:k_form_exterior_derivative}
-				&-\sum_{i<j} \Phi([X_i, X_j], X_1, ..., \hat{X}_i, ..., \hat{X}_j, ..., X_{k+1})
+			d\Phi(X_1, ...n X_{k+1}) = \sum_{i=0}^{k+1} &(-1)^{i+1} X_i(\Phi(X_1, ..., \hat{X}_i, ..., X_{k+1}))\nonumber\\
+			\label{forms:k_form_exterior_derivative}
+			&+\sum_{i<j} (-1)^{i+j}\Phi([X_i, X_j], X_1, ..., \hat{X}_i, ..., \hat{X}_j, ..., X_{k+1})
 		\end{align}
 		where $\hat{X}$ means that this argument is omitted.
 	\end{example}
@@ -586,3 +598,56 @@
 		\end{equation}
 		where $[\cdot, \cdot]$ is the Lie bracket in $\mathfrak{g}$.
 	}
+	
+\section{Linear connections}
+
+	\newdef{Koszul connection}{\index{Koszul!connection}\label{manifolds:koszul_connection}
+		Let $\pi: E\rightarrow M$ be a vector bundle over a smooth manifold $M$. A Koszul connection on $E$ is a (smooth) linear map $\nabla:\Gamma(E)\rightarrow\Gamma(E\otimes T^*M)$ satisfying the Leibniz property:
+		\begin{equation}
+			\nabla(f\sigma) = f\nabla\sigma + \sigma\otimes df
+		\end{equation}
+		for all $f\in C^\infty(M)$.
+	}
+	\begin{property}
+		Because $\nabla\sigma$ eats a vector field, which is a $C^\infty(M)$-linear operation we obtain:
+		\begin{equation}
+			\nabla_{fX + Y}\sigma = f\nabla_X\sigma + \nabla_Y\sigma
+		\end{equation}
+	\end{property}
+
+	\begin{formula}
+		Let $E, E'$ be two vector bundles over a base manifold $M$. Koszul connections on $E, E'$ induce a connection on the tensor product bundle $E\otimes E'$ as follows:
+		\begin{equation}
+			\nabla(X\otimes Y) = \nabla X\otimes Y + X\otimes\nabla Y
+		\end{equation}
+		for $X\in\Gamma(E), Y\in\Gamma(E')$.
+	\end{formula}
+
+	\newdef{Affine connection}{\index{connection!affine}
+		Let $M$ be a smooth manifold. An affine connection $\nabla:\mathfrak{X}(M)\times\mathfrak{X}(M)\rightarrow \mathfrak{X}(M)$ is a Koszul connection on the tangent bundle.
+	}
+	
+	\begin{property}[Local behaviour]
+		Let $v\in T_pM$. If two vector fields $X, Y\in \Gamma(TM)$ are equal on some neighbourhood of $p$ then $\nabla_vX = \nabla_vY$. Furthermore, given a curve $c:[0, 1]\rightarrow M$ and two vector fields $X, Y\in\Gamma(TM)$ such that $X\circ c = Y\circ c$ we find that $\nabla_{\dot c}X = \nabla_{\dot c}Y$. Hence we see that an affine connection only depends on the local behaviour of the given section.
+	\end{property}
+	\begin{remark}
+		The above property shows the major difference between the Lie derivative and the covariant derivative when acting on sections of the tangent bundle $\sigma$. Lie derivatives depend on the local behaviour of both $X$ and $\sigma$. The covariant derivative on the other hand only depends on the value of $X$ at $p\in M$ and on the local behaviour of $\sigma$. 
+	\end{remark}
+	
+	\begin{property}[Affinity]
+		Consider two affine connections $\nabla, \overline\nabla$ on a smooth manifold $M$. The operator $\nabla-\overline\nabla$ is $C^\infty(M)$-linear, i.e. $\nabla-\overline\nabla\in\Omega^1(M;\text{End}(E))$. It follows that the set of affine connections forms an affine space, hence the name.
+	\end{property}
+
+	\begin{formula}[Connection on differential forms]
+		Using the Leibniz property of a Koszul connection on the contraction $\omega(X_1, ..., X_k)$, where $X_i\in\mathfrak{X}(M)$ and $\omega\in\Omega^k(M)$, gives us the following form of the connection on the $(s, k)$-tensor bundle ($s=0,1$):
+		\begin{equation}
+			\nabla_Y\omega(X_1, ..., X_k) = Y(\omega(X_1, ..., X_k)) - \sum_{i=1}^k\omega(X_1, ..., \nabla_YX_i, ..., X_k)
+		\end{equation}
+	\end{formula}
+	
+	\newdef{Parallel tensor fields}{\index{parallel}
+		A tensor field $T$ is said to be parallel with respect to a connection $\nabla$ if it satisfies $\nabla T = 0$.
+	}
+	\begin{example}
+		Important examples are the volume form Vol and the metric $g$ with respect to the Levi-Civita connection on a Riemannian manifold (see definition \ref{riemann:levi_civita_connection}). 
+	\end{example}

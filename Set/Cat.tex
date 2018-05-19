@@ -18,13 +18,14 @@
 	}
 	
 	\newdef{Opposite categopy}{
-		Let $C$ be a category. The opposite category $C^{op}$ is defined by reversing all arrows (morphisms) in $C$.
+		Let $C$ be a category. The opposite category $C^{op}$ is defined by reversing all arrows in $C$.
 	}
 	\begin{property}
 		From the definition of the opposite category it easily follows that
 		\begin{equation}
 			(C^{op})^{op} = C
 		\end{equation}
+		, i.e. the $op$-functor is an involution.
 	\end{property}
 
 \subsection{Functors}
@@ -47,7 +48,7 @@
 			\item $F(\phi\circ\psi) = F(\psi)\circ F(\phi)$
 		\end{itemize}
 	}
-	\remark{A contravariant functor can also be defined as a covariant functor in the opposite category.}
+	\remark{A contravariant functor can also be defined as a covariant functor on the opposite category.}
 	
 	\newdef{Faithful functor}{\index{faithful}
 		A functor $F:C\rightarrow D$ is said to be faithful if the map hom$_C(X, Y)\rightarrow \text{hom}_D(F(X), F(Y))$ is injective for all objects $X, Y\in\text{ob}(C)$.
@@ -56,16 +57,16 @@
 		A functor $F:C\rightarrow D$ is said to be full if the map hom$_C(X, Y)\rightarrow \text{hom}_D(F(X), F(Y))$ is surjective for all objects $X, Y\in\text{ob}(C)$.
 	}
 	
-	
 	\begin{example}[hom-functor]
 		Let $C$ be a locally small category. Every object $X\in\text{ob}(C)$ induces a functor $h^X:C\rightarrow\text{Set}$ defined as follows:
 		\begin{itemize}
-			\item $h^X$ maps every object $Y\in\text{ob}(C)$ to the set hom$(X, Y)$.
+			\item $h^X$ maps every object $Y\in\text{ob}(C)$ to the set hom$_C(X, Y)$.
 			\item For all $Y, Z\in\text{ob}(C)$, $h^X$ maps every morphism $f\in\text{hom}_C(Y, Z)$ to the morphism $f\circ-:\text{hom}_C(X, Y)\rightarrow\text{hom}_C(X, Z):g\mapsto f\circ g$.
 		\end{itemize}
 	\end{example}
 	\remark{The contravariant hom-functor $h_X$ is defined by replacing hom$(X, -)$ by hom$(-, X)$.}
-	
+
+\subsection{Natural transformations}
 	\newdef{Natural transformation}{\index{natural!transformation}
 		Let $F, G$ be two functors between the categories $C$ and $D$. A natural transformation $\psi$ from $F$ to $G$ consists of a collection of morphisms satisfying two conditions:
 		\begin{itemize}
@@ -75,20 +76,23 @@
 		It is often said that \textit{$\psi_X$ is natural in $X$}.
 	}
 	\begin{notation}
-		A natural transformation $\psi$ from a functor $F$ to a functor $G$ is denoted by $\psi: F\Rightarrow G$.
+		A natural transformation $\psi$ from a functor $F$ to a functor $G$ is denoted by $\psi: F\Rightarrow G$.\footnote{This is in analogy with the notation for general 2-morphisms. See section \ref{cat:higher_category_theory} for more information.}
 	\end{notation}
 	
-	\newdef{Representable functor}{\index{representation}
+	\begin{example}
+	        When considering representations as a functor $\rho:\text{Grp}\rightarrow\text{FinVect}$, we see that the intertwiners\footnote{See definition \ref{group:equivariant}.} play the rol of natural transformations.
+	\end{example}
+	\begin{example}[Functor category]\index{functor!category}
+		Let $C$ be a small category and let $D$ be a category. The functors $F:C\rightarrow D$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $[C, D]$ or $D^C$ (analogous to \ref{set:function_set}).
+	\end{example}
+	
+	\newdef{Representable functor}{\index{functor!representable}
 		Let $C$ be a locally small category. A functor $F:C\rightarrow\text{Set}$ is said to be representable if there exists an object $X\in\text{ob}(C)$ such that $F$ is naturally isomorphic to $h^X$. The pair $(X, \psi)$, where $\psi$ is the natural isomorphism, is called a \textbf{representation} of $F$.
 	}
 	
-	\newdef{Functor category}{\index{functor!category}
-		Let $C$ be a small category and let $D$ be a category. The functors $F:C\rightarrow D$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $[C, D]$ or $D^C$ analogous to \ref{set:function_set}.
-	}
-	
 	\begin{theorem}[Yoneda's lemma]\index{Yoneda}
-		Let $C$ be a locally small category and let $F:C\rightarrow\text{Set}$ be a functor. For every object $X\in\text{ob}(C)$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations Nat$(h^X, F)$ and $F(X)$.
-		\footnotetext{Here we used the fact that Nat$(h^-, -)$ can be seen as a functor from the product category Set$^C\times C$ to the category Set.}
+		Let $C$ be a locally small category and let $F:C\rightarrow\emph{Set}$ be a functor. For every object $X\in\text{ob}(C)$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations Nat$(h^X, F)$ and $F(X)$.
+		\footnotetext{Here we used the fact that Nat$(h^-, -)$ can be seen as a functor Set$^C\times C\rightarrow$ Set.}
 	\end{theorem}
 	\sremark{The image of a natural transformation $\psi\in\text{Nat}(h^X, F)$ is given by $\psi_X(\mathbbm{1}_X)$.}
 	\begin{result}[Yoneda embedding]
@@ -98,7 +102,7 @@
 		\end{equation}
 		where one should pay attention to the right hand side where $Y$ appears in the \underline{first} argument.
 		
-		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\text{hom}_C(Y,X)$. The (contravariant) functor $h^-$ mapping every object $X\in\text{ob}(C)$ to its hom-functor hom$(A, -)$ and every morphism $f\in\text{hom}_C(Y, X)$ to the natural transformation hom$(f, -)$ can also be interpreted as a covariant functor $G:C^{op}\rightarrow\text{Set}^C$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $C^{op}$ to the functor category Set$^C$.
+		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\text{hom}_C(Y,X)$. The (contravariant) functor $h^-$ mapping every object $X\in\text{ob}(C)$ to its hom-functor hom$(X, -)$ and every morphism $f\in\text{hom}_C(Y, X)$ to the natural transformation hom$(f, -)$ can also be interpreted as a covariant functor $G:C^{op}\rightarrow\text{Set}^C$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $C^{op}$ to the functor category Set$^C$.
 		
 		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:C\hookrightarrow\text{Set}^{C^{op}}$, called the Yoneda embedding. 
 	\end{result}
@@ -140,7 +144,7 @@
 		\end{itemize}
 	}
 	
-\subsection{Higher category theory}
+\subsection{Higher category theory}\label{cat:higher_category_theory}
 
 	\newdef{$n$-Category}{\index{n-category}
 		A (strict) $n$-category consists of:

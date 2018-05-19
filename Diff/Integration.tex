@@ -1,13 +1,15 @@
 \chapter{Integration on manifolds}
 
+For the theory on measure spaces and Lebesgue integration see chapter \ref{chapter:lebesgue}.
+
 \section{Orientation}
 	\newdef{Orientation}{\index{orientation}\index{volume}
-		Similar to definition \ref{tensor:orientation} we can define an orientation on a differentiable manifold $M$. First we modify the definition of the volume element a little bit. A \textbf{volume form} on $M$ is a nowhere-vanishing top-dimensional form $\text{Vol}\in\Omega^n(M)$ where $n = \dim(M)$. The definition of an orientation is then equivalent to that in \ref{tensor:orientation}.
+		Similar to definition \ref{tensor:orientation} we can define an orientation on a differentiable manifold $M$. First we modify the definition of the volume element a little bit. A \textbf{volume form} on $M$ is a nowhere-vanishing top-dimensional differential form $\text{Vol}\in\Omega^n(M)$ where $n = \dim(M)$. The definition of an orientation is then equivalent to that in \ref{tensor:orientation}.
 		
 		An \textbf{oriented atlas} is given by all charts of $M$ for which the pullback of the Euclidean volume form is a positive multiple of $\text{Vol}$. This also means that the transition functions have a positive Jacobian determinant\footnotemark. The existence of a volume form turns a differentiable manifold into an \textbf{orientable manifold}.
 		\footnotetext{This is in fact an equivalent definition.}
 		
-		An orientable manifold with volume form $\omega$ is said to be \textbf{positively oriented} if $\omega(v_1, ..., v_n)>0$ where $(v_1, ..., v_n)$ is a basis for $T_pM$.
+		Alternatively an orientable manifold with volume form $\omega$ is said to be \textbf{positively oriented} if $\omega(v_1, ..., v_n)>0$ where $(v_1, ..., v_n)$ is a basis for $T_pM$.
 	}
 	
 	\begin{example}\index{determinant}
@@ -21,17 +23,54 @@
 	\begin{property}
 		Let $\omega_1, \omega_2$ be two volume forms on $M$. Then there exists a smooth function $f$ such that \[\omega_1 = f\omega_2\] Furthermore, the sign of this function is constant on every connected component of $M$.
 	\end{property}
-	
-\section{Integration of top-dimensional forms}
 
-	\begin{formula}
-		Let $\theta$ be a top-dimensional form on $M$ with compact support. Let $\{\varphi_i\}_i$ be a partition of unity\footnotemark\ subordinate to an atlas $\{(U_i, \varphi_i)\}_i$.
+\section{Integration of top-dimensional forms}\index{Lebesgue!integral}\index{measure}
+
+	\newdef{Measure zero}{
+		A subset $U\subset M$ of an orientable manifold is said to be of measure zero if it is the countable union of inverse images of null sets in $\mathbb{R}^n$.
+	}
+	
+	\newdef{Integrable form}{
+		A differential form is said to be integrable if its components with respect to any basis of $\Omega^k(M)$ are Lebesgue integrable on $\mathbb{R}^n$.
+	}
+
+	\begin{formula}[Compact support]
+		Let $\omega$ be a top-dimensional form on $M$ with compact support on $U\subset M$.
+		\begin{equation}
+			\label{forms:integration_compact_support}
+			\int_M\omega = \int_U\omega = \int_{-\infty}^{+\infty}\cdots\int_{-\infty}^{+\infty}\omega_{12...n}(x)dx^1dx^2...dx^n
+		\end{equation}
+		This integral is well defined because under a (orientation preserving) change of coordinates the component $\omega_{1...n}$ transforms as $\omega'_{1...n} = J\omega_{1...n}$ where $J$ is the Jacobian determinant. Inserting this in the integral and replacing $dx_i$ by $dx'_i$ then gives us the well-known change-of-variables formula from Lebesgue integration theory.
+	\end{formula}
+
+	\begin{formula}[General]
+		Let $\omega$ be a top-dimensional form on $M$ and let $\{\varphi_i\}_i$ be a partition of unity\footnotemark\ subordinate to an atlas on $M$.
+		\footnotetext{This always exists if we require $M$ to be paracompact. See definition \ref{topology:partition_of_unity} and property \ref{topology:paracompact_partition_unity}.}
 		\begin{equation}
 			\label{forms:integration}
-			\int_M\theta = \sum_i\int_{U_i}\varphi_i\theta dx_1...dx_n
+			\int_M\omega = \sum_i\int_M\varphi_i\omega
 		\end{equation}
-		\footnotetext{See definition \ref{topology:partition_of_unity}.}
+		where the integrals on the right-hand side are defined as in equation \ref{forms:integration_compact_support}.
 	\end{formula}
+	
+	\newprop{Compact manifolds}{
+		Let $M$ be a smooth compact manifold. Because every continuous form on $M$ is obviously compactly supported all continuous forms are integrable on $M$.
+	}
+	\newprop{Pullback}{
+		Let $f:M\rightarrow N$ be an orientation-preserving diffeomorphism.
+		\begin{equation}
+			\int_Mf^*\omega = \int_N\omega
+		\end{equation}
+	}
+	
+	\begin{notation}
+		Because the integral of differential forms satisfies properties similar to the ones listed in \ref{lebesgue:general_properties} we introduce the following notation:
+		\begin{equation}
+			\int_M\omega = \langle M, \omega \rangle
+		\end{equation}
+	\end{notation}
+	
+\section{General integration}
 
 \section{Stokes' theorem}	
 

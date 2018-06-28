@@ -1,11 +1,11 @@
-\chapter{Complex bundles}
+\chapter{Complex Manifolds}
 
 \section{Complex structures}
 
 	\newdef{Almost complex structure}{
 		Let $M$ be a smooth manifold. An almost complex structure on $M$ is a smooth $(1, 1)$-tensor field $J:TM^{\mathbb{C}}\rightarrow TM^{\mathbb{C}}$ such that $J|_p:T_pM^{\mathbb{C}}\rightarrow T_pM^{\mathbb{C}}$ satisfies $J|_p^2 = -1$ for all $p\in M$.
 		
-		This structure induces a decomposition \[TM^{\mathbb{C}} = TM^+\oplus TM^-\] where both bundles have the same dimension. When the coordinates on $M$ are denoted by $\{x^k\}_{k\leq 2n}$ the basis for these two subbundles is given by $\{\pderiv{}{z^k} = \frac{1}{2}\left(\pderiv{}{x}_{^{2k-1}} - i\pderiv{}{x}_{^{2k}}\right)\}_{k\leq n}$ and $\{\pderiv{}{\overline{z}^k} = \frac{1}{2}\left(\pderiv{}{x}_{^{2k-1}} + i\pderiv{}{x}_{^{2k}}\right)\}_{k\leq n}$ respectively.
+		This structure induces a decomposition in so-called holomorphic and anti-holomorphic components:\[TM^{\mathbb{C}} = TM^+\oplus TM^-\] where both bundles have the same dimension. When the coordinates on $M$ are denoted by $\{x^k\}_{k\leq 2n}$ the basis for these two subbundles is given by $\{\pderiv{}{z^k} = \frac{1}{2}\left(\pderiv{}{x}_{^{2k-1}} - i\pderiv{}{x}_{^{2k}}\right)\}_{k\leq n}$ and $\{\pderiv{}{\overline{z}^k} = \frac{1}{2}\left(\pderiv{}{x}_{^{2k-1}} + i\pderiv{}{x}_{^{2k}}\right)\}_{k\leq n}$ respectively.
 	}
 	\remark{The reason that we define the almost complex structure on the complexified tangent bundle has to do with the fact that $J$ is only diagonalizable on a complex vector space (because they square to a negative value).}
 	
@@ -24,8 +24,8 @@
 		The integer $n$ in previous definition is called the complex dimension of $M$, denoted by $\dim_{\mathbb{C}}(M)$.
 	}
 	
-	\begin{property}\index{Nijenhuis!tensor}
-		An almost complex manifold is complex if and only if the Nijenhuis tensor $N_J$ vanishes for all vector fields:
+	\begin{property}\index{Nijenhuis!tensor}\index{integrable!complex structure}
+		An almost complex manifold is complex if and only if the \textbf{Nijenhuis tensor} $N_J$ vanishes for all vector fields:
 		\begin{equation}
 			\label{complex:integrable_structure}
 			N_J(X, Y) = [JX, JY] - J[JX, Y] - J[X, JY] - [X, Y] = 0
@@ -34,6 +34,7 @@
 		\begin{equation}
 			J_\rho^\nu\partial_\nu J_\sigma^\mu - J_\sigma^\nu\partial_\nu J_\rho^\mu - J_\nu^\mu\partial_\rho J_\sigma^\nu + J_\nu^\mu\partial_\sigma J_\rho^\mu = 0
 		\end{equation}
+		An almost complex structure satisfying this condition is also said to be integrable. (See also next property.)
 	\end{property}
 	
 \section{Complex differential forms}
@@ -43,7 +44,7 @@
 		\begin{equation}
 			J = i\partial_k\otimes dz^k - i\partial_{\overline{k}}\otimes d\overline{z}^k
 		\end{equation}
-		This coordinate expansion can be used to, given an almost complex manifold satisfying \ref{complex:integrable_structure}, find a coordinate transformation from the real coordinates $\{x^i\}_{i\leq2n}$ to the complex coordinates $\{z^i\}_{i\leq n}$ .
+		This coordinate expansion can be used to, given an almost complex manifold satisfying \ref{complex:integrable_structure}, find a coordinate transformation from the real coordinates $\{x^i\}_{i\leq2n}$ to the complex coordinates $\{z^i\}_{i\leq n}$.
 	\end{property}
 
 	Using the basis forms $dz^i, d\overline{z}^i$ one can also define complex Grassmann spaces $\Omega^{p, q}_m(M)$, analogous to $\Omega^k(X)$ for smooth manifolds, for any point $m\in M$:
@@ -56,7 +57,7 @@
 	\begin{property}
 		The spaces $\Omega^{1, 0}(M)$ and $\Omega^{0, 1}(M)$ are stable under holomorphic coordinate transformations, i.e. they transform tensorially and hence they are complex vector bundles.
 	\end{property}
-	On the bundle $E^k = \bigoplus_{p+q=k}\Omega^{p, q}(M)$ of forms of total degree $k$ one can then define the canonical projection maps $\pi^{p, q}:E^k\rightarrow\Omega^{p, q}$.
+	On the bundle $\Omega^k(M) = \bigoplus_{p+q=k}\Omega^{p, q}(M)$ of forms of total degree $k$ one can then define the canonical projection maps $\pi^{p, q}:\Omega^k\rightarrow\Omega^{p, q}$.
 	
 	\newdef{Dolbeault operator}{\index{Dolbeault!operator}
 		Consider a general $(p+q)$-form $\omega\in\Omega^{p, q}(M)$. The de Rham differential maps this form to a $(p+q+1)$-form. This form is in general an element of $\sum_{r+s=p+q+1}\Omega^{r, s}(M)$. Using the projection maps $\pi^{p, q}$ one obtains the Dolbeault operators:
@@ -77,6 +78,108 @@
 		\end{align}
 	\end{property}
 	
+	\begin{formula}
+		Analogous to the definition of the de Rham codifferential \ref{manifolds:codifferential} one can define the adjoint of the $\partial$ and $\overline{\partial}$ operators:
+		\begin{align}
+			\partial^\dag &= -\ast\partial\ast\\
+			\overline{\partial}^\dag &= -\ast\overline{\partial}\ast
+		\end{align}
+		where we used the fact that the real dimension of a complex manifold is even: $(-1)^{n(k+1)+1} = -1$.
+	\end{formula}
+	\begin{result}
+		Using these definitions one can rewrite the Hodge Laplacian as:
+		\begin{equation}
+			\Delta = 2(\partial\partial^\dag + \partial^\dag\partial) = 2(\overline{\partial}\overline{\partial}^\dag + \overline{\partial}^\dag\overline{\partial})
+		\end{equation}
+	\end{result}
+	
+\section{K\"ahler manifolds}
+
+	\newdef{K\"ahler manifold}{\index{K\"ahler!manifold}
+		Consider a smooth manifold equipped with a Riemannian structure $(M, g)$, a symplectic structure $(M, \omega)$ and an almost complex structure $J$. This manifold is a K\"ahler manifold if the structures satisfy following equivalent sets of compatibility conditions:
+		\begin{itemize}
+			\item $\omega$ is equal to the \textbf{K\"ahler form}:
+			\begin{equation}
+				\omega(v, w) = g_{\mathbb{C}}(Jv, w)
+			\end{equation}
+		\end{itemize}
+		or
+		\begin{itemize}
+			\item $M$ is Hermitian\footnote{$g_{\mathbb{C}}$ is the extension (by linearity) of $g$ from $TM$ to $T^{\mathbb{C}}M$. This map has $\mathbb{C}$ as codomain.}:
+			\begin{equation}
+				g_{\mathbb{C}}(v, w) = g_{\mathbb{C}}(Jv, Jw)
+			\end{equation}
+			\item $J$ is stable under parallel transport with respect to the Levi-Civita connection on $(M, g)$:
+			\begin{equation}
+				\nabla_XJ = 0
+			\end{equation}
+		\end{itemize}
+	}
+	\remark{The property, which says that $J$ acts isometrically, can be interchanged for the statement that $J$ acts as a symplectomorphism. These two statements are equivalent if the second property holds.}
+	
+	\begin{formula}
+		The metric $g = g_{ij}dx^i\otimes dx^j$ can be rewritten as:
+		\begin{equation}
+			g = 2g_{i\overline{j}}dz^i\otimes d\overline{z}^j
+		\end{equation}
+		The K\"ahler form can be written as:
+		\begin{equation}
+			\omega = ig_{i\overline{j}}dz^i\wedge d\overline{z}^j
+		\end{equation}
+	\end{formula}
+	
+	\newdef{K\"ahler potential}{\index{K\"ahler!potential}
+		Using the $\partial\overline{\partial}$-lemma \ref{complex:del_delbar_lemma} we can locally write the K\"ahler form as:
+		\begin{equation}
+			\omega = i\partial\overline{\partial}K(z, \overline{z})
+		\end{equation}
+		where $K\in\Omega^0(M)$ is called the \textbf{K\"ahler potential}.
+	}
+	\begin{result}
+		Using the K\"ahler potential we can locally rewrite the Hermitian metric as:
+		\begin{equation}
+			g_{i\overline{j}} = \partial_i\partial_{\overline{j}}K(z, \overline{z})
+		\end{equation}
+	\end{result}
+	
+	\begin{property}
+		The Christoffel symbols associated to the Levi-Civita connection on $(M, g)$ are also quite easy when $M$ is K\"ahler. Only the $\Gamma^{\ \ k}_{ij}$ and $\Gamma^{\ \ \overline{k}}_{\overline{i}\overline{j}}$ components remain and they are given by:
+		\begin{align}
+			\Gamma^{\ \ k}_{ij} &= g^{k\overline{m}}\partial_ig_{j\overline{m}}\\
+			\Gamma^{\ \ \overline{k}}_{\overline{i}\overline{j}} &= g^{\overline{k}m}\partial_{\overline{i}}g_{\overline{j}m}
+		\end{align}
+		Accordingly the only non-vanishing component of the Riemann curvature tensor is:
+		\begin{equation}
+			R_{\overline{i}j\overline{k}l} = g_{\overline{k}m}\partial_{\overline{i}}\Gamma^{\ \ m}_{jl}
+		\end{equation}
+	\end{property}
+	
+\section{Cohomology}
+\subsection{Hodge-de Rham cohomology}
+
+	%\newdef{Hodge-de Rham cohomology}{\index{Hodge!cohomology}
+	%	Let $M$ be a complex manifold. The Hodge-de Rham cohomology class $H^{p, q}(M)$ is defined as follows:
+	%	\begin{equation}
+	%		H^{p, q}(M) = \frac{\ker(d_k)}{\im(d_{k-1})}
+	%	\end{equation}
+	%}
+
+	\begin{theorem}[Hodge decomposition]\index{Hodge!decomposition}
+		Let $M$ be a K\"ahler manifold. For all $k\in\mathbb{N}$ we have:
+		\begin{equation}
+			H^k(M) = \bigoplus_{p+q=k}H^{p, q}(M)
+		\end{equation}
+	\end{theorem}
+
+\subsection{Dolbeault cohomology}
+	
+	\begin{theorem}[Hodge decomposition]\index{Hodge!decomposition}
+		Let $M$ be a K\"ahler manifold. For all $k\in\mathbb{N}$ we have:
+		\begin{equation}
+			H^k(M) = \bigoplus_{p+q=k}H^{p, q}(M)
+		\end{equation}
+	\end{theorem}
+	
 	By analogy with the Poincar\'e lemma for smooth manifolds we have following theorems:
 	\begin{theorem}[$\partial$-lemma]\index{$\partial$-lemma}
 		Let $\alpha\in\Omega^{p, q}(M)$. If $\partial\alpha = 0$ then there exists locally a complex form $\beta\in\Omega^{p-1, q}$ such that $\alpha = \partial\beta$.
@@ -86,32 +189,4 @@
 	\end{theorem}
 	\begin{theorem}[$\partial\overline{\partial}$-lemma]\label{complex:del_delbar_lemma}
 		Let $\alpha\in\Omega^{p, q}(M)$. If $d\alpha = 0$ then there exists locally a complex form $\beta\in\Omega^{p-1, q-1}$ such that $\alpha = \partial\overline{\partial}\beta$.
-	\end{theorem}
-	
-\section{K\"ahler manifolds}
-
-	\newdef{K\"ahler manifold}{\index{K\"ahler!manifold}
-		Consider a smooth manifold equipped with a Riemannian structure $(M, g)$, a symplectic structure $(M, \omega)$ and an almost complex structure $J$. This manifold is a K\"ahler manifold if the structures satisfy following properties:
-		\begin{itemize}
-			\item $M$ is Hermitian\footnote{$g_{\mathbb{C}}$ is the extension (by linearity) of $g$ from $TM$ to $T^{\mathbb{C}}M$. This map has $\mathbb{C}$ as codomain.}: \begin{equation}g_{\mathbb{C}}(v, w) = g_{\mathbb{C}}(Jv, Jw)\end{equation}
-			\item $\omega$ is a \textbf{K\"ahler form}: \begin{equation}\omega(v, w) = g_{\mathbb{C}}(Jv, w)\end{equation}
-		\end{itemize}
-	}
-	\remark{The first property, which says that $J$ acts isometrically, can be interchanged for the statement that $J$ acts as a symplectomorphism. These two statements are equivalent if the second property holds.}
-	
-	\newdef{K\"ahler potential}{\index{K\"ahler!potential}
-		Using the $\partial\overline{\partial}$-lemma \ref{complex:del_delbar_lemma} we can rewrite the the K\"ahler form as:
-		\begin{equation}
-			\omega = i\partial\overline{\partial}K(z, \overline{z})
-		\end{equation}
-		where $K\in\Omega^0(M)$ is called the \textbf{K\"ahler potential}.
-	}
-	
-\section{Dolbeault cohomology}
-
-	\begin{theorem}[Hodge decomposition]\index{Hodge!decomposition}
-		Let $M$ be a K\"ahler manifold. For all $k\in\mathbb{N}$ we have:
-		\begin{equation}
-			H^k(M) = \bigoplus_{p+q=k}H^{p, q}(M)
-		\end{equation}
 	\end{theorem}

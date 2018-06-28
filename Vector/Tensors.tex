@@ -1,4 +1,219 @@
-\chapter{Tensor calculus}
+\chapter{Vector \& Tensor Calculus}
+
+\section{Nabla-operator}\label{vectorcalculus:nabla}
+	
+	\begin{definition}[Nabla]\index{nabla}
+		\begin{equation}
+        		\nabla\equiv\left(\pderiv{}{x}, \pderiv{}{y}, \pderiv{}{z}\right)
+		\end{equation}
+	\end{definition}
+
+	Following formulas can be found by using basic properties of (vector) calculus.    
+	\newformula{Gradient}{\index{gradient}
+		\begin{equation}
+			\label{vectorcalculus:gradient}
+			\nabla V = \left(\pderiv{V_x}{x}, \pderiv{V_y}{y}, \pderiv{V_z}{z}\right)
+		\end{equation}
+	}
+	\begin{formula}
+		Let $\varphi(\vector{x})$ be a scalar field. The total differential $d\varphi$ can be rewritten as
+	        \begin{equation}
+			d\varphi = \nabla\varphi\cdot d\vec{r}
+		\end{equation}
+	\end{formula}
+    
+	\begin{property}
+		The gradient of a scalar function $V$ is perpendicular to the level sets \ref{set:level_set} of $V$.
+	\end{property}
+    
+	\newdef{Directional derivative}{\index{directional derivative}
+	    	Let $\vec{a}$ be a unit vector. The directional derivative $\nabla_{\vector{a}}V$ is defined as the change of the function $V$ in the direction of $\vec{a}$:
+	    	\begin{equation}
+			\label{vectorcalculus:directional_derivative}
+		        \nabla_{\vector{a}}V \equiv (\vec{a}\cdot\nabla)V
+		\end{equation}
+	}
+	\begin{example}
+		Let $\varphi(\vector{x})$ be a scalar field. Let $\vec{t}$ denote the tangent vector to a curve $\vec{r}(s)$ with $s$ natural parameter. The variation of the scalar field $\varphi(\vector{x})$ along $\vec{r}(s)$ is given by
+	        \begin{equation}
+			\pderiv{\varphi}{s} = \deriv{\vec{r}}{s}\cdot\nabla\varphi
+		\end{equation}
+	\end{example}
+    
+	\newdef{Conservative vector field}{\index{conservative}
+	    	A vector field obtained as the gradient of a scalar function.
+	}
+	\begin{property}
+		A vector field is conservative if and only if its line integral is path independent.
+	\end{property}
+	
+	\newformula{Gradient of tensor}{
+		Let $T$ be a tensor field with coordinates $x^i$. Let $\vector{e}^i(x^1, x^2, x^3)$ be a curvilinear orthogonal frame\footnote{See definition \ref{diff:frame}.}. The gradient of $T$ is defined as follows:
+		\begin{equation}
+			\nabla T = \pderiv{T}{x^i}\otimes\vector{e}^i
+		\end{equation}
+	}
+	
+	\newformula{Divergence}{\index{divergence}
+		\begin{equation}
+			\label{vectorcalculus:divergence}
+			\nabla\cdot\vector{A} = \pderiv{A_x}{x} + \pderiv{A_y}{y} + \pderiv{A_z}{z}
+		\end{equation}
+	}
+	\newdef{Solenoidal vector field}{\index{solenoidal}
+		A vector field $\vector{V}(\vector{x})$ is said to be solenoidal if it satisfies:
+		\begin{equation}
+			\nabla\cdot\vector{V} = 0
+		\end{equation}
+		It is also known as a \textbf{divergence free vector field}.
+	}
+
+	\newformula{Rotor / curl}{\index{curl}\index{rotor|see{curl}}
+		\begin{equation}
+			\label{vectorcalculus:rotor}
+			\nabla\times\vector{A} = \left(\pderiv{A_z}{y} - \pderiv{A_y}{z}, \pderiv{A_x}{z} - \pderiv{A_z}{x}, \pderiv{A_y}{x} - \pderiv{A_x}{y}\right)
+		\end{equation}
+	}
+    
+	\newdef{Irrotational vector field}{\index{irrotational}
+		A vector field $\vector{V}(\vector{x})$ is said to be irrotational if it satisfies:
+	    	\begin{equation}
+	    		\nabla\times\vector{V} = 0
+	    	\end{equation}
+	}
+	\begin{remark}
+		All conservative vector fields are irrotational but irrotational vector fields are only conservative if the domain is simply-connected\footnote{See definition \ref{topology:simply_connected}.}
+	\end{remark}
+
+\subsection{Laplacian}
+
+	\newdef{Laplacian}{\index{Laplace!operator}
+		\begin{equation}
+			\label{vectorcalculus:laplacian}
+			\bigtriangleup V\equiv\nabla^2V = \mpderiv{2}{V}{x} + \mpderiv{2}{V}{y} + \mpderiv{2}{V}{z}
+		\end{equation}
+		\begin{equation}
+			\label{vectorcalculus:vector_laplacian}
+		        \nabla^2\vector{A} = \nabla\left(\nabla\cdot\vector{A}\right) - \nabla\times \left(\nabla\times\vector{A}\right)
+		\end{equation}
+	}
+	\remark{Equation \ref{vectorcalculus:vector_laplacian} is called the \textbf{vector laplacian}.}
+    
+	\newformula{Laplacian in different coordinate systems}{\ 
+	    	\begin{itemize}
+		        \item Cylindrical coordinates $(\rho,\phi,z)$:
+		    	        \begin{equation}
+		        	    	\label{laplacian:cylindrical}
+					\stylefrac{1}{\rho}\pderiv{}{\rho}\left(\rho\pderiv{}{\rho}\right) + \stylefrac{1}{\rho^2}\mpderiv{2}{}{\phi} + \mpderiv{2}{}{z}
+				\end{equation}
+		        \item Spherical coordinates $(r,\phi,\theta)$:
+	        		\begin{equation}
+					\label{laplacian:spherical}
+                    			\stylefrac{1}{r^2}\left[\pderiv{}{r}\left(r^2\pderiv{}{r}\right) + \stylefrac{1}{\sin^2\theta}\mpderiv{2}{}{\phi} + \stylefrac{1}{\sin\theta}\pderiv{}{\theta}\left(\sin\theta\pderiv{}{\theta}\right)\right]
+				\end{equation}
+		\end{itemize}
+	}
+    
+\subsection[Mixed properties]{Mixed properties\footnotemark}\label{vectorcalculus:mixed_properties}
+	\footnotetext{See remark \ref{forms:vector_calculus} for a differential geometric approach.}
+	
+	\begin{equation}
+		\label{vectorcalculus:rotor_of_gradient}
+        	\nabla \times \left(\nabla V\right) = 0
+	\end{equation}
+	\begin{equation}
+		\label{vectorcalculus:divergence_of_rotor}
+	        \nabla \cdot \left(\nabla \times \vector{V}\right) = 0
+	\end{equation}
+    
+	In Cartesian coordinates equation \ref{vectorcalculus:vector_laplacian} can be rewritten as follows:
+	\begin{equation}
+		\label{vectorcalculus:vector_laplacian_carthesian}
+		\nabla^2\vector{A} = \left(\bigtriangleup A_x, \bigtriangleup A_y, \bigtriangleup A_z\right)
+	\end{equation}
+    
+\subsection{Helmholtz decomposition}
+
+	\newformula{Helmholtz decomposition}{\index{Helmholtz!decomposition}
+		Let $\vector{P}$ be a vector field that decays rapidly (more than $1/r$) when $r\rightarrow\infty$. $\vector{P}$ can be written as follows:
+	        \begin{equation}
+			\label{vectorcalculus:helmholtz_decomposition}
+		        \vector{P} = \nabla\times\vector{A} + \nabla V
+		\end{equation}
+	}
+
+\section{Line integrals}\index{line!integral}\index{path!integral|see{line integral}}
+
+	\newformula{Line integral of a continuous function}{\label{vectorcalculus:line_integral_scalar}
+	    	Let $f:\mathbb{R}^3\rightarrow\mathbb{R}$ be a continuous function. Let $\Gamma$ be a piecewise smooth curve with parametrization $\vector{\varphi}(t), t\in [a, b]$. We define the line integral of $f$ over $\Gamma$ as follows:
+        	\begin{equation}
+			\int_\Gamma f(s)ds = \int_a^b f(\vector{\varphi}(t))||\vector{\varphi}'(t)||dt
+		\end{equation}
+	}
+	\newformula{Line integral of a continuous vector field}{\label{vectorcalculus:line_integral_vector}
+	    	Let $\vector{F}$ be a continuous vector field. Let $\Gamma$ be a piecewise smooth curve with parametrization $\vector{\varphi}(t), t\in [a, b]$. We define the line integral of $F$ over $\Gamma$ as follows:
+        	\begin{equation}
+			\int_\Gamma \vector{F}(\vector{s})\cdot d\vector{s} = \int_a^b \vector{F}(\vector{\varphi}(t))\cdot\vector{\varphi}'(t)dt
+		\end{equation}
+	}
+
+\section[Integral theorems]{Integral theorems\footnotemark}
+	\footnotetext{These theorems follow from the more general Stokes' theorem \ref{forms:theorem:stokes_theorem}.}
+
+	\begin{theorem}[Fundamental theorem of calculus for line integrals]\index{Fundamental theorem!for line integrals}~\newline
+	    	Let $\vec\Gamma:\mathbb{R}\rightarrow\mathbb{R}^3$ be a smooth curve.
+		\begin{equation}
+			\label{vectorcalculus:fundamental_theorem}
+		        \int_{\Gamma(a)}^{\Gamma(b)}\nabla f(\vector{r})\cdot d\vector{r} = \varphi(\Gamma(b)) - \varphi(\Gamma(a))
+		\end{equation}
+	\end{theorem}
+        
+	\begin{theorem}[Kelvin-Stokes' theorem]\index{Stokes!Kelvin-Stokes theorem}
+	    	\begin{equation}
+			\label{vectorcalculus:stokes_theorem}
+		        \oint_{\partial S}\vector{A}\cdot d\vector{l} = \iint_S \left(\nabla \times \vector{A}\right)dS
+		\end{equation}
+	\end{theorem}
+    
+	\begin{theorem}[Divergence theorem\footnotemark]\index{divergence!theorem}
+	    	\footnotetext{Also known as \textit{Gauss's theorem} or the \textit{Gauss-Ostrogradsky theorem}.}
+	    	\begin{equation}
+			\label{vectorcalculus:divergence_theorem}
+		        \oiint_{\partial V}\vector{A}\cdot d\vector{S} = \iiint_V \left(\nabla \cdot \vector{A}\right)dV
+		\end{equation}
+	\end{theorem}
+	\begin{result}[Green's identity]\index{Green!identity}
+	    	\begin{equation}
+			\label{vectorcalculus:green_indentity}
+		        \oiint_{\partial V}\left(\psi\nabla\phi - \phi\nabla\psi\right)\cdot d\vector{S} = \iiint_V \left(\psi\nabla^2\phi - \phi\nabla^2\psi\right) dV
+		\end{equation}
+	\end{result}
+    
+\section{Curvilinear coordinates}
+
+	In this section the differential operators are generalized to curvilinear coordinates. To do this we need the scale factors as formally defined in equation \ref{diff:scale_factor}. Also there is no Einstein summation used, all summations are written explicitly.
+    
+	\newformula{Unit vectors}{
+	    	\begin{equation}
+			\pderiv{\vec{r}}{q^i} = h_i\hat{e}_i
+		\end{equation}
+	}
+	\newformula{Gradient}{
+	    	\begin{equation}
+			\nabla V = \sum_{i=1}^3\stylefrac{1}{h_i}\pderiv{V}{q^i}\hat{e}_i
+		\end{equation}
+	}
+	\newformula{Divergence}{
+	    	\begin{equation}
+			\nabla\cdot\vector{A} = \stylefrac{1}{h_1h_2h_3}\left(\pderiv{}{q^1}(A_1h_2h_3) + \pderiv{}{q^2}(A_2h_3h_1) + \pderiv{}{q^3}(A_3h_1h_2)\right)
+		\end{equation}
+	}
+	\newformula{Rotor}{
+	   	\begin{equation}
+			(\nabla\times\vector{A})_i = \stylefrac{1}{h_jh_k}\left(\pderiv{}{q^j}(A_kh_k) - \pderiv{}{q^k}(A_jh_j)\right)
+		\end{equation}
+	        where $i\neq j\neq k$.
+	}
 
 \section{Tensor product}
 \subsection{Tensor product}\index{tensor!product}

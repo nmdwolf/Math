@@ -6,8 +6,13 @@
 
 \section{Banach spaces}
 
+	\newdef{Topological vector space}{\index{vector!space}
+		\nomenclature[A]{TVS}{Topological vector space}
+		A topological vector space (TVS) over a base field $K$ is a vector space for which the addition and scalar multiplication over $K$ are continuous.
+	}
+
 	\newdef{Norm}{\index{norm}
-    		Let $V$ be a $K$-vector space. A function $||\vec{v}||:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
+    		Let $V$ be a TVS over a field $K$. A function $||\vec{v}||:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
 		\begin{itemize}
 			\item \textbf{Non-degeneracy:} $||\vec{v}|| = 0 \iff \vec{v} = 0$
 			\item \textbf{Homogeneity:} $||a\vec{v}|| = |a|||\vec{v}||$ for all scalars $a\in K$
@@ -20,15 +25,14 @@
 	\footnotetext{See definition \ref{topology:metric}.}
     
 	\newdef{Normed vector space}{
-    		A $K$-vector space equipped with a norm $||\cdot||$.
+    		A TVS equipped with a norm $||\cdot||$.
 	}
 	\newdef{Banach space}{\index{Banach!space}\label{linalgebra:banach_space}
-	    	A normed vector space that is complete\footnotemark\ with respect to the norm.
-		\footnotetext{See condition \ref{topology:cauchy_sequence}.}
+	    	A normed vector space that is complete\footnote{See condition \ref{topology:cauchy_sequence}.} with respect to the norm.
 	}
 	
 	\newdef{Reflexive space}{
-		A Banach space $V$ for which its dual coincides with the dual of its dual, i.e. $V^* = (V^*)^*$.
+		A Banach space $V$ that coincides with its double (topological) dual, i.e. $V = (V^*)^*$.
 	}
 	\begin{property}
 		Every finite-dimensional Banach spaces is reflexive. This follows from property \ref{linalgebra:dual_space_dimension}.
@@ -45,7 +49,7 @@
 \subsection{Theorems}
 
 	\begin{property}
-		Let $X$ be a general TVR. Every linear map $\varphi:\mathbb{K}^n\rightarrow X$ is continuous.
+		Let $X$ be a TVS. Every linear map $\varphi:\mathbb{K}^n\rightarrow X$ is continuous.
 	\end{property}
 	\begin{property}
 		Let $X$ be a finite-dimensional normed vector space. Every linear bijection $\varphi:\mathbb{K}^n\rightarrow X$ is a homeomorphism.
@@ -370,6 +374,42 @@
     		This theorem justifies the bra-ket notation used in quantum mechanics where one associates to every ket $|\psi\rangle\in\mathcal{H}$ a bra $\langle\psi|\in\mathcal{H}^*$.
 	\end{remark}
 	
-\subsection{Segal-Bargmann spaces}
+\section{Seminorms}
 
+	\newdef{Seminorm}{\index{seminorm}
+		Let $V$ be a $K$-vector space. A function $p:V\rightarrow[0,+\infty[$ is called a seminorm if it satisfies following conditions:
+		\begin{itemize}
+			\item \textbf{Homogeneity:} $||a\vec{v}|| = |a|||\vec{v}||$ for all scalars $a\in K$
+			\item \textbf{Triangle equality (subadditivity):} $||\vec{v} + \vec{w}|| \leq ||\vec{v}|| + ||\vec{w}||$
+		\end{itemize}
+	}
 	
+	\begin{theorem}[Hahn-Banach]\index{Hahn-Banach}
+		Let $X$ be a TVS. If $f$ is a continuous linear functional on $X$ such that $|f(y)|\leq p(y)$ on a subspace $Y\leq X$ for some seminorm $p$ defined on $X$ then there exists a linear extension $F$ on $X$ such that:
+		\begin{itemize}
+			\item $F(y) = f(y), \forall y\in Y$.
+			\item $|F(x)|\leq p(x), \forall x\in X$.
+		\end{itemize}
+	\end{theorem}
+	
+\subsection{Topology}
+	
+	In this subsection we denote by $\mathscr{P}$ a family of seminorms defined on a TVS $X$. By $I$ we denote the index family of $\mathscr{P}$.
+	
+	\newdef{$\mathscr{P}$-open ball}{\index{ball}
+		A $\mathscr{P}$-open ball centered on $x_0$ is a subset $Y\subseteq X$ such that all points $y\in Y$ satisfy the following condition for a finite number of seminorms $p_i\in\mathscr{P}, i\in I$:
+		\begin{equation}
+			p_i(y-x_0) \leq \varepsilon_i
+		\end{equation}
+		where $\varepsilon_i > 0$.
+	}
+	
+	\begin{property}
+		The set of $\mathscr{P}$-open balls generates a topology on $X$. This topology is often called the $\mathscr{P}$-topology.
+	\end{property}
+	\newdef{Separated family}{
+		A family of seminorms $\mathscr{P}$ is said to be separated if for every point $x\in X$ there exists a seminorm $p\in\mathscr{P}$ such that $p(x)\neq0$.
+	}
+	\begin{property}
+		A separated family of seminorms generates a Hausdorff topology on $X$. If the family is finite or countable the topology is also metrizable. In the case it is finite, the metric is induced by the norm $\sum_{i\in I}p_i$.
+	\end{property}

@@ -118,7 +118,7 @@
 	}
 	
 	\newdef{Sieve}{\index{sieve}
-		Let $C$ be a small category. A sieve $S$ on $C$ is a functor $S\rightarrow C$ that is fully faithfull and a discrete fibration.
+		Let $C$ be a small category. A sieve $S$ on $C$ is a fully faithfull discrete fibration $S\rightarrow C$.
 		
 		A sieve $S$ on an object $c\in C$ is a sieve in the slice category $C/c$. This means that $S$ is a subset of $\ob(C/c)$ that is closed under \textit{precomposition}, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(C)$ then the composition $a\rightarrow b\rightarrow c\in S$.
 	}
@@ -176,6 +176,64 @@
 	\begin{property}
 		If an initial (resp. terminal) object exists, then it is unique (possibly up to isomorphism).
 	\end{property}
+
+\subsection{Limits and products}
+
+	\newdef{Diagram}{\index{diagram}
+		Let $I, C$ be two categories. A diagram in $C$ with index category $I$ is a covariant functor $D:I\rightarrow C$.
+	}
+	
+	\newdef{Cone}{\index{cone}
+		Let $D:I\rightarrow C$ be a diagram. A cone from $a\in\ob(C)$ to $D$ consists of a family of morphisms $\psi_i:a\rightarrow Di, \forall i\in\ob(I)$ such that $\psi_{j} = Df\circ\psi_i$ for all morphisms $f:i\rightarrow j\in\text{hom}(I)$. (See figure \ref{fig:cone_component})
+		
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						\&a\&\\
+						Di\vphantom{(}\&\&Df(i)\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\psi_i$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\psi_{f(i)}$};
+					\draw[->] (m-2-1) -- (m-2-3) node[pos=0.5, below]{$Df$};
+				\end{tikzpicture}
+				\caption{Component of cone over $D$.}
+				\label{fig:cone_component}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						a\vphantom{b}\&\&b\\
+						\&Di\&\\
+					};
+					\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$\psi_i$};
+					\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\phi_i$};
+					\draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$f$};
+				\end{tikzpicture}
+				\caption{Morphism of cones.}
+				\label{fig:cone_morphism}
+			\end{subfigure}
+			\label{fig:cone}
+		\end{figure}
+	}
+	\begin{adefinition}\index{diagonal!functor}
+		This definition can be reformulated by defining an additional functor\footnote{The notation $\Delta_a$ tells us that $\Delta:C\rightarrow [J,C]$ is the \textbf{diagonal functor}, i.e. $\Delta(c)$ is the constant functor from $I$ to $C$ with target object $c$.} $\Delta_a:I\rightarrow C$ which maps every element $i\in\ob(I)$ to $a$ and every morphism $g\in\text{hom}(I)$ to $\mathbbm{1}_a$. The morphisms $\psi_c$ can then be seen as the components of a natural transformation $\psi:\Delta_a\implies D$. Hence a cone $(a, \psi)$ is an element of $\text{hom}_{[I, C]}(\Delta_a, D)$.
+	\end{adefinition}
+
+	\newdef{Morphism of cones}{\index{morphism!of cones}
+		Let $D:I\rightarrow C$ be a diagram and let $(a, \psi), (b, \phi)$ be cones to $D$. A morphism between these cones is a morphism of the apexes $f:a\rightarrow b$ such that the diagrams of the form \ref{fig:cone_morphism} commute for all $i\in\ob(I)$. The cones to $D$ together with these morphisms form a category Cone$(D)$, in fact this can easily be seen to be the comma category $(\Delta \downarrow D)$.
+	}
+	
+	\newdef{Limit}{\index{limit}
+		Consider a diagram $D:I\rightarrow C$. The limit $\lim D$ of this diagram, if it exists, is the terminal object of the category Cone$(D)$.
+	}
+	This definition gives us following universal property:
+	\begin{uproperty}
+		Let $D:I\rightarrow C$ be a diagram and let $\lim D$ be its limit. For every cone $(a, \psi)\in\text{Cone}(D)$ there exists a unique morphism $f:C\rightarrow\lim D$.
+	\end{uproperty}
 
 \subsection{Higher category theory}\label{cat:higher_category_theory}
 

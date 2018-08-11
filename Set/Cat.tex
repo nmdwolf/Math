@@ -44,6 +44,10 @@
 	        The associativity and identity morphisms from ordinary categories are given by commutative diagrams of the id and $\circ$ morphisms together with the associators and unitors in $M$.
 	}
 	
+	\newdef{Skeletal category}{\index{category!skeletal}
+		A category is said to be skeletal if isomorphic objects are identical, i.e. every isomorphism is an identity morphism. The \textbf{skeleton} of a category is an equivalent skeletal category (often taken to be a subcategory).
+	}
+	
 \subsection{Morphisms}
 
 	\newdef{Monomorphism}{\index{monomorphism}
@@ -264,6 +268,143 @@
 	\begin{uproperty}
 		Let $D:I\rightarrow C$ be a diagram and let $\lim D$ be its limit. For every cone $(a, \psi)\in\text{Cone}(D)$ there exists a unique morphism $f:C\rightarrow\lim D$.
 	\end{uproperty}
+
+\subsection{Monoidal categories}
+
+	\newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}\index{structure!morphisms}
+		Let $(C, \otimes, \mathbf{1}_C), (D, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $F:C\rightarrow D$ is said to be monoidal if there exists:
+		\begin{itemize}
+			\item A natural isomorphism $\psi_{a, b}: F(a)\circledast F(b)\implies F(a\otimes b)$ such that the following diagram commutes:
+			\begin{figure}[ht!]
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						(Fa\circledast Fb)\circledast Fc\&Fa\circledast(Fb\circledast Fc)\\
+						F(a\otimes b)\circledast Fc\&Fa\circledast F(b\otimes c)\\
+						F\Big((a\otimes b)\otimes c\Big)\&F\Big(a\otimes (b\otimes c)\Big)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\alpha_D$};
+					\draw[->] (m-3-1) -- (m-3-2) node[pos=0.5, below]{$F\alpha_C$};
+					
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\psi_{a, b}\circledast\mathbbm{1}$};
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\psi_{a\otimes b, c}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\mathbbm{1}\circledast\psi_{b, c}$};
+					\draw[->] (m-2-2) -- (m-3-2) node[pos=0.5, right]{$\psi_{a, b\otimes c}$};
+				\end{tikzpicture}
+			\end{figure}
+
+			\item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$.
+		\end{itemize}
+	}
+	\remark{The morphisms $\psi_{a, b}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
+	
+	\begin{property}
+		For every monoidal functor $F$ there exists a canonical isomorphism $\phi:\mathbf{1}_D\rightarrow F\mathbf{1}_C$ defined by following commutative diagram:
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+					\mathbf{1}_D\circledast F\mathbf{1}_C\&F\mathbf{1}_C\\
+					F\mathbf{1}_C\circledast F\mathbf{1}_C\&F(\mathbf{1}_C\otimes\mathbf{1}_C)\\
+				};
+				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_D$};
+				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\psi_{\mathbf{1}_C, \mathbf{1}_C}$};
+			
+				\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi\circledast\mathbbm{1}$};
+				\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F\lambda_C$};
+			\end{tikzpicture}
+		\end{figure}
+		
+		This isomorphism also makes following two diagrams commute for all $X\in\ob(C)$:
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						Fa\circledast\mathbf{1}_D\&Fa\circledast F\mathbf{1}_C\\
+						Fa\&F(a\otimes\mathbf{1}_C)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\mathbbm{1}\circledast\phi$};
+					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F\rho_C$};
+				
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\rho_D$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{a, \mathbf{1}_C}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						\mathbf{1}_D\circledast Fb\&F\mathbf{1}_C\circledast Fb\\
+						Fb\&F(\mathbf{1}_C\otimes b)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\phi\circledast\mathbbm{1}$};
+					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F\lambda_C$};
+				
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\lambda_D$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{\mathbf{1}_C, b}$};
+				\end{tikzpicture}
+			\end{subfigure}
+		\end{figure}
+	\end{property}
+	
+	\newdef{Lax monoidal functor}{\index{lax!monoidal functor}
+		A lax monoidal functor is defined as a monoidal functor for which the coherence maps are merely morphisms and not isomorphisms.
+	}
+	\begin{notation}
+		A (lax) monoidal functor $F$ together with its coherence maps $\psi_{a, b}$ and $\phi$ is sometimes denoted by the triple $(F, \phi, \psi)$ or just $(F, \psi)$.
+	\end{notation}
+	
+	\newdef{Monoidal natural transformation}{
+		A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma, \psi_G)$ is said to be (lax) monoidal if it makes the following diagrams commute:
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						\&\mathbf{1}_D\&\\
+						F\mathbf{1}_C\&\&G\mathbf{1}_C\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\phi_F$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\phi_G$};
+					\draw[->] (m-2-1) -- (m-2-3) node[pos=0.5, below]{$\eta_{\mathbf{1}_C}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						Fa\circledast Fb\&F(a\otimes b)\\
+						Ga\circledast Gb\&G(a\otimes b)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\psi_{a, b}$};
+					\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\sigma_{a, b}$};
+				
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\eta_a\circledast\eta_b$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\eta_{a\otimes b}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\caption{Monoidal natural transformation.}
+			\label{fig:monoidal_natural_transformation}
+		\end{figure}
+	}
+	
+	\newdef{Monoidal equivalence}{\index{monoidal!equivalence}
+		Two monoidal categories $C, D$ are monoidally equivalent if there exist monoidal functors $F:C\rightarrow D$ and $G:D\rightarrow C$ such that there exist monoidal natural isomorphisms $\eta:\mathbbm{1}_C\implies G\circ F$ and $\varepsilon:F\circ G\implies\mathbbm{1}_D$.
+	}
+
+	\newdef{Strict monoidal category}{
+		A monoidal category is called strict if the associator $\alpha$ and the unitors $\lambda,\rho$ are identity morphisms.
+	}
+
+	\begin{theorem}[MacLane's strictness theorem]
+		Every monoidal category is monoidally equivalent to a strict monoidal category.
+	\end{theorem}
+	\begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
+		Let $C, D$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\implies G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
+	\end{theorem}	
 
 \subsection{Higher category theory}\label{cat:higher_category_theory}
 

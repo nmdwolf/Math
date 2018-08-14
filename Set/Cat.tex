@@ -32,7 +32,7 @@
 	\end{property}
 	
 	\newdef{Enriched category}{\index{category!enriched}
-	        Let $(M, \otimes)$ be a monoidal category. An enriched category over $M$, also called an $M$-category, consists of following elements:
+	        Let $(M, \otimes, \mathbf{1})$ be a monoidal category. An enriched category over $M$, also called an $M$-category, consists of following elements:
 	        \begin{itemize}
 	                \item A collection of objects ob$(C)$.
 	                \item For every pair of object $A, B\in\ob(C)$ there is an object $C(A, B)\in\ob(M)$ for which the following morphisms exist:
@@ -210,6 +210,13 @@
 	\begin{property}
 		If an initial (resp. terminal) object exists, then it is unique (possibly up to isomorphism).
 	\end{property}
+	
+	\newdef{Zero object}{\index{zero!object}\label{cat:zero_object}
+		An object which is both initial and terminal. The zero object is often denoted by $\mathbf{0}$.
+	}
+	\begin{property}[Zero morphism]
+		From the definition of the zero object it follows that for any two objects $a, b$ there exists a unique morphism $0_{ab}:a\rightarrow b$.
+	\end{property}
 
 \subsection{Limits and products}
 
@@ -268,8 +275,153 @@
 	\begin{uproperty}
 		Let $D:I\rightarrow C$ be a diagram and let $\lim D$ be its limit. For every cone $(a, \psi)\in\text{Cone}(D)$ there exists a unique morphism $f:C\rightarrow\lim D$.
 	\end{uproperty}
+	
+	\newdef{Equalizer}{\index{equalizer}
+		Consider following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is an object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$ and such that $E$ satisfies a universal property.
+	}
+	\begin{property}
+		Consider an equalizer $(E, e)$. The morphism equalizing morphism $e$ is a monomorphism.
+	\end{property}
+	
+	\newdef{Finitely complete category}{\index{finitely!complete}
+		A category is said to be finitely complete if all equalizers and all finite products exist.
+	}
+	
+	\newdef{Pullback\footnotemark}{\index{pullback}
+		\footnotetext{Also called a \textbf{fibre product} or \textbf{Cartesian square}.}
+		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is defined as the limit of following diagram:
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+					a\&\&b\\
+					\&c\&\\
+				};
+				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$f$};
+				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$g$};
+			\end{tikzpicture}
+			\caption{Pullback of morphisms.}
+			\label{fig:pullback_diagram}
+		\end{figure}
+	}
+	\begin{notation}[Pullback]
+		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is often denoted by $P = a\times_c b$.
+	\end{notation}
+	
+	\begin{property}
+		If a terminal object $\mathbf{1}$ exists then the pullback $a\times_{\mathbf{1}}b$ is equal to the product $a\times b$.
+	\end{property}
+	\newdef{Pushout}{\index{pushout}
+		The dual notion of a pullback.
+	}
+
+\subsection{Abelian categories}
+
+	\newdef{Preadditive category}{
+		A (locally small) category enriched over Ab, i.e. every hom-set is an Abelian group and composition is bilinear.
+	}
+	
+	\begin{property}\index{zero!object}
+		Let $A$ be a preadditive category and let $x\in\ob(A)$. The following statements are equivalent:
+		\begin{itemize}
+			\item $x$ is an initial object.
+			\item $x$ is a final object.
+			\item $\mathbbm{1}_x$ = 0
+		\end{itemize}
+		Any initial/terminal object is hence a zero object\footnote{See definition \ref{cat:zero_object}.}.
+	\end{property}
+	\begin{property}
+		In a preadditive category the finite products $\prod_{i\in J}x_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in J} x_i$ (these are called \textbf{direct sums}). If a product $x\times y$ exists then so does the coproduct $x\sqcup y$ and if the coproduct exists then so does the product.
+	\end{property}
+	
+	\newdef{Additive category}{
+		A preadditive category in which all finite products (and hence coproducts) exist.
+	}
+	
+	In a preadditive category one can define the classical notions from algebra such as images and kernels:
+	\newdef{Kernel}{\index{kernel}
+		Let $f:x\rightarrow y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:z\rightarrow x$ such that:
+		\begin{itemize}
+			\item $f\circ k = 0$
+			\item Universal property: for every other morphism $k':z'\rightarrow x$ there exists a unique morphism $h:z'\rightarrow z$ such that $k\circ h = k'$.
+		\end{itemize}
+	}
+	\begin{notation}[Kernel]
+		If the kernel of $f:x\rightarrow y$ exists then it is denoted by Ker$(f)\rightarrow x$.
+	\end{notation}
+	
+	\newdef{Cokernel}{
+		Let $f:x\rightarrow y$ be a morphism. A cokernel is a morphism $p:y\rightarrow z$ such that:
+		\begin{itemize}
+			\item $p\circ f = 0$
+			\item Universal property: for every other morphism $p':y\rightarrow z'$ there exists a unique morphism $h:z\rightarrow z'$ such that $h\circ p = p'$.
+		\end{itemize}
+	}
+	\begin{notation}[Kernel]
+		If the cokernel of $f:x\rightarrow y$ exists then it is denoted by $y\rightarrow\text{Coker}(f)$.
+	\end{notation}
+	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by the Yoneda lemma the morphism \[\text{Ker}(f)\rightarrow x\] represents the functor \[F:z\mapsto\ker\Big(\hom_C(z, x)\rightarrow\hom_C(z, y)\Big)\]}
 
 \subsection{Monoidal categories}
+
+	\newdef{Monoidal category\footnotemark}{\index{category!monoidal}\index{category!tensor}\index{tensor!product}
+		\footnotetext{Sometimes called a \textbf{tensor} category.}
+		A category $C$ equipped with a bifunctor \[-\otimes -:C\times C\rightarrow C\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms
+		\begin{itemize}
+			\item \textbf{Associator}: $\alpha_{a, b, c}:(a\otimes b)\otimes c\cong a\otimes(b\otimes c)$
+			\item \textbf{Left unitor}: $\lambda_a:\mathbf{1}\otimes a\cong a$
+			\item \textbf{Right unitor}: $\rho_a: a\otimes\mathbf{1}\cong a$
+		\end{itemize}
+		such that the following diagrams commute:
+		
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
+					(a\otimes\mathbf{1})\otimes b\&\&a\otimes(\mathbf{1}\otimes b)\\
+					\&a\otimes b\&\\
+				};
+				
+				\draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$\alpha_{a, \mathbf{1}, b}$};
+				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$\rho_a\otimes\mathbbm{1}$};
+				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\mathbbm{1}\otimes\lambda_b$};
+			\end{tikzpicture}
+			\caption{Triangle diagram.}
+			\label{fig:triangle_diagram}
+		\end{figure}
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=0.2em,minimum width=1em, ampersand replacement=\&]{
+					\&((a\otimes b)\otimes c)\otimes d\&\&(a\otimes (b\otimes c))\otimes d\&\\
+					(a\otimes b)\otimes(c\otimes d)\&\&\&\&a\otimes((b\otimes c)\otimes d)\\
+					\&\&a\otimes(b\otimes (c\otimes d))\&\&\\
+				};
+				
+				\draw[->] (m-1-2) -- (m-1-4) node[pos=0.5, above]{$\alpha_{a, b, c}\otimes\mathbbm{1}$};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\alpha_{a\otimes b, c, d}$};
+				\draw[->] (m-2-1) -- (m-3-3) node[pos=0.5, below left]{$\alpha_{a, b, c\otimes d}$};
+				\draw[->] (m-1-4) -- (m-2-5) node[pos=0.5, above right]{$\alpha_{a, b\otimes c, d}$};
+				\draw[->] (m-2-5) -- (m-3-3) node[pos=0.5, below right]{$\mathbbm{1}\otimes\alpha_{b, c, d}$};
+			\end{tikzpicture}
+			\caption{Pentagon diagram.}
+			\label{fig:pentagon_diagram}
+		\end{figure}
+	}
+	\begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
+		Let $C, D$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\implies G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
+	\end{theorem}
+
+	\newdef{Closed monoidal category}{
+		A monoidal category $(C, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $b\in\ob(C)$ there exists a a right adjoint to the tensor product functor $-\otimes b:C\rightarrow C$, i.e.:
+		\begin{equation}
+			\forall a, c\in\ob(C):\exists b\Rightarrow c\in\ob(C):\hom_C(a\otimes b, c)\cong\hom_C(a, b\Rightarrow c)
+		\end{equation}
+		where the isomorphism is natural in $a, c\in\ob(C)$.
+	}
+	\begin{example}
+		Every Cartesian closed category is closed monoidal where the monoidal structure is given by the Cartesian product. The internal Hom functor is given by the exponential object.
+	\end{example}
 
 	\newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}\index{structure!morphisms}
 		Let $(C, \otimes, \mathbf{1}_C), (D, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $F:C\rightarrow D$ is said to be monoidal if there exists:
@@ -398,13 +550,55 @@
 	\newdef{Strict monoidal category}{
 		A monoidal category is called strict if the associator $\alpha$ and the unitors $\lambda,\rho$ are identity morphisms.
 	}
-
 	\begin{theorem}[MacLane's strictness theorem]
 		Every monoidal category is monoidally equivalent to a strict monoidal category.
 	\end{theorem}
-	\begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
-		Let $C, D$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\implies G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
-	\end{theorem}	
+	
+	\newdef{Dual object}{\index{dual!object}
+		Let $(C, \otimes, \mathbf{1})$ be a monoidal category and let $a\in\ob(C)$. A left dual $a^*$ of $a$ is an object in $C$ together with two morphisms $\eta:\mathbf{1}\rightarrow a\otimes a^*$ and $\varepsilon:a^*\otimes a\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and {evaluation} morphisms.}, such that the following diagrams commute:
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&\&a\&\&\\
+					\mathbf{1}\otimes a\&\&\&\&a\otimes\mathbf{1}\\
+					\&(a\otimes a^*)\otimes a\&\&a\otimes(a^*\otimes a)\&\\
+				};
+				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\lambda$};
+				\draw[->] (m-2-1) -- (m-3-2) node[pos=0.5, below left]{$\eta\otimes\mathbbm{1}$};
+				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha$};
+				\draw[->] (m-3-4) -- (m-2-5) node[pos=0.5, below right]{$\mathbbm{1}\otimes\varepsilon$};
+				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\rho$};
+			\end{tikzpicture}
+		\end{figure}
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&\&a^*\&\&\\
+					a^*\otimes\mathbf{1}\&\&\&\&\mathbf{1}\otimes a^*\\
+					\&a^*\otimes(a\otimes a^*)\&\&(a^*\otimes a)\otimes a^*\&\\
+				};
+				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\rho$};
+				\draw[->] (m-2-1) -- (m-3-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\eta$};
+				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha^{-1}$};
+				\draw[->] (m-3-4) -- (m-2-5) node[pos=0.5, below right]{$\varepsilon\otimes\mathbbm{1}$};
+				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\lambda$};
+			\end{tikzpicture}
+		\end{figure}
+		If the object $a^*$, together with the morphisms $\eta, \varepsilon$, exists then $a^*$ is called the \textbf{left dual}\footnote{Analogously, $a$ is called the \textbf{right dual} of $a^*$.} of $a$ and $a$ is said to be \textbf{dualizable}.
+	}
+	\begin{property}
+		In a braided monoidal category the left and right duals of an object coincide.
+	\end{property}
+	
+	\newdef{Rigid category\footnotemark}{\index{category!rigid}\index{category!autonomous}
+		\footnotetext{Also called an \textbf{autonomous category}.}
+		A monoidal category in which all duals exist. If only left (resp. right) duals exist then the category is said to be left (resp. right) rigid.
+	}
+	\newdef{Compact closed category}{\index{category!compact closed}
+		A symmetric rigid category is also called a compact closed category.
+	}
 
 \subsection{Higher category theory}\label{cat:higher_category_theory}
 

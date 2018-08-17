@@ -115,6 +115,20 @@
 	}
 	\remark{A contravariant functor can also be defined as a covariant functor from the opposite category.}
 	
+	\newdef{Dagger category\footnotemark}{\index{category!dagger}\label{cat:dagger_category}\index{involution}
+		\footnotetext{Also called a \textbf{$\dag$-category}.}
+		A category equipped with a contravariant endofunctor, i.e. a functor $\dag:C^{op}\rightarrow C$, such that:
+		\begin{itemize}
+			\item $\forall a\in\ob(C): \mathbbm{1}_a^\dag = \mathbbm{1}_a$
+			\item $\dag\circ\dag = \mathbbm{1}_C$
+		\end{itemize}
+		The second property says that $\dag$ is an \textbf{involutive} functor.
+	}
+	\remark{The concept of a dagger structure allows the usual definition of unitary and self-adjoint morphisms.}
+	\begin{property}
+		The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid}.}.
+	\end{property}
+	
 	\newdef{Faithful functor}{\index{faithful}
 		A functor $F:C\rightarrow D$ is said to be faithful if the map hom$_C(X, Y)\rightarrow \text{hom}_D(FX, FY)$ is injective for all objects $X, Y\in\ob(C)$.
 	}
@@ -217,11 +231,18 @@
 	\begin{property}[Zero morphism]
 		From the definition of the zero object it follows that for any two objects $a, b$ there exists a unique morphism $0_{ab}:a\rightarrow b$.
 	\end{property}
+	
+	\newdef{Global element}{\index{global!element}
+		Let $C$ be a category with terminal object $\mathbf{1}$. A global element of an object $x\in\ob(C)$ is a morphism $\mathbf{1}\rightarrow x$.
+	}
+	\begin{example}
+		In the category Set a global element coincides with the usual notion of \textit{element}.
+	\end{example}
 
-\subsection{Limits and products}
+\subsection{Diagrams and limits}
 
 	\newdef{Diagram}{\index{diagram}
-		Let $I, C$ be two categories. A diagram in $C$ with index category $I$ is a covariant functor $D:I\rightarrow C$.
+		Let $I, C$ be two categories. A diagram in $C$ with index category $I$ is a (covariant) functor $D:I\rightarrow C$.
 	}
 	
 	\newdef{Cone}{\index{cone}
@@ -232,7 +253,7 @@
 			\begin{subfigure}[b]{0.49\textwidth}
 				\centering
 				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+					\matrix (m) [matrix of math nodes,row sep=3em,column sep=3em, minimum width=1em, ampersand replacement=\&]{
 						\&a\&\\
 						Di\vphantom{(}\&\&Df(i)\\
 					};
@@ -246,7 +267,7 @@
 			\begin{subfigure}[b]{0.49\textwidth}
 				\centering
 				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+					\matrix (m) [matrix of math nodes,row sep=3em,column sep=3em, minimum width=1em, ampersand replacement=\&]{
 						a\vphantom{b}\&\&b\\
 						\&Di\&\\
 					};
@@ -293,15 +314,13 @@
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
 					a\&\&b\\
 					\&c\&\\
 				};
 				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$f$};
 				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$g$};
 			\end{tikzpicture}
-			\caption{Pullback of morphisms.}
-			\label{fig:pullback_diagram}
 		\end{figure}
 	}
 	\begin{notation}[Pullback]
@@ -314,6 +333,28 @@
 	\newdef{Pushout}{\index{pushout}
 		The dual notion of a pullback.
 	}
+	
+	\newdef{Span}{\index{span}
+		A span in a category $C$ is a diagram of the form \ref{fig:cat_span}.
+		
+		Let $\Lambda$ be the category with three objects $\{-1, 0, 1\}$ and two morphisms $i:0\rightarrow -1$ and $j:0\rightarrow 1$. By the above definition of a diagram a span in $C$ is equivalent to a functor $S:\Lambda\rightarrow C$.
+		\begin{figure}[!ht]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&s\&\\
+					x\&\&y\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$f$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$g$};
+			\end{tikzpicture}
+			\caption{Span (category theory).}
+			\label{fig:cat_span}
+		\end{figure}
+	}
+	\begin{property}
+		If $C$ is a category with pullbacks, the category Span$_1(C)$, consisting of spans in $C$ as objects and isomorphism classes of spans as morphisms, is a $\dag$-category.
+	\end{property}
 
 \subsection{Abelian categories}
 
@@ -366,7 +407,7 @@
 
 	\newdef{Monoidal category\footnotemark}{\index{category!monoidal}\index{category!tensor}\index{tensor!product}
 		\footnotetext{Sometimes called a \textbf{tensor} category.}
-		A category $C$ equipped with a bifunctor \[-\otimes -:C\times C\rightarrow C\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms
+		A category $C$ equipped with a bifunctor \[-\otimes -:C\times C\rightarrow C\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms, called the \textbf{coherence maps}:
 		\begin{itemize}
 			\item \textbf{Associator}: $\alpha_{a, b, c}:(a\otimes b)\otimes c\cong a\otimes(b\otimes c)$
 			\item \textbf{Left unitor}: $\lambda_a:\mathbf{1}\otimes a\cong a$
@@ -411,6 +452,71 @@
 	\begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
 		Let $C, D$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\implies G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
 	\end{theorem}
+	
+	\newdef{Braided monoidal category}{\index{braiding}
+		Let $(C, \otimes, \mathbf{1})$ be a monoidal category. $C$ is called a braided monoidal category if it comes equipped with a natural isomorphism \[\sigma_{a, b}:a\otimes b\cong b\otimes a\]
+		such that the following two hexagon diagrams commute:
+		
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
+						\&(a\otimes b)\otimes c\&\\
+						(b\otimes a)\otimes c\&\&a\otimes(b\otimes c)\\
+						b\otimes (a\otimes c)\&\&(b\otimes c)\otimes a\\
+						\&b\otimes(c\otimes a)\&\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{a, b}\otimes\mathbbm{1}$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{a, b, c}$};
+					
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{b, a, c}$};
+					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{a, b\otimes c}$};
+					
+					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{c, a}$};
+					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{b, c, a}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
+						\&a\otimes(b\otimes c)\&\\
+						a\otimes(c\otimes b)\&\&(a\otimes b)\otimes c\\
+						(a\otimes c)\otimes b\&\&c\otimes(a\otimes b)\\
+						\&(c\otimes a)\otimes b\&\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{b, c}$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{a, b, c}$};
+					
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{a, c, b}$};
+					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{a\otimes b,c}$};
+					
+					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{a, c}\otimes b$};
+					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{c, a, b}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\caption{Hexagon diagrams.}
+			\label{fig:hexagon_diagrams}
+		\end{figure}
+		
+		The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
+	}
+	\begin{property}\index{Yang-Baxter equation}
+		The braiding $\sigma_{a, a}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $a, b, c\in\ob(C)$:
+		\begin{equation}
+			(\sigma_{b, c}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{a, c})\circ(\sigma_{a, b}\otimes\mathbbm{1}) = (\mathbbm{1}\otimes\sigma_{a, b})\circ(\sigma_{a, c}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{b, c})
+		\end{equation}
+	\end{property}
+	\remark{When drawing the above equality using string diagrams one sees that the Yang-Baxter equation is equal to the invariance of string diagrams under a Reidemeister III move.}
+
+	\newdef{Symmetric monoidal category}{
+		A braided monoidal category where the braiding $\sigma$ satisfies:
+		\begin{equation}
+			\sigma_{x, y} \circ \sigma_{y, x} = \mathbbm{1}
+		\end{equation}
+	}
 
 	\newdef{Closed monoidal category}{
 		A monoidal category $(C, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $b\in\ob(C)$ there exists a a right adjoint to the tensor product functor $-\otimes b:C\rightarrow C$, i.e.:
@@ -555,7 +661,7 @@
 	\end{theorem}
 	
 	\newdef{Dual object}{\index{dual!object}
-		Let $(C, \otimes, \mathbf{1})$ be a monoidal category and let $a\in\ob(C)$. A left dual $a^*$ of $a$ is an object in $C$ together with two morphisms $\eta:\mathbf{1}\rightarrow a\otimes a^*$ and $\varepsilon:a^*\otimes a\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and {evaluation} morphisms.}, such that the following diagrams commute:
+		Let $(C, \otimes, \mathbf{1})$ be a monoidal category and let $a\in\ob(C)$. A left dual $a^*$ of $a$ is an object in $C$ together with two morphisms $\eta:\mathbf{1}\rightarrow a\otimes a^*$ and $\varepsilon:a^*\otimes a\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and \textbf{evaluation} morphisms.}, such that the following diagrams commute:
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
@@ -599,6 +705,31 @@
 	\newdef{Compact closed category}{\index{category!compact closed}
 		A symmetric rigid category is also called a compact closed category.
 	}
+	
+	\newdef{Symmetric monoidal dagger category}{\index{category!dagger}
+		A monoidal category $(C, \otimes)$ which also carries the structure of a dagger category\footnote{See definition \ref{cat:dagger_category}.} such that:
+		\begin{equation}
+			(f\otimes g)^\dag = f^\dag\otimes g^\dag
+		\end{equation}
+		and such that the coherence and braiding morphisms are unitary.
+	}
+	\newdef{Dagger-compact category}{
+		A symmetric monoidal dagger category which is also a compact closed category such that the following diagram commutes:
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&\mathbf{1}\&\\
+					a^*\otimes a\&\&a\otimes a^*\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\eta$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\varepsilon^\dag$};
+				\draw[->] (m-2-3) -- (m-2-1) node[pos=0.5, below]{$\sigma_{a, a^*}$};
+			\end{tikzpicture}
+			\caption{Dagger-compact category.}
+			\label{fig:dagger_compact_category}
+		\end{figure}
+	}
 
 \subsection{Higher category theory}\label{cat:higher_category_theory}
 
@@ -634,7 +765,7 @@
 
 \subsection{Groupoids}
 
-	\newdef{Groupoid}{\index{groupoid}
+	\newdef{Groupoid}{\index{groupoid}\label{cat:groupoid}
 		A groupoid $\mathcal{G}$ is a small category in which all morphisms are invertible.
 	}
 	

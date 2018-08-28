@@ -347,7 +347,7 @@
 	    	\footnotetext{Also Borel-Lebesgue.}
 	    	If a topological space $X$ is sequentially compact and second-countable then every open cover has a finite subcover. This implies that $X$ is compact.
 	\end{theorem}
-	\begin{theorem}[Heine-Borel on $\mathbb{R}^n$]
+	\begin{theorem}[Heine-Borel on real numbers]
     		A subset of $\mathbb{R}^n$ is compact if and only if it is closed and bounded.
 	\end{theorem}
 	
@@ -453,8 +453,11 @@
 	In this subsection we will always assume to be working with pointed spaces \ref{topology:pointed_space}. The base point will be denoted by $x_0$.
 	
 	\newdef{Loop space}{\index{loop}
-		\nomenclature[S_zsymOmega]{$\Omega X$}{Loop space over $X$.}
-		The set of all \textbf{loops} in $X$, i.e. all continuous functions $\delta:[0, 1]\rightarrow X$ for which $\delta(0) = \delta(1)$. It is denoted by $\Omega X$. This set can be equipped with a multiplication operation corresponding to the concatenation of loops\footnote{It should be noted that the speed at which the concatenated loops are traversed is doubled because the parameter $t$ should remain an element of $[0, 1]$.}.
+		\nomenclature[S_zsymOmega]{$\Omega X$}{(Based) loop space on $X$.}
+		\nomenclature[S_LX]{$LX$}{Free loop space on $X$.}
+		The set of all \textbf{loops} in a pointed topological space $(X, \ast)$, i.e. all continuous maps\footnote{The mapping space is equipped with the compact-open topology.} $\delta:(S^1, t_0)\rightarrow (X, \ast)$ for which $\delta(t_0) = \ast$. It is denoted by $\Omega X$. This set can be equipped with a multiplication operation corresponding to the concatenation of loops\footnote{It should be noted that the speed at which the concatenated loops are traversed is doubled because the parameter $t$ should remain an element of $S^1\cong[0, 1]/_{0\sim1}$.}.
+		
+		When one drops the requirement of based loops, i.e. one considers the space of all continuous maps $S^1\rightarrow X$, the resulting space is called the \textbf{free loop space} on $X$. This object is denoted by $LX$.
 	}
 	
 	\newdef{Fundamental group}{\index{group!fundamental}
@@ -535,7 +538,7 @@
 	\end{property}
 	
 	We give two important examples:
-	\begin{example}[Hopf fibration]\index{Hopf}
+	\begin{example}[Hopf fibration]\index{Hopf!fibration}
 		The Hopf fibration is given by
 		\begin{equation}
 			\prin{S^1}{S^3}{S^2}
@@ -548,3 +551,21 @@
 			\prin{\text{SO}(n)}{\text{SO}(n+1)}{S^n}
 		\end{equation}
 	\end{example}
+	
+\section{Diffeological spaces}
+
+	\newdef{Diffeological space}{\index{diffeological space}\index{plot}\label{topology:diffeological_space}
+		Let $X$ be a set. A diffeology $\mathcal{D}$ on $X$ is defined as a collection of maps $f:U\subseteq\mathbb{R}^n\rightarrow X$, called \textbf{plots}, satisfying the following conditions:
+		\begin{itemize}
+			\item If $f$ is constant then $f\in\mathcal{D}$.
+			\item If every point in $\dom(f)$ has a neighbourhood $V$ on which $f|_V\in\mathcal{D}$ then $f\in\mathcal{D}$.
+			\item If $g\in\mathcal{D}$ and $h:W\subseteq\mathbb{R}^m\rightarrow\dom(g)$ is smooth then $g\circ h\in\mathcal{D}$.
+		\end{itemize}
+		where $U, V$ and $W$ are open. The set $X$ can be turned into a topological space by equipping it with the \textbf{D-topology}, i.e. the final topology with respect to $\mathcal{D}$.
+	}
+	\remark{The domain of different plots can be subsets of different Euclidean spaces $\mathbb{R}^m$ and $\mathbb{R}^n$.}
+	\newdef{Differentiable map}{\index{differentiable}
+		Let $(X, \mathcal{D})$ and $(Y, \mathcal{D}')$ be diffeological spaces. A map $g:X\rightarrow Y$ is said to be differentiable if for every $f\in\mathcal{D}$ the composition $g\circ f\in\mathcal{D}'$.
+		
+		The diffeological spaces together with their differentiable morphisms form a category DiffeologicalSp.
+	}

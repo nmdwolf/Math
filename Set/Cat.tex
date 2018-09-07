@@ -6,9 +6,9 @@
 	\newdef{Subcategory}{\index{full!subcategory}
 		Let $C$ be a category. A subcategory $S$ of $C$ consists of a subcollection of objects ob$_S$ and a subcollection of morphisms hom$_S$ that satisfy following conditions:
 		\begin{itemize}
-			\item For every object in ob$_S$ the identity morphism is in hom$_S$.
-			\item For every morphism in hom$_S$ both the source and target are in ob$_S$.
-			\item For every pair of morphisms in hom$_S$ the composition is also in hom$_S$.
+			\item For every object in ob$_S$ the identity morphism is an element of hom$_S$.
+			\item For every morphism in hom$_S$ both the source and target are elements of ob$_S$.
+			\item For every pair of morphisms in hom$_S$ the composition is also an element of hom$_S$.
 		\end{itemize}
 		A subcategory is said to be \textbf{full} if for every two objects $X, Y\in\ob_S:$
 		\begin{equation}
@@ -18,6 +18,8 @@
 	
 	\newdef{Small category}{\index{small}
 		A category $C$ is said to be small if both ob$(C)$ and hom$(C)$ are sets. A category $C$ is said to be locally small if for every two objects $X, Y\in\ob(C)$ the collection of morphisms hom$_C(X, Y)$ is a set.
+		
+		A category equivalent to a small category is said to be \textbf{essentially small}.
 	}
 	
 	\newdef{Opposite categopy}{
@@ -31,6 +33,10 @@
 		i.e. $op$ is an involution.
 	\end{property}
 	
+	\newdef{Skeletal category}{\index{category!skeletal}
+		A category is said to be skeletal if isomorphic objects are identical, i.e. every isomorphism is an identity morphism. The \textbf{skeleton} of a category is an equivalent skeletal category (often taken to be a subcategory).
+	}
+	
 	\newdef{Enriched category}{\index{category!enriched}
 	        Let $(M, \otimes, \mathbf{1})$ be a monoidal category. An enriched category over $M$, also called an $M$-category, consists of following elements:
 	        \begin{itemize}
@@ -38,15 +44,31 @@
 	                \item For every pair of object $A, B\in\ob(C)$ there is an object $C(A, B)\in\ob(M)$ for which the following morphisms exist:
 	                \begin{itemize}
 	                        \item id$_A: \mathbf{1}\rightarrow C(A,A)$
-	                        \item $\circ_{ABC}:C(B, C)\otimes C(A, B)\rightarrow C(A, C)$ replacing the usual composition  
+	                        \item $\circ_{ABC}:C(B, C)\otimes C(A, B)\rightarrow C(A, C)$ replacing the usual composition
 	                \end{itemize}
 	        \end{itemize}
 	        The associativity and identity morphisms from ordinary categories are given by commutative diagrams of the id and $\circ$ morphisms together with the associators and unitors in $M$.
 	}
 	
-	\newdef{Skeletal category}{\index{category!skeletal}
-		A category is said to be skeletal if isomorphic objects are identical, i.e. every isomorphism is an identity morphism. The \textbf{skeleton} of a category is an equivalent skeletal category (often taken to be a subcategory).
+	\newdef{Internal category}{\label{cat:internal_category}
+		Let $C$ be a category. A category $D$ internal to $C$ consists of following objects:
+		\begin{itemize}
+			\item An object $D_0\in\ob(C)$ of objects.
+			\item An object $D_1\in\ob(C)$ of morphisms.
+			\item Source and target morphisms $s, t\in\text{hom}_C(D_1, D_0)$.
+			\item An identity-assigning morphism $e\in\text{hom}_C(D_0, D_1)$ such that \[s\circ e = \mathbbm{1}_{D_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{D_0}\]
+			\item A composition morphism $c:D_1\times_{D_0}D_1\rightarrow D_1$ such that the following equations hold:
+			\begin{align*}
+				s\circ c = s\circ\pi_1\qquad\qquad&\qquad\qquad t\circ c = t\circ\pi_2\\
+				\pi_1 = c\circ(e\times_{D_0}\mathbbm{1})\qquad\qquad&\qquad\qquad c\circ(\mathbbm{1}\times_{D_0}e)=\pi_2\\
+				c\circ(c\times_{D_0}\mathbbm{1}) &= c\circ(\mathbbm{1}\times_{D_0}c)
+			\end{align*}
+			where $\pi_1, \pi_2$ are the canonical projections associated with the pullback\footnote{See definition \ref{cat:pullback}.} $D_1\times_{D_0}D_1$.
+		\end{itemize}		
 	}
+	\begin{remark}
+		To make the above definition work it is required that all pullbacks of the source and target morphisms exist.
+	\end{remark}
 	
 \subsection{Morphisms}
 
@@ -104,6 +126,10 @@
 	\newdef{Generator\footnotemark}{\index{generator}\label{cat:generator}
 		\footnotetext{Also called a \textbf{separator}.}
 		Let $C$ be a category. A collection of objects $\{o_i\in\ob(C)\}_{i\in I}$ is called a collection of generators for $C$ if given any two objects $a, b\in\ob(C)$ and any two morphisms $f, g:a\rightarrow b$ we have that $f\neq g\implies\exists j\in I, h_j\in\hom_C(o_i, a): f\circ h_j\neq g\circ h_j$.
+	}
+	
+	\newdef{Decategorification}{
+		Let $C$ be a (essentially) small category. The set of isomorphism classes of $C$ is called the decategorification of $C$. This is given by a functor \[K:\text{Cat}\rightarrow\text{Set}\]
 	}
 
 \subsection{Functors}
@@ -327,19 +353,21 @@
 		A category is said to be finitely complete if all equalizers and all finite products exist.
 	}
 	
-	\newdef{Pullback\footnotemark}{\index{pullback}
+	\newdef{Pullback\footnotemark}{\index{pullback}\label{cat:pullback}
 		\footnotetext{Also called a \textbf{fibre product} or \textbf{Cartesian square}.}
 		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is defined as the limit of following diagram:
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+				\matrix (m) [matrix of math nodes,row sep=2em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
 					a\&\&b\\
 					\&c\&\\
 				};
 				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$f$};
 				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$g$};
 			\end{tikzpicture}
+			\caption{Pullback of morphisms.}
+			\label{fig:pullback}
 		\end{figure}
 	}
 	\begin{notation}[Pullback]
@@ -789,7 +817,8 @@
 		\end{figure}
 	}
 
-\subsection{Higher category theory}\label{cat:higher_category_theory}
+\section{Higher category theory}\label{cat:higher_category_theory}
+\subsection{\texorpdfstring{$n$-Categories}{n-Categories}}
 
 	\newdef{$n$-Category}{\index{n-category}
 		A (strict) $n$-category consists of:
@@ -824,8 +853,32 @@
 \subsection{Groupoids}
 
 	\newdef{Groupoid}{\index{groupoid}\label{cat:groupoid}
+		\nomenclature[S_Grpd]{$\text{Grpd}$}{Category of groupoids.}
 		A groupoid $\mathcal{G}$ is a small category in which all morphisms are invertible.
 	}
+	
+	\newdef{Core}{\index{core}
+		Let $C$ be a (small) category. The core Core$(C)\in$Grpd of $C$ is defined as the maximal subgroupoid of $C$.
+	}
+	
+	\newdef{Orbit}{\index{orbit}
+		Let $\mathcal{G}$ be a groupoid with $O, M$ respectively the set of objects and morphisms. On $O$ one can define an equivalence $a\sim b$ if there exists a morphism $\phi:a\rightarrow b$. The equivalence classes are called orbits and the set of orbits is dentoed by $O/M$.
+	}
+	\newdef{Transitive component}{\index{transitive!component}
+		Let $\mathcal{G}$ be a groupoid with $O, M$ respectively the set of objects and morphisms. Let $s, t$ denote the source and target maps on $M$. Given an orbit $o\in O/M$ one defines the transitive component of $M$ associated to $o$ as $s^{-1}(o)$ or equivalently $t^{-1}(o)$.
+	}
+	\begin{property}
+		Every groupoid is a (disjoint) union of its transitive components.
+	\end{property}
+	\newdef{Transitive groupoid}{\index{transitive!groupoid}
+		A groupoid $\mathcal{G}$ is said to be transitive if for all objects $x, y\in\ob(\mathcal{G})$, where $x\neq y$, the set hom$_{\mathcal{G}}(x, y)\neq\emptyset$.
+	}
+	
+	\newdef{Lie groupoid\footnotemark}{\index{Lie!groupoid}
+		\footnotetext{Similarly one can define \textit{topological groupoids, \'etal\'e groupoids}, ...}
+		A groupoid internal to Diff. As noted in the remark below definition \ref{cat:internal_category} the pullbacks of the source and target morphisms should exist. In Diff this is equivalent to assuming that the source and target morphisms should be (surjective) submersions.
+	}
+	\remark{In the Ehresmannian approach one gives the manifold of composable morphisms $D_1\times_{D_0}D_1$ as part of the data. Hence we do not have to assume anything about the source and target morphisms.}
 	
 	\newdef{2-Groupoid}{
 		An 2-groupoid is a 2-category in which all 1-morphisms are invertible and every 2-morphisms has a 'vertical' inverse. The 'horizontal' inverse can be constructed from the other inverses.
@@ -833,7 +886,6 @@
 	\newdef{2-Group}{
 		A 2-group is defined as a 2-groupoid with only one object. From this it follows that the set of 1-morphisms forms a group and so does the set of 2-morphisms under horizontal composition. The 2-morphisms do not form a group under vertical composition\footnote{Because the sources/targets may not match up.}.
 	}
-
 
 \section{Operad theory}
 \subsection{Operads}

@@ -1,6 +1,138 @@
-\chapter{Homology \& Cohomology}
-References for this chapter are \cite{massey}, \cite{hurewicz_theorem}.
+\chapter{Algebraic Topology}
 
+References for this chapter are \cite{massey, merry_io}.
+
+\section{Homotopy theory}
+\subsection{Homotopy}
+
+	\newdef{Homotopy}{\index{homotopy}
+		Let $f, g\in\mathcal{C}(X,Y)$ where $X, Y$ are topological spaces. If there exists a continuous function $H:X\times [0, 1]\rightarrow Y$ such that $f(x) = H(x, 0)$ and $g(x) = H(x, 1)$ then $f$ and $g$ are said to be homotopic. This relation also induces an equivalence relation on $\mathcal{C}(X, Y)$.
+	}
+	
+	\newdef{Homotopy type}{
+		Let $X, Y$ be two topological spaces. $X$ and $Y$ are said to be homotopy equivalent, or of the same homotopy type, if there exist functions $f:X\rightarrow Y$ and $g:Y\rightarrow X$ such that $f\circ g$ is homotopic to $\mathbbm{1}_Y$ and $g\circ f$ is homotopic to $\mathbbm{1}_X$. The maps $f, g$ are called \textbf{homotopy equivalences}.
+	}
+	\begin{property}\index{homeomorphism}
+		Every homeomorphism is a homotopy equivalence.
+	\end{property}
+	
+	\newdef{Null-homotopic}{
+		A continuous function is null-homotopic if it is homotopic to a constant function.
+	}
+	\newdef{Contractible space}{\index{contractible}
+		\label{topology:contractible_space}
+		A topological space $X$ is said to be contractible if the identity map $\mathbbm{1}_X$ is null-homotopic. Equivalently, a space is called contractible if it is homotopy-equivalent to a point.
+	}
+	
+	\begin{property}[Homotopy category]
+		\nomenclature[S_hTop]{hTop}{Homotopy category}
+		The homotopy category hTop has as objects the topological spaces and as morphisms the homotopy classes of continuous maps. It is immediately clear that there exists a functor $F:\text{Top}\rightarrow\text{hTop}$ that maps topological spaces to themselves and continuous maps to their homotopy classes.
+	\end{property}
+	
+\subsection{Fundamental group}
+
+	In this subsection we will always assume to be working with pointed spaces \ref{topology:pointed_space}. The base point will be denoted by $x_0$.
+	
+	\newdef{Loop space}{\index{loop}
+		\nomenclature[S_zsymOmega]{$\Omega X$}{(Based) loop space on $X$.}
+		\nomenclature[S_LX]{$LX$}{Free loop space on $X$.}
+		The set of all \textbf{loops} in a pointed topological space $(X, \ast)$, i.e. all continuous maps\footnote{The mapping space is equipped with the compact-open topology.} $\delta:(S^1, t_0)\rightarrow (X, \ast)$ for which $\delta(t_0) = \ast$. It is denoted by $\Omega X$. This set can be equipped with a multiplication operation corresponding to the concatenation of loops\footnote{It should be noted that the speed at which the concatenated loops are traversed is doubled because the parameter $t$ should remain an element of $S^1\cong[0, 1]/_{0\sim1}$.}.
+		
+		When one drops the requirement of based loops, i.e. one considers the space of all continuous maps $S^1\rightarrow X$, the resulting space is called the \textbf{free loop space} on $X$. This object is denoted by $LX$.
+	}
+	
+	\newdef{Fundamental group}{\index{group!fundamental}
+		The fundamental group $\pi_1(X, x_0)$ based at $x_0\in X$ is defined as the loop space (with base $x_0$) modulo homotopy. As the name implies the fundamental group can be given the structure of a multiplicative group where the operation is inherited from that of the loop space.
+	}
+	\begin{property}
+		In general, as the notation implies, the fundamental group depends on the base point $x_0$. However when the space $X$ is path-connected, the fundamental groups belonging to different base points are isomorphic. It follows that we can speak of "the" fundamental group in the case of path-connected spaces.
+	\end{property}
+	\newdef{Fundmental groupoid}{\index{groupoid!fundamental}
+		Let $X$ be a topological space. The fundamental groupoid $\Pi_1(X)$ is the groupoid which has the points of $X$ as objects and the homotopy classes of continuous function $f:X\rightarrow X$ with fixed endpoints as morphisms.
+	}
+	
+	\newdef{Simply-connected space}{\index{simply-connected}\label{topology:simply_connected}
+		A topological space is said to be simply-connected if it is path-connected and if the fundamental group is trivial.
+	}
+	
+	The definition of a fundamental group can be generalized to arbitrary dimensions in the following way\footnote{Note however that we replace the interval $[0, 1]$ by the sphere $S^1$. This is nonrestrictive as we can construct $S^n$ by mapping (identifying) the boundary of $[0,1]^n$ to the basepoint $x_0$.}:
+	\newdef{Homotopy group}{\index{homotopy!group}
+		\nomenclature[S_zsymhos]{$\pi_n(X, x_0)$}{$n^{th}$ homotopy space over $X$ with basepoint $x_0$.}
+		The homotopy group $\pi_n(X, x_0)$ is defined as the set of homotopy classes of continuous maps $f:S^n\rightarrow X$ based at $x_0\in X$. The set $\pi_0(X, x_0)$ is defined as the set of path-connected components of $X$.
+	}
+	
+	\begin{property}
+		For $n\geq1$ the sets $\pi_n(X, x_0)$ are groups.
+	\end{property}
+		\begin{property}
+		For $n\geq2$  the homotopy groups $\pi_n(X, x_0)$ are abelian.
+	\end{property}
+	
+	\begin{property}
+		If $X$ is path-connected, then the homotopy groups $\pi_n(X, x_0)$ and $\pi_n(X, x_1)$ are isomorphic for all $x_0, x_1\in X$ and all $n\in\mathbb{N}$.
+	\end{property}
+	\begin{property}
+		Homeomorphic spaces have the same homotopy groups $\pi_n$.
+	\end{property}
+	
+	\begin{formula}
+		Let $(X, x_0)$ and $(Y, y_0)$ be pointed topological spaces with homotopy groups $\pi_n(X, x_0)$ and $\pi_n(Y, y_0)$. The homotopy groups of their product is given by:
+		\begin{equation}
+			\pi_n(X\times Y, (x_0, y_0)) = \pi_n(X, x_0)\otimes\pi_n(Y, y_0)
+		\end{equation}
+		where $\otimes$ denotes the direct product of groups \ref{group:direct_product}.
+	\end{formula}
+	
+	\newdef{$n$-connected space}{\index{connected}
+		A topological space is said to be $n$-connected if its first $n$ homotopy groups are trivial.
+	}
+	
+\subsection{Fibrations}
+
+	\newdef{Homotopy lifting property}{
+		Consider a continuous map $\pi:E\rightarrow B$ between topological spaces. The map $\pi$ is said to have the homotopy lifting property with respect to a topological space $X$ if for every homotopy $f:X\times[0, 1]\rightarrow B$ and lifting $\widetilde{f}_0:X\rightarrow E$ of $f_0=f|_{X\times\{0\}}$ there exists a homotopy $\widetilde{f}:X\times[0, 1]$ lifting $f$ such that the following diagram commutes:
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=7em,column sep=7em, minimum width=2em, ampersand replacement=\&]{
+					X \& E\\
+					X\times[0, 1]\& B\\
+				};
+				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\widetilde{f}_0$};
+				\draw[right hook ->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$X\times\{0\}$};
+				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$f$};
+				\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\pi$};
+				\draw[dashed, ->] (m-2-1) -- (m-1-2) node[pos=0.5, above]{$\widetilde{f}$};
+			\end{tikzpicture}
+			\caption{Homotopy lifting property.}
+			\label{fig:homotopy_lifting_property}
+		\end{figure}
+		
+		where $\widetilde{f}$ denotes the lifting of $f$, i.e. $f = \pi\circ\widetilde{f}$.
+	}
+	
+	\newdef{Hurewicz fibration}{\index{fibration}
+		A map $\pi$ satisfying the homotopy lifting property with respect to every topological space $X$ is called a (Hurewicz) fibration.\footnote{If the homotopy lifting property only holds with respect to CW complexes (see definition \ref{topology:cw_complex}) then it is called a \textbf{Serre fibration}.}
+	}
+	\begin{property}
+		Consider a fibration $\pi:E\rightarrow B$ with $B$ path-connected. All fibres, i.e. sets $\pi^{-1}(\{b\})$ where $b\in B$, are homotopy equivalent. Therefore a fibration is often denoted by the diagram $\prin{F}{E}{B}$.
+	\end{property}
+	
+	We give two important examples:
+	\begin{example}[Hopf fibration]\index{Hopf!fibration}
+		The Hopf fibration is given by
+		\begin{equation}
+			\prin{S^1}{S^3}{S^2}
+		\end{equation}
+		\textit{Adam's theorem} states that this fibration can be generalized to higher dimensions as $\prin{S^n}{S^{2n+1}}{S^{2n}}$ only for $n\in\{0, 1, 3, 7\}$.
+	\end{example}
+	\begin{example}
+		For all $n\in\mathbb{N}$ the following sequence forms a fibration:
+		\begin{equation}
+			\prin{\text{SO}(n)}{\text{SO}(n+1)}{S^n}
+		\end{equation}
+	\end{example}
+	
 \section{Simplicial homology}\label{section:homology}
 \subsection{Simplices}
 

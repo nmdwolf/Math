@@ -10,6 +10,10 @@
 		\nomenclature[A]{TVS}{Topological vector space}
 		A topological vector space (TVS) over a base field $K$ is a vector space for which the addition and scalar multiplication over $K$ are continuous.
 	}
+	
+	\newdef{Weak topology}{\index{topology!weak}\label{hilbert:weak_topology}
+		The initial topology on a TVS with respect to its dual. 
+	}
 
 	\newdef{Norm}{\index{norm}
     		Let $V$ be a TVS over a field $K$. A function $||\vec{v}||:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
@@ -28,9 +32,12 @@
     		A TVS equipped with a norm $||\cdot||$.
 	}
 	\newdef{Banach space}{\index{Banach!space}\label{linalgebra:banach_space}
-	    	A normed vector space that is complete\footnote{See condition \ref{topology:cauchy_sequence}.} with respect to the norm.
+	    	A normed vector space that is complete\footnote{See condition \ref{topology:cauchy_sequence}.} in the norm-topology.
 	}
 	
+	\begin{property}
+		The topological (continuous) dual of a Banach space is also a Banach space.
+	\end{property}
 	\newdef{Reflexive space}{
 		A Banach space $V$ that coincides with its double (topological) dual, i.e. $V = (V^*)^*$.
 	}
@@ -41,12 +48,6 @@
 	\begin{property}
 		Let $(x_n)$ be a Cauchy sequence in a normed space $V$. Then $(||x_n||)$ is a convergent sequence in $\mathbb{R}$. This implies that every Cauchy sequence in a normed space is bounded.
 	\end{property}
-	
-	\begin{property}
-		The topological (continuous) dual of a Banach space is also a Banach space.
-	\end{property}
-
-\subsection{Theorems}
 
 	\begin{property}
 		Let $X$ be a TVS. Every linear map $\varphi:\mathbb{K}^n\rightarrow X$ is continuous.
@@ -66,120 +67,6 @@
 	\begin{theorem}[Hahn-Banach theorem]\index{Hahn-Banach}
 		Let $V$ be a Banach space. Let $f:V\rightarrow\mathbb{R}$ be a sublinear map, i.e. a map that is both subadditive and positive-homogeneous, and let $\phi:U\rightarrow\mathbb{R}$ be a linear map dominated by $f$, defined on a linear subspace $U\subset V$. Then there exists a linear extension $\psi:V\rightarrow\mathbb{R}$ of $\phi$ that is dominated by $f$ on all of $V$.
 	\end{theorem}
-
-\subsection{Bounded operators}
-	
-	\newdef{Bounded operator}{\index{bounded!operator}
-		Let $L:V\rightarrow W$ be a linear operator between two Banach spaces. The operator is said to be bounded if there exists a scalar $M$ that satisfies the following condition:
-		\begin{equation}
-			\label{operator:bounded_operator}
-			\boxed{\forall v\in V:||Lv||_W \leq M||v||_V}
-		\end{equation}
-	}
-	\begin{notation}
-		\nomenclature[S_BVW]{$\mathcal{B}(V, W)$}{Space of bounded continuous maps from the space $X$ to the space $Y$.}
-		The space of bounded linear operators from $V$ to $W$ is denoted by $\mathcal{B}(V, W)$.
-	\end{notation}
-	\begin{property}
-		If $V$ is a Banach space then $\mathcal{B}(V, V)$ is also a Banach space.
-	\end{property}
-
-	\newdef{Operator norm}{\index{operator!norm}
-    		The operator norm of $L$ is defined as follows:
-    		\begin{equation}
-    			||L||_{op} = \inf\{M\in\mathbb{C}:M\text{ satisfies condition \ref{operator:bounded_operator}}\}
-    		\end{equation}
-    		As the name suggests it is a norm on $\mathcal{B}(V, W)$. The topology induced by this norm is called the norm topology.
-    		
-    		Equivalent definitions of the operator norm are:
-    		\begin{equation}
-    			||L||_{op} = \sup_{||x||\leq1}||L(x)|| = \sup_{||x||=1}||L(x)|| = \sup_{x\neq0}\stylefrac{||L(x)||}{||x||}
-    		\end{equation}
-	}
-	
-	Following property reduces the problem of continuity to that of boundedness:
-	\begin{property}
-		Let $f\in\mathcal{L}(V, W)$. Following statements are equivalent:
-		\begin{itemize}
-			\item $f$ is bounded.
-			\item $f$ is continuous at 0.
-			\item $f$ is continuous on $V$.
-			\item $f$ is uniformly continuous.
-			\item $f$ maps bounded sets to bounded sets.
-		\end{itemize}
-	\end{property}
-
-	\begin{property}
-		Let $A$ be a bounded linear operator with eigenvalue $\lambda$. We then have:
-		\begin{equation}
-			|\lambda|\leq||A||_{op}
-		\end{equation}
-	\end{property}
-	\begin{property}
-		Let $A$ be a bounded linear operator. Let $A^\dag$ denote its adjoint\footnotemark. Then $A^\dag$ is bounded and $||A||_{op} = ||A^\dag||_{op}$.
-		\footnotetext{See definition \ref{linalgebra:adjoint_operator}.}
-	\end{property}
-
-\subsection{Fredholm operators}
-
-	\newdef{Compact operator}{\index{compact!operator}\label{banach:compact_operator}
-		Let $V, W$ be Banach spaces. A linear operator $A:V\rightarrow W$ is compact if the image of any bounded set in $V$ is relatively compact\footnote{See definition \ref{topology:relatively_compact}.}.
-	}
-	
-	\begin{property}
-		Every compact operator is bounded and hence continuous.
-	\end{property}
-	\begin{result}
-		Every linear map between finite-dimensional Banach spaces is bounded.
-	\end{result}
-
-
-	\newdef{Fredholm operator}{\index{Fredholm!operator}
-		Let $V, W$ be Banach spaces. A Fredholm operator $F:V\rightarrow W$ is a bounded linear operator $F\in\mathcal{B}(V, W)$ for which the kernel and cokernel are finite-dimensional.
-	}
-	\begin{property}
-		An operator $F:V\rightarrow W$ is a Fredholm operator if and only if there exists a bounded linear operator $G\in\mathcal{B}(W, V)$ such that $\mathbbm{1}_V - FG$ and $\mathbbm{1}_W - GF$ are compact on $V$ and $W$ respectively.
-	\end{property}
-
-\subsection{Spectrum}
-
-	\newdef{Resolvent operator}{\index{resolvent}
-		Let $A$ be a bounded linear operator on a normed space $V$. The resolvent operator of $A$ is defined as the operator $(A - \lambda\mathbbm{1}_V)^{-1}$,	where $\lambda\in\mathbb{C}$.
-	}
-
-	\newdef{Resolvent set}{
-		\nomenclature[S_zsymrho]{$\rho(A)$}{Resolvent set of a bounded linear operator $A$.}
-		The resolvent set $\rho(A)$ consists of all scalars $\lambda\in\mathbb{C}$ for which the resolvent operator of A is a bounded linear operator on a dense subset of $V$. These scalars $\lambda$ are called \textbf{regular values} of $A$.
-	}
-	\newdef{Spectrum}{\index{spectrum}
-		The set of scalars $\mu\in\mathbb{C}\setminus \rho(A)$ is called the spectrum $\sigma(A)$.
-	}
-	
-	\begin{remark}
-		It is obvious from the definition of an eigenvalue that every eigenvalue of $A$ belongs to the spectrum of $A$. The converse however is not true.
-	\end{remark}
-	
-	\newdef{Point spectrum}{
-		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to be injective is called the point spectrum $\sigma_p(A)$. This set coincides with the set of eigenvalues of $A$.
-	}
-	\newdef{Continuous spectrum}{
-		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to be surjective but for which the range of the resolvent is dense in $V$ is called the continuous spectrum of $A$.
-	}
-	\newdef{Compression spectrum}{
-		\nomenclature[S_zsymsigma]{$\sigma(A)$}{Compression spectrum of a bounded linear operator $A$.}
-		The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to have a dense range in $V$ is called the compression spectrum $\sigma(A)$. It follows that $\sigma_r(A)\subseteq\sigma(A)$.
-	}
-	\newdef{Residual spectrum}{
-		\nomenclature[S_zsymsigmar]{$\sigma_r(A)$}{Residual spectrum of a bounded linear operator $A$.}
-		The intersection of the continuous spectrum and the compression spectrum is called the \textbf{residual spectrum} $\sigma_r(A)$.
-	}
-	
-	\newdef{Essential spectrum}{\index{essential!spectrum}
-		The set of scalars $\mu\in\mathbb{C}$ for which $A-\mu\mathbbm{1}_V$ is not a Fredholm operator is called the essential spectrum $\sigma_{\text{ess}}(A)$.
-	}
-	\begin{property}
-		Let $A$ be a bounded linear operator and let $T$ be a compact operator. The essential spectra of $A$ and $A+T$ coincide.
-	\end{property}
 
 \section{Hilbert space}
 
@@ -217,7 +104,7 @@
 		However not every norm induces an inner product. Only norms that satisfy the parallellogram law \ref{linalgebra:parallellogram_law} induce an inner product. This inner product can be recovered through the polarization identity \ref{linalgebra:polarization_identity} (see below).
 	\end{formula}
 	
-	\begin{property}[Cauchy-Schwarz inequality]\index{Cauchy!Cauchy-Schwarz inequality}\label{linalgebra:theorem:cauchy_schwarz}
+	\begin{property}[Cauchy-Schwarz inequality]\index{Cauchy-Schwarz}\label{linalgebra:theorem:cauchy_schwarz}
 		\begin{equation}
 			\boxed{|\langle v|w\rangle| \leq ||v||\ ||w||}
 		\end{equation}
@@ -333,6 +220,14 @@
 	\begin{result}
 		It follows that given a complete (or closed) subspace $S$ the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H} = S\oplus S^\perp$.
 	\end{result}
+	
+	\newdef{Trace}{\index{trace}
+		Let $\mathcal{H}$ be a Hilbert space wih orthogonal basis ${e_k}$. Given a bounded linear operator $S\in\mathcal{B}(\mathcal{H})$ we define its trace by the following formula:
+		\begin{equation}
+			\label{hilbert:trace}
+			\text{tr}(S) = \sum_k\langle |S|e_k, e_k\rangle
+		\end{equation}
+	}
 
 \subsection{Separable Hilbert spaces}
 
@@ -352,21 +247,18 @@
 		Every orthogonal subset of a separable Hilbert space is countable.
 	\end{property}
 
-\subsection{Compact operators}
-
-	The following definition is equivalent to definition \ref{banach:compact_operator}:
-	\newdef{Compact operator}{\index{compact!operator}
-		Let $A$ be a linear operator on a Hilbert space $\mathcal{H}$. $A$ is said to be compact if for every sequence $(x_n)$ in $\mathcal{H}$ the sequence $(A[x_n])$ has a convergent subsequence.
-	}
-
 \subsection{Linear functionals}
 
 	\begin{property}
-		Let $f$ be a continuous linear functional. Then $\dim(\ker f)^\perp$ is 0 or 1 where the former case only arises when $f\equiv0$.
+		Let $f$ be a continuous linear functional. Then two possibilities arise:
+		\begin{enumerate}
+			\item $\dim(\ker f)^\perp=0$ if $f\equiv0$.
+			\item $\dim(\ker f)^\perp=1$
+		\end{enumerate}
 	\end{property}
 
 	\begin{theorem}[Riesz' representation theorem]\index{Riesz'!representation theorem}
-    		Let $\mathcal{H}$ be a Hilbert space. For every continuous linear functional $\rho:\mathcal{H}\rightarrow\mathbb{R}$ there exists a unique element $x_0\in\mathcal{H}$ such that
+    		Let $\mathcal{H}$ be a Hilbert space. For every continuous linear functional $\rho\in\mathcal{H}^*$ there exists a unique element $x_0\in\mathcal{H}$ such that
     		\begin{equation}
 	    		\rho(h) = \langle h, x_0 \rangle
     		\end{equation}

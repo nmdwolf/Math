@@ -24,18 +24,16 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 	    	A set $M$ equipped with a maximal $C^0$-atlas $\mathcal{A}$ is called a topological manifold. An alternative definition (often used in topology) is that of a locally Euclidean Hausdorff space. The topology on $M$ is given by the collection of open sets contained in the charts.
 	}
 	\begin{remark*}
-		In the literature second-countability is often added to the definition of a topological manifold. This ensures that the space has (among others) the property of paracompactness.
+		In the literature second-countability is often added to the definition of a topological manifold. This ensures that the space has (among others) the property of paracompactness and hence lends itself to the construction of partitions of unity (necessary for the introduction of integration theory).
 	\end{remark*}
+	
+	For an alternative definition of manifolds in the context of \textit{diffeological spaces}, see definition \ref{manifolds:diffeo_manifold}.
 	
 	\newdef{$C^k$-manifold}{\index{smooth!manifold}
 		\nomenclature[S_Man]{$\text{Man}^p$}{Category of $C^p$-manifolds.}
 		\nomenclature[S_Diff]{$\text{Diff}$}{Category of smooth manifolds.}
-		If all transition maps are $C^k$-diffeomorphisms than the manifold is called a $C^k$-manifold. A $C^\infty$-manifold is also called a smooth manifold.
+		If all transition maps are $C^k$-diffeomorphisms then the manifold is called a $C^k$-manifold. A $C^\infty$-manifold is also called a \textbf{smooth manifold}.
 	}
-	
-	\begin{adefinition}
-		Let $M$ be a diffeological space\footnote{See definition \ref{topology:diffeological_space}.}. $M$ is an $n$-manifold if it is locally diffeomorphic to $\mathbb{R}^n$.
-	\end{adefinition}
 	
 	\newdef{Structure sheaf}{\index{structure!sheaf}
 		Let $M$ be a $C^k$-manifold. The structure sheaf $\mathcal{O}_M$ is defined as the sheaf that assigns to every open set $U\subseteq M$ the set of $C^k$-functions $f:U\rightarrow\mathbb{R}$.
@@ -70,6 +68,15 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 	    	\nomenclature[S_Cinfty]{$C^\infty_p(M)$}{Ring of all smooth functions $f:M\rightarrow\mathbb{R}$ defined on a neighbourhood of $p\in M$.}
 	    	The set of all $C^\infty$ functions on a manifold $M$ defined on a neighbourhood of $m\in M$ is denoted by $C^\infty_m(M)$. This set forms a commutative unital ring when equipped with the usual sum and product (composition) of functions.
 	\end{notation}
+	
+	\newdef{Good cover\footnotemark}{\index{cover}\index{finite!type}
+		\footnotetext{Sometimes called a \textbf{nice cover}.}
+		Let $M$ be an $n$-dimensional manifold with an open cover $\mathcal{U} = \{U_i\}_{i\in I}$. The cover $\mathcal{U}$ is called a good cover if every non-empty finite intersection $U_{i_1}\cap...\cap U_{i_k}$ is diffeomorphic to $\mathbb{R}^n$. If $M$ admits a finite good cover then $M$ is said to be of \textbf{finite type}.
+	}
+	
+	\begin{property}
+		Every smooth manifold admits a good cover. Furthermore if the manifold is compact, then it admits a finite good cover.
+	\end{property}
 
 \section{Tangent vectors}\label{diff:section:tangent_space}
 
@@ -143,24 +150,28 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 		\end{equation}
 	}
 	
-	\newdef{Critical point}{\index{critical!value}
+	\newdef{Critical point}{\index{critical!point}
 		A point $m\in\dom(f)$ is said to be critical if $T_mf$ is not surjective. The image of a critical point is called a critical value.
 	}
-	
+	\newdef{Non-degenerate critical point}{
+		A critical point $p\in M$ of a function $f$ is said to be non-degenerate if the Hessian of $f$ is non-singular at $p$.
+	}
 	\begin{property}\label{manifolds:critical_point}
 		A point $m\in\dom(f)$ is critical if and only if there exists a chart $U\ni m$ for which $\pderiv{f}{x^i}(m) = 0$.
 	\end{property}
+	\begin{theorem}[Sard]\index{Sard!theorem on critical sets}
+		Consider a map $\psi:M\rightarrow N$, where $\dim M=m$ and $\dim N=n$. Set $k_0 = \max\{1, m-n+1\}$. If $\psi$ is of class $C^k$ with $k\geq k_0$ then the set of critical values of $\psi$ has Lebesgue measure 0.
+	\end{theorem}
 	
 	\newdef{Regular point}{
 		A regular point of $f$ is a point $x\in M$ such that $T_xf$ is surjective.
-	}
-	
+	}	
 	\newdef{Regular value}{\index{regular!value}
 		Let $f:M\rightarrow N$ be a differentiable map between smooth manifolds. A point $y\in N$ is called a \textbf{regular value} if every point in the preimage $f^{-1}(y)$ is a regular point or equivalently if it is not a critical value.
 	}
 	
 	\begin{result}\label{manifolds:regular_point}
-		It follows from property \ref{manifolds:critical_point} that a point $m\in\dom(f)$ is regular if and only if $\partial{f}{x^i}(m)\neq0$ in all charts $U\ni m$.
+		It follows from property \ref{manifolds:critical_point} that a point $m\in\dom(f)$ is regular if and only if $\pderiv{f}{x^i}(m)\neq0$ in all charts $U\ni m$.
 	\end{result}
 	
 	\newdef{Submersion}{\index{submersion}\label{manifolds:submersion}
@@ -203,6 +214,39 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 	\newdef{Closed embedded manifold}{
 		Let $N$ be an immersed submanifold of $M$. If the inclusion map $i:N\hookrightarrow M$ is closed, then $N$ is a (closed) embedded manifold.
 	}
+	
+	\newdef{Transversal intersection}{\index{transversality}
+		Consider a smooth manifold $M$. Two submanifolds $X, Y$ are said to be transversal (or intersect transversally) if at each intersection point $p$ the following relation holds:
+		\begin{equation}
+			T_pX + T_pY = T_pM
+		\end{equation}
+		If the dimensions of $X$ and $Y$ are complementary (in $M$) then the sum becomes a direct sum. If two submanifolds do not intersect at all then they are vacuously transversal (independent of their dimension).
+	}
+	\begin{property}
+		The codimension of the transversal intersection of two submanifolds is equal to the sum of the codimensions of the intersecting submanifolds. It follows that if the submanifolds have complentary dimensions the intersection consists of isolated points.
+	\end{property}
+
+\section{Morse theory and ODE's}
+\subsection{Morse functions}
+
+	\newdef{Morse function}{\index{Morse!function}
+		Let $M$ be a smooth manifold. A smooth function $f\in C^\infty(M)$ is called a Morse function if it has no degenerate critical point.
+	}
+	\begin{property}
+		The set of Morse functions is open and dense in the $C^2$-topology\footnote{See section \ref{section:jet_bundles} on jet spaces.}.
+	\end{property}
+	
+\subsection{First order linear ODE's}
+
+	In this subsection we will consider ODE's of the form
+	\begin{equation}
+		y'(x) = A(x)y(x)
+	\end{equation}
+	where $A(x)$ is a matrix, possibly depending on $x$.
+	
+	\begin{formula}[Liouville]\index{Liouville!formula for ODE's}
+		Consider the solution matrix $\Phi$(x), i.e. the matrix in which every row represents a solution of the ODE.
+	\end{formula}
 
 \section{Manifolds with boundary}
 
@@ -210,12 +254,12 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 		Let $\mathbb{H}^n$ denote the upper half space, i.e.:
 		\begin{equation}
 			\label{manifolds:upper_half_space}
-			\mathbb{H}^n = \{(x_1, ..., x_n)|x_n \geq 0\}\subset\mathbb{R}^n
+			\mathbb{H}^n\cong\mathbb{R}^{n-1}\times\mathbb{R}^+= \{(x_1, ..., x_n)|x_n \geq 0\}\subset\mathbb{R}^n
 		\end{equation}
 		An $n$-dimensional manifold with boundary is then given by a set $M$ together with a maximal atlas consisting of (regular) charts $(U, \varphi)$ such that $U$ is diffeomorphic to $\mathbb{R}^n$, these points are called \textbf{interior points}, and (boundary) charts $(V, \phi)$ such that $V$ is diffeomorphic to $\mathbb{H}^n$, these points are called \textbf{boundary points}.
 	}
 	\begin{remark}[Manifold boundary]
-		The boundary $\partial M$, consisting of all boundary points of $M$ as defined in the above definition, should not be confused with the topological boundary of $M$. In general these are different sets. Similarly, the interior $\text{Int}(M) = M \\ \partial M$, in the sense of manifolds, should not be confused with the topological interior.
+		The boundary $\partial M$, consisting of all boundary points of $M$ as defined in the above definition, should not be confused with the topological boundary of $M$. In general these are different sets. Similarly, the interior $\text{Int}(M) = M \backslash\partial M$, in the sense of manifolds, should not be confused with the topological interior.
 	\end{remark}
 	
 	\begin{property}
@@ -224,7 +268,21 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 			\varphi(p) \in \partial\mathbb{H}^n = \{(x_1, ..., x_n)|x_n=0\}
 		\end{equation}
 	\end{property}
+	
+	\newdef{Manifold with corners}{
+		Analogous to the definition of a manifold with boundaries one can define a manifold wih corners using \textit{corner charts} of the form \[\varphi:U\rightarrow\mathbb{R}^k\times(\mathbb{R}^+)^l\] In contrast to the case of manifolds with boundary one does need to add an extra requirement when working with higher order corners: For every two charts $(U, \varphi)$ and $(V, \psi)$ the transition function should preserve the corners: \[\varphi\circ\psi^{-1}(V\cap \{0\}\times\mathbb{R}^k \subset \{0\}\times\mathbb{R}^k\]
+	}
+	\begin{remark}
+		In the topological setting every manifold with corners (ven higher order ones) is homeomorphic to a manifold with boundary. However when working with smooth structures this result fails, there exists no diffeomorphism.
+	\end{remark}
+	
+\subsection{Cobordisms}
 
+	\newdef{Cobordism}{\index{cobordism}
+		Two manifolds $X, Y$ are said to be \textbf{cobordant} if there exists a manifold with boundary $M$ such that $\partial M = X\sqcup Y$. The manifold $M$ is said to be a cobordism\footnote{Some authors use the terms \textit{bordism} and \textit{bordant} in this context.} between $X$ and $Y$.
+	}
+	\sremark{In the category of oriented manifolds one can also define a cobordism, but there the manifolds $X, Y$ should respect the orientation of $\partial M$.}
+	
 \section{Diffeological spaces}
 
 	\newdef{Diffeological space}{\index{diffeological space}\index{plot}\label{topology:diffeological_space}
@@ -242,6 +300,10 @@ References for this chapter (and \autoref{part:diffgeom} in general) are \cite{A
 		
 		The diffeological spaces together with their differentiable morphisms form a category DiffeologicalSp.
 	}
+	
+	\begin{adefinition}\index{manifold}\label{manifolds:diffeo_manifold}
+		Let $M$ be a diffeological space\footnote{See definition \ref{topology:diffeological_space}.}. $M$ is an $n$-manifold if it is locally diffeomorphic to $\mathbb{R}^n$.
+	\end{adefinition}
 
 \section{Path groupoid}
 

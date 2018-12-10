@@ -403,7 +403,60 @@
 			\left\langle\pderiv{}{x^i}, dx^j\right\rangle = \delta_i^j
 		\end{equation}
 	}
+
+\subsection{Vector-valued differential forms}
+
+	\newdef{Vector-valued differential form}{\index{differential form!vector-valued}
+		Let $V$ be a vector space and $E$ a vector bundle with $V$ as typical fibre. A vector-valued differential form can be defined in two ways. Firstly we can define a vector-valued $k$-form as a map $\omega:\bigotimes^kTM\rightarrow V$. A more general definition is based on sections of a corresponding vector bundle:
+		\begin{equation}
+			\Omega^k(M, E) = \Gamma(E\otimes\Lambda^kT^*M)
+		\end{equation}
+	}
+
+	\newformula{Wedge product}{\index{wedge!product}
+		Let $\omega\in\Omega^k(M, E_1)$ and $\nu\in\Omega^p(M, E_2)$. The wedge product of these differential forms is defined as:
+		\begin{equation}
+			\label{forms:vector_valued_wedge}
+			\omega\wedge\nu(v_1, ..., v_{k+p}) = \stylefrac{1}{k!p!}\sum_{\sigma\in S_{k+p}}\sgn(\sigma)\omega(v_{\sigma(1)}, ..., v_{\sigma(k)})\otimes\nu(v_{\sigma(k+1)}, ..., v_{\sigma(p)})
+		\end{equation}
+		This is a direct generalization of the formula for the wedge product of ordinary differential forms where we replaced the (scalar) product (product in the algebra $\mathbb{R}$) by the tensor product (product in the tensor algebra). It should be noted that the result of this operation is not an element of any of the original bundles $E_1$ or $E_2$ but of the product bundle $E_1\otimes E_2$.
+	}
+
+	\newdef{Lie algebra-valued}{\index{differential form!Lie algebra-valued}
+		A vector-valued differential form where the vector space $V$ is equipped with a Lie algebra structure.
+	}
+
+	\newformula{Wedge product}{\index{wedge!product}
+		Let $\omega\in\Omega^k(M, \mathfrak{g})$ and $\nu\in\Omega^p(M, \mathfrak{g})$. The wedge product of these differential forms is defined as:
+		\begin{equation}
+			\label{forms:lie_algebra_valued_wedge}
+			[\omega\wedge\nu](v_1, ..., v_{k+p}) = \stylefrac{1}{k!p!}\sum_{\sigma\in S_{k+p}}\sgn(\sigma)[\omega(v_{\sigma(1)}, ..., v_{\sigma(k)}),\nu(v_{\sigma(k+1)}, ..., v_{\sigma(p)})]
+		\end{equation}
+		where $[\cdot, \cdot]$ is the Lie bracket in $\mathfrak{g}$.
+	}
 	
+	\begin{formula}
+		Let $\{e_a\}$ be a basis for the Lie algebra $\mathfrak{g}$. We can then write the Lie algebra-valued differential forms as follows: $\phi = \phi^\mu \otimes e_\mu$ and $\psi = \psi^\nu \otimes e_\nu$ where $\phi^\mu, \psi^\nu$ are ordinary differential forms. The above formula for their wedge product can now be rewritten more elegantly as:
+		 \begin{equation}
+		 	\boxed{[\phi\wedge\psi] = (\phi^\mu\wedge\psi^\nu)\otimes[e_\mu, e_\nu]}
+		 \end{equation}
+		 where $\wedge$ is the wedge product in $\Omega(M)$ and $[\cdot, \cdot]$ is the Lie bracket in $\mathfrak{g}$.
+	\end{formula}
+	\begin{result}\index{Jacobi!identity}\index{graded!commutativity}
+		Using this formula it is easy to verify a number of properties similar to the ones of ordinary differential forms. As an example we give the analogon to the graded commutativity on $\Omega(M)$:
+		\begin{equation}
+			[\phi\wedge\psi] = (-1)^{pq+1}[\psi\wedge\phi]
+		\end{equation}
+		where $\phi\in\Omega^p(M, \mathfrak{g}), \psi\in\Omega^q(M, \mathfrak{g})$. Here the extra factor $-1$ arises due to the antisymmetry of the Lie bracket.
+		
+		Analogously one can prove that the Lie algebra-valued wedge product satisfies a graded Jacobi-type identity:
+		\begin{equation}
+			(-1)^{pr}[\phi\wedge[\psi\wedge\theta]] + (-1)^{pq}[\psi\wedge[\theta\wedge\phi]] + (-1)^{qr}[\theta\wedge[\phi\wedge\psi]] = 0
+		\end{equation}
+		where $\theta\in\Omega^r(M, \mathfrak{g})$.
+	\end{result}
+
+
 \subsection{Exterior derivative}
 
 	\newdef{Exterior derivative}{\index{exterior!derivative}\index{differential}\label{forms:def:exterior_derivative}
@@ -559,7 +612,7 @@
 		for some vector field $X\in TM$ and endomorphisms $S\in T^{1,1}M$.
 	\end{property}
 	
-\subsection{de Rham Cohomology}
+\section{de Rham cohomology}
 
 	\newdef{Exact form}{\index{exact}
 		Let $\omega\in\Omega^k(M)$. If $\omega$ can be written as $\omega = d\chi$ for some $\chi\in\Omega^{k-1}(M)$ then $\omega$ is said to be exact. It follows that:
@@ -600,77 +653,76 @@
 		Let $[\nu]\in H^k_{\text{dr}}$ and $[\omega]\in H^l_{\text{dr}}$. The cup product in de Rham cohomology is given by $[\nu]\smile[\omega] = [\nu\wedge\omega]$.
 	}
 	
-	\begin{theorem}[Poincar\'e's lemma\footnotemark]\index{Poincar\'e!lemma}\label{forms:theorem:poincare}
+	\begin{theorem}[de Rham]\index{de Rham!theorem}
+		The de Rham cohomology over a smooth manifold $M$ is isomorphic to the singular cohomology\footnote{See section \ref{section:singular_homology}.} over $M$.
+	\end{theorem}
+	
+	\begin{theorem}[Poincar\'e lemma\footnotemark]\index{Poincar\'e!lemma}\label{forms:theorem:poincare}
 		\footnotetext{The original theorem states that on a contractible space (see definition \ref{topology:contractible_space}) every closed form is exact.}
 		 For every point $p\in M$ there exists a neighbourhood on which the de Rham cohomology is trivial:
 		\begin{equation}
 			\forall p\in M:\exists U\subseteq M: H^k_{\text{dr}}(U) = 0
 		\end{equation}
 		This implies that every closed form is locally exact.
-	\end{theorem}
-	
-	\begin{theorem}[de Rham]\index{de Rham!theorem}
-		The de Rham cohomology over a smooth manifold $M$ is isomorphic to the singular cohomology\footnote{See section \ref{section:singular_homology}.} over $M$.
-	\end{theorem}
-
-\subsection{Vector-valued differential forms}
-
-	\newdef{Vector-valued differential form}{\index{differential form!vector-valued}
-		Let $V$ be a vector space and $E$ a vector bundle with $V$ as typical fibre. A vector-valued differential form can be defined in two ways. Firstly we can define a vector-valued $k$-form as a map $\omega:\bigotimes^kTM\rightarrow V$. A more general definition is based on sections of a corresponding vector bundle:
-		\begin{equation}
-			\Omega^k(M, E) = \Gamma(E\otimes\Lambda^kT^*M)
-		\end{equation}
-	}
-
-	\newformula{Wedge product}{\index{wedge!product}
-		Let $\omega\in\Omega^k(M, E_1)$ and $\nu\in\Omega^p(M, E_2)$. The wedge product of these differential forms is defined as:
-		\begin{equation}
-			\label{forms:vector_valued_wedge}
-			\omega\wedge\nu(v_1, ..., v_{k+p}) = \stylefrac{1}{k!p!}\sum_{\sigma\in S_{k+p}}\sgn(\sigma)\omega(v_{\sigma(1)}, ..., v_{\sigma(k)})\otimes\nu(v_{\sigma(k+1)}, ..., v_{\sigma(p)})
-		\end{equation}
-		This is a direct generalization of the formula for the wedge product of ordinary differential forms where we replaced the (scalar) product (product in the algebra $\mathbb{R}$) by the tensor product (product in the tensor algebra). It should be noted that the result of this operation is not an element of any of the original bundles $E_1$ or $E_2$ but of the product bundle $E_1\otimes E_2$.
-	}
-
-	\newdef{Lie algebra-valued differential form}{\index{differential form!Lie algebra-valued}
-		A vector-valued differential form where the vector space $V$ is equipped with a Lie algebra structure.
-	}
-
-	\newformula{Wedge product}{\index{wedge!product}
-		Let $\omega\in\Omega^k(M, \mathfrak{g})$ and $\nu\in\Omega^p(M, \mathfrak{g})$. The wedge product of these differential forms is defined as:
-		\begin{equation}
-			\label{forms:lie_algebra_valued_wedge}
-			[\omega\wedge\nu](v_1, ..., v_{k+p}) = \stylefrac{1}{k!p!}\sum_{\sigma\in S_{k+p}}\sgn(\sigma)[\omega(v_{\sigma(1)}, ..., v_{\sigma(k)}),\nu(v_{\sigma(k+1)}, ..., v_{\sigma(p)})]
-		\end{equation}
-		where $[\cdot, \cdot]$ is the Lie bracket in $\mathfrak{g}$.
-	}
-	
-	\begin{formula}
-		Let $\{e_a\}$ be a basis for the Lie algebra $\mathfrak{g}$. We can then write the Lie algebra-valued differential forms as follows: $\phi = \phi^\mu \otimes e_\mu$ and $\psi = \psi^\nu \otimes e_\nu$ where $\phi^\mu, \psi^\nu$ are ordinary differential forms. The above formula for their wedge product can now be rewritten more elegantly as:
-		 \begin{equation}
-		 	\boxed{[\phi\wedge\psi] = (\phi^\mu\wedge\psi^\nu)\otimes[e_\mu, e_\nu]}
-		 \end{equation}
-		 where $\wedge$ is the wedge product in $\Omega(M)$ and $[\cdot, \cdot]$ is the Lie bracket in $\mathfrak{g}$.
-	\end{formula}
-	\begin{result}\index{Jacobi!identity}\index{graded!commutativity}
-		Using this formula it is easy to verify a number of properties similar to the ones of ordinary differential forms. As an example we give the analogon to the graded commutativity on $\Omega(M)$:
-		\begin{equation}
-			[\phi\wedge\psi] = (-1)^{pq+1}[\psi\wedge\phi]
-		\end{equation}
-		where $\phi\in\Omega^p(M, \mathfrak{g}), \psi\in\Omega^q(M, \mathfrak{g})$. Here the extra factor $-1$ arises due to the antisymmetry of the Lie bracket.
 		
-		Analogously one can prove that the Lie algebra-valued wedge product satisfies a graded Jacobi-type identity:
+		More generally this lemma says that the following isomorphism exists for every smooth manifold $M$:
 		\begin{equation}
-			(-1)^{pr}[\phi\wedge[\psi\wedge\theta]] + (-1)^{pq}[\psi\wedge[\theta\wedge\phi]] + (-1)^{qr}[\theta\wedge[\phi\wedge\psi]] = 0
+			H^*_{\text{dr}}(M\times\mathbb{R}^n) \cong H^*_{\text{dr}}(M)
 		\end{equation}
-		where $\theta\in\Omega^r(M, \mathfrak{g})$.
-	\end{result}
+	\end{theorem}
+
+\subsection{Compact support}
+
+	\begin{theorem}[Poincar\'e duality]\index{Poincar\'e!duality}
+		Let $M$ be a smooth orientable $n$-dimensional manifold. The pairing $\int:H^k(M)\otimes H^{n-k}_c(M)\rightarrow\mathbb{R}$ induces an isomorphism on cohomology:
+		\begin{equation}
+			H^k(M)\cong\Big(H^{n-k}_c(M)\Big)^*
+		\end{equation}
+		If $M$ is of finite type the converse holds:
+		\begin{equation}
+			H^k_c(M)\cong\Big(H^{n-k}(M)\Big)^*
+		\end{equation}
+	\end{theorem}
+
+	\newdef{Poincar\'e dual}{
+		Let $M$ be a smooth oriented $n$-dimensional manifold and let $i:S\rightarrow M$ be a closed\footnote{in the sense of topology} oriented $k$-dimensional submanifold. The Poincar\'e dual of $S$ in $M$ is the unique cohomology class $[\eta_S]\in H^{n-k}(M)$ such that:
+		\begin{equation}
+			\int_Si^*\omega = \int_M\omega\wedge\eta_S
+		\end{equation}
+		for all compactly supported $\omega\in H^k_c(M)$.
+		
+		If $S$ is compact in $M$ two Poincar\'e duals exist:
+		\begin{itemize}
+			\item Closed dual: The Poincar\'e dual obtained by using the fact that $S$ is compact and hence closed in $M$.
+			\item Compact dual: Because $S$ is compact all (hence not only compactly supported) forms $\omega\in H^k(M)$ can be integrated over $S$ and, assuming $M$ is of finite type, Poincar\'e duality implies that there exists a unique cohomology class with compact support $\eta_S'$ such that:
+			\begin{equation}
+				\int_Si^*\omega = \int_M\omega\wedge\eta'_S
+			\end{equation}
+			for all $\omega\in H^k(M)$.
+		\end{itemize}
+	}
+	\remark{Because the compact Poincar\'e dual induces a pairing on all closed forms $\omega$, which include the compactly supported ones, the compact dual is, as a form, equal to the closed Poincar\'e dual. However as classes in cohomology these can be quite different.}
 	
+	\begin{property}[Localization principle]\index{localization}
+		The support of the compact Poincar\'e dual of a submanifold $S$ may be shrunk to any neighbourhood of $S$.
+	\end{property}
+	
+\subsection{Compact support in the vertical direction}
+
+	\begin{definition}
+		Let $\pi:E\rightarrow M$ be a smooth vector bundle over $M$. A differential form $\omega\in\Omega^*(E)$ is an element of $\Omega^*_{cv}(E)$ if $\text{supp}(\omega)\cap\pi^{-1}(K)$ is compact for every compact $K\subset M$. The cohomology of this complex is called the \textbf{de Rham cohomology with compact support in the vertical direction}.
+	\end{definition}
+	
+	\begin{result}
+		The definition implies that $\omega\in\Omega^*_{cv}(E)$ is compactly supported on each fibre $\pi^{-1}(x), x\in M$. This observation explains the name of the cohomology theory.
+	\end{result}
+
 \section{Linear connections}
 
 	\newdef{Koszul connection}{\index{Koszul!connection}\label{manifolds:koszul_connection}
-		Let $\pi: E\rightarrow M$ be a vector bundle over a smooth manifold $M$. A Koszul connection on $E$ is a (smooth) linear map $\nabla:\Gamma(E)\rightarrow\Gamma(E\otimes T^*M)$ satisfying the Leibniz property:
+		Let $\pi: E\rightarrow M$ be a vector bundle over a smooth manifold $M$. A Koszul connection on $E$ is a (smooth) linear map $\nabla:\Gamma(E)\rightarrow\Gamma(T^*M\otimes E)$ satisfying the Leibniz property:
 		\begin{equation}
-			\nabla(f\sigma) = f\nabla\sigma + \sigma\otimes df
+			\nabla(f\sigma) = f\nabla\sigma + df\otimes\sigma
 		\end{equation}
 		for all $f\in C^\infty(M)$.
 	}
@@ -694,28 +746,15 @@
 	}
 	
 	\begin{property}[Local behaviour]
-		Let $v\in T_pM$. If two vector fields $X, Y\in \Gamma(TM)$ are equal on some neighbourhood of $p$ then $\nabla_vX = \nabla_vY$. Furthermore, given a curve $c:[0, 1]\rightarrow M$ and two vector fields $X, Y\in\Gamma(TM)$ such that $X\circ c = Y\circ c$ we find that $\nabla_{\dot c}X = \nabla_{\dot c}Y$. Hence we see that an affine connection only depends on the local behaviour of the given section.
+		Let $v\in T_pM$. If two vector fields $X, Y\in \Gamma(TM)$ are equal on some neighbourhood $U$ of $p$ then $\nabla_vX = \nabla_vY$ on $U$. Furthermore, given a curve $c:[0, 1]\rightarrow M$ and two vector fields $X, Y\in\Gamma(TM)$ such that $X\circ c = Y\circ c$ we find that $\nabla_{\dot c}X = \nabla_{\dot c}Y$. Hence we see that an affine connection only depends on the local behaviour of the given section.
 	\end{property}
 	\begin{remark}
 		The above property shows the major difference between the Lie derivative and the covariant derivative when acting on sections of the tangent bundle $\sigma$. Lie derivatives depend on the local behaviour of both $X$ and $\sigma$. The covariant derivative on the other hand only depends on the value of $X$ at $p\in M$ and on the local behaviour of $\sigma$. 
 	\end{remark}
 	
 	\begin{property}[Affinity]
-		Consider two affine connections $\nabla, \overline\nabla$ on a smooth manifold $M$. The operator $\nabla-\overline\nabla$ is $C^\infty(M)$-linear, i.e. $\nabla-\overline\nabla\in\Omega^1(M;\text{End}(E))$. It follows that the set of affine connections forms an affine space, hence the name.
+		Consider two affine connections $\nabla, \overline\nabla$ on a smooth manifold $M$. The operator $\nabla-\overline\nabla$ is an endormorphism of $E$, i.e. $\nabla-\overline\nabla\in\Omega^1(M;\text{End}(E))$. It follows that the set of affine connections forms an affine space (hence the name).
 	\end{property}
-
-	\begin{formula}[Connection on differential forms]
-		The Leibniz property of a Koszul connection on the contraction $\omega(X_1, ..., X_k)$, where $X_i\in\mathfrak{X}(M)$ and $\omega\in\Omega^k(M)$, gives us the following form of the connection on the $(s, k)$-tensor bundle ($s=0,1$):
-		\begin{equation}
-			\nabla_Y\omega(X_1, ..., X_k) = Y(\omega(X_1, ..., X_k)) - \sum_{i=1}^k\omega(X_1, ..., \nabla_YX_i, ..., X_k)
-		\end{equation}
-	\end{formula}
-	\begin{result}
-		By noting that the covariant derivative of a vector field is a vector-valued differential form we can use the previous formula to compute the covariant derivative of the covariant derivative:
-		\begin{equation}
-			(\nabla_X\nabla)_YZ = \nabla_X\nabla_YZ - \nabla_{\nabla_XY}Z - \nabla_Y\nabla_XZ
-		\end{equation}
-	\end{result}
 	
 	\newdef{Parallel tensor fields}{\index{parallel}
 		A tensor field $T$ is said to be parallel with respect to a connection $\nabla$ if it satisfies $\nabla T = 0$.
@@ -724,6 +763,53 @@
 		Important examples are the volume form Vol and the metric $g$ with respect to the Levi-Civita connection on a Riemannian manifold (see definition \ref{riemann:levi_civita_connection}). 
 	\end{example}
 	
+	\newdef{Hessian}{\index{Hessian}
+		Consider a smooth manifold with connection $\nabla$. The Hessian of a function $f\in C^\infty(M)$ is defined as the iterated covariant derivative:
+		\begin{equation}
+			\text{Hess}(f) = \nabla\nabla f
+		\end{equation}
+		For a scalar function we know that $\nabla f = df$ and for covector fields we know that (in local coordinates):
+		\[\nabla_i\sigma_j = \partial_i\sigma_j - \Gamma^k_{ij}\sigma_k\]
+		where $\Gamma^k_{ij}$ are the connection symbols. Combining these facts we obtain the following local formula for the Hessian of $f$:
+		\begin{equation}
+			\text{Hess}(f) = \left(\frac{\partial^2f}{\partial x_i\partial x_j} - \Gamma^k_{ij}\pderiv{f}{x_k}\right)dx^i\otimes dx^j
+		\end{equation}
+	}
+
+\subsection{Induced connections}
+
+	\begin{formula}[Connection on differential forms]
+		Applying the Leibniz property of a Koszul connection to tensor contractions gives us the following form of the induced connection on the $(s, k)$-tensor bundle:
+		\begin{align}
+			\nabla_YT(\omega^1, ..., \omega^s, X_1, ..., X_k) = Y\Big(&T(\omega^1, ..., \omega^s, X_1, ..., X_k)\Big)\nonumber\\
+			&- \sum_{i=1}^sT(\omega^1, ..., \nabla_Y\omega^i, ..., \omega^s, X_1, ..., X_k)\nonumber\\
+			&- \sum_{i=1}^kT(\omega^1, ..., \omega^s, X_1, ..., \nabla_YX_i, ..., X_k)
+		\end{align}
+		where $Y, X_1, ..., X_k\in\mathfrak{X}(M)$ and $\omega^1, ..., \omega^s\in\Omega^1(M)$.
+	\end{formula}
+	
+	\begin{result}
+		By noting that the covariant derivative of a vector field is a vector-valued differential form we can use the previous formula to compute the covariant derivative of the covariant derivative:
+		\begin{equation}
+			(\nabla_X\nabla)_YZ = \nabla_X\nabla_YZ - \nabla_{\nabla_XY}Z - \nabla_Y\nabla_XZ
+		\end{equation}
+	\end{result}
+
+	\newdef{Pullback connection}{\index{connection!pullback}
+		Let $E\rightarrow M$ be a vector bundle with Koszul connection $\nabla$. Let $f:M'\rightarrow M$ be a smooth map. On the pullback bundle\footnote{See definition \ref{manifolds:pullback_bundle}.} $f^*E$ there exists a unique Koszul connection $\nabla'$ satisfying:
+		\begin{equation}
+			\nabla'(f^*\chi) = f^*(\nabla\chi)
+		\end{equation}
+		for any section of $E$.
+	}
+	\newdef{Invariant connection}{\index{connection!invariant}
+		Let $G$ be a Lie group acting on a vector bundle $E\rightarrow M$. A Koszul connection $\nabla$ on $E$ is said to be invariant with respect to the $G$-action if it satisfies:
+		\begin{equation}
+			g^*\nabla = \nabla
+		\end{equation}
+		for all $g\in G$.
+	}
+
 \section{Characteristic classes}
 
 	\newdef{Characteristic class}{

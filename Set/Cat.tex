@@ -69,68 +69,6 @@
 	\begin{remark}
 		To make the above definition work it is required that all pullbacks of the source and target morphisms exist.
 	\end{remark}
-	
-\subsection{Morphisms}
-
-	\newdef{Monomorphism}{\index{monomorphism}
-		Let $C$ be a category. A morphism $\mu\in\text{hom}_C(A, B)$ is called a monomorphism\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
-	}
-	\newdef{Epimorphism}{\index{epimorphism}
-		Let $C$ be a category. A morphism $\varepsilon\in\text{hom}_C(A, B)$ is called an epimorphism\footnote{Sometimes just an \textbf{epi} or an \textbf{epic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(B, X)$ such that $\alpha_1\circ\varepsilon = \alpha_2\circ\varepsilon$ we can conclude that $\alpha_1=\alpha_2$.
-	}
-	
-	\newdef{Injective object}{\index{injective!object}
-		Let $C$ be an Abelian category. An object $I\in\ob(C)$ is said to be injective if for every $A, B\in\ob(C)$, monomorphism $f:A\rightarrow B$ and morphism $g:A\rightarrow I$ there exists a morphism $\phi:B\rightarrow I$ such that $\phi\circ f = g$.
-		\begin{figure}[ht!]
-			\centering
-			\begin{subfigure}[b]{0.49\textwidth}
-				\centering
-				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=7em,column sep=7em, minimum width=2em, ampersand replacement=\&]{
-						A\&B\\
-						I\&\\
-					};
-					\draw[right hook ->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$f$};
-					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$g$};
-					\draw[dashed, ->] (m-1-2) -- (m-2-1) node[pos=0.5, below right]{$\phi$};
-				\end{tikzpicture}
-				\caption{Injective object $I$.}
-				\label{fig:injective_object}
-			\end{subfigure}
-			\begin{subfigure}[b]{0.49\textwidth}
-				\centering
-				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=7em,column sep=7em, minimum width=2em, ampersand replacement=\&]{
-						A\&B\\
-						\&P\\
-					};
-					\draw[->>] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$f$};
-					\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$g$};
-					\draw[dashed, ->] (m-2-2) -- (m-1-1) node[pos=0.5, below left]{$\phi$};
-				\end{tikzpicture}
-				\caption{Projective object $P$.}
-				\label{fig:projective_object}
-			\end{subfigure}
-		\end{figure}
-	}
-	
-	Dually one can construct:
-	\newdef{Projective object}{\index{projective!object}
-		Let $C$ be an Abelian category. An object $P\in\ob(C)$ is said to be projective if for every $A, B\in\ob(C)$, epimorphism $f:A\rightarrow B$ and morphism $g:P\rightarrow A$ there exists a morphism $\phi:P\rightarrow B$ such that $f\circ\phi = g$.
-	}
-	
-	\newdef{Subobject}{\index{subobject}
-		Let $C$ be a category and let $a\in\ob(C)$ be any object. A subobject $b$ of $a$ is a monomorphism $b\hookrightarrow a$.
-	}
-	
-	\newdef{Generator\footnotemark}{\index{generator}\label{cat:generator}
-		\footnotetext{Also called a \textbf{separator}.}
-		Let $C$ be a category. A collection of objects $\{o_i\in\ob(C)\}_{i\in I}$ is called a collection of generators for $C$ if given any two objects $a, b\in\ob(C)$ and any two morphisms $f, g:a\rightarrow b$ we have that $f\neq g\implies\exists j\in I, h_j\in\hom_C(o_i, a): f\circ h_j\neq g\circ h_j$.
-	}
-	
-	\newdef{Decategorification}{
-		Let $C$ be a (essentially) small category. The set of isomorphism classes of $C$ is called the decategorification of $C$. This is given by a functor \[K:\text{Cat}\rightarrow\text{Set}\]
-	}
 
 \subsection{Functors}
 
@@ -343,7 +281,7 @@
 	\end{uproperty}
 	
 	\newdef{Equalizer}{\index{equalizer}
-		Consider following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is an object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$ and such that $E$ satisfies a universal property.
+		Consider following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is the universal object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$.
 	}
 	\begin{property}
 		Consider an equalizer $(E, e)$. The morphism equalizing morphism $e$ is a monomorphism.
@@ -449,6 +387,87 @@
 		If the cokernel of $f:x\rightarrow y$ exists then it is denoted by $y\rightarrow\text{Coker}(f)$.
 	\end{notation}
 	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by the Yoneda lemma the morphism \[\text{Ker}(f)\rightarrow x\] represents the functor \[F:z\mapsto\ker\Big(\hom_C(z, x)\rightarrow\hom_C(z, y)\Big)\]}
+
+\subsection{Morphisms}
+
+	\newdef{Monomorphism}{\index{monomorphism}
+		Let $C$ be a category. A morphism $\mu\in\text{hom}_C(A, B)$ is called a monomorphism\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
+	}
+	\newdef{Epimorphism}{\index{epimorphism}
+		Let $C$ be a category. A morphism $\varepsilon\in\text{hom}_C(A, B)$ is called an epimorphism\footnote{Sometimes just an \textbf{epi} or an \textbf{epic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(B, X)$ such that $\alpha_1\circ\varepsilon = \alpha_2\circ\varepsilon$ we can conclude that $\alpha_1=\alpha_2$.
+	}
+	
+	\newdef{Injective object}{\index{injective!object}
+		Let $C$ be an (Abelian) category. An object $I\in\ob(C)$ is said to be injective if for every $A, B\in\ob(C)$, monomorphism $f:A\rightarrow B$ and morphism $g:A\rightarrow I$ there exists a morphism $\phi:B\rightarrow I$ such that $\phi\circ f = g$.
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=7em,column sep=7em, minimum width=2em, ampersand replacement=\&]{
+						A\&B\\
+						I\&\\
+					};
+					\draw[right hook ->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$f$};
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$g$};
+					\draw[dashed, ->] (m-1-2) -- (m-2-1) node[pos=0.5, below right]{$\phi$};
+				\end{tikzpicture}
+				\caption{Injective object $I$.}
+				\label{fig:injective_object}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=7em,column sep=7em, minimum width=2em, ampersand replacement=\&]{
+						A\&B\\
+						\&P\\
+					};
+					\draw[->>] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$f$};
+					\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$g$};
+					\draw[dashed, ->] (m-2-2) -- (m-1-1) node[pos=0.5, below left]{$\phi$};
+				\end{tikzpicture}
+				\caption{Projective object $P$.}
+				\label{fig:projective_object}
+			\end{subfigure}
+		\end{figure}
+	}
+	
+	Dually one can construct:
+	\newdef{Projective object}{\index{projective!object}
+		Let $C$ be an (Abelian) category. An object $P\in\ob(C)$ is said to be projective if for every $A, B\in\ob(C)$, epimorphism $f:A\rightarrow B$ and morphism $g:P\rightarrow A$ there exists a morphism $\phi:P\rightarrow B$ such that $f\circ\phi = g$.
+	}
+	
+	\newdef{Subobject}{\index{subobject}
+		Let $C$ be a category and let $a\in\ob(C)$ be any object. A subobject $b$ of $a$ is a monomorphism $b\hookrightarrow a$.
+	}
+	
+	\newdef{Subobject classifier}{
+		Consider a category with finite limits. A subobject classifier is a monomorphism\footnote{The symbol for this morphism will become clear in subsection \ref{cat:internal_logic}.} $\text{true}:\mathbf{1}\rightarrow\Omega$ from the terminal object such that for every monomorphism $\phi:a\rightarrow b$ there exists a morphism $\chi:b\rightarrow\Omega$ such that the following pullback square exists:
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=2em, ampersand replacement=\&]{
+					a\&\mathbf{1}\\
+					b\&\Omega\\
+				};
+				\draw[right hook ->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi$};
+				\draw[->] (m-1-1) -- (m-1-2);
+				\draw[right hook ->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\text{true}$};
+				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\chi$};
+			\end{tikzpicture}
+			\caption{Subobject classifier.}
+			\label{fig:subobject_classifier}
+		\end{figure}
+	}
+	
+	\newdef{Generator\footnotemark}{\index{generator}\label{cat:generator}
+		\footnotetext{Also called a \textbf{separator}.}
+		Let $C$ be a category. A collection of objects $\{o_i\in\ob(C)\}$ is called a collection of generators for $C$ if given any two objects $a, b\in\ob(C)$ and any two morphisms $f, g:a\rightarrow b$ we have that $f\neq g\implies\exists j\in I, h_j\in\hom_C(o_i, a): f\circ h_j\neq g\circ h_j$.
+	}
+	
+	\newdef{Decategorification}{
+		Let $C$ be a (essentially) small category. The set of isomorphism classes of $C$ is called the decategorification of $C$. This is given by a functor \[K:\text{Cat}\rightarrow\text{Set}\]
+	}
 
 \subsection{Monoidal categories}
 
@@ -913,12 +932,35 @@
 			\end{itemize}
 		\end{enumerate}
 	}
+	\remark{If one represents the operad using planar tree diagrams the associativity obtains a nice intuitive form. When combining planar tree diagrams in three layers the associativity axiom says that one can first glue the first two layers together or one can first glue the last two layers together.}
+	
+	\begin{example}\index{endomorphism!operad}
+		\nomenclature[S_endop]{$\mathcal{E}$nd}{Endomorphism operad}
+		Consider a vector space $V$. For every $n\in\mathbb{N}$ one can define the endomorphism algebra End$(V^{\otimes n}, V)$. The endomorphism operad $\mathcal{E}\text{nd}(V)$ is defined as $\{\text{End}(V^{\otimes n}, V)\}_{n\in\mathbb{N}}$.
+	\end{example}
 
         \newdef{$O$-algebra}{\index{algebra!over an operad}
-                An object $X$ is called an algebra over an operad $O$ if there exist morphisms $O(n)\times X^n\rightarrow X$ for every $n\in\mathbb{N}$ satisfying the usual composition and identity laws.
+                An object $X$ is called an algebra over an operad $O$ if there exist morphisms $O(n)\times X^n\rightarrow X$ for every $n\in\mathbb{N}$ satisfying the usual composition and identity laws. Alternatively this can be rephrased as the existence of a (plain) operad morphism $O(n)\rightarrow\mathcal{E}\text{nd}(X)$.
         }
         \begin{example}[Categorical $O$-algebra]
                 An $O$-algebra in the category Cat.
         \end{example}
 
 \section{Topos theory}
+\subsection{Elementary topoi}
+
+	\newdef{Elementary topos}{\index{topos!elementary}
+		An elementary topos is a category in which all power objects and all finite limits exist. Equivalently one can define an elementary topos as a cartesian closed category which has a subobject classifier and in which all finite limits exist.
+	}
+	
+\subsection{Internal logic}\label{cat:internal_logic}
+
+	In this subsection we consider categories with all finite limits and a subobject classifier (so they don't have to be a topos).
+	
+	\newdef{Truth value}{\index{truth value}
+		A global element of the subobject classifier, i.e. a morphism $\mathbf{1}\rightarrow\Omega$. The subobject classifier $\Omega$ is hence also sometimes called the \textbf{object of truth values}.
+	}
+	
+	\begin{property}
+		The subobject classifier is an internal poset.
+	\end{property}

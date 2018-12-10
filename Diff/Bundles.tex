@@ -90,7 +90,7 @@
 	
 	\newdef{Compatible\footnotemark\ bundle charts}{\index{compatible!bundle charts}
 		\footnotetext{Also called an \textbf{admissible chart}.}
-		A bundle chart $(V, \psi)$ is compatible with a trivializing cover $\{(U_i, \varphi_i)\}_{i\in I}$ if whenever $V\cap U_i\neq\emptyset$ their exists a map $h_i:V\cap U_i\rightarrow G$ such that:
+		A bundle chart $(V, \psi)$ is compatible with a trivializing cover $\{(U_i, \varphi_i)\}_{i\in I}$ if whenever $V\cap U_i\neq\emptyset$ there exists a map $h_i:V\cap U_i\rightarrow G$ such that:
 		\begin{equation}
 			\psi\circ\varphi_i^{-1}(b, x) = (b, h_i(b)x)
 		\end{equation}
@@ -141,10 +141,7 @@
 	\end{property}
 
 	\newdef{Trivial bundle}{\label{manifolds:trivial_bundle}
-		A fibre bundle $(E, B, \pi, F)$ is trivial if $E \cong B\times F$.
-	}
-	\newdef{Trivialization}{
-		A trivialization of a fibre bundle $\xi$ is an equivalence $\xi\rightarrow B\times F$. Bundles for which a trivialization can be found are also called \textit{trivial bundles}.
+		A fibre bundle $(E, B, \pi, F)$ is trivial if there exists an equivalence $E \cong B\times F$.
 	}
 
 \subsection{Fibre bundle operations}	
@@ -152,19 +149,19 @@
 	\newdef{Subbundle}{\index{subbundle}
 		A subbundle of a fibre bundle $\pi:E\rightarrow B$ is a triple $(E', B', \pi')$ such that $E'\subset E$, $B'\subset B$ (where $\subset$ now means 'submanifold of') and $\pi' = \pi|_{E'}$.
 	}
-	\newdef{Pullback bundle}{\index{pullback!bundle}
+	\newdef{Pullback bundle}{\index{pullback!bundle}\label{manifolds:pullback_bundle}
 		Let $\pi:E\rightarrow B$ be a fibre bundle. Let $f:B'\rightarrow B$ be a continuous map between topological spaces. The pullback bundle $f^*E$ is defined as follows:
 		\begin{equation}
 			f^*E = \{(b', e)\in B'\times E:f(b') = \pi(e)\}
 		\end{equation}
-		The topology on $f^*E$ is induced by the subspace topology of the product $B'\times E$.
+		The topology on $f^*E$ is induced by the subspace topology of the product $B'\times E$. The projection onto the second factor gives a map of total spaces $f^*E\rightarrow E$.
 	}
 	
 	\newdef{Fibre product}{\index{fibre!product}
 		Let $(F_1, B, \pi_1)$ and $(F_2, B, \pi_2)$  be two fibre bundles on a base space $B$. Their fibre product is defined as:
 		\begin{equation}
 			\label{manifolds:fibre_product}
-			F_1\diamond F_2 = \{f\times g\in F_1\times F_2: \pi_1(f) = \pi_2(g)\}
+			F_1\diamond F_2 = \{(f, g)\in F_1\times F_2: \pi_1(f) = \pi_2(g)\}
 		\end{equation}
 	}
 	
@@ -181,15 +178,27 @@
 		The sections on a fibre bundle $E$ pullback to the pullback bundle $f^*E$ by setting $f^*s = s\circ f$.
 	\end{property}
 
-\section{Jet bundles}
+\section{Jet bundles}\label{section:jet_bundles}
+
+	Although the following constructions can be defined in the general context of smooth manifolds we will only consider them in the case of smooth fibre bundles. Only the notion of a jet will be defined in general for maps between smooth manifolds (to define a Whitney topology on the space of smooth functions).
 
 	\newdef{Jet}{\index{jet}
-		Consider a fibre bundle $(E, B, \pi)$ with its sections $\Gamma(E)$. Two sections $\sigma, \xi\in\Gamma(E)$ with local coordinates $(\sigma^i)$ and $(\xi^i)$ define the same $r$-jet at a point $p\in B$ if and only if:
+		Consider two manifolds $M, N$. Two maps $\sigma,\xi\in C^\infty(M, N)$ with local coordinates $(\sigma^i)$ and $(\xi^i)$ define the same $r$-jet at a point $p\in M$ if and only if:
 		\begin{equation}
 			\left.\mpderiv{\alpha}{\sigma^i}{x}\right|_p = \left.\mpderiv{\alpha}{\xi^i}{x}\right|_p
 		\end{equation}
-		for all $0\leq i\leq \dim E$ and every multi-index $\alpha$ such that $0\leq|\alpha|\leq r$. It is clear that this relation defines an equivalence relation. The $r$-jet at $p\in B$ with representative $\sigma$ is denoted by $j_p^r\sigma$. The number $r$ is called the \textbf{order} of the jet.
+		for all $0\leq i\leq\dim M$ and every multi-index $\alpha$ such that $0\leq|\alpha|\leq r$. It is clear that this relation defines an equivalence relation. The $r$-jet at $p\in M$ with representative $\sigma$ is denoted by $j_p^r\sigma$. The number $r$ is called the \textbf{order} of the jet.
 	}
+	
+	\newdef{Whitney $C^k$-topology}{\index{Whitney!$C^k$-topology}\index{$C^k$-topology|seealso{Whitney}}
+		Let $M, N$ be two smooth manifolds and consider the manifold\footnote{This manifold will be constructed further down this section in the case of fibre bundles.} of $k$-jets $J^k(M, N)$. A basis for the Whitney $C^k$-topology on $C^\infty(M, N)$ is given by the sets
+		\begin{equation}
+			S^k(U) = \{f\in C^\infty(M, N):J^kf\in U\}
+		\end{equation}
+		where $U$ is open in $J^k(M, N)$.
+	}
+	
+	\remark{The $k$-jet construction is easily carried over to the theory of bundles. To construct the jet space of sections on a (smooth) fibre bundle $(E, B, \pi)$ one just sets $M=B$ and $N=E$ in the previous definition. From this point on we will restrict to this case.}
 	
 	\newdef{Jet manifold}{
 		Consider a fibre bundle $(E, B, \pi)$. The $r$-jet manifold $J^r(\pi)$ of the projection $\pi$ is defined as:

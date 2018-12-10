@@ -1,5 +1,7 @@
 \chapter{Sheaf Theory}
 
+A reference for this chapter is \cite{brylinski}.
+
 \section{Presheafs}
 
 	\newdef{Presheaf}{\index{presheaf}\index{section}
@@ -28,7 +30,7 @@
 	\newdef{Sheaf}{\index{sheaf}
 		Let $(X, \tau)$ be a topological space. A sheaf $\mathcal{O}_X$ over $X$ is a presheaf $\mathcal{F}$ satisfying the following additional conditions:
 		\begin{enumerate}
-			\item Locality: Let $\{U_i\in\tau\}$ be an open cover of $U\subseteq X$ and consider sections $s, t\in\mathcal{F}(U)$. If $\forall i: s|_{U_i}=t|_{U_i}$ then $s=t$.
+			\item Locality\footnote{This is in fact a corollary of the second axiom.}: Let $\{U_i\in\tau\}$ be an open cover of $U\subseteq X$ and consider sections $s, t\in\mathcal{F}(U)$. If $\forall i: s|_{U_i}=t|_{U_i}$ then $s=t$.
 			\item Gluing: Let $\{U_i\in\tau\}$ be an open cover of $U\subseteq X$ and let $\{s_i\in\mathcal{F}(U_i)\}$ be a collection of sections. If $\forall i, j: s_i|_{U_i\cap U_j} = s_j|_{U_i\cap U_j}$ then there exists a section $s\in\mathcal{F}(U)$ such that $\forall i: s|_{U_i} = s_i$.
 		\end{enumerate}
 	}
@@ -37,52 +39,52 @@
 		\begin{equation}
 			\mathcal{F}(U)\rightarrow\prod_{i\in I}\mathcal{F}(U_i)\rightrightarrows\prod_{i, j\in I}\mathcal{F}(U_i\cap U_j)
 		\end{equation}
-		where the two morphisms on the right are obtained by combining the projection morphisms of the direct product and the restriction morphisms $\Phi^{U_i}_{U_i\cap U_j}$ and $\Phi^{U_j}_{U_i\cap U_j}$.
+		The two morphisms on the right are obtained by combining the projection morphisms of the direct product and the restriction morphisms $\Phi^{U_i}_{U_i\cap U_j}$ and $\Phi^{U_j}_{U_i\cap U_j}$.
 	\end{property}
 	
 	\newdef{Stalk}{\index{stalk}\index{germ}
-		Let $x\in X$ and consider the set of all neighbourhoods of $x$. This set can be turned into a directed set\footnote{See definition \ref{set:directed_set}.} by equipping it with the (partial) order relation $U\subset V\implies U\geq V$. This turns the sheaf $\mathcal{F}$ over $X$ into a directed system. The stalk over $x$ is then defined as the following direct limit\footnote{See definition \ref{direct_limit}.}:
+		Let $x\in X$ and consider the set of all neighbourhoods of $x$. This set can be turned into a directed set\footnote{See definition \ref{set:directed_set}.} by equipping it with the (partial) order relation \[U\subseteq V\implies U\geq V\] This turns the sheaf $\mathcal{F}$ over $X$ into a directed system. The stalk over $x$ is then defined as the following direct limit\footnote{See definition \ref{direct_limit}.}:
 		\begin{equation}
 			\mathcal{F}_x = \varinjlim_{U\ni x} \mathcal{F}(U)
 		\end{equation}
-		The equivalence class of a section $s\in\mathcal{F}(U)$ in $\mathcal{F}_x$ is called the \textbf{germ} of $s$ at $x$.
+		The equivalence class of a section $s\in\mathcal{F}(U)$ in $\mathcal{F}_x$ is called the \textbf{germ} of $s$ at $x$. Two sections belong to the same germ at $x$ if there exists a neighbourhood of $x$ on which they coincide.
 	}
 	\begin{notation}
-		Similar to the notation of the restriction morphisms we denote the morphism that maps every section to its equivalence class by $\Phi^U_x$.
+		Similar to the notation of the restriction morphisms we denote the morphism that maps every section to its germ at $x$ by $\Phi^U_x$.
 	\end{notation}
 	
 	\begin{property}
 		Two subsheaves of a sheaf $\mathcal{G}$ over $X$ are equal if and only if their stalks are equal as subsets of $\mathcal{G}_x$ for all points $x\in X$.
 	\end{property}
 	
-	\begin{construct}[Sheafification]\index{sheafification}
-		Consider a presheaf $\mathcal{F}$ over a topological space $X$. From this presheaf one can construct a sheaf $\mathcal{F}^\ast$, called the sheafification or \textbf{associated sheaf} of $\mathcal{F}$, in the following way:
+	\begin{construct}[Associated sheaf]\index{sheafification}
+		Consider a presheaf $\mathcal{F}$ over a topological space $X$. From this presheaf one can construct a sheaf $\overline{\mathcal{F}}$, called the \textbf{sheafification} or associated sheaf of $\mathcal{F}$, in the following way:
 		
 		First we define a presheaf $\mathcal{G}$ such that:\footnote{Sections in this sheaf are said to be \textit{continuous}. This statement can be made formal using the concept of an \'etal\'e space. (See construction \ref{sheaf:etale_construction}.)}
 		\begin{equation}
-			\mathcal{G}(U) = \left\{\left.(s_x)_{x\in U}\in\bigsqcup_{x\in U}\mathcal{F}_x\right\vert\forall x\in U: \exists\text{ open }V, t\in\mathcal{F}(V): \forall v\in V: s_v = \Phi^V_v(t)\right\}
+			\mathcal{G}(U) = \left\{\left.(s_x)_{x\in U}\in\prod_{x\in U}\mathcal{F}_x\right\vert\forall x\in U: \exists\text{ open }V\ni x, t\in\mathcal{F}(V): \forall v\in V: s_v = \Phi^V_v(t)\right\}
 		\end{equation}
-		where $U\subseteq X$ is open. The restriction maps $\rho^U_V$ are defined by:
+		The restriction maps $\rho^U_V$ are defined by:
 		\begin{equation}
 			\rho^U_V:(s_x)_{x\in U}\mapsto(s_x)_{x\in V}
 		\end{equation}
-		It is easily proven that this presheaf is in fact a sheaf and hence we obtain the sheafification by setting $\mathcal{F}^\ast = \mathcal{G}$. This construction also gives a canonical morphism $\varphi:\mathcal{F}\rightarrow\mathcal{F}^\ast$ defined by:
+		It is easily proven that this presheaf is in fact a sheaf and hence we obtain the sheafification of $\mathcal{F}$ by setting $\overline{\mathcal{F}} = \mathcal{G}$. This construction also gives a canonical morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ defined by:
 		\begin{equation}
-			\varphi(s):U\rightarrow\bigsqcup_{x\in U}\mathcal{F}_x:x \mapsto s_x = \Phi^U_x(s)
+			\varphi(s):U\rightarrow\prod_{x\in U}\mathcal{F}_x:x \mapsto s_x := \Phi^U_x(s)
 		\end{equation}
 		where $s\in\mathcal{F}(U)$ and $x\in U$.
 	\end{construct}
-	\sremark{We see that the sections in $\mathcal{F}^\ast$ arise from (locally) resticting sections in $\mathcal{F}$ to the stalks $\mathcal{F}_x$.}
+	\sremark{We see that the sections in $\overline{\mathcal{F}}$ arise from (locally) resticting sections in $\mathcal{F}$ to the stalks $\mathcal{F}_x$.}
 	
 	\begin{uproperty}
-		Let $\mathcal{F}$ be a presheaf over $X$ with associated sheaf $\mathcal{F}^\ast$. For any sheaf $\mathcal{G}$ over $X$ and any morphism $\rho:\mathcal{F}\rightarrow\mathcal{G}$ there exists a unique morphism $\sigma:\mathcal{F}^\ast\rightarrow\mathcal{G}$ such that $\rho = \sigma\circ\varphi$ where $\varphi$ is the canonical morphism $\mathcal{F}\rightarrow\mathcal{F}^\ast$.
+		Let $\mathcal{F}$ be a presheaf over $X$ with associated sheaf $\overline{\mathcal{F}}$. For any sheaf $\mathcal{G}$ over $X$ and any morphism $\rho:\mathcal{F}\rightarrow\mathcal{G}$ there exists a unique morphism $\sigma:\overline{\mathcal{F}}\rightarrow\mathcal{G}$ such that $\rho = \sigma\circ\varphi$ where $\varphi$ is the canonical morphism $\mathcal{F}\rightarrow\overline{\mathcal{F}}$.
 	\end{uproperty}
 	
 	\begin{property}
-		Let $\mathcal{F}$ be a presheaf over $X$ with associated sheaf $\mathcal{F}^\ast$. The morphism $\varphi:\mathcal{F}\rightarrow\mathcal{F}^\ast$ induces an isomorphism $\varphi_x:\mathcal{F}_x\rightarrow\mathcal{F}^\ast_x$ for all $x\in X$.
+		Let $\mathcal{F}$ be a presheaf over $X$ with associated sheaf $\overline{\mathcal{F}}$. The morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ induces an isomorphism $\varphi_x:\mathcal{F}_x\rightarrow\overline{\mathcal{F}}_x$ for all $x\in X$.
 	\end{property}
 	\begin{property}
-		Let $\mathcal{F}$ be a sheaf over $X$ with associated sheaf $\mathcal{F}^\ast$. The morphism $\varphi:\mathcal{F}\rightarrow\mathcal{F}^\ast$ is an isomorphism.
+		Let $\mathcal{F}$ be a sheaf over $X$ with associated sheaf $\overline{\mathcal{F}}$. The morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ is an isomorphism.
 	\end{property}
 	
 	\begin{construct}[Alternative using \'etal\'e spaces]\label{sheaf:etale_construction}
@@ -90,7 +92,7 @@
 		\begin{equation}
 			\overline{\mathcal{F}} = \bigsqcup_{x\in X}\mathcal{F}_x
 		\end{equation}
-		Define for every local section $s\in\mathcal{F}(U)$ a function $\overline{s}:U\rightarrow\mathcal{F}_x:x\mapsto s_x$ The union $\overline{\mathcal{F}}$ can be turned into an \'etal\'e space\footnote{See definition \ref{topology:etale_space}.} over $X$ by equipping it with the topology with basis
+		Define for every local section $s\in\mathcal{F}(U)$ a function $\overline{s}:U\rightarrow\overline{\mathcal{F}}:x\mapsto s_x\in\mathcal{F}_x$ The union $\overline{\mathcal{F}}$ can be turned into an \'etal\'e space\footnote{See definition \ref{topology:etale_space}.} over $X$ by equipping it with the topology with basis
 		\begin{equation}
 			\{\overline{s}(U)\ |\ U\text{ open in }X, s\in\mathcal{F}(U)\}
 		\end{equation}
@@ -109,6 +111,10 @@
 	\begin{property}
 		The global sections functor is only left exact.
 	\end{property}
+	
+	\newdef{Image and kernel}{
+		Given a morphism of sheafs $\phi:\mathcal{F}\rightarrow\mathcal{G}$ over a space $X$ one can define the kernel/image presheafs which assign to every open subset $U\subseteq X$ the image/kernel of $\phi_U$. The kernel presheaf is already a sheaf and will be denoted by $\ker(\phi)$. The sheafification of the image presheaf will be denoted by $\im(\phi)$.
+	}
 	
 \section{Ringed spaces}
 

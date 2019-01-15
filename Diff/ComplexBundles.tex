@@ -44,8 +44,9 @@
 \section{Complex differential forms}
 	
 	\begin{property}
-		On a complex manifold there exist coordinates $\{z^i\}_i$ such that the almost complex structure $J$ can be written as:
+		On a complex manifold there exist coordinates $\{z^i\}_{i\leq n}$ such that the almost complex structure $J$ can be written as:
 		\begin{equation}
+			\label{complex:complex_structure}
 			J = i\partial_k\otimes dz^k - i\partial_{\overline{k}}\otimes d\overline{z}^k
 		\end{equation}
 		This coordinate expansion can be used to, given an almost complex manifold satisfying \ref{complex:integrable_structure}, find a coordinate transformation from the real coordinates $\{x^i\}_{i\leq2n}$ to the complex coordinates $\{z^i\}_{i\leq n}$.
@@ -111,8 +112,8 @@
 				\begin{equation}
 					\omega(v, Jv)>0
 				\end{equation}
+				
 		\end{itemize}
-
 		or
 		\begin{itemize}
 			\item $M$ is Hermitian\footnote{$g_{\mathbb{C}}$ is the extension (by linearity) of $g$ from $TM$ to $T^{\mathbb{C}}M$. This map has $\mathbb{C}$ as codomain.}:
@@ -123,17 +124,17 @@
 		\end{itemize}
 		or
 		\begin{itemize}
-			\item $M$ is Hermitian (and in particular complex).
-			\item $J$ is stable under parallel transport with respect to the Levi-Civita connection on $(M, g)$:
+			\item $M$ is Hermitian.
+			\item $J$ is parallel with respect to the Levi-Civita connection on $(M, g)$:
 			\begin{equation}
 				\nabla_XJ = 0
 			\end{equation}
 		\end{itemize}
 	}
-	\remark{The property, which says that $J$ acts isometrically, can be interchanged for the statement that $J$ acts as a symplectomorphism. These two statements are equivalent if the second property holds.}
+	\remark{The property, which says that $J$ acts isometrically, can be interchanged for the statement that $J$ acts as a symplectomorphism. These two statements are equivalent on a K\"ahler manifold.}
 	
-	\newdef{K\"ahler form}{
-		The central object in all these definitions is the K\"ahler form:
+	\newdef{K\"ahler form}{\index{Hermitian!form}\index{fundamental!form}
+		The central object in all these definitions is the K\"ahler form\footnote{Sometimes called the \textbf{Hermitian form} or \textbf{fundamental form}.}:
 		\begin{equation}
 			\boxed{\omega(v, w) = g_{\mathbb{C}}(Jv, w)}
 		\end{equation}
@@ -142,10 +143,11 @@
 	\begin{formula}
 		The metric $g = g_{ij}dx^i\otimes dx^j$ can be rewritten as:
 		\begin{equation}
-			g = 2g_{i\overline{j}}dz^i\otimes d\overline{z}^j
+			g = g_{i\overline{j}}\big(dz^i\otimes d\overline{z}^j + d\overline{z}^j\otimes dz^i\big)
 		\end{equation}
-		The K\"ahler form can be written as:
+		The K\"ahler form can then be written as:
 		\begin{equation}
+			\label{complex:kahler_form}
 			\omega = ig_{i\overline{j}}dz^i\wedge d\overline{z}^j
 		\end{equation}
 	\end{formula}
@@ -153,12 +155,13 @@
 	\newdef{K\"ahler potential}{\index{K\"ahler!potential}
 		Using the $\partial\overline{\partial}$-lemma \ref{complex:del_delbar_lemma} we can locally write the K\"ahler form as:
 		\begin{equation}
+			\label{complex:kahler_potential}
 			\omega = i\partial\overline{\partial}K(z, \overline{z})
 		\end{equation}
-		where $K\in\Omega^0(M)$ is called the \textbf{K\"ahler potential}.
+		where the real function $K\in\Omega^0(M)$ is called the \textbf{K\"ahler potential}.
 	}
 	\begin{result}
-		Using the K\"ahler potential we can locally rewrite the Hermitian metric as:
+		It follows from formula \ref{complex:kahler_form} that we can (locally) rewrite the Hermitian metric as:
 		\begin{equation}
 			g_{i\overline{j}} = \partial_i\partial_{\overline{j}}K(z, \overline{z})
 		\end{equation}
@@ -176,6 +179,41 @@
 		\end{equation}
 	\end{property}
 	
+	\newdef{K\"ahler transformation}{
+		From definition \ref{complex:kahler_potential} one can see that the K\"ahler potential is not defined unambiguously. The following transformation leaves the K\"ahler form invariant:
+		\begin{equation}
+			K'(z, \overline{z}) = K(z, \overline{z}) + f(z) + \overline{f}(\overline{z})
+		\end{equation}
+		On overlapping coordinate charts the transformation between K\"ahler potentials is exactly of this form.
+	}
+	
+\subsection{Killing vectors}
+	
+	\newdef{Holomorphic Killing vector}{\index{Killing!vector}
+		Consider the set of Killing vectors $X_A$ associated to the metric $g$, i.e. $\mathcal{L}_{X_A}g = 0$. Within this set of vectors one can look at the set of vectors $k_A$ satisfying
+		\begin{equation}
+			\mathcal{L}_{k_A} J = 0
+		\end{equation}
+		These are called holomorphic Killing vectors because there components are holomorphic in the sense of complex analysis. This can easily be shown by writing the Killing condition in terms of covariant derivatives and by using expression \ref{complex:complex_structure}.
+	}
+	\begin{remark}
+	Equivalently one could require the following condition:
+		\begin{equation}
+			\mathcal{L}_{k_A} \omega = 0
+		\end{equation}
+	\end{remark}
+
+	\newdef{Moment map}{\index{moment!map}\index{generating!function}
+		Let $k$ be a holomorphic Killing vector. From $d\omega = 0$ one can, using Cartan's magic formula \ref{forms:cartan_magic_formula} and the above condition, find that $\iota_k\omega$ is closed. Poincar\'e's lemma then implies that here exists a real function $\mathcal{P}(z, \overline{z})$ such that:
+		\begin{equation}
+			\iota_k\omega = d\mathcal{P}
+		\end{equation}
+		Using the expression \ref{complex:kahler_form} one can then find the following expression for the Killing vector:
+		\begin{equation}
+			k^i = -ig^{i\overline{j}}\partial_{\overline{j}}\mathcal{P}
+		\end{equation}
+	}
+
 \section{Cohomology}
 \subsection{Hodge-de Rham cohomology}
 
@@ -185,13 +223,6 @@
 	%		H^{p, q}(M) = \frac{\ker(d_k)}{\im(d_{k-1})}
 	%	\end{equation}
 	%}
-
-	\begin{theorem}[Hodge decomposition]\index{Hodge!decomposition}
-		Let $M$ be a K\"ahler manifold. For all $k\in\mathbb{N}$ we have:
-		\begin{equation}
-			H^k(M) = \bigoplus_{p+q=k}H^{p, q}(M)
-		\end{equation}
-	\end{theorem}
 
 \subsection{Dolbeault cohomology}
 	
@@ -204,11 +235,11 @@
 	
 	By analogy with the Poincar\'e lemma for smooth manifolds we have following theorems:
 	\begin{theorem}[$\partial$-lemma]\index{$\partial$-lemma}
-		Let $\alpha\in\Omega^{p, q}(M)$. If $\partial\alpha = 0$ then there exists locally a complex form $\beta\in\Omega^{p-1, q}$ such that $\alpha = \partial\beta$.
+		Let $\alpha\in\Omega^{p, q}(M)$. If $\partial\alpha = 0$ then locally there exists a complex form $\beta\in\Omega^{p-1, q}$ such that $\alpha = \partial\beta$.
 	\end{theorem}
 	\begin{theorem}[$\overline{\partial}$-lemma]
-		Let $\alpha\in\Omega^{p, q}(M)$. If $\overline{\partial}\alpha = 0$ then there exists locally a complex form $\beta\in\Omega^{p, q-1}$ such that $\alpha = \overline{\partial}\beta$.
+		Let $\alpha\in\Omega^{p, q}(M)$. If $\overline{\partial}\alpha = 0$ then locally there exists a complex form $\beta\in\Omega^{p, q-1}$ such that $\alpha = \overline{\partial}\beta$.
 	\end{theorem}
 	\begin{theorem}[$\partial\overline{\partial}$-lemma]\label{complex:del_delbar_lemma}
-		Let $\alpha\in\Omega^{p, q}(M)$. If $d\alpha = 0$ then there exists locally a complex form $\beta\in\Omega^{p-1, q-1}$ such that $\alpha = \partial\overline{\partial}\beta$.
+		Let $\alpha\in\Omega^{p, q}(M)$. If $d\alpha = 0$ then locally there exists a complex form $\beta\in\Omega^{p-1, q-1}$ such that $\alpha = \partial\overline{\partial}\beta$.
 	\end{theorem}

@@ -96,7 +96,7 @@
 			\item $F(\phi\circ\psi) = F(\psi)\circ F(\phi)$
 		\end{itemize}
 	}
-	\remark{A contravariant functor can also be defined as a covariant functor from the opposite category. Therefore from now on we will drop the word \textit{covariant} when talking about functors.}
+	\remark{A contravariant functor can also be defined as a covariant functor from the opposite category. Therefore from now on we will drop the word \textit{covariant} when talking about functors. Furthermore, a contravariant functor $G:C^{op}\rightarrow\text{Set}$ is often called a \textbf{presheaf}.\index{presheaf}}
 	
 	\newdef{Dagger category\footnotemark}{\index{category!dagger}\index{involution}\label{cat:dagger_category}
 		\footnotetext{Also called a \textbf{$\dag$-category}.}
@@ -179,6 +179,7 @@
 	\newdef{Representable functor}{\index{functor!representable}
 		Let $C$ be a locally small category. A functor $F:C\rightarrow\text{Set}$ is said to be representable if there exists an object $X\in\ob(C)$ such that $F$ is naturally isomorphic to $h^X$. The pair $(X, \psi)$, where $\psi$ is the natural isomorphism, is called a \textbf{representation} of $F$.
 	}
+	\remark{A similar definition holds for presheafs $G:C^{op}\rightarrow\text{Set}$. In this case hom$(X, -)$ has to be replaced by hom$(-, X)$.
 	
 	\begin{theorem}[Yoneda's lemma]\index{Yoneda}
 		Let $C$ be a locally small category and let $F:C\rightarrow\emph{Set}$ be a functor. For every object $X\in\emph\ob(C)$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations \emph{Nat}$(h^X, F)$ and $FX$.
@@ -190,9 +191,9 @@
 		\begin{equation}
 			\text{Nat}(h^X, h^Y)\cong\text{hom}_C(Y, X)
 		\end{equation}
-		where one should pay attention to the right hand side where $Y$ appears in the \underline{first} argument.
+		where one should pay attention to the right hand side where $Y$ appears in the first argument.
 		
-		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\text{hom}_C(Y,X)$. The (contravariant) functor $h^-$ mapping every object $X\in\ob(C)$ to its hom-functor hom$(X, -)$ and every morphism $f\in\text{hom}_C(Y, X)$ to the natural transformation hom$(f, -)$ can also be interpreted as a covariant functor $G:C^{op}\rightarrow\text{Set}^C$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $C^{op}$ to the functor category Set$^C$.
+		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\text{hom}_C(Y,X)$. The functor $h^-$ mapping every object $X\in\ob(C)$ to its hom-functor hom$(X, -)$ and every morphism $f\in\text{hom}_C(Y, X)$ to the natural transformation hom$(f, -)$ can also be interpreted as a covariant functor $G:C^{op}\rightarrow\text{Set}^C$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $C^{op}$ to the functor category Set$^C$.
 		
 		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:C\hookrightarrow\text{Set}^{C^{op}}$, called the Yoneda embedding. 
 	\end{result}
@@ -222,7 +223,7 @@
 		A category is said to be pointed if it contains a zero object.
 	}
 	
-	\newdef{Global element}{\index{global!element}
+	\newdef{Global element}{\index{global!element}\label{category:global_element}
 		Let $C$ be a category with terminal object $\mathbf{1}$. A global element of an object $x\in\ob(C)$ is a morphism $\mathbf{1}\rightarrow x$.
 	}
 	\begin{example}
@@ -287,20 +288,27 @@
 		Let $D:I\rightarrow C$ be a diagram and let $\lim D$ be its limit. For every cone $(a, \psi)\in\text{Cone}(D)$ there exists a unique morphism $f:C\rightarrow\lim D$.
 	\end{uproperty}
 	
+	\begin{example}[Terminal object]
+		A terminal object $\mathbf{1}$ is a limit over the empty diagram.
+	\end{example}
+	
 	\newdef{Equalizer}{\index{equalizer}
 		Consider following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is the universal object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$.
 	}
 	\begin{property}
-		Consider an equalizer $(E, e)$. The morphism equalizing morphism $e$ is a monomorphism.
+		Consider an equalizer $(E, e)$. The equalizing morphism $e$ is a mono.
 	\end{property}
 	
 	\newdef{Finitely complete category}{\index{finitely!complete}
-		A category is said to be finitely complete if all equalizers and all finite products exist.
+		A category is said to be finitely complete if it has a terminal object and if all equalizers and all finite products exist.
+	}
+	\newadef{Finitely complete category}{
+		A category is said to be finitely complete if all finite limits exist.
 	}
 	
 	\newdef{Pullback\footnotemark}{\index{pullback}\label{cat:pullback}
 		\footnotetext{Also called a \textbf{fibre product} or \textbf{Cartesian square}.}
-		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is defined as the limit of following diagram:
+		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is defined as the limit of diagram \ref{fig:pullback}.
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
@@ -351,14 +359,18 @@
 \section{Morphisms}
 
 	\newdef{Monomorphism}{\index{monomorphism}
-		Let $C$ be a category. A morphism $\mu\in\text{hom}_C(A, B)$ is called a monomorphism\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
+		Let $C$ be a category. A morphism $\mu\in\text{hom}_C(A, B)$ is called a mono\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
 	}
 	\newdef{Epimorphism}{\index{epimorphism}
 		Let $C$ be a category. A morphism $\varepsilon\in\text{hom}_C(A, B)$ is called an epimorphism\footnote{Sometimes just an \textbf{epi} or an \textbf{epic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(B, X)$ such that $\alpha_1\circ\varepsilon = \alpha_2\circ\varepsilon$ we can conclude that $\alpha_1=\alpha_2$.
 	}
 	
+	\begin{property}
+		Every global element\footnote{See definition \ref{category:global_element}.} is a mono.
+	\end{property}
+	
 	\newdef{Injective object}{\index{injective!object}
-		Let $C$ be an category. An object $I\in\ob(C)$ is said to be injective if for every $A, B\in\ob(C)$, monomorphism $f:A\rightarrow B$ and morphism $g:A\rightarrow I$ there exists a morphism $\phi:B\rightarrow I$ such that $\phi\circ f = g$.
+		Let $C$ be an category. An object $I\in\ob(C)$ is said to be injective if for every $A, B\in\ob(C)$, mono $f:A\rightarrow B$ and morphism $g:A\rightarrow I$ there exists a morphism $\phi:B\rightarrow I$ such that $\phi\circ f = g$.
 		\begin{figure}[ht!]
 			\centering
 			\begin{subfigure}[b]{0.49\textwidth}
@@ -394,30 +406,16 @@
 	
 	Dually one can construct:
 	\newdef{Projective object}{\index{projective!object}
-		Let $C$ be an category. An object $P\in\ob(C)$ is said to be projective if for every $A, B\in\ob(C)$, epimorphism $f:A\rightarrow B$ and morphism $g:P\rightarrow A$ there exists a morphism $\phi:P\rightarrow B$ such that $f\circ\phi = g$.
+		Let $C$ be an category. An object $P\in\ob(C)$ is said to be projective if for every $A, B\in\ob(C)$, epi $f:A\rightarrow B$ and morphism $g:P\rightarrow A$ there exists a morphism $\phi:P\rightarrow B$ such that $f\circ\phi = g$.
 	}
 	
 	\newdef{Subobject}{\index{subobject}
-		Let $C$ be a category and let $a\in\ob(C)$ be any object. A subobject $b$ of $a$ is a monomorphism $b\hookrightarrow a$.
+		Let $C$ be a category and let $a\in\ob(C)$ be any object. A subobject $b$ of $a$ is a mono $b\hookrightarrow a$.
+		
+		In fact one should work up to isomorphism and hence the complete definition goes as follows. A subobject $b$ of $a$ in the category $C$ is an isomorphism class of monos $i:b\hookrightarrow a$ in the slice category $C/a$.
 	}
-	
-	\newdef{Subobject classifier}{
-		Consider a category with finite limits. A subobject classifier is a monomorphism\footnote{The symbol for this morphism will become clear in subsection \ref{cat:internal_logic}.} $\text{true}:\mathbf{1}\rightarrow\Omega$ from the terminal object such that for every monomorphism $\phi:a\rightarrow b$ there exists a morphism $\chi:b\rightarrow\Omega$ such that the following pullback square exists:
-		\begin{figure}[ht!]
-			\centering
-			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=2em, ampersand replacement=\&]{
-					a\&\mathbf{1}\\
-					b\&\Omega\\
-				};
-				\draw[right hook ->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi$};
-				\draw[->] (m-1-1) -- (m-1-2);
-				\draw[right hook ->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\text{true}$};
-				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\chi$};
-			\end{tikzpicture}
-			\caption{Subobject classifier.}
-			\label{fig:subobject_classifier}
-		\end{figure}
+	\newdef{Well-powered category}{\index{power}
+		A category $C$ is said to be well-powered if for every object $a\in\ob(C)$ the class of subobjects Sub$(a)$ is small.
 	}
 	
 	\newdef{Generator\footnotemark}{\index{generator}\label{cat:generator}
@@ -430,7 +428,7 @@
 	}
 	
 	\newdef{Lift}{\index{lift}
-		A lift of a morphism $f:a\rightarrow b$ along an epimorphism $e:x\rightarrow b$ is a morphisms $\tilde{f}:a\rightarrow x$ satisfying $f = e\circ\tilde{f}$.
+		A lift of a morphism $f:a\rightarrow b$ along an epi $e:x\rightarrow b$ is a morphisms $\tilde{f}:a\rightarrow x$ satisfying $f = e\circ\tilde{f}$.
 	}
 	\newdef{Lifting property}{\index{orthogonal}
 		A morphism $f:a\rightarrow b$ has the left lifting property with respect to a morphism $g:c\rightarrow d$ if for every commutative diagram \[\begin{array}{ccc}

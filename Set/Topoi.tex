@@ -44,3 +44,150 @@
 	\begin{property}
 		The subobject classifier is an internal poset.
 	\end{property}
+	
+\section{Geometric morphisms}
+
+	\newdef{Logical morphism}{\index{morphism!logical}
+		Let $\mathcal{E}, \mathcal{F}$ be (elementary) toposes. A morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ is called a logical morphism if it preserves finite limits, exponential objects and subobject classifiers.
+	}
+
+	\newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
+		Let $\mathcal{E}, \mathcal{F}$ be toposes. A morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ is called a geometric morphism if the left adjoint in the induced adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part.
+	}
+	
+	\begin{example}[Topological spaces]
+		Every continuous map $f:X\rightarrow Y$ induces a geometric morphism
+		\begin{equation}
+			\textbf{Sh}(X)\adj{f^*}{f_*}\textbf{Sh}(Y)
+		\end{equation}
+		where the direct image functor $f_*$ is defined as follows:
+		\begin{equation}
+			f_*F(U) = F(f^{-1}U)
+		\end{equation}
+		for any sheaf $F\in\textbf{Sh}(X)$ and any open subset $U\in\textbf{Open}(Y)$.
+	\end{example}
+	
+	By the previous example the global elements $\ast\rightarrow X$ of a topological space induce geometric morphisms of the form $\textbf{Sh}(\ast)\rightarrow\textbf{Sh}(X)$. By noting that $\textbf{Sh}(\ast)=\textbf{Set}$ we obtain the following generalization:
+	\newdef{Point}{\index{point}
+		A point of a topos $\mathcal{E}$ is a geometric morphism $\textbf{Set}\rightarrow\mathcal{E}$.
+	}
+	
+	\newnot{Category of toposes}{
+		The category of elementary toposes and geometric morphisms forms a (2-)category which we will denote by \textbf{Topos}.
+	}
+	
+\section{Sheaf topos}
+
+	\begin{property}[Presheaf topos]
+		Consider the presheaf category $\textbf{Psh}(X) = \widehat{\textbf{Open}(X)}$ over a topological space $X$. This category is an elementary topos where the subobject classifier $\Omega$ is defined as follows:
+		\begin{equation}
+			\Omega(U) = \{V:V\text{ is an open subset of }U\}
+		\end{equation}
+	\end{property}
+	
+	\begin{construct}[Sheafs and \'etal\'e bundles]
+		Let $X$ be a topological space. The functor \[I:\textbf{Open}(X)\rightarrow\textbf{Top}/X:U\mapsto(U\hookrightarrow X)\] induces the following adjunction:
+		\begin{equation}
+			\label{category:etale_adjunction}
+			\textbf{Psh}(X) \adj{\Gamma}{E} \textbf{Top}/X
+		\end{equation}
+		
+		The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{diff:chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The left adjoint assigns to every bundle its sheaf of (global) sections. The right adjoint assigns to every presheaf its bundle of germs.
+		
+		This adjunction restricts to an equivalence on the subcategories on which the unit and counit morphisms are isomorphisms. These subcategories are called the \textbf{sheaf} and \textbf{\'etal\'e bundle} categories respectively:
+		\begin{equation}
+			\textbf{Sh}(X) \cong \textbf{Et}(X)
+		\end{equation}
+	\end{construct}
+	
+	\begin{property}[Associated sheaf]
+		The inclusion functor $\textbf{Sh}(X)\hookrightarrow\textbf{Psh}(X)$ admits a left adjoint. This is exactly the sheafification functor which assigns to every presheaf its associated sheaf. This functor is given by the composition $\Gamma\circ E$.\footnote{This amounts to construction \ref{sheaf:etale_construction}.}
+		
+		The fact that the counit of adjunction \ref{category:etale_adjunction} restricts to an isomorphism on the full subcategory $\textbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
+	\end{property}
+
+\section{Grothendieck topos}
+
+	\newdef{Discrete fibration}{\index{fibration}
+		Let $\func{F}{A}{B}$ be a functor. $F$ is a discrete fibration if for every object $A\in\ob{A}$ and every morphism $f:B\rightarrow FA$ in $\textbf{B}$ there exists a unique morphism $g:C\rightarrow A$ in $\textbf{A}$ such that $F(g) = f$, where $B\in\ob{B}, C\in\ob{A}$.
+	}
+	
+	\newdef{Sieve}{\index{sieve}
+		Let \textbf{C} be a small category. A sieve $S$ on \textbf{C} is a fully faithfull discrete fibration $S\hookrightarrow\textbf{C}$.
+		
+		A sieve $S$ on an object $c\in\textbf{C}$ is a sieve in the slice category $\textbf{C}/c$. This means that $S$ is a subset of $\ob{C}/c$ that is closed under \textit{precomposition}, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(\textbf{C})$ then the composition $a\rightarrow b\rightarrow c\in S$.
+		
+		All of this can be summarized by saying that a sieve on an object $c\in\ob{C}$ is a subfunctor of the hom-functor $\textbf{C}(-, c)$.
+	}
+	
+	\begin{example}[Maximal sieve]
+			Let $C$ be a category. The maximal sieve on $c\in\ob{C}$ is the collection of all morphisms $\{f\in\text{hom}(\textbf{C}):\cod(f) = c\}$.
+	\end{example}
+
+	The following definition is due to Giraud (the original definition used covers).
+	\newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}
+		A Grothendieck topology on a category is a function $J$ assigning to every object a collection of sieves satisfying the following conditions:
+		\begin{itemize}
+			\item For every object $c$ the maximal sieve $M_c$ is an element of $J(c)$.
+			\item If $S\in J(c)$ then $f^*S\in J(d)$ for every morphism $(f:d\rightarrow c)\in S$.
+			\item Consider a sieve $S$ on $c$. If there exists a sieve $R\in J(c)$ such that for every morphism $(f:d\rightarrow c)\in R$ the pullback sieve $f^*S\in J(d)$ then $S\in J(c)$.
+		\end{itemize}
+		The sieves in $J$ are called (J-)\textbf{covering sieves}. 
+	}
+	\begin{example}[Topological spaces]
+		These conditions have the following interpretation in the case of topological coverings:
+		\begin{itemize}
+			\item The collection of all open subsets covers a space $U$.
+			\item If $\{U_i\}_{i\in I}$ covers $U$ then $\{U_i\cap V\}_{i\in I}$ covers $U\cap V$.
+			\item If $\{U_i\}_{i\in I}$ covers $U$ and if for every $i\in I$ the collection $\{U_{ij}\}_{j\in J_i}$ covers $U_i$ then $\{U_{ij}\}_{i\in I, j\in J_i}$ covers $U$.
+		\end{itemize}
+		
+		The canonical Grothendieck topology on \textbf{Open}$(X)$ is given by the sieves $S=\{U_i\hookrightarrow U\}_{i\in I}$ where $\bigcup_{i\in I}U_i = U$. This topology is denoted by $J_{\text{Open}(X)}$.
+	\end{example}
+
+	\newdef{Site}{
+		A (small) category equipped with a Grothendieck topology $J$.
+	}
+	
+	\newdef{Matching family}{
+		Consider a presheaf $F\in\text{ob}(\widehat{\textbf{C}})$ together with a sieve $S$ on $c\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\implies F$ between $S$ regarded as a subfunctor of hom$(-, c)$ and $F$.
+		
+		More explicitly it is as assignment of an element $x_f\in Fd$ to every morphism $(f:d\rightarrow c)\in S$ such that:
+		\begin{equation}
+			Fg(x_f) = x_{f\circ g}
+		\end{equation}
+		for all morphisms $g:e\rightarrow d$.
+		
+		Given such a matching family one calls an element $z\in Fc$ an \textbf{amalgamation} if it satisfies
+		\begin{equation}
+			Ff(z) = x_f
+		\end{equation}
+		for all morphisms $f\in S$.
+	}
+	\newdef{Sheaf}{\index{sheaf}
+		Consider a site $(\textbf{C}, J)$. A presheaf $F$ on $\textbf{C}$ is called a $J$-sheaf if every matching family for any covering sieve (on any object in $\mathbf{C}$) in $J$ admits a unique amalgamation.
+		
+		From the natural transformation point of view this condition amounts to the existence of a unique extension of $\alpha:S\implies F$ along the inclusion $S\hookrightarrow\text{hom}(-, c)$.
+		
+		The category $\textbf{Sh}(\mathbf{C}, J)$ of $J$-sheaves on the site $(\mathbf{C}, J)$ is the full subcategory of $\widehat{\textbf{C}}$ on the presheaves which satisfy the above condition.
+	}
+	
+	\begin{example}[Topological spaces]
+		The usual category of sheaves $\textbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\textbf{Open}(X), J_{\text{open}(X)})$.
+	\end{example}
+	
+	\newadef{Grothendieck topos}{\index{Grothendieck!topos}
+		A category\footnote{The fact that a Grothendieck topos is indeed an elementary topos follows from the fact that \textbf{Set} is a topos.} equivalent to a category of sheaves on a (small) site.
+	}
+	
+	\begin{property}[Balanced]
+		All monics and epics in a Grothendiek topos are regular. Hence property \ref{category:regular_iso} implies that every bimorphism is in fact an isomorphism and it follows that every Grothendieck topos is balanced\footnote{See definition \ref{category:balanced}.}.
+	\end{property}
+	
+	\begin{property}[Epi-mono factorization]\index{image}
+		Every morphism $f:a\rightarrow b$ in a Grothendieck topos factorizes uniquely as an epi followed by a mono:
+		\begin{equation}
+			a\overset{e}{\twoheadrightarrow} c\overset{m}{\rightarrowtail} b
+		\end{equation}
+		The mono is called the \textbf{image} of $f$.
+	\end{property}

@@ -1,32 +1,34 @@
 \chapter{Category theory}
 \section{Categories and subcategories}
 
+\nomenclature[S_Grp]{$\textbf{Grp}$}{Category of groups and group homomorphisms.}
+
 	\newdef{Subcategory}{\index{full!subcategory}
-		Let $C$ be a category. A subcategory $S$ of $C$ consists of a subcollection of objects ob$_S$ and a subcollection of morphisms hom$_S$ that satisfy following conditions:
+		Let $\bf C$ be a category. A subcategory $\bf S$ of $\bf C$ consists of a subcollection of objects ob$_S$ and a subcollection of morphisms hom$_S$ that satisfy following conditions:
 		\begin{itemize}
-			\item For every object in ob$_S$ the identity morphism is an element of hom$_S$.
-			\item For every morphism in hom$_S$ both the source and target are elements of ob$_S$.
+			\item For every object in $\ob{S}$ the identity morphism is an element of hom$_S$.
+			\item For every morphism in hom$_S$ both the source and target are elements of $\ob{\bf S}$.
 			\item For every pair of morphisms in hom$_S$ the composition is also an element of hom$_S$.
 		\end{itemize}
-		A subcategory is said to be \textbf{full} if for every two objects $X, Y\in\ob_S:$
+		A subcategory is said to be \textbf{full} if for every two objects $X, Y\in\ob{S}:$
 		\begin{equation}
-			\text{hom}_S(X, Y) = \text{hom}_C(X, Y)
+			\textbf{S}(X, Y) = \textbf{C}(X, Y)
 		\end{equation}
 	}
 	
 	\newdef{Small category}{\index{small}
-		A category $C$ is said to be small if both ob$(C)$ and hom$(C)$ are sets. A category $C$ is said to be locally small if for every two objects $X, Y\in\ob(C)$ the collection of morphisms hom$_C(X, Y)$ is a set.
+		A category $\bf C$ is said to be small if both $\ob{C}$ and hom$(\bf C)$ are sets. A category $\bf C$ is said to be locally small if for every two objects $X, Y\in\ob{C}$ the collection of morphisms $\textbf{C}(X, Y)$ is a set.
 		
 		A category equivalent to a small category is said to be \textbf{essentially small}.
 	}
 	
-	\newdef{Opposite categopy}{
-		Let $C$ be a category. The opposite category $C^{op}$ is defined by reversing all arrows in $C$.
+	\newdef{Opposite category}{
+		Let $\bf C$ be a category. The opposite category $\textbf{C}^{op}$ is defined by reversing all arrows in $\bf C$.
 	}
 	\begin{property}
 		From the definition of the opposite category it easily follows that
 		\begin{equation}
-			(C^{op})^{op} = C
+			(\textbf{C}^{op})^{op} = \textbf{C}
 		\end{equation}
 		i.e. $op$ is an involution.
 	\end{property}
@@ -36,53 +38,33 @@
 	}
 	
 	\newdef{Enriched category}{\index{category!enriched}
-	        Let $(M, \otimes, \mathbf{1})$ be a monoidal category. An enriched category over $M$, also called an $M$-category, consists of following elements:
+	        Let $(\bf M, \otimes, \mathbf{1})$ be a monoidal category\footnote{See definition \ref{category:monoidal_category} further below.}. An enriched category over $\bf M$, also called an $\mathbf{M}$-category, consists of following elements:
 	        \begin{itemize}
-	                \item A collection of objects ob$(C)$.
-	                \item For every pair of object $A, B\in\ob(C)$ there is an object $C(A, B)\in\ob(M)$ for which the following morphisms exist:
+	                \item A collection of objects $\ob{C}$.
+	                \item For every pair of object $A, B\in\ob{C}$ there is an object $\textbf{C}(A, B)\in\ob{M}$ for which the following morphisms exist:
 	                \begin{itemize}
-	                        \item id$_A: \mathbf{1}\rightarrow C(A,A)$
-	                        \item $\circ_{ABC}:C(B, C)\otimes C(A, B)\rightarrow C(A, C)$ replacing the usual composition
+	                        \item id$_A: \mathbf{1}\rightarrow\textbf{C}(A,A)$
+	                        \item $\circ_{ABC}:\textbf{C}(B, C)\otimes\textbf{C}(A, B)\rightarrow\textbf{C}(A, C)$ replacing the usual composition
 	                \end{itemize}
 	        \end{itemize}
-	        The associativity and identity morphisms from ordinary categories are given by commutative diagrams of the id and $\circ$ morphisms together with the associators and unitors in $M$.
+	        The associativity and identity morphisms from ordinary categories are given by commutative diagrams of the id and $\circ$ morphisms together with the associators and unitors in $\textbf{M}$.
 	}
-	
-	\newdef{Internal category}{\label{cat:internal_category}
-		Let $C$ be a category. A category $D$ internal to $C$ consists of following objects:
-		\begin{itemize}
-			\item An object $D_0\in\ob(C)$ of objects.
-			\item An object $D_1\in\ob(C)$ of morphisms.
-			\item Source and target morphisms $s, t\in\text{hom}_C(D_1, D_0)$.
-			\item An identity-assigning morphism $e\in\text{hom}_C(D_0, D_1)$ such that \[s\circ e = \mathbbm{1}_{D_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{D_0}\]
-			\item A composition morphism $c:D_1\times_{D_0}D_1\rightarrow D_1$ such that the following equations hold:
-			\begin{align*}
-				s\circ c = s\circ\pi_1\qquad\qquad&\qquad\qquad t\circ c = t\circ\pi_2\\
-				\pi_1 = c\circ(e\times_{D_0}\mathbbm{1})\qquad\qquad&\qquad\qquad c\circ(\mathbbm{1}\times_{D_0}e)=\pi_2\\
-				c\circ(c\times_{D_0}\mathbbm{1}) &= c\circ(\mathbbm{1}\times_{D_0}c)
-			\end{align*}
-			where $\pi_1, \pi_2$ are the canonical projections associated with the pullback\footnote{See definition \ref{cat:pullback}.} $D_1\times_{D_0}D_1$.
-		\end{itemize}		
-	}
-	\begin{remark}
-		To make the above definition work it is required that all pullbacks of the source and target morphisms exist.
-	\end{remark}
 
 	\newdef{Category with weak equivalences}{\index{weak!equivalence}\label{category:weak_equivalence}
-		A category $C$ with a subcategory $W$ such that:
+		A category $\textbf{C}$ with a subcategory $\textbf{W}$ such that:
 		\begin{itemize}
-			\item $W$ contains all isomorphisms in $C$.
-			\item Any two composable morphisms $f, g\in\text{hom}_W$ satisfy the 2-out-of-3 property: If any two of $\{f, g, f\circ g\}$ are in $W$ then so is the third.
+			\item $\textbf{W}$ contains all isomorphisms in $\textbf{C}$.
+			\item Any two composable morphisms $f, g\in\text{hom}_W$ satisfy the 2-out-of-3 property: If any two of $\{f, g, f\circ g\}$ are in $\textbf{W}$ then so is the third.
 		\end{itemize}
 	}
 
 \section{Functors}
 
 	\newdef{Covariant functor}{\index{functor}
-		Let $A, B$ be categories. A (covariant) functor $F$ is a map $A\rightarrow B$ satisfying following conditions:
+		Let $\textbf{A}, \textbf{B}$ be categories. A (covariant) functor $F$ is a map $\textbf{A}\rightarrow\textbf{B}$ satisfying following conditions:
 		\begin{itemize}
-			\item $F$ maps every object $X\in\ob(A)$ to an object $FX\in\ob(B)$.
-			\item $F$ maps every morphism $\phi\in\text{hom}_A(X, Y)$ to a morphism $F(\phi)\in\text{hom}_B(FX, FY)$.
+			\item $F$ maps every object $X\in\ob{A}$ to an object $FX\in\ob{B}$.
+			\item $F$ maps every morphism $\phi\in\textbf{A}(X, Y)$ to a morphism $F(\phi)\in\textbf{B}(FX, FY)$.
 			\item $F(\mathbbm{1}_X) = \mathbbm{1}_{FX}$
 			\item $F(\phi\circ\psi) = F(\phi)\circ F(\psi)$
 		\end{itemize}
@@ -90,19 +72,19 @@
 	\newdef{Contravariant functor}{
 		Let $A, B$ be categories. A contravariant functor $F$ is a map $A\rightarrow B$ satisfying following conditions:
 		\begin{itemize}
-			\item $F$ maps every object $X\in\ob(A)$ to an object $FX\in\ob(B)$.
-			\item $F$ maps every morphism $\phi\in\text{hom}_A(X, Y)$ to a morphism $F(\phi)\in\text{hom}_B(FY, FX)$.
+			\item $F$ maps every object $X\in\ob{A}$ to an object $FX\in\ob{B}$.
+			\item $F$ maps every morphism $\phi\in\textbf{A}(X, Y)$ to a morphism $F(\phi)\in\textbf{B}(FY, FX)$.
 			\item $F(\mathbbm{1}_X) = \mathbbm{1}_{FX}$
 			\item $F(\phi\circ\psi) = F(\psi)\circ F(\phi)$
 		\end{itemize}
 	}
-	\remark{A contravariant functor can also be defined as a covariant functor from the opposite category. Therefore from now on we will drop the word \textit{covariant} when talking about functors. Furthermore, a contravariant functor $G:C^{op}\rightarrow\text{Set}$ is often called a \textbf{presheaf}.\index{presheaf}}
+	\remark{A contravariant functor can also be defined as a covariant functor from the opposite category. Therefore from now on we will drop the word \textit{covariant} when talking about functors. Furthermore, a contravariant functor $G:\textbf{C}^{op}\rightarrow\textbf{Set}$ is often called a \textbf{presheaf}.\index{presheaf}}
 	
 	\newdef{Dagger category\footnotemark}{\index{category!dagger}\index{involution}\label{cat:dagger_category}
 		\footnotetext{Also called a \textbf{$\dag$-category}.}
-		A category equipped with a contravariant endofunctor, i.e. a functor $\dag:C^{op}\rightarrow C$, such that:
+		A category equipped with a contravariant endofunctor, i.e. a functor $\dag:\textbf{C}^{op}\rightarrow\textbf{C}$, such that:
 		\begin{itemize}
-			\item $\forall a\in\ob(C): \mathbbm{1}_a^\dag = \mathbbm{1}_a$
+			\item $\forall C\in\ob{C}: \mathbbm{1}_C^\dag = \mathbbm{1}_C$
 			\item $\dag\circ\dag = \mathbbm{1}_C$
 		\end{itemize}
 		The second property says that $\dag$ is an \textbf{involutive} functor.
@@ -113,55 +95,44 @@
 	\end{property}
 	
 	\newdef{Faithful functor}{\index{faithful}
-		A functor $F:C\rightarrow D$ is said to be faithful if the map \[\text{hom}_C(X, Y)\rightarrow \text{hom}_D(FX, FY)\] is injective for all objects $X, Y\in\ob(C)$.
+		A functor $\func{F}{C}{D}$ is said to be faithful if the map \[\textbf{C}(X, Y)\rightarrow\textbf{D}(FX, FY)\] is injective for all objects $X, Y\in\ob{C}$.
 	}
 	\newdef{Full functor}{\index{full}
-		A functor $F:C\rightarrow D$ is said to be full if the map \[\text{hom}_C(X, Y)\rightarrow \text{hom}_D(FX, FY)\] is surjective for all objects $X, Y\in\ob(C)$.
+		A functor $\func{F}{C}{D}$ is said to be full if the map \[\textbf{C}(X, Y)\rightarrow\textbf{D}(FX, FY)\] is surjective for all objects $X, Y\in\ob{C}$.
 	}
 	
 	\begin{example}[hom-functor]
-		Let $C$ be a locally small category. Every object $X\in\ob(C)$ induces a functor $h^X:C\rightarrow\text{Set}$ defined as follows:
+		Let $\textbf{C}$ be a locally small category. Every object $X\in\ob{C}$ induces a functor $\func{h^X}{C}{Set}$ defined as follows:
 		\begin{itemize}
-			\item $h^X$ maps every object $Y\in\ob(C)$ to the set hom$_C(X, Y)$.
-			\item For all $Y, Z\in\ob(C)$, $h^X$ maps every morphism $f\in\text{hom}_C(Y, Z)$ to the morphism $f\circ-:\text{hom}_C(X, Y)\rightarrow\text{hom}_C(X, Z):g\mapsto f\circ g$.
+			\item $h^X$ maps every object $Y\in\ob{C}$ to the set $\textbf{C}(X, Y)$.
+			\item For all $Y, Z\in\ob{C}$, $h^X$ maps every morphism $f\in\textbf{C}(Y, Z)$ to the morphism $f\circ-:\textbf{C}(X, Y)\rightarrow\textbf{C}(X, Z):g\mapsto f\circ g$.
 		\end{itemize}
 	\end{example}
-	\remark{The contravariant hom-functor $h_X$ is defined by replacing hom$(X, -)$ by hom$(-, X)$.}
-	
-	\newdef{Discrete fibration}{\index{fibration}
-		Let $F:A\rightarrow B$ be a functor. $F$ is a discrete fibration if for every object $a\in\ob(A)$ and every morphism $f:b\rightarrow F(a)$ in $B$ there exists a unique morphism $g:c\rightarrow a$ in $A$ such that $F(g) = f$, where $b\in\ob(B), c\in\ob(A)$.
-	}
+	\remark{The contravariant hom-functor $h_X$ is defined by replacing $\textbf{C}(X, -)$ by $\textbf{C}(-, X)$.}
 	
 	\newdef{Comma category}{\index{category!comma}
-		Let $A, B, C$ be three categories and let $F:A\rightarrow C$ and $G:B\rightarrow C$ be two functors. The comma category $F\downarrow G$ is defined as follows:
+		Let $\textbf{A}, \textbf{B}$ and $\textbf{C}$ be three categories and let $\func{F}{A}{C}$ and $\func{G}{B}{C}$ be two functors. The comma category $F\downarrow G$ is defined as follows:
 		\begin{itemize}
-			\item Objects are triples $(a, b, \gamma)$ where $a\in\ob(A), b\in\ob(B)$ and $\gamma:F(a)\rightarrow G(b)\in\text{hom}(C)$.
-			\item Morphisms $(a, b, \gamma)\rightarrow(k, l, \sigma)$ are pairs $(f, g)$ where $f:a\rightarrow k\in\text{hom}(A)$ and $g:b\rightarrow l\in\text{hom}(B)$ such that $\sigma\circ F(f) = G(g)\circ\gamma$.
+			\item Objects are triples $(A, B, \gamma)$ where $A\in\ob{A}, B\in\ob{B}$ and $\gamma:FA\rightarrow GB\in\text{hom}(\textbf{C})$.
+			\item Morphisms $(A, B, \gamma)\rightarrow(K, L, \sigma)$ are pairs $(f, g)$ where $f:A\rightarrow K\in\text{hom}(\textbf{A})$ and $g:B\rightarrow L\in\text{hom}(\textbf{B})$ such that $\sigma\circ F(f) = G(g)\circ\gamma$.
 			\item Composition of morphisms is defined componentwise.
 		\end{itemize}
 	}
 	\newdef{Slice category}{\index{category!slice}
-		Let $C$ be a category and let $c\in\ob(C)$. The slice category $C/c$ of $C$ over $c$ is defined as follows:
+		Let \textbf{C} be a category and let $c\in\ob{C}$. The slice category $\textbf{C}/c$ of $\textbf{C}$ over $c$ is defined as follows:
 		\begin{itemize}
-			\item Objects are morphisms in $C$ with codomain $c$.
-			\item Morphisms $f\rightarrow g$ are morphisms $h$ in $C$ such that $g\circ h = f$.
+			\item The objects are morphisms in $\textbf{C}$ with codomain $c$.
+			\item The morphisms $f\rightarrow g$ are morphisms $h$ in $\textbf{C}$ such that $g\circ h = f$.
 		\end{itemize}
-	}
-	
-	\newdef{Sieve}{\index{sieve}
-		Let $C$ be a small category. A sieve $S$ on $C$ is a fully faithfull discrete fibration $S\rightarrow C$.
-		
-		A sieve $S$ on an object $c\in C$ is a sieve in the slice category $C/c$. This means that $S$ is a subset of $\ob(C/c)$ that is closed under \textit{precomposition}, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(C)$ then the composition $a\rightarrow b\rightarrow c\in S$.
-	}
-	
+	}	
 
 \section{Natural transformations}
 
 	\newdef{Natural transformation}{\index{natural!transformation}
-		Let $F, G$ be two functors between the categories $C$ and $D$. A natural transformation $\psi$ from $F$ to $G$ consists of a collection of morphisms satisfying two conditions:
+		Let $F, G$ be two functors between the categories $\textbf{C}$ and $\textbf{D}$. A natural transformation $\psi$ from $F$ to $G$ consists of a collection of morphisms satisfying two conditions:
 		\begin{itemize}
-			\item For every object $X\in\ob(C)$ there exists a morphism $\psi_X:FX\rightarrow GX$ in $\text{hom}(D)$. This morphism is called the component of $\psi$ at $X$.
-			\item For every morphism $f\in\text{hom}_C(X, Y)$ we have $\psi_Y\circ F(f) = G(f)\circ\psi_X$.
+			\item For every object $X\in\ob{C}$ there exists a morphism $\psi_X:FX\rightarrow GX$ in $\text{hom}(\textbf{D})$. This morphism is called the \textbf{component} of $\psi$ at $X$.
+			\item For every morphism $f\in\textbf{C}(X, Y)$ we have $\psi_Y\circ F(f) = G(f)\circ\psi_X$.
 		\end{itemize}
 		It is often said that \textbf{$\psi_X$ is natural in $X$}.
 	}
@@ -169,42 +140,83 @@
 		A natural transformation $\psi$ from a functor $F$ to a functor $G$ is denoted by $\psi: F\Rightarrow G$.\footnote{This is in analogy with the notation for general 2-morphisms. See section \ref{cat:higher_category_theory} for more information.}
 	\end{notation}
 	
-	\begin{example}
-	        When considering representations as a functor $\rho:\text{Grp}\rightarrow\text{FinVect}$, we see that the intertwiners\footnote{See definition \ref{group:equivariant}.} play the rol of natural transformations.
+	\begin{example}[Representations]
+	        When considering representations as a functor $\rho:\text{Grp}\rightarrow\text{FinVect}$ we see that the intertwiners\footnote{See definition \ref{group:equivariant}.} arise as natural transformations.
 	\end{example}
-	\begin{example}[Functor category]\index{functor!category}
-		Let $C$ be a small category and let $D$ be a category. The functors $F:C\rightarrow D$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $[C, D]$ or $D^C$ (analogous to \ref{set:function_set}).
-	\end{example}
+	
+	\begin{definition}[Functor category]\index{functor!category}
+		Let $C$ be a small category and let $D$ be a category. The functors $\func{F}{C}{D}$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $[\textbf{C}, \textbf{D}]$ or $\textbf{D}^{\textbf{C}}$ (analogous to \ref{set:function_set}).
+	\end{definition}
 	
 	\newdef{Representable functor}{\index{functor!representable}
-		Let $C$ be a locally small category. A functor $F:C\rightarrow\text{Set}$ is said to be representable if there exists an object $X\in\ob(C)$ such that $F$ is naturally isomorphic to $h^X$. The pair $(X, \psi)$, where $\psi$ is the natural isomorphism, is called a \textbf{representation} of $F$.
+		Let $\textbf{C}$ be a locally small category. A functor $\func{F}{C}{Set}$ is said to be representable if there exists an object $X\in\ob{C}$ such that $F$ is naturally isomorphic to $h^X$. The pair $(X, \psi)$, where $\psi$ is the natural isomorphism, is called a \textbf{representation} of $F$.
 	}
-	\remark{A similar definition holds for presheafs $G:C^{op}\rightarrow\text{Set}$. In this case hom$(X, -)$ has to be replaced by hom$(-, X)$.
+	\remark{A similar definition holds for presheafs $G:\textbf{C}^{op}\rightarrow\textbf{Set}$. In this case hom$(X, -)$ has to be replaced by hom$(-, X)$.
 	
 	\begin{theorem}[Yoneda's lemma]\index{Yoneda}
-		Let $C$ be a locally small category and let $F:C\rightarrow\emph{Set}$ be a functor. For every object $X\in\emph\ob(C)$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations \emph{Nat}$(h^X, F)$ and $FX$.
-		\footnotetext{Here we used the fact that Nat$(h^-, -)$ can be seen as a functor Set$^C\times C\rightarrow$ Set.}
+		Let $\textbf{C}$ be a locally small category and let $\func{F}{C}{Set}$ be a functor. For every object $X\in\ob{C}$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations \emph{Nat}$(h^X, F)$ and $FX$.
+		\footnotetext{Here we used the fact that Nat$(h^-, -)$ can be seen as a functor $\textbf{Set}^{\textbf{C}}\times\textbf{C}\rightarrow\textbf{Set}$.}
 	\end{theorem}
 	\sremark{The image of a natural transformation $\psi\in\text{Nat}(h^X, F)$ is given by $\psi_X(\mathbbm{1}_X)$.}
 	\begin{result}[Yoneda embedding]
 		When $F$ is another hom-functor $h^Y$ we obtain the following result:
 		\begin{equation}
-			\text{Nat}(h^X, h^Y)\cong\text{hom}_C(Y, X)
+			\text{Nat}(h^X, h^Y)\cong\textbf{C}(Y, X)
 		\end{equation}
 		where one should pay attention to the right hand side where $Y$ appears in the first argument.
 		
-		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\text{hom}_C(Y,X)$. The functor $h^-$ mapping every object $X\in\ob(C)$ to its hom-functor hom$(X, -)$ and every morphism $f\in\text{hom}_C(Y, X)$ to the natural transformation hom$(f, -)$ can also be interpreted as a covariant functor $G:C^{op}\rightarrow\text{Set}^C$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $C^{op}$ to the functor category Set$^C$.
+		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\textbf{C}(Y,X)$. The functor $h^-$ mapping an object $X\in\ob{C}$ to its hom-functor $\textbf{C}(X, -)$ and a morphism $f\in\textbf{C}(Y, X)$ to the natural transformation hom$_C(f, -)$ can also be interpreted as a covariant functor $G:\textbf{C}^{op}\rightarrow\textbf{Set}^{\textbf{C}}$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $\textbf{C}^{op}$ to the functor category $\textbf{Set}^{\textbf{C}}$.
 		
-		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:C\hookrightarrow\text{Set}^{C^{op}}$, called the Yoneda embedding. 
+		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:\textbf{C}\hookrightarrow\textbf{Set}^{\textbf{C}^{op}}$, called the Yoneda embedding. 
 	\end{result}
+	
+\section{Adjunctions}
+
+	\newdef{Hom-set adjunction}{\index{adjunction}
+		Let $\func{F}{C}{D}$ and $\func{G}{D}{C}$ be two functors. These functors form a hom-set adjunction (often just called an adjunction) if the following isomorphism is natural in $a, b$:
+		\begin{equation}
+			\text{hom}_D(Fa, b)\cong\text{hom}_C(a, Gb)
+		\end{equation}
+		The functor $F$ (resp. G) is called the left (resp. right) adjoint\footnote{Sometimes the word \textbf{adjunct} is used (French versus Latin).}.
+	}
+	
+	\newdef{Unit-counit adjunction}{\index{triangle!identities}\index{unit}\index{zig-zag|see{triangle identity}}
+		Let $\func{F}{C}{D}$ and $\func{G}{D}{C}$ be two functors. These functors form a unit-counit adjunction if there exist natural transformations
+		\begin{align}
+			\varepsilon: F\circ G\Rightarrow 1_D\\
+			\eta: 1_C\Rightarrow G\circ F
+		\end{align}
+		such that the following compositions are identity morphisms:
+		\begin{align}
+			F\xrightarrow{F\eta}FGF\xrightarrow{\varepsilon F}F\\
+			G\xrightarrow{\eta G}GFG\xrightarrow{G\varepsilon}G
+		\end{align}
+		These identities are sometimes called the \textbf{triangle identities} or \textbf{zig-zag identities} (the latter results from the shape of the associated string diagram). The transformations $\varepsilon$ and $\eta$ are called the \textbf{unit} and \textbf{counit} respectively.
+	}
+	
+	\begin{property}
+		Every hom-set adjuction induces a unit-counit adjunction. Let $\Phi_{a, b}$ be the natural isomorphism associated to the hom-set adjunction $F\dashv G$. The unit $\varepsilon_d$ is obtained as the adjunct $\Phi^{-1}_{Gd, d}(1_{Gd})$ of the identity morphism on $Gd\in\ob{C}$ and the counit $\eta_c$ is analogously defined as the adjunct $\Phi_{c, Fc}(1_{Fc})$ of the identity morphism at $Fc\in\ob{D}$.
+		
+		Similarly every unit-counit adjunction induces a hom-set adjunction. Consider a morphism $f:Fc\rightarrow d$. The (right) adjunct $\tilde{f}$ is defined as the composition \[Gf\circ\eta_c:c\rightarrow (G\circ F)c\rightarrow Gd\] Similarly, consider a morphism $\tilde{g}:c\rightarrow Gd$. The (left) adjunct $g$ is defined as the composition \[\varepsilon_d\circ F\tilde{g}: Fc\rightarrow (F\circ G)d\rightarrow d\]
+	\end{property}
+
+	Now it should be obvious that the above definition of a unit-counit adjunction can be generalized to general 2-categories:
+	\newdef{Adjunction}{\index{adjunction}
+		Let \textbf{C} be a 2-category. An adjunction in \textbf{C} is a pair of 1-morphisms $F:a\rightarrow b$ and $G:b\rightarrow a$ together with 2-morphisms $\varepsilon:F\circ G\Rightarrow 1_b$ and $\eta:1_a\Rightarrow G\circ F$ that satisfy the zig-zag identities.
+	}
+	
+	\begin{remark}[Duals and adjunctions]
+		If one looks at the defining relations of duals in a rigid monoidal category one should see that these are in fact the same as the defining relations of the unit and counit of an adjunction. This is a consequence of the fact that a 2-category with a single object can be regarded as a (strict) monoidal category where the composition in the 2-category becomes the tensor product in the monoidal category. Similarly adjoint 1-morphisms in the 2-category become duals in the monoidal category.
+	\end{remark}
+
 
 \section{Initial and terminal objects}
 
 	\newdef{Initial object}{
-		An object $O$ in a category $C$ is called initial if for every other object $P$ there exists a unique morphism $\iota_P:O\rightarrow P$.
+		An object $O$ in a category $\textbf{C}$ is called initial if for every other object $P$ there exists a unique morphism $\iota_P:O\rightarrow P$.
 	}
 	\newdef{Terminal object}{
-		An object $O$ in a category $C$ is called terminal if for every other object $P$ there exists a unique morphism $\tau_P:P\rightarrow O$. This object is sometimes denoted by $\mathbf{1}$.
+		An object $O$ in a category $\textbf{C}$ is called terminal if for every other object $P$ there exists a unique morphism $\tau_P:P\rightarrow O$. This object is sometimes denoted by $\mathbf{1}$.
 	}
 	\begin{property}
 		If an initial (resp. terminal) object exists, then it is unique (possibly up to isomorphism).
@@ -217,27 +229,32 @@
 		An object which is both initial and terminal. The zero object is often denoted by $\mathbf{0}$.
 	}
 	\begin{property}[Zero morphism]
-		From the definition of the zero object it follows that for any two objects $a, b$ there exists a unique morphism $0_{ab}:a\rightarrow b$.
+		From the definition of the zero object it follows that for any two objects $A, B$ there exists a unique morphism $0_{AB}:A\rightarrow0\rightarrow B$.
 	\end{property}
 	\newdef{Pointed category}{\index{pointed!category}
 		A category is said to be pointed if it contains a zero object.
 	}
 	
 	\newdef{Global element}{\index{global!element}\label{category:global_element}
-		Let $C$ be a category with terminal object $\mathbf{1}$. A global element of an object $x\in\ob(C)$ is a morphism $\mathbf{1}\rightarrow x$.
+		Let $\textbf{C}$ be a category with terminal object $\mathbf{1}$. A global element of an object $X\in\ob{C}$ is a morphism $\mathbf{1}\rightarrow X$.
 	}
-	\begin{example}
-		In the category Set a global element coincides with the usual notion of \textit{element}.
-	\end{example}
+	\begin{remark}
+		In the category \textbf{Set} the elements of a set $S$ are in one-to-one correspondence with the global elements of $S$ and one has the important property (axiom) that two functions $f, g:S\rightarrow S'$ coincide if their evaluation at every element $s\in S$ is equal or equivalently if the precompositions with global elements coincide.
+		
+		However this way of checking equality can fail in other categories. Consider for example \textbf{Grp}. In this category the terminal object is $0 = \{e\}$. The only morphism from this group to any other group $G$ is the one mapping $e$ to the unit in $G$ ($0$ is also an initial object in \textbf{Grp}). It is obvious that precomposition with this morphism tells us nothing about the equality of other morphisms. To recover the technique used in \textbf{Set} one needs to generalize the notion of "element":
+	\end{remark}
+	\newdef{Generalized element}{\index{shape}
+		Let $\textbf{C}$ be category and consider an object $X$ in $\textbf{C}$. For any object $Y\in\ob{C}$ one calls a morphism $Y\rightarrow X$ a generalized element of $X$. The morphisms $Y\rightarrow X$ are also called $\textbf{Y-elements}$ in $X$ or elements of \textbf{shape} $Y$ in $X$.
+	}
 
 \section{Diagrams and limits}
 
 	\newdef{Diagram}{\index{diagram}
-		Let $I, C$ be two categories. A diagram in $C$ with index category $I$ is a (covariant) functor $D:I\rightarrow C$.
+		A diagram in $\textbf{C}$ with index category $\textbf{I}$ is a (covariant) functor $\func{D}{I}{C}$.
 	}
 	
 	\newdef{Cone}{\index{cone}
-		Let $D:I\rightarrow C$ be a diagram. A cone from $a\in\ob(C)$ to $D$ consists of a family of morphisms $\psi_i:a\rightarrow Di, \forall i\in\ob(I)$ such that $\psi_{j} = Df\circ\psi_i$ for all morphisms $f:i\rightarrow j\in\text{hom}(I)$. (See figure \ref{fig:cone_component})
+		Let $\func{D}{I}{C}$ be a diagram. A cone from $a\in\ob{C}$ to $D$ consists of a family of morphisms $\psi_i:a\rightarrow Di, \forall i\in\ob{I}$ such that $\psi_j = Df\circ\psi_i$ for all morphisms $f:i\rightarrow j\in\text{hom}(\textbf{I})$, as depicted in figure \ref{fig:cone_component}.
 		
 		\begin{figure}[ht!]
 			\centering
@@ -273,19 +290,19 @@
 		\end{figure}
 	}
 	\begin{adefinition}\index{diagonal!functor}
-		This definition can be reformulated by defining an additional functor\footnote{The notation $\Delta_a$ tells us that $\Delta:C\rightarrow [J,C]$ is the \textbf{diagonal functor}, i.e. $\Delta(c)$ is the constant functor from $I$ to $C$ with target object $c$.} $\Delta_a:I\rightarrow C$ which maps every element $i\in\ob(I)$ to $a$ and every morphism $g\in\text{hom}(I)$ to $\mathbbm{1}_a$. The morphisms $\psi_c$ can then be seen as the components of a natural transformation $\psi:\Delta_a\implies D$. Hence a cone $(a, \psi)$ is an element of $\text{hom}_{[I, C]}(\Delta_a, D)$.
+		This definition can be reformulated by defining an additional functor\footnote{The notation $\Delta_a$ tells us that $\Delta:C\rightarrow [\textbf{I},\textbf{C}]$ is the \textbf{diagonal functor}, i.e. $\Delta(c)$ is the constant functor from $\textbf{I}$ to $\textbf{C}$ with target object $c$.} $\Delta_a:\textbf{I}\rightarrow\textbf{C}$ which maps every element $i\in\ob{I}$ to $a$ and every morphism $g\in\text{hom}(\textbf{I})$ to $1_a$. The morphisms $\psi_c$ can then be seen as the components of a natural transformation $\psi:\Delta_a\Rightarrow D$. Hence a cone $(a, \psi)$ is an element of $[\textbf{I}, \textbf{C}](\Delta_a, D)$.
 	\end{adefinition}
 
 	\newdef{Morphism of cones}{\index{morphism!of cones}
-		Let $D:I\rightarrow C$ be a diagram and let $(a, \psi), (b, \phi)$ be cones to $D$. A morphism between these cones is a morphism of the apexes $f:a\rightarrow b$ such that the diagrams of the form \ref{fig:cone_morphism} commute for all $i\in\ob(I)$. The cones to $D$ together with these morphisms form a category Cone$(D)$, in fact this can easily be seen to be the comma category $(\Delta \downarrow D)$.
+		Let $\func{D}{I}{C}$ be a diagram and let $(a, \psi), (b, \phi)$ be cones to $D$. A morphism between these cones is a morphism of the apexes $f:a\rightarrow b$ such that the diagrams of the form \ref{fig:cone_morphism} commute for all $i\in\ob{I}$. The cones to $D$ together with these morphisms form a category $\textbf{Cone}(D)$, in fact this can easily be seen to be the comma category $(\Delta \downarrow D)$.
 	}
 	
 	\newdef{Limit}{\index{limit}
-		Consider a diagram $D:I\rightarrow C$. The limit $\lim D$ of this diagram, if it exists, is the terminal object of the category Cone$(D)$.
+		Consider a diagram $\func{D}{I}{C}$. The limit $\lim D$ of this diagram, if it exists, is the terminal object of the category $\textbf{Cone}(D)$.
 	}
 	This definition gives us following universal property:
 	\begin{uproperty}
-		Let $D:I\rightarrow C$ be a diagram and let $\lim D$ be its limit. For every cone $(a, \psi)\in\text{Cone}(D)$ there exists a unique morphism $f:C\rightarrow\lim D$.
+		Let $\func{D}{I}{C}$ be a diagram and let $\lim D$ be its limit. For every cone $(a, \psi)\in\textbf{Cone}(D)$ there exists a unique morphism $f:c\rightarrow\lim D$.
 	\end{uproperty}
 	
 	\begin{example}[Terminal object]
@@ -295,9 +312,6 @@
 	\newdef{Equalizer}{\index{equalizer}
 		Consider following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is the universal object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$.
 	}
-	\begin{property}
-		Consider an equalizer $(E, e)$. The equalizing morphism $e$ is a mono.
-	\end{property}
 	
 	\newdef{Finitely complete category}{\index{finitely!complete}
 		A category is said to be finitely complete if it has a terminal object and if all equalizers and all finite products exist.
@@ -306,71 +320,88 @@
 		A category is said to be finitely complete if all finite limits exist.
 	}
 	
-	\newdef{Pullback\footnotemark}{\index{pullback}\label{cat:pullback}
-		\footnotetext{Also called a \textbf{fibre product} or \textbf{Cartesian square}.}
-		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is defined as the limit of diagram \ref{fig:pullback}.
-		\begin{figure}[ht!]
-			\centering
-			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=2em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-					a\&\&b\\
-					\&c\&\\
-				};
-				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$f$};
-				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$g$};
-			\end{tikzpicture}
-			\caption{Pullback of morphisms.}
-			\label{fig:pullback}
-		\end{figure}
-	}
-	\begin{notation}[Pullback]
-		The pullback of two morphisms $f:a\rightarrow c$ and $g:b\rightarrow c$ is often denoted by $P = a\times_c b$.
-	\end{notation}
-	
-	\begin{property}
-		If a terminal object $\mathbf{1}$ exists then the pullback $a\times_{\mathbf{1}}b$ is equal to the product $a\times b$.
-	\end{property}
-	\newdef{Pushout}{\index{pushout}
-		The dual notion of a pullback.
-	}
-	
 	\newdef{Span}{\index{span}
 		A span in a category $C$ is a diagram of the form \ref{fig:cat_span}.
 		
-		Let $\Lambda$ be the category with three objects $\{-1, 0, 1\}$ and two morphisms $i:0\rightarrow -1$ and $j:0\rightarrow 1$. By the above definition of a diagram a span in $C$ is equivalent to a functor $S:\Lambda\rightarrow C$.
-		\begin{figure}[!ht]
+		Let $\Lambda$ be the category with three objects $\{-1, 0, 1\}$ and two morphisms $i:0\rightarrow -1$ and $j:0\rightarrow 1$. By the above definition of a diagram a span in $C$ is equivalent to a functor $\func{S}{\Lambda}{C}$.
+	}
+	
+	\newdef{Pullback\footnotemark}{\index{pullback}\label{cat:pullback}
+		\footnotetext{Also called a \textbf{fibre product} or \textbf{Cartesian square}.}
+		The pullback of two morphisms $f:A\rightarrow C$ and $g:B\rightarrow C$ is defined as the limit of cospan \ref{fig:pullback}.
+	}
+	\begin{figure}[!ht]
+		\centering
+		\begin{subfigure}[b]{0.49\textwidth}
 			\centering
 			\begin{tikzpicture}
 				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
-					\&s\&\\
-					x\&\&y\\
+					\&S\&\\
+					A\&\&B\\
 				};
 				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$f$};
 				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$g$};
 			\end{tikzpicture}
 			\caption{Span (category theory).}
 			\label{fig:cat_span}
-		\end{figure}
-	}
+		\end{subfigure}
+		\begin{subfigure}[b]{0.49\textwidth}
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					A\&\&B\\
+					\&C\&\\
+				};
+				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$f$};
+				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$g$};
+			\end{tikzpicture}
+			\caption{Cospan.}
+			\label{fig:pullback}
+		\end{subfigure}
+		\caption{}
+	\end{figure}
+	
+	\begin{notation}[Pullback]
+		The pullback of two morphisms $f:A\rightarrow C$ and $g:B\rightarrow C$ is often denoted by $A\times_C B$.
+	\end{notation}
+	
 	\begin{property}
-		If $C$ is a category with pullbacks, the category Span$_1(C)$, consisting of spans in $C$ as objects and isomorphism classes of spans as morphisms, is a $\dag$-category.
+		If a terminal object $\mathbf{1}$ exists then the pullback $A\times_{\mathbf{1}}B$ is equal to the (Cartesian) product  $A\times B$.
 	\end{property}
+	\newdef{Pushout}{\index{pushout}
+		The dual notion of a pullback, i.e. the colimit of a span.
+	}
+
 	
 \section{Morphisms}
 
 	\newdef{Monomorphism}{\index{monomorphism}
-		Let $C$ be a category. A morphism $\mu\in\text{hom}_C(A, B)$ is called a mono\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
+		Let \textbf{C} be a category. A morphism $\mu\in\textbf{C}(A, B)$ is called a mono\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob{C}$ and every two morphisms $\alpha_1, \alpha_2\in\textbf{C}(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
 	}
 	\newdef{Epimorphism}{\index{epimorphism}
-		Let $C$ be a category. A morphism $\varepsilon\in\text{hom}_C(A, B)$ is called an epimorphism\footnote{Sometimes just an \textbf{epi} or an \textbf{epic} morphism.} if for every object $X\in\ob(C)$ and every two morphisms $\alpha_1, \alpha_2\in\text{hom}_C(B, X)$ such that $\alpha_1\circ\varepsilon = \alpha_2\circ\varepsilon$ we can conclude that $\alpha_1=\alpha_2$.
+		Let \textbf{C} be a category. A morphism $\varepsilon\in\textbf{C}(A, B)$ is called an epimorphism\footnote{Sometimes just an \textbf{epi} or an \textbf{epic} morphism.} if for every object $X\in\ob{C}$ and every two morphisms $\alpha_1, \alpha_2\in\textbf{C}(B, X)$ such that $\alpha_1\circ\varepsilon = \alpha_2\circ\varepsilon$ we can conclude that $\alpha_1=\alpha_2$.
 	}
 	
-	\begin{property}
-		Every global element\footnote{See definition \ref{category:global_element}.} is a mono.
+	\newdef{Balanced category}{\index{category!balanced}\label{category:balanced}
+		A category is said to be balanced if every monic epi is an isomorphism.
+	}
+	
+	\begin{property}[Global elements]
+		Every global element\footnote{See definition \ref{category:global_element}.} is monic.
+	\end{property}
+	\begin{property}[Equalizing morphism]
+		Consider an equalizer $(E, e)$. The equalizing morphism $e$ is monic.
+	\end{property}
+
+	\newdef{Regular monomorphism}{\index{regular!morphism}
+		A mono is said to be regular if it arises as an equalizer of two parallel morphisms.
+	}
+	\begin{property}[Regular bimorphism]\label{category:regular_iso}
+		A monic regular epimorphism is an isomorphism. Analogously so is an epic regular monomorphism is an isomorphism.
 	\end{property}
 	
 	\newdef{Injective object}{\index{injective!object}
-		Let $C$ be an category. An object $I\in\ob(C)$ is said to be injective if for every $A, B\in\ob(C)$, mono $f:A\rightarrow B$ and morphism $g:A\rightarrow I$ there exists a morphism $\phi:B\rightarrow I$ such that $\phi\circ f = g$.
+		Let \textbf{C} be an category. An object $I\in\ob{C}$ is said to be injective if for every $A, B\in\ob{C}$, mono $f:A\rightarrow B$ and morphism $g:A\rightarrow I$ there exists a morphism $\phi:B\rightarrow I$ such that $\phi\circ f = g$.
 		\begin{figure}[ht!]
 			\centering
 			\begin{subfigure}[b]{0.49\textwidth}
@@ -406,118 +437,131 @@
 	
 	Dually one can construct:
 	\newdef{Projective object}{\index{projective!object}
-		Let $C$ be an category. An object $P\in\ob(C)$ is said to be projective if for every $A, B\in\ob(C)$, epi $f:A\rightarrow B$ and morphism $g:P\rightarrow A$ there exists a morphism $\phi:P\rightarrow B$ such that $f\circ\phi = g$.
+		Let \textbf{C} be an category. An object $P\in\ob{C}$ is said to be projective if for every $A, B\in\ob{C}$, epi $f:A\rightarrow B$ and morphism $g:P\rightarrow A$ there exists a morphism $\phi:P\rightarrow B$ such that $f\circ\phi = g$.
 	}
 	
 	\newdef{Subobject}{\index{subobject}
-		Let $C$ be a category and let $a\in\ob(C)$ be any object. A subobject $b$ of $a$ is a mono $b\hookrightarrow a$.
+		Let \textbf{C} be a category and let $A\in\ob{C}$ be any object. A subobject $B$ of $A$ is a mono $B\hookrightarrow A$.
 		
-		In fact one should work up to isomorphism and hence the complete definition goes as follows. A subobject $b$ of $a$ in the category $C$ is an isomorphism class of monos $i:b\hookrightarrow a$ in the slice category $C/a$.
+		In fact one should work up to isomorphism and hence the complete definition goes as follows. A subobject $B$ of $A$ in the category \textbf{C} is an isomorphism class of monos $i:B\hookrightarrow A$ in the slice category $\textbf{C}/A$.
 	}
-	\newdef{Well-powered category}{\index{power}
-		A category $C$ is said to be well-powered if for every object $a\in\ob(C)$ the class of subobjects Sub$(a)$ is small.
+	\newdef{Well-powered category}{\index{category!well-powered}
+		A category \textbf{C} is said to be well-powered if for every object $A\in\ob{C}$ the class of subobjects \textbf{Sub}$(A)$ is small.
 	}
 	
 	\newdef{Generator\footnotemark}{\index{generator}\label{cat:generator}
 		\footnotetext{Also called a \textbf{separator}.}
-		Let $C$ be a category. A collection of objects $\{o_i\in\ob(C)\}$ is called a collection of generators for $C$ if given any two objects $a, b\in\ob(C)$ and any two morphisms $f, g:a\rightarrow b$ we have that $f\neq g\implies\exists j\in I, h_j\in\hom_C(o_i, a): f\circ h_j\neq g\circ h_j$.
+		Let \textbf{C} be a category. A collection of objects $\{O_i\in\ob{C}\}$ is called a collection of generators for \textbf{C} if, given any two objects $A, B\in\ob{C}$ and any two morphisms $f, g:A\rightarrow B$, we have that $f\neq g\implies\exists j\in I, h_j\in\textbf{C}(O_i, A): f\circ h_j\neq g\circ h_j$.
 	}
 	
 	\newdef{Decategorification}{
-		Let $C$ be a (essentially) small category. The set of isomorphism classes of $C$ is called the decategorification of $C$. This is given by a functor \[K:\text{Cat}\rightarrow\text{Set}\]
+		Let \textbf{C} be a (essentially) small category. The set of isomorphism classes of \textbf{C} is called the decategorification of \textbf{C}. This is given by a functor \[K:\textbf{Cat}\rightarrow\textbf{Set}\]
 	}
 	
 	\newdef{Lift}{\index{lift}
-		A lift of a morphism $f:a\rightarrow b$ along an epi $e:x\rightarrow b$ is a morphisms $\tilde{f}:a\rightarrow x$ satisfying $f = e\circ\tilde{f}$.
+		A lift of a morphism $f:A\rightarrow B$ along an epi $e:X\rightarrow B$ is a morphisms $\tilde{f}:A\rightarrow X$ satisfying $f = e\circ\tilde{f}$.
 	}
 	\newdef{Lifting property}{\index{orthogonal}
-		A morphism $f:a\rightarrow b$ has the left lifting property with respect to a morphism $g:c\rightarrow d$ if for every commutative diagram \[\begin{array}{ccc}
-			a&\longrightarrow&c\\
-			f\Big\downarrow&&\Big\downarrow g\\
-			b&\longrightarrow&d
-		\end{array}\]
-		there exists a morphism $\psi:b\rightarrow c$ such that the triangles commute. $g$ is also said to have the right lifting property with respect to $f$. If the morphism $\psi$ is unique then $f$ and $g$ are said to be \textbf{orthogonal}.
+		A morphism $f:A\rightarrow B$ has the left lifting property with respect to a morphism $g:C\rightarrow D$ if for every commutative diagram
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzcd}[ampersand replacement=\&, row sep=4em,column sep=4em, minimum width=2em]
+				A \arrow[r] \arrow[d, "f"'] \& C \arrow[d, "g"]\\
+				B \arrow[ur, "\psi"] \arrow[r] \& D
+			\end{tikzcd}
+			\caption{Left lifting property.}
+			\label{fig:lifting_property}
+		\end{figure}
+		there exists a morphism $\psi:B\rightarrow C$ such that the triangles commute. The morphism $g$ is also said to have the right lifting property with respect to $f$. If the morphism $\psi$ is unique then $f$ and $g$ are said to be \textbf{orthogonal}.
 	}
 	
 	\newdef{Weak factorization system}{\index{weak!factorization}\label{category:wfc}
-		Consider a category $C$. A pair $(L, R)$ of classes of morphisms in $C$ is called a weak factorization system (WFS) if it satisfies the folllowing 3 properties:
+		Consider a category \textbf{C}. A pair $(L, R)$ of classes of morphisms in \textbf{C} is called a weak factorization system (WFS) if it satisfies the folllowing 3 properties:
 		\begin{itemize}
-			\item Every morphism in $C$ factors as a composition $g\circ f$ where $f\in L$ and $g\in R$.
-			\item $L$ consists of the morphisms in $C$ that have the left lifting property with respect to morphisms in $R$.
-			\item $R$ consists of the morphisms in $C$ that have the right lifting property with respect to morphisms in $L$.
+			\item Every morphism in \textbf{C} factors as a composition $g\circ f$ where $f\in L$ and $g\in R$.
+			\item $L$ consists of the morphisms in \textbf{C} that have the left lifting property with respect to morphisms in $R$.
+			\item $R$ consists of the morphisms in \textbf{C} that have the right lifting property with respect to morphisms in $L$.
 		\end{itemize}
 	}
 
 \section{Abelian categories}
 
 	\newdef{Preadditive category}{
-		A (locally small) category enriched over Ab, i.e. every hom-set is an Abelian group and composition is bilinear.
+		A (locally small) category enriched over \textbf{Ab}, i.e. every hom-set is an Abelian group and composition is bilinear.
 	}
 	
 	\begin{property}\index{zero!object}
-		Let $A$ be a preadditive category and let $x\in\ob(A)$. The following statements are equivalent:
+		Let \textbf{A} be a preadditive category and let $X\in\ob{A}$. The following statements are equivalent:
 		\begin{itemize}
-			\item $x$ is an initial object.
-			\item $x$ is a final object.
-			\item $\mathbbm{1}_x$ = 0
+			\item $X$ is an initial object.
+			\item $X$ is a final object.
+			\item $\mathbbm{1}_X$ = 0
 		\end{itemize}
 		Any initial/terminal object is hence a zero object\footnote{See definition \ref{cat:zero_object}.}.
 	\end{property}
 	\begin{property}
-		In a preadditive category the finite products $\prod_{i\in J}x_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in J} x_i$ (these are called \textbf{direct sums}). If a product $x\times y$ exists then so does the coproduct $x\sqcup y$ and if the coproduct exists then so does the product.
+		In a preadditive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product.
 	\end{property}
 	
 	\newdef{Additive category}{
 		A preadditive category in which all finite products (and hence coproducts) exist.
 	}
 	
-	In a preadditive category one can define the classical notions from algebra such as images and kernels:
+	In a preadditive category one can define the classical notions from (homological) algebra such as images and kernels:
 	\newdef{Kernel}{\index{kernel}
-		Let $f:x\rightarrow y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:z\rightarrow x$ such that:
+		Let $f:X\rightarrow Y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:Z\rightarrow X$ such that:
 		\begin{itemize}
 			\item $f\circ k = 0$
-			\item Universal property: for every other morphism $k':z'\rightarrow x$ there exists a unique morphism $h:z'\rightarrow z$ such that $k\circ h = k'$.
+			\item Universal property: for every other morphism $k':Z'\rightarrow X$ there exists a unique morphism $h:Z'\rightarrow Z$ such that $k\circ h = k'$.
 		\end{itemize}
 	}
 	\begin{notation}[Kernel]
-		If the kernel of $f:x\rightarrow y$ exists then it is denoted by Ker$(f)\rightarrow x$.
+		If the kernel of $f:X\rightarrow Y$ exists then it is denoted by $\ker(f)\rightarrow X$.
 	\end{notation}
 	
 	\newdef{Cokernel}{
-		Let $f:x\rightarrow y$ be a morphism. A cokernel is a morphism $p:y\rightarrow z$ such that:
+		Let $f:X\rightarrow Y$ be a morphism. A cokernel is a morphism $p:Y\rightarrow Z$ such that:
 		\begin{itemize}
 			\item $p\circ f = 0$
-			\item Universal property: for every other morphism $p':y\rightarrow z'$ there exists a unique morphism $h:z\rightarrow z'$ such that $h\circ p = p'$.
+			\item Universal property: for every other morphism $p':Y\rightarrow Z'$ there exists a unique morphism $h:Z\rightarrow Z'$ such that $h\circ p = p'$.
 		\end{itemize}
 	}
 	\begin{notation}[Kernel]
-		If the cokernel of $f:x\rightarrow y$ exists then it is denoted by $y\rightarrow\text{Coker}(f)$.
+		If the cokernel of $f:X\rightarrow Y$ exists then it is denoted by $Y\rightarrow\text{coker}(f)$.
 	\end{notation}
-	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by the Yoneda lemma the morphism \[\text{Ker}(f)\rightarrow x\] represents the functor \[F:z\mapsto\ker\Big(\hom_C(z, x)\rightarrow\hom_C(z, y)\Big)\]}
+	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by Yoneda's lemma the morphism \[\ker(f)\rightarrow X\] represents the functor \[F:Z\mapsto\ker\Big(\textbf{C}(Z, X)\rightarrow\textbf{C}(Z, Y)\Big)\]}
+
+	\newdef{Simple object}{\index{simple!object}
+		Let \textbf{C} be an Abelian category. An object $A\in\ob{C}$ is said to be simple if the only subobjects of $A$ are $\mathbf{0}$ and $A$ itself. An object is said to be semisimple if it is a direct sum of simple obejcts.
+	}
+	\newdef{Semisimple category}{
+		A category is said to be semisimple if every object is semisimple (where generally the direct sums are taken over finite index sets).
+	}
 
 \section{Monoidal categories}
 
-	\newdef{Monoidal category\footnotemark}{\index{category!monoidal}\index{category!tensor}\index{tensor!product}
+	\newdef{Monoidal category\footnotemark}{\index{monoidal!category}\index{tensor!product}
+	\label{category:monoidal_category}
 		\footnotetext{Sometimes called a \textbf{tensor} category.}
-		A category $C$ equipped with a bifunctor \[-\otimes -:C\times C\rightarrow C\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms, called the \textbf{coherence maps}:
+		A category \textbf{C} equipped with a bifunctor \[-\otimes -:\textbf{C}\times\textbf{C}\rightarrow\textbf{C}\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms, called the \textbf{coherence maps}:
 		\begin{itemize}
-			\item \textbf{Associator}: $\alpha_{a, b, c}:(a\otimes b)\otimes c\cong a\otimes(b\otimes c)$
-			\item \textbf{Left unitor}: $\lambda_a:\mathbf{1}\otimes a\cong a$
-			\item \textbf{Right unitor}: $\rho_a: a\otimes\mathbf{1}\cong a$
+			\item \textbf{Associator}: $\alpha_{A, B, C}:(A\otimes B)\otimes C\cong A\otimes(B\otimes C)$
+			\item \textbf{Left unitor}: $\lambda_A:\mathbf{1}\otimes A\cong A$
+			\item \textbf{Right unitor}: $\rho_A: A\otimes\mathbf{1}\cong A$
 		\end{itemize}
-		such that the following \textit{triangle} and \textit{pentagon} diagrams commute. (See \ref{fig:triangle_diagram} and \ref{fig:pentagon_diagram}.)
+		such that the \textbf{triangle} and \textbf{pentagon} diagrams commute. (See figures \ref{fig:triangle_diagram} and \ref{fig:pentagon_diagram}.)
 		
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
 				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
-					(a\otimes\mathbf{1})\otimes b\&\&a\otimes(\mathbf{1}\otimes b)\\
-					\&a\otimes b\&\\
+					(A\otimes\mathbf{1})\otimes B\&\&A\otimes(\mathbf{1}\otimes B)\\
+					\&A\otimes B\&\\
 				};
 				
-				\draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$\alpha_{a, \mathbf{1}, b}$};
-				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$\rho_a\otimes\mathbbm{1}$};
-				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\mathbbm{1}\otimes\lambda_b$};
+				\draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$\alpha_{A, \mathbf{1}, B}$};
+				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$\rho_A\otimes\mathbbm{1}$};
+				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\mathbbm{1}\otimes\lambda_B$};
 			\end{tikzpicture}
 			\caption{Triangle diagram.}
 			\label{fig:triangle_diagram}
@@ -525,21 +569,25 @@
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=4em,column sep=0.2em,minimum width=1em, ampersand replacement=\&]{
-					\&((a\otimes b)\otimes c)\otimes d\&\&(a\otimes (b\otimes c))\otimes d\&\\
-					(a\otimes b)\otimes(c\otimes d)\&\&\&\&a\otimes((b\otimes c)\otimes d)\\
-					\&\&a\otimes(b\otimes (c\otimes d))\&\&\\
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=-2em,minimum width=1em, ampersand replacement=\&]{
+					\&((A\otimes B)\otimes C)\otimes D\&\&(A\otimes (B\otimes C))\otimes D\&\\
+					(A\otimes B)\otimes(C\otimes D)\&\&\&\&A\otimes((B\otimes C)\otimes D)\\
+					\&\&A\otimes(B\otimes (C\otimes D))\&\&\\
 				};
 				
-				\draw[->] (m-1-2) -- (m-1-4) node[pos=0.5, above]{$\alpha_{a, b, c}\otimes\mathbbm{1}$};
-				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\alpha_{a\otimes b, c, d}$};
-				\draw[->] (m-2-1) -- (m-3-3) node[pos=0.5, below left]{$\alpha_{a, b, c\otimes d}$};
-				\draw[->] (m-1-4) -- (m-2-5) node[pos=0.5, above right]{$\alpha_{a, b\otimes c, d}$};
-				\draw[->] (m-2-5) -- (m-3-3) node[pos=0.5, below right]{$\mathbbm{1}\otimes\alpha_{b, c, d}$};
+				\draw[->] (m-1-2) -- (m-1-4) node[pos=0.5, above]{$\alpha_{A, B, C}\otimes\mathbbm{1}$};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\alpha_{A\otimes B, C, D}$};
+				\draw[->] (m-2-1) -- (m-3-3) node[pos=0.5, below left]{$\alpha_{A, B, C\otimes D}$};
+				\draw[->] (m-1-4) -- (m-2-5) node[pos=0.5, above right]{$\alpha_{A, B\otimes C, D}$};
+				\draw[->] (m-2-5) -- (m-3-3) node[pos=0.5, below right]{$\mathbbm{1}\otimes\alpha_{B, C, D}$};
 			\end{tikzpicture}
 			\caption{Pentagon diagram.}
 			\label{fig:pentagon_diagram}
 		\end{figure}
+	}
+	
+	\newdef{Strict monoidal category}{
+		A monoidal category is called strict if the associator $\alpha$ and the unitors $\lambda,\rho$ are identity morphisms.
 	}
 	
 	\newdef{Scalar}{\index{scalar}
@@ -549,126 +597,61 @@
 		The set of scalars forms a commutative monoid.
 	\end{property}
 	\begin{property}
-		Every scalar $s:\mathbf{1}\rightarrow\mathbf{1}$ induces a natural transformation \[s_a:a\cong\mathbf{1}\otimes a\xrightarrow{s\otimes\mathbbm{1}}\mathbf{1}\otimes a\cong a\] satisfying the "usual" rules of scalar multiplication in linear algebra:
+		Every scalar $s:\mathbf{1}\rightarrow\mathbf{1}$ induces a natural transformation \[s_A:A\cong\mathbf{1}\otimes A\xrightarrow{s\otimes\mathbbm{1}}\mathbf{1}\otimes A\cong A\] satisfying the "usual" rules of scalar multiplication in linear algebra:
 		\begin{itemize}
 			\item $s\diamond(s'\diamond f) = (s\circ s')\diamond f$
 			\item $(s\diamond f)\circ(s'\diamond g) = (s\circ s')\diamond(f\circ g)$
 			\item $(s\diamond f)\otimes(s'\diamond g) = (s\circ s')\diamond(f\otimes g)$
 		\end{itemize}
-		where $s\diamond f$ denotes $f\circ s_a = s_b\circ f$.
+		where $s\diamond f$ denotes $f\circ s_A = s_B\circ f$.
 	\end{property}
 	
 	\newdef{Weak inverse}{\index{weak!inverse}
-		Let $(C,\otimes, \mathbf{1})$ be a monoidal category. Consider an object $x\in\ob(C)$. An object $y\in\ob(C)$ is called a weak inverse of $x$ if it satisfies $x\otimes y\cong\mathbf{1}$.
+		Let $(\textbf{C},\otimes, \mathbf{1})$ be a monoidal category. Consider an object $X\in\ob{C}$. An object $Y\in\ob{C}$ is called a weak inverse of $X$ if it satisfies $X\otimes Y\cong\mathbf{1}$.
 	}
-	\remark{One can show that the existence of a one-sided weak inverse (as in the definition) is sufficient to prove that it is in fact a two-sided weak inverse, i.e. $y\otimes x\cong\mathbf{1}$.}
+	\remark{One can show that the existence of a one-sided weak inverse (as in the definition above) is sufficient to prove that it is in fact a two-sided weak inverse, i.e. $Y\otimes X\cong\mathbf{1}$.}
 	
 	\begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
-		Let $C, D$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\implies G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
+		Let $\textbf{C}, \textbf{D}$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\Rightarrow G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
 	\end{theorem}
 	
-	\newdef{Braided monoidal category}{\index{braiding}
-		Let $(C, \otimes, \mathbf{1})$ be a monoidal category. $C$ is called a braided monoidal category if it comes equipped with a natural isomorphism \[\sigma_{a, b}:a\otimes b\cong b\otimes a\]
-		such that the following two hexagon diagrams commute:
-		
-		\begin{figure}[ht!]
-			\centering
-			\begin{subfigure}[b]{0.49\textwidth}
-				\centering
-				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
-						\&(a\otimes b)\otimes c\&\\
-						(b\otimes a)\otimes c\&\&a\otimes(b\otimes c)\\
-						b\otimes (a\otimes c)\&\&(b\otimes c)\otimes a\\
-						\&b\otimes(c\otimes a)\&\\
-					};
-					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{a, b}\otimes\mathbbm{1}$};
-					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{a, b, c}$};
-					
-					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{b, a, c}$};
-					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{a, b\otimes c}$};
-					
-					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{c, a}$};
-					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{b, c, a}$};
-				\end{tikzpicture}
-			\end{subfigure}
-			\begin{subfigure}[b]{0.49\textwidth}
-				\centering
-				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
-						\&a\otimes(b\otimes c)\&\\
-						a\otimes(c\otimes b)\&\&(a\otimes b)\otimes c\\
-						(a\otimes c)\otimes b\&\&c\otimes(a\otimes b)\\
-						\&(c\otimes a)\otimes b\&\\
-					};
-					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{b, c}$};
-					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{a, b, c}$};
-					
-					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{a, c, b}$};
-					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{a\otimes b,c}$};
-					
-					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{a, c}\otimes b$};
-					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{c, a, b}$};
-				\end{tikzpicture}
-			\end{subfigure}
-			\caption{Hexagon diagrams.}
-			\label{fig:hexagon_diagrams}
-		\end{figure}
-		
-		The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
-	}
-	\begin{property}\index{Yang-Baxter equation}
-		The braiding $\sigma_{a, a}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $a, b, c\in\ob(C)$:
-		\begin{equation}
-			(\sigma_{b, c}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{a, c})\circ(\sigma_{a, b}\otimes\mathbbm{1}) = (\mathbbm{1}\otimes\sigma_{a, b})\circ(\sigma_{a, c}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{b, c})
-		\end{equation}
-	\end{property}
-	\remark{When drawing the above equality using string diagrams one sees that the Yang-Baxter equation is equal to the invariance of string diagrams under a Reidemeister III move.}
-
-	\newdef{Symmetric monoidal category}{
-		A braided monoidal category where the braiding $\sigma$ satisfies:
-		\begin{equation}
-			\sigma_{x, y} \circ \sigma_{y, x} = \mathbbm{1}
-		\end{equation}
-	}
-
 	\newdef{Closed monoidal category}{
-		A monoidal category $(C, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $b\in\ob(C)$ there exists a a right adjoint to the tensor product functor $-\otimes b:C\rightarrow C$, i.e.:
+		A monoidal category $(\textbf{C}, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $B\in\ob{C}$ there exists a a right adjoint\footnote{See definition \ref{category:internal_hom} of an \textit{internal hom} for more information.} to the tensor product functor $-\otimes B:\textbf{C}\rightarrow\textbf{C}$, i.e.:
 		\begin{equation}
-			\forall a, c\in\ob(C):\exists b\Rightarrow c\in\ob(C):\hom_C(a\otimes b, c)\cong\hom_C(a, b\Rightarrow c)
+			\forall A, C\in\ob{C}:\exists B\Rightarrow C\in\ob{C}:\textbf{C}(A\otimes B, C)\cong\textbf{C}(A, B\Rightarrow C)
 		\end{equation}
-		where the isomorphism is natural in $a, c\in\ob(C)$.
+		where the isomorphism is natural in $A, C\in\ob{C}$.
 	}
-	\begin{example}
-		Every Cartesian closed category is closed monoidal where the monoidal structure is given by the Cartesian product. The internal Hom functor is given by the exponential object.
-	\end{example}
-
-	\newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}\index{structure!morphisms}
-		Let $(C, \otimes, \mathbf{1}_C), (D, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $F:C\rightarrow D$ is said to be monoidal if there exists:
+	
+\subsection{Monoidal functors}
+	
+	\newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}
+		Let $(\textbf{C}, \otimes, \mathbf{1}_C), (\textbf{D}, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $\func{F}{C}{D}$ is said to be monoidal if there exists:
 		\begin{itemize}
-			\item A natural isomorphism $\psi_{a, b}: Fa\circledast Fb\implies F(a\otimes b)$ such that the following diagram commutes:
+			\item A natural isomorphism $\psi_{A, B}: FA\circledast FB\Rightarrow F(A\otimes B)$ such that the following diagram commutes:
 			\begin{figure}[ht!]
 				\centering
 				\begin{tikzpicture}
 					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-						(Fa\circledast Fb)\circledast Fc\&Fa\circledast(Fb\circledast Fc)\\
-						F(a\otimes b)\circledast Fc\&Fa\circledast F(b\otimes c)\\
-						F\Big((a\otimes b)\otimes c\Big)\&F\Big(a\otimes (b\otimes c)\Big)\\
+						(FA\circledast FB)\circledast FC\&FA\circledast(FB\circledast FC)\\
+						F(A\otimes B)\circledast FC\&FA\circledast F(B\otimes C)\\
+						F\Big((A\otimes B)\otimes C\Big)\&F\Big(A\otimes (B\otimes C)\Big)\\
 					};
-					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\alpha_D$};
-					\draw[->] (m-3-1) -- (m-3-2) node[pos=0.5, below]{$F\alpha_C$};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\alpha_{\textbf{D}}$};
+					\draw[->] (m-3-1) -- (m-3-2) node[pos=0.5, below]{$F(\alpha_{\textbf{C}})$};
 					
-					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\psi_{a, b}\circledast\mathbbm{1}$};
-					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\psi_{a\otimes b, c}$};
-					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\mathbbm{1}\circledast\psi_{b, c}$};
-					\draw[->] (m-2-2) -- (m-3-2) node[pos=0.5, right]{$\psi_{a, b\otimes c}$};
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\psi_{A, B}\circledast\mathbbm{1}$};
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\psi_{A\otimes B, C}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\mathbbm{1}\circledast\psi_{B, C}$};
+					\draw[->] (m-2-2) -- (m-3-2) node[pos=0.5, right]{$\psi_{A, B\otimes C}$};
 				\end{tikzpicture}
 			\end{figure}
 
-			\item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$.
+			\item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$ for the following two diagrams commute:
+			
 		\end{itemize}
 	}
-	\remark{The morphisms $\psi_{a, b}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
+	\remark{The morphisms $\psi_{A, B}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
 	
 	\begin{property}
 		For every monoidal functor $F$ there exists a canonical isomorphism $\phi:\mathbf{1}_D\rightarrow F\mathbf{1}_C$ defined by following commutative diagram:
@@ -679,45 +662,47 @@
 					\mathbf{1}_D\circledast F\mathbf{1}_C\&F\mathbf{1}_C\\
 					F\mathbf{1}_C\circledast F\mathbf{1}_C\&F(\mathbf{1}_C\otimes\mathbf{1}_C)\\
 				};
-				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_D$};
+				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_{\textbf{D}}$};
 				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\psi_{\mathbf{1}_C, \mathbf{1}_C}$};
 			
 				\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi\circledast\mathbbm{1}$};
-				\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F\lambda_C$};
+				\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F(\lambda_{\textbf{C}})$};
 			\end{tikzpicture}
 		\end{figure}
 		
-		This isomorphism also makes following two diagrams commute for all $X\in\ob(C)$:
+		This isomorphism also makes the two diagrams\footnote{These are often added as a defining condition for monoidal functors.} in figure \ref{fig:unitality} commute for all $X\in\ob{C}$.
 		\begin{figure}[ht!]
 			\centering
 			\begin{subfigure}[b]{0.49\textwidth}
 				\centering
 				\begin{tikzpicture}
 					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-						Fa\circledast\mathbf{1}_D\&Fa\circledast F\mathbf{1}_C\\
-						Fa\&F(a\otimes\mathbf{1}_C)\\
+						FA\circledast\mathbf{1}_D\&FA\circledast F\mathbf{1}_C\\
+						FA\&F(A\otimes\mathbf{1}_C)\\
 					};
 					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\mathbbm{1}\circledast\phi$};
-					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F\rho_C$};
+					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F(\rho_{\textbf{C}})$};
 				
-					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\rho_D$};
-					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{a, \mathbf{1}_C}$};
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\rho_{\textbf{D}}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{A, \mathbf{1}_C}$};
 				\end{tikzpicture}
 			\end{subfigure}
 			\begin{subfigure}[b]{0.49\textwidth}
 				\centering
 				\begin{tikzpicture}
 					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-						\mathbf{1}_D\circledast Fb\&F\mathbf{1}_C\circledast Fb\\
-						Fb\&F(\mathbf{1}_C\otimes b)\\
+						\mathbf{1}_D\circledast FB\&F\mathbf{1}_C\circledast FB\\
+						FB\&F(\mathbf{1}_C\otimes B)\\
 					};
 					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\phi\circledast\mathbbm{1}$};
-					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F\lambda_C$};
+					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F(\lambda_{\textbf{C}})$};
 				
-					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\lambda_D$};
-					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{\mathbf{1}_C, b}$};
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\lambda_{\textbf{D}}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{\mathbf{1}_C, B}$};
 				\end{tikzpicture}
 			\end{subfigure}
+			\caption{Unitality diagrams.}
+			\label{fig:unitality}
 		\end{figure}
 	\end{property}
 	
@@ -725,11 +710,11 @@
 		A lax monoidal functor is defined as a monoidal functor for which the coherence maps are merely morphisms and not isomorphisms.
 	}
 	\begin{notation}
-		A (lax) monoidal functor $F$ together with its coherence maps $\psi_{a, b}$ and $\phi$ is sometimes denoted by the triple $(F, \phi, \psi)$ or just $(F, \psi)$.
+		A (lax) monoidal functor $F$ together with its coherence maps $\psi_{A, B}$ and $\phi$ is sometimes denoted by the triple $(F, \phi, \psi)$ or just $(F, \psi)$.
 	\end{notation}
 	
 	\newdef{Monoidal natural transformation}{
-		A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma, \psi_G)$ is said to be (lax) monoidal if it makes the following diagrams commute:
+		A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma_G, \phi_G)$ is said to be (lax) monoidal if it makes the following diagrams commute:
 		\begin{figure}[ht!]
 			\centering
 			\begin{subfigure}[b]{0.49\textwidth}
@@ -748,14 +733,14 @@
 				\centering
 				\begin{tikzpicture}
 					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-						Fa\circledast Fb\&F(a\otimes b)\\
-						Ga\circledast Gb\&G(a\otimes b)\\
+						FA\circledast FB\&F(A\otimes B)\\
+						GA\circledast GB\&G(A\otimes B)\\
 					};
-					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\psi_{a, b}$};
-					\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\sigma_{a, b}$};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\psi_{A, B}$};
+					\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\sigma_{A, B}$};
 				
-					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\eta_a\circledast\eta_b$};
-					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\eta_{a\otimes b}$};
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\eta_A\circledast\eta_B$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\eta_{A\otimes B}$};
 				\end{tikzpicture}
 			\end{subfigure}
 			\caption{Monoidal natural transformation.}
@@ -764,56 +749,122 @@
 	}
 	
 	\newdef{Monoidal equivalence}{\index{monoidal!equivalence}
-		Two monoidal categories $C, D$ are monoidally equivalent if there exist monoidal functors $F:C\rightarrow D$ and $G:D\rightarrow C$ such that there exist monoidal natural isomorphisms $\eta:\mathbbm{1}_C\implies G\circ F$ and $\varepsilon:F\circ G\implies\mathbbm{1}_D$.
+		Two monoidal categories $\textbf{C}, \textbf{D}$ are monoidally equivalent if there exist monoidal functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ such that there exist monoidal natural isomorphisms $\eta:\mathbbm{1}_C\Rightarrow G\circ F$ and $\varepsilon:F\circ G\Rightarrow\mathbbm{1}_D$.
 	}
 
-	\newdef{Strict monoidal category}{
-		A monoidal category is called strict if the associator $\alpha$ and the unitors $\lambda,\rho$ are identity morphisms.
-	}
-	\begin{theorem}[MacLane's strictness theorem]
+	\begin{theorem}[MacLane's strictness theorem]\index{MacLane}
 		Every monoidal category is monoidally equivalent to a strict monoidal category.
 	\end{theorem}
+
+\subsection{Braided categories}
+
+	\newdef{Braided monoidal category}{\index{braiding}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category. $\textbf{C}$ is called a braided monoidal category if it comes equipped with a natural isomorphism \[\sigma_{A, B}:A\otimes B\cong B\otimes A\]
+		such that the following two \textbf{hexagon} diagrams commute:
+		
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.75\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=2em,column sep=2.5em, minimum width=1em, ampersand replacement=\&]{
+						\&(A\otimes B)\otimes C\&\\
+						(B\otimes A)\otimes C\&\&A\otimes(B\otimes C)\\
+						B\otimes (A\otimes C)\&\&(B\otimes C)\otimes A\\
+						\&B\otimes(C\otimes A)\&\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{A, B}\otimes\mathbbm{1}$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{A, B, C}$};
+					
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{B, A, C}$};
+					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A, B\otimes C}$};
+					
+					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{C, A}$};
+					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{B, C, A}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.75\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
+						\&A\otimes(B\otimes C)\&\\
+						A\otimes(C\otimes B)\&\&(A\otimes B)\otimes C\\
+						(A\otimes C)\otimes B\&\&C\otimes(A\otimes B)\\
+						\&(C\otimes A)\otimes B\&\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{B, C}$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{A, B, C}$};
+					
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{A, C, B}$};
+					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A\otimes B,C}$};
+					
+					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{A, C}\otimes\mathbbm{1}$};
+					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{C, A, B}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\caption{Hexagon diagrams.}
+			\label{fig:hexagon_diagrams}
+		\end{figure}	
+		
+		The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
+	}
+	\begin{property}\index{Yang-Baxter}
+		The braiding $\sigma_{A, A}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $A, B, C\in\ob{C}$:
+		\begin{equation}
+			(\sigma_{B,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{A,C})\circ(\sigma_{A,B}\otimes\mathbbm{1}) = (\mathbbm{1}\otimes\sigma_{A,B})\circ(\sigma_{A,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{B,C})
+		\end{equation}
+	\end{property}
+	\remark{When drawing the above equality using string diagrams one sees that the Yang-Baxter equation is equal to the invariance of string diagrams under a \textit{Reidemeister III move}.}
+
+	\newdef{Symmetric monoidal category}{
+		A braided monoidal category where the braiding $\sigma$ satisfies:
+		\begin{equation}
+			\sigma_{X, Y} \circ \sigma_{Y, X} = \mathbbm{1}
+		\end{equation}
+	}
+	
+\subsection{Duals}
 	
 	\newdef{Dual object}{\index{dual!object}
-		Let $(C, \otimes, \mathbf{1})$ be a monoidal category and let $a\in\ob(C)$. A left dual $a^*$ of $a$ is an object in $C$ together with two morphisms $\eta:\mathbf{1}\rightarrow a\otimes a^*$ and $\varepsilon:a^*\otimes a\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and \textbf{evaluation} morphisms.}, such that the diagrams \ref{fig:dual_object1} and \ref{fig:dual_object2} commute.
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category and let $A\in\ob{C}$. A left dual\footnote{Analogously, $A$ is called the \textbf{right dual} of $A^*$. The right dual of $B$ is often denoted by $^*B$.} $A^*$ of $A$ is an object in $\textbf{C}$ together with two morphisms $\eta:\mathbf{1}\rightarrow A\otimes A^*$ and $\varepsilon:A^*\otimes A\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and \textbf{evaluation} morphisms.}, such that the diagrams \ref{fig:dual_object1} and \ref{fig:dual_object2} commute.
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
 				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
-					\&\&a\&\&\\
-					\mathbf{1}\otimes a\&\&\&\&a\otimes\mathbf{1}\\
-					\&(a\otimes a^*)\otimes a\&\&a\otimes(a^*\otimes a)\&\\
+					\&\&A\&\&\\
+					\mathbf{1}\otimes A\&\&\&\&A\otimes\mathbf{1}\\
+					\&(A\otimes A^*)\otimes A\&\&A\otimes(A^*\otimes A)\&\\
 				};
-				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\lambda$};
+				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\lambda_A$};
 				\draw[->] (m-2-1) -- (m-3-2) node[pos=0.5, below left]{$\eta\otimes\mathbbm{1}$};
-				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha$};
+				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha_{A, A^*, A}$};
 				\draw[->] (m-3-4) -- (m-2-5) node[pos=0.5, below right]{$\mathbbm{1}\otimes\varepsilon$};
-				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\rho$};
+				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\rho_A$};
 			\end{tikzpicture}
-			\caption{Dual object.}
+			\caption{Dual object I.}
 			\label{fig:dual_object1}
 		\end{figure}
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzpicture}
 				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
-					\&\&a^*\&\&\\
-					a^*\otimes\mathbf{1}\&\&\&\&\mathbf{1}\otimes a^*\\
-					\&a^*\otimes(a\otimes a^*)\&\&(a^*\otimes a)\otimes a^*\&\\
+					\&\&A^*\&\&\\
+					A^*\otimes\mathbf{1}\&\&\&\&\mathbf{1}\otimes A^*\\
+					\&A^*\otimes(A\otimes A^*)\&\&(A^*\otimes A)\otimes A^*\&\\
 				};
-				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\rho$};
+				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\rho_{A^*}$};
 				\draw[->] (m-2-1) -- (m-3-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\eta$};
-				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha^{-1}$};
+				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha^{-1}_{A^*, A, A^*}$};
 				\draw[->] (m-3-4) -- (m-2-5) node[pos=0.5, below right]{$\varepsilon\otimes\mathbbm{1}$};
-				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\lambda$};
+				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\lambda_{A^*}$};
 			\end{tikzpicture}
-			\caption{Dual object.}
+			\caption{Dual object II.}
 			\label{fig:dual_object2}
 		\end{figure}
 		
-		If the object $a^*$, together with the morphisms $\eta, \varepsilon$, exists then $a^*$ is called the \textbf{left dual}\footnote{Analogously, $a$ is called the \textbf{right dual} of $a^*$. The right dual of $b$ is often denoted by $^*b$.} of $a$ and $a$ is said to be \textbf{dualizable}.
+		If the object $A^*$ and the morphisms $\eta, \varepsilon$ exist then $A$ is said to be \textbf{dualizable}.
 	}
-	\begin{property}
+	\begin{property}[Braided categories]
 		In a braided monoidal category the left and right duals of an object coincide.
 	\end{property}
 	
@@ -825,11 +876,19 @@
 		A symmetric rigid category is also called a compact closed category.
 	}
 	
+	\begin{example}[FinVect]\index{dual!space}\index{resolution!of the identity}
+		Consider the category of finite-dimensional vector spaces \textbf{FinVect} (assume that the base field is $\mathbb{R}$). The categorical dual of a vector space $V$ is the algebraic dual $V^*$. The unit morphism is given by the \textit{resolution of the identity}:
+		\begin{equation}
+			\eta: \mathbf{1}\rightarrow V\otimes V^*:1\mapsto\sum_{i=1}^{\dim(V)}e_i\otimes \phi^i
+		\end{equation}
+		where $\{e_i\}$ and $\{\phi^i\}$ are bases of $V$ and $V^*$ respectively.
+	\end{example}
+	
 	\newdef{Trace}{\index{trace}
-		Let $(C, \otimes, \mathbf{1})$ be a rigid category. Let $f\in\hom_C(a, a^{**})$. The left and right traces of $f$ are defined as the following morphisms in End$_C(\mathbf{1})$:
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a rigid category. Let $f\in\hom_C(A, A^{**})$. The left and right (categorical or quantum) traces of $f$ are defined as the following morphisms in End$_C(\mathbf{1})$:
 		\begin{align}
-			\text{tr}^L(f)&:\varepsilon_{a^*}\circ(f\otimes\mathbbm{1})\circ\eta_a\\
-			\text{tr}^R(f)&:\varepsilon_{^{**}a}\circ(\mathbbm{1}\otimes f)\circ\eta_{^*a}
+			\text{tr}^L(f)&:\varepsilon_{A^*}\circ(f\otimes\mathbbm{1})\circ\eta_A\\
+			\text{tr}^R(f)&:\varepsilon_{^{**}A}\circ(\mathbbm{1}\otimes f)\circ\eta_{^*A}
 		\end{align}
 	}
 	\begin{property}
@@ -843,7 +902,7 @@
 	\end{property}
 	
 	\newdef{Symmetric monoidal dagger category}{\index{category!dagger}
-		A monoidal category $(C, \otimes)$ which also carries the structure of a dagger category\footnote{See definition \ref{cat:dagger_category}.} such that:
+		A symmetric monoidal category $(\textbf{C}, \otimes, \mathbf{1})$ which also carries the structure of a dagger category\footnote{See definition \ref{cat:dagger_category}.} such that:
 		\begin{equation}
 			(f\otimes g)^\dag = f^\dag\otimes g^\dag
 		\end{equation}
@@ -856,16 +915,76 @@
 			\begin{tikzpicture}
 				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
 					\&\mathbf{1}\&\\
-					a^*\otimes a\&\&a\otimes a^*\\
+					A^*\otimes A\&\&a\otimes A^*\\
 				};
 				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\eta$};
 				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\varepsilon^\dag$};
-				\draw[->] (m-2-3) -- (m-2-1) node[pos=0.5, below]{$\sigma_{a, a^*}$};
+				\draw[->] (m-2-3) -- (m-2-1) node[pos=0.5, below]{$\sigma_{A, A^*}$};
 			\end{tikzpicture}
 			\caption{Dagger-compact category.}
 			\label{fig:dagger_compact_category}
 		\end{figure}
 	}
+	
+\subsection{Fusion categories}
+
+	\newdef{Pivotal category}{\index{pivotal structure}
+		Let \textbf{C} be a rigid monoidal category. A pivotal structure on \textbf{C} is a monoidal natural isomorphism $a_A:A\cong A^{**}$.
+	}
+	
+	\newdef{Dimension}{\index{dimension}
+		Let $(\textbf{C}, a)$ be a pivotal category and consider an object $V\in\ob{C}$. The dimension of $V$ is defined as follows:
+		\begin{equation}
+			\label{category:pivotal_dimension}
+			\dim_a(V) := \text{tr}^L(a_V)
+		\end{equation}
+	}
+	
+	\newdef{Spherical category}{\index{spherical structure}
+		Let $(\textbf{C}, a)$ be a pivotal category. If the left and right traces (with respect to $a$) coincide in \textbf{C}, or equivalently if for all objects the left and right dimensions coincide, then the pivotal structure is said to be spherical.
+	}
+	
+	\newdef{$k$-Linear category}{\index{category!linear}
+		Let \textbf{Vect}$_k$ denote the category of vector spaces over the base field $k$. A $k$-linear category is a category enriched over \textbf{Vect}$_k$.
+	}
+
+\section{Internal structures}\index{internal}
+
+	\newdef{Internal hom\footnotemark}{\label{category:internal_hom}
+		\footnotetext{Also called an \textbf{inner hom}.}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a symmetric monoidal category. In this setting one can generalize the \textit{currying} procedure, i.e. the identification of maps $X\times Y\rightarrow Z$ with maps $X\rightarrow(Y\rightarrow Z)$. If the object exists, the internal hom is defined as follows:
+		\begin{equation}
+			\text{hom}(A\otimes B, C) = \text{hom}(A, \underline{\text{hom}}(B, C))
+		\end{equation}
+		Hence it is the right adjoint of the tensoring functor $-\otimes B$.
+	}
+	\begin{notation}
+		A different, but frequently used, notation is $A\Rightarrow B$. However we will not use this as it might confuse with the notation for 2-morphisms.
+	\end{notation}
+	
+	\begin{example}[Cartesian closed categories]
+		In case of Cartesian categories, where the monoidal structure is given by the ordinary product, the internal hom object $\underline{\text{hom}}(a, b)$ is given by the exponential object $b^a$.
+	\end{example}
+	
+	\newdef{Internal category}{\label{cat:internal_category}
+		Let $C$ be a category. A category $D$ internal to $C$ consists of following objects:
+		\begin{itemize}
+			\item An object $D_0\in\ob{C}$ of objects.
+			\item An object $D_1\in\ob{C}$ of morphisms.
+			\item Source and target morphisms $s, t\in\text{hom}_C(D_1, D_0)$.
+			\item An identity-assigning morphism $e\in\text{hom}_C(D_0, D_1)$ such that \[s\circ e = \mathbbm{1}_{D_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{D_0}\]
+			\item A composition morphism $c:D_1\times_{D_0}D_1\rightarrow D_1$ such that the following equations hold:
+			\begin{align*}
+				s\circ c = s\circ\pi_1\qquad\qquad&\qquad\qquad t\circ c = t\circ\pi_2\\
+				\pi_1 = c\circ(e\times_{D_0}\mathbbm{1})\qquad\qquad&\qquad\qquad c\circ(\mathbbm{1}\times_{D_0}e)=\pi_2\\
+				c\circ(c\times_{D_0}\mathbbm{1}) &= c\circ(\mathbbm{1}\times_{D_0}c)
+			\end{align*}
+			where $\pi_1, \pi_2$ are the canonical projections associated with the pullback\footnote{See definition \ref{cat:pullback}.} $D_1\times_{D_0}D_1$.
+		\end{itemize}		
+	}
+	\begin{remark}
+		To make the above definition work it is required that all pullbacks of the source and target morphisms exist.
+	\end{remark}
 
 \section{Higher category theory}\label{cat:higher_category_theory}
 \subsection{\texorpdfstring{$n$-Categories}{n-Categories}}
@@ -884,9 +1003,9 @@
 		In a 2-category one can compose 2-morphisms in two different ways:
 		\begin{enumerate}
 			\item Horizontal composition:
-			Consider the 2-morphisms $\alpha:f\implies g$ and $\beta:f'\implies g'$ where $f'\circ f, g'\circ g$ are well-defined. These 2-morphisms can be composed as: \[\beta\circ\alpha: f'\circ f\implies g'\circ g\]
+			Consider the 2-morphisms $\alpha:f\Rightarrow g$ and $\beta:f'\Rightarrow g'$ where $f'\circ f, g'\circ g$ are well-defined. These 2-morphisms can be composed as: \[\beta\circ\alpha: f'\circ f\Rightarrow g'\circ g\]
 			\item Vertical composition:
-			Consider the 2-morphisms $\alpha:f\implies g$ and $\beta:g\implies h$ where $f, g$ and $h$ have the same domain and codomain. These 2-morphisms can be composed as: \[\beta\cdot\alpha: f\implies h\]
+			Consider the 2-morphisms $\alpha:f\Rightarrow g$ and $\beta:g\Rightarrow h$ where $f, g$ and $h$ have the same domain and codomain. These 2-morphisms can be composed as: \[\beta\cdot\alpha: f\Rightarrow h\]
 		\end{enumerate}
 		Furthermore, the horizontal and vertical composition should satisfy an interchange law:
 		\begin{equation}
@@ -896,23 +1015,35 @@
 	
 	\remark{$n$-Morphisms are also often called \textbf{$n$-cells}.}
 	
+	\begin{property}[Monoidal categories as 2-categories]\index{monoidal!category}
+		Consider a monoidal category $(C, \otimes, \mathbf{1})$. From this monoidal category one can construct the so-called \textbf{delooping} $\mathbf{B}C$, which is a bicategory, in the following way:
+		\begin{itemize}
+			\item There is a single object $\ast$.
+			\item The 1-morphisms in $\mathbf{B}C$ are the objects in $C$.
+			\item The 2-morphisms in $\mathbf{B}C$ are the morphisms in $C$.
+			\item Horizontal composition in $\mathbf{B}C$ is the tensor product in $C$.
+			\item Vertical composition in $\mathbf{B}C$ is composition in $C$.
+		\end{itemize}
+		Conversely every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent.
+	\end{property}
+	
 	\begin{example}
-		The classical example of a 1-category is Set, the classical example of a 2-category is Cat.
+		The classical example of a 1-category is \textbf{Set}, the classical example of a 2-category is \textbf{Cat}.
 	\end{example}
 
 \section{Groupoids}
 
 	\newdef{Groupoid}{\index{groupoid}\label{cat:groupoid}
-		\nomenclature[S_Grpd]{$\text{Grpd}$}{Category of groupoids.}
-		A groupoid $\mathcal{G}$ is a small category in which all morphisms are invertible.
+		\nomenclature[S_Grpd]{$\textbf{Grpd}$}{Category of groupoids.}
+		A (small) groupoid $\mathcal{G}$ is a small category in which all morphisms are invertible.
 	}
 	
 	\newdef{Core}{\index{core}
-		Let $C$ be a (small) category. The core Core$(C)\in$Grpd of $C$ is defined as the maximal subgroupoid of $C$.
+		Let \textbf{C} be a (small) category. The core Core$(\textbf{C})\in\textbf{Grpd}$ of \textbf{C} is defined as the maximal subgroupoid of \textbf{C}.
 	}
 	
 	\newdef{Orbit}{\index{orbit}
-		Let $\mathcal{G}$ be a groupoid with $O, M$ respectively the set of objects and morphisms. On $O$ one can define an equivalence $a\sim b$ if there exists a morphism $\phi:a\rightarrow b$. The equivalence classes are called orbits and the set of orbits is dentoed by $O/M$.
+		Let $\mathcal{G}$ be a groupoid with $O, M$ respectively the set of objects and morphisms. On $O$ one can define an equivalence $a\sim b$ if there exists a morphism $\phi:a\rightarrow b$. The equivalence classes are called orbits and the set of orbits is denoted by $O/M$.
 	}
 	\newdef{Transitive component}{\index{transitive!component}
 		Let $\mathcal{G}$ be a groupoid with $O, M$ respectively the set of objects and morphisms. Let $s, t$ denote the source and target maps on $M$. Given an orbit $o\in O/M$ one defines the transitive component of $M$ associated to $o$ as $s^{-1}(o)$ or equivalently $t^{-1}(o)$.
@@ -926,7 +1057,7 @@
 	
 	\newdef{Lie groupoid\footnotemark}{\index{Lie!groupoid}
 		\footnotetext{Similarly one can define \textit{topological groupoids, \'etal\'e groupoids}, ...}
-		A groupoid internal to Diff. As noted in the remark below definition \ref{cat:internal_category} the pullbacks of the source and target morphisms should exist. In Diff this is equivalent to assuming that the source and target morphisms should be (surjective) submersions.
+		A groupoid internal to \textbf{Diff}. As noted in the remark below definition \ref{cat:internal_category} the pullbacks of the source and target morphisms should exist. In \textbf{Diff} this is equivalent to assuming that the source and target morphisms should be (surjective) submersions.
 	}
 	\remark{In the Ehresmannian approach one gives the manifold of composable morphisms $D_1\times_{D_0}D_1$ as part of the data. Hence we do not have to assume anything about the source and target morphisms.}
 	
@@ -993,6 +1124,7 @@
         \newdef{$O$-algebra}{\index{algebra!over an operad}
                 An object $X$ is called an algebra over an operad $O$ if there exist morphisms $O(n)\times X^n\rightarrow X$ for every $n\in\mathbb{N}$ satisfying the usual composition and identity laws. Alternatively this can be rephrased as the existence of a (plain) operad morphism $O(n)\rightarrow\mathcal{E}\text{nd}(X)$.
         }
+        
         \begin{example}[Categorical $O$-algebra]
                 An $O$-algebra in the category Cat.
         \end{example}

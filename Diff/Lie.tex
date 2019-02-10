@@ -1,6 +1,6 @@
 \chapter{Lie groups and Lie algebras}\label{chapter:lie}
 
-References for this chapter are \cite{jeevanjee}.
+References for this chapter are \cite{jeevanjee, fultonharris}.
 
 \section{Lie groups}
     
@@ -89,6 +89,7 @@ References for this chapter are \cite{jeevanjee}.
                 \item Jacobi identity: $[a, [b, c]] + [b, [c, a]] + [c, [a, b]] = 0$
             \end{enumerate}
         }
+        \remark{Note that often the alternativity condition is replaced by an antisymmetry condition. However this is only well-defined in a field of characteristic $\neq2$, for $\text{char}=2$ we only have that alternativity implies antisymmetry. As we mostly work over fields such as $\mathbb{R}$ or $\mathbb{C}$ this won't pose a problem and hence we will always use the antisymmetry condition as the defining property.}
         
         \newdef{Lie algebra of LIVF's}{
         	Consider the vector space $\mathcal{L}(G)$ of LIVF's on a Lie group G. Using property \ref{manifolds:lie_bracket} we can show that the commutator (Lie bracket) also defines a LIVF on $G$. It follows that $\mathcal{L}(G)$ is closed under Lie brackets and hence is a Lie algebra.
@@ -421,11 +422,11 @@ References for this chapter are \cite{jeevanjee}.
 		\end{equation}
 	\end{definition}
 	\begin{remark}
-		This definition is clearly more general than \ref{linalgebra:killing_form} as $K$ is simply given by $K_{\text{ad}}$.
+		This definition is a generalization of \ref{linalgebra:killing_form} which reduces to the Killing form $K$ when choosing $V$ to be $\mathfrak{g}$ in the adjoint representation.
 	\end{remark}
 	
 	\begin{property}\label{lie:killing_trace}
-		On a simple Lie algebra, every invariant\footnote{i.e. satisfying equation \ref{lie:ad_killing_form}} symmetric bilinear form is a scalar multiple of the Killing form.
+		On a simple Lie algebra, every invariant, i.e. satisfying equation \ref{lie:ad_killing_form}, symmetric bilinear form is a scalar multiple of the Killing form.
 	\end{property}
 	\begin{example}
 		For $\mathfrak{su}(n)$ the relation is given by:
@@ -442,31 +443,60 @@ References for this chapter are \cite{jeevanjee}.
 		A corollary of this property is also that the structure constants become totally antisymmetric.
 	\end{property}
 
-\subsection{Roots and Dynkin diagrams}
+\subsection{Weights, roots and Dynkin diagrams}
 
-        \newdef{Cartan subalgebra}{\index{Cartan!subalgebra}
-        	Let $\mathfrak{g}$ be a Lie algebra. A subalgebra $\mathfrak{h}$ is called a Cartan subalgebra if there exists a basis $\{h_i\}_{i\in I}$ of $\mathfrak{h}$ that can be extended to a basis $\{h_i\}_{i\in I}\cup\{g_j\}_{j\in J}$ of $\mathfrak{g}$ such that every $g_j$ is an eigenvector of the adjoint map $\text{ad}_h$ for all $h\in\mathfrak{h}$.
-        }
-        \begin{adefinition}
-        	A Cartan subalgebra $\mathfrak{h}$ is a nilpotent self-normalising\footnote{See also definition \ref{lie:algebra}.} subalgebra of a Lie algebra.
-        \end{adefinition}
-        
+	\newdef{Cartan subalgebra}{\index{Cartan!subalgebra}
+		Let $\mathfrak{g}$ be a Lie algebra. A subalgebra $\mathfrak{h}$ is called a Cartan subalgebra if satisfies following two conditions:
+		\begin{itemize}
+			\item Nilpotent: Its lower central series terminates:
+			\begin{equation}
+				\exists n\in\mathbb{N}: \underbrace{[\mathfrak{g}, [\mathfrak{g}, [\mathfrak{g}, ...]]]}_{n \text{ times}} = 0
+			\end{equation}
+			\item Self-normalizing:
+			\begin{equation}
+				\forall X\in\mathfrak{h}: [X, Y]\in\mathfrak{h} \implies Y\in\mathfrak{h}
+			\end{equation}
+		\end{itemize}
+	}
+	
+	From here one we will assume that all Lie algebras are finite-dimensional. This assumption is motivated by the following property:
         \begin{property}
         	Every finite-dimensional Lie algebra contains a Cartan subalgebra.
         \end{property}
         \begin{property}
-        	If $\mathfrak{g}$ is semisimple then its Cartan subalgebra is Abelian.
+	       	If $\mathfrak{g}$ is semisimple then its Cartan subalgebra is Abelian.
         \end{property}
+
+        \begin{construct}
+        	Let $\mathfrak{g}$ be a semisimple Lie algebra. A Cartan subalgebra $\mathfrak{h}$ can be constructed as follows: Choose linearly independent vectors $\{h_i\}_{i\in I}$ such that for all\footnote{The existence of such a choice, equivalent to requiring simultaneous diagonalization, is only guaranteed for semisimple Lie algebras.} $i, j\in I: [h_i, h_j] = 0$. If this set can be extended to a basis $\{h_i\}_{i\in I}\cup\{g_j\}_{j\in J}$ of $\mathfrak{g}$ such that every $g_j$ is a non-trivial eigenvector of the adjoint map $\text{ad}_{h_i}$ for all $i\in I$ then the algebra $\mathfrak{h} = \text{span}\{h_i\}_{i\in I}$ is a Cartan subalgebra.
+        \end{construct}
+
+	\newdef{Weight space}{\index{weight}
+        	Let $V$ be a representation of a Lie algebra $\mathfrak{g}$ with Cartan subalgebra $\mathfrak{h}$. Let $\lambda$ be a linear functional on $\mathfrak{h}$. The weight space $V_\lambda$ of $V$ with \textbf{weight} $\lambda$ is defined as follows:
+        	\begin{equation}
+        		V_\lambda = \{v\in V: h\cdot v = \lambda(H)v, \forall h\in\mathfrak{h}\}
+        	\end{equation}
+        }
         
+        In the case that $V$ is the adjoint representation, the (non-zero) weights are called \textbf{roots}:
         \newdef{Root}{\index{root}
         	Let $\mathfrak{g}$ be a Lie algebra with Cartan subalgebra $\mathfrak{h}$. From the definition of a Cartan subalgebra it follows that for all $h\in\mathfrak{h}$:
         	\begin{equation}
         		[h, g_j] = \alpha_j(h)g_j
         	\end{equation}
-        	where $\{g_j\}_{j\in J}$ is the basis extension of $\mathfrak{g}$ with respect to $\mathfrak{h}$. Because $\alpha_j(h)$ is an eigenvalue it is an element of the base field $\mathbb{C}$ and hence we can view $\alpha_j$ as a linear map $\mathfrak{h}\rightarrow\mathbb{C}$, or equivalently as a dual vector $\alpha_j\in\mathfrak{h}^*$. These linear maps are called the roots of $\mathfrak{g}$.
+        	where $\{g_j\}_{j\in J}$ is the basis extension of $\mathfrak{g}$ with respect to $\mathfrak{h}$. Because $\alpha_j(h)$ is an eigenvalue it is an element of the base field $\mathbb{C}$ and hence we can view $\alpha_j$ as a linear map $\mathfrak{h}\rightarrow\mathbb{C}$, or equivalently as a weight of the adjoint representation. The non-zero linear maps are called the roots of $\mathfrak{g}$ and form the so-called \textbf{root system} $\Phi$.
+        	
+        	It follows that there exists a weight space decomposition of $\mathfrak{g}$:
+        	\begin{equation}
+        		\mathfrak{g} = \mathfrak{h} \oplus \bigoplus_{\lambda\in\Phi}\mathfrak{g}_\lambda
+        	\end{equation}
+        	where the one-dimensional $\mathfrak{g}_\lambda$ are the weight space associated to the roots $\lambda$ ($\mathfrak{h}$ is equal to $\mathfrak{g}_0$).
         }
-
-       	It is immediately clear that if $\lambda$ is a root of $\mathfrak{g}$ then $-\lambda$ is also a root of $\mathfrak{g}$, hence the root set $\Phi$ is not linearly independent. Therefore we introduce following concept:
+        
+        \begin{property}
+        	If $\alpha\in\Phi$ then $-\alpha\in\Phi$. Furthermore if $\alpha\in\Phi$ and $c\alpha\in\Phi$ then $c=\pm1$.
+        \end{property}
+	We conclude that the root system $\Phi$ is not linearly independent. To introduce some kind of basis we define the following:
         \newdef{Simple root}{
         	The set of simple roots\footnote{For every root set $\Phi$ one can find a set of simple roots.} $\Delta$ is a linearly independent subset of $\Phi$ such that every element $\lambda\in\Phi$ can be written as:
         	\begin{equation}
@@ -475,8 +505,28 @@ References for this chapter are \cite{jeevanjee}.
         	where $a_i\in\mathbb{N}$ and $\lambda_i\in\Delta$. This definition requires the expansion coefficients $a_i$ of a certain root $\lambda$ to be either all positive or all negative.
         }
         
+        More generally one can also define the following equivalence relation:
+        \newdef{Positive roots}{
+        	Let $\Phi$ be the root system of a given Lie algebra $\mathfrak{g}$. Because the only scalar multiples of a root $\lambda\in\Phi$ in the root system are $\pm\lambda$ we can define the set of positive roots $\Phi^+$ as follows:
+        	\begin{enumerate}
+        		\item $\lambda\in\Phi^+\implies-\lambda\not\in\Phi^+$
+        		\item $\alpha, \beta\in\Phi^+\land\alpha+\beta\in\Phi\implies\alpha+\beta\in\Phi^+$
+        	\end{enumerate}
+        	The simple roots are then exactly the elements in $\Phi^+$ that cannot be written as a sum of other elements in $\Phi^+$.
+        }
+        
+        \begin{property}\index{rank}
+        	Let $\mathfrak{h}$ be a Cartan subalgebra. The set of simple roots $\Delta$ forms a basis for the dual space $\mathfrak{h}^*$ (over $\mathbb{C}$) and hence the cardinality of $\Delta$ is equal to the dimension of the Cartan subalgebra. This dimension is called the \textbf{rank} of the Lie algebra.
+        \end{property}
+        
         \begin{property}
-        	Let $\mathfrak{h}$ be a Cartan subalgebra. The set of simple roots $\Delta$ forms a basis for the dual space $\mathfrak{h}^*$ (over $\mathbb{C}$).
+        	Let $\alpha\in\Phi$ be a root. Choose a generating element $E^\alpha$ of the weight space $\mathfrak{g}_\alpha$ associated to $\alpha$. Let $F^\alpha$ be the generator of the weight space $\mathfrak{g}_{-\alpha}$ such that $\{E^\alpha, F^\alpha, [E^\alpha, F^\alpha]\}$ defines a one-dimensional simple Lie algebra. Then the following relations hold (for $\beta\neq\pm\alpha$):
+        	\begin{itemize}
+        		\item $\beta(H^\alpha) = 2\frac{\langle\alpha, \beta\rangle}{\langle\alpha, \alpha\rangle}\in\mathbb{Z}$
+        		\item $[H^\alpha, E^\alpha] = \alpha(H^\alpha)E^\alpha = 2E^\alpha$
+        		\item $[H^\alpha, F^\alpha] = -\alpha(H^\alpha)F^\alpha = -2F^\alpha$
+        	\end{itemize}
+        	where the inner product $\langle\cdot,\cdot\rangle$ is given by the dual Killing form.\footnote{Consider the \textit{sharp} map \ref{manifolds:sharp_map} where one replaces the metric $g$ by the Killing form $K$. The dual Killing form $K^*$ is then a proper inner product (when restricted to the real span of $\Delta$) defined as: \[K^*(\cdot, \cdot) = K(\cdot^\sharp, \cdot^\sharp)\]}
         \end{property}
         
         \newdef{Weyl group}{\index{Weyl!group}
@@ -484,22 +534,21 @@ References for this chapter are \cite{jeevanjee}.
         	\begin{equation}
         		\sigma_\lambda:\text{span}_{\mathbb{R}}(\Delta)\rightarrow\text{span}_{\mathbb{R}}(\Delta):\mu\mapsto \mu - 2\frac{\langle\lambda,\mu\rangle}{\langle\lambda,\lambda\rangle}\lambda
         	\end{equation}
-        	where the inner product $\langle\cdot,\cdot\rangle$ is given by the dual Killing form.\footnotemark\ The Weyl group $W$ is then defined as the group generated by all the $\sigma_\lambda$'s.
-        	\footnotetext{Consider the \textit{sharp} map \ref{manifolds:sharp_map} where one replaces the metric $g$ by the Killing form $K$. The dual Killing form $K^*$ is then a proper inner product defined as: \[K^*(\cdot, \cdot) = K(\cdot^\sharp, \cdot^\sharp)\]}
+        	 The Weyl group $W$ is then defined as the group generated by all the $\sigma_\lambda$'s.
         }
         
         \begin{property}
-        	Every root $\phi\in\Phi$ can be written as $\phi = \sigma(\mu)$ for some $\mu\in\Delta$ and $\sigma\in W$. Furthermore, the root set $\Phi$ is closed under the action of $W$.
+        	Every root $\phi\in\Phi$ can be written as $\phi = \sigma(\mu)$ for some $\mu\in\Delta$ and $\sigma\in W$. Furthermore, the root system $\Phi$ is closed under the action of $W$. The Weyl group $W$ is exactly the symmetry group of the root system $\Phi$.
         \end{property}
 
         \newdef{Cartan matrix}{\index{Cartan!matrix}
-        	Let $\lambda_i, \lambda_j\in\Delta$ be simple roots. It follows from previous property that \[\sigma_{\lambda_i}(\lambda_j) = \lambda_j - 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle}\lambda_i\] is a root. From the definition of simple roots it then follows that the quantity
+        	Let $\lambda_i, \lambda_j\in\Delta$ be simple roots. It follows from previous property that \[\sigma_{\lambda_i}(\lambda_j) = \lambda_j - 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle}\lambda_i\] is a root. From the properties above it then follows that the quantity
         	\begin{equation}
-        		C_{ij} = 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle}
+        		C_{ij} = 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle} = \lambda_j(H^{\lambda_i})
         	\end{equation}
         	is an integer. The matrix formed by these numbers is called the Cartan matrix.
         }
-        \begin{property}
+        \begin{property}\label{lie:cartan_prop}
         	The Cartan matrix $C_{ij}$ has the following properties:
         	\begin{itemize}
         		\item $C_{ii} = 2$
@@ -520,7 +569,7 @@ References for this chapter are \cite{jeevanjee}.
         	In the case of $n_{ij} = 2$ or $n_{ij} = 3$ there arise two possibilities. Namely that $C_{ij}>C_{ji}$ or $C_{ij}<C_{ji}$. From the definition of the Cartan integers and the symmetry of the dual Killing form these cases correspond to $\langle\lambda_i, \lambda_i\rangle<\langle\lambda_j, \lambda_j\rangle$ and $\langle\lambda_i, \lambda_i\rangle>\langle\lambda_j, \lambda_j\rangle$.
         \end{remark}
         
-        \begin{construct}[Dynkin diagram]\index{Dynkin diagram}
+        \begin{construct}[Dynkin diagram]\index{Dynkin diagram}\label{lie:construct_dynkin}
         	For a semisimple Lie algebra $\mathfrak{g}$ with simple root set $\Delta$ one can draw a so-called Dynkin diagram by using the following rules:
         	\begin{enumerate}
         		\item For every simple root $\lambda\in\Delta$ draw a circle: $\bigcirc$
@@ -544,9 +593,36 @@ References for this chapter are \cite{jeevanjee}.
         	These are the only possible diagrams for simple Lie algebras.\footnote{With exception of $E_6, E_7, E_8, F_4$ and $G_2$, the so-called \textit{exceptional Lie algebras}.}
         \end{method}
         
-        \begin{example}[$SL(2, \mathbb{C})$]
+        \begin{example}[Special linear group]
         	By looking at the Lie brackets in \ref{lie:sl2c_lie_brackets} we see that the one-element set $\{X_1\}$ forms a Cartan subalgebra of $\mathfrak{sl}(2, \mathbb{C})$. From \ref{lie:sl2c_lie_brackets} it is also immediately clear that the simple root set $\Delta$ is given by the one-element set $\{\lambda\in\mathfrak{sl}^*(2, \mathbb{C}): \lambda(X_1)\mapsto 2\}$. Hence the Dynkin diagram for $\mathfrak{sl}(2, \mathbb{C})$ is $A_1$.
         \end{example}
+        
+        \begin{construct}[Chevalley-Serre]\index{Chevalley-Serre}\label{lie:reconstruction}
+        	Given a Dynkin diagram (of a simple Lie algebra) one can reconstruct the original Lie algebra $\mathfrak{g}$ (over $\mathbb{C})$ up to isomorphism. The number of nodes is equal to the number of simple roots and hence gives us the rank of $\mathfrak{g}$.
+        	
+        	Let $n$ denote the rank. We first construct the free Lie algebra on the $3n$ generators $\{E_i, F_i, H_i\}_{i\leq n}$. The Cartan subalgebra $\mathfrak{h}\leq\mathfrak{g}$ is constructed from the generators $H_i$ by imposing the following relations:
+        	\begin{itemize}
+        		\item $[H_i, H_j] = 0$
+        		\item $[H_i, E_j] = a_{ij}E_j$
+        		\item $[H_i, F_j] = -a_{ij}F_j$
+        	\end{itemize}
+        	where the numbers $a_{ij}$ form the Cartan matrix obtained by reversing construction \ref{lie:construct_dynkin}. To complete the reconstruction one imposes following additional constraints:
+        	\begin{itemize}
+        		\item $[E_i, F_j] = \delta_{ij}H_j$
+        		\item $\text{ad}_{E_i}^{|a_{ij}|-1}(E_j) = 0$
+        		\item $\text{ad}_{F_i}^{|a_{ij}|-1}(F_j) = 0$
+        	\end{itemize}
+        	These relations are called the Chevalley-Serre or Serre relations.
+        \end{construct}
+        \remark{For composite diagrams, and hence semisimple Lie algebras, one first constructs the Lie algebra corresponding to every simple diagram and then takes the direct sum.}
+        
+        \newdef{Kac-Moody algebra}{\index{Kac-Moody algebra}\index{Cartan!matrix}
+        	Consider the Cartan matrix $A$ associated to a finite-dimensional (semi)simple Lie algebra. This matrix has the properties listed in \ref{lie:cartan_prop} together with the properties that $A_{ij}\geq-3$ and that it is irreducible and symmetrizable.
+        	
+        	If one only retains the properties listed in \ref{lie:cartan_prop} one obtains a so-called \textbf{generalized Cartan matrix}. Given such a generalized Cartan matrix $A'$ one can construct a (possibly infinite-dimensional) Lie algebra in the following way:
+        	
+        	Let $\tilde{L}$ be the Lie algebra obtained by applying the Chevalley-Serre construction to $A'$. Then there exists a maximal ideal $I$ in $\tilde{L}$ such that $I\cap\mathfrak{h}=0$. The quotient $\tilde{L}/I$ is called the Kac-Moody algebra associated to $A'$.
+        }
 
 \section{Universal enveloping algebra}
 
@@ -554,6 +630,10 @@ References for this chapter are \cite{jeevanjee}.
 		\nomenclature[S_Ug]{$U(\mathfrak{g})$}{Universal enveloping algebra of a Lie algebra $\mathfrak{g}$.}
 		Let $\mathfrak{g}$ be a Lie algebra with Lie bracket $[\cdot, \cdot]$. First construct the tensor algebra $T(\mathfrak{g})$. The universal enveloping algebra $U(\mathfrak{g})$ is defined as quotient of $T(\mathfrak{g})$ by the two-sided ideal generated by the elements $g\otimes h - h\otimes g - [g, h]$.
 	}
+	
+	\begin{construct}\label{lie:uea_construct}
+		If one considers the generators and relations in the reconstruction theorem \ref{lie:reconstruction} as an (unital associative) algebra presentation instead of as a Lie algebra presentation\footnote{Where the Lie bracket is now the commutator constructed using the formal multiplication in $U(\mathfrak{g})$.} then one obtains the universal enveloping algebra $U(\mathfrak{g})$ of $\mathfrak{g}$.
+	\end{construct}
 	
 	\newdef{Casimir invariant\footnotemark}{\index{Casimir!invariant}\label{lie:casimir_invariant}
 		\footnotetext{Also known as a \textbf{Casimir operator} or \textbf{Casimir element}.}
@@ -577,6 +657,18 @@ References for this chapter are \cite{jeevanjee}.
 	\end{property}
 
 \section{Poisson algebras and Lie superalgebras}
+
+	\newdef{Internal Lie algebra}{\index{Lie!algebra (internal)}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a symmetric monoidal category with braiding $\sigma$. A Lie algebra internal to \textbf{C} is an object $A\in\ob{C}$ and a morphism $[\cdot, \cdot]:A\otimes A\rightarrow A$ satisyfing the following conditions:
+		\begin{itemize}
+			\item Antisymmetry: $[\cdot, \cdot] + [\cdot, \cdot]\circ\sigma_{A, A} = 0$
+			\item Jacobi identity: $[\cdot, [\cdot, \cdot]] + [\cdot, [\cdot, \cdot]]\circ\tau + [\cdot, [\cdot, \cdot]]\circ\tau^2= 0$
+		\end{itemize}
+		where $\tau = (\mathbbm{1}\otimes\sigma_{A, A})\circ(\sigma_{A, A}\otimes\mathbbm{1})$ denotes cyclic permutation.
+	}
+	\begin{example}[Lie superalgebra]
+		If we use the braiding $\sigma(a\otimes b) = (-1)^{|a||b|}b\otimes a$ in the category \textbf{sVect} we obtain the notion of a Lie superalgebra.
+	\end{example}
 
 	\newdef{Poisson algebra}{\index{Poisson!algebra}\index{Poisson!bracket}\label{lie:poisson_algebra}
 		Let $V$ be a vector space equipped with two bilinear operations $\star$ and $\{\cdot, \cdot\}$ that satisfy the following conditions:

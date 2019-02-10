@@ -1,0 +1,155 @@
+\chapter{Non-Commutative Algebra}
+
+References for this chapter are \cite{quantum_principal_bundles}.
+
+\section{Bialgebras}
+
+	\newdef{Bialgebra}{\index{bialgebra}
+		Let $A$ be a vector space over a field $K$. Suppose that the triple $(A, \nabla, \eta)$ defines a unital associative algebra and that the triple $(A, \Delta, \varepsilon)$ defines a counital coassociative coalgebra. Then the quintuple $(A, \nabla, \eta, \Delta, \varepsilon)$ defines a bialgebra if $\nabla$ and $\Delta$ satisfy the following commutative diagrams:
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.9\textwidth}
+				\centering
+				\begin{tikzcd}[ampersand replacement=\&, row sep=4em,column sep=4em, minimum width=2em]
+					A\otimes A \arrow[r, "\nabla"] \arrow[d, "\Delta\otimes\Delta"']\& A \arrow[r, "\Delta"] \& A\otimes A\\
+					A\otimes A\otimes A\otimes A \arrow[rr, "\mathbbm{1}\otimes\sigma_{A, A}\otimes\mathbbm{1}"] \&\& A\otimes A\otimes A\otimes A \arrow[u, "\nabla\otimes\nabla"']
+				\end{tikzcd}
+			\end{subfigure}
+			\par\bigskip
+			\begin{subfigure}[b]{0.3\textwidth}
+				\centering
+				\begin{tikzcd}[ampersand replacement=\&, row sep=3em,column sep=2em, minimum width=2em]
+					\&K \arrow[dl, "\eta"'] \arrow[dr, "\eta\otimes\eta"]\&\\
+					A \arrow[rr, "\Delta"]\&\& A\otimes A
+				\end{tikzcd}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.3\textwidth}
+				\centering
+				\begin{tikzcd}[ampersand replacement=\&, row sep=3em,column sep=2em, minimum width=2em]
+					A\otimes A \arrow[rr, "\nabla"] \arrow[dr, "\varepsilon\otimes\varepsilon"']\&\& A \arrow[dl, "\varepsilon"]\\
+					\&K\&
+				\end{tikzcd}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.3\textwidth}
+				\centering
+				\begin{tikzcd}[ampersand replacement=\&, row sep=3em,column sep=2em, minimum width=2em]
+					\& A \arrow[dr, "\varepsilon"]\&\\
+					K \arrow[rr, "\mathbbm{1}"] \arrow[ur, "\eta"]\&\&K
+				\end{tikzcd}
+			\end{subfigure}
+			\caption{Bialgebra conditions.}
+			\label{fig:bialgebra}
+		\end{figure}
+		
+		where these diagrams state that $\nabla, \eta$ are coalgebra morphisms and $\Delta, \varepsilon$ are algebra morphisms.
+	}
+
+	\begin{notation}[Sweedler notation]\index{Sweedler}
+		Let $(C, \Delta)$ be a coalgebra. For any element $c\in C$ the comultiplication $\Delta(c)$ is an element of $C\otimes C$ and can thus be written in the following form \[\Delta(c) = \sum_ia_i\otimes b_i\]
+		However for long operations this gets tedious and hence we introduct the notation\footnote{Sometimes one uss the notation $\Delta(c) = \Delta_1(c)\otimes\Delta_2(c)$.} $\Delta(c) = \sum_{(c)}c_{(1)}\otimes c_{(2)}$ or even $\Delta(c) = c_{(1)}\otimes c_{(2)}$. For example due to coassociativity $(\Delta\otimes\mathbbm{1})\circ\Delta = (\mathbbm{1}\otimes\Delta)\circ\Delta$ we can write: \[c_{(1)}\otimes c_{(2)}\otimes c_{(3)} = \sum_{(c)} c_{(1)(1)}\otimes c_{(1)(2)}\otimes c_{(2)} = \sum_{(c)} c_{(1)}\otimes c_{(2)(1)}\otimes c_{(2)(2)}\]
+		The counit law becomes: \[c = c_{(1)}\varepsilon(c_{(2)}) = \varepsilon(c_{(1)})c_{(2)}\]
+		and hence one can freely move the counit $\varepsilon$ around.
+	\end{notation}
+
+\section{Hopf algebras}
+
+	\newdef{Hopf algebra}{\index{Hopf!algebra}\index{antipode}
+		Let $(A, \nabla, \eta, \Delta, \varepsilon)$ be a bialgebra. $A$ is called a Hopf algebra if it is equipped with a linear map $S:A\rightarrow A$ that satisfies:
+		\begin{equation}
+			\nabla\circ(\mathbbm{1}_A\otimes S)\circ\Delta = \nabla\circ(S\otimes\mathbbm{1}_A)\circ\Delta = \eta\circ\varepsilon
+		\end{equation}
+		The map $S$ is also called the \textbf{antipode} or \textbf{coinverse}.
+	}
+	\begin{property}
+		Given a Hopf algebra structure on a bialgebra, the antipode $S$ is an antihomomorphism. Furthermore it is unique and hence being a Hopf algebra is a property, not a structure.
+	\end{property}
+	\remark{Sometimes one requires the antipode to be invertible.}
+	
+	\newdef{Quasi-triangular Hopf algebra}{\index{$R$-matrix}
+		A Hopf algebra $H$ for which there exists an invertible element $R\in H\otimes H$ that satisfies:
+		\begin{itemize}
+			\item $R\Delta(a) = \sigma\Big(\Delta(x)\Big)R$
+			\item $(\Delta\otimes\mathbbm{1})(R) = R_{13}R_{23}$
+			\item $(\mathbbm{1}\otimes\Delta)(R) = R_{13}R_{12}$
+		\end{itemize}
+		where $\sigma(x\otimes y) = y\otimes x$ is the braiding on $H$ and where $R_{ij}\in H\otimes H\otimes H$ is defined using the components of $R$ in the $i^{th}$ and $j^{th}$ position and the unit element $1\in H$ in the other position, i.e. $(a\otimes b)_{13} = a\otimes1\otimes b$.
+		
+		The element $R$ is often called the \textbf{universal $R$-matrix}.
+	}
+	
+	\begin{remark}[Tensor product of modules]\index{Tannaka duality}
+		One could ask where bialgebra and especially Hopf algebras naturally arise. Consider an algebra $A$ together with its category of modules \textbf{AMod}. Now one would like to define a monoidal structure on \textbf{AMod} induced by the tensor product on $A$. However this monoidal structure should be compatible with the action of $A$.
+		
+		The intuitive (left) action \[A\otimes(M\otimes_A N)\rightarrow M\otimes_AN: a\otimes m\otimes n\mapsto (am)\otimes n\] for example does not give a suitable tensor unit due to its asymmetric definition. To obtain the correct definition we are led by group representations: $g\cdot(m\otimes n) = gm\otimes gn$. In this case one has the diagonal map $\Delta:G\rightarrow G\times G$ which can be used to act on both sides of the tensor product. Now one could ask "Why not just define the action of an algebra in the same way?", namely:
+		\[a\otimes (m\otimes n)\mapsto (am)\otimes(an)\]
+		However because we require the action to be linear (after all it should be compatible with the algebra morphisms) this definition is not valid. Hence we require the existence of an algebra morphism $A\rightarrow A\otimes A$ with which we can construct a suitable action as follows:
+		\begin{equation}
+			A\otimes(M\otimes_AN)\rightarrow M\otimes_AN:a\otimes m\otimes n\mapsto (a_{(1)}m)\otimes(a_{(2)}n)
+		\end{equation}
+		where we used Sweedler notation. Together with the usual conditions of an algebra action one obtains exactly the requirement that $A$ should be a bialgebra. So if $A$ is a bialgebra then \textbf{AMod} will be a monoidal category (this is in fact an equivalence known as \textit{Tannaka duality}).
+		
+		Now one could require some more structure on \textbf{AMod}, for example that it admits duals. Consider an $A$-module $V$ together with its dual $V^*\cong\hom(V, \mathbb{C})$. Given a linear map $S:A\rightarrow A$ one could define a general action as follows:
+		\begin{equation}
+			(af)(v) = f\big(S(a)v\big)
+		\end{equation}
+		The requirement that this is indeed an action leads us to the requirement $S(ab) = S(b)S(a)$ on $S$, which is equivalent to requiring that $S$ is an algebra antihomomorphism. Together with the other compatibility conditions, such as that the evaluation and coevalutaion maps induced by the underlying vector spaces are also $A$-module morphisms, we are led to the requirement that $A$ is a Hopf algebra. Hence if $A$ is a Hopf algebra (with an invertible anitpode) then \textbf{AMod} will be a rigid monoidal category.
+	\end{remark}
+	
+\section{Differential calculi}
+
+	\newdef{First order differential calculus}{\index{differential}
+		Let $A$ be an algebra and let $\Gamma$ be an $A$-bimodule. An $A$-bimodule morphism $d:A\rightarrow\Gamma$ is called a first order differential calculus if it satisfies the following two conditions:
+		\begin{itemize}
+			\item Leibniz rule: $d(ab) = (da)b + a(db)$
+			\item Standard form: Every element $g\in\Gamma$ can be written as \[g = \sum_{i=1}^na_i(db_i)\]
+			for some $n\in\mathbb{N}$ and (not necessarily unique) elements $\{a_i, b_i\}_{i\leq n}$.
+		\end{itemize}
+	}
+	\remark{The second condition can be rewritten in terms of a right action using the Leibniz rule.}
+	
+\section{Quantum groups}
+
+	This section heavily builds upon the theory presented in chapter \ref{chapter:lie}. The content is partially based on talks by Andr\'e Henriques.
+	
+
+	\begin{construct}[Jimbo-Drinfeld]\index{Jimbo-Drinfeld}
+		Consider a Lie algebra $\mathfrak{g}$ together with its universal enveloping algebra $U(\mathfrak{g})$ constructed as using the Serre relations \ref{lie:uea_construct}:
+		\begin{enumerate}
+			\item $[H_i, H_j] = 0$
+        		\item $[H_i, E_j] = a_{ij}E_j$
+        		\item $[H_i, F_j] = -a_{ij}F_j$
+			\item $[E_i, F_j] = \delta_{ij}H_j$
+        		\item $\text{ad}_{E_i}^{|a_{ij}|-1}(E_j) = 0$
+        		\item $\text{ad}_{F_i}^{|a_{ij}|-1}(F_j) = 0$
+		\end{enumerate}
+		 To obtain the quantum group $U_q(\mathfrak{g})$, which is also called a \textbf{deformation} or \textbf{quantization} of $U(\mathfrak{g})$, one replaces the generators $H_i$ by the following generators\footnote{To be complete one should also add generators $K_i^{-1}$ which act as inverses of the generators $K_i$.}:
+		\begin{equation}
+			K_i := q^{d_iH_i}
+		\end{equation}
+		where $d_i = \frac{\langle\alpha_i, \alpha_i\rangle}{2}$ is related to the norm of the $i^{th}$ simple root. Hence instead of the $H_i$ being functionals on the root lattice, one gets gets linear functions from the root lattice to the Laurent polynomials in $q$, i.e. $\mathbb{C}[q, q^{-1}]$.
+		
+		From this functional point of view one can rewrite the second and third relation as follows:
+		\begin{align*}
+			f\cdot E_i &= E_i\tau_{\alpha_i}(f)\\
+			f\cdot F_i &= F_i\tau_{-\alpha_i}(f)
+		\end{align*}
+		where $f$ is a polynomial in the $H_i$'s and $\tau_{\alpha_i}(f)(\lambda) = f(\lambda+\alpha_i)$. Replacing $H_i$ by $K_i$ one obtains the following relations:
+		\begin{enumerate}
+			\item[$2^*.$] $K_iE_j = q^{d_ia_{ij}}E_jK_i$
+			\item[$3^*.$] $K_iF_j = q^{-d_ia_{ij}}F_jK_i$
+		\end{enumerate}
+		
+		The three relations relating $E_i$'s and $F_i$'s are deformed using $q$-analog numbers. First we define the $q$-numbers\footnote{Note that $q$-numbers are often defined differently, this definition is equal to $\frac{1}{q^{n-1}}[n]_{q^2}$ when using the common definition.}:
+		\begin{equation}
+			[n]_q := \frac{q^n - q^{-n}}{q - q^{-1}}
+		\end{equation}
+		Using this definition Serre relation 4 becomes:
+		\begin{enumerate}
+			\item[$4^*.$] $[E_i, F_j] = \delta_{ij}[H_i]_{q^{d_i}} = \delta_{ij}\frac{K_i - K_i^{-1}}{q^{d_i} - q^{-d_i}}$
+		\end{enumerate}
+		where the factor $[H_i]_{q^{d_i}}$ should be interpreted as first evaluating $H_i$ on a root and then taking the $q$-analog. The adjoint action relations (5 and 6) on $E_i$ and $F_i$ can be rewritten by replacing binomial coefficients by their $q$-analog ($i\neq j$):
+		\begin{enumerate}
+			\item[$5^*.$] $\sum_{k=1}^{1+|a_{ij}|} (-1)^k\begin{bmatrix}1+|a_{ij}|\\k\end{bmatrix}_{q^{d_i}}E_i^{1+|a_{ij}|-k}E_jE_i^k = 0$
+			\item[$6^*.$] $\sum_{k=1}^{1+|a_{ij}|} (-1)^k\begin{bmatrix}1+|a_{ij}|\\k\end{bmatrix}_{q^{d_i}}F_i^{1+|a_{ij}|-k}F_jF_i^k = 0$
+		\end{enumerate}
+	\end{construct}

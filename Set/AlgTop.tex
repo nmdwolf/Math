@@ -57,11 +57,15 @@ References for this chapter are \cite{massey, merry_io}.
 		Let $X$ be a topological space. The fundamental groupoid $\Pi_1(X)$ is the groupoid which has the points of $X$ as objects and the homotopy classes of continuous function $f:X\rightarrow X$ with fixed endpoints as morphisms.
 	}
 	
+	\begin{property}\index{deck transformation}
+		Consider a topological space $X$ and let $\widetilde{X}$ be its universal covering space. The group of deck transformations\footnote{See definition \ref{topology:deck_transformation}.} Aut$(\widetilde{X})$ is isomorphic to the fundamental group $\pi_1(X)$.
+	\end{property}
+	
 	\newdef{Simply-connected space}{\index{simply-connected}\label{topology:simply_connected}
 		A topological space is said to be simply-connected if it is path-connected and if the fundamental group is trivial.
 	}
 	
-	The definition of a fundamental group can be generalized to arbitrary dimensions in the following way\footnote{Note however that we replace the interval $[0, 1]$ by the sphere $S^1$. This is nonrestrictive as we can construct $S^n$ by mapping (identifying) the boundary of $[0,1]^n$ to the basepoint $x_0$.}:
+	The definition of a fundamental group can be generalized to arbitrary dimensions in the following way\footnote{Note however that we replace the interval $[0, 1]$ by the sphere $S^1$. This is non-restrictive as we can construct $S^n$ by identifying the boundary of $[0,1]^n$ with the basepoint $x_0$.}:
 	\newdef{Homotopy group}{\index{homotopy!group}
 		\nomenclature[S_zsymhos]{$\pi_n(X, x_0)$}{$n^{th}$ homotopy space over $X$ with basepoint $x_0$.}
 		The homotopy group $\pi_n(X, x_0)$ is defined as the set of homotopy classes of continuous maps $f:S^n\rightarrow X$ based at $x_0\in X$. The set $\pi_0(X, x_0)$ is defined as the set of path-connected components of $X$.
@@ -70,7 +74,7 @@ References for this chapter are \cite{massey, merry_io}.
 	\begin{property}
 		For $n\geq1$ the sets $\pi_n(X, x_0)$ are groups.
 	\end{property}
-		\begin{property}
+	\begin{property}\label{topology:abelian_homotopy_groups}
 		For $n\geq2$  the homotopy groups $\pi_n(X, x_0)$ are Abelian.
 	\end{property}
 
@@ -96,6 +100,20 @@ References for this chapter are \cite{massey, merry_io}.
 	\newdef{Weak homotopy equivalence}{\index{homotopy!equivalence}
 		A continuous map which induces isomorphisms on all homotopy groups.
 	}
+	
+	\newdef{Eilenberg-MacLane space}{\index{Eilenberg-MacLane}
+		Let $G$ be a group and choose a positive integer $n\in\mathbb{N}_0$. The Eilenberg-MacLane space $K(G, n)$ is a topological space with the following property:
+		\begin{equation}
+			\pi_i\Big(K(G, n)\Big)=\begin{cases}
+				G&i=n\\
+				0&i\neq n
+			\end{cases}
+		\end{equation}
+		It follows from property \ref{topology:abelian_homotopy_groups} above that for $n>1$ the group $G$ has to be Abelian.
+	}
+	\begin{property}
+		For every $G$ and $n$ the space $K(G, n)$ is unique up to weak homotopy equivalence.
+	\end{property}
 
 \subsection{CW complexes}
 
@@ -181,7 +199,7 @@ References for this chapter are \cite{massey, merry_io}.
 \section{Simplicial homology}\label{section:homology}
 \subsection{Simplices}
 
-	\newdef{Simplex}{\index{simplex}\index{vertex}
+	\newdef{Simplex}{\index{simplex}\index{vertex}\label{topology:simplex}
 		A $k$-simplex $\sigma^k = [t_0, ..., t_k]$ is defined as the following set:
 		\begin{equation}
 			\sigma^k = \left\{\left.\sum_{i=0}^k\lambda_it_i\right|\sum_{i=0}^k\lambda_i = 1\text{ and }\lambda_i\geq0\right\}
@@ -229,6 +247,10 @@ References for this chapter are \cite{massey, merry_io}.
 	\begin{result}
 		From the theorem that homeomorphic spaces have the same homotopy groups it follows that the fundamental group of a triangulable space can be computed by looking at its triangulations.
 	\end{result}
+	
+	\begin{remark}[Hauptvermutung]
+		Although the homology invariants (which we will define below) do not depend on the choice of triangulation we should give a remark about the existence of non-equivalent triangulations. Before the construction of a counterexample it was believed, hence the terms \textit{Hauptvermutung} in German or \textit{main conjecture} in English, that every two triangulations of a topological space allowed a common refinement and hence where equivalent for many constructions. However it was shown that this conjecture is generally false, e.g. for topological manifolds in dimensions 5 and higher there exist an infinite number of non-equivalent triangulations. In dimensions below 4 it was proven by Rad\'o and Moise that the Hauptvermutung holds for topological manifolds (see theorem \ref{manifolds:rado_moise}).
+	\end{remark}
 
 \subsection{Simplicial homology}	
 	\newdef{Chain group}{\index{chain!group}\label{topology:chain_group}
@@ -383,10 +405,15 @@ References for this chapter are \cite{massey, merry_io}.
 			\end{cases}
 		\end{equation}
 	\end{example}
-	
 	\newdef{Homology sphere}{\index{homology!sphere}
 		A $n$-dimensional manifold having the same homology groups as the $n$-sphere.
 	}
+	\newdef{Degree}{\index{degree}
+		From the example above we know that $H_n(S^n)=\mathbb{Z}$. Given a map $f:S^n\rightarrow S^n$ the induced map $f_*$ on homology is an endomorphism of $\mathbb{Z}$ and hence is of the form $f(x)=dx$ where $d\in\mathbb{Z}$. This coefficient is called the degree of $f$.
+	}
+	\begin{property}
+		Two maps $f:S^n\rightarrow S^n$ have the same degree if and only if they are homotopic.
+	\end{property}
 	
 	\begin{example}
 		Consider a closed, connected and orientable manifold $M$ with $\dim(M) = n$.
@@ -412,27 +439,34 @@ References for this chapter are \cite{massey, merry_io}.
 	\newdef{Singular chain group}{\index{chain}
 		The singular chain group $S_k(X)$ with coefficients in a group $G$ is defined as the set of formal linear combinations $\sum_ig_i\sigma_i^k$. The basis of this free group is in most cases infinite as there are multiple ways to map $\Delta^k$ to $X$.
 	}
-	\newdef{Singular boundary operator}{
+	
+	Before continuing we first need to introduce an important concept in the context of simplicial complexes:
+	\newdef{Face map}{\index{face!map}
+		The face maps are morphisms $\varepsilon_i^k:\Delta^{k-1}\rightarrow\Delta^k$ that map $\Delta^{k-1}$ onto the i$^{th}$ face of $\Delta^k$. They are explicitly given by:
+		\begin{equation}
+			\varepsilon_i^k(s_0, ..., s_{k-1})= (s_0, ..., s_{i-1}, 0, s_i, ..., s_{k-1})
+		\end{equation}
+		Their defining property is the following relation:
+		\begin{equation}
+			\varepsilon_i^k\circ\varepsilon_j^{k-1} = \varepsilon_j^k\circ\varepsilon_{i-1}^{k-1}
+		\end{equation}
+		where $j\leq i$.
+	}
+	\sremark{Some authors (for example the authors at nLab) call these maps \textit{degeneracy maps} and call what in these notes are called \textit{degeneracy maps} face maps.}
+	
+	\newdef{Singular boundary operator}{\index{face!map}
 		The singular boundary operator $\partial$ (we use the same notation as for simplicial boundary operators) is defined by its linear action on the singular chain group $S_k(X)$. It follows that we only have to know the action on the singular simplices $\sigma^k$.
-		
-		We first introduce the homeomorphisms $\varepsilon_i^k:\Delta^{k-1}\rightarrow\Delta^k$ that map $\Delta^{k-1}$ onto the $i^{th}$ face of $\Delta^k$. Consider a point $(s_0, ..., s_{k-1})\in\Delta^{k-1}$, the map $\varepsilon_i^k$ is then defined as $\varepsilon_i^k(s_0, ..., s_{k-1})= (s_0, ..., s_{i-1}, 0, s_i, ..., s_{k-1})$.
 		
 		The action of the boundary operator on the singular simplex $\sigma^k$ is then given by:
 		\begin{equation}
 			\partial_k\sigma^k = \sum_{i=0}^k(-1)^i\sigma^k\circ\varepsilon^k_i
 		\end{equation}
-		The singular boundary operators satisfy the same relation as in the simplicial case:
+		where the $\varepsilon^k_i$ are the face maps defined above. The singular boundary operators satisfy the same relation as the the simplicial boundary operators:
 		\begin{equation}
-			\partial_k\circ\partial_{k-1} = 0
+			\partial_{k-1}\circ\partial_k = 0
 		\end{equation}
 		and hence define a chain complex.
 	}
-	\begin{property}
-		The 'face maps' $\varepsilon^k_i$ from previous definition satisfy following relation:
-		\begin{equation}
-			\varepsilon_i^{k+1}\circ\varepsilon_j^k = 
-		\end{equation}
-	\end{property}
 	
 	\newdef{Singular homology group}{\index{homology!singular}
 		The singular homology groups are defined as follows:
@@ -442,7 +476,7 @@ References for this chapter are \cite{massey, merry_io}.
 	}
 	
 	\begin{theorem}
-		On triangulable spaces singular homology is equivalent to simplicial homology.
+		For triangulable spaces the singular homology is equivalent to simplicial homology.
 	\end{theorem}
 	\begin{remark}
 		When $X$ is not triangulable the previous theorem is not valid. The singular approach to homology is a more general construction, but it is often more difficult to compute the homology groups (even in the case of triangulable spaces).
@@ -473,7 +507,7 @@ References for this chapter are \cite{massey, merry_io}.
 	\newdef{Eilenberg-Steenrod axioms}{\index{Eilenberg-Steenrod axioms}\label{topology:eilenberg_steenrod_axioms}
 		All homology theories have a set of properties in common. By treating these properties as axioms we can construct homology theories as a sequence of functors $H_k: \text{Top}\times\text{Top}\rightarrow\text{Ab}$. The axioms are as follows:
 		\begin{enumerate}
-			\item \textbf{Homotopy}: If $f, g$ are homotopic maps then their induced homology maps are the same, i.e.\[[f] = [g]\implies H_k(f) = H_k(g), \forall k\in\mathbb{N}\]
+			\item \textbf{Homotopy}: If $f, g$ are homotopic maps then their induced homology maps are the same, i.e.\[f\cong g\implies H_k(f) = H_k(g), \forall k\in\mathbb{N}\]
 			\item \textbf{Excision}\footnotemark: If $U\subset V\subset X$ and $\overline U\subset V\degree$ then $H_k(X, V) \cong H_k(X\backslash U, V\backslash U)$
 			\item \textbf{Dimension}: If $X$ is a singleton then $H_k(X) = \{0\}$ for all $k\geq1$. The group $H_0(X)$ is called the \textbf{coefficient group} and gives the coefficients used in the linear combinations of the chain group.
 			\item \textbf{Additivity}: If $X = \bigsqcup_i X_i$ then $H_k(X)\cong\bigoplus_i H_k(X_i)$
@@ -486,7 +520,7 @@ References for this chapter are \cite{massey, merry_io}.
 		\footnotetext{See also theorem \ref{topology:theorem:excision}.}
 	}
 	\begin{remark}
-		If the dimension axiom is removed from the set of axioms, then we obtain a so-called \textit{extraordinary homology theory}.
+		If the dimension axiom is removed from the set of axioms then we obtain a so-called \textit{extraordinary homology theory}.
 	\end{remark}
 	
 \section{Equivariant cohomology}

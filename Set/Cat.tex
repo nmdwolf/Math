@@ -35,6 +35,8 @@
 	
 	\newdef{Skeletal category}{\index{category!skeletal}
 		A category is said to be skeletal if isomorphic objects are identical, i.e. every isomorphism is an identity morphism. The \textbf{skeleton} of a category is an equivalent skeletal category (often taken to be a subcategory).
+		
+		If one does not assume the axiom of choice the skeleton is merely a weakly equivalent skeletal category.
 	}
 	
 	\newdef{Enriched category}{\index{category!enriched}
@@ -89,7 +91,7 @@
 		\end{itemize}
 		The second property says that $\dag$ is an \textbf{involutive} functor.
 	}
-	\remark{The concept of a dagger structure allows the usual definition of unitary and self-adjoint morphisms.}
+	\remark{The concept of a dagger structure allows the usual definition of \textbf{unitary} and \textbf{self-adjoint} morphisms.}\index{unitary}
 	\begin{property}
 		The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid}.}.
 	\end{property}
@@ -390,7 +392,7 @@
 		Every global element\footnote{See definition \ref{category:global_element}.} is monic.
 	\end{property}
 	\begin{property}[Equalizing morphism]
-		Consider an equalizer $(E, e)$. The equalizing morphism $e$ is monic.
+		Consider an equalizer $(E, e)$. The equalizing morphism $e$ is monic. Similarly a coequalizing morphism is epic.
 	\end{property}
 
 	\newdef{Regular monomorphism}{\index{regular!morphism}
@@ -486,12 +488,12 @@
 
 \section{Abelian categories}
 
-	\newdef{Preadditive category}{
+	\newdef{Pre-additive category}{
 		A (locally small) category enriched over \textbf{Ab}, i.e. every hom-set is an Abelian group and composition is bilinear.
 	}
 	
 	\begin{property}\index{zero!object}
-		Let \textbf{A} be a preadditive category and let $X\in\ob{A}$. The following statements are equivalent:
+		Let \textbf{A} be a pre-additive category and let $X\in\ob{A}$. The following statements are equivalent:
 		\begin{itemize}
 			\item $X$ is an initial object.
 			\item $X$ is a final object.
@@ -500,20 +502,21 @@
 		Any initial/terminal object is hence a zero object\footnote{See definition \ref{cat:zero_object}.}.
 	\end{property}
 	\begin{property}
-		In a preadditive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product.
+		In a pre-additive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product.
 	\end{property}
 	
 	\newdef{Additive category}{
-		A preadditive category in which all finite products (and hence coproducts) exist.
+		A pre-additive category in which all finite products (and hence coproducts) exist.
 	}
 	
-	In a preadditive category one can define the classical notions from (homological) algebra such as images and kernels:
+	In a pre-additive category one can define the classical notions from (homological) algebra such as images and kernels:
 	\newdef{Kernel}{\index{kernel}
 		Let $f:X\rightarrow Y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:Z\rightarrow X$ such that:
 		\begin{itemize}
 			\item $f\circ k = 0$
-			\item Universal property: for every other morphism $k':Z'\rightarrow X$ there exists a unique morphism $h:Z'\rightarrow Z$ such that $k\circ h = k'$.
+			\item Universal property: for every other morphism $k':Z'\rightarrow X$ such that $f\circ k' = 0$ there exists a unique morphism $h:Z'\rightarrow Z$ such that $k\circ h = k'$.
 		\end{itemize}
+		Hence a kernel of $f$ is an equalizer of $f$ and 0.
 	}
 	\begin{notation}[Kernel]
 		If the kernel of $f:X\rightarrow Y$ exists then it is denoted by $\ker(f)\rightarrow X$.
@@ -523,13 +526,25 @@
 		Let $f:X\rightarrow Y$ be a morphism. A cokernel is a morphism $p:Y\rightarrow Z$ such that:
 		\begin{itemize}
 			\item $p\circ f = 0$
-			\item Universal property: for every other morphism $p':Y\rightarrow Z'$ there exists a unique morphism $h:Z\rightarrow Z'$ such that $h\circ p = p'$.
+			\item Universal property: for every other morphism $p':Y\rightarrow Z'$ such that $p'\circ f = 0$ there exists a unique morphism $h:Z\rightarrow Z'$ such that $h\circ p = p'$.
 		\end{itemize}
+		Hence a cokernel of $f$ is a coequalizer of $f$ and 0.
 	}
 	\begin{notation}[Kernel]
 		If the cokernel of $f:X\rightarrow Y$ exists then it is denoted by $Y\rightarrow\text{coker}(f)$.
 	\end{notation}
 	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by Yoneda's lemma the morphism \[\ker(f)\rightarrow X\] represents the functor \[F:Z\mapsto\ker\Big(\textbf{C}(Z, X)\rightarrow\textbf{C}(Z, Y)\Big)\]}
+
+	\newdef{Pre-Abelian category}{
+		An additive category is pre-Abelian in which every morphism has a kernel and cokernel.
+	}
+	\newdef{Abelian category}{\index{Abelian!category}
+		A pre-Abelian category in which every mono is a kernel and every epi is a cokernel or equivalently if for every morphism $f$ there exists an isomorphism $\text{coker}(\ker(f))\cong\ker(\text{coker}(f))$.
+	}
+	
+	\begin{property}
+		In Abelian categories a morphism is monic if and only if it is injective, i.e. its kernel is 0. Analogously a morphism is epic if and only if it is surjective, i.e. its cokernel is 0.
+	\end{property}
 
 	\newdef{Simple object}{\index{simple!object}
 		Let \textbf{C} be an Abelian category. An object $A\in\ob{C}$ is said to be simple if the only subobjects of $A$ are $\mathbf{0}$ and $A$ itself. An object is said to be semisimple if it is a direct sum of simple obejcts.
@@ -628,7 +643,7 @@
 	\newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}
 		Let $(\textbf{C}, \otimes, \mathbf{1}_C), (\textbf{D}, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $\func{F}{C}{D}$ is said to be monoidal if there exists:
 		\begin{itemize}
-			\item A natural isomorphism $\psi_{A, B}: FA\circledast FB\Rightarrow F(A\otimes B)$ such that the following diagram commutes:
+			\item A natural isomorphism $\psi_{A, B}: FA\circledast FB\Rightarrow F(A\otimes B)$ such that the diagram in figure \ref{fig:monoidal_functor1} commutes.
 			\begin{figure}[ht!]
 				\centering
 				\begin{tikzpicture}
@@ -645,32 +660,11 @@
 					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\mathbbm{1}\circledast\psi_{B, C}$};
 					\draw[->] (m-2-2) -- (m-3-2) node[pos=0.5, right]{$\psi_{A, B\otimes C}$};
 				\end{tikzpicture}
+				\caption{}
+				\label{fig:monoidal_functor1}
 			\end{figure}
 
-			\item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$ for the following two diagrams commute:
-			
-		\end{itemize}
-	}
-	\remark{The morphisms $\psi_{A, B}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
-	
-	\begin{property}
-		For every monoidal functor $F$ there exists a canonical isomorphism $\phi:\mathbf{1}_D\rightarrow F\mathbf{1}_C$ defined by following commutative diagram:
-		\begin{figure}[ht!]
-			\centering
-			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-					\mathbf{1}_D\circledast F\mathbf{1}_C\&F\mathbf{1}_C\\
-					F\mathbf{1}_C\circledast F\mathbf{1}_C\&F(\mathbf{1}_C\otimes\mathbf{1}_C)\\
-				};
-				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_{\textbf{D}}$};
-				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\psi_{\mathbf{1}_C, \mathbf{1}_C}$};
-			
-				\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi\circledast\mathbbm{1}$};
-				\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F(\lambda_{\textbf{C}})$};
-			\end{tikzpicture}
-		\end{figure}
-		
-		This isomorphism also makes the two diagrams\footnote{These are often added as a defining condition for monoidal functors.} in figure \ref{fig:unitality} commute for all $X\in\ob{C}$.
+			\item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$ which makes the two diagrams in figure \ref{fig:unitality} commute.
 		\begin{figure}[ht!]
 			\centering
 			\begin{subfigure}[b]{0.49\textwidth}
@@ -704,17 +698,36 @@
 			\caption{Unitality diagrams.}
 			\label{fig:unitality}
 		\end{figure}
+		\end{itemize}
+	}
+	\remark{The morphisms $\psi_{A, B}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
+	
+	\begin{property}
+		For every monoidal functor $F$ there exists a canonical isomorphism $\phi:\mathbf{1}_D\rightarrow F\mathbf{1}_C$ defined by the commutative diagram in figure \ref{fig:canonical_monoidal_isom}.
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+					\mathbf{1}_D\circledast F\mathbf{1}_C\&F\mathbf{1}_C\\
+					F\mathbf{1}_C\circledast F\mathbf{1}_C\&F(\mathbf{1}_C\otimes\mathbf{1}_C)\\
+				};
+				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_{\textbf{D}}$};
+				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\psi_{\mathbf{1}_C, \mathbf{1}_C}$};
+			
+				\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi\circledast\mathbbm{1}$};
+				\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F(\lambda_{\textbf{C}})$};
+			\end{tikzpicture}
+			\caption{}
+			\label{fig:canonical_monoidal_isom}
+		\end{figure}
 	\end{property}
 	
 	\newdef{Lax monoidal functor}{\index{lax!monoidal functor}
 		A lax monoidal functor is defined as a monoidal functor for which the coherence maps are merely morphisms and not isomorphisms.
 	}
-	\begin{notation}
-		A (lax) monoidal functor $F$ together with its coherence maps $\psi_{A, B}$ and $\phi$ is sometimes denoted by the triple $(F, \phi, \psi)$ or just $(F, \psi)$.
-	\end{notation}
 	
 	\newdef{Monoidal natural transformation}{
-		A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma_G, \phi_G)$ is said to be (lax) monoidal if it makes the following diagrams commute:
+		A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma_G, \phi_G)$ is said to be (lax) monoidal if it makes the diagrams in figure \ref{fig:monoidal_natural_transformation} commute.
 		\begin{figure}[ht!]
 			\centering
 			\begin{subfigure}[b]{0.49\textwidth}
@@ -997,7 +1010,7 @@
 			\item ...
 			\item $n$-morphisms going between $(n-1)$-morphisms.
 		\end{itemize}
-		such that the composition of $k$-morphisms ($\forall k\leq n$) is associative and satisfies the unit laws as required in an ordinary category.
+		such that the composition of $k$-morphisms ($\forall k\leq n$) is associative and satisfies the unit laws as required in an ordinary category. By generalizing this definition to arbitrary $n$ one can define the notion of an $\infty$-category.
 	}
 	\begin{example}[2-Category]
 		In a 2-category one can compose 2-morphisms in two different ways:
@@ -1012,10 +1025,24 @@
 			(\alpha\cdot\beta)\circ(\gamma\cdot\delta) = (\alpha\circ\gamma)\cdot(\beta\circ\delta)
 		\end{equation}
 	\end{example}
+	\sremark{$n$-morphisms are also often called \textbf{$n$-cells}.}
+	\newdef{\texorpdfstring{$(n, r)$-Category}{(n,r)-Category}}{
+		A higher ($\infty$-)category for which:
+		\begin{itemize}
+			\item All parallel $k$-morphisms with $k>n$ are equivalent.
+			\item All $k$-morphisms with $k>r$ are invertible (or equivalences\footnote{In the fully weak $\infty$-sense.}).
+		\end{itemize}
+	}
+
+	\begin{example}
+		The classical example of a 1-category is \textbf{Set}, the classical example of a 2-category is \textbf{Cat}.
+	\end{example}
 	
-	\remark{$n$-Morphisms are also often called \textbf{$n$-cells}.}
+	\newdef{Weak inverse}{\index{weak!inverse}
+		Let \textbf{C} be a 2-category. A 1-morphism $f:X\rightarrow Y$ is weakly invertible if there exists a 1-morphism $g:Y\rightarrow X$ and 2-isomorphisms $I:g\circ f\Rightarrow\mathbbm{1}_X, J:f\circ g\Rightarrow\mathbbm{1}_Y$.
+	}
 	
-	\begin{property}[Monoidal categories as 2-categories]\index{monoidal!category}
+	\begin{property}[Monoidal categories as 2-categories]\index{monoidal!category}\index{delooping}\label{cat:monoidal_or_2}
 		Consider a monoidal category $(C, \otimes, \mathbf{1})$. From this monoidal category one can construct the so-called \textbf{delooping} $\mathbf{B}C$, which is a bicategory, in the following way:
 		\begin{itemize}
 			\item There is a single object $\ast$.
@@ -1024,18 +1051,23 @@
 			\item Horizontal composition in $\mathbf{B}C$ is the tensor product in $C$.
 			\item Vertical composition in $\mathbf{B}C$ is composition in $C$.
 		\end{itemize}
-		Conversely every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent.
+		Conversely every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent. (This property and its generalizations are the content of the \textit{delooping hypothesis}.)
 	\end{property}
-	
-	\begin{example}
-		The classical example of a 1-category is \textbf{Set}, the classical example of a 2-category is \textbf{Cat}.
-	\end{example}
 
 \section{Groupoids}
 
+	\newdef{Categorical group}{\index{group!categorical}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category. This category is called categorical group, \textbf{gr-category} or \textbf{weak 2-group}\footnote{See also the end of this section.} if it satisfies the following conditions:
+		\begin{itemize}
+			\item All morphisms are invertible.
+			\item Every object is weakly invertible with respect to the monoidal structure.
+		\end{itemize}
+		By property \ref{cat:monoidal_or_2} above one can equivalently define a weak 2-group as 2-category with a single object, weakly invertible 1-morphisms and invertible 2-morphisms.
+	}
+
 	\newdef{Groupoid}{\index{groupoid}\label{cat:groupoid}
 		\nomenclature[S_Grpd]{$\textbf{Grpd}$}{Category of groupoids.}
-		A (small) groupoid $\mathcal{G}$ is a small category in which all morphisms are invertible.
+		A (small) groupoid $\mathcal{G}$ is a (small) category in which all morphisms are invertible.
 	}
 	
 	\newdef{Core}{\index{core}
@@ -1062,9 +1094,9 @@
 	\remark{In the Ehresmannian approach one gives the manifold of composable morphisms $D_1\times_{D_0}D_1$ as part of the data. Hence we do not have to assume anything about the source and target morphisms.}
 	
 	\newdef{2-Groupoid}{
-		A 2-groupoid is a 2-category in which all 1-morphisms are invertible and every 2-morphisms has a 'vertical' inverse. The 'horizontal' inverse can be constructed from the other inverses.
+		A 2-groupoid is a 2-category in which all 1-morphisms are invertible and every 2-morphisms has a 'vertical' inverse. (The 'horizontal' inverse can be constructed from the other inverses.)
 	}
-	\newdef{2-Group}{
+	\newdef{Strict 2-group}{
 		A 2-group is defined as a 2-groupoid with only one object. From this it follows that the set of 1-morphisms forms a group and so does the set of 2-morphisms under horizontal composition. The 2-morphisms do not form a group under vertical composition\footnote{Because the sources/targets may not match up.}.
 	}
 	

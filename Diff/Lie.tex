@@ -471,10 +471,14 @@ References for this chapter are \cite{jeevanjee, fultonharris}.
         	Let $\mathfrak{g}$ be a semisimple Lie algebra. A Cartan subalgebra $\mathfrak{h}$ can be constructed as follows: Choose linearly independent vectors $\{h_i\}_{i\in I}$ such that for all\footnote{The existence of such a choice, equivalent to requiring simultaneous diagonalization, is only guaranteed for semisimple Lie algebras.} $i, j\in I: [h_i, h_j] = 0$. If this set can be extended to a basis $\{h_i\}_{i\in I}\cup\{g_j\}_{j\in J}$ of $\mathfrak{g}$ such that every $g_j$ is a non-trivial eigenvector of the adjoint map $\text{ad}_{h_i}$ for all $i\in I$ then the algebra $\mathfrak{h} = \text{span}\{h_i\}_{i\in I}$ is a Cartan subalgebra.
         \end{construct}
 
-	\newdef{Weight space}{\index{weight}
+	\newdef{Weight space}{\index{weight}\index{module!weight}
         	Let $V$ be a representation of a Lie algebra $\mathfrak{g}$ with Cartan subalgebra $\mathfrak{h}$. Let $\lambda$ be a linear functional on $\mathfrak{h}$. The weight space $V_\lambda$ of $V$ with \textbf{weight} $\lambda$ is defined as follows:
         	\begin{equation}
         		V_\lambda = \{v\in V: h\cdot v = \lambda(H)v, \forall h\in\mathfrak{h}\}
+        	\end{equation}
+        	Non-zero elements of a weight space are called \textbf{weight vectors}. If the representation $V$ can be decomposed as a direct sum of weigth spaces it is called a \textbf{weight module}:
+        	\begin{equation}
+        		V = \bigoplus_{\lambda\in\mathfrak{h}^*}V_\lambda
         	\end{equation}
         }
         
@@ -519,16 +523,6 @@ References for this chapter are \cite{jeevanjee, fultonharris}.
         	Let $\mathfrak{h}$ be a Cartan subalgebra. The set of simple roots $\Delta$ forms a basis for the dual space $\mathfrak{h}^*$ (over $\mathbb{C}$) and hence the cardinality of $\Delta$ is equal to the dimension of the Cartan subalgebra. This dimension is called the \textbf{rank} of the Lie algebra.
         \end{property}
         
-        \begin{property}
-        	Let $\alpha\in\Phi$ be a root. Choose a generating element $E^\alpha$ of the weight space $\mathfrak{g}_\alpha$ associated to $\alpha$. Let $F^\alpha$ be the generator of the weight space $\mathfrak{g}_{-\alpha}$ such that $\{E^\alpha, F^\alpha, [E^\alpha, F^\alpha]\}$ defines a one-dimensional simple Lie algebra. Then the following relations hold (for $\beta\neq\pm\alpha$):
-        	\begin{itemize}
-        		\item $\beta(H^\alpha) = 2\frac{\langle\alpha, \beta\rangle}{\langle\alpha, \alpha\rangle}\in\mathbb{Z}$
-        		\item $[H^\alpha, E^\alpha] = \alpha(H^\alpha)E^\alpha = 2E^\alpha$
-        		\item $[H^\alpha, F^\alpha] = -\alpha(H^\alpha)F^\alpha = -2F^\alpha$
-        	\end{itemize}
-        	where the inner product $\langle\cdot,\cdot\rangle$ is given by the dual Killing form.\footnote{Consider the \textit{sharp} map \ref{manifolds:sharp_map} where one replaces the metric $g$ by the Killing form $K$. The dual Killing form $K^*$ is then a proper inner product (when restricted to the real span of $\Delta$) defined as: \[K^*(\cdot, \cdot) = K(\cdot^\sharp, \cdot^\sharp)\]}
-        \end{property}
-        
         \newdef{Weyl group}{\index{Weyl!group}
         	For every simple root $\lambda$ we construct the Householder transformation\footnote{See definition \ref{linalgebra:householder_transformation}.} $\sigma_\lambda$ as follows:
         	\begin{equation}
@@ -538,11 +532,45 @@ References for this chapter are \cite{jeevanjee, fultonharris}.
         }
         
         \begin{property}
-        	Every root $\phi\in\Phi$ can be written as $\phi = \sigma(\mu)$ for some $\mu\in\Delta$ and $\sigma\in W$. Furthermore, the root system $\Phi$ is closed under the action of $W$. The Weyl group $W$ is exactly the symmetry group of the root system $\Phi$.
+        	Every root $\phi\in\Phi$ can be written as $\phi = \sigma(\mu)$ for some $\mu\in\Delta$ and $\sigma\in W$. Furthermore, the root system $\Phi$ is closed under the action of $W$. The Weyl group $W$ is exactly the symmetry group of the root system $\Phi$ and the isometry group of the Killing form (and its dual).
+        \end{property}
+        
+        \newdef{Coroot}{\index{coroot}
+        	Consider the real span $\mathfrak{h}_0^*$ of the roots of $\mathfrak{g}$. Using the restriction of the (dual) Killing form to this real subspace one can construct a dual space $\mathfrak{h}_0\subset\mathfrak{h}$. The coroot $\alpha^\vee\in\mathfrak{h}_0$ associated to a root $\alpha$ is then defined by the following formula:
+        	\begin{equation}
+        		\alpha^\vee = 2\frac{\langle\alpha,\cdot\rangle}{\langle\alpha,\alpha\rangle}
+        	\end{equation}
+        	With this definition the Weyl transformations can be rewritten as follows:
+        	\begin{equation}
+        		\sigma_\lambda:\text{span}_{\mathbb{R}}(\Delta)\rightarrow\text{span}_{\mathbb{R}}(\Delta):\mu\mapsto \mu - \mu(\lambda^\vee)\lambda
+        	\end{equation}
+        }
+        \begin{notation}[Coroot]
+        	Sometimes it is more favourable to denote the coroot associated to $\alpha$ by $H^\alpha$.
+        \end{notation}
+        \newdef{Algebraically integral}{
+        	An element $H\in\mathfrak{h}_0$ is said to be algebraically integral if its value on every root is an integer. The set of all algebraically integral elements is called the \textbf{weight lattice}.
+        }
+        \newdef{Fundamental weight}{\index{weight}
+        	Let $\Delta=\{\alpha_i\}$ be the set of simple roots. The fundamental weights $\{\omega_i\}_{i\leq|\Delta|}$ are defined as the elements of $\mathfrak{h}_0^*$ for which the following formula is satisfied for all $i,j\leq|\Delta|$:
+        	\begin{equation}
+        		\omega_i(H^{\alpha_j})=\delta_{ij}
+        	\end{equation}
+        	Hence an element $\lambda\in\mathfrak{h}_0$ is algebraically integral if it is an integral combination of fundamental weights.
+        }
+
+        \begin{property}
+        	Let $\alpha\in\Phi$ be a root. Choose a generating element $E^\alpha$ of the weight space $\mathfrak{g}_\alpha$ associated to $\alpha$. Let $F^\alpha$ be the generator of the weight space $\mathfrak{g}_{-\alpha}$ such that $\{E^\alpha, F^\alpha, [E^\alpha, F^\alpha]\}$ defines a one-dimensional simple Lie algebra. Then the following relations hold (for $\beta\neq\pm\alpha$):
+        	\begin{itemize}
+        		\item $\beta(H^\alpha) = 2\frac{\langle\alpha, \beta\rangle}{\langle\alpha, \alpha\rangle}\in\mathbb{Z}$
+        		\item $[H^\alpha, E^\alpha] = \alpha(H^\alpha)E^\alpha = 2E^\alpha$
+        		\item $[H^\alpha, F^\alpha] = -\alpha(H^\alpha)F^\alpha = -2F^\alpha$
+        	\end{itemize}
+        	where the inner product $\langle\cdot,\cdot\rangle$ is given by the dual Killing form.\footnote{Consider the \textit{sharp} map \ref{manifolds:sharp_map} where one replaces the metric $g$ by the Killing form $K$. The dual Killing form $K^*$ is then a proper inner product (when restricted to the real span of $\Delta$) defined as: \[K^*(\cdot, \cdot) = K(\cdot^\sharp, \cdot^\sharp)\]}
         \end{property}
 
         \newdef{Cartan matrix}{\index{Cartan!matrix}
-        	Let $\lambda_i, \lambda_j\in\Delta$ be simple roots. It follows from previous property that \[\sigma_{\lambda_i}(\lambda_j) = \lambda_j - 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle}\lambda_i\] is a root. From the properties above it then follows that the quantity
+        	Let $\lambda_i, \lambda_j\in\Delta$ be simple roots. Because the Weyl group is the symmetry group of the root system \[\sigma_{\lambda_i}(\lambda_j) = \lambda_j - 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle}\lambda_i\] is a root. From the properties above it then follows that the quantity
         	\begin{equation}
         		C_{ij} = 2\frac{\langle\lambda_i,\lambda_j\rangle}{\langle\lambda_i,\lambda_i\rangle} = \lambda_j(H^{\lambda_i})
         	\end{equation}

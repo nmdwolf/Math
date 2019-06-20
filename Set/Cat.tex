@@ -181,6 +181,9 @@
 		\end{equation}
 		The functor $F$ (resp. G) is called the left (resp. right) adjoint\footnote{Sometimes the word \textbf{adjunct} is used (French versus Latin).}.
 	}
+	\begin{notation}
+		An adjunction$(F, G)$ between categories $\mathbf{C}, \mathbf{D}$ is often denoted by:\[\textbf{C}\adj{F}{G}\textbf{D}\]
+	\end{notation}
 	
 	\newdef{Unit-counit adjunction}{\index{triangle!identities}\index{unit}\index{zig-zag|see{triangle identity}}
 		Let $\func{F}{C}{D}$ and $\func{G}{D}{C}$ be two functors. These functors form a unit-counit adjunction if there exist natural transformations
@@ -485,6 +488,10 @@
 			\item $R$ consists of the morphisms in \textbf{C} that have the right lifting property with respect to morphisms in $L$.
 		\end{itemize}
 	}
+	
+	\newdef{Localization}{\index{localization}\label{cat:localization}
+		Consider a category \textbf{C} with a collection of morphism $M\subset\text{mor}(\textbf{C})$. The localization of \textbf{C} with respect to $M$ is constructed by adding for each morphism $f\in M$ a formal inverse to $\text{mor}(\textbf{C})$.
+	}
 
 \section{Abelian categories}
 
@@ -501,12 +508,23 @@
 		\end{itemize}
 		Any initial/terminal object is hence a zero object\footnote{See definition \ref{cat:zero_object}.}.
 	\end{property}
-	\begin{property}
-		In a pre-additive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product.
+	\begin{property}\index{biproduct}
+		In a pre-additive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product. In general if a product and coproduct exist and are equal then one speaks of a \textbf{biproduct}.
 	\end{property}
 	
-	\newdef{Additive category}{
-		A pre-additive category in which all finite products (and hence coproducts) exist.
+	\newdef{Additive category}{\index{additive!category}
+		A pre-additive category in which all finite biproducts exist.
+	}
+	
+	If one speaks of additive categories, one generally assumes that the associated functors are of a specific type:
+	\newdef{Additive functor}{\index{additive!functor}\label{additive_functor}
+		Let $\mathbf{A}, \mathbf{A'}$ be additive categories. A functor $\func{F}{A}{A'}$ is said to be additive if it preserves all biproducts, i.e. if it satisfies the following conditions:
+		\begin{itemize}
+			\item It preserves zero objects: $F0_A \cong 0_{A'}$.
+			\item There exists a natural isomorphism $F(X\oplus Y)\cong FX\oplus FY$.
+		\end{itemize}
+		
+		One can generalize this notion to pre-additive categories. A functor between pre-additive categories is said to be additive if it acts as a group morphism on hom-spaces.
 	}
 	
 	In a pre-additive category one can define the classical notions from (homological) algebra such as images and kernels:
@@ -530,13 +548,13 @@
 		\end{itemize}
 		Hence a cokernel of $f$ is a coequalizer of $f$ and 0.
 	}
-	\begin{notation}[Kernel]
+	\begin{notation}[Cokernel]
 		If the cokernel of $f:X\rightarrow Y$ exists then it is denoted by $Y\rightarrow\text{coker}(f)$.
 	\end{notation}
 	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by Yoneda's lemma the morphism \[\ker(f)\rightarrow X\] represents the functor \[F:Z\mapsto\ker\Big(\textbf{C}(Z, X)\rightarrow\textbf{C}(Z, Y)\Big)\]}
 
 	\newdef{Pre-Abelian category}{
-		An additive category is pre-Abelian in which every morphism has a kernel and cokernel.
+		An additive category is pre-Abelian if every morphism has a kernel and cokernel.
 	}
 	\newdef{Abelian category}{\index{Abelian!category}
 		A pre-Abelian category in which every mono is a kernel and every epi is a cokernel or equivalently if for every morphism $f$ there exists an isomorphism $\text{coker}(\ker(f))\cong\ker(\text{coker}(f))$.
@@ -552,6 +570,25 @@
 	\newdef{Semisimple category}{
 		A category is said to be semisimple if every object is semisimple (where generally the direct sums are taken over finite index sets).
 	}
+
+	\newdef{Exact functor}{\index{exact!functor}
+		Let $\func{F}{A}{A'}$ be an additive functor between additive categories. We use the following definitions:
+		\begin{itemize}
+			\item $F$ is said to be left exact if it preserves kernels.
+			\item $F$ is said to be right exact if it preserves cokernels.
+			\item $F$ is said to be exact if it is both left and right exact.
+		\end{itemize}
+	}
+	\begin{result}
+		The previous definition implies the following properties (which can in fact be used as an alternative definition):
+		\begin{itemize}
+			\item If $F$ is left exact it maps an exact sequence of the form \[0\longrightarrow A\longrightarrow B\longrightarrow C\]
+			to an exact sequence of the form \[0\longrightarrow FA\longrightarrow FB\longrightarrow FC\]
+			\item If $F$ is right exact it maps an exact sequence of the form \[A\longrightarrow B\longrightarrow C\longrightarrow 0\]
+			to an exact sequence of the form \[FA\longrightarrow FB\longrightarrow FC\longrightarrow 0\]
+			\item If $F$ is exact it maps short exact sequences to short exact sequences.
+		\end{itemize}
+	\end{result}
 
 \section{Monoidal categories}
 
@@ -773,53 +810,49 @@
 
 	\newdef{Braided monoidal category}{\index{braiding}
 		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category. $\textbf{C}$ is called a braided monoidal category if it comes equipped with a natural isomorphism \[\sigma_{A, B}:A\otimes B\cong B\otimes A\]
-		such that the following two \textbf{hexagon} diagrams commute:
-		
+		such that the two \textbf{hexagon} diagrams in figures \ref{fig:hexagon_diagrams1} and \ref{fig:hexagon_diagrams2} commute. The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
 		\begin{figure}[ht!]
 			\centering
-			\begin{subfigure}[b]{0.75\textwidth}
-				\centering
-				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=2em,column sep=2.5em, minimum width=1em, ampersand replacement=\&]{
-						\&(A\otimes B)\otimes C\&\\
-						(B\otimes A)\otimes C\&\&A\otimes(B\otimes C)\\
-						B\otimes (A\otimes C)\&\&(B\otimes C)\otimes A\\
-						\&B\otimes(C\otimes A)\&\\
-					};
-					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{A, B}\otimes\mathbbm{1}$};
-					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{A, B, C}$};
-					
-					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{B, A, C}$};
-					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A, B\otimes C}$};
-					
-					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{C, A}$};
-					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{B, C, A}$};
-				\end{tikzpicture}
-			\end{subfigure}
-			\begin{subfigure}[b]{0.75\textwidth}
-				\centering
-				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
-						\&A\otimes(B\otimes C)\&\\
-						A\otimes(C\otimes B)\&\&(A\otimes B)\otimes C\\
-						(A\otimes C)\otimes B\&\&C\otimes(A\otimes B)\\
-						\&(C\otimes A)\otimes B\&\\
-					};
-					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{B, C}$};
-					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{A, B, C}$};
-					
-					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{A, C, B}$};
-					\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A\otimes B,C}$};
-					
-					\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{A, C}\otimes\mathbbm{1}$};
-					\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{C, A, B}$};
-				\end{tikzpicture}
-			\end{subfigure}
-			\caption{Hexagon diagrams.}
-			\label{fig:hexagon_diagrams}
-		\end{figure}	
-		
-		The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2.5em, minimum width=1em, ampersand replacement=\&]{
+					\&(A\otimes B)\otimes C\&\\
+					(B\otimes A)\otimes C\&\&A\otimes(B\otimes C)\\
+					B\otimes (A\otimes C)\&\&(B\otimes C)\otimes A\\
+					\&B\otimes(C\otimes A)\&\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{A, B}\otimes\mathbbm{1}$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{A, B, C}$};
+				
+				\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{B, A, C}$};
+				\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A, B\otimes C}$};
+				
+				\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{C, A}$};
+				\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{B, C, A}$};
+			\end{tikzpicture}
+			\caption{Hexagon diagram 1.}
+			\label{fig:hexagon_diagrams1}
+		\end{figure}
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
+					\&A\otimes(B\otimes C)\&\\
+					A\otimes(C\otimes B)\&\&(A\otimes B)\otimes C\\
+					(A\otimes C)\otimes B\&\&C\otimes(A\otimes B)\\
+					\&(C\otimes A)\otimes B\&\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{B, C}$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{A, B, C}$};
+				
+				\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{A, C, B}$};
+				\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A\otimes B,C}$};
+				
+				\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{A, C}\otimes\mathbbm{1}$};
+				\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{C, A, B}$};
+			\end{tikzpicture}
+			\caption{Hexagon diagram 2.}
+			\label{fig:hexagon_diagrams2}
+		\end{figure}
 	}
 	\begin{property}\index{Yang-Baxter}
 		The braiding $\sigma_{A, A}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $A, B, C\in\ob{C}$:
@@ -1103,7 +1136,7 @@
 \section{Model categories}
 
 	\newdef{Model structure}{
-		Let $C$ be a category. A model structure on $C$ consists of 3 classes of morphisms
+		Let $C$ be a category. A model structure (in the sense of Quillen\footnote{Also called a \textbf{closed model category}.}) on $C$ consists of 3 classes of morphisms
 		\begin{enumerate}
 			\item Weak equivalences $W$
 			\item Fibrations $Fib$
@@ -1112,12 +1145,25 @@
 		which satisfy the following two conditions:
 		\begin{itemize}
 			\item $W$ turns $C$ into a category with weak equivalences (see \ref{category:weak_equivalence}).
-			\item $(Cof, Fib\cap W)$ and $(Cof\cap W, Fib)$ are weak factorization systems on $C$ (see \ref{category:wfc}).
+			\item $(\text{Cof}, \text{Fib}\cap W)$ and $(\text{Cof}\cap W, \text{Fib})$ are weak factorization systems on $C$ (see \ref{category:wfc}).
 		\end{itemize}
 	}
 	
 	\newdef{Model category}{\index{model!category}
 		A complete and cocomplete category equipped with a model structure.
+	}
+	
+	\newdef{Acyclic}{\index{acyclic!fibration}
+		The morphisms in Fib$\cap W$ and Cof$\cap W$ are called \textbf{acyclic} or \textbf{trivial} fibrations and cofibrations.
+	}
+	\newdef{Fibrant}{\index{fibrant}
+		An object in a model category is said to be fibrant if the unique morphism to the terminal object is a fibration. Dually, an object in a model category is said to be cofibrant if the unique morphism from the initial object is a cofibration.
+	}
+	
+	\newdef{Quillen equivalence}{\index{Quillen}
+		Let $\mathbf{C}, \mathbf{D}$ be two model categories. An adjuction \[\textbf{C}\adj{F}{G}\textbf{D}\] is called a \textbf{Quillen adjunction} if the left adjoint preserves cofibrations and acyclic cofibrations. It follows from the axioms that this is equivalent to requiring that the right adjoint preserves fibrations and acyclic fibrations. These adjoint functors are called (left and right) \textbf{Quillen functors}.
+		
+		If $(F, G)$ is a Quillen adjunction such that for all cofibrant objects $A$ and fibrant objects $B$ the morphism $FA\rightarrow B$ is a weak equivalence if and only if the adjunct morphism $A\rightarrow GB$ is a weak equivalence, then $(F, G)$ is called a Quillen equivalence.
 	}
 
 \section{Operad theory}

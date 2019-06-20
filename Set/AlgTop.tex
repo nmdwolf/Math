@@ -30,11 +30,6 @@ References for this chapter are \cite{massey, merry_io}.
 		A topological space $X$ is said to be contractible if the identity map $\mathbbm{1}_X$ is null-homotopic. Equivalently, a space is called contractible if it is homotopy-equivalent to a point.
 	}
 	
-	\begin{property}[Homotopy category]
-		\nomenclature[S_hTop]{hTop}{Homotopy category}
-		The homotopy category hTop has as objects the topological spaces and as morphisms the homotopy classes of continuous maps. It is immediately clear that there exists a functor $F:\text{Top}\rightarrow\text{hTop}$ that maps topological spaces to themselves and continuous maps to their homotopy classes.
-	\end{property}
-	
 \subsection{Homotopy groups}
 
 	In this subsection we will always assume to be working with pointed spaces \ref{topology:pointed_space}. The base point will be denoted by $x_0$.
@@ -50,15 +45,19 @@ References for this chapter are \cite{massey, merry_io}.
 	\newdef{Fundamental group}{\index{group!fundamental}
 		The fundamental group $\pi_1(X, x_0)$ based at $x_0\in X$ is defined as the loop space (with base $x_0$) modulo homotopy. As the name implies the fundamental group can be given the structure of a multiplicative group where the operation is inherited from that of the loop space.
 	}
-	\begin{property}
+	\begin{remark}
 		In general, as the notation implies, the fundamental group depends on the base point $x_0$. However when the space $X$ is path-connected, the fundamental groups belonging to different base points are isomorphic. It follows that we can speak of "the" fundamental group in the case of path-connected spaces.
-	\end{property}
+	\end{remark}
+	
 	\newdef{Fundamental groupoid}{\index{groupoid!fundamental}
-		Let $X$ be a topological space. The fundamental groupoid $\Pi_1(X)$ is the groupoid which has the points of $X$ as objects and the homotopy classes of continuous function $f:X\rightarrow X$ with fixed endpoints as morphisms.
+		Let $X$ be a topological space. The fundamental groupoid $\Pi_1(X)$ is the groupoid which has the points of $X$ as objects and the basepoint-preserving homotopy classes of continuous function $f:X\rightarrow X$ as morphisms. The fundamental group $\pi_1(X, a)$ is then defined as the automorphism group of $a\in\text{ob}(\Pi_1(X))$.
 	}
 	
-	\begin{property}\index{deck transformation}
-		Consider a topological space $X$ and let $\widetilde{X}$ be its universal covering space. The group of deck transformations\footnote{See definition \ref{topology:deck_transformation}.} Aut$(\widetilde{X})$ is isomorphic to the fundamental group $\pi_1(X)$.
+	\begin{property}[Universal cover]\index{deck transformation}
+		Consider a topological space $X$ and let $\widetilde{X}$ be its universal covering space. The group of deck transformations\footnote{See definition \ref{topology:deck_transformation}.} Aut$(\widetilde{X})$ is isomorphic to the fundamental group $\pi_1(X)$. Hence we obtain:
+		\begin{equation}
+			\widetilde{X}\cong X/\pi_1(X)
+		\end{equation}
 	\end{property}
 	
 	\newdef{Simply-connected space}{\index{simply-connected}\label{topology:simply_connected}
@@ -100,6 +99,12 @@ References for this chapter are \cite{massey, merry_io}.
 	\newdef{Weak homotopy equivalence}{\index{homotopy!equivalence}
 		A continuous map which induces isomorphisms on all homotopy groups.
 	}
+	\begin{property}[Homotopy category]
+		\nomenclature[S_hTop]{\textbf{hTop}}{Homotopy category}
+		The homotopy category hTop has as objects the topological spaces and as morphisms the homotopy classes of continuous maps. It is immediately clear that there exists a functor $F:\textbf{Top}\rightarrow\textbf{hTop}$ that maps topological spaces to themselves and continuous maps to their homotopy classes.
+		
+		In fact the above definition is often to restrictive. Quillen gave a more general construction: The homotopy category (in the sense of Quillen) is obtained as the localization\footnote{See definition \ref{cat:localization}.} of \textbf{Top} with respect to the collection of weak homotopy equivalences.
+	\end{property}
 	
 	\newdef{Eilenberg-MacLane space}{\index{Eilenberg-MacLane}
 		Let $G$ be a group and choose a positive integer $n\in\mathbb{N}_0$. The Eilenberg-MacLane space $K(G, n)$ is a topological space with the following property:
@@ -113,6 +118,9 @@ References for this chapter are \cite{massey, merry_io}.
 	}
 	\begin{property}
 		For every $G$ and $n$ the space $K(G, n)$ is unique up to weak homotopy equivalence.
+	\end{property}
+	\begin{property}
+		The loop space $\Omega K(G, n)$ is homotopy equivalent to $K(G, n-1)$. 
 	\end{property}
 
 \subsection{CW complexes}
@@ -195,7 +203,25 @@ References for this chapter are \cite{massey, merry_io}.
 			\prin{\text{SO}(n)}{\text{SO}(n+1)}{S^n}
 		\end{equation}
 	\end{example}
+
+\subsection{Rational homotopy theory}
 	
+	\newdef{Rational space}{\index{rational!space}
+		A simply connected topological space $X$ such that the homotopy groups $\pi_n(X)$ are rational vector spaces.
+	}
+	
+	\newdef{Rational homotopy equivalence}{\index{rational!homotopy equivalence}
+		A continuous function $f:X\rightarrow Y$ for which the induced maps on rational homotopy groups
+		\begin{equation}
+			\pi_n(f)\otimes\mathbb{Q}:\pi_n(X)\otimes\mathbb{Q}\rightarrow\pi_n(Y)\otimes\mathbb{Q}
+		\end{equation}
+		is an isomorphism for all $n\in\mathbb{N}$.
+	}
+	
+	\newdef{Rational homotopy category}{
+		Consider the category \textbf{Top} of topological spaces. The rational homotopy category is obtained as the localization of \textbf{Top} with respect to the collection of rational homotopy equivalences.
+	}
+
 \section{Simplicial homology}\label{section:homology}
 \subsection{Simplices}
 
@@ -251,6 +277,17 @@ References for this chapter are \cite{massey, merry_io}.
 	\begin{remark}[Hauptvermutung]
 		Although the homology invariants (which we will define below) do not depend on the choice of triangulation we should give a remark about the existence of non-equivalent triangulations. Before the construction of a counterexample it was believed, hence the terms \textit{Hauptvermutung} in German or \textit{main conjecture} in English, that every two triangulations of a topological space allowed a common refinement and hence where equivalent for many constructions. However it was shown that this conjecture is generally false, e.g. for topological manifolds in dimensions 5 and higher there exist an infinite number of non-equivalent triangulations. In dimensions below 4 it was proven by Rad\'o and Moise that the Hauptvermutung holds for topological manifolds (see theorem \ref{manifolds:rado_moise}).
 	\end{remark}
+	
+	\newdef{Delta-complex}{\index{Delta complex}
+		Let $\{\sigma_\alpha:\Delta^n\rightarrow X\}$ be a collection of morphisms from simplicices to $X$ where the dimension $n$ may depend on the subscript $\alpha$. This collection forms a Delta complex (sometimes $\Delta$-complex) on $X$ if it satisfies the following conditions:
+		\begin{itemize}
+			\item The restrictions $\sigma_\alpha|_{\overset{\circ}{\Delta}\phantom{t}^n}$ are injective and every point in $X$ lies in the image of exactly one such restriction.
+			\item The restriction of a morphism $\sigma_\alpha$ to the any one of the faces of $\Delta^n$ is equal to some other $\sigma_\beta$.
+			\item A set in $X$ is open if and only if it is open in all the inverse images $\sigma_\alpha^{-1}$.
+		\end{itemize}
+		
+		Similar to a CW-complex or cellular complex these conditions imply that every Delta complex can be constructed inductively from a (discrete) set of vertices by gluing and identifying edges.
+	}
 
 \subsection{Simplicial homology}	
 	\newdef{Chain group}{\index{chain!group}\label{topology:chain_group}
@@ -501,6 +538,12 @@ References for this chapter are \cite{massey, merry_io}.
 		
 		More generally for every topological space $Y$ and every $n\in\mathbb{N}$ there exists a morphism $h_*:\pi_n(Y)\rightarrow H_n(Y)$. If $Y$ is $(n-1)$-connected then for every $k\leq n$ this morphism is in fact an isomorphism.
 	\end{theorem}
+	
+	\begin{property}
+		Let $X$ be a CW-complex. There exists an isomorphism $[X, K(G, n)]\rightarrow H^n(X; G)$ between the homotopy classes of maps $X\rightarrow K(G, n)$ and the $n^{th}$ singular cohomology of $X$ with coefficients in $G$.
+		
+		This morphism takes a map $f$ to the pullback $f^*\psi$ where $\psi$ is the inverse of the Hurewicz isomorphism $\pi_n(K)\rightarrow H_n(K;\mathbb{Z})$ and using the isomorphism $G=H^n(K;G)\cong\text{Hom}(H_n(K;\mathbb{Z}), G)$.
+	\end{property}
 	
 \section{Axiomatic approach}
 

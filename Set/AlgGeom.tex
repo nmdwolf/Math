@@ -1,6 +1,8 @@
 \chapter{Algebraic Geometry}
 
-\section{Polynomials and Galois theory}
+	One of the standard references for this subject is \cite{redbook}.
+
+\section{Polynomials}
 \subsection{Polynomials}\index{polynomial}
 
 	\newdef{Polynomial ring}{
@@ -28,10 +30,163 @@
 		Consider a base field $k$ and a field extension $L/k$. An element $x\in L$ for which there exists no non-trivial polynomial $p$ over $k$ such that $p(x) = 0$ is said to be transcendental. Otherwise it is said to be \textbf{algebraic}.
 	}
 
-	\newdef{Algebraic independence}{
-		Consider a base field $k$ and a field extension $L/k$. A subset $S\subseteq L$ is said to be algebraically independent over $k$ if the elements of $S$ do not satisfy any non-trivial polynomial over $k$.
+	\newdef{Algebraic dependence}{
+		Consider a commutative ring $R$ and a subring $S\subset R$. An element $r\in R$ is said to be algebraically dependent on $S$ if it is the root of a polynomial in $S[x]$.
+	}
+	As a subcase of the above we have:
+	\newdef{Integral dependence}{
+		Consider a commutative ring $R$ and a subring $S$. An element $r\in R$ is said to be integrally dependent on $S$ if it is the root of a monic polynomial in $S[x]$.
+	}
+	\remark{Since every non-zero element in a field is invertible, one can always turn a general polynomial into a monic polynomial. Hence over a field the concepts of algebraic and integral dependence coincide.}
+
+	\begin{theorem}[Weak Nullstellensatz]\index{Nullstellensatz}
+		Consider an algebraically closed field $F$ and form the polynomial ring $R=F[x_1, \ldots, x_k]$. An ideal $I\subset R$ is maximal if and only if it is of the form \[(x_1-a_1, \ldots, x_k-a_k)\] with $a_i\in F$ for all $i\leq k$.
+	\end{theorem}
+	\begin{result}
+		There exists a bijection between $F^k$ and the set of maximal ideals of $F[x_1, \ldots, x_k]$.
+	\end{result}
+	\begin{result}
+		Consider a collection of polynomials $\{f_i\}_{i\in I}\subset F[x_1, \ldots, x_k]$. If these polynomials do not have a common zero, then the ideal they generate is the unit ideal.
+	\end{result}
+	
+\section{Varieties}
+
+	From here on we assume $F$ to be an algebraically closed field.
+
+	\newdef{Algebraic set}{\index{algebraic!set}\index{irreducible!algebraic set}\index{variety}
+		Consider a finite set of polynomials in $F[x_1, \ldots, x_k]$. It is not hard to show that the zero locus of these polynomials depends only on the ideal spanned by them and hence we define the algebraic set of associated to an ideal $I\subset F[x_1, \ldots, x_k]$ to be:
+		\begin{gather}
+			V(I) = \{(a_1, \ldots, a_k)\in F^k: f(a_1, \ldots, a_k)=0\ \ \forall f\in I\}
+		\end{gather}
+		A set $S\in F^k$ is said to be an \textbf{(affine) algebraic set} if there exists an ideal $I$ such that $S=V(I)$. An algebraic set $S\in F^k$ is said to be \textbf{irreducible} or to be an \textbf{affine variety} if it is not the union of two strictly smaller algebraic sets.
 	}
 	
+	Given an affine algebraic set $S$, one can define the set $I(S)$ as the ideal of polynomials which vanish on $S$. The following theorem gives an important relation between algebraic sets and ideals.
+	\begin{theorem}[Hilbert's Nullstellensatz]
+		Let $J$ be an ideal in $F[x_1, \ldots, x_k]$ and let $\sqrt{J}$ denote its radical. The following relation holds for all $J$:
+		\begin{gather}
+			I(V(J)) = \sqrt{J}
+		\end{gather}
+	\end{theorem}
+	Similar to the case of the weak Nullstellensatz we obtain the following result
+	\begin{result}
+		There exists a bijection between the algebraic subsets of $F^k$ and the ideals in $F[x_1, \ldots, x_k]$ which are equal to their radical\footnote{Except for the ideal $(x_1, \ldots, x_k)$.}. The irreducible algebraic sets correspond to the prime ideals (by the \textit{Noetherian decomposition theorem}).
+	\end{result}
+	
+	\begin{remark}[Projective space]\index{variety!projective}
+		Similar constructions and associated results can be given for any projective space. Here one should replace polynomials by homogeneous polynomials. The resulting irreducible sets are called \textbf{projective varieties}.
+	\end{remark}
+	
+	\newdef{Morphism}{\index{morphism!of varieties}
+		Let $V_1\subset F^{k_1}, V_2\subset F^{k_2}$ be two affine varieties. A morphism $\varphi:V_1\rightarrow V_2$ is a function that can be expressed in the following way:
+		\begin{gather}
+			\varphi(x_1, \ldots, x_{k_1}) = \big(f_1(x_1, \ldots, x_{k_1}), \ldots f_{k_2}(x_1, \ldots, x_{k_1})\big)
+		\end{gather}
+		where $f_i\in F[x_1, \ldots, x_{k_1}]$ for all $i\leq k_2$.
+	}
+	
+	\newdef{Coordinate ring}{\index{affine!ring}\index{function!field}\index{rational!function}
+		Consider the polynomial ring $F[x_1, \ldots, x_k]$ and let $V$ be an affine variety in $F^k$. The (affine) coordinate ring of $V$ is defined as the following quotient:
+		\begin{gather}
+			\Gamma(V) = F[x_1, \ldots, x_k]/I(V)
+		\end{gather}
+		The elements of this ring are the $F$-valued polynomials in the coordinates on $V$. Since $V$ is irreducible we find, by the Nullstellensatz, that $I(V)$ is a prime ideal and hence $\Gamma(V)$ is an integral domain. This property allows us to construct the field of fractions $K(V)$. This field is called the \textbf{function field} of $V$ and the elements of $K(V)$ are called \textbf{rational functions} on $V$.
+	}
+	
+	It should be noted that every morphism of varieties induces an $F$-morphism on the associated affine ring by precomposition. This gives rise to the following property:
+	\begin{property}
+		The assignment induced by $\Gamma$ is an equivalence between the category of affine varieties and the category of (finitely generated) integral domains.
+	\end{property}
+	
+	\newdef{Dimension}{\index{dimension}
+		The dimension of an affine variety $V$ is given by the (Krull) dimension of its coordinate ring.
+	}
+
+\subsection{Topology}
+
+	A topology in terms of varieties can be constructed in the following way:
+	\newdef{Zariski topology}{\index{Zariski!topology}
+		A set in $F^k$ is closed exactly if it is an algebraic set. A basis for this topology is given by the zero loci $B_f = \{x\in F^k: f(x)\neq 0\}$ for $f\in F[x_1, \ldots, x_k]$. This topology turns an affine variety into an irreducible space.
+	}
+	\remark{On an affine variety $\Sigma\subset F^k$ one defines the Zariski topology as the induced topology of the one on $F^k$. A basis for this induced Zariski topology is given by the sets $B_f$ as above but where $f$ is now an element in $\Gamma(\Sigma)$.}
+	
+	By dualizing our point of view we can instead focus on the coordinate rings and construct varieties as a derived notion. To this intent we define the structure sheaf\footnote{From here on the knowledge of the content of chapter \ref{chapter:sheaf} on sheaf theory will be a prerequisite.} of a variety:
+	\newdef{Structure sheaf}{\index{structure!sheaf}\index{regular!function}
+		Consider an affine variety $\Sigma$ and its associated coordinate ring $R$. Now for any point $x\in\Sigma$ one can consider the set of functions $m_x\subset R$ which vanish on $x$. This is a maximal ideal (and in particular a prime ideal) so one can construct the localization of $R$ at $m_x$:
+		\begin{gather}
+			\mathcal{O}_x := R_{m_x} = \{f/g:f, g\in R\text{ and }g(x)\neq0\}
+		\end{gather}
+		For every open $U\subset \Sigma$ we can then define the ring of functions on $U$ as follows:
+		\begin{gather}
+			\mathcal{O}_\Sigma(U) = \bigcap_{x\in U}\mathcal{O}_x
+		\end{gather}
+		This way $\mathcal{O}_\Sigma$ defines a sheaf with stalks given by $\mathcal{O}_x$. By property \ref{algebra:localization_local_ring} all stalks $\mathcal{O}_x$ are local rings and hence $(\Sigma, \mathcal{O}_\Sigma)$ is a locally ringed space. The residue field of these local rings is equal to the base field $F$.
+		
+		The elements of $\mathcal{O}_\Sigma(U)$ are called the \textbf{regular functions} on $U$. To make the above construction more explicit: A map $r:\Sigma\rightarrow F$ is said to be regular at a point $x\in\Sigma$ if there exists an open neihgbourhood $U\ni x$ and polynomials $f, g\in R$ with $g\neq0$ and $r=f/g$ on $U$.
+	}
+	\begin{property}
+		Let $f\in R=\Gamma(\Sigma)$ be a function on $\Sigma$ and let $\Sigma_f$ be the complement of the zero locus of $f$. Then we have $\mathcal{O}_\Sigma(\Sigma_f) = R_f$ (where $R_f$ denotes the localization of $R$ at $f$). In particular we have for the global sections functor
+		\begin{gather}
+			\Gamma(\Sigma, \mathcal{O}_\Sigma) = R
+		\end{gather}
+		This property explains the notation $\Gamma(\Sigma)$ introduced before.
+	\end{property}
+	\remark{Both the rings $\mathcal{O}_\Sigma(U)$ and $\mathcal{O}_x$ are subrings of the function field $K(\Sigma)$.}
+	
+	\newdef{Affine variety}{\index{variety!affine}
+		Any topological space $X$ equipped with a sheaf $\mathcal{F}$ (of $F$-valued functions) such that $X$ is isomorphic to an irreducible algebraic set $\Sigma$ and such that $\mathcal{F}$ is isomorphic to the structure sheaf $\mathcal{O}_\Sigma$ is called an affine variety. An open subset of an affine variety is called a \textbf{quasi-affine variety}.
+		
+		Using the notion of a regular function we can restate the definition of a morphism of affine varieties. A map between affine varieties $f:\Sigma_1\rightarrow\Sigma_2$ is a morphism of varieties if precomposition by $f$ maps regular functions to regular functions.
+	}
+	\begin{property}
+		If two morphisms coincide on a nonempty open subset then they are equal.
+	\end{property}
+	
+	\newdef{Generic stalk}{\index{stalk!generic}
+		For the construction of the stalk of the structure sheaf over a point $x$ one takes a direct limit over all open sets containing $x$. This way we obtained the local ring $R_{m_x}$ which was a subring of the field of fractions $K(\Sigma)$ of $R$. Now using a similar definition one can recover all of $K(\Sigma)$.
+		
+		Instead of taking a direct limit over the open sets containing a certain point $x\in\Sigma$, we take a direct limit over all open sets in $\Sigma$:
+		\begin{gather}
+			\mathcal{O}_{\tilde{x}} := \varinjlim_{U\subset\Sigma}\mathcal{O}_\Sigma(U)
+		\end{gather}
+		This stalk is called the generic stalk of $\Sigma$ and it is isomorphic to $K(\Sigma)$.
+	}
+	
+	A weaker notion is that of a prevariety:
+	\newdef{Prevariety}{\index{prevariety}
+		Let $X$ be a topological space $X$ equipped with a sheaf $\mathcal{O}_X$ of $F$-valued functions. The space $X$ is said to be a prevariety if $X$ is connected and if there exists a finite covering $\{U_i\}_{i\in I}$ of $X$ such that every couple $(U_i, \mathcal{O}_X|_{U_i})$ forms an affine variety.
+	}
+	\newdef{Morphism}{\index{morphism!of prevarieties}
+		Consider two prevarieties $(X, \mathcal{O}_X)$ and $(Y, \mathcal{O}_Y)$. A morphism between them is a continuous function $f:X\rightarrow Y$ such that
+		\begin{gather}
+			g\in\Gamma(V, \mathcal{O}_Y) \implies gf\in\Gamma(f^{-1}V, \mathcal{O}_X)
+		\end{gather}
+		for all open sets $V\subset Y$.
+	}
+	
+	\remark{It can be shown that every prevariety $X$ is irreducible and hence the open sets form a direct system. This way we can, as in the case of varieties, define the \textbf{generic stalk} of an arbitrary sheaf $\mathcal{F}$. For the structure sheaf $\mathcal{O}_X$ this generic stalk is called the \textbf{function field} $k(X)$. It coincides with the function field of every open affine subset of $X$.
+	
+\subsection{Projective varieties}
+
+	The constructions above for affine varieties do not extend to projective spaces. Consider for example a polynomial $f\in F[x_0, \ldots, x_k]$. This polynomial does not form a well-defined function on a projective algebraic set $X=V(I)\subset \mathbb{P}_k(F)$ (where $I$ is homogeneous), even if $f$ is homogeneous, since changing the homogeneous coordinates on $V(I)$ changes the value of $f$. However the ratio of two homogeneous polynomials of the same degree does form a well-defined function on $V(I)$.
+	
+	Since the ideal $I$ is homogeneous, the quotient $R=F[x_0, \ldots, x_k]/I$ is a graded integral domain. Let us denote by $F(X)$ the zeroth order part of the localization of $R$ by the homogeneous elements:
+	\begin{gather}
+		F(X) = \{f/g: f, g\in R_n\text{ for some }n\}
+	\end{gather}
+	Now although an element $f\in R_n$ does not form a well-defined function on $X$, it does make sense to say $f(x)\neq0$, since the elements change by a non-zero factor under a change of homogeneous coordinates. Hence we can define a ring $\mathcal{O}_x$ as before:
+	\begin{gather}
+		\mathcal{O}_x = \{f/g\in F(X): g(x)\neq 0\}
+	\end{gather}
+	This ring has a maximal ideal $I_x = \{f/g\in F(x):f(x)=0, g(x)\neq 0\}$ such that all elements in $\mathcal{O}_x$ are invertible and so by property \ref{algebra:local_ring_invertible} $\mathcal{O}_x$ is a local ring. We can then construct a sheaf $\mathcal{O}_X$ using the same procedure as for affine varieties to turn our projective space into a locally ringed space:
+	\begin{gather}
+		\mathcal{O}_X(U) = \bigcap_{x\in U}\mathcal{O}_x
+	\end{gather}
+	
+	\begin{property}
+		The couple $(X, \mathcal{O}_X)$ is locally isomorphic to an affine variety.
+	\end{property}
+
 \section{Schemes}
 \subsection{Spectrum of a ring}
 

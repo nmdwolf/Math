@@ -15,14 +15,14 @@
 		\end{figure}
 	}
 	\begin{adefinition}
-		Consider a well-powered category $C$. The assignment of subobjects Sub$(a)$ to an object $a\in\ob{C}$ is a contravariant functor $\mathcal{S}:C\rightarrow\text{Set}$. A subobject classifier $\Omega$ is a representation of this functor, i.e. the following isomorphism is natural in $a$:
-		\begin{equation}
-			\mathcal{S}(a)\cong\text{hom}(a, \Omega)
-		\end{equation}
+		Consider a well-powered category \textbf{C}. The assignment of subobjects Sub$(a)$ to an object $a\in\ob{C}$ is a contravariant functor $\mathcal{S}:\mathbf{C}\rightarrow\mathbf{Set}$. A subobject classifier $\Omega$ is a representation of this functor, i.e. the following isomorphism is natural in $a$:
+		\begin{gather}
+			\mathcal{S}(a)\cong\text{hom}_{\mathbf{C}}(a, \Omega)
+		\end{gather}
 	\end{adefinition}
 	
 	\begin{example}
-		The category Set has a subobject classifier, namely the 2-element set.
+		The category $\mathbf{Set}$ has a subobject classifier, namely the 2-element set.
 	\end{example}
 	
 	\begin{property}
@@ -30,21 +30,69 @@
 	\end{property}
 
 	\newdef{Elementary topos}{\index{topos!elementary}
-		An elementary topos is a cartesian closed category which has a subobject classifier and in which all finite limits exist. Equivalently one can define an elementary topos as finitely complete category in which all power objects.
+		An elementary topos is a Cartesian closed category which has a subobject classifier. Equivalently one can define an elementary topos as a finitely complete category in which all power objects exist.
 	}
+	
+	\begin{property}[Slice category]
+		Let $\mathcal{C}$ be a topos. For every object $c\in\ob{C}$ the slice category $\mathbf{C}/c$ is also a topos. The subobject classifier is given by $\pi_2:\Omega\times c\rightarrow c$.
+	\end{property}
+	
+	\begin{property}[Balanced]
+		All monos in a topos are regular. Hence every mono arises as an equalizer and every epic equalizer is necessarily an isomorphism so it follows that every topos is balanced\footnote{See definition \ref{category:balanced}.}.
+	\end{property}
+	
+	\begin{property}[Epi-mono factorization]\index{image}
+		Every morphism $f:a\rightarrow b$ in a topos factorizes uniquely as an epi followed by a mono:
+		\begin{gather}
+			a\overset{e}{\twoheadrightarrow} c\overset{m}{\rightarrowtail} b
+		\end{gather}
+		The mono is called the \textbf{image} of $f$.
+	\end{property}
+
+\subsection{Sheaf topos}
+
+	\begin{property}[Presheaf topos]\label{topoi:sheaf_topos}
+		Consider the presheaf category\footnote{See chapter \ref{chapter:sheaf} for the application of sheafs in topology.} $\textbf{Psh}(X) = \widehat{\textbf{Open}(X)}$ over a topological space $X$. This category is an elementary topos where the subobject classifier $\Omega$ is defined as follows:
+		\begin{gather}
+			\Omega(U) = \{V:V\text{ is an open subset of }U\}
+		\end{gather}
+	\end{property}
+	\remark{In fact the presheaf category $\mathbf{Psh}(\mathbf{C})$ for any (small) category $\mathbf{C}$ is an elementary topos. See property \ref{topoi:presheaf_topos} below.}
+	
+	\begin{construct}[Sheafs and \'etal\'e bundles]
+		Let $X$ be a topological space. The functor \[I:\textbf{Open}(X)\rightarrow\textbf{Top}/X:U\mapsto(U\hookrightarrow X)\] induces the following adjunction:
+		\begin{gather}
+			\label{category:etale_adjunction}
+			\textbf{Psh}(X) \adj{\Gamma}{E} \textbf{Top}/X
+		\end{gather}
+		
+		The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{diff:chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The left adjoint assigns to every bundle its sheaf of (global) sections. The right adjoint assigns to every presheaf its bundle of germs.
+		
+		This adjunction restricts to an equivalence on the subcategories on which the unit and counit morphisms are isomorphisms. These subcategories are called the \textbf{sheaf} and \textbf{\'etal\'e bundle} categories respectively:
+		\begin{gather}
+			\textbf{Sh}(X) \cong \textbf{Et}(X)
+		\end{gather}
+	\end{construct}
+	
+	\begin{property}[Associated sheaf]
+		The inclusion functor $\textbf{Sh}(X)\hookrightarrow\textbf{Psh}(X)$ admits a left adjoint. This is exactly the sheafification functor which assigns to every presheaf its associated sheaf. This functor is given by the composition $\Gamma\circ E$.\footnote{This amounts to construction \ref{sheaf:etale_construction}.}
+		
+		The fact that the counit of adjunction \ref{category:etale_adjunction} restricts to an isomorphism on the full subcategory $\textbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
+	\end{property}
+
 	
 \section{Internal logic}\label{cat:internal_logic}
 
-	In this subsection we consider categories with all finite limits and a subobject classifier (so they don't have to be a topos).
+	In this subsection we consider finitely complete categories which admit a subobject classifier (they don't have to be a topos).
 	
 	\newdef{Truth value}{\index{truth value}
 		A global element of the subobject classifier, i.e. a morphism $\mathbf{1}\rightarrow\Omega$. The subobject classifier $\Omega$ is hence also sometimes called the \textbf{object of truth values}.
 	}
 	
-	\begin{property}
-		The subobject classifier is an internal poset.
+	\begin{property}[Internal Heyting algebra]
+		For all objects $X$ in an elementary topos, the subobject poset Sub$(X)$ has the structure of a Heyting algebra\footnote{See definition \ref{set:heyting}.}. Hence every topos canonically gives an external Heyting algebra, namely Sub$(\mathbf{1})$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P{\mathbf{1}}$.
 	\end{property}
-	
+
 \section{Geometric morphisms}
 
 	\newdef{Logical morphism}{\index{morphism!logical}
@@ -52,18 +100,18 @@
 	}
 
 	\newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
-		Let $\mathcal{E}, \mathcal{F}$ be toposes. A morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ is called a geometric morphism if the left adjoint in the induced adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part.
+		Let $\mathcal{E}, \mathcal{F}$ be (elementary) toposes. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part.
 	}
 	
 	\begin{example}[Topological spaces]
 		Every continuous map $f:X\rightarrow Y$ induces a geometric morphism
-		\begin{equation}
+		\begin{gather}
 			\textbf{Sh}(X)\adj{f^*}{f_*}\textbf{Sh}(Y)
-		\end{equation}
+		\end{gather}
 		where the direct image functor $f_*$ is defined as follows:
-		\begin{equation}
+		\begin{gather}
 			f_*F(U) = F(f^{-1}U)
-		\end{equation}
+		\end{gather}
 		for any sheaf $F\in\textbf{Sh}(X)$ and any open subset $U\in\textbf{Open}(Y)$.
 	\end{example}
 	
@@ -73,58 +121,39 @@
 	}
 	
 	\newnot{Category of toposes}{
+		\nomenclature[S_Topos]{$\mathbf{Topos}$}{The 2-category of (elementary) topoi and geometric morphisms.}
 		The category of elementary toposes and geometric morphisms forms a (2-)category which we will denote by \textbf{Topos}.
 	}
-	
-\section{Sheaf topos}
-
-	\begin{property}[Presheaf topos]
-		Consider the presheaf category $\textbf{Psh}(X) = \widehat{\textbf{Open}(X)}$ over a topological space $X$. This category is an elementary topos where the subobject classifier $\Omega$ is defined as follows:
-		\begin{equation}
-			\Omega(U) = \{V:V\text{ is an open subset of }U\}
-		\end{equation}
-	\end{property}
-	
-	\begin{construct}[Sheafs and \'etal\'e bundles]
-		Let $X$ be a topological space. The functor \[I:\textbf{Open}(X)\rightarrow\textbf{Top}/X:U\mapsto(U\hookrightarrow X)\] induces the following adjunction:
-		\begin{equation}
-			\label{category:etale_adjunction}
-			\textbf{Psh}(X) \adj{\Gamma}{E} \textbf{Top}/X
-		\end{equation}
-		
-		The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{diff:chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The left adjoint assigns to every bundle its sheaf of (global) sections. The right adjoint assigns to every presheaf its bundle of germs.
-		
-		This adjunction restricts to an equivalence on the subcategories on which the unit and counit morphisms are isomorphisms. These subcategories are called the \textbf{sheaf} and \textbf{\'etal\'e bundle} categories respectively:
-		\begin{equation}
-			\textbf{Sh}(X) \cong \textbf{Et}(X)
-		\end{equation}
-	\end{construct}
-	
-	\begin{property}[Associated sheaf]
-		The inclusion functor $\textbf{Sh}(X)\hookrightarrow\textbf{Psh}(X)$ admits a left adjoint. This is exactly the sheafification functor which assigns to every presheaf its associated sheaf. This functor is given by the composition $\Gamma\circ E$.\footnote{This amounts to construction \ref{sheaf:etale_construction}.}
-		
-		The fact that the counit of adjunction \ref{category:etale_adjunction} restricts to an isomorphism on the full subcategory $\textbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
-	\end{property}
 
 \section{Grothendieck topos}
-
-	\newdef{Discrete fibration}{\index{fibration}
-		Let $\func{F}{A}{B}$ be a functor. $F$ is a discrete fibration if for every object $A\in\ob{A}$ and every morphism $f:B\rightarrow FA$ in $\textbf{B}$ there exists a unique morphism $g:C\rightarrow A$ in $\textbf{A}$ such that $F(g) = f$, where $B\in\ob{B}, C\in\ob{A}$.
-	}
 	
 	\newdef{Sieve}{\index{sieve}
 		Let \textbf{C} be a small category. A sieve $S$ on \textbf{C} is a fully faithfull discrete fibration $S\hookrightarrow\textbf{C}$.
 		
-		A sieve $S$ on an object $c\in\textbf{C}$ is a sieve in the slice category $\textbf{C}/c$. This means that $S$ is a subset of $\ob{C}/c$ that is closed under \textit{precomposition}, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(\textbf{C})$ then the composition $a\rightarrow b\rightarrow c\in S$.
+		A sieve $S$ on an object $c\in\textbf{C}$ is a sieve in the slice category $\textbf{C}/c$. This means that $S$ is a subset of $\text{ob}(\mathbf{C}/c)$ that is closed under \textit{precomposition}, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(\textbf{C})$ then the composition $a\rightarrow b\rightarrow c\in S$.
 		
 		All of this can be summarized by saying that a sieve on an object $c\in\ob{C}$ is a subfunctor of the hom-functor $\textbf{C}(-, c)$.
 	}
 	
 	\begin{example}[Maximal sieve]
-			Let $C$ be a category. The maximal sieve on $c\in\ob{C}$ is the collection of all morphisms $\{f\in\text{hom}(\textbf{C}):\cod(f) = c\}$.
+			Let $C$ be a category. The maximal sieve on $c\in\ob{C}$ is the collection of all morphisms $\{f\in\text{hom}(\textbf{C}):\cod(f) = c\}$ or equivalently all of $\text{ob}(\mathbf{C}/c)$.
 	\end{example}
+	\begin{example}[Pullback sieve]
+		Consider a morphism $f:a\rightarrow b$. Given a sieve $S$ on $b$ one can construct the pullback sieve $f^*S$ on $a$ as the sieve of morphisms in $S$ which factor through $f$:
+		\begin{gather}
+			f^*S(a) = \{g:c\rightarrow a:f\circ g\in S(b)\}
+		\end{gather}
+	\end{example}
+	
+	\newdef{Presheaf topos}{\index{presheaf!topos}\label{topoi:presheaf_topos}
+		Consider the presheaf category $\mathbf{Psh}(\mathbf{C})$ for an arbitrary (small) category $\mathbf{C}$. This category is in fact an elementary topos where the subobject classifier is given by the following equation:
+		\begin{equation}
+			\underline{\Omega}(c) = \{S: S\text{ is a sieve on }c\}
+		\end{equation}
+		For a morphism $f:a\rightarrow b$ in $\mathbf{C}$ the morphism $\underline{\Omega}(f)$ sends a sieve $S$ to its pullback sieve $f^*S$.
+	}
 
-	The following definition is due to Giraud (the original definition used covers).
+	The following definition is due to Giraud (the original definition used covers):
 	\newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}
 		A Grothendieck topology on a category is a function $J$ assigning to every object a collection of sieves satisfying the following conditions:
 		\begin{itemize}
@@ -150,44 +179,33 @@
 	}
 	
 	\newdef{Matching family}{
-		Consider a presheaf $F\in\text{ob}(\widehat{\textbf{C}})$ together with a sieve $S$ on $c\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\implies F$ between $S$ regarded as a subfunctor of hom$(-, c)$ and $F$.
+		Consider a presheaf $F\in\widehat{\textbf{C}}$ together with a sieve $S$ on $c\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\Rightarrow F$ between $S$, regarded as a subfunctor of hom$(-, c)$, and $F$.
 		
-		More explicitly it is as assignment of an element $x_f\in Fd$ to every morphism $(f:d\rightarrow c)\in S$ such that:
-		\begin{equation}
+		More explicitly it is an assignment of an element $x_f\in Fd$ to every morphism $(f:d\rightarrow c)\in S$ such that:
+		\begin{gather}
 			Fg(x_f) = x_{f\circ g}
-		\end{equation}
+		\end{gather}
 		for all morphisms $g:e\rightarrow d$.
 		
-		Given such a matching family one calls an element $z\in Fc$ an \textbf{amalgamation} if it satisfies
-		\begin{equation}
+		Given such a matching family one calls an element $z\in Fd$ an \textbf{amalgamation} if it satisfies
+		\begin{gather}
 			Ff(z) = x_f
-		\end{equation}
-		for all morphisms $f\in S$.
+		\end{gather}
+		for all morphisms $f\in S(d)$.
 	}
 	\newdef{Sheaf}{\index{sheaf}
+		\nomenclature[S_Shsite]{$\mathbf{Sh}(\mathbf{C}, J)$}{Category of $J$-sheaves on a site $(\mathbf{C}, J)$.}
 		Consider a site $(\textbf{C}, J)$. A presheaf $F$ on $\textbf{C}$ is called a $J$-sheaf if every matching family for any covering sieve (on any object in $\mathbf{C}$) in $J$ admits a unique amalgamation.
 		
-		From the natural transformation point of view this condition amounts to the existence of a unique extension of $\alpha:S\implies F$ along the inclusion $S\hookrightarrow\text{hom}(-, c)$.
+		From the natural transformation point of view this condition amounts to the existence of a unique extension of $\alpha:S\Rightarrow F$ along the inclusion $S\hookrightarrow\text{hom}(-, c)$.
 		
-		The category $\textbf{Sh}(\mathbf{C}, J)$ of $J$-sheaves on the site $(\mathbf{C}, J)$ is the full subcategory of $\widehat{\textbf{C}}$ on the presheaves which satisfy the above condition.
+		The category $\mathbf{Sh}(\mathbf{C}, J)$ of $J$-sheaves on the site $(\mathbf{C}, J)$ is the full subcategory of $\widehat{\textbf{C}}$ on the presheaves which satisfy the above condition.
 	}
 	
 	\begin{example}[Topological spaces]
 		The usual category of sheaves $\textbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\textbf{Open}(X), J_{\text{open}(X)})$.
 	\end{example}
 	
-	\newadef{Grothendieck topos}{\index{Grothendieck!topos}
-		A category\footnote{The fact that a Grothendieck topos is indeed an elementary topos follows from the fact that \textbf{Set} is a topos.} equivalent to a category of sheaves on a (small) site.
+	\newdef{Grothendieck topos}{\index{Grothendieck!topos}
+		A category\footnote{The fact that a Grothendieck topos is indeed an elementary topos follows from the fact that \textbf{Set} is a topos.} equivalent to the category of sheaves on a (small) site.
 	}
-	
-	\begin{property}[Balanced]
-		All monics and epics in a Grothendiek topos are regular. Hence property \ref{category:regular_iso} implies that every bimorphism is in fact an isomorphism and it follows that every Grothendieck topos is balanced\footnote{See definition \ref{category:balanced}.}.
-	\end{property}
-	
-	\begin{property}[Epi-mono factorization]\index{image}
-		Every morphism $f:a\rightarrow b$ in a Grothendieck topos factorizes uniquely as an epi followed by a mono:
-		\begin{equation}
-			a\overset{e}{\twoheadrightarrow} c\overset{m}{\rightarrowtail} b
-		\end{equation}
-		The mono is called the \textbf{image} of $f$.
-	\end{property}

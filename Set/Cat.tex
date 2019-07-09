@@ -1,4 +1,7 @@
 \chapter{Category theory}
+
+	For the theory of higher categories and its applications to topology and algebra we refer to the lecture notes of John Baez \cite{baez_cohom}.
+
 \section{Categories and subcategories}
 
 \nomenclature[S_Grp]{$\textbf{Grp}$}{Category of groups and group homomorphisms.}
@@ -80,28 +83,10 @@
 			\item $F(\phi\circ\psi) = F(\psi)\circ F(\phi)$
 		\end{itemize}
 	}
-	\remark{A contravariant functor can also be defined as a covariant functor from the opposite category. Therefore from now on we will drop the word \textit{covariant} when talking about functors. Furthermore, a contravariant functor $G:\textbf{C}^{op}\rightarrow\textbf{Set}$ is often called a \textbf{presheaf}.\index{presheaf}}
-	
-	\newdef{Dagger category\footnotemark}{\index{category!dagger}\index{involution}\label{cat:dagger_category}
-		\footnotetext{Also called a \textbf{$\dag$-category}.}
-		A category equipped with a contravariant endofunctor, i.e. a functor $\dag:\textbf{C}^{op}\rightarrow\textbf{C}$, such that:
-		\begin{itemize}
-			\item $\forall C\in\ob{C}: \mathbbm{1}_C^\dag = \mathbbm{1}_C$
-			\item $\dag\circ\dag = \mathbbm{1}_C$
-		\end{itemize}
-		The second property says that $\dag$ is an \textbf{involutive} functor.
-	}
-	\remark{The concept of a dagger structure allows the usual definition of \textbf{unitary} and \textbf{self-adjoint} morphisms.}\index{unitary}
-	\begin{property}
-		The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid}.}.
-	\end{property}
-	
-	\newdef{Faithful functor}{\index{faithful}
-		A functor $\func{F}{C}{D}$ is said to be faithful if the map \[\textbf{C}(X, Y)\rightarrow\textbf{D}(FX, FY)\] is injective for all objects $X, Y\in\ob{C}$.
-	}
-	\newdef{Full functor}{\index{full}
-		A functor $\func{F}{C}{D}$ is said to be full if the map \[\textbf{C}(X, Y)\rightarrow\textbf{D}(FX, FY)\] is surjective for all objects $X, Y\in\ob{C}$.
-	}
+	\begin{remark}[Presheaves]\index{presheaf}
+		\nomenclature[S_Psh]{$\mathbf{Psh}(\mathbf{C})$}{Category of presheaves on a (small) category $\mathbf{C}$.}
+		A contravariant functor can also be defined as a covariant functor from the opposite category. Therefore from now on we will drop the word \textit{covariant} when talking about functors. Furthermore, a contravariant functor $G:\textbf{C}^{op}\rightarrow\textbf{Set}$ is often called a \textbf{presheaf}. The collection of all presheaves on $\mathbf{C}$ forms a (functor) category $\mathbf{Psh}(\mathbf{C})$ (sometimes denoted by $\widehat{\mathbf{C}}$).
+	\end{remark}
 	
 	\begin{example}[hom-functor]
 		Let $\textbf{C}$ be a locally small category. Every object $X\in\ob{C}$ induces a functor $\func{h^X}{C}{Set}$ defined as follows:
@@ -111,24 +96,39 @@
 		\end{itemize}
 	\end{example}
 	\remark{The contravariant hom-functor $h_X$ is defined by replacing $\textbf{C}(X, -)$ by $\textbf{C}(-, X)$.}
-	
-	\newdef{Comma category}{\index{category!comma}
-		Let $\textbf{A}, \textbf{B}$ and $\textbf{C}$ be three categories and let $\func{F}{A}{C}$ and $\func{G}{B}{C}$ be two functors. The comma category $F\downarrow G$ is defined as follows:
-		\begin{itemize}
-			\item Objects are triples $(A, B, \gamma)$ where $A\in\ob{A}, B\in\ob{B}$ and $\gamma:FA\rightarrow GB\in\text{hom}(\textbf{C})$.
-			\item Morphisms $(A, B, \gamma)\rightarrow(K, L, \sigma)$ are pairs $(f, g)$ where $f:A\rightarrow K\in\text{hom}(\textbf{A})$ and $g:B\rightarrow L\in\text{hom}(\textbf{B})$ such that $\sigma\circ F(f) = G(g)\circ\gamma$.
-			\item Composition of morphisms is defined componentwise.
-		\end{itemize}
-	}
-	\newdef{Slice category}{\index{category!slice}
-		Let \textbf{C} be a category and let $c\in\ob{C}$. The slice category $\textbf{C}/c$ of $\textbf{C}$ over $c$ is defined as follows:
-		\begin{itemize}
-			\item The objects are morphisms in $\textbf{C}$ with codomain $c$.
-			\item The morphisms $f\rightarrow g$ are morphisms $h$ in $\textbf{C}$ such that $g\circ h = f$.
-		\end{itemize}
-	}	
 
-\section{Natural transformations}
+\subsection{Equivalences}
+
+	\newdef{Faithful functor}{\index{faithful}
+		A functor $\func{F}{C}{D}$ is said to be faithful if the map \[\textbf{C}(X, Y)\rightarrow\textbf{D}(FX, FY)\] is injective for all objects $X, Y\in\ob{C}$.
+	}
+	\newdef{Full functor}{\index{full}
+		A functor $\func{F}{C}{D}$ is said to be full if the map \[\textbf{C}(X, Y)\rightarrow\textbf{D}(FX, FY)\] is surjective for all objects $X, Y\in\ob{C}$.
+	}
+	
+	\newdef{Essentially surjective functor}{\index{surjective!essentially}
+		A functor $\func{F}{C}{D}$ is said to be essentially surjective if for eevry object $d\in\ob{D}$ there exists an object $c\in\ob{C}$ such that $Fc \cong d$.
+	}
+	
+	\newdef{Equivalence of categories}{\index{equivalence!of categories}
+		Two categories $\mathbf{C}, \mathbf{D}$ are said to be equivalent if there exist functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ such that $FG$ and $GF$ are naturally isomorphic to the identity functors on $\mathbf{D}$ and $\mathbf{C}$ (i.e. an equivalence in the 2-category $\mathbf{Cat}$).
+		
+		Assuming the axiom of choice, this definition is equivalent to stating that there exists a fully faithful and essentially surjective functor between the two categories.
+	}
+	
+\subsection{Stuff, structure and property}\index{forgetful}
+
+	To classify properties of objects and the \textit{forgetfulness} of functors it is interesting to make a distinction between stuff, structure and properties. Consider for example a group: this is a set (\textit{stuff}) equipped with a number of operations (\textit{structure}) which obey some relations (\textit{properties}).
+	
+	Using these notions one can classify forgetful functors in the following way:
+	\begin{itemize}
+		\item A functor forgets nothing if it is an equivalence of categories.
+		\item A functor forgets at most properties if it is fully faithful.
+		\item A functor forgets at most structure if it is faithful.
+		\item A functor forgets at most stuff if it is just a functor.
+	\end{itemize}
+
+\subsection{Natural transformations}
 
 	\newdef{Natural transformation}{\index{natural!transformation}
 		Let $F, G$ be two functors between the categories $\textbf{C}$ and $\textbf{D}$. A natural transformation $\psi$ from $F$ to $G$ consists of a collection of morphisms satisfying two conditions:
@@ -172,7 +172,7 @@
 		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:\textbf{C}\hookrightarrow\textbf{Set}^{\textbf{C}^{op}}$, called the Yoneda embedding. 
 	\end{result}
 	
-\section{Adjunctions}
+\subsection{Adjunctions}
 
 	\newdef{Hom-set adjunction}{\index{adjunction}
 		Let $\func{F}{C}{D}$ and $\func{G}{D}{C}$ be two functors. These functors form a hom-set adjunction (often just called an adjunction) if the following isomorphism is natural in $a, b$:
@@ -182,7 +182,7 @@
 		The functor $F$ (resp. G) is called the left (resp. right) adjoint\footnote{Sometimes the word \textbf{adjunct} is used (French versus Latin).}.
 	}
 	\begin{notation}
-		An adjunction$(F, G)$ between categories $\mathbf{C}, \mathbf{D}$ is often denoted by:\[\textbf{C}\adj{F}{G}\textbf{D}\]
+		An adjunction$(F, G)$ between categories $\mathbf{C}, \mathbf{D}$ is often denoted by: \[\textbf{C}\adj{F}{G}\textbf{D}\] or if the ambient categories are clear by: \[F\dashv G\]
 	\end{notation}
 	
 	\newdef{Unit-counit adjunction}{\index{triangle!identities}\index{unit}\index{zig-zag|see{triangle identity}}
@@ -206,7 +206,7 @@
 	\end{property}
 
 	Now it should be obvious that the above definition of a unit-counit adjunction can be generalized to general 2-categories:
-	\newdef{Adjunction}{\index{adjunction}
+	\newdef{Adjunction in 2-category}{\index{adjunction}
 		Let \textbf{C} be a 2-category. An adjunction in \textbf{C} is a pair of 1-morphisms $F:a\rightarrow b$ and $G:b\rightarrow a$ together with 2-morphisms $\varepsilon:F\circ G\Rightarrow 1_b$ and $\eta:1_a\Rightarrow G\circ F$ that satisfy the zig-zag identities.
 	}
 	
@@ -214,6 +214,41 @@
 		If one looks at the defining relations of duals in a rigid monoidal category one should see that these are in fact the same as the defining relations of the unit and counit of an adjunction. This is a consequence of the fact that a 2-category with a single object can be regarded as a (strict) monoidal category where the composition in the 2-category becomes the tensor product in the monoidal category. Similarly adjoint 1-morphisms in the 2-category become duals in the monoidal category.
 	\end{remark}
 
+\subsection{Constructions}
+
+	\newdef{Discrete fibration}{\index{fibration}
+		Let $\func{F}{A}{B}$ be a functor. $F$ is a discrete fibration if for every object $A\in\ob{A}$ and every morphism $f:B\rightarrow FA$ in $\textbf{B}$ there exists a unique morphism $g:C\rightarrow A$ in $\textbf{A}$ such that $F(g) = f$, where $B\in\ob{B}, C\in\ob{A}$.
+	}
+
+	\newdef{Dagger category\footnotemark}{\index{category!dagger}\index{involution}\label{cat:dagger_category}
+		\footnotetext{Also called a \textbf{$\dag$-category}.}
+		A category equipped with a contravariant endofunctor, i.e. a functor $\dag:\textbf{C}^{op}\rightarrow\textbf{C}$, such that:
+		\begin{itemize}
+			\item $\forall C\in\ob{C}: \mathbbm{1}_C^\dag = \mathbbm{1}_C$
+			\item $\dag\circ\dag = \mathbbm{1}_C$
+		\end{itemize}
+		The second property says that $\dag$ is an \textbf{involutive} functor.
+	}
+	\remark{The concept of a dagger structure allows the usual definition of \textbf{unitary} and \textbf{self-adjoint} morphisms.}\index{unitary}
+	\begin{property}
+		The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid}.}.
+	\end{property}
+	
+	\newdef{Comma category}{\index{category!comma}
+		Let $\textbf{A}, \textbf{B}$ and $\textbf{C}$ be three categories and let $\func{F}{A}{C}$ and $\func{G}{B}{C}$ be two functors. The comma category $F\downarrow G$ is defined as follows:
+		\begin{itemize}
+			\item Objects are triples $(A, B, \gamma)$ where $A\in\ob{A}, B\in\ob{B}$ and $\gamma:FA\rightarrow GB\in\text{hom}(\textbf{C})$.
+			\item Morphisms $(A, B, \gamma)\rightarrow(K, L, \sigma)$ are pairs $(f, g)$ where $f:A\rightarrow K\in\text{hom}(\textbf{A})$ and $g:B\rightarrow L\in\text{hom}(\textbf{B})$ such that $\sigma\circ F(f) = G(g)\circ\gamma$.
+			\item Composition of morphisms is defined componentwise.
+		\end{itemize}
+	}
+	\newdef{Slice category}{\index{category!slice}
+		Let \textbf{C} be a category and let $c\in\ob{C}$. The slice category $\textbf{C}/c$ of $\textbf{C}$ over $c$ is defined as follows:
+		\begin{itemize}
+			\item The objects are morphisms in $\textbf{C}$ with codomain $c$.
+			\item The morphisms $f\rightarrow g$ are morphisms $h$ in $\textbf{C}$ such that $g\circ h = f$.
+		\end{itemize}
+	}
 
 \section{Initial and terminal objects}
 
@@ -319,7 +354,7 @@
 	}
 	
 	\newdef{Finitely complete category}{\index{finitely!complete}
-		A category is said to be finitely complete if it has a terminal object and if all equalizers and all finite products exist.
+		A category is said to be finitely complete if it has a terminal object and if all binary equalizers and products exist.
 	}
 	\newadef{Finitely complete category}{
 		A category is said to be finitely complete if all finite limits exist.
@@ -998,19 +1033,22 @@
 
 	\newdef{Internal hom\footnotemark}{\label{category:internal_hom}
 		\footnotetext{Also called an \textbf{inner hom}.}
-		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a symmetric monoidal category. In this setting one can generalize the \textit{currying} procedure, i.e. the identification of maps $X\times Y\rightarrow Z$ with maps $X\rightarrow(Y\rightarrow Z)$. If the object exists, the internal hom is defined as follows:
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a symmetric monoidal category. In this setting one can generalize the \textit{currying} procedure, i.e. the identification of maps $X\times Y\rightarrow Z$ with maps $X\rightarrow(Y\rightarrow Z)$. The internal hom is defined by the following equality:
 		\begin{equation}
 			\text{hom}(A\otimes B, C) = \text{hom}(A, \underline{\text{hom}}(B, C))
 		\end{equation}
-		Hence it is the right adjoint of the tensoring functor $-\otimes B$.
+		So the existence of all internal homs is equivalent to the existence of a right adjoint of the tensor functor.
 	}
 	\begin{notation}
 		A different, but frequently used, notation is $A\Rightarrow B$. However we will not use this as it might confuse with the notation for 2-morphisms.
 	\end{notation}
 	
-	\begin{example}[Cartesian closed categories]
-		In case of Cartesian categories, where the monoidal structure is given by the ordinary product, the internal hom object $\underline{\text{hom}}(a, b)$ is given by the exponential object $b^a$.
-	\end{example}
+	\newdef{Exponential object}{\index{exponential!object}
+		In the case of Cartesian (monoidal) categories, i.e. categories where the monoidal structure is given by the (Cartesian) product, the internal hom $\underline{\text{hom}}(a, b)$ is called the exponential object. This often denoted by $b^a$.
+	}
+	\newdef{Closed category}{\index{category!closed}
+		A (symmetric) monoidal category is said to be closed if it admits all inner homs.
+	}
 	
 	\newdef{Internal category}{\label{cat:internal_category}
 		Let $C$ be a category. A category $D$ internal to $C$ consists of following objects:
@@ -1075,7 +1113,7 @@
 		Let \textbf{C} be a 2-category. A 1-morphism $f:X\rightarrow Y$ is weakly invertible if there exists a 1-morphism $g:Y\rightarrow X$ and 2-isomorphisms $I:g\circ f\Rightarrow\mathbbm{1}_X, J:f\circ g\Rightarrow\mathbbm{1}_Y$.
 	}
 	
-	\begin{property}[Monoidal categories as 2-categories]\index{monoidal!category}\index{delooping}\label{cat:monoidal_or_2}
+	\begin{property}[Monoidal categories]\index{monoidal!category}\index{delooping}\label{cat:monoidal_or_2}
 		Consider a monoidal category $(C, \otimes, \mathbf{1})$. From this monoidal category one can construct the so-called \textbf{delooping} $\mathbf{B}C$, which is a bicategory, in the following way:
 		\begin{itemize}
 			\item There is a single object $\ast$.
@@ -1087,15 +1125,22 @@
 		Conversely every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent. (This property and its generalizations are the content of the \textit{delooping hypothesis}.)
 	\end{property}
 
+\subsection{\texorpdfstring{$\infty$-functors}{Infinity-functors}}
+
+	The following definition generalizes the notion of \textit{essential surjectivity} to higher category theory:
+	\newdef{$n$-surjective functor}{\index{surjective}
+		An $\infty$-functor $\func{F}{C}{D}$ is said to be $n$-surjective if for any two parallel $(n-1)$-morphisms $e, e'$ in $\mathbf{C}$ and $n$-morphism $f: Fe\rightarrow Fe'$ in $\mathbf{D}$ there exists an $n$-morphism $\tilde{f}$ in $\mathbf{C}$ such that $F\tilde{f}\cong f$.
+	}
+
 \section{Groupoids}
 
 	\newdef{Categorical group}{\index{group!categorical}
-		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category. This category is called categorical group, \textbf{gr-category} or \textbf{weak 2-group}\footnote{See also the end of this section.} if it satisfies the following conditions:
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category. This category is called a categorical group, \textbf{gr-category} or \textbf{weak 2-group}\footnote{See also the end of this section.} if it satisfies the following conditions:
 		\begin{itemize}
 			\item All morphisms are invertible.
 			\item Every object is weakly invertible with respect to the monoidal structure.
 		\end{itemize}
-		By property \ref{cat:monoidal_or_2} above one can equivalently define a weak 2-group as 2-category with a single object, weakly invertible 1-morphisms and invertible 2-morphisms.
+		By property \ref{cat:monoidal_or_2} above one can equivalently define a weak 2-group as a 2-category with a single object, weakly invertible 1-morphisms and invertible 2-morphisms.
 	}
 
 	\newdef{Groupoid}{\index{groupoid}\label{cat:groupoid}
@@ -1133,6 +1178,10 @@
 		A 2-group is defined as a 2-groupoid with only one object. From this it follows that the set of 1-morphisms forms a group and so does the set of 2-morphisms under horizontal composition. The 2-morphisms do not form a group under vertical composition\footnote{Because the sources/targets may not match up.}.
 	}
 	
+	\newdef{$\infty$-groupoid}{
+		A $\infty$-category in which all morphisms are invertible. This is equivalent to a $(\infty, 0)$-category in the language of $(n,r)$-categories.
+	}
+	
 \section{Model categories}
 
 	\newdef{Model structure}{
@@ -1154,7 +1203,7 @@
 	}
 	
 	\newdef{Acyclic}{\index{acyclic!fibration}
-		The morphisms in Fib$\cap W$ and Cof$\cap W$ are called \textbf{acyclic} or \textbf{trivial} fibrations and cofibrations.
+		The morphisms in $\text{Fib}\cap W$ and $\text{Cof}\cap W$ are called \textbf{acyclic} or \textbf{trivial} fibrations and cofibrations.
 	}
 	\newdef{Fibrant}{\index{fibrant}
 		An object in a model category is said to be fibrant if the unique morphism to the terminal object is a fibration. Dually, an object in a model category is said to be cofibrant if the unique morphism from the initial object is a cofibration.

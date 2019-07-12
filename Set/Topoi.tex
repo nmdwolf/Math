@@ -3,11 +3,11 @@
 \section{Elementary topoi}
 
 	\newdef{Subobject classifier}{\index{subobject!classifier}
-		Consider a finitely complete category (in fact the existence of a terminal object suffices). A subobject classifier is a mono\footnote{The symbol for this morphism will become clear in subsection \ref{cat:internal_logic}.} $\text{true}:\mathbf{1}\hookrightarrow\Omega$ from the terminal object such that for every mono $\phi:a\hookrightarrow b$ there exists a unique morphism $\chi:b\rightarrow\Omega$ such that the following pullback square exists:
+		Consider a finitely complete category (in fact the existence of a terminal object suffices). A subobject classifier is a mono\footnote{The symbol for this morphism will become clear in subsection \ref{cat:internal_logic}.} $\texttt{true}:\mathbf{1}\hookrightarrow\Omega$ from the terminal object such that for every mono $\phi:a\hookrightarrow b$ there exists a unique morphism $\chi:b\rightarrow\Omega$ such that the following pullback square exists:
 		\begin{figure}[ht!]
 			\centering
 			\begin{tikzcd}[ampersand replacement=\&, row sep=4em,column sep=4em, minimum width=2em]
-				a \arrow[r, "!"] \arrow[d, hook, "\phi"'] \& \mathbf{1} \arrow[d, hook, "\text{true}"]\\
+				a \arrow[r, "!"] \arrow[d, hook, "\phi"'] \& \mathbf{1} \arrow[d, hook, "\texttt{true}"]\\
 				b \arrow[r, "\chi!"] \& \Omega
 			\end{tikzcd}
 			\caption{Subobject classifier.}
@@ -24,13 +24,14 @@
 	\begin{example}
 		The category $\mathbf{Set}$ has a subobject classifier, namely the 2-element set.
 	\end{example}
-	
-	\begin{property}
-		Using Yoneda's lemma one obtains following statement: The subobject classifier $\Omega$ has a \textit{generic} element $\mathfrak{t}$ such that for every object $a\in\ob{C}$ and every element $b\in\text{Sub}(a)$ there exists a unique morphism $\chi:a\rightarrow\Omega$ such that $m = \chi^*\mathfrak{t}$.
-	\end{property}
 
 	\newdef{Elementary topos}{\index{topos!elementary}
 		An elementary topos is a Cartesian closed category which has a subobject classifier. Equivalently one can define an elementary topos as a finitely complete category in which all power objects exist.
+		
+		The power object $Pa$ of $a$ is related to the subobject classifier $\Omega$ through the exponential by the following relation:
+		\begin{gather}
+			Pa = \Omega^a
+		\end{gather}
 	}
 	
 	\begin{property}[Slice category]
@@ -65,7 +66,6 @@
 			\label{category:etale_adjunction}
 			\textbf{Psh}(X) \adj{\Gamma}{E} \textbf{Top}/X
 		\end{gather}
-		
 		The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{diff:chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The left adjoint assigns to every bundle its sheaf of (global) sections. The right adjoint assigns to every presheaf its bundle of germs.
 		
 		This adjunction restricts to an equivalence on the subcategories on which the unit and counit morphisms are isomorphisms. These subcategories are called the \textbf{sheaf} and \textbf{\'etal\'e bundle} categories respectively:
@@ -86,11 +86,11 @@
 	In this subsection we consider finitely complete categories which admit a subobject classifier (they don't have to be a topos).
 	
 	\newdef{Truth value}{\index{truth value}
-		A global element of the subobject classifier, i.e. a morphism $\mathbf{1}\rightarrow\Omega$. The subobject classifier $\Omega$ is hence also sometimes called the \textbf{object of truth values}.
+		A global element of the subobject classifier, i.e. a morphism $\mathbf{1}\rightarrow\Omega$. The subobject classifier $\Omega$ is therefore sometimes called the \textbf{object of truth values}.
 	}
 	
 	\begin{property}[Internal Heyting algebra]
-		For all objects $X$ in an elementary topos, the subobject poset Sub$(X)$ has the structure of a Heyting algebra\footnote{See definition \ref{set:heyting}.}. Hence every topos canonically gives an external Heyting algebra, namely Sub$(\mathbf{1})$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P{\mathbf{1}}$.
+		For all objects $X$ in an elementary topos, the poset of subobjects Sub$(X)$ has the structure of a Heyting algebra\footnote{See definition \ref{set:heyting}.}. Hence every topos canonically gives an external Heyting algebra, namely Sub$(\mathbf{1})$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P{\mathbf{1}}$.
 	\end{property}
 
 \section{Geometric morphisms}
@@ -145,23 +145,28 @@
 		\end{gather}
 	\end{example}
 	
-	\newdef{Presheaf topos}{\index{presheaf!topos}\label{topoi:presheaf_topos}
-		Consider the presheaf category $\mathbf{Psh}(\mathbf{C})$ for an arbitrary (small) category $\mathbf{C}$. This category is in fact an elementary topos where the subobject classifier is given by the following equation:
+	\newprop{Presheaf topos}{\index{presheaf!topos}\label{topoi:presheaf_topos}
+		Consider the presheaf category $\mathbf{Psh}(\mathbf{C})$ for an arbitrary (small) category $\mathbf{C}$. This category is in fact an elementary topos where the subobject classifier is defined on each object in the following way:
 		\begin{equation}
 			\underline{\Omega}(c) = \{S: S\text{ is a sieve on }c\}
 		\end{equation}
-		For a morphism $f:a\rightarrow b$ in $\mathbf{C}$ the morphism $\underline{\Omega}(f)$ sends a sieve $S$ to its pullback sieve $f^*S$.
+		The action on a morphism $f:a\rightarrow b$ in $\mathbf{C}$ gives the morphism $\underline{\Omega}(f)$ which sends a sieve $S$ to its pullback sieve $f^*S$.
+		
+		The morphism $\texttt{true}:\underline{\mathbf{1}}\hookrightarrow\underline{\Omega}$ is defined as the natural transformation assigning to every object its maximal sieve. For every subobject $\underline{K}\hookrightarrow\underline{X}$ the characteristic morphism $\chi_K$ is defined as follows: Consider an object $c\in\ob{C}$ and element $x\in\underline{X}(c)$. The morphism $\chi_K|_c$ is then defined as follows:
+		\begin{gather}
+			\chi_K|_c(x) = \{f\in\mathbf{C}(d, c):\underline{X}(f)(x)\in\underline{K}(d)\}
+		\end{gather}
 	}
 
-	The following definition is due to Giraud (the original definition used covers):
-	\newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}
+	The following definition is due to Giraud (the original definition used the notion of a \textit{cover}):
+	\newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}\index{cover}
 		A Grothendieck topology on a category is a function $J$ assigning to every object a collection of sieves satisfying the following conditions:
 		\begin{itemize}
-			\item For every object $c$ the maximal sieve $M_c$ is an element of $J(c)$.
-			\item If $S\in J(c)$ then $f^*S\in J(d)$ for every morphism $(f:d\rightarrow c)\in S$.
-			\item Consider a sieve $S$ on $c$. If there exists a sieve $R\in J(c)$ such that for every morphism $(f:d\rightarrow c)\in R$ the pullback sieve $f^*S\in J(d)$ then $S\in J(c)$.
+			\item (Identity\footnote{This condition can be rephrased in terms of isomorphisms: The sieve generated by any isomorphism is a covering sieve.}): For every object $c$ the maximal sieve $M_c$ is an element of $J(c)$.
+			\item (Base change): If $S\in J(c)$ then $f^*S\in J(d)$ for every morphism $f:d\rightarrow c$.
+			\item (Locality): Consider a sieve $S$ on $c$. If there exists a sieve $R\in J(c)$ such that for every morphism $(f:d\rightarrow c)\in R$ the pullback sieve $f^*S\in J(d)$ then $S\in J(c)$.
 		\end{itemize}
-		The sieves in $J$ are called (J-)\textbf{covering sieves}. 
+		The sieves in $J$ are called (J-)\textbf{covering sieves}. A collection of morphisms with codomain $c\in\ob{C}$ is called a \textbf{cover}\footnote{Sometimes this term is also used to denote any collection of morphism with common codomain $c$, i.e. without reference to a covering sieve.} of $c$ if the sieve generated by thse morphisms is a covering sieve on $c$.
 	}
 	\begin{example}[Topological spaces]
 		These conditions have the following interpretation in the case of topological coverings:
@@ -183,29 +188,67 @@
 		
 		More explicitly it is an assignment of an element $x_f\in Fd$ to every morphism $(f:d\rightarrow c)\in S$ such that:
 		\begin{gather}
-			Fg(x_f) = x_{f\circ g}
+			F(g)(x_f) = x_{f\circ g}
 		\end{gather}
-		for all morphisms $g:e\rightarrow d$.
-		
-		Given such a matching family one calls an element $z\in Fd$ an \textbf{amalgamation} if it satisfies
+		for all morphisms $g:e\rightarrow d$. This can also be restated differently. A matching family for $S$ with respect to $F$ is a set of elements $\{x_f\}_{f\in S(c)}$ such that for all covering morphisms $f:d\rightarrow c, g:e\rightarrow c\in S(c)$ and all morphisms $f':z\rightarrow d, g': z\rightarrow e$ such that $f\circ f'=g\circ g'$ the following equations holds:
 		\begin{gather}
-			Ff(z) = x_f
+			\label{topoi:matching_family}
+			F(f')(x_f) = F(g')(x_g)
+		\end{gather}
+		
+		Given such a matching family one calls an element $z\in Fc$ an \textbf{amalgamation} if it satisfies
+		\begin{gather}
+			F(f)(z) = x_f
 		\end{gather}
 		for all morphisms $f\in S(d)$.
 	}
-	\newdef{Sheaf}{\index{sheaf}
+	\remark{If the base category has all pullbacks, for example if it is a topos on its own, then one can restrict the above commuting diagrams to the pullback diagrams of morphisms in the sieve $S$.}
+	
+	\newdef{Sheaf}{\index{sheaf}\index{presheaf!separated}
 		\nomenclature[S_Shsite]{$\mathbf{Sh}(\mathbf{C}, J)$}{Category of $J$-sheaves on a site $(\mathbf{C}, J)$.}
-		Consider a site $(\textbf{C}, J)$. A presheaf $F$ on $\textbf{C}$ is called a $J$-sheaf if every matching family for any covering sieve (on any object in $\mathbf{C}$) in $J$ admits a unique amalgamation.
+		Consider a site $(\textbf{C}, J)$. A presheaf $F$ on $\textbf{C}$ is called a $J$-sheaf if every matching family for any covering sieve (on any object in $\mathbf{C}$) in $J$ admits a unique amalgamation\footnote{If there exists at most one amalgamation then the presheaf is said to be \textbf{separated}.}.
 		
-		From the natural transformation point of view this condition amounts to the existence of a unique extension of $\alpha:S\Rightarrow F$ along the inclusion $S\hookrightarrow\text{hom}(-, c)$.
+		From the natural transformation point of view this condition amounts to the existence of a unique extension of every natural transformation $\alpha:S\Rightarrow F$ along the inclusion $S\hookrightarrow\text{hom}(-, c)$ or equivalently of an isomorphism\footnote{If this map is merely a monomorphism then the presheaf is separated. (See also the previous footnote.)} $\iota_S:\text{Nat}(h_{\mathbf{C}}, F)\rightarrow\text{Nat}(S, F)$.
 		
 		The category $\mathbf{Sh}(\mathbf{C}, J)$ of $J$-sheaves on the site $(\mathbf{C}, J)$ is the full subcategory of $\widehat{\textbf{C}}$ on the presheaves which satisfy the above condition.
 	}
 	
 	\begin{example}[Topological spaces]
-		The usual category of sheaves $\textbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\textbf{Open}(X), J_{\text{open}(X)})$.
+		The usual category of sheaves $\textbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\textbf{Open}(X), J_{\text{open}(X)})$. Since the morphisms in the covering sieves are exactly the inclusion maps $U_i\hookrightarrow U$, the pullback of two such morphisms is given by the intersection $U_i\cap U_j$. Hence the condition for a matching family, as formulated in equation \ref{topoi:matching_family} above, gives the second part of definition \ref{sheaf:def}. The uniqueness of an amalgamation is equivalent to the first part of that definition.
 	\end{example}
 	
 	\newdef{Grothendieck topos}{\index{Grothendieck!topos}
-		A category\footnote{The fact that a Grothendieck topos is indeed an elementary topos follows from the fact that \textbf{Set} is a topos.} equivalent to the category of sheaves on a (small) site.
+		A category\footnote{The fact that a Grothendieck topos is an elementary topos follows from the fact that \textbf{Set} is a topos.} equivalent to the category of sheaves on a (small) site.
 	}
+	
+\subsection{Lawvere-Tierney topology}
+
+	\newdef{Lawvere-Tierney topology}{\index{Lawvere-Tierney}
+		As noted in section \ref{cat:internal_logic} on the internal logic of elementary topoi, the subobject classifier $\Omega$ has the structure of an internal Heyting algebra and in particular of a meet-semilattice (where the meet is given by the pullback of morphisms). This internal poset, viewed as an internal category, admits the construction of a closure operator\footnote{See definition \ref{cat:closure_operator}.} $j:\Omega\rightarrow\Omega$ satisfying the following conditions:
+		\begin{gather}
+			j\circ\land = \land\circ(j\times j)
+		\end{gather}
+		which states\footnote{This is not a trivial restatement.} that $j$ is (internally) order-preserving.
+	}
+	\begin{remark}
+		The condition satisfied by the unit morphism in the definition of a closure operator can also be reformulated as follows in this context:
+		\begin{gather}
+			j\circ\texttt{true} = \texttt{true}
+		\end{gather}
+	\end{remark}
+	The Lawvere-Tierney operator also induces a ''closure operator'' on all posets Sub$(X)$ in the topos. Given an object $X$ and a subobject $U\in\text{Sub}(X)$ one defines the closure $j_\ast(U)\in\text{Sub}(X)$ as the subobject classified by the characteristic map $j\circ\chi_U:X\rightarrow\Omega$.
+	
+	\newdef{Dense object}{\index{dense}
+		Given a Lawvere-Tierney topology $j:\Omega\rightarrow\Omega$, a subobject $U\in\text{Sub}(X)$ is said to be dense (in $X$) if it satisfies $j_\ast(U) = X$.
+	}
+	\newdef{Sheaf}{\index{sheaf}
+		Given a Lawvere-Tierney topology $j:\Omega\rightarrow\Omega$ on a topos $\mathcal{E}$, one calls an object $S\in\ob{E}$ a $j$-sheaf if for all dense morphisms $U\hookrightarrow X$ the induced map \[\mathcal{E}(X, S)\rightarrow\mathcal{E}(U, S)\] is a bijection.
+	}
+	
+	\begin{property}
+		For the presheaf topos on a small category $\mathbf{C}$ the Grothendieck topologies on $\mathbf{C}$ and Lawvere-Tierney topologies on $\mathbf{Psh}(\mathbf{C})$ are equivalent.
+		\begin{proof}[Sketch of proof]
+			Since a Grothendieck topology assigns to every object a collection of sieves, we find by property \ref{topoi:presheaf_topos} that $J(c)\subseteq\Omega_{\mathbf{Psh}}(c)$ for all $c\in\ob{C}$. By the base change condition of Grothendieck topologies this relation is natural in $c$ and hence $J$ is a subobject of $\Omega_{\mathbf{Psh}}$. We thus find a characteristic morphism $j:\Omega_{\mathbf{Psh}}\rightarrow\Omega_{\mathbf{Psh}}$ which can be proven (by the other conditions of Grothendieck topologies) to define a Lawvere-Tierney topology on $\mathbf{Psh}(\mathbf{C})$. Conversely, a Lawvere-Tierney topology is a morphism $j:\Omega\rightarrow\Omega$ and hence determines a unique subobject of $\Omega_{\mathbf{Psh}}$, i.e. a unique collection of sieves for every object $c\in\ob{C}$. From the conditions on Lawvere-Tierney topologies one can then prove that this collection satisfies the conditions of a Grothendieck topology.
+		\end{proof}
+	\end{property}
+	\sremark{We can conclude that Lawvere-Tierney topologies generalize Grothendieck topologies, which determine a topology on presheaf topoi, to general topoi.}

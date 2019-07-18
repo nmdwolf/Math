@@ -14,9 +14,9 @@
 			\item For every pair of morphisms in hom$_S$ the composition is also an element of hom$_S$.
 		\end{itemize}
 		A subcategory is said to be \textbf{full} if for every two objects $X, Y\in\ob{S}:$
-		\begin{equation}
+		\begin{gather}
 			\textbf{S}(X, Y) = \textbf{C}(X, Y)
-		\end{equation}
+		\end{gather}
 	}
 	
 	\newdef{Small category}{\index{small}
@@ -30,9 +30,9 @@
 	}
 	\begin{property}
 		From the definition of the opposite category it easily follows that
-		\begin{equation}
+		\begin{gather}
 			(\textbf{C}^{op})^{op} = \textbf{C}
-		\end{equation}
+		\end{gather}
 		i.e. $op$ is an involution.
 	\end{property}
 	
@@ -162,9 +162,9 @@
 	\sremark{The image of a natural transformation $\psi\in\text{Nat}(h^X, F)$ is given by $\psi_X(\mathbbm{1}_X)$.}
 	\begin{result}[Yoneda embedding]
 		When $F$ is another hom-functor $h^Y$ we obtain the following result:
-		\begin{equation}
+		\begin{gather}
 			\text{Nat}(h^X, h^Y)\cong\textbf{C}(Y, X)
-		\end{equation}
+		\end{gather}
 		where one should pay attention to the right hand side where $Y$ appears in the first argument.
 		
 		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\textbf{C}(Y,X)$. The functor $h^-$ mapping an object $X\in\ob{C}$ to its hom-functor $\textbf{C}(X, -)$ and a morphism $f\in\textbf{C}(Y, X)$ to the natural transformation hom$_C(f, -)$ can also be interpreted as a covariant functor $G:\textbf{C}^{op}\rightarrow\textbf{Set}^{\textbf{C}}$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $\textbf{C}^{op}$ to the functor category $\textbf{Set}^{\textbf{C}}$.
@@ -176,9 +176,9 @@
 
 	\newdef{Hom-set adjunction}{\index{adjunction}
 		Let $\func{F}{C}{D}$ and $\func{G}{D}{C}$ be two functors. These functors form a hom-set adjunction (often just called an adjunction) if the following isomorphism is natural in $a, b$:
-		\begin{equation}
+		\begin{gather}
 			\text{hom}_D(Fa, b)\cong\text{hom}_C(a, Gb)
-		\end{equation}
+		\end{gather}
 		The functor $F$ (resp. G) is called the left (resp. right) adjoint\footnote{Sometimes the word \textbf{adjunct} is used (French versus Latin).}.
 	}
 	\begin{notation}
@@ -251,6 +251,54 @@
 	}
 	
 \subsection{Monads}
+
+	\newdef{Monad}{\index{monad}
+		A monad is a triple $(T, \mu, \eta)$ where $\func{T}{C}{C}$ is an endofunctor and $\mu:T^2\rightarrow T, \eta:\mathbbm{1}_{\mathbf{C}}\rightarrow T$ are natural transformations satisfying the following (coherence) conditions:
+		\begin{itemize}
+			\item As natural transformation from $T^3$ to $T$ we have:
+			\begin{gather}
+				\mu\circ T\mu = \mu\circ\mu_T
+			\end{gather}
+			\item As natural transformation from $T$ to itself we have:
+			\begin{gather}
+				\mu\circ T\eta = \mu\circ\eta_T = \text{id}
+			\end{gather}
+		\end{itemize}
+		These conditions say that a monad is a monoid in the category $\mathbf{End}_{\mathbf{C}}$ of endofunctors on $\mathbf{C}$.
+	}
+	\begin{example}[Adjunction]
+		Every adjunction $F\dashv G$, with unit $\varepsilon$ and counit $\eta$, induces a monad of the form $(GF, G\varepsilon F, \eta)$.
+	\end{example}
+	
+	\newdef{Algebra\footnotemark\ over a monad}{\index{algebra!over a monad}
+		\footnotetext{A more suitable name would be ''module over a monad'', since these are modules over a monoid if we view monads as monoids in $\mathbf{End}_{\mathbf{C}}$.
+		Consider a monad $(T, \mu, \eta)$ on a category $\mathbf{C}$. A algebra over $T$ is a couple $(a, \kappa)$ where $a\in\ob{C}$ and $\kappa:Ta\rightarrow a$ such that the following conditions are satisfied:
+		\begin{itemize}
+			\item $\kappa\circ T\kappa = \kappa\circ\mu_a$
+			\item $\kappa\circ\eta_a = \text{id}_a$
+		\end{itemize}
+		Morphisms $(a, \kappa_a)\rightarrow(b, \kappa_b)$ of $T$-algebras are morphisms $f:a\rightarrow b$ in $\mathbf{C}$ such that $f\circ\kappa_a = \kappa_b\circ Tf$.
+	}
+	\newdef{Eilenberg-Moore category}{\index{Eilenberg-Moore}
+		Given a monad $T$ over a category $\mathbf{C}$ we define the Eilenberg-Moore category $\mathbf{C}^T$ as the category of $T$-algebras.
+	}
+	
+	\newdef{Monadic adjunction}{
+		An adjunction between categories $\mathbf{C}$ and $\mathbf{D}$ is said to be monadic if there exists an equivalence between $D$ and the Eilenberg-Moore category of the induced monad.
+	}
+	\newdef{Monadic functor}{\index{functor!monadic}
+		A functor is said to be monadic if it admits a left adjoint such that the adjunction is monadic.
+	}
+	
+	\begin{theorem}[Beck's monadicity theorem]
+		Consider a functor $\func{F}{C}{D}$. This functor is monadic if and only if the following conditinos are satisfied:
+		\begin{itemize}
+			\item $F$ admits a left adjoint.
+			\item $F$ reflects isomorphisms.
+			\item $\mathbf{C}$ has all coequalizers of $F$-split parallel pairs\footnote{These are parallel pairs $f,g$ such that the image $Ff, Fg$ under $F$ admits a split coequalizer.} and $F$ preserves these coequalizers.
+		\end{itemize}
+	\end{theorem}
+	\remark{A sufficient condition for monadicity is obtained by replacing the third item above by the following weaker statement: ''$\mathbf{C}$ has all coequalizers of reflexive pairs and $F$ preserves these coequalizers.'' This weaker form is called the \textbf{crude monadicity theorem}.}
 
 	\newdef{Closure operator\footnotemark}{\label{cat:closure_operator}\index{closure!operator}\index{modal operator|see{closure operator}}
 		\footnotetext{Also called a \textbf{modal operator}.}
@@ -358,8 +406,11 @@
 		A terminal object $\mathbf{1}$ is a limit over the empty diagram.
 	\end{example}
 	
-	\newdef{Equalizer}{\index{equalizer}
-		Consider following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is the universal object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$.
+	\newdef{Equalizer}{\index{equalizer}\index{fork}
+		Consider the following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is the universal object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$.
+	}
+	\newdef{Split coequalizer}{
+		First we define a \textbf{cofork} diagram, i.e. a diagram \[a\overset{f}{\underset{g}{\rightrightarrows}} b\overset{t}{\rightarrow} c\] where $t\circ f = t\circ g$. A split coequalizer\footnote{A coequalizer, as obtained by dualizing the previous definition, is just a universal cofork.} is a cofork together with a section of $\varphi$ of $f$ and a section $\sigma$ of $t$ such that $\sigma\circ t = g\circ \varphi$.
 	}
 	
 	\newdef{Finitely complete category}{\index{finitely!complete}
@@ -424,6 +475,9 @@
 	
 \section{Morphisms}
 
+	\newdef{Section}{\index{section}
+		A section of a morphism $f:a\rightarrow b$ is a right-inverse, i.e. a morphism $g:b\rightarrow a$ such that $f\circ g=\text{id}_b$.
+	}
 	\newdef{Monomorphism}{\index{monomorphism}
 		Let \textbf{C} be a category. A morphism $\mu\in\textbf{C}(A, B)$ is called a mono\footnote{Sometimes just a \textbf{mono} or a \textbf{monic} morphism.} if for every object $X\in\ob{C}$ and every two morphisms $\alpha_1, \alpha_2\in\textbf{C}(X, A)$ such that $\mu\circ\alpha_1 = \mu\circ\alpha_2$ we can conclude that $\alpha_1=\alpha_2$.
 	}
@@ -438,6 +492,11 @@
 	\begin{property}[Global elements]
 		Every global element\footnote{See definition \ref{category:global_element}.} is monic.
 	\end{property}
+	
+	\newdef{Reflexive pair}{
+		Two parallel morphisms $f, g:a\rightarrow b$ are said to form a reflexive pair if they have a common section, i.e. there exists a morphism $\sigma:b\rightarrow a$ such that $f\circ\sigma=g\circ\sigma$.
+	}
+	
 	\begin{property}[Equalizing morphism]
 		Consider an equalizer $(E, e)$. The equalizing morphism $e$ is monic. Similarly a coequalizing morphism is epic.
 	\end{property}
@@ -541,6 +600,9 @@
 
 	\newdef{Pre-additive category}{
 		A (locally small) category enriched over \textbf{Ab}, i.e. every hom-set is an Abelian group and composition is bilinear.
+	}
+	\newdef{$k$-linear category}{\index{category!linear}
+		Let \textbf{Vect}$_k$ denote the category of vector spaces over the base field $k$. A $k$-linear category is a category enriched over \textbf{Vect}$_k$.
 	}
 	
 	\begin{property}\index{zero!object}
@@ -713,9 +775,9 @@
 	
 	\newdef{Closed monoidal category}{
 		A monoidal category $(\textbf{C}, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $B\in\ob{C}$ there exists a a right adjoint\footnote{See definition \ref{category:internal_hom} of an \textit{internal hom} for more information.} to the tensor product functor $-\otimes B:\textbf{C}\rightarrow\textbf{C}$, i.e.:
-		\begin{equation}
+		\begin{gather}
 			\forall A, C\in\ob{C}:\exists B\Rightarrow C\in\ob{C}:\textbf{C}(A\otimes B, C)\cong\textbf{C}(A, B\Rightarrow C)
-		\end{equation}
+		\end{gather}
 		where the isomorphism is natural in $A, C\in\ob{C}$.
 	}
 	
@@ -900,17 +962,17 @@
 	}
 	\begin{property}\index{Yang-Baxter}
 		The braiding $\sigma_{A, A}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $A, B, C\in\ob{C}$:
-		\begin{equation}
+		\begin{gather}
 			(\sigma_{B,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{A,C})\circ(\sigma_{A,B}\otimes\mathbbm{1}) = (\mathbbm{1}\otimes\sigma_{A,B})\circ(\sigma_{A,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{B,C})
-		\end{equation}
+		\end{gather}
 	\end{property}
 	\remark{When drawing the above equality using string diagrams one sees that the Yang-Baxter equation is equal to the invariance of string diagrams under a \textit{Reidemeister III move}.}
 
 	\newdef{Symmetric monoidal category}{
 		A braided monoidal category where the braiding $\sigma$ satisfies:
-		\begin{equation}
+		\begin{gather}
 			\sigma_{X, Y} \circ \sigma_{Y, X} = \mathbbm{1}
-		\end{equation}
+		\end{gather}
 	}
 	
 \subsection{Duals}
@@ -967,19 +1029,22 @@
 	}
 	
 	\begin{example}[FinVect]\index{dual!space}\index{resolution!of the identity}
-		Consider the category of finite-dimensional vector spaces \textbf{FinVect} (assume that the base field is $\mathbb{R}$). The categorical dual of a vector space $V$ is the algebraic dual $V^*$. The unit morphism is given by the \textit{resolution of the identity}:
-		\begin{equation}
+		Consider the category of finite-dimensional vector spaces \textbf{FinVect} (we assume the base field to be $\mathbb{R}$). The categorical dual of a vector space $V$ is the algebraic dual $V^*$. The unit morphism is given by the \textit{resolution of the identity}:
+		\begin{gather}
 			\eta: \mathbf{1}\rightarrow V\otimes V^*:1\mapsto\sum_{i=1}^{\dim(V)}e_i\otimes \phi^i
-		\end{equation}
+		\end{gather}
 		where $\{e_i\}$ and $\{\phi^i\}$ are bases of $V$ and $V^*$ respectively.
 	\end{example}
 	
 	\newdef{Trace}{\index{trace}
-		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a rigid category. Let $f\in\hom_C(A, A^{**})$. The left and right (categorical or quantum) traces of $f$ are defined as the following morphisms in End$_C(\mathbf{1})$:
-		\begin{align}
-			\text{tr}^L(f)&:\varepsilon_{A^*}\circ(f\otimes\mathbbm{1})\circ\eta_A\\
-			\text{tr}^R(f)&:\varepsilon_{^{**}A}\circ(\mathbbm{1}\otimes f)\circ\eta_{^*A}
-		\end{align}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a rigid category. Let $f\in\hom_C(A, A^{**})$. The left (categorical or quantum) trace of $f$ is defined as the following morphism in End$_C(\mathbf{1})$:
+		\begin{gather}
+			\text{tr}^L(f):\varepsilon_{A^*}\circ(f\otimes\mathbbm{1})\circ\eta_A
+		\end{gather}
+		If $f\in\hom_C(A, ^{**}A)$ then the right trace is defined similarly:
+		\begin{gather}
+			\text{tr}^R(f):\varepsilon_{^{**}A}\circ(\mathbbm{1}\otimes f)\circ\eta_{^*A}
+		\end{gather}
 	}
 	\begin{property}
 		Following linear algebra-like properties hold for the categorical trace:
@@ -993,9 +1058,9 @@
 	
 	\newdef{Symmetric monoidal dagger category}{\index{category!dagger}
 		A symmetric monoidal category $(\textbf{C}, \otimes, \mathbf{1})$ which also carries the structure of a dagger category\footnote{See definition \ref{cat:dagger_category}.} such that:
-		\begin{equation}
+		\begin{gather}
 			(f\otimes g)^\dag = f^\dag\otimes g^\dag
-		\end{equation}
+		\end{gather}
 		and such that the coherence and braiding morphisms are unitary.
 	}
 	\newdef{Dagger-compact category}{
@@ -1024,18 +1089,14 @@
 	
 	\newdef{Dimension}{\index{dimension}
 		Let $(\textbf{C}, a)$ be a pivotal category and consider an object $V\in\ob{C}$. The dimension of $V$ is defined as follows:
-		\begin{equation}
+		\begin{gather}
 			\label{category:pivotal_dimension}
 			\dim_a(V) := \text{tr}^L(a_V)
-		\end{equation}
+		\end{gather}
 	}
 	
 	\newdef{Spherical category}{\index{spherical structure}
-		Let $(\textbf{C}, a)$ be a pivotal category. If the left and right traces (with respect to $a$) coincide in \textbf{C}, or equivalently if for all objects the left and right dimensions coincide, then the pivotal structure is said to be spherical.
-	}
-	
-	\newdef{$k$-Linear category}{\index{category!linear}
-		Let \textbf{Vect}$_k$ denote the category of vector spaces over the base field $k$. A $k$-linear category is a category enriched over \textbf{Vect}$_k$.
+		Let $(\textbf{C}, a)$ be a pivotal category. If the left and right traces (with respect to $a$) coincide in \textbf{C}, i.e. $\dim_a(V) = \dim_a(V^*)$, then the pivotal structure is said to be spherical.
 	}
 
 \section{Internal structures}\index{internal}
@@ -1043,9 +1104,9 @@
 	\newdef{Internal hom\footnotemark}{\label{category:internal_hom}
 		\footnotetext{Also called an \textbf{inner hom}.}
 		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a symmetric monoidal category. In this setting one can generalize the \textit{currying} procedure, i.e. the identification of maps $X\times Y\rightarrow Z$ with maps $X\rightarrow(Y\rightarrow Z)$. The internal hom is defined by the following equality:
-		\begin{equation}
+		\begin{gather}
 			\text{hom}(A\otimes B, C) = \text{hom}(A, \underline{\text{hom}}(B, C))
-		\end{equation}
+		\end{gather}
 		So the existence of all internal homs is equivalent to the existence of a right adjoint of the tensor functor.
 	}
 	\begin{notation}
@@ -1101,9 +1162,9 @@
 			Consider the 2-morphisms $\alpha:f\Rightarrow g$ and $\beta:g\Rightarrow h$ where $f, g$ and $h$ have the same domain and codomain. These 2-morphisms can be composed as: \[\beta\cdot\alpha: f\Rightarrow h\]
 		\end{enumerate}
 		Furthermore, the horizontal and vertical composition should satisfy an interchange law:
-		\begin{equation}
+		\begin{gather}
 			(\alpha\cdot\beta)\circ(\gamma\cdot\delta) = (\alpha\circ\gamma)\cdot(\beta\circ\delta)
-		\end{equation}
+		\end{gather}
 	\end{example}
 	\sremark{$n$-morphisms are also often called \textbf{$n$-cells}.}
 	\newdef{\texorpdfstring{$(n, r)$-Category}{(n,r)-Category}}{
@@ -1233,15 +1294,15 @@
 		\begin{enumerate}
 			\item $P(1)$ contains an identity element $\mathbbm{1}$.
 			\item For all positive integers $n, k_1, ..., k_n$ there exists a composition
-			\begin{equation}
+			\begin{gather}
 				\circ:P(n)\times P(k_1)\times\cdots\times P(k_n)\rightarrow P(k_1+\cdots k_n):(\psi, \theta_1, ..., \theta_n)\mapsto \psi\circ(\theta_1, ..., \theta_n)
-			\end{equation}
+			\end{gather}
 			that satisfies two additional axioms:
 			\begin{itemize}
 				\item Identity:
-				\begin{equation}
+				\begin{gather}
 					\theta\circ (\mathbbm{1}, ..., \mathbbm{1}) = \mathbbm{1}\circ\theta = \theta
-				\end{equation}
+				\end{gather}
 				\item Associativity:
 				\begin{align}
 					\psi\circ\Big(\theta_1\circ&(\theta_{1, 1}, ..., \theta_{1, k_1}), ..., \theta_n\circ(\theta_{n, 1}, ..., \theta_{n, k_n})\Big)\nonumber\\

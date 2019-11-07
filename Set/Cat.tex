@@ -115,7 +115,7 @@
 	}
 	
 	\newdef{Essentially surjective functor}{\index{surjective!essentially}
-		A functor $\func{F}{C}{D}$ is said to be essentially surjective if for eevry object $d\in\ob{D}$ there exists an object $c\in\ob{C}$ such that $Fc \cong d$.
+		A functor $\func{F}{C}{D}$ is said to be essentially surjective if for every object $d\in\ob{D}$ there exists an object $c\in\ob{C}$ such that $Fc \cong d$.
 	}
 	
 	\newdef{Equivalence of categories}{\index{equivalence!of categories}
@@ -154,6 +154,27 @@
 	        When considering representations as functors $\func{\rho}{Grp}{FinVect}$ we see that the intertwiners\footnote{See definition \ref{group:equivariant}.} are exactly the natural transformations.
 	\end{example}
 	
+	\newdef{Dinatural transformation}{
+		Consider two profunctors $F, G:\mathbf{C}^{op}\times\mathbf{C}\rightarrow\mathbf{Set}$. A dinatural transformation is a family of morphisms \[\eta_a:F(a, a)\rightarrow G(a, a)\] such that diagram \ref{fig:dinatural} commutes for every morphism $f:b\rightarrow a$.
+		
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\node (ab) at (0, 6) {$F(a, b)$};
+				\node (F1) at (-2, 4) {$F(a, a)$};
+				\node (F2) at (2, 4) {$F(b, b)$};
+				\node (G1) at (-2, 2) {$G(a, a)$};
+				\node (G2) at (2, 2) {$G(b, b)$};
+				\node (ba) at (0, 0) {$G(b, a)$};
+				
+				\draw[->] (ab) edge node[above left]{\footnotesize$F(\mathbbm{1}_a, f)$} (F1) (F1) edge node[left]{$\eta_a$} (G1) (G1) edge node[below left]{\footnotesize$G(f, \mathbbm{1}_a)$} (ba);
+				\draw[->] (ab) edge node[above right]{\footnotesize$F(f, \mathbbm{1}_b)$} (F2) (F2) edge node[right]{$\eta_b$} (G2) (G2) edge node[below right]{\footnotesize$G(\mathbbm{1}_b, f)$} (ba);
+			\end{tikzpicture}
+			\caption{Dinatural transformation.}
+			\label{fig:dinatural}
+		\end{figure}
+	}
+
 	\begin{definition}[Functor category]\index{functor!category}
 		Let $C$ be a small category and let $D$ be a category. The functors $\func{F}{C}{D}$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $[\textbf{C}, \textbf{D}]$ or $\textbf{D}^{\textbf{C}}$ (analogous to \ref{set:function_set}).
 	\end{definition}
@@ -178,29 +199,12 @@
 		
 		Let $\text{hom}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\textbf{C}(Y,X)$. The functor $h^-$ mapping an object $X\in\ob{C}$ to its hom-functor $\textbf{C}(X, -)$ and a morphism $f\in\textbf{C}(Y, X)$ to the natural transformation hom$_C(f, -)$ can also be interpreted as a covariant functor $G:\textbf{C}^{op}\rightarrow\textbf{Set}^{\textbf{C}}$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $\textbf{C}^{op}$ to the functor category $\textbf{Set}^{\textbf{C}}$.
 		
-		As usual all of this can be done for contravariant functors. This gives us an embedding $h_-:\textbf{C}\hookrightarrow\textbf{Set}^{\textbf{C}^{op}}$, called the Yoneda embedding. 
+		As usual all of this can be done for contravariant functors. This gives us an embedding
+		\begin{gather}
+			h_-:\textbf{C}\hookrightarrow\textbf{Set}^{\textbf{C}^{op}}
+		\end{gather}
+		called the Yoneda embedding. 
 	\end{result}
-	
-	\newdef{Dinatural transformation}{
-		Consider two profunctors $F, G:\mathbf{C}^{op}\times\mathbf{C}\rightarrow\mathbf{Set}$. A dinatural transformation is a family of morphisms \[\eta_a:F(a, a)\rightarrow G(a, a)\] such that diagram \ref{fig:dinatural} commutes for every morphism $f:b\rightarrow a$.
-		
-		\begin{figure}[ht!]
-			\centering
-			\begin{tikzpicture}
-				\node (ab) at (0, 6) {$F(a, b)$};
-				\node (F1) at (-2, 4) {$F(a, a)$};
-				\node (F2) at (2, 4) {$F(b, b)$};
-				\node (G1) at (-2, 2) {$G(a, a)$};
-				\node (G2) at (2, 2) {$G(b, b)$};
-				\node (ba) at (0, 0) {$G(b, a)$};
-				
-				\draw[->] (ab) edge node[above left]{\footnotesize$F(\mathbbm{1}_a, f)$} (F1) (F1) edge node[left]{$\eta_a$} (G1) (G1) edge node[below left]{\footnotesize$G(f, \mathbbm{1}_a)$} (ba);
-				\draw[->] (ab) edge node[above right]{\footnotesize$F(f, \mathbbm{1}_b)$} (F2) (F2) edge node[right]{$\eta_b$} (G2) (G2) edge node[below right]{\footnotesize$G(\mathbbm{1}_b, f)$} (ba);
-			\end{tikzpicture}
-			\caption{Dinatural transformation.}
-			\label{fig:dinatural}
-		\end{figure}
-	}
 	
 \subsection{Adjunctions}
 
@@ -226,7 +230,7 @@
 			F\xrightarrow{F\eta}FGF\xrightarrow{\varepsilon F}F\\
 			G\xrightarrow{\eta G}GFG\xrightarrow{G\varepsilon}G
 		\end{align}
-		These identities are sometimes called the \textbf{triangle identities} or \textbf{zig-zag identities} (the latter results from the shape of the associated string diagram). The transformations $\varepsilon$ and $\eta$ are called the \textbf{unit} and \textbf{counit} respectively.
+		These identities are sometimes called the \textbf{triangle identities} or \textbf{zig-zag identities} (the latter results from the shape of the associated string diagram). The transformations $\eta$ and $\varepsilon$ are called the \textbf{unit} and \textbf{counit} respectively.
 	}
 	
 	\begin{property}
@@ -436,6 +440,13 @@
 		A terminal object $\mathbf{1}$ is a limit over the empty diagram.
 	\end{example}
 	
+	\newdef{Continuous functor}{\index{continuity!functor}\label{cat:continuity}
+		A functor which preserves all small limits.
+	}
+	\begin{property}
+		In a locally small category every hom-functor is continuous\footnote{They even preserve limits which are not necessarily small.}.
+	\end{property}
+	
 	\newdef{Equalizer}{\index{equalizer}\index{fork}
 		Consider the following diagram:\[X\overset{f}{\underset{g}{\rightrightarrows}} Y\] The limit of this diagram is called the equalizer of $f$ and $g$. Explicitly the equalizer is the universal object $E$ together with a morphism $e: E\rightarrow X$ such that $f\circ e = g\circ e$.
 	}
@@ -531,7 +542,7 @@
 	\end{example}
 	
 	\begin{property}
-		The following equality can be used to turn ends into coends and vice versa:
+		Using the continuity\footnote{See definition \ref{cat:continuity}.} of the hom-functor one can prove the following equality which can be used to turn ends into coends and vice versa:
 		\begin{gather}
 			\mathbf{Set}\left(\int^{c\in\mathbf{C}}F(c, c), c'\right) = \int_{c\in\mathbf{C}}\mathbf{Set}\left(F(c, c), c'\right)
 		\end{gather}
@@ -539,7 +550,7 @@
 	
 	Using the above properties and definitions one obtains the following Yoneda-like statements:
 	\begin{theorem}[Ninja Yoneda lemma]\index{Yoneda!lemma}
-		Let $\func{F}{C}{D}$ be a covariant functor. The following two isomorphisms follow from the ordinary Yoneda lemma:
+		Let $\func{F}{C}{D}$ be a covariant functor. The following two isomorphisms follow from the ordinary Yoneda lemma (and the above property):
 		\begin{gather}
 			\int_{c'\in\mathbf{C}}\mathbf{Set}\left(\mathbf{C}(c, c'), Fc'\right)\cong Fc
 		\end{gather}

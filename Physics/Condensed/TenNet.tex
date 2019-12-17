@@ -8,7 +8,7 @@
 		\begin{equation}
 			|\psi\rangle = \sum_{\{i_k\}}\text{tr}\Big(\prod_n^NA^{i_n}(n)\Big)|i_1...i_N\rangle
 		\end{equation}
-		For each lattice site $n$ the set of matrices $\{A^{i_n}_{\alpha\beta}(n)\}$ can be regarded as the content of one rank-3 tensor. The periodic boundary condition requires that $D_0=D_N$ (otherwise the trace would be ill-defined). Different boundary conditions can be implemented by adding an additional factor $X$ at the end of the trace.
+		For each lattice site $n$ the set of matrices $\{A^{i_n}_{\alpha\beta}(n)\}$ can be regarded as the content of one rank-3 tensor. The periodic boundary condition requires that $D_0=D_N$ (otherwise the trace would be ill-defined). Different boundary conditions can be implemented by inserting an additional factor $X$ at the end of the trace.
 	}
 	\begin{notation}
 		In the continuation of this chapter we will abbreviate matrix product states as \textbf{MPS}.
@@ -60,6 +60,60 @@
 	\begin{property}
 		The map $\mathcal{E}_{\mathbbm{1}}^{(n)}$ associated to the transfer operator is a CP map\footnote{See definition \ref{operator:cp_map}.} and the associated Kraus operators are the MPS matrices $A^i(n)$.
 	\end{property}
+
+\subsection{Injectivity}\index{injective!MPS}
+
+	For translation-invariant MPS one can use an easier definition:
+	\newadef{Injective MPS}{
+		A translation-invariant MPS is said to be injective if its transfer operator has a unique maximal eigenvalue.
+	}
+	
+	In the next sections we will always assume the MPS to be injective unless stated otherwise.
+
+\subsection{Gauge freedom and canonical forms}
+
+	\begin{property}[Gauge freedom]
+		As is clear from the construction of matrix product states there exists some freedom in the representation of the MPS tensors. One can always perform a transformation of the form $A(n)\rightarrow X^{-1}(n)A(n)X(n+1)$.
+	\end{property}
+	\begin{remark}
+		If we use periodic boundary conditions then we must require that $X(L+1)=X(1)$ where $L$ is the lattice size.
+	\end{remark}
+	
+	Using the gauge freedom in the representation of a generic MPS one can construct certain forms which have useful properties:
+	\begin{construct}[Left canonical form\footnotemark]
+		\footnotetext{Also called the \textbf{left isometric form}, \textbf{left orthogonal form} or just \textbf{left gauge}.}
+		This form is specified by the following property:
+		\begin{gather}
+			\begin{tikzpicture}
+				\node[rectangle,draw=black,minimum size=20] (A) at (0,1) {$A_L$};
+				\node[rectangle,draw=black,minimum size=20] (Ad) at (0,-1) {$\overline{A_L}$};
+				\draw (A) -- (Ad);
+				\draw (A) to[out=200,in=160] (Ad);
+				\draw (A) -- +(1,0);
+				\draw (Ad) -- +(1,0);
+				\node (E) at (1.5,0) {$=$};
+				\node (A2) at (3,1) {};
+				\node (Ad2) at (3,-1) {};
+				\draw (A2) to[out=200,in=160] (Ad2);
+			\end{tikzpicture}
+		\end{gather}
+		Any MPS can be brought in this form. First we construct the transfer operator $\mathbb{E}(n)$ for every site and find its maximal eigenvector. By the \textit{Perron-Frobenius theorem} this eigenvector (which is in fact a matrix itself) is positive and hence allows a decomposition of the form $\lambda(n)=L^\dag(n)L(n)$. The left orthogonal forms are then defined by
+		\begin{gather}
+			A_L(n) = L(n)A(n)L^{-1}(n+1)
+		\end{gather}
+	\end{construct}
+	\sremark{In a similar manner one can construct the right orthogonal form $A_R$.}
+	
+	\begin{method}[Vidal]
+		Given a general quantum state in terms of an $n$-leg tensor there exists an efficient way of constructing the left (or right) canonical forms introduced by Vidal \ref{VidalCanForm}. For this we 
+	\end{method}
+	
+	\begin{construct}[Mixed canonical form]
+		We can combine the left and right canonical forms. Let $L(n)$ and $R(n)$ be the decompositions of the left and right eigenvectors of the transfer operator at site $n$, i.e. $\lambda(n)=L^\dag(n)L(n)$ and $\rho(n)=R(n)R^\dag(n)$. The left and right canonical forms are then related by a matrix $C(n)$ in the following way: $A_L(n)C(n+1)=C(n)A_R(n)$. These matrices are given by
+		\begin{gather}
+			C(n)=L(n)R(n)
+		\end{gather}
+	\end{construct}
 	
 \subsection{Translation-invariant states}
 
@@ -69,3 +123,42 @@
 	\begin{remark}[TIMPS]
 		Not every TIMPS is uniform, there should only exist a local gauge transformation $A'(n) = U(n)A(n)U(n)^{-1}$ such that $A'(n)$ is uniform (in certain cases this is only possible by enlarging the bond dimension).
 	\end{remark}
+
+
+\section{Matrix product operators}
+
+	\newdef{Matrix product operator\footnotemark}{\index{MPO}
+		\footnotetext{As in the case of matrix product states we will abbreviate this as \textbf{MPO}.}
+		Starting from the general form of an MPS one can easily construct more general objects. By replacing the rank-3 tensors $A^i(n)$ with rank-4 tensors $A^{i,j}(n)$ and $|i_1\cdots i_n\rangle$ by $|i_1\rangle\langle j_1|\otimes\cdots\otimes|i_n\rangle\langle j_n|$ one obtains the notion of a matrix product operator:
+		\begin{gather}
+			\hat{O} = \sum_{\{i_k,j_l\}}\text{tr}\Big(\prod_{m,n=1}^NO^{i_m,j_n}(n)\Big)|i_1\cdots i_N\rangle\langle j_1\cdots j_n|
+		\end{gather}
+		or in terms of a basis $\{\hat{O}_i\}$ for the space of local operators:
+		\begin{gather}
+			\hat{O} = \sum_{\{i_k\}}\text{tr}\Big(\prod_n^NA^{i_n}(n)\Big)\hat{O}_{i_n}
+		\end{gather}
+	}
+	
+	\begin{method}[Local Hamiltonian to MPO]
+		Given a local Hamiltonian $\hat{H}=\sum_i\hat{H}^{(i)}$ one can build an MPO which generates this Hamiltonian\footnote{In fact one can use this procedure to turn any local operator into an MPO.}:
+		\begin{gather}
+			\hat{H} = \sum_{\{i_k,j_l\}}\text{tr}\Big(\prod_{m,n=1}^NA^{i_m,j_n}(n)\Big)|i_1\cdots i_N\rangle\langle j_1\cdots j_n|
+		 \end{gather}
+		 To obtain this MPO form one uses the concept of a cellular automaton. This is a set of possible states together with a set of rules that tell you how you can go from one state to another. To obtain the set of states in our case we look at a given site $i$. All distinct combinations of 1-site operators to the right of $i$ give rise to a dinstinct state $\mu$. The transition rules are obtained by looking at which operator can be placed at the site $i$ in a way consistent with the form of the given Hamiltonian.
+	\end{method}
+	\begin{example}
+		Consider a 2-site Hamiltonian of the form \[\hat{A}\otimes\hat{B}\otimes\mathbbm{1}\otimes\cdots+\mathbbm{1}\otimes\hat{A}\otimes\hat{B}\otimes\mathbbm{1}\otimes\cdots+\cdots\] Looking at a specific site $i$ we obtain 3 distinct possibilities:
+		\begin{enumerate}
+			\item We have only identity operators acting to the right of $i$.
+			\item Immediately to the right we have the operator $\hat{B}$ acting on $i+1$.
+			\item Somewhere to the right we find the combination $\hat{A}\otimes\hat{B}$.
+		 \end{enumerate}
+		 The transition rules for this automaton are then given by the following list:
+		 \begin{itemize}
+		 	\item $1\rightarrow2$: $\mathbbm{1}$
+		 	\item $1\rightarrow2$: $\hat{B}$
+		 	\item $2\rightarrow3$: $\hat{A}$
+		 	\item $3\rightarrow3$: $\mathbbm{1}$
+		 \end{itemize}
+		 What is useful for us is that this set of transition rules can be turned into a matrix: \[T=\begin{pmatrix}\mathbbm{1}&\hat{B}&0\\0&0&\hat{A}\\0&0&\mathbbm{1}\end{pmatrix}\] The MPO is then obtained by setting the MPO matrix $A$ equal to $T$ at every site.
+	\end{example}

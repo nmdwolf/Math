@@ -28,7 +28,7 @@
 	\newformula{Transfer operator}{\index{transfer!operator}
 		Give the MPS tensors $\{A(n)\}_{n\leq N}$ one can define a transfer operator:
 		\begin{equation}
-			\label{mps:transfer_operator}
+			\label{tennet:transfer_operator}
 			\mathbb{E}(n) = \sum_{i=1}^{d_n}A^i(n)\otimes\overline{A^i}(n)
 		\end{equation}
 	}
@@ -105,7 +105,7 @@
 	\sremark{In a similar manner one can construct the right orthogonal form $A_R$.}
 	
 	\begin{method}[Vidal]
-		Given a general quantum state in terms of an $n$-leg tensor there exists an efficient way of constructing the left (or right) canonical forms introduced by Vidal \ref{VidalCanForm}. For this we 
+		Given a general quantum state in terms of an $n$-leg tensor there exists an efficient way of constructing the left (or right) canonical forms introduced by Vidal \cite{VidalCanForm}. For this we perform a cut between the first and second site and apply a singular value decomposition to obtain a tensor of the form $U^{[1]}SV^{[2, ...]}$. One can now recursively apply this procedure to the product of the singular values $S$ and the right unitary $V$.
 	\end{method}
 	
 	\begin{construct}[Mixed canonical form]
@@ -162,3 +162,87 @@
 		 \end{itemize}
 		 What is useful for us is that this set of transition rules can be turned into a matrix: \[T=\begin{pmatrix}\mathbbm{1}&\hat{B}&0\\0&0&\hat{A}\\0&0&\mathbbm{1}\end{pmatrix}\] The MPO is then obtained by setting the MPO matrix $A$ equal to $T$ at every site.
 	\end{example}
+	
+\subsection{MPO-injectivity}
+
+	The main reference for this section is \cite{sahinoglu_mpo}.
+
+	\newdef{MPO-injective PEPS}{\index{MPO!injectivity}
+		Consider a trivalent PEPS network on a manifold $M$ and select a simply-connected subregion $\Omega\subset\Lambda$. By contracting the tensors withing this region one obtains a linear map \[A_\Lambda:(\mathbb{C}^D)^{\otimes|\Lambda|}\rightarrow(\mathbb{C}^d)^{\otimes|\partial\Lambda|}\] from the virtual spaces on the edges to the physical space living in the bulk. This PEPS is said to be MPO-injective if there exists a linear map (four-leg tensor) \[M:\mathbb{C}^D\otimes\mathbb{C}^m\rightarrow \mathbb{C}^D\otimes\mathbb{C}^m\] such that for every subregion $\Omega\subset\Lambda$ the linear map $A_\Lambda$ is injective on a (maximal) subspace $S$ for which the projector onto $S$ can be written as an MPO constructed from the tensors $M$ living on the boundary $\partial\Lambda$. (See figure \ref{tennet:fig:mpo_injectivity}: the tensors $M$ are given by crossings of black and red lines.)
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\node[circle,draw=black,fill=black,minimum size=5pt,label={110:$A$}] (T) at (0,-1) {};
+				\node[circle,draw=black,fill=black,minimum size=5pt,label={110:$A^\dag$}] (T2) at (1.85,1.2) {};
+				\node (E) at (4,0) {$=$};
+				\node[label={120:$M$}] (M1) at (7, 1.5) {};
+				\node[label={-90:$M$}] (M2) at (8.2, -0.92) {};
+				\node[label={-90:$M$}] (M3) at (5.8, -0.92) {};
+				\draw[line width=0.5 mm] (T) -- (T2);
+				\draw[<-, line width=0.5 mm] (T) -- +(0,1.2);
+				\draw[<-, line width=0.5 mm] (T) -- (1, -1.6);
+				\draw[<-, line width=0.5 mm] (T) -- (-1, -1.6);
+				\draw[->, line width=0.5 mm] (T2) -- +(0,1.2);
+				\draw[->, line width=0.5 mm] (T2) -- (2.85, 0.6);
+				\draw[->, line width=0.5 mm] (T2) -- (0.85, 0.6);
+				\draw[draw=red, line width=0.5 mm] (7, 0) circle (1.5);
+				\draw[<-<, line width=0.5 mm] (7, 0.75) -- (7, 2.25);
+				\draw[<-<, line width=0.5 mm] (7.5, -0.4) -- (9, -1.15);
+				\draw[<-<, line width=0.5 mm] (6.5, -0.4) -- (5, -1.15);
+			\end{tikzpicture}
+			\caption{MPO-injective PEPS.}
+			\label{tennet:fig:mpo_injectivity}
+		\end{figure}
+	}
+	
+	\begin{axiom}[Pulling-through]\index{pulling-through condition}
+		One of the key features of topological order is that this cannot be detected locally, only a global measurement can show the existence of topologically ordered states. To this end we introduce an axiom such that one can pull an MPO through the lattice. Graphically this is shown in figure \ref{tennet:fig:pulling_through}.
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\node[circle,draw=black,fill=black,minimum size=5pt,label={110:$A$}] (T) at (0,0) {};
+				\node[circle,draw=black,fill=black,minimum size=5pt,label={110:$A$}] (T2) at (4,0) {};
+				\node (E) at (2,0) {$=$};
+				\draw[line width=0.5 mm] (T) -- +(0.5,0.5);
+				\draw[line width=0.5 mm] (T) -- +(0,1.2);
+				\draw[line width=0.5 mm] (T) -- (1, -0.6);
+				\draw[line width=0.5 mm] (T) -- (-1, -0.6);
+				\draw[line width=0.5 mm, draw=red] (0.34, 0.95) arc (70:250:1);
+				\draw[line width=0.5 mm] (T2) -- +(0.5,0.5);
+				\draw[line width=0.5 mm] (T2) -- +(0,1.2);
+				\draw[line width=0.5 mm] (T2) -- (5, -0.6);
+				\draw[line width=0.5 mm] (T2) -- (3, -0.6);
+				\draw[line width=0.5 mm, draw=red] (4.85, 0.5) arc (30:-90:1);
+			\end{tikzpicture}
+			\caption{Pulling-through condition.}
+			\label{tennet:fig:pulling_through}
+		\end{figure}
+	\end{axiom}
+	
+\subsection{MPO-symmetries for SPT phases}
+
+	One can generalize the above framework to include not only pure topological order but also symmetry-protected topological order (see reference \cite{bultinck_mpo}). For this one has to slightly modify the axioms from the last section:
+	\begin{axiom}[Pulling-through for SPT phases]\index{pulling-through condition}
+		When pulling a symmetry-MPO through a tensor one has to act with a unitary on the physical level. Graphically this is shown in figure \ref{tennet:fig:pulling_through_spt}.
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\node[circle,draw=black,fill=black,minimum size=5pt,label={110:$A$}] (T) at (0,0) {};
+				\node[circle,draw=black,fill=black,minimum size=5pt,label={110:$A$}] (T2) at (4,0) {};
+				\node[rectangle, draw=black, fill=blue, minimum size=2pt, label={$U(g)$}] (U) at (4, 1.2) {};
+				\node (E) at (2,0) {$=$};
+				\draw[line width=0.5 mm] (T) -- +(0.5,0.5);
+				\draw[line width=0.5 mm] (T) -- +(0,1.2);
+				\draw[line width=0.5 mm] (T) -- (1, -0.6);
+				\draw[line width=0.5 mm] (T) -- (-1, -0.6);
+				\draw[line width=0.5 mm, draw=red] (0.34, 0.95) arc (70:250:1);
+				\draw[line width=0.5 mm] (T2) -- +(0.5,0.5);
+				\draw[line width=0.5 mm] (T2) -- +(0,1.2);
+				\draw[line width=0.5 mm] (T2) -- (5, -0.6);
+				\draw[line width=0.5 mm] (T2) -- (3, -0.6);
+				\draw[line width=0.5 mm, draw=red] (4.85, 0.5) arc (30:-90:1);
+			\end{tikzpicture}
+			\caption{Pulling-through condition for SPT phases.}
+			\label{tennet:fig:pulling_through_spt}
+		\end{figure}
+	\end{axiom}

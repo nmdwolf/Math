@@ -1,0 +1,135 @@
+\chapter{Higher-dimensional algebra}
+
+	The main reference for this chapter is the series of papers carrying the same name by John Baez et al.
+
+\section{Tensor and fusion categories}
+
+	This and the following section is mainly based on \cite{etingof}. However, some definitions might be slightly different and some properties might be stated less generally. By $k$ we will mean an algebraically closed field (often this will be $\mathbb{C}$).
+
+	\newdef{Tensor category}{\index{tensor!category}
+		A monoidal category with the following properties:
+		\begin{enumerate}
+			\item rigid
+			\item Abelian
+			\item $k$-linear (which should be compatible with the Abelian structure)
+			\item End$(\mathbf{1})\cong k$
+			\item The tensor product functor $-\otimes -$ is bilinear on morphisms.
+		\end{enumerate}
+		Some authors (such as \cite{etingof}) also add ''locally finite'' as a condition (see definition \ref{category:locally_finite}).
+	}
+	\remark{If $k$ is not algebraically closed one should exchange the last condition by the condition that $\mathbf{1}$ is a simple object. However, if $k$ is algebraically closed then these statements are equivalent.}
+	
+	\newdef{Pointed tensor category}{\index{pointed!tensor category}
+		A tensor category is said to be pointed if all of its simple objects are (weakly) invertible.
+	}
+	
+	\newdef{Fusion category}{\index{fusion!category}
+		A semisimple finite tensor category.
+	}
+	
+	\begin{property}
+		Let $\mathbf{M}$ be a fusion category. There exists a natural isomorphism $X\cong X^{**}$.
+	\end{property}
+
+	\sremark{Although any fusion category admits a natural isomorphism between an object and its double dual, this morphism does not need to be monoidal. The fact that all fusion categories are pivotal was conjectured by Etingof, Ostrik and Nikshych. Currently the best one can do for a general fusion category is a monoidal natural transformation between the identity functor and the fourth dualization functor $X\cong X^{****}$.}
+	
+	\newdef{Categorical dimension}{\index{dimension}
+		Consider a fusion category $\mathbf{M}$ and choose a natural isomorphism $a:\text{id}_{\mathbf{M}}\xrightarrow{\ \sim\ }\ast\ast$. For every simple object $X$ one can define a dimension function, sometimes called the \textbf{norm squared}, in the following way:
+		\begin{gather}
+			|X|^2 = \text{tr}(a_X)\text{tr}((a_X^{-1})^*)
+		\end{gather}
+		If $\mathbf{M}$ is pivotal then this becomes $|X|^2 = \dim_a(X)\dim_a(X^*)$. In particular, when $\mathbf{M}$ is spherical, this becomes $|X|^2 = \dim_a(X)^2$.
+
+		The categorical dimension\footnote{Sometimes called the \textbf{M\"uger dimension}.} is then defined as follows:
+		\begin{gather}
+			\dim(\mathbf{M}) = \sum_{X\in\mathcal{O}(\mathbf{M})}|X|^2
+		\end{gather}
+		where $\mathcal{O}(\mathbf{M})$ denotes the set of isomorphism classes of simple objects.
+	}
+	\remark{It should be noted that the above quantities do not depend on the choice of isomorphism $a_X:X\cong X^{**}$ since all of them only differ by a scale factor.}
+	\begin{property}
+		For any fusion category $\mathbf{M}$ one has that $\dim(\mathbf{M})\neq 0$. In particular, if $k=\mathbb{C}$ then $\dim(\mathbf{M})\geq1$ (since the norm squared of any simple object is then also positive).
+	\end{property}
+
+	\newdef{$G$-graded fusion category}{
+		A semisimple linear category $\mathbf{C}$ is said to have a \textbf{$G$-grading}, where $G$ is a finite group, if it can be decomposed as follows:
+		\begin{gather}
+			\mathbf{C} \cong \bigoplus_{g\in G} \mathbf{C}_g
+		\end{gather}
+		where every $\mathbf{C}_g$ is again linear and semisimple. A fusion category $\mathbf{C}$ is said to be a ($G$-)graded fusion category if it admits a $G$-grading such that the tensor product functor maps $\mathbf{C}_g\times\mathbf{C}_h$ into $\mathbf{C}_{gh}$.
+	}
+	
+	\begin{example}[$G$-graded vector spaces]
+		Define the category $\textbf{Vect}_G^\omega$ as having the same objects and morphisms as $\textbf{Vect}_G$ (the category of $G$-graded vector spaces) but with the associator given by the the 3-cocycle $\omega\in H^3(G; k^\times)$.
+	\end{example}
+	\begin{property}
+		Any pointed fusion category is equivalent to a category of the form $\textbf{Vect}_G^\omega$ for some $G$ and $\omega\in H^3(G; k^\times)$.
+	\end{property}
+
+	\begin{theorem}[Tannaka duality]\index{Tannaka duality}
+		The representation category of a weak Hopf algebra has the structure of a fusion category. Conversely, any fusion category can be obtained as the representation category of a weak Hopf algebra.
+	\end{theorem}
+
+\section{Ribbon and modular categories}
+
+	\newdef{Ribbon structure}{
+		Consider a braided monoidal category $(\mathbf{M}, \otimes, \mathbf{1})$ with braiding $\sigma$. A \textbf{twist} or \textbf{balancing} is a natural transformation $\theta$ such that the following equation is satisfied for all $X, Y\in\ob{M}$:
+		\begin{gather}
+			\theta_{X\otimes Y} = (\theta_X\otimes\theta_Y)\circ\sigma_{Y, X}\circ\sigma_{X, Y}
+		\end{gather}
+		If in addition $\mathbf{M}$ is rigid and the twist satisfies $\theta_{X^*} = (\theta_X)^*$ for all $X\in\ob{M}$ then one speaks of a ribbon category.
+	}
+	
+	\newdef{Drinfeld morphism}{
+		Let $(\mathbf{M}, \otimes, \mathbf{1})$ be a rigid braided monoidal category with braiding $\sigma$. This structure admits a canonical natural isomorphism $X\cong X^{**}$ defined as follows:
+		\begin{gather}
+			X\xrightarrow{\mathbbm{1}_X\otimes\eta_{X^*}}X\otimes X^*\otimes X^{**}\xrightarrow{\sigma_{X, X^*}\otimes\mathbbm{1}_{X^{**}}}X^*\otimes X\otimes X^{**}\xrightarrow{\varepsilon_X\otimes\mathbbm{1}_{X^{**}}}X^{**}
+		\end{gather}
+	}
+	\begin{property}
+		Let $\mathbf{M}$ be a braided monoidal category. Consider the canonical natural isomorphism $u_X:X\cong X^{**}$ defined above. Any natural isomorphism $\psi_X:X\cong X^{**}$ can be written as $u_X\theta_X$ where $\theta\in\text{Aut}(\mathbbm{1}_{\mathbf{M}})$. It is not hard to see that this natural isomorphism is monoidal (hence pivotal) exactly when $\theta$ is a twist. If $\mathbf{M}$ is a fusion category then the pivotal structure is spherical if and only if $\theta$ gives a ribbon structure.
+	\end{property}
+	
+	\newdef{Premodular category}{
+		A ribbon fusion category. Equivalently, a spherical braided fusion category.
+	}
+	\newdef{$S$-matrix}{\index{$S$-matrix}
+		Given a premodular category $\mathbf{M}$ (with braiding $\sigma$) one defines the $S$-matrix as follows:
+		\begin{gather}
+			S_{X, Y} = \text{tr}(\sigma_{Y, X}\circ\sigma_{X, Y})
+		\end{gather}
+		where $X, Y$ are (isomorphism classes of) simple objects.
+		
+		Since in a premodular category there are only finitely many isomorphism classes of simple objects (denote this number by $\mathcal{I}$) we see that $S$ is a $\mathcal{I}\times\mathcal{I}$-matrix.
+	}
+	
+	\newdef{Modular category\footnotemark}{\index{modular!category}
+		\footnotetext{A modular (tensor) category is often abbreviated as \textbf{MTC}.}
+		A premodular category for which the $S$-matrix is invertible.
+	}
+	
+	\begin{property}
+		Let $\mathbf{M}$ be a modular category with $S$-matrix $S$. If we denote by $E$ the matrix such that $E_{X, Y}$ is 1 if $X=Y^*$ and 0 otherwise, then we obtain the following relation to the categorical dimension of $\mathbf{M}$:
+		\begin{gather}
+			S^2 = \dim(\mathbf{M})E
+		\end{gather}
+	\end{property}
+	
+	\begin{formula}[Verlinde]
+		Consider a modular category $\mathbf{M}$ with $S$-matrix $S$. Let $\mathcal{O}(\mathbf{M})$ denote the set of isomorphism classes of simple objects and let $\dim(R)$ denote the dimension of an object $R$ defined using the spherical structure on $\mathbf{M}$. Using the formula
+		\begin{gather}
+			S_{X, Y}S_{X, Z} = \dim(X)\sum_{W\in\mathcal{O}(\mathbf{M})}N_{Y, Z}^WS_{X, W}
+		\end{gather}
+		for all $X, Y, Z\in\mathcal{O}(\mathbf{M})$ one obtains the following important relation:
+		\begin{gather}
+			\sum_{W\in\mathcal{O}(\mathbf{M})}\frac{S_{W, Y}S_{W, Z}S_{W, X^*}}{\dim(W)} = \dim(\mathbf{M})N_{Y, Z}^X
+		\end{gather}
+		This property implies that the $S$-matrix of a modular category determines the fusion coefficients of the underlying fusion category.
+	\end{formula}
+
+	
+\section{\texorpdfstring{Monoidal $n$-categories}{Monoidal n-categories}}
+
+	\newdef{Monoidal $n$-category}{\index{monoidal!$n$-category}
+		In general one can define a monoidal $n$-category as a one-object $(n+1)$-category, similar to how monoidal categories give one-object bicategories by delooping.
+	}

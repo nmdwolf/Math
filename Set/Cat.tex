@@ -184,7 +184,7 @@
 	}
 	\remark{A similar definition exists for contravariant functors $G:\textbf{C}^{op}\rightarrow\textbf{Set}$. In this case hom$(X, -)$ has to be replaced by hom$(-, X)$.}
 	
-	\begin{theorem}[Yoneda's lemma]\index{Yoneda}
+	\begin{theorem}[Yoneda's lemma]\index{Yoneda!lemma}
 		Let $\textbf{C}$ be a locally small category and let $\func{F}{C}{Set}$ be a functor. For every object $X\in\ob{C}$ there exists a natural isomorphism\footnotemark\ between the set of natural transformations \emph{Nat}$(h^X, F)$ and $FX$. The image of a natural transformation $\psi\in\text{Nat}(h^X, F)$ is given by $\psi_X(\mathbbm{1}_X)$.
 		\footnotetext{Here we used the fact that Nat$(h^-, -)$ can be seen as a functor $\textbf{Set}^{\textbf{C}}\times\textbf{C}\rightarrow\textbf{Set}$.}
 	\end{theorem}
@@ -369,6 +369,10 @@
 	\newdef{Global element}{\index{global!element}\label{category:global_element}
 		Let $\textbf{C}$ be a category with terminal object $\mathbf{1}$. A global element of an object $X\in\ob{C}$ is a morphism $\mathbf{1}\rightarrow X$.
 	}
+	\newdef{Pointed object}{\index{pointed!object}
+		An object $X$ equipped with a global element $1\rightarrow X$ (which is sometimes called the \textbf{basepoint}).
+	}
+	
 	\begin{remark}
 		In the category \textbf{Set} the elements of a set $S$ are in one-to-one correspondence with the global elements of $S$ and one has the important property (axiom) that two functions $f, g:S\rightarrow S'$ coincide if their evaluation at every element $s\in S$ is equal or equivalently if the precompositions with global elements coincide.
 		
@@ -1250,9 +1254,9 @@
 		\end{gather*}
 	}
 	
-\subsection{Fusion and modular categories}
+\subsection{Tensor and fusion categories}
 
-	This section is mainly based on \cite{etingof}. However, some definitions might be slightly different and some properties might be stated less generally. By $k$ we will mean an algebraically closed field (often this will be $\mathbb{C}$).
+	This and the following section is mainly based on \cite{etingof}. However, some definitions might be slightly different and some properties might be stated less generally. By $k$ we will mean an algebraically closed field (often this will be $\mathbb{C}$).
 
 	\newdef{Tensor category}{\index{tensor!category}
 		A monoidal category with the following properties:
@@ -1261,11 +1265,15 @@
 			\item Abelian
 			\item $k$-linear (which should be compatible with the Abelian structure)
 			\item End$(\mathbf{1})\cong k$
-			\item The tensor product functor $-\otimes -$ is bilinear on morphisms
+			\item The tensor product functor $-\otimes -$ is bilinear on morphisms.
 		\end{enumerate}
 		Some authors (such as \cite{etingof}) also add ''locally finite'' as a condition (see definition \ref{category:locally_finite}).
 	}
 	\remark{If $k$ is not algebraically closed one should exchange the last condition by the condition that $\mathbf{1}$ is a simple object. However, if $k$ is algebraically closed then these statements are equivalent.}
+	
+	\newdef{Pointed tensor category}{\index{pointed!tensor category}
+		A tensor category is said to be pointed if all of its simple objects are (weakly) invertible.
+	}
 	
 	\newdef{Fusion category}{\index{fusion!category}
 		A semisimple finite tensor category.
@@ -1274,10 +1282,11 @@
 	\begin{property}
 		Let $\mathbf{M}$ be a fusion category. There exists a natural isomorphism $X\cong X^{**}$.
 	\end{property}
-	\sremark{Although any fusion category admits a natural isomorphism between an object and its double dual, this morphism does not need to be monoidal. The fact that all fusion categories are pivotal was conjectured by Etingof, Ostrik and Nikshych.}
+
+	\sremark{Although any fusion category admits a natural isomorphism between an object and its double dual, this morphism does not need to be monoidal. The fact that all fusion categories are pivotal was conjectured by Etingof, Ostrik and Nikshych. Currently the best one can do for a general fusion category is a monoidal natural transformation between the identity functor and the fourth dualization functor $X\cong X^{****}$.}
 	
 	\newdef{Categorical dimension}{\index{dimension}
-		Consider a fusion category $\mathbf{M}$ and choose a natural isomorphism $a:\text{id}_{\mathbf{M}}\xrightarrow{\sim}\ast\ast$. For every simple object $X$ one can define a dimension function, sometimes called the \textbf{norm squared}, in the following way:
+		Consider a fusion category $\mathbf{M}$ and choose a natural isomorphism $a:\text{id}_{\mathbf{M}}\xrightarrow{\ \sim\ }\ast\ast$. For every simple object $X$ one can define a dimension function, sometimes called the \textbf{norm squared}, in the following way:
 		\begin{gather}
 			|X|^2 = \text{tr}(a_X)\text{tr}((a_X^{-1})^*)
 		\end{gather}
@@ -1289,15 +1298,32 @@
 		\end{gather}
 		where $\mathcal{O}(\mathbf{M})$ denotes the set of isomorphism classes of simple objects.
 	}
-	\remark{It should be noted that the above quantities do not depend on the choice of isomorphism $a_X:X\cong X^{**}$ since any of these only differ by a scale factor.}
+	\remark{It should be noted that the above quantities do not depend on the choice of isomorphism $a_X:X\cong X^{**}$ since all of them only differ by a scale factor.}
 	\begin{property}
 		For any fusion category $\mathbf{M}$ one has that $\dim(\mathbf{M})\neq 0$. In particular, if $k=\mathbb{C}$ then $\dim(\mathbf{M})\geq1$ (since the norm squared of any simple object is then also positive).
 	\end{property}
+
+	\newdef{$G$-graded fusion category}{
+		A semisimple linear category $\mathbf{C}$ is said to have a \textbf{$G$-grading}, where $G$ is a finite group, if it can be decomposed as follows:
+		\begin{gather}
+			\mathbf{C} \cong \bigoplus_{g\in G} \mathbf{C}_g
+		\end{gather}
+		where every $\mathbf{C}_g$ is again linear and semisimple. A fusion category $\mathbf{C}$ is said to be a ($G$-)graded fusion category if it admits a $G$-grading such that the tensor product functor maps $\mathbf{C}_g\times\mathbf{C}_h$ into $\mathbf{C}_{gh}$.
+	}
 	
+	\begin{example}[$G$-graded vector spaces]
+		Define the category $\textbf{Vect}_G^\omega$ as having the same objects and morphisms as $\textbf{Vect}_G$ (the category of $G$-graded vector spaces) but with the associator given by the the 3-cocycle $\omega\in H^3(G; k^\times)$.
+	\end{example}
+	\begin{property}
+		Any pointed fusion category is equivalent to a category of the form $\textbf{Vect}_G^\omega$ for some $G$ and $\omega\in H^3(G; k^\times)$.
+	\end{property}
+
 	\begin{theorem}[Tannaka duality]\index{Tannaka duality}
 		The representation category of a weak Hopf algebra has the structure of a fusion category. Conversely, any fusion category can be obtained as the representation category of a weak Hopf algebra.
 	\end{theorem}
-	
+
+\subsection{Ribbon and modular categories}
+
 	\newdef{Ribbon structure}{
 		Consider a braided monoidal category $(\mathbf{M}, \otimes, \mathbf{1})$ with braiding $\sigma$. A \textbf{twist} or \textbf{balancing} is a natural transformation $\theta$ such that the following equation is satisfied for all $X, Y\in\ob{M}$:
 		\begin{gather}
@@ -1315,7 +1341,6 @@
 	\begin{property}
 		Let $\mathbf{M}$ be a braided monoidal category. Consider the canonical natural isomorphism $u_X:X\cong X^{**}$ defined above. Any natural isomorphism $\psi_X:X\cong X^{**}$ can be written as $u_X\theta_X$ where $\theta\in\text{Aut}(\mathbbm{1}_{\mathbf{M}})$. It is not hard to see that this natural isomorphism is monoidal (hence pivotal) exactly when $\theta$ is a twist. If $\mathbf{M}$ is a fusion category then the pivotal structure is spherical if and only if $\theta$ gives a ribbon structure.
 	\end{property}
-	\remark{It is still not known if every fusion category admits a pivotal structure. The best one can do for a general fusion category is a monoidal natural transformation between the identity functor and the fourth dualization functor $X\cong X^{****}$.}
 	
 	\newdef{Premodular category}{
 		A ribbon fusion category. Equivalently, a spherical braided fusion category.
@@ -1426,7 +1451,7 @@
 		\end{gather}
 	\end{example}
 	\sremark{$n$-morphisms are also often called \textbf{$n$-cells}.}
-	\newdef{\texorpdfstring{$(n, r)$-Category}{(n,r)-Category}}{
+	\newdef{\texorpdfstring{$(n, r)$-category}{(n,r)-Category}}{
 		A higher ($\infty$-)category for which:
 		\begin{itemize}
 			\item All parallel $k$-morphisms with $k>n$ are equivalent.
@@ -1442,7 +1467,7 @@
 		Let \textbf{C} be a 2-category. A 1-morphism $f:X\rightarrow Y$ is weakly invertible if there exists a 1-morphism $g:Y\rightarrow X$ and 2-isomorphisms $I:g\circ f\Rightarrow\mathbbm{1}_X, J:f\circ g\Rightarrow\mathbbm{1}_Y$.
 	}
 	
-	\begin{property}[Monoidal categories]\index{monoidal!category}\index{delooping}\label{cat:monoidal_or_2}
+	\begin{property}[Monoidal categories]\index{monoidal!category}\index{delooping!of monoidal categories}\label{cat:monoidal_or_2}
 		Consider a monoidal category $(C, \otimes, \mathbf{1})$. From this monoidal category one can construct the so-called \textbf{delooping} $\mathbf{B}C$, which is a bicategory, in the following way:
 		\begin{itemize}
 			\item There is a single object $\ast$.
@@ -1476,6 +1501,10 @@
 		\nomenclature[S_Grpd]{$\textbf{Grpd}$}{Category of groupoids.}
 		A (small) groupoid $\mathcal{G}$ is a (small) category in which all morphisms are invertible.
 	}
+	
+	\begin{example}[Delooping]\index{delooping!of groups}
+		Consider a group $G$. Its delooping $\mathbf{B}G$ is defined as the one-object groupoid for which $\mathbf{B}G(\ast,\ast)=G$.
+	\end{example}
 	
 	\newdef{Core}{\index{core}
 		Let \textbf{C} be a (small) category. The core Core$(\textbf{C})\in\textbf{Grpd}$ of \textbf{C} is defined as the maximal subgroupoid of \textbf{C}.

@@ -711,3 +711,709 @@
 	\begin{theorem}[Stabilization hypothesis]\index{stabilization hypothesis}
 		For values $k\geq n+2$ the structure of a $k$-tuply monoidal $n$-category becomes maximally symmetric. Formally this means that the inclusion $\mathbf{k}\textbf{Mon}\mathbf{n}\textbf{Cat}\hookrightarrow\mathbf{(n+2)}\textbf{Mon}\mathbf{n}\textbf{Cat}$ is an equivalence.
 	\end{theorem}
+=======
+\chapter{Higher-dimensional algebra}
+
+	The main reference for this chapter is the series of papers carrying the same name by John Baez et al. For fusion and modular categories the main reference is \cite{etingof}. For Kapranov-Voevodsky 2-vector spaces one can also use the original source \cite{kapranov_voevodsky}.
+
+\section{Abelian categories}
+
+	\newdef{Pre-additive category}{
+		A (locally small) category enriched over \textbf{Ab}, i.e. every hom-set is an Abelian group and composition is bilinear.
+	}
+	\newdef{$k$-linear category}{\index{category!linear}
+		Let \textbf{Vect}$_k$ denote the category of vector spaces over the base field $k$. A $k$-linear category is a category enriched over \textbf{Vect}$_k$.
+	}
+	
+	\begin{property}\index{zero!object}
+		Let \textbf{A} be a pre-additive category and let $X\in\ob{A}$. The following statements are equivalent:
+		\begin{itemize}
+			\item $X$ is an initial object.
+			\item $X$ is a final object.
+			\item $\mathbbm{1}_X$ = 0
+		\end{itemize}
+		Any initial/terminal object is hence a zero object\footnote{See definition \ref{cat:zero_object}.}.
+	\end{property}
+	\begin{property}\index{biproduct}
+		In a pre-additive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product. In general if a product and coproduct exist and are equal then one speaks of a \textbf{biproduct}.
+	\end{property}
+	
+	\newdef{Additive category}{\index{additive!category}
+		A pre-additive category in which all finite biproducts exist.
+	}
+	
+	If one speaks of additive categories, one generally assumes that the associated functors are of a specific type:
+	\newdef{Additive functor}{\index{additive!functor}\label{category:additive_functor}
+		Let $\mathbf{A}, \mathbf{A'}$ be additive categories. A functor $\func{F}{A}{A'}$ is said to be additive if it preserves all biproducts, i.e. if it satisfies the following conditions:
+		\begin{itemize}
+			\item It preserves zero objects: $F0_A \cong 0_{A'}$.
+			\item There exists a natural isomorphism $F(X\oplus Y)\cong FX\oplus FY$.
+		\end{itemize}
+		
+		One can generalize this notion to pre-additive categories. A functor between pre-additive categories is said to be additive if it acts as a group morphism on hom-spaces.
+	}
+	
+	In a pre-additive category one can define the classical notions from (homological) algebra such as images and kernels:
+	\newdef{Kernel}{\index{kernel}
+		Let $f:X\rightarrow Y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:Z\rightarrow X$ such that:
+		\begin{itemize}
+			\item $f\circ k = 0$
+			\item Universal property: for every other morphism $k':Z'\rightarrow X$ such that $f\circ k' = 0$ there exists a unique morphism $h:Z'\rightarrow Z$ such that $k\circ h = k'$.
+		\end{itemize}
+		Hence a kernel of $f$ is an equalizer of $f$ and 0.
+	}
+	\begin{notation}[Kernel]
+		If the kernel of $f:X\rightarrow Y$ exists then it is denoted by $\ker(f)\rightarrow X$.
+	\end{notation}
+	
+	\newdef{Cokernel}{
+		Let $f:X\rightarrow Y$ be a morphism. A cokernel is a morphism $p:Y\rightarrow Z$ such that:
+		\begin{itemize}
+			\item $p\circ f = 0$
+			\item Universal property: for every other morphism $p':Y\rightarrow Z'$ such that $p'\circ f = 0$ there exists a unique morphism $h:Z\rightarrow Z'$ such that $h\circ p = p'$.
+		\end{itemize}
+		Hence a cokernel of $f$ is a coequalizer of $f$ and 0.
+	}
+	\begin{notation}[Cokernel]
+		If the cokernel of $f:X\rightarrow Y$ exists then it is denoted by $Y\rightarrow\text{coker}(f)$.
+	\end{notation}
+	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by Yoneda's lemma the morphism \[\ker(f)\rightarrow X\] represents the functor \[F:Z\mapsto\ker\Big(\textbf{C}(Z, X)\rightarrow\textbf{C}(Z, Y)\Big)\]}
+
+	\newdef{Pre-Abelian category}{
+		An additive category is pre-Abelian if every morphism has a kernel and cokernel.
+	}
+	\newdef{Abelian category}{\index{Abelian!category}
+		A pre-Abelian category in which every mono is a kernel and every epi is a cokernel or equivalently if for every morphism $f$ there exists an isomorphism $\text{coker}(\ker(f))\cong\ker(\text{coker}(f))$.
+	}
+	
+	\begin{property}
+		In Abelian categories a morphism is monic if and only if it is injective, i.e. its kernel is 0. Analogously a morphism is epic if and only if it is surjective, i.e. its cokernel is 0.
+	\end{property}
+
+	\newdef{Exact functor}{\index{exact!functor}
+		Let $\func{F}{A}{A'}$ be an additive functor between additive categories. We use the following definitions:
+		\begin{itemize}
+			\item $F$ is said to be left exact if it preserves kernels.
+			\item $F$ is said to be right exact if it preserves cokernels.
+			\item $F$ is said to be exact if it is both left and right exact.
+		\end{itemize}
+	}
+	\begin{result}
+		The previous definition implies the following properties (which can in fact be used as an alternative definition):
+		\begin{itemize}
+			\item If $F$ is left exact it maps an exact sequence of the form \[0\longrightarrow A\longrightarrow B\longrightarrow C\]
+			to an exact sequence of the form \[0\longrightarrow FA\longrightarrow FB\longrightarrow FC\]
+			\item If $F$ is right exact it maps an exact sequence of the form \[A\longrightarrow B\longrightarrow C\longrightarrow 0\]
+			to an exact sequence of the form \[FA\longrightarrow FB\longrightarrow FC\longrightarrow 0\]
+			\item If $F$ is exact it maps short exact sequences to short exact sequences.
+		\end{itemize}
+	\end{result}
+
+\subsection{Finiteness}
+
+	\newdef{Simple object}{\index{simple!object}
+		Let \textbf{C} be an Abelian category. An object $A\in\ob{C}$ is said to be simple if the only subobjects of $A$ are $\mathbf{0}$ and $A$ itself. An object is said to be semisimple if it is a direct sum of simple obejcts.
+	}
+	\newdef{Semisimple category}{
+		A category is said to be semisimple if every object is semisimple (where generally the direct sums are taken over finite index sets).
+	}
+	
+	\newdef{Jordan-H\"older series}{\index{Jordan-H\"older}\index{finite}
+		A filtration \[0\rightarrow X_1\rightarrow X_2\rightarrow\cdots\rightarrow X_n=X\] of an object $X$ is said to be a Jordan-H\"older series if the quotient objects $X_i/X_{i-1}$ are simple for all $i\leq n$. If the series is finite, i.e. $n\in\mathbb{N}$, then the object $X$ is said to be \textbf{finite}.
+	}
+	\begin{theorem}[Jordan-H\"older]
+		If an object $X$ in an Abelian category is finite then every Jordan-H\"older series has the same length. In particular, the multiplicities of simple objects are the same for all such series.
+	\end{theorem}
+	\begin{theorem}[Krull-Schmidt]\index{Krull-Schmidt}\index{indecomposable}
+		Any object in an Abelian category of finite length admits a unique decomposition as a direct sum of indecomposable\footnote{An object is \textbf{indecomposable} if it cannot be written as a direct sum of its subobjects.} objects.
+	\end{theorem}
+	
+	\newdef{Locally finite}{\label{category:locally_finite}
+		A $k$-linear Abelian category is said to be locally finite if it satisfies the following conditions:
+		\begin{enumerate}
+			\item Every hom-space is finite-dimensional.
+			\item Every object has finite length.
+		\end{enumerate}
+	}
+	\newdef{Finite}{\index{finite}
+		A $k$-linear Abelian category is said to be finite if it satisfies the following conditions:
+		\begin{enumerate}
+			\item It is locally finite.
+			\item It has enough projectives (or equivalently every simple object has a projective cover).
+			\item The set of isomorphism classes of simple objects is finite.
+		\end{enumerate}
+	}
+	
+	\begin{theorem}[Schur's lemma]\index{Schur's lemma}
+		Let $\mathbf{C}$ be an Abelian category. For every two simple objects $X, Y$ one has that every non-zero moprhism $X\rightarrow Y$ is an isomorphism. In particular, if $X, Y$ are two non-isomorphic simple objects then $\mathbf{C}(X, Y)=0$ and $\mathbf{C}(X, X)$ is a division algebra.
+	\end{theorem}
+	\begin{result}
+		If $\mathbf{C}$ is locally finite and $k$ is algebraically closed then $\mathbf{C}(X, X)\cong k$ for all simple objects $X$.
+	\end{result}
+
+\section{Monoidal categories}
+
+	\newdef{Monoidal category}{\index{monoidal!category}\index{tensor!product}\label{category:monoidal_category}
+		A category \textbf{C} equipped with a bifunctor \[-\otimes -:\textbf{C}\times\textbf{C}\rightarrow\textbf{C}\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms, called the \textbf{coherence maps}:
+		\begin{itemize}
+			\item \textbf{Associator}: $\alpha_{A, B, C}:(A\otimes B)\otimes C\cong A\otimes(B\otimes C)$
+			\item \textbf{Left unitor}: $\lambda_A:\mathbf{1}\otimes A\cong A$
+			\item \textbf{Right unitor}: $\rho_A: A\otimes\mathbf{1}\cong A$
+		\end{itemize}
+		such that the \textbf{triangle} and \textbf{pentagon} diagrams commute. (See figures \ref{fig:triangle_diagram} and \ref{fig:pentagon_diagram}.)
+		
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
+					(A\otimes\mathbf{1})\otimes B\&\&A\otimes(\mathbf{1}\otimes B)\\
+					\&A\otimes B\&\\
+				};
+				
+				\draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$\alpha_{A, \mathbf{1}, B}$};
+				\draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$\rho_A\otimes\mathbbm{1}$};
+				\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\mathbbm{1}\otimes\lambda_B$};
+			\end{tikzpicture}
+			\caption{Triangle diagram.}
+			\label{fig:triangle_diagram}
+		\end{figure}
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=-2em,minimum width=1em, ampersand replacement=\&]{
+					\&((A\otimes B)\otimes C)\otimes D\&\&(A\otimes (B\otimes C))\otimes D\&\\
+					(A\otimes B)\otimes(C\otimes D)\&\&\&\&A\otimes((B\otimes C)\otimes D)\\
+					\&\&A\otimes(B\otimes (C\otimes D))\&\&\\
+				};
+				
+				\draw[->] (m-1-2) -- (m-1-4) node[pos=0.5, above]{$\alpha_{A, B, C}\otimes\mathbbm{1}$};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\alpha_{A\otimes B, C, D}$};
+				\draw[->] (m-2-1) -- (m-3-3) node[pos=0.5, below left]{$\alpha_{A, B, C\otimes D}$};
+				\draw[->] (m-1-4) -- (m-2-5) node[pos=0.5, above right]{$\alpha_{A, B\otimes C, D}$};
+				\draw[->] (m-2-5) -- (m-3-3) node[pos=0.5, below right]{$\mathbbm{1}\otimes\alpha_{B, C, D}$};
+			\end{tikzpicture}
+			\caption{Pentagon diagram.}
+			\label{fig:pentagon_diagram}
+		\end{figure}
+	}
+	
+	\newdef{Strict monoidal category}{
+		A monoidal category is called strict if the associator $\alpha$ and the unitors $\lambda,\rho$ are identity morphisms.
+	}
+	
+	\newdef{Scalar}{\index{scalar}
+		In a monoidal category the scalars are defined as the endomorphisms $\mathbf{1}\rightarrow\mathbf{1}$.
+	}
+	\begin{property}
+		The set of scalars forms a commutative monoid.
+	\end{property}
+	\begin{property}
+		Every scalar $s:\mathbf{1}\rightarrow\mathbf{1}$ induces a natural transformation \[s_A:A\cong\mathbf{1}\otimes A\xrightarrow{s\otimes\mathbbm{1}}\mathbf{1}\otimes A\cong A\] satisfying the "usual" rules of scalar multiplication in linear algebra:
+		\begin{itemize}
+			\item $s\diamond(s'\diamond f) = (s\circ s')\diamond f$
+			\item $(s\diamond f)\circ(s'\diamond g) = (s\circ s')\diamond(f\circ g)$
+			\item $(s\diamond f)\otimes(s'\diamond g) = (s\circ s')\diamond(f\otimes g)$
+		\end{itemize}
+		where $s\diamond f$ denotes $f\circ s_A = s_B\circ f$.
+	\end{property}
+	
+	\newdef{Weak inverse}{\index{weak!inverse}
+		Let $(\textbf{C},\otimes, \mathbf{1})$ be a monoidal category. Consider an object $X\in\ob{C}$. An object $Y\in\ob{C}$ is called a weak inverse of $X$ if it satisfies $X\otimes Y\cong\mathbf{1}$.
+	}
+	\remark{One can show that the existence of a one-sided weak inverse (as in the definition above) is sufficient to prove that it is in fact a two-sided weak inverse, i.e. $Y\otimes X\cong\mathbf{1}$.}
+	
+	\begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
+		Let $\textbf{C}, \textbf{D}$ be monoidal categories. Any two natural transformations $\eta, \varepsilon:F\Rightarrow G$ constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$ coincide.
+	\end{theorem}
+	
+	\newdef{Closed monoidal category}{
+		A monoidal category $(\textbf{C}, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $B\in\ob{C}$ there exists a a right adjoint\footnote{See definition \ref{category:internal_hom} of an \textit{internal hom} for more information.} to the tensor product functor $-\otimes B:\textbf{C}\rightarrow\textbf{C}$, i.e.:
+		\begin{gather}
+			\forall A, C\in\ob{C}:\exists B\Rightarrow C\in\ob{C}:\textbf{C}(A\otimes B, C)\cong\textbf{C}(A, B\Rightarrow C)
+		\end{gather}
+		where the isomorphism is natural in $A, C\in\ob{C}$.
+	}
+	
+\subsection{Monoidal functors}
+	
+	\newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}
+		Let $(\textbf{C}, \otimes, \mathbf{1}_C), (\textbf{D}, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $\func{F}{C}{D}$ is said to be monoidal if there exists:
+		\begin{itemize}
+			\item A natural isomorphism $\psi_{A, B}: FA\circledast FB\Rightarrow F(A\otimes B)$ such that the diagram in figure \ref{fig:monoidal_functor1} commutes.
+			\begin{figure}[ht!]
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						(FA\circledast FB)\circledast FC\&FA\circledast(FB\circledast FC)\\
+						F(A\otimes B)\circledast FC\&FA\circledast F(B\otimes C)\\
+						F\Big((A\otimes B)\otimes C\Big)\&F\Big(A\otimes (B\otimes C)\Big)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\alpha_{\textbf{D}}$};
+					\draw[->] (m-3-1) -- (m-3-2) node[pos=0.5, below]{$F(\alpha_{\textbf{C}})$};
+					
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\psi_{A, B}\circledast\mathbbm{1}$};
+					\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\psi_{A\otimes B, C}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\mathbbm{1}\circledast\psi_{B, C}$};
+					\draw[->] (m-2-2) -- (m-3-2) node[pos=0.5, right]{$\psi_{A, B\otimes C}$};
+				\end{tikzpicture}
+				\caption{Monoidal functor.}
+				\label{fig:monoidal_functor1}
+			\end{figure}
+
+			\item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$ which makes the two diagrams in figure \ref{fig:unitality} commute.
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						FA\circledast\mathbf{1}_D\&FA\circledast F\mathbf{1}_C\\
+						FA\&F(A\otimes\mathbf{1}_C)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\mathbbm{1}\circledast\phi$};
+					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F(\rho_{\textbf{C}})$};
+				
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\rho_{\textbf{D}}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{A, \mathbf{1}_C}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						\mathbf{1}_D\circledast FB\&F\mathbf{1}_C\circledast FB\\
+						FB\&F(\mathbf{1}_C\otimes B)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\phi\circledast\mathbbm{1}$};
+					\draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F(\lambda_{\textbf{C}})$};
+				
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\lambda_{\textbf{D}}$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{\mathbf{1}_C, B}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\caption{Unitality diagrams.}
+			\label{fig:unitality}
+		\end{figure}
+		\end{itemize}
+	}
+	\remark{The morphisms $\psi_{A, B}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
+	
+	\begin{property}
+		For every monoidal functor $F$ there exists a canonical isomorphism $\phi:\mathbf{1}_D\rightarrow F\mathbf{1}_C$ defined by the commutative diagram in figure \ref{fig:canonical_monoidal_isom}.
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+					\mathbf{1}_D\circledast F\mathbf{1}_C\&F\mathbf{1}_C\\
+					F\mathbf{1}_C\circledast F\mathbf{1}_C\&F(\mathbf{1}_C\otimes\mathbf{1}_C)\\
+				};
+				\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_{\textbf{D}}$};
+				\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\psi_{\mathbf{1}_C, \mathbf{1}_C}$};
+			
+				\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi\circledast\mathbbm{1}$};
+				\draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F(\lambda_{\textbf{C}})$};
+			\end{tikzpicture}
+			\caption{Canonical unit isomorphism.}
+			\label{fig:canonical_monoidal_isom}
+		\end{figure}
+	\end{property}
+	
+	\newdef{Lax monoidal functor}{\index{lax!monoidal functor}
+		A monoidal functor for which the coherence maps are merely morphisms and not isomorphisms.
+	}
+	
+	\newdef{Monoidal natural transformation}{
+		A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma_G, \phi_G)$ is said to be (lax) monoidal if it makes the diagrams in figure \ref{fig:monoidal_natural_transformation} commute.
+		\begin{figure}[ht!]
+			\centering
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						\&\mathbf{1}_D\&\\
+						F\mathbf{1}_C\&\&G\mathbf{1}_C\\
+					};
+					\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\phi_F$};
+					\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\phi_G$};
+					\draw[->] (m-2-1) -- (m-2-3) node[pos=0.5, below]{$\eta_{\mathbf{1}_C}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\begin{subfigure}[b]{0.49\textwidth}
+				\centering
+				\begin{tikzpicture}
+					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
+						FA\circledast FB\&F(A\otimes B)\\
+						GA\circledast GB\&G(A\otimes B)\\
+					};
+					\draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\psi_{A, B}$};
+					\draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\sigma_{A, B}$};
+				
+					\draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\eta_A\circledast\eta_B$};
+					\draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\eta_{A\otimes B}$};
+				\end{tikzpicture}
+			\end{subfigure}
+			\caption{Monoidal natural transformation.}
+			\label{fig:monoidal_natural_transformation}
+		\end{figure}
+	}
+	
+	\newdef{Monoidal equivalence}{\index{monoidal!equivalence}
+		Two monoidal categories $\textbf{C}, \textbf{D}$ are monoidally equivalent if there exist monoidal functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ such that there exist monoidal natural isomorphisms $\eta:\mathbbm{1}_C\Rightarrow G\circ F$ and $\varepsilon:F\circ G\Rightarrow\mathbbm{1}_D$.
+	}
+
+	\begin{theorem}[MacLane's strictness]\index{MacLane}
+		Every monoidal category is monoidally equivalent to a strict monoidal category.
+	\end{theorem}
+
+\subsection{Braided categories}
+
+	\newdef{Braided monoidal category}{\index{braiding}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category. $\textbf{C}$ is called a braided monoidal category if it comes equipped with a natural isomorphism \[\sigma_{A, B}:A\otimes B\cong B\otimes A\]
+		such that the two \textbf{hexagon} diagrams in figures \ref{fig:hexagon_diagrams1} and \ref{fig:hexagon_diagrams2} commute. The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2.5em, minimum width=1em, ampersand replacement=\&]{
+					\&(A\otimes B)\otimes C\&\\
+					(B\otimes A)\otimes C\&\&A\otimes(B\otimes C)\\
+					B\otimes (A\otimes C)\&\&(B\otimes C)\otimes A\\
+					\&B\otimes(C\otimes A)\&\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{A, B}\otimes\mathbbm{1}$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{A, B, C}$};
+				
+				\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{B, A, C}$};
+				\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A, B\otimes C}$};
+				
+				\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{C, A}$};
+				\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{B, C, A}$};
+			\end{tikzpicture}
+			\caption{Hexagon diagram 1.}
+			\label{fig:hexagon_diagrams1}
+		\end{figure}
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
+					\&A\otimes(B\otimes C)\&\\
+					A\otimes(C\otimes B)\&\&(A\otimes B)\otimes C\\
+					(A\otimes C)\otimes B\&\&C\otimes(A\otimes B)\\
+					\&(C\otimes A)\otimes B\&\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{B, C}$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{A, B, C}$};
+				
+				\draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{A, C, B}$};
+				\draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A\otimes B,C}$};
+				
+				\draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{A, C}\otimes\mathbbm{1}$};
+				\draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{C, A, B}$};
+			\end{tikzpicture}
+			\caption{Hexagon diagram 2.}
+			\label{fig:hexagon_diagrams2}
+		\end{figure}
+	}
+	\begin{property}\index{Yang-Baxter}
+		The braiding $\sigma_{A, A}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $A, B, C\in\ob{C}$:
+		\begin{gather}
+			(\sigma_{B,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{A,C})\circ(\sigma_{A,B}\otimes\mathbbm{1}) = (\mathbbm{1}\otimes\sigma_{A,B})\circ(\sigma_{A,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{B,C})
+		\end{gather}
+	\end{property}
+	\remark{When drawing the above equality using string diagrams one sees that the Yang-Baxter equation is equal to the invariance of string diagrams under a \textit{Reidemeister III move}.}
+
+	\newdef{Symmetric monoidal category}{
+		A braided monoidal category where the braiding $\sigma$ satisfies:
+		\begin{gather}
+			\sigma_{X, Y} \circ \sigma_{Y, X} = \mathbbm{1}
+		\end{gather}
+	}
+	
+\subsection{Duals}
+	
+	\newdef{Dual object}{\index{dual!object}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a monoidal category and let $A\in\ob{C}$. A left dual\footnote{Analogously, $A$ is called the \textbf{right dual} of $A^*$. The right dual of $B$ is often denoted by $^*B$.} $A^*$ of $A$ is an object in $\textbf{C}$ together with two morphisms $\eta:\mathbf{1}\rightarrow A\otimes A^*$ and $\varepsilon:A^*\otimes A\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and \textbf{evaluation} morphisms.}, such that the diagrams \ref{fig:dual_object1} and \ref{fig:dual_object2} commute.
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&\&A\&\&\\
+					\mathbf{1}\otimes A\&\&\&\&A\otimes\mathbf{1}\\
+					\&(A\otimes A^*)\otimes A\&\&A\otimes(A^*\otimes A)\&\\
+				};
+				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\lambda_A$};
+				\draw[->] (m-2-1) -- (m-3-2) node[pos=0.5, below left]{$\eta\otimes\mathbbm{1}$};
+				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha_{A, A^*, A}$};
+				\draw[->] (m-3-4) -- (m-2-5) node[pos=0.5, below right]{$\mathbbm{1}\otimes\varepsilon$};
+				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\rho_A$};
+			\end{tikzpicture}
+			\caption{Dual object I.}
+			\label{fig:dual_object1}
+		\end{figure}
+		\begin{figure}[ht!]
+			\centering
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&\&A^*\&\&\\
+					A^*\otimes\mathbf{1}\&\&\&\&\mathbf{1}\otimes A^*\\
+					\&A^*\otimes(A\otimes A^*)\&\&(A^*\otimes A)\otimes A^*\&\\
+				};
+				\draw[->] (m-2-1) -- (m-1-3) node[pos=0.5, above left]{$\rho_{A^*}$};
+				\draw[->] (m-2-1) -- (m-3-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\eta$};
+				\draw[->] (m-3-2) -- (m-3-4) node[pos=0.5, below]{$\alpha^{-1}_{A^*, A, A^*}$};
+				\draw[->] (m-3-4) -- (m-2-5) node[pos=0.5, below right]{$\varepsilon\otimes\mathbbm{1}$};
+				\draw[->] (m-2-5) -- (m-1-3) node[pos=0.5, above right]{$\lambda_{A^*}$};
+			\end{tikzpicture}
+			\caption{Dual object II.}
+			\label{fig:dual_object2}
+		\end{figure}
+		
+		If the object $A^*$ and the morphisms $\eta, \varepsilon$ exist then $A$ is said to be \textbf{dualizable}.
+	}
+	\begin{property}[Braided categories]
+		In a braided monoidal category the left and right duals of an object coincide.
+	\end{property}
+	
+	\newdef{Rigid category\footnotemark}{\index{category!rigid}\index{category!autonomous}
+		\footnotetext{Also called an \textbf{autonomous category}.}
+		A monoidal category in which all duals exist. If only left (resp. right) duals exist then the category is said to be left (resp. right) rigid.
+	}
+	\newdef{Compact closed category}{\index{category!compact closed}
+		A symmetric rigid category is also called a compact closed category.
+	}
+	
+	\begin{example}[FinVect]\index{dual!space}\index{resolution!of the identity}
+		Consider the category of finite-dimensional vector spaces \textbf{FinVect} (we assume the base field to be $\mathbb{R}$). The categorical dual of a vector space $V$ is the algebraic dual $V^*$. The unit morphism is given by the \textit{resolution of the identity}:
+		\begin{gather}
+			\eta: \mathbf{1}\rightarrow V\otimes V^*:1\mapsto\sum_{i=1}^{\dim(V)}e_i\otimes \phi^i
+		\end{gather}
+		where $\{e_i\}$ and $\{\phi^i\}$ are bases of $V$ and $V^*$ respectively.
+	\end{example}
+	
+	\newdef{Trace}{\index{trace}
+		Let $(\textbf{C}, \otimes, \mathbf{1})$ be a rigid category. Let $f\in\hom_{\mathbf{C}}(A, A^{**})$. The left (categorical or quantum) trace of $f$ is defined as the following morphism in End$_{\mathbf{C}}(\mathbf{1})$:
+		\begin{gather}
+			\text{tr}^L(f):\varepsilon_{A^*}\circ(f\otimes\mathbbm{1})\circ\eta_A
+		\end{gather}
+		If $f\in\hom_{\mathbf{C}}(A, ^{**}A)$ then the right trace is defined similarly:
+		\begin{gather}
+			\text{tr}^R(f):\varepsilon_{^{**}A}\circ(\mathbbm{1}\otimes f)\circ\eta_{^*A}
+		\end{gather}
+	}
+	\begin{property}
+		Following linear algebra-like properties hold for the categorical trace:
+		\begin{itemize}
+			\item $\text{tr}^L(f) = \text{tr}^R(f^*)$
+			\item $\text{tr}^L(f\otimes g) = \text{tr}^L(f)\text{tr}^L(g)$
+			\item In additive categories: $\text{tr}^L(f\oplus g) = \text{tr}^L(f) + \text{tr}^L(g)$
+		\end{itemize}
+		The second and third property can be stated analogously for the right trace.
+	\end{property}
+	
+	\newdef{Pivotal category}{\index{pivotal structure}
+		Let \textbf{C} be a rigid monoidal category. A pivotal structure on \textbf{C} is a monoidal natural isomorphism $a_A:A\cong A^{**}$.
+	}
+	
+	\newdef{Dimension}{\index{dimension}
+		Let $(\textbf{C}, a)$ be a pivotal category and consider an object $V\in\ob{C}$. The dimension of $V$ is defined as follows:
+		\begin{gather}
+			\label{category:pivotal_dimension}
+			\dim_a(V) := \text{tr}^L(a_V)
+		\end{gather}
+	}
+	
+	\newdef{Spherical category}{\index{spherical structure}
+		Let $(\textbf{C}, a)$ be a pivotal category. If the left and right traces (with respect to $a$) coincide in \textbf{C}, i.e. $\dim_a(V) = \dim_a(V^*)$, then the pivotal structure is said to be spherical.
+	}
+	
+	\newdef{Symmetric monoidal dagger category}{\index{category!dagger}
+		A symmetric monoidal category $(\textbf{C}, \otimes, \mathbf{1})$ which also carries the structure of a dagger category\footnote{See definition \ref{cat:dagger_category}.} such that:
+		\begin{gather}
+			(f\otimes g)^\dag = f^\dag\otimes g^\dag
+		\end{gather}
+		and such that the coherence and braiding morphisms are unitary.
+	}
+	\newdef{Dagger-compact category}{
+		A symmetric monoidal dagger category which is also a compact closed category such that the following diagram commutes:
+		\begin{gather*}
+			\begin{tikzpicture}
+				\matrix (m) [matrix of math nodes,row sep=4em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
+					\&\mathbf{1}\&\\
+					A^*\otimes A\&\&A\otimes A^*\\
+				};
+				\draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\eta$};
+				\draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\varepsilon^\dag$};
+				\draw[->] (m-2-3) -- (m-2-1) node[pos=0.5, below]{$\sigma_{A, A^*}$};
+			\end{tikzpicture}
+		\end{gather*}
+	}
+
+\section{Tensor and fusion categories}
+
+	Some definitions might slightly differ from the ones in the main reference and some properties might be stated less generally. By $k$ we will mean an algebraically closed field (often this will be $\mathbb{C}$).
+
+	\newdef{Tensor category}{\index{tensor!category}
+		A monoidal category with the following properties:
+		\begin{enumerate}
+			\item rigid
+			\item Abelian
+			\item $k$-linear (which should be compatible with the Abelian structure)
+			\item End$(\mathbf{1})\cong k$
+			\item The tensor product functor $-\otimes -$ is bilinear on morphisms.
+		\end{enumerate}
+		Some authors (such as \cite{etingof}) also add ''locally finite'' as a condition (see definition \ref{category:locally_finite}).
+	}
+	\remark{If $k$ is not algebraically closed one should exchange the last condition by the condition that $\mathbf{1}$ is a simple object. However, if $k$ is algebraically closed then these statements are equivalent.}
+	
+	\newdef{Pointed tensor category}{\index{pointed!tensor category}
+		A tensor category is said to be pointed if all of its simple objects are (weakly) invertible.
+	}
+	
+	\newdef{Fusion category}{\index{fusion!category}
+		A semisimple finite tensor category.
+	}
+	
+	\begin{property}
+		Let $\mathbf{M}$ be a fusion category. There exists a natural isomorphism $X\cong X^{**}$.
+	\end{property}
+
+	\sremark{Although any fusion category admits a natural isomorphism between an object and its double dual, this morphism does not need to be monoidal. The fact that all fusion categories are pivotal was conjectured by Etingof, Ostrik and Nikshych. Currently the best one can do for a general fusion category is a monoidal natural transformation between the identity functor and the fourth dualization functor $X\cong X^{****}$.}
+	
+	\newdef{Categorical dimension}{\index{dimension}
+		Consider a fusion category $\mathbf{M}$ and choose a natural isomorphism $a:\text{id}_{\mathbf{M}}\xrightarrow{\ \sim\ }\ast\ast$. For every simple object $X$ one can define a dimension function, sometimes called the \textbf{norm squared}, in the following way:
+		\begin{gather}
+			|X|^2 = \text{tr}(a_X)\text{tr}((a_X^{-1})^*)
+		\end{gather}
+		If $\mathbf{M}$ is pivotal then this becomes $|X|^2 = \dim_a(X)\dim_a(X^*)$. In particular, when $\mathbf{M}$ is spherical, this becomes $|X|^2 = \dim_a(X)^2$.
+
+		The categorical dimension\footnote{Sometimes called the \textbf{M\"uger dimension}.} is then defined as follows:
+		\begin{gather}
+			\dim(\mathbf{M}) = \sum_{X\in\mathcal{O}(\mathbf{M})}|X|^2
+		\end{gather}
+		where $\mathcal{O}(\mathbf{M})$ denotes the set of isomorphism classes of simple objects.
+	}
+	\remark{It should be noted that the above quantities do not depend on the choice of isomorphism $a_X:X\cong X^{**}$ since all of them only differ by a scale factor.}
+	\begin{property}
+		For any fusion category $\mathbf{M}$ one has that $\dim(\mathbf{M})\neq 0$. In particular, if $k=\mathbb{C}$ then $\dim(\mathbf{M})\geq1$ (since the norm squared of any simple object is then also positive).
+	\end{property}
+
+	\newdef{$G$-graded fusion category}{\index{G-grading}
+		A semisimple linear category $\mathbf{C}$ is said to have a \textbf{$G$-grading}, where $G$ is a finite group, if it can be decomposed as follows:
+		\begin{gather}
+			\mathbf{C} \cong \bigoplus_{g\in G} \mathbf{C}_g
+		\end{gather}
+		where every $\mathbf{C}_g$ is again linear and semisimple. A fusion category $\mathbf{C}$ is said to be a ($G$-)graded fusion category if it admits a $G$-grading such that the tensor product functor maps $\mathbf{C}_g\times\mathbf{C}_h$ into $\mathbf{C}_{gh}$.
+	}
+	
+	\begin{example}[$G$-graded vector spaces]\label{category:g_graded}
+		Define the category $\textbf{Vect}_G^\omega$ as having the same objects and morphisms as $\textbf{Vect}_G$ (the category of $G$-graded vector spaces) but with the associator given by the the 3-cocycle $\omega\in H^3(G; k^\times)$.
+	\end{example}
+	\begin{property}
+		Any pointed fusion category is equivalent to a category of the form $\textbf{Vect}_G^\omega$ for some $G$ and $\omega\in H^3(G; k^\times)$.
+	\end{property}
+
+	\begin{theorem}[Tannaka duality]\index{Tannaka duality}
+		The representation category of a weak Hopf algebra has the structure of a fusion category. Conversely, any fusion category can be obtained as the representation category of a weak Hopf algebra.
+	\end{theorem}
+
+\section{Ribbon and modular categories}
+
+	\newdef{Ribbon structure}{
+		Consider a braided monoidal category $(\mathbf{M}, \otimes, \mathbf{1})$ with braiding $\sigma$. A \textbf{twist} or \textbf{balancing} is a natural transformation $\theta$ such that the following equation is satisfied for all $X, Y\in\ob{M}$:
+		\begin{gather}
+			\theta_{X\otimes Y} = (\theta_X\otimes\theta_Y)\circ\sigma_{Y, X}\circ\sigma_{X, Y}
+		\end{gather}
+		If in addition $\mathbf{M}$ is rigid and the twist satisfies $\theta_{X^*} = (\theta_X)^*$ for all $X\in\ob{M}$ then one speaks of a ribbon category.
+	}
+	
+	\newdef{Drinfeld morphism}{
+		Let $(\mathbf{M}, \otimes, \mathbf{1})$ be a rigid braided monoidal category with braiding $\sigma$. This structure admits a canonical natural isomorphism $X\cong X^{**}$ defined as follows:
+		\begin{gather}
+			X\xrightarrow{\mathbbm{1}_X\otimes\eta_{X^*}}X\otimes X^*\otimes X^{**}\xrightarrow{\sigma_{X, X^*}\otimes\mathbbm{1}_{X^{**}}}X^*\otimes X\otimes X^{**}\xrightarrow{\varepsilon_X\otimes\mathbbm{1}_{X^{**}}}X^{**}
+		\end{gather}
+	}
+	\begin{property}
+		Let $\mathbf{M}$ be a braided monoidal category. Consider the canonical natural isomorphism $u_X:X\cong X^{**}$ defined above. Any natural isomorphism $\psi_X:X\cong X^{**}$ can be written as $u_X\theta_X$ where $\theta\in\text{Aut}(\mathbbm{1}_{\mathbf{M}})$. It is not hard to see that this natural isomorphism is monoidal (hence pivotal) exactly when $\theta$ is a twist. If $\mathbf{M}$ is a fusion category then the pivotal structure is spherical if and only if $\theta$ gives a ribbon structure.
+	\end{property}
+	
+	\newdef{Premodular category}{
+		A ribbon fusion category. Equivalently, a spherical braided fusion category.
+	}
+	\newdef{$S$-matrix}{\index{S-matrix}
+		Given a premodular category $\mathbf{M}$ (with braiding $\sigma$) one defines the $S$-matrix as follows:
+		\begin{gather}
+			S_{X, Y} = \text{tr}(\sigma_{Y, X}\circ\sigma_{X, Y})
+		\end{gather}
+		where $X, Y$ are (isomorphism classes of) simple objects.
+		
+		Since in a premodular category there are only finitely many isomorphism classes of simple objects (denote this number by $\mathcal{I}$) we see that $S$ is a $\mathcal{I}\times\mathcal{I}$-matrix.
+	}
+	
+	\newdef{Modular category\footnotemark}{\index{modular!category}
+		\footnotetext{A modular (tensor) category is often abbreviated as \textbf{MTC}.}
+		A premodular category for which the $S$-matrix is invertible.
+	}
+	
+	\begin{property}
+		Let $\mathbf{M}$ be a modular category with $S$-matrix $S$. If we denote by $E$ the matrix such that $E_{X, Y}$ is 1 if $X=Y^*$ and 0 otherwise, then we obtain the following relation to the categorical dimension of $\mathbf{M}$:
+		\begin{gather}
+			S^2 = \dim(\mathbf{M})E
+		\end{gather}
+	\end{property}
+	
+	\begin{formula}[Verlinde]
+		Consider a modular category $\mathbf{M}$ with $S$-matrix $S$. Let $\mathcal{O}(\mathbf{M})$ denote the set of isomorphism classes of simple objects and let $\dim(R)$ denote the dimension of an object $R$ defined using the spherical structure on $\mathbf{M}$. Using the formula
+		\begin{gather}
+			S_{X, Y}S_{X, Z} = \dim(X)\sum_{W\in\mathcal{O}(\mathbf{M})}N_{Y, Z}^WS_{X, W}
+		\end{gather}
+		for all $X, Y, Z\in\mathcal{O}(\mathbf{M})$ one obtains the following important relation:
+		\begin{gather}
+			\sum_{W\in\mathcal{O}(\mathbf{M})}\frac{S_{W, Y}S_{W, Z}S_{W, X^*}}{\dim(W)} = \dim(\mathbf{M})N_{Y, Z}^X
+		\end{gather}
+		This property implies that the $S$-matrix of a modular category determines the fusion coefficients of the underlying fusion category.
+	\end{formula}
+
+\section{Higher vector spaces}
+\subsection{Kapranov-Voevodksy 2-vector spaces}
+
+	The guiding principle for this definition of 2-vector spaces will be the generalization of certain observations from studying the category \textbf{Vect} of ordinary vector spaces. Linear maps between vector spaces can (at least for finite dimensions) be represented as matrices with coefficient in the ground field $k$. Coincidentally this ground field is also the tensor unit in \textbf{Vect}. At the same time all finite-dimensional vector spaces are isomorphic to spaces of the form $k^n$ (where $n$ is given by the dimension of the vector space).
+	
+	\newdef{2-vector space}{\index{2-vector space!Kapranov-Voevodsky}
+		To define 2-vector spaces, Kapranov and Voevodsky lifted these observations to 1 dimension higher by replacing the ground field $\mathbb{C}$ by the category \textbf{Vect}. To wit $\textbf{2Vect}$ is defined as the 2-category consisting of the following objects:
+		\begin{enumerate}
+			\item Objects: Finite products of the form $\textbf{Vect}^n$
+			\item 1-morphisms: \textbf{2-matrices}, i.e. collections $||A_{ij}||$ of finite-dimensional vector spaces
+			\item 2-morphisms: collections $(a_{ij})$ of linear maps (between finite-dimensional vector spaces)
+		\end{enumerate}
+		The multiplication (composition) of 1-morphisms is defined in analogy to the multiplication of ordinary matrices, but where the usual sum and product are replaced by the direct sum and tensor product.
+	}
+	
+	A seemingly more formal definition uses the concepts of \textit{ring} and \textit{module categories}:
+	\begin{adefinition}
+		A 2-vector space is a lax module category over the ring category \textbf{Vect} which is module-equivalent to $\textbf{Vect}^n$ for some $n\in\mathbb{N}$. The 2-category $\textbf{2Vect}$ is then defined as the 2-category with objects these 2-vector spaces, as 1-morphisms the associated \textbf{Vect}-module functors and as 2-morphisms the module natural transformations.
+	\end{adefinition}
+	
+\section{\texorpdfstring{Monoidal $n$-categories}{Monoidal n-categories}}
+
+	\newdef{Monoidal $n$-category}{\index{monoidal!$n$-category}
+		In general one can define a monoidal $n$-category as a one-object $(n+1)$-category, similar to how monoidal categories give one-object bicategories by delooping (see \ref{cat:monoidal_or_2}).
+	}
+	
+	For the explicit definitions of monoidal bi- and tricategories, see the papers \cite{monbicat} and \cite{montricat} respectively.
+	
+\subsection[Relation with group cohomology]{Relation with group cohomology\footnotemark}\footnotetext{See definition \ref{group:cohomology} or section \ref{section:group_cohomology} for more information on group cohmology.}
+
+	Consider a finite group $G$. As a first step we construct the group algebra $\mathbb{C}[G]$. As a monoid one can consider this object as a $G$-graded monoidal 0-category. The ordinary multiplication $g\ast h=gh$ can be twisted to obtain a monoid $\mathbb{C}[G]^\omega$ with multiplication
+	\begin{gather}
+		g\ast h = e^{i\omega(g, h)}gh
+	\end{gather}
+	If we require that associativity still holds on the nose then we are led to the property that $\omega$ is in fact a group 2-cocycle. The equivalence classes of such twisted group algebras are then in correspondence with the second cohomology class $H^2(G; U(1))$.
+	
+	Before really going to higher category theory we should first reflect on the different structures in the previous paragraph. Since we look at the monoid (let's call it $M$ for convenience) as a monoidal category we have bifunctor $\mu:M\otimes M\rightarrow M$ (given by the twisted multiplication) which differs from the ordinary group multiplication by a phase. This phase can be viewed categorically as a natural isomorphism between the ''tensor products'' in $\mathbb{C}[G]$ and $M$. At the same time we require all the higher coherence conditions\footnote{These can be parametrized by the \textit{Stasheff polytopes/associahedra}.\index{associahedron}} (associativity, ...) to hold identically.
+	
+	Now let us drop the restriction on the product and take this to be a more general monoidal product bifunctor. For this we replace the monoid $\mathbb{C}[G]$ by the $G$-graded monoidal category $\textbf{Vect}_G$. Now we can relax the associativity constraint up to a natural isomorphism $\alpha$. When restricted to the simple objects of $\textbf{Vect}_G$ this is given by a phase factor $e^{i\omega(g, h, k)}$. The pentagon condition for monoidal categories then implies that the function $\omega$ is a group 3-cocycle. In analogy with the case of monoids above the equivalence classes of (twisted) monoidal structures on $\textbf{Vect}_G$ is in correspondence with the third cohomology group $H^3(G; U(1))$.
+	
+	To go yet another step higher we move up a level in the chain of coherence conditions and relax the associativity constraint even more (for ''simplicity'' we will switch to the one-object $n$-category point of view). Instead of a natural isomorphism it only has to be an adjoint equivalence and at the same time the pentagon condition is replaced by an invertible modification (3-morphism). The coherence condition on this \textbf{pentagonator}\index{pentagonator} then implies a classification of (twisted) monoidal bicategories, equivalent to $\textbf{2Vect}_G^\omega$, by the fourth group cohomology $H^4(G; U(1))$.
+	
+	In a completely analogous way one can define more and more general structures. E.g. for monoidal tricategories one can translate the $K_6$ associahedron into an equation for an invertible perturbation (4-morphism) which by the $G$-graded structure is equivalent to a group 5-cocycle.
+
+	\remark{This section is strongly related to the twisting procedure in $n$-dimensional Dijkgraaf-Witten theories.}

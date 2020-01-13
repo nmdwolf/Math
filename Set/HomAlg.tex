@@ -1,28 +1,29 @@
 \chapter{Homological algebra}\label{chapter:hom_alg}
 
-A reference for this chapter is \cite{weibel, hom_algebra}.
+References for this chapter are \cite{weibel, hom_algebra}.
 
 \section{Chain complexes}
 
-	\newdef{Chain complex}{\index{chain!complex}\index{boundary}\index{differential}\index{cycle}\label{group:chain_complex}
+	\newdef{Chain complex}{\index{chain!complex}\index{boundary}\index{differential}\index{cycle}\label{homalg:chain_complex}
 		\nomenclature[S_CH]{$C_\bullet$}{Chain complex}
-		Let $(A_k)_{k\in\mathbb{Z}}$ be a sequence of algebraic structures together with a sequence $\{\partial_k:A_k\rightarrow A_{k-1}\}_{k\in\mathbb{Z}}$ of morphisms, called the \textbf{boundary operators} or \textbf{differentials}, such that for all $k$:
+		\nomenclature[S_CHCat]{$\textbf{Ch}_bullet(\textbf{A})$}{Category of chain complexes with objects in the additive category $\textbf{A}$.}
+		Let $\mathbf{C}$ be an additive category (often an Abelian category). Consider a sequence $(A_k)_{k\in\mathbb{Z}}$ of objects and a sequence $\{\partial_k:A_k\rightarrow A_{k-1}\}_{k\in\mathbb{Z}}$ of morphisms in $\mathbf{C}$ (called the \textbf{boundary operators} or \textbf{differentials}) such that for all $k\in\mathbb{Z}$:
 		\begin{gather}
 			\partial_k\circ\partial_{k+1} = 0
 		\end{gather}
-		This structure is called a chain complex\footnotemark. Elements in $\text{im}(\partial_k)$ are called \textbf{boundaries} and elements in $\text{ker}(\partial_k)$ are called \textbf{cycles}.
-		\footnotetext{A \textbf{cochain complex} is constructed similarly. For this structure we consider an ascending order, i.e. $\partial_k:A_k\rightarrow A_{k+1}$.} The chain complex $\{(A_k, \partial_k)\}_{k\in\mathbb{Z}}$ is often denotes by $A_\bullet$.
+		This structure is called a chain complex\footnotemark. Elements of $\text{im}(\partial_k)$ are called \textbf{boundaries} and elements of $\text{ker}(\partial_k)$ are called \textbf{cycles}. The chain complex $\{(A_k, \partial_k)\}_{k\in\mathbb{Z}}$ is often denoted by $(A_\bullet, \partial_\bullet)$ or simply by $A_\bullet$ if the choice of boundary operators is clear.
+		\footnotetext{A \textbf{cochain complex} is constructed similarly. For this structure we consider an ascending order, i.e. $\partial_k:A_k\rightarrow A_{k+1}$.}
 	}
 	
-	The morphisms of chain complexes are called \textbf{chain maps} and are defined as a collection of morphisms $\{f_k:A_k\rightarrow B_k\}_{k\in\mathbb{Z}}$ such that for all $k\in\mathbb{Z}$ the following equation holds:
+	The morphisms of chain complexes are called \textbf{chain maps} and they are defined as a collection of morphisms $\{f_k:A_k\rightarrow B_k\}_{k\in\mathbb{Z}}$ such that for all $k\in\mathbb{Z}$ the following equation holds:
 	\begin{gather}
 		\partial'_k\circ f_k = f_{k-1}\circ\partial_k
 	\end{gather}
-	where $\partial_k, \partial'_k$ are the boundary operators of respectively $A_\bullet$ and $B_\bullet$.
+	where $\partial_k, \partial_k'$ are the boundary operators of respectively $A_\bullet$ and $B_\bullet$. Given an additive category $\mathbf{C}$ one can define the category $\mathbf{Ch}_\bullet(\mathbf{C})$ of chain complexes and chain maps in $\mathbf{C}$, this category is often denoted by $\mathbf{Ch}_\bullet(\mathbf{C})$.
 	
-	\remark{Given a chain (resp. cochain) complex one can easily construct a cochain (resp. chain) complex by setting $C_k' = C_{-k}$.}
+	\remark{Given a chain (resp. cochain) complex $C$ one can easily construct a cochain (resp. chain) complex $\tilde{C}$ by setting $\tilde{C}_k = C_{-k}$.}
 	
-	\newdef{Chain homology}{\index{homology}\label{group:homology}
+	\newdef{Chain homology}{\index{homology}\label{homalg:homology}
 		Given a chain complex $C_\bullet$ one can define its homology groups $H_n(C_\bullet)$. Since $\partial^2=0$ the kernel $\ker(\partial_k)$ is a subgroup of the image $\im(\partial_{k+1})$. This way we can define the quotient groups:
 		\begin{gather}
 			H_n(C_\bullet) := \frac{\ker(\partial_k)}{\im(\partial_{k+1})}
@@ -45,10 +46,49 @@ A reference for this chapter is \cite{weibel, hom_algebra}.
 	\begin{property}
 		Every (chain) homotopy equivalence is a quasi-isomorphism.
 	\end{property}
+	
+\section{Exact sequences}
+
+	\newdef{Exact sequence}{\index{exact!sequence}
+		Let $\mathbf{C}$ be an additive category (often an Abelian category). Consider a sequence (finite or infinite) of objects and morphisms in $\mathbf{C}$:
+		\begin{gather}
+			A_0\xrightarrow{\Phi_1}A_1\xrightarrow{\Phi_2}\cdots\xrightarrow{\Phi_n}A_n
+		\end{gather}
+		This sequence is said to be exact if for every $k\in\mathbb{N}: \text{im}(\Phi_k) = \text{ker}(\Phi_{k+1})$. In particular this means that $\Phi_{k+1}\circ\Phi_k = 0$ for all $h\in\mathbb{N}$ and as such this implies that exact sequences are a special type of chain complex as defined in definition \ref{homalg:chain_complex}.
+	}
+	
+	\newdef{Short exact sequence}{
+		A short exact sequence is an exact sequence of the form:
+		\begin{gather}
+			\label{short_exact_sequence}
+			0\rightarrow A_0\xrightarrow{\Phi_1}A_1\xrightarrow{\Phi_2} A_3\rightarrow0
+		\end{gather}
+		A long exact sequence is an infinite exact sequence.
+	}
+	
+	\begin{property}
+		\index{epimorphism}\index{monomorphism}\index{bimorphism}
+		Looking at some small examples we can derive some important constraints for certain exact sequences and especially for short exact sequences. Consider the sequence
+		\[
+			0\rightarrow A\xrightarrow{\Phi} B
+		\]
+		This sequence can only be exact if $\Phi$ is an injective homomorphism (\textbf{monomorphism}). This follows from the fact that the only element in the image of the map $0\rightarrow A$ is 0 because the map is a homomorphism. The kernel of $\Phi$ is thus trivial which implies that $\Phi$ is injective.
+		
+		Analogously, the sequence
+		\[
+			A\xrightarrow{\Psi}B\rightarrow0
+		\]
+		is exact if $\Psi$ is a surjective homomorphism (\textbf{epimorphism}). This follows from the fact that the kernel of the map $B\rightarrow0$ and thus the image of $\Psi$ is all of $B$ which implies that $\Psi$ is surjective.
+		
+		It follows that the sequence
+		\[
+			0\rightarrow A\xrightarrow{\Sigma}B\rightarrow0
+		\]
+		is exact if $\Sigma$ is a \textbf{bimorphism} (which is often an isomorphism).
+	\end{property}
 
 \section{Resolutions}
 
-	\nomenclature[S_Ch]{$\textbf{Ch}(\textbf{A})$}{Category of chain complexes with objects in the Abelian category $\textbf{A}$.}
 	Consider some Abelian category $\textbf{A}$. Let $\textbf{Ch}(\textbf{A})$ denote the category of chain complexes with objects in $\textbf{A}$. In fact in this and coming sections we will only be interested in chain complex concentrated in positive degree, i.e. $C_k=0$ for all $k<0$, and henceforth we will assume that all chain complexes satisfy this condition.
 	
 	\newdef{Acyclic complex}{

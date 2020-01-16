@@ -8,19 +8,20 @@
 	\newdef{Conformal transformation}{
 		Consider two (pseudo-)Riemannian manifold $(M, g)$ and $(M', g')$. A smooth map $\varphi:M\rightarrow M'$ if it leaves the metric invariant up to a scale transformation:\footnote{Compare this to definition \ref{diff:conformal_map}.}
 		\begin{gather}
-			\varphi^*g' = g.
+			\varphi^*g' = \Omega g
 		\end{gather}
+		for some smooth positive function $\Omega:M\rightarrow\mathbb{R}^+$.
 	}
 	
 	Infinitesimally these maps are described by a specific type of vector field:
 	\newdef{Conformal Killing vector}{\index{Killing!conformal vector}
-		Consider a pseudo-Riemannian manifold $(M, g)$. A vector field $X$ is said to be conformal with conformal factor $\Omega:M\rightarrow\mathbb{R}$ if it satisfies
+		Consider a pseudo-Riemannian manifold $(M, g)$. A vector field $X$ is said to be conformal with conformal factor $\kappa:M\rightarrow\mathbb{R}$ if it satisfies
 		\begin{equation}
-			\mathcal{L}_Xg = \Omega g.
+			\mathcal{L}_Xg = \kappa g.
 		\end{equation}
 		In local coordinates this amounts to
 		\begin{equation}
-			\nabla_\mu X_\nu + \nabla_\nu X_\mu = \Omega g_{\mu\nu}
+			\nabla_\mu X_\nu + \nabla_\nu X_\mu = \kappa g_{\mu\nu}
 		\end{equation}
 		where $\nabla$ is the Levi-Civita connection associated to $(M, g)$. Equivalently, a vector field is conformal if its flow is a conformal map.
 	}
@@ -33,21 +34,39 @@
 		\item Special conformal transformations: $x^2b^\mu\partial_\mu - 2(b\cdot x)x^\mu\partial_\mu$
 	\end{itemize}
 	As usual, exponentiating these generators gives the finite transformations. The conformal group in signature $(p, q)$ is isomorphic to SO$(p+1, q+1)$. One immediately notices that the Poincar\'e group is a subgroup of the conformal group.
+	
+	\begin{property}[Stress-energy tensor]
+		Now we can consider a theory which is invariant under conformal transformations. The generator of general coordinate transformations is the stress-energy tensor $T$ (current: $\mathcal{J}_\mu = T_{\mu\nu}\varepsilon^\nu$). Requiring conformal invariance then leads to the stress-energy tensor being traceless:
+		\begin{gather}
+			T^\mu_{\ \mu} = 0
+		\end{gather}
+	\end{property}
 
 \subsection{In dimension $d=2$}
 
-	In dimension 2 (with Euclidean signature) something special happens. By inserting $d=2$ in the conformal Killing equation we obtain the Cauchy-Riemann equations. The scale factor $\Omega(x)$ becomes $\left|\frac{\partial f}{\partial z}\right|^2$ where $f$ is analytic in $z = x_1+ix_2$.
-
-	Infinitesimally this gives us an infinite-dimensional algebra. As generators\footnote{These generate the transformation $z\mapsto z-z^{n+1}$ and $\zbar\mapsto\zbar-\zbar^{n+1}$ respectively.} we choose
-	\begin{align}
-		l_n(z) &= -z^{n+1}\partial_z\\
-		\overline{l}_n(\zbar)&=-\zbar^{n+1}\partial_{\zbar}
-	\end{align}
-	These generators generate isomorphic Lie algebras with the following commutation relation:
+	In dimension 2 (with Euclidean signature) something special happens. By inserting $d=2$ in the conformal Killing equation we obtain the Cauchy-Riemann equations. The scale factor can thus be written as
 	\begin{gather}
-		[l_m, l_n] = (m-n)l_{m+n}
+		\Omega(x) = \left|\frac{\partial f}{\partial z}\right|^2
 	\end{gather}
-	This conformal algebra is called the \textbf{Witt-algebra}.\index{Witt algebra}
+	for some analytic function $f(z)$. Because of this\footnote{and because we in general look at conformal compactifications (see further below)} we will from here one always work in complex coordinates. Switching to complex coordinates also has important consequences for the metric and stress-energy tensor:
+	\begin{align}
+		g_{zz} = g_{\zbar\zbar} = 0&\qquad g_{z\zbar} = \frac{1}{2}\\
+		\partial_zT_{\zbar\zbar} = \partial_{\zbar} T_{zz} = 0&\qquad T_{z\zbar} = 0
+	\end{align}
+	The stress-energy tensor thus contains a meromorphic\footnote{The literature often just calls this holomorphic.} component $T_{zz}\equiv T(z)$ and an anti-meromorphic component $T_{\zbar\zbar}\equiv\overline{T}(\zbar)$.
+
+	\newdef{Witt algebra}{\index{Witt algebra}\label{cft:witt_algebra}
+		Infinitesimally this gives us an infinite-dimensional algebra. As generators\footnote{These generate the transformation $z\mapsto z-z^{n+1}$ and $\zbar\mapsto\zbar-\zbar^{n+1}$ respectively.} we choose
+		\begin{align}
+			l_n(z) &= -z^{n+1}\partial_z\\
+			\overline{l}_n(\zbar)&=-\zbar^{n+1}\partial_{\zbar}
+		\end{align}
+		These generate isomorphic Lie algebras with the following commutation relation:
+		\begin{gather}
+			[l_m, l_n] = (m-n)l_{m+n}.
+		\end{gather}
+		This Lie algebra is called the \textbf{Witt algebra}.
+	}
 	
 	\newdef{Conformal group}{\index{conformal!group}
 		The conformal group of a pseudo-Riemannian manifold $M$ is not just the conformal diffeomorphism group of $M$. The conformal group Conf$(M)$ is defined as the connected component of the identity element in the conformal diffeomorphism group of the conformal compactification of $M$.
@@ -56,46 +75,78 @@
 	\begin{remark}
 		Often one finds in the literature that the conformal group of a 2D CFT is infinite-dimensional. However this statement is not entirely true. It is true that the Witt algebra is infinite-dimensional, but one cannot globally exponentiate all generators $l_m$. First of all it should be remarked that the space of all holomorphic functions does not have a group structure, i.e. the composition of holomorphic functions does not have to be holomorphic. The correct notion of a conformal group for 2D Euclidean CFT's is the M\"obius group PSL$(2, \mathbb{C})$. This group is obtained as the Lie group generated by $l_0$ and $l_{\pm1}$, the only generators which can be globally exponentiated.
 		
-		What is however true is that the conformal group of 2D Minkowski space is infinite-dimensional. It can be shown that Conf$(\mathbb{R}^{1, 1})$ is isomorphic to $\text{Diff}(S^1)_+\times\text{Diff}(S^1)_+$ and the (orientation-preserving) diffeomorphism group Diff$(S^1)_+$ is indeed an infinite-dimensional Lie group (see further below).
+		What is however true is that the conformal group of 2D Minkowski space is infinite-dimensional. It can be shown that Conf$(\mathbb{R}^{1, 1})$ is isomorphic to $\text{Diff}(S^1)_+\times\text{Diff}(S^1)_+$ where the (orientation-preserving) diffeomorphism group Diff$(S^1)_+$ is indeed an infinite-dimensional Lie group (see the intermezzo further below).
 		
 		At last we should comment that although the conformal group of $\mathbb{R}^{2, 0}$ is finite-dimensional, the infinite-dimensionality of the Witt algebra (and of its extensions) is sufficient for all physical purposes.
 	\end{remark}
+	
+	\newdef{Primary field}{\index{primary!field}\index{conformal!weight}
+		A quasi-primary field is defined as any field which transforms tensorially under global conformal transformations;
+		\begin{gather}
+			\phi'(z', \zbar') = \left(\pderiv{f}{z}\right)^h\left(\pderiv{f}{\zbar}\right)^{\overline{h}}\phi(f(z), \overline{f}(\zbar)).
+		\end{gather}
+		Fields which satisfy this relation for all conformal transformations are called primary fields. The tuple $(h, \overline{h})$ is called the \textbf{conformal weight} of the field.
+	}
 
-\subsection{Minkowski space}
+\subsection{Intermezzo: Minkowski space}
 
-	As mentioned in the remark above, the conformal group of 2D Minkowski space is infinite-dimensional. The theory of infinite-dimensional manifolds is however a bit more intricate then the theory of finite-dimensional manifolds. A little introduction is therefore in order.
+	As mentioned in the remark above, the conformal group of 2D Minkowski space is infinite-dimensional. The theory of infinite-dimensional manifolds is however a bit more intricate than the theory of finite-dimensional manifolds. A little introduction is therefore in order.
 
 	\newdef{Fr\'echet space}{\index{Fr\'echet!space}
-		A complete locally convex Haussdorf topological vector space which admits a translation-invariant metric. Equivalently, a complete Haussdorf topological vector space for which the topology is induced by a countable family of seminorms.
+		A locally convex topological vector space which admits a complete translation-invariant metric. Equivalently, a complete Hausdorff topological vector space for which the topology is induced by a countable family of seminorms.
 	}
 	\newdef{Smooth map}{\index{smooth!function}\index{G\^ateaux}
 		The \textit{G\^ateaux derivative} of a continuous map of Fr\'echet spaces $f:F\rightarrow G$ is defined as follows:
 		\begin{gather}
-			D_hf(a) = \lim_{t\rightarrow0}\frac{f(a+th) - f(a)}{t}
+			D_hf(a) = \lim_{t\rightarrow0}\frac{f(a+th) - f(a)}{t}.
 		\end{gather}
-		If this limit exists and is continuous in both $a, h$ then $f$ is said to be of class $C^1$. By iterating this construction one can define smooth maps of Fr\'echet spaces.
+		If this limit exists and is continuous in both $a, h$ then $f$ is said to be of class $C^1$. By iterating this construction one can define $C^k$-maps and even smooth maps of Fr\'echet spaces.
 	}
 	\newdef{Fr\'echet manifold}{
-		A Fr\'echet manifold is a Haussdorf space $M$ together with an atlas of coordinate charts $(U, \varphi)$ such that $\varphi:U\rightarrow F_U$ are homeomorphisms onto a Fr\'echet space and such that the transition functions are smooth maps (of Fr\'echet spaces).
+		A Fr\'echet manifold is a Hausdorff space $M$ together with an atlas of coordinate charts $(U, \varphi)$ such that $\varphi:U\rightarrow F_U$ are homeomorphisms onto a Fr\'echet space and such that the transition functions are smooth maps (of Fr\'echet spaces).
 	}
 	
-	Using the above definitions we can start to analyze the group Diff$(S^1)_+$. First of all we look at the space of all smooth maps $S^1\rightarrow S^1$. This space has a natural structure of Fr\'echet manifold modelled on the Fr\'echet space $\mathfrak{X}(S^1)$ of vector fields on the circle\footnote{By this definition we see that $\mathfrak{X}(S^1)$ is isomorphic (as a Lie algebra) to the mapping space $C^\infty(S^1, \mathbb{R})$. As such we will identify vector fields $v$ with their corresponding function $\xi$.}:
+	Using the above definitions we can start to analyze the group Diff$(S^1)_+$. First of all we look at the space of all smooth maps $S^1\rightarrow S^1$. This space has the structure of a Fr\'echet manifold modelled on the Fr\'echet space $\mathfrak{X}(S^1)$ of vector fields on the circle\footnote{By this definition we see that $\mathfrak{X}(S^1)$ is isomorphic (as a Lie algebra) to the mapping space $C^\infty(S^1, \mathbb{R})$. Henceforth we identify vector fields $v$ with their corresponding function $\xi$.}:
 	\begin{gather}
-		\mathfrak{X}(S^1) = \left\{\xi(\theta)\frac{\partial}{\partial\theta}:\theta\in C^\infty(S^1)\right\}
+		\mathfrak{X}(S^1) = \left\{\xi(\theta)\frac{\partial}{\partial\theta}:\theta\in C^\infty(S^1)\right\}.
 	\end{gather}
-	Let $V_0$ be the set of vector fields which have norm $||v||\leq\pi$ and let $U_0$ be the set of smooth mappings $f\in C^\infty(S^1, S^1)$ such that $f(\theta)\neq-\theta$ for all $\theta\in S^1$. Then there exists a diffeomorphism $\psi:V_0\rightarrow U_0$ which assigns to any vector field $v$ the function $\psi_v:S^1\rightarrow S^1$ such that the arc between $\theta$ and $\psi_v(\theta)$ has length $||v(\theta)||$. If we choose an open subset $U\subset U_0$ of diffeomorphism then we obtain a chart $(U, \psi^{-1})$ around the identity map. Charts around any diffeomorphism $f:S^1\rightarrow S^1$ are obtained by left multiplication of $U$.
+	Let $V_0$ be the set of vector fields which have norm $||v||\leq\pi$ and let $U_0$ be the set of smooth mappings $f\in C^\infty(S^1, S^1)$ such that $f(\theta)\neq-\theta$ for all $\theta\in S^1$. Then there exists a diffeomorphism $\psi:V_0\rightarrow U_0$ which assigns to any vector field $v$ the function $\psi_v:S^1\rightarrow S^1$ such that the arc between $\theta$ and $\psi_v(\theta)$ has length $||v(\theta)||$. If we choose an open subset $U\subset U_0$ of diffeomorphisms then we obtain a chart $(U, \psi^{-1})$ around the identity map. Charts around any diffeomorphism $f:S^1\rightarrow S^1$ are obtained by left multiplication of $U$.
 	
-	The Lie algebra of Diff$(S^1)_+$ is accordingly given by $\mathfrak{X}(S^1)$ but the induced Lie bracket is the commutator of vector fields with the opposite sign: \[[\cdot, \cdot]_{Lie} = -[\cdot, \cdot]_{\mathfrak{X}(S^1)}\]
-	
-	Now it is interesting to note that the Witt algebra is actually a subalgebra of $\mathfrak{X}(S^1)$. Consider the maps $\xi_n(\theta):=-ie^{in\theta}$ (the minus sign is a convention). The associated vector fields then satisfy:
+	The Lie algebra of Diff$(S^1)_+$ is accordingly given by $\mathfrak{X}(S^1)$ but the induced Lie bracket is the commutator of vector fields with the opposite sign: \[[\cdot, \cdot]_{Lie} = -[\cdot, \cdot]_{\mathfrak{X}(S^1)}.\] Now it is interesting to note that the Witt algebra is actually a subalgebra of $\mathfrak{X}(S^1)$. Consider the maps $\xi_n(\theta):=-ie^{in\theta}$ (the minus sign is a convention). The associated vector fields then satisfy
 	\begin{gather}
-		\left[\xi_k(\theta)\frac{\partial}{\partial\theta}, \xi_l(\theta)\frac{\partial}{\partial\theta}\right] = -i(l-k)\xi_{k+l}(\theta)\frac{\partial}{\partial\theta}
+		\left[\xi_k(\theta)\frac{\partial}{\partial\theta}, \xi_l(\theta)\frac{\partial}{\partial\theta}\right] = -i(l-k)\xi_{k+l}(\theta)\frac{\partial}{\partial\theta}.
 	\end{gather}
 	These are exactly the relations for the Witt algebra.
 
 \section{Quantization}
 
 	\sremark{From here one we will always work in 2 dimensions.}
+	
+\subsection{Radial quantization}
+
+	The charge of a conserved current $\mathcal{J}^\mu$ is generally given by the following formula\footnote{See Noether's theorem \ref{qft:noethers_theorem}.}:
+	\begin{gather}
+		Q = \int_\Sigma\mathcal{J}^0(x, t)
+	\end{gather}
+	where $\Sigma$ is a spacelike hypersurface. Often we will compactify the spatial dimension (this can be seen as some kind of regularization) and Wick rotate the time dimension. By a conformal transformation one can then go back to the plane (mapping one end of the cylinder to the origin and the other side to a circle at $+\infty$). After these transformations we obtain the following form for an operator on the plane:
+	\begin{gather}
+		Q_\varepsilon = \frac{1}{2\pi i}\oint dz\varepsilon(z)T(z) + \frac{1}{2\pi i}\oint d\zbar\varepsilon(\zbar)\overline{T}(\zbar).
+	\end{gather}
+	As usual we expect an infinitesimal transformation of a field $\phi$ to be given by the commutator $[Q_\varepsilon, \phi(w, \overline{w})]$ or in integral form by\footnote{We implicitly assumed a holomorphic split such that we can ignore (anti-holomorphic) $\overline{T}(\zbar)$ contributions.} \[\frac{1}{2\pi i}\oint dz\varepsilon(z)[T(z)\phi(w, \overline{w}) - \phi(w, \overline{w})T(z)].\] However because all the objects in this formula are operators we should take into account the operator ordering. On the plane this is given by the so-called \textbf{radial ordering}:\index{radial ordering}
+	\begin{gather}
+		\mathcal{R}(A(z, \zbar)B(w, \overline{w})) = \begin{cases}
+			A(z, \zbar)B(w, \overline{w})&|z|>|w|\\
+			B(w, \overline{w})A(z, \zbar)&|w|>|z|
+		\end{cases}
+	\end{gather}
+	After deforming our integration contour we obtain the following general formula:
+	\begin{gather}
+		[Q_\varepsilon, \phi(w, \overline{w})] = \frac{1}{2\pi i}\oint dz\varepsilon(z)\mathcal{R}(T(z)\phi(w, \overline{w}))
+	\end{gather}
+	where the contour is now a circle around the point $w$. For primary fields with conformal weight $h$ one can also write an infinitesimal transformation as \[\delta_\varepsilon\phi(z, \zbar) = h(\partial_z\varepsilon(z))\phi(z, \zbar) + \partial_z\phi(z, \zbar).\] Comparing these two expressions leads us to the following form of the operator product:
+	\begin{gather}
+		\mathcal{R}(T(z)\phi(w, \overline{w})) = \frac{h}{(z-w)^2}\phi(w, \overline{w}) + \frac{1}{z-w}\partial_w\phi(w, \overline{w}) + \text{higher order in } (z-w)
+	\end{gather}
 
 \subsection{Virasoro algebra}\index{Virasoro algebra}
 
@@ -103,23 +154,19 @@
 	
 	If we now want a quantum theory equipped with an action of the ''conformal group'', then we need to construct a central extension of the Witt algebra. By applying the construction of section \ref{section:central_extension_algebra} we obtain the \textbf{Virasoro algebra} as a (universal) central extension of the Witt algebra by\footnote{The reason why we extend by $\mathbb{C}$ instead of $\mathbb{R}$ is that we are working with complexified Lie algebras.} $\mathbb{C}$ associated to the cocycle \[\Theta:(L_m, L_n)\mapsto \frac{c}{12}m(m^2-1)\delta_{m+n, 0}\]
 
-	To obtain the Virasoro algebra from a more physical point of view we look at the stress-energy tensor. One can expand the stress-energy tensor in modes as follows:
+	To obtain the Virasoro algebra from a more physical point of view we look at the stress-energy tensor. If we choose the current $\mathcal{J}^n(z) := z^{n+1}T(z)$ we expect to obtain the transformation $z\longrightarrow z-z^{n+1}$. In analogy with the generators of the Witt algebra (definition \ref{cft:witt_algebra}) we call this generator $L_n$:
 	\begin{gather}
-		T(z) = \sum_{n\in\mathbb{Z}}z^{-n-2}L_n
+		L_n = \frac{1}{2\pi i}\oint dzz^{n+1}T(z).
 	\end{gather}
-	where the exponent is chosen such that the mode $L_{-n}$ has scaling dimension $n$. This relation can be inverted using the residue theorem to obtain the following expression:
+	 This relation can be inverted using the residue theorem to obtain the following expression:
 	\begin{gather}
-		L_n = \oint\frac{dz}{2\pi i}z^{n+1}T(z).
+		T(z) = \sum_{n\in\mathbb{Z}}z^{-n-2}L_n.
 	\end{gather}
 	Using the above expression and the product operator expansion of $T(z)T(w)$ one obtains exactly the commutation relation of the Virasoro algebra:
 	\begin{gather}
 		[L_m, L_n] = (m-n)L_{m+n} + \frac{c}{12}m(m^2-1)\delta_{m+n, 0}
 	\end{gather}
-	
-	However there remains some freedom in the definition of the generators $L_n$. We can fix the definitions by requiring that the subalgebra spanned by $L_0$ and $L_{\pm1}$ still spans $\mathfrak{sl}(2, \mathbb{C})$ or equivalently that SL$(2, \mathbb{C})$ is still a global symmetry group even though the quantum algebra contains a central charge. ??EXPLAIN??
-
-\subsection{Radial quantization}
-
+	The occurence of the central charge $c$ gives a conformal anomaly on quantization (see the definition of a the vacuum further below). However the central charge does not affect the $\mathfrak{sl}(2, \mathbb{C})$ subalgebra spanned by $L_{-1}, L_0$ and $L_1$ which implies that concepts such as the conformal weight are still useful.
 
 \subsection{Representation theory}
 

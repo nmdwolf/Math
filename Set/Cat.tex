@@ -1,6 +1,6 @@
 \chapter{Category theory}
 
-	For the theory of higher categories and its applications to topology and algebra we refer to the lecture notes of John Baez \cite{baez_cohom}. For more information on higher categories we refer to the book by Baez \& May \cite{towards_higher_cat}.
+	For the theory of higher categories and its applications to topology and algebra we refer to the lecture notes of John Baez \cite{baez_cohom}. For more information on higher categories we refer to the book by Baez \& May \cite{towards_higher_cat}. A good starting point for bicategories (and onwards) is the paper by Leinster \cite{basic_bicategories}.
 
 \section{Categories and subcategories}
 
@@ -44,19 +44,6 @@
 		A category is said to be skeletal if isomorphic objects are identical, i.e. every isomorphism is an identity morphism. The \textbf{skeleton} of a category is an equivalent skeletal category (often taken to be a subcategory by choosing a representative for every isomorphism class).
 		
 		If one does not assume the axiom of choice the skeleton is merely a weakly equivalent skeletal category.
-	}
-	
-	\newdef{Enriched category}{\index{category!enriched}
-	        Let $(\bf M, \otimes, \mathbf{1})$ be a monoidal category\footnote{See definition \ref{category:monoidal_category} further below.}. An enriched category over $\bf M$, also called an $\mathbf{M}$-category, consists of the following elements:
-	        \begin{itemize}
-	                \item A collection of objects $\ob{C}$.
-	                \item For every pair of objects $A, B\in\ob{C}$ there is an object $\textbf{C}(A, B)\in\ob{M}$ for which the following morphisms exist:
-	                \begin{itemize}
-	                        \item id$_A: \mathbf{1}\rightarrow\textbf{C}(A,A)$ giving the (enriched) identity morphism
-	                        \item $\circ_{ABC}:\textbf{C}(B, C)\otimes\textbf{C}(A, B)\rightarrow\textbf{C}(A, C)$ replacing the usual composition
-	                \end{itemize}
-	        \end{itemize}
-	        The associativity and identity morphisms from ordinary categories are given by commutative diagrams of the id and $\circ$ morphisms together with the associators and unitors in $\textbf{M}$.
 	}
 
 	\newdef{Category with weak equivalences}{\index{weak!equivalence}\label{category:weak_equivalence}
@@ -123,6 +110,10 @@
 		
 		Assuming the axiom of choice, this definition is equivalent to stating that there exists a fully faithful and essentially surjective functor between the two categories.
 	}
+	
+	\begin{property}\index{equivalence!adjoint}
+		Any equivalence of categories is part of an adjoint equivalence, i.e. an adjunction\footnote{See section \ref{section:category:adjunction} below.} for which the unit and counit morphisms are invertible.
+	\end{property}
 	
 \subsection{Stuff, structure and property}\index{forgetful}
 
@@ -206,7 +197,7 @@
 		called the Yoneda embedding. 
 	\end{result}
 	
-\subsection{Adjunctions}
+\subsection{Adjunctions}\label{section:category:adjunction}
 
 	\newdef{Hom-set adjunction}{\index{adjunction}
 		Let $\func{F}{C}{D}$ and $\func{G}{D}{C}$ be two functors. These functors form a hom-set adjunction (often just called an adjunction) if the following isomorphism is natural in $a, b$:
@@ -723,6 +714,176 @@
 		Consider a category \textbf{C} with a collection of morphism $M\subset\text{mor}(\textbf{C})$. The localization of \textbf{C} with respect to $M$ is constructed by adding for each morphism $f\in M$ a formal inverse to $\text{mor}(\textbf{C})$.
 	}
 
+\section{Abelian categories}
+
+	\newdef{Pre-additive category}{
+		A (locally small) category enriched over \textbf{Ab}, i.e. every hom-set is an Abelian group and composition is bilinear.
+	}
+	\newdef{$k$-linear category}{\index{category!linear}
+		Let \textbf{Vect}$_k$ denote the category of vector spaces over the base field $k$. A $k$-linear category is a category enriched over \textbf{Vect}$_k$.
+	}
+	
+	\begin{property}\index{zero!object}
+		Let \textbf{A} be a pre-additive category and let $X\in\ob{A}$. The following statements are equivalent:
+		\begin{itemize}
+			\item $X$ is an initial object.
+			\item $X$ is a final object.
+			\item $\mathbbm{1}_X$ = 0
+		\end{itemize}
+		Any initial/terminal object is hence a zero object\footnote{See definition \ref{cat:zero_object}.}.
+	\end{property}
+	\begin{property}\index{biproduct}
+		In a pre-additive category the finite products $\prod_{i\in I}X_i$ are isomorphic to the finite coproducts $\bigsqcup_{i\in I} X_i$ (which are called \textbf{direct sums} in this context). If a product $X\times Y$ exists then so does the coproduct $X\sqcup Y$ and if the coproduct exists then so does the product. In general if a product and coproduct exist and are equal then one speaks of a \textbf{biproduct}.
+	\end{property}
+	
+	\newdef{Additive category}{\index{additive!category}
+		A pre-additive category in which all finite biproducts exist.
+	}
+	
+	If one speaks of additive categories, one generally assumes that the associated functors are of a specific type:
+	\newdef{Additive functor}{\index{additive!functor}\label{category:additive_functor}
+		Let $\mathbf{A}, \mathbf{A'}$ be additive categories. A functor $\func{F}{A}{A'}$ is said to be additive if it preserves all biproducts, i.e. if it satisfies the following conditions:
+		\begin{itemize}
+			\item It preserves zero objects: $F0_A \cong 0_{A'}$.
+			\item There exists a natural isomorphism $F(X\oplus Y)\cong FX\oplus FY$.
+		\end{itemize}
+		
+		One can generalize this notion to pre-additive categories. A functor between pre-additive categories is said to be additive if it acts as a group morphism on hom-spaces.
+	}
+	
+	In a pre-additive category one can define the classical notions from (homological) algebra such as images and kernels:
+	\newdef{Kernel}{\index{kernel}
+		Let $f:X\rightarrow Y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:Z\rightarrow X$ such that:
+		\begin{itemize}
+			\item $f\circ k = 0$
+			\item Universal property: for every other morphism $k':Z'\rightarrow X$ such that $f\circ k' = 0$ there exists a unique morphism $h:Z'\rightarrow Z$ such that $k\circ h = k'$.
+		\end{itemize}
+		Hence a kernel of $f$ is an equalizer of $f$ and 0.
+	}
+	\begin{notation}[Kernel]
+		If the kernel of $f:X\rightarrow Y$ exists then it is denoted by $\ker(f)\rightarrow X$.
+	\end{notation}
+	
+	\newdef{Cokernel}{
+		Let $f:X\rightarrow Y$ be a morphism. A cokernel is a morphism $p:Y\rightarrow Z$ such that:
+		\begin{itemize}
+			\item $p\circ f = 0$
+			\item Universal property: for every other morphism $p':Y\rightarrow Z'$ such that $p'\circ f = 0$ there exists a unique morphism $h:Z\rightarrow Z'$ such that $h\circ p = p'$.
+		\end{itemize}
+		Hence a cokernel of $f$ is a coequalizer of $f$ and 0.
+	}
+	\begin{notation}[Cokernel]
+		If the cokernel of $f:X\rightarrow Y$ exists then it is denoted by $Y\rightarrow\text{coker}(f)$.
+	\end{notation}
+	\remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by Yoneda's lemma the morphism \[\ker(f)\rightarrow X\] represents the functor \[F:Z\mapsto\ker\Big(\textbf{C}(Z, X)\rightarrow\textbf{C}(Z, Y)\Big)\]}
+
+	\newdef{Pre-Abelian category}{
+		An additive category is pre-Abelian if every morphism has a kernel and cokernel.
+	}
+	\newdef{Abelian category}{\index{Abelian!category}
+		A pre-Abelian category in which every mono is a kernel and every epi is a cokernel or equivalently if for every morphism $f$ there exists an isomorphism $\text{coker}(\ker(f))\cong\ker(\text{coker}(f))$.
+	}
+	
+	\begin{property}
+		In Abelian categories a morphism is monic if and only if it is injective, i.e. its kernel is 0. Analogously a morphism is epic if and only if it is surjective, i.e. its cokernel is 0.
+	\end{property}
+
+	\newdef{Exact functor}{\index{exact!functor}
+		Let $\func{F}{A}{A'}$ be an additive functor between additive categories. We use the following definitions:
+		\begin{itemize}
+			\item $F$ is said to be left exact if it preserves kernels.
+			\item $F$ is said to be right exact if it preserves cokernels.
+			\item $F$ is said to be exact if it is both left and right exact.
+		\end{itemize}
+	}
+	\begin{result}
+		The previous definition implies the following properties (which can in fact be used as an alternative definition):
+		\begin{itemize}
+			\item If $F$ is left exact it maps an exact sequence of the form \[0\longrightarrow A\longrightarrow B\longrightarrow C\]
+			to an exact sequence of the form \[0\longrightarrow FA\longrightarrow FB\longrightarrow FC\]
+			\item If $F$ is right exact it maps an exact sequence of the form \[A\longrightarrow B\longrightarrow C\longrightarrow 0\]
+			to an exact sequence of the form \[FA\longrightarrow FB\longrightarrow FC\longrightarrow 0\]
+			\item If $F$ is exact it maps short exact sequences to short exact sequences.
+		\end{itemize}
+	\end{result}
+
+\subsection{Finiteness}
+
+	\newdef{Simple object}{\index{simple!object}
+		Let \textbf{C} be an Abelian category. An object $A\in\ob{C}$ is said to be simple if the only subobjects of $A$ are $\mathbf{0}$ and $A$ itself. An object is said to be semisimple if it is a direct sum of simple obejcts.
+	}
+	\newdef{Semisimple category}{
+		A category is said to be semisimple if every object is semisimple (where generally the direct sums are taken over finite index sets).
+	}
+	
+	\newdef{Jordan-H\"older series}{\index{Jordan-H\"older}\index{finite}
+		A filtration \[0\rightarrow X_1\rightarrow X_2\rightarrow\cdots\rightarrow X_n=X\] of an object $X$ is said to be a Jordan-H\"older series if the quotient objects $X_i/X_{i-1}$ are simple for all $i\leq n$. If the series is finite, i.e. $n\in\mathbb{N}$, then the object $X$ is said to be \textbf{finite}.
+	}
+	\begin{theorem}[Jordan-H\"older]
+		If an object $X$ in an Abelian category is finite then every Jordan-H\"older series has the same length. In particular, the multiplicities of simple objects are the same for all such series.
+	\end{theorem}
+	\begin{theorem}[Krull-Schmidt]\index{Krull-Schmidt}\index{indecomposable}
+		Any object in an Abelian category of finite length admits a unique decomposition as a direct sum of indecomposable\footnote{An object is \textbf{indecomposable} if it cannot be written as a direct sum of its subobjects.} objects.
+	\end{theorem}
+	
+	\newdef{Locally finite}{\label{category:locally_finite}
+		A $k$-linear Abelian category is said to be locally finite if it satisfies the following conditions:
+		\begin{enumerate}
+			\item Every hom-space is finite-dimensional.
+			\item Every object has finite length.
+		\end{enumerate}
+	}
+	\newdef{Finite}{\index{finite}
+		A $k$-linear Abelian category is said to be finite if it satisfies the following conditions:
+		\begin{enumerate}
+			\item It is locally finite.
+			\item It has enough projectives (or equivalently every simple object has a projective cover).
+			\item The set of isomorphism classes of simple objects is finite.
+		\end{enumerate}
+	}
+	
+	\begin{theorem}[Schur's lemma]\index{Schur's lemma}
+		Let $\mathbf{C}$ be an Abelian category. For every two simple objects $X, Y$ one has that every non-zero moprhism $X\rightarrow Y$ is an isomorphism. In particular, if $X, Y$ are two non-isomorphic simple objects then $\mathbf{C}(X, Y)=0$ and $\mathbf{C}(X, X)$ is a division algebra.
+	\end{theorem}
+	\begin{result}
+		If $\mathbf{C}$ is locally finite and $k$ is algebraically closed then $\mathbf{C}(X, X)\cong k$ for all simple objects $X$.
+	\end{result}
+
+\section{Enriched categories}
+
+	\newdef{Enriched category}{\index{category!enriched}
+	        Let $(\bf M, \otimes, \mathbf{1})$ be a monoidal category\footnote{See definition \ref{category:monoidal_category}.}. An enriched category over $\bf M$, also called an $\mathbf{M}$-category, consists of the following elements:
+	        \begin{itemize}
+	                \item A collection of objects $\ob{C}$.
+	                \item For every pair of objects $A, B\in\ob{C}$ there is an object $\textbf{C}(A, B)\in\ob{M}$ for which the following morphisms exist:
+	                \begin{itemize}
+	                        \item id$_A: \mathbf{1}\rightarrow\textbf{C}(A,A)$ giving the (enriched) identity morphism
+	                        \item $\circ_{ABC}:\textbf{C}(B, C)\otimes\textbf{C}(A, B)\rightarrow\textbf{C}(A, C)$ replacing the usual composition
+	                \end{itemize}
+	        \end{itemize}
+	        The associativity and identity morphisms from ordinary categories are given by commutative diagrams of the id and $\circ$ morphisms together with the associators and unitors in $\textbf{M}$.
+	}
+	
+	\newdef{Enriched functor}{
+		Given two $\mathbf{M}$-enriched categories one can define the relevant notion of functor between them. A $\mathbf{M}$-enriched functor $\func{F}{C}{D}$ consists of the following data:
+		\begin{itemize}
+			\item A function $F_0:\ob{C}\rightarrow\ob{D}$ (as for ordinary functors).
+			\item For every two objects $A,B\in\ob{C}$ a morphism $F_{A, B}:\mathbf{C}(A, B)\rightarrow\mathbf{D}(FA, FB)$ in $\mathbf{M}$.
+		\end{itemize}
+		These have to satisfy the obvious composition and unit conditions.
+	}
+	
+	\newdef{Day convolution}{\index{Day convolution}
+		Consider a monoidally cocomplete category\footnote{i.e. a monoidal category for which the tensor product bifunctor is cocontinuous in each argument.} $\mathbf{M}$ together with a $\mathbf{M}$-enriched category $\mathbf{C}$. Given two $\mathbf{M}$-enriched functors $\mathbf{C}\rightarrow\mathbf{M}$ one defines their tensor product (if it exists) as the following coend:
+		\begin{gather}
+			F\otimes_{\text{Day}} G = \int^{X,Y\in\mathbf{C}}\mathbf{C}(X\otimes Y, -)\otimes FX\otimes GY
+		\end{gather}
+	}
+	
+	\begin{property}[Monoidal structure]
+		In the case that $\mathbf{M}$ is a closed symmetric monoidal category the Day convolution is associative and hence defines a monoidal structure on the functor category $[\mathbf{C},\mathbf{M}]$. (The tensor unit is given by the functor (co)represented by the tensor unit in $\mathbf{C}$.)
+	\end{property}
+
 \section{Internal structures}\index{internal}
 
 	\newdef{Internal hom\footnotemark}{\label{category:internal_hom}
@@ -737,7 +898,7 @@
 		A different, but frequently used, notation is $A\Rightarrow B$. However we will not use this as it might confuse with the notation for 2-morphisms.
 	\end{notation}
 	
-	\newdef{Exponential object}{\index{exponential!object}
+	\newdef{Exponential object}{\index{exponential!object}\label{category:exponential_object}
 		In the case of Cartesian (monoidal) categories, i.e. categories where the monoidal structure is given by the (Cartesian) product, the internal hom $\underline{\text{hom}}(a, b)$ is called the exponential object. This is often denoted by $b^a$.
 	}
 	\newdef{Closed category}{\index{category!closed}
@@ -821,10 +982,58 @@
 			\item Vertical composition in $\mathbf{BC}$ is composition in $\textbf{C}$.
 		\end{itemize}
 		Conversely every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent. (This property and its generalizations are the content of the \textit{delooping hypothesis}.)
+		
+		In the same way one can deloop a braided monoidal category twice and find an identification with a one-object tricategory with one 1-morphism. However this identification is not a trivial one as it makes use of the Eckmann-Hilton argument to identify different monoidal structures on this tricategory. (See also section \ref{section:monoidal_n_cat}.)
 	\end{property}
 
-\subsection{\texorpdfstring{$\infty$-functors}{Infinity-functors}}
+\subsection{\texorpdfstring{$n$-functors}{n-functors}}
 
+	\newdef{2-functor}{\index{pseudofunctor}
+		A 2-functor $\mathbf{F}:\mathcal{A}\rightarrow\mathcal{B}$ (often called a \textbf{pseudofunctor}) is the natural morphism between bicategories. It consists of the following data:
+		\begin{itemize}
+			\item A function $F:\text{ob}(\mathcal{A})\rightarrow\text{ob}(\mathcal{B})$
+			\item For every two objects $X,Y\in\text{ob}(\mathcal{A})$ a functor\footnote{This functor is also often denoted by $F$.} $F_{X,Y}:\mathcal{A}(X, Y)\rightarrow\mathcal{B}(FX, FY)$
+		\end{itemize}
+		These operations need to satisfy the following coherence conditions:
+		\begin{itemize}
+			\item \textbf{Associator}: For every pair of composable 1-morphisms $f\circ g:X\rightarrow Y\rightarrow Z$ in $\mathcal{A}$ a 2-isomorphism $\gamma_{f, g}:F(f)\circ F(g)\Rightarrow F(f\circ g)$ such that for every triple of composable morphisms $f\circ g\circ h$ in $\mathcal{A}$ the following identity holds\footnote{Technically one should also insert the associators of the bicategories $\mathcal{A},\mathcal{B}$ to really make this an equality.}:
+			\begin{gather}
+				\gamma_{f\circ g, h}\circ(\gamma_{f, g}\cdot\mathbbm{1}_{F(h)}) = \gamma_{f, g\circ h}\circ(\mathbbm{1}_{F(f)}\cdot\gamma_{g, h})
+			\end{gather}
+			\item \textbf{Unitor}: For every object $X\in\text{ob}(\mathcal{A})$ a 2-isomorphism $\iota_X:\mathbbm{1}_{F(X)}\Rightarrow F(\mathbbm{1}_X)$ such that for every morphism $f:X\rightarrow Y$ in $\mathcal{A}$ the following identities hold\footnote{Again one should technically insert the unitors of the bicategories $\mathcal{A},\mathcal{B}$ to make these equalities hold.}:
+			\begin{gather}
+				\iota_Y\cdot\mathbbm{1}_{F(f)} = \gamma_{\mathbbm{1}_Y, f}\\
+				\mathbbm{1}_{F(f)}\cdot\iota_X = \gamma_{f, \mathbbm{1}_X}
+			\end{gather}
+		\end{itemize}
+	}
+	\newdef{Lax natural transformation}{
+		Consider two 2-functors $\mathbf{F}, \mathbf{G}$ between 2 bicategories $\mathcal{A}$ and $\mathcal{B}$. A lax natural transformation $\eta:\mathbf{F}\Rightarrow\mathbf{G}$ consists of the following data:
+		\begin{itemize}
+			\item For every object $A\in\text{ob}(\mathcal{A})$ a 1-morphism $\eta_A:FA\rightarrow GA$
+			\item For every 1-morphism $f:A\rightarrow B$ in $\mathcal{A}$ a 2-morphism $\eta_f:G(f)\circ\eta_A\Rightarrow\eta_B\circ F(f)$ such that the $\eta_f$ are the components of a natural transformation $(\eta_A)^*\circ G\Rightarrow (\eta_B)_*\circ F$ and such that the assignment $f\mapsto\eta_f$ satisfies the obvious identity and composition axioms.
+		\end{itemize}
+	}
+	
+	\remark{As usual in the higher category context one can speak of lax 2-functors if the associator and unitors above are merely required to be 2-morphisms and of strict 2-functors if these morphisms are required to be identities. If the natural transformations between morphism categories in the definition of a lax natural transformation are all isomorphisms then we call this a  \textbf{pseudonatural transformation}.}
+	
+	\newdef{Modification}{\index{modification}
+		Consider two bicategories $\mathcal{A},\mathcal{B}$, two 2-functors $\mathbf{F},\mathbf{G}:\mathcal{A}\rightarrow\mathcal{B}$ and two parallel (lax) natural transformations $\alpha,\beta:\mathbf{F}\Rightarrow\mathbf{G}$. A modification $\mathfrak{m}:\alpha\Rrightarrow\beta$ maps every object $A\in\text{ob}(\mathcal{A})$ to a 2-morphism $\mathfrak{m}_A:\alpha_A\Rightarrow\beta_A$ such that $\beta_f\circ(\mathbbm{1}_{G(f)}\cdot\mathfrak{m}_A) = (\mathfrak{m}_B\cdot\mathbbm{1}_{F(f)})\alpha_f$.
+	}
+
+	\newdef{Transfor}{\index{transfor}
+		A $k$-transfor\footnote{This name was first introduced by Crans in \cite{crans_transfors}. A different name which is sometimes used is \textbf{$(n,k)$-transformation}, but this should not be confused with the concept from $(n, r)$-categories.} between two $n$-categories maps $j$-morphisms in one $n$-category to $(j+k)$-morphisms in the other (in a coherent way).
+	}
+	\begin{example}\index{perturbation}
+		The definitions for operations in bicategories above lead us to the following ''explicit'' expressions for $k$-transfors (for small $k$):
+		\begin{itemize}
+			\item $k=0$: $n$-functors
+			\item $k=1$: ($n$-)natural transformations
+			\item $k=2$: modifications
+		\end{itemize}
+		For $k=4$ the transfors are often called \textbf{perturbations}.
+	\end{example}
+	
 	The following definition generalizes the notion of \textit{essential surjectivity} to higher category theory:
 	\newdef{$n$-surjective functor}{\index{surjective}
 		An $\infty$-functor $\func{F}{C}{D}$ is said to be $n$-surjective if for any two parallel $(n-1)$-morphisms $e, e'$ in $\mathbf{C}$ and $n$-morphism $f: Fe\rightarrow Fe'$ in $\mathbf{D}$ there exists an $n$-morphism $\tilde{f}$ in $\mathbf{C}$ such that $F\tilde{f}\cong f$.
@@ -864,7 +1073,7 @@
 		Every groupoid is a (disjoint) union of its transitive components.
 	\end{property}
 	\newdef{Transitive groupoid}{\index{transitive!groupoid}
-		A groupoid $\mathcal{G}$ is said to be transitive if for all objects $x, y\in\ob(\mathcal{G})$, where $x\neq y$, the set hom$_{\mathcal{G}}(x, y)\neq\emptyset$.
+		A groupoid $\mathcal{G}$ is said to be transitive if for all objects $x, y\in\text{ob}(\mathcal{G})$, where $x\neq y$, the set hom$_{\mathcal{G}}(x, y)$ is not empty.
 	}
 	
 	\newdef{Lie groupoid\footnotemark}{\index{Lie!groupoid}
@@ -959,7 +1168,11 @@
 			\end{itemize}
 		\end{enumerate}
 	}
-	\remark{If one represents the operad using planar tree diagrams the associativity obtains a nice intuitive form. When combining planar tree diagrams in three layers the associativity axiom says that one can first glue the first two layers together or one can first glue the last two layers together.}
+	\begin{notation}
+		If one represents the operad using planar tree diagrams the associativity obtains a nice intuitive form. When combining planar tree diagrams in three layers the associativity axiom says that one can first glue the first two layers together or one can first glue the last two layers together.
+	\end{notation}
+	
+	\remark{One can define plain operads in any monoidal category. In the same way one can define a symmetric operad in any symmetric monoidal category.}
 	
 	\begin{example}\index{endomorphism!operad}
 		\nomenclature[S_endop]{$\mathcal{E}$nd}{Endomorphism operad}
@@ -967,15 +1180,24 @@
 	\end{example}
 
         \newdef{$O$-algebra}{\index{algebra!over an operad}
-                An object $X$ is called an algebra over an operad $O$ if there exist morphisms $O(n)\times X^n\rightarrow X$ for every $n\in\mathbb{N}$ satisfying the usual composition and identity laws. Alternatively this can be rephrased as the existence of a (plain) operad morphism $O(n)\rightarrow\mathcal{E}\text{nd}(X)$.
+                An object $X$ is called an algebra over an operad $O$ if there exist morphisms \[O(n)\times X^n\rightarrow X\] for every $n\in\mathbb{N}$ satisfying the usual composition and identity laws. Alternatively this can be rephrased as the existence of a (plain) operad morphism $O(n)\rightarrow\mathcal{E}\text{nd}(X)$.
         }
         \begin{example}[Categorical $O$-algebra]
                 An $O$-algebra in the category Cat.
         \end{example}
-        
-	\begin{example}[Little $k$-cubes operad]\index{operad!little $k$-cubes}
-		A topological operad for which every topological space $\mathcal{P}(n)$ consists all possibe configurations of $n$ embedded $k$-cubes in a (unit) $k$-cube. Composition is given by the obvious way of inserting one unit $k$-cube in one of the smaller embedded $k$-cubes.
-	\end{example}
-	\begin{property}[Boardman\&Vogt - May]
-	
+
+\subsection{Algebraic topology and homotopy theory}
+
+	\newdef{Stasheff operad}{\index{Stasheff!operad}
+		A topological operad $\mathcal{K}$ such that $\mathcal{K}(n)$ is given by the $n^{\text{th}}$ Stasheff polytope/associahedron. Composition is given by the inclusion of faces.
+	}
+	\newdef{$A_\infty$-space}{\index{$A_\infty$-space}
+		An algebra over the Stasheff operad. This induces the structure of a multiplication which is associative up to coherent homotopy.
+	}
+
+	\newdef{Little $k$-cubes operad}{\index{operad!little $k$-cubes}
+		A topological operad for which every topological space $\mathcal{P}(n)$ consists of all possible configurations of $n$ embedded $k$-cubes in a (unit) $k$-cube. Composition is given by the obvious way of inserting one unit $k$-cube in one of the smaller embedded $k$-cubes.
+	}
+	\begin{property}[Recognition principle]\index{recognition principle}
+		If a connected topological space $X$ forms an algebra over the little $k$-cubes operad then it is (weakly) homotopy equivalent to the $k$-loop space $\Omega^kY$ of a another pointed topological space $Y$. For $k=1$ one should technically use the Stasheff operad, but one can show that this is related to the little interval operad.
 	\end{property}

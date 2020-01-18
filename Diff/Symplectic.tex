@@ -147,11 +147,11 @@
 		where $z\in TT^*M$ and where $\pi: T^*M\rightarrow M$ and $\pi_2:TT^*M\rightarrow T^*M$ are the obvious bundle projections. This 1-form, called the \textbf{canonical 1-form}\footnote{Also known as the \textbf{Liouville 1-form}.}, then induces a symplectic form by exterior derivation: \[\omega = d\alpha\]
 	\end{construct}
 	
-	\begin{property}[Closed sections]
+	\begin{property}[Closed sections]\label{diff:closed_section_submanifold}
 		Consider a closed section of a cotangent bundle $T^*Q$, i.e. a map $\sigma:Q\rightarrow T^*Q$ such that $d\sigma=0$. The graph of $\sigma$ is a Lagrangian submanifold.
 	\end{property}
 	
-	\begin{theorem}[Maslow \& H\"ormander]\index{Maslow}\index{Morse!family}\index{generating function}
+	\begin{theorem}[Maslov \& H\"ormander]\index{Maslov}\index{H\"ormander}\index{Morse!family}\index{generating function}
 		Let $Q$ be a smooth manifold and consider a smooth function $W:Q\times\mathbb{R}^k\rightarrow\mathbb{R}$ where $k\geq 0$. If 0 is a regular value of the map $\pderiv{W}{u}:Q\times\mathbb{R}^k\rightarrow\mathbb{R}^k$ then the subset $\Lambda\subset T^*Q$ locally defined by the following equations
 		\begin{gather}
 			\pderiv{W}{u^\alpha} = 0\qquad\qquad p_i=\pderiv{W}{q^i}
@@ -162,6 +162,89 @@
 
 	
 \section{Hamiltonian dynamics}
+\subsection{Dynamical systems}
+
+	This section gives a formal treatment of the concepts presented in chapter \ref{chapter:EOM} (and onwards) and mainly uses notions and formulas from chapter \ref{chapter:symplectic}.
+	
+	\newdef{Dynamical system}{\index{Hamilton!Hamiltonian function}\index{dynamical!system}
+		Let $(M, \omega)$ be a symplectic manifold and let $H\in C^\infty(M)$ be a distinguished observable. The triple $(M, \omega, H)$ is called a dynamical system with Hamiltonian $H$. The time derivative of any observable $F\in C^\infty(M)$ is defined by\footnote{Note that this construction can in fact be generalized to Poisson manifolds \ref{diff:poisson_manifold}.}:
+		\begin{gather}
+			\dot{F} = \{H, F\}
+		\end{gather}
+		where $\{\cdot, \cdot\}$ is the Poisson bracket on $M$. The time evolution is then governed by the Hamiltonian flow $\exp(tX_H)$.
+	}
+	\newdef{Conserved quantity}{
+		Let $(M, \omega, H)$ be a dynamical system. An observable $F\in C^\infty(M)$ is said to be conserved if it satisfies $\{H, F\} = 0$.
+	}
+	
+	\begin{result}[Noether's theorem]\index{Noether!theorem}
+		Noether's theorem is now just an application of the antisymmetry of the Poisson bracket:
+		\begin{gather}
+			\{H, Q\} = 0\iff\{Q, H\} = 0
+		\end{gather}
+	\end{result}
+	
+	From here on we consider a specific type of Hamiltonian function $H$ (called a \textbf{mechanical Hamiltonian}). Let $(Q, g)$ be a Riemannian manifold and equip the cotangent bundle $M:=T^*Q\overset{\pi}{\rightarrow}Q$ with its canonical symplectic structure. The Hamiltonian we consider is of the form (in local Darboux coordinates):
+	\begin{gather}
+		H(q, p) = \frac{1}{2}g^{ij}(q)p_ip_j + V(q)
+	\end{gather}
+	These Hamiltonians have two types of symmetries (conserved quantities):
+	
+	\newdef{Kinematical}{\index{symmetry!kinematical}
+		Consider a conserved quantity $C$. If $\pi_*(X_C)\in \Gamma(TQ)$ exists and $\mathcal{L}_{\pi_*(X_C)}g = 0$ then the symmetry is said to be kinematical.
+	}
+	\sremark{The second condition says that $\pi_*(X_C)$ is a Killing vector. (See definition \ref{diff:killing_vector}.)}
+	\newdef{Dynamical}{\index{symmetry!dynamical}
+		Any symmetry that is not a kinematical symmetry is said to be dynamical.
+	}
+	
+	The following algorithm gives us a way to find conditions to check whether a given observable is conserved:
+	\begin{method}[Van Holten's algorithm]\index{Van Holten}
+		Let the conserved quantity be analytic, i.e. $C(q, p) = \sum_{k=0}^N\frac{1}{k!}a^{(n_1...n_k)}(q)p_{n_1}...p_{n_k}$ for some $N\in\mathbb{N}$, where the brackets $(\cdots)$ around the indices denote symmetrization. For a flat manifold, i.e. $g$ does not depend on $q$, we can rewrite $\{C, T+V\} = 0$ to obtain
+		\[
+			\sum_{n = 1}^N\left[\frac{1}{(k-1)!}a^{n_1...n_{k-1}i}p_{n_1}...p_{n_{k-1}}\pderiv{V}{q^i} - \frac{2}{k!}\pderiv{}{q^i}a^{n_1...n_k}p_{n_1}...p_{n_k}g^{im}p_m\right] = 0
+		\]
+		Because two polynomials are equal if and only if their corresponding coefficients are equal we obtain following equations:
+		\begin{enumerate}
+			\item $0^{th}$ order: $\displaystyle a^k\pderiv{V}{q^k} = 0$
+			\item $1^{st}$ order: $\displaystyle a^{(n_1i)}\pderiv{V}{q^i} - 2\pderiv{a}{q^i}g^{in_1} = 0$
+			\item $N^{th}$ order: $\displaystyle \frac{1}{N!}a^{(n_1...n_Ni)}\pderiv{V}{q^i} - \frac{2}{(N-1)!}\pderiv{}{q^i}a^{(n_1...n_{N-1}}g^{i)n_N} = 0$
+		\end{enumerate}
+		where one should pay attention to the symmetrization brackets in the second term of the last equation. Pulling down the indices by multiplying with the metric $g_{n_im_i}$ gives:
+		\begin{gather}
+			a_{(m_1...m_N)}^{\phantom{(m_1...m_N)}i}\partial_iV - 2N\partial_{(m_N}a_{m_1...m_{N-1})} = 0
+		\end{gather}
+		
+		The upper bound $N$ in the series expansion is given by the generalized Killing condition\footnote{See equation \ref{diff:killing_tensor}.}:
+		\begin{gather}
+			\partial_{(m_{N+1}}a_{m_1...m_N)} = 0\implies a_{(m_1...m_(N+1))} = 0
+		\end{gather}
+	\end{method}
+	\begin{remark}
+		The above algorithm still holds for curved manifolds when replacing all partial derivatives $\partial_i$ by (Levi-Civita) covariant derivatives $\nabla_i$.
+	\end{remark}
+	
+\subsection{Hamilton-Jacobi equation}\index{Hamilton-Jacobi}\label{section:hamilton_jacobi}
+
+	\newdef{Hamilton-Jacobi equation}{
+		Consider a smooth manifold $Q$ equipped with a Hamiltonian function $H:T^*Q\rightarrow\mathbb{R}$ on the cotangent bundle. The Hamilton-Jacobi equation (associated to $H$) is the differential equation for a function $S:Q\rightarrow\mathbb{R}$ of the following form:
+		\begin{gather}
+			H\circ dS = 0
+		\end{gather}
+		or more explicitly:
+		\begin{gather}
+			\label{diff:hamilton_jacobi}
+			H\left(q, \pderiv{S}{q}\right) = 0
+		\end{gather}
+	}
+	
+	Because of property \ref{diff:closed_section_submanifold} we immediately see that the solutions of the Hamilton-Jacobi equation define a Lagrangian submanifold of the cotangent bundle. Furthermore they have the property that they are transversal to the fibres of the projection $\pi:T^*Q\rightarrow Q$. By relaxing this transversality condition one obtains the following more general notion:
+	\newdef{Geometric solution}{
+		A Lagrangian submanifold of the level set $H^{-1}(0)$ for some smooth function $H:T^*Q\rightarrow\mathbb{R}$.
+	}
+	\remark{It can be proven that geometric solutions can be locally described by a solution of the Hamilton-Jacobi equation.}
+
+\subsection{Integrability}
 
 	\newdef{Completely integrable system}{\index{CIS}
 		Consider a multimap \[F \equiv (F_1, ..., F_n):M\rightarrow\mathbb{R}^n\] on a symplectic manifold $(M, \omega)$. This map defines a completely integrable system (CIS) if it satisfies the following conditions:

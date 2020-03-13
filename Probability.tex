@@ -134,7 +134,7 @@
 	\newdef{Probability distribution}{\index{probability!distribution}\label{prob:probability_distribution}
     		Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$. The following function is a measure on the Borel $\sigma$-algebra:
         	\begin{gather}
-			\boxed{P_X(B) = P(X^{-1}(B))}
+			P_X(B) = P(X^{-1}(B)).
 		\end{gather}
 		This measure is called the probability distribution of $X$.
 	}
@@ -148,15 +148,16 @@
 	\end{formula}
     
 	\newdef{Density}{\index{density}
-	    	Let $f$ be a non-negative integrable function and recall theorem \ref{lebesgue:theorem:measure_by_integral}. The function $f$ is called the \textbf{density} of the measure $P:=\int_{-}fdm$ with respect to the Lebesgue measure $m$.
+	    	Let $f$ be a non-negative integrable function and recall theorem \ref{lebesgue:theorem:measure_by_integral}. The function $f$ is called the \textbf{density} of the measure $P:=\int fdm$ (with respect to the Lebesgue measure $m$).
     	
 	        For $P$ to be a probability, $f$ should satisfy the following condition:
 	        \begin{gather}
-			\int fdx = 1
+			\int_\Omega fdx = 1
 		\end{gather}
 	}
 	\newdef{Cumulative distribution function}{\index{cumulative distribution function}
-	    	Let $f$ be a density. The cumulative distribution function (cdf) corresponding to $f$ is defined by the following formula:
+		\nomenclature[A_CDF]{CDF}{Cumulative distribution function}
+	    	Let $f$ be a density. The cumulative distribution function (CDF) corresponding to $f$ is defined by the following formula:
 	        \begin{gather}
 			\label{prob:cdf}
 		        F(y) = \int_{-\infty}^yf(x)dx.
@@ -222,6 +223,11 @@
     			V[X] = E[(X-\mu)^2].
 		\end{gather}
 	}
+	\newdef{Standard deviation}{\index{standard!deviation}
+        	\begin{gather}
+        		\sigma_X = \sqrt{V[x]}
+        	\end{gather}
+        }
 
 	\begin{property}
 		If $E[|X|^n]$ is finite for $n>0$ then for all $k\leq n$: $E[X^k]$ exist and are also finite.
@@ -265,14 +271,14 @@
 	\end{formula}
 
 	\newformula{Inversion formula}{\index{inversion!formula}
-    		Let $X$ be a random variable. If the cdf of $X$ is continuous at $a, b\in\mathbb{R}$ then
+    		Let $X$ be a random variable. If the CDF of $X$ is continuous at $a, b\in\mathbb{R}$ then
 	        \begin{gather}
 			\label{prob:inversion_formula}
 			F_X(b) - F_X(a) = \lim_{c\rightarrow+\infty}\stylefrac{1}{2\pi}\int_{-c}^c\stylefrac{e^{-ita} - e^{-itb}}{it}\varphi_X(t)dt.
 		\end{gather}
 	}
 	\begin{formula}
-    		If $\varphi_X(t)$ is integrable then the cdf is given by:
+    		If $\varphi_X(t)$ is integrable then the CDF is given by:
 		\begin{gather}
 			f_X(x) = \stylefrac{1}{2\pi}\int_{-\infty}^{+\infty}e^{-itx}\varphi_X(t)dt.
 		\end{gather}
@@ -305,7 +311,7 @@
     		Let $X,Y$ be two random variables. The correlation is defined as the cosine of the angle between $X_c$ and $Y_c$:
 	        \begin{gather}
 			\label{prob:correlation}
-			\rho_{XY} = \stylefrac{\text{cov}(X,Y)}{||X||_2||Y||_2}
+			\rho_{XY} = \stylefrac{\text{cov}(X,Y)}{\sigma_X\sigma_Y}
 		\end{gather}
 	}
 	\result{From theorem \ref{prob:independence_expectation_values} it follows that independent random variables are also uncorrelated.}
@@ -332,10 +338,10 @@
 	\end{gather}
 	This leads us to introducing the following notion of conditional expectations:
 	\newdef{Conditional expectation}{\index{expectation!conditional}
-	    	Let $(\Omega,\Sigma,P)$ be a probability space and let $\mathcal{G}$ be a sub-$\sigma$-algebra of $\Sigma$. For every $\Sigma$-measurable random variable $X\in L^2(\Sigma)$ there exists a unique (up to a null set) random variable $Y\in L^2(\mathcal{G})$ that satisfies equation \ref{prob:conditional_expectation_condition} for every $G\in\mathcal{G}$. This $Y$ is called the conditional expectation of $X$ given $\mathcal{G}$ and it is denoted by $Y := E(X|\mathcal{G})$:
+	    	Let $(\Omega,\Sigma,P)$ be a probability space and let $\mathcal{G}$ be a sub-$\sigma$-algebra of $\Sigma$. For every $\Sigma$-measurable random variable $X\in L^2(\Sigma)$ there exists a unique (up to a null set) random variable $Y\in L^2(\mathcal{G})$ that satisfies equation \ref{prob:conditional_expectation_condition} for every $G\in\mathcal{G}$. This variable $Y$ is called the conditional expectation of $X$ given $\mathcal{G}$ and it is denoted by $E(X|\mathcal{G})$:
 	        \begin{gather}
 			\label{prob:conditional_expectation}
-		        \boxed{\int_GE(X|\mathcal{G})dP = \int_GXdP}
+		        \int_GE(X|\mathcal{G})dP = \int_GXdP.
 		\end{gather}
 	}
 	\remark{Although our derivation was based on random variables from the $L^2$ class, it is also possible to construct (unique) conditional expectations for random variables from the $L^1$ class by using method \ref{lebesgue:method:linear_proofs}.}
@@ -365,22 +371,20 @@
 	}
 
 	\begin{result}
-		If the joint density exists then the marginal distributions are absolutely continuous and given by
+		If the joint density exists then the marginal distributions are absolutely continuous and the associated density functions are given by
 	        \begin{gather}
 			f_X(x) = \int_{\mathbb{R}}f_{(X, Y)}(x, y)dy\\
 			f_Y(y) = \int_{\mathbb{R}}f_{(X, Y)}(x, y)dx
 		\end{gather}
-	        The converse however is not always true. The one-dimensional densities can be absolutely continuous without the existence of the joint density.
+	        The converse however is not always true. The one-dimensional distributions can be absolutely continuous without the existence of the joint density.
 	\end{result}
 
-\subsection{Independence}\index{independence}
-
-	\begin{theorem}
+	\begin{property}
 		Let $X, Y$ be two random variables with joint distribution $P_{(X, Y)}$. $X$ and $Y$ are independent if and only if the joint distribution coincides with the product measure:
 	        \begin{gather}
-	        	P_{(X, Y)} = P_X\times P_Y
+	        	P_{(X, Y)} = P_X\times P_Y.
 	        \end{gather}
-	\end{theorem}
+	\end{property}
 	\remark{\label{prob:remark_independence}
 	    	If $X$ and $Y$ are absolutely continuous then the previous theorem also applies with the densities instead of the distributions.
 	}
@@ -388,19 +392,19 @@
 \subsection{Conditional probability}
 
 	\newformula{Conditional density}{\index{conditional density}
-    		Let $X, Y$ be two random variables with joint density $f_{(X, Y)}$. The conditional density of $Y$ given $X\in A$ is:
+    		Let $X, Y$ be two random variables with joint density $f_{(X, Y)}$. The conditional density of $Y$ given $X\in A$ is
         	\begin{gather}
 			\label{prob:conditional_distribution}
-        		h(y|X\in A) = \stylefrac{\int_A f_{(X, Y)}(x, y)dx}{\int_A f_X(x)dx}
+        		h(y|X\in A) = \stylefrac{\int_A f_{(X, Y)}(x, y)dx}{\int_A f_X(x)dx}.
 		\end{gather}
         	For $X=\{a\}$ this equation fails as the denominator would become 0. However it is possible to avoid this problem by formally putting
         	\begin{gather}
         		\label{prob:formal_conditional}
         		h(y|A=a) = \frac{f_{(X, Y)}(a, y)}{f_X(a)}
 		\end{gather}
-        	with $f_X(a)\neq0$ which is non-restrictive\marginpar{\dbend} because the probability of having a measurement $(X, Y)\in\{(x,y):f_X(x) = 0\}$ is 0. We can thus define the conditional probability of $Y$ given $X=a$:
+        	with $f_X(a)\neq0$ which is non-restrictive\marginpar{\dbend} because the probability of having a measurement $(X, Y)\in\{(x,y):f_X(x) = 0\}$ is 0. We can thus define the conditional probability of $Y$ given $X=a$ as follows:
         	\begin{gather}
-			P(Y\in B|X=a) = \int_B h(y|X=a)dy
+			P(Y\in B|X=a) = \int_B h(y|X=a)dy.
 		\end{gather}
 	}
 
@@ -410,14 +414,52 @@
 		\end{gather}
 	        Furthermore, let $\mathcal{F}_X$ denote the $\sigma$-algebra generated by the random variable $X$. Using Fubini's theorem we can prove that for all sets $A\in\mathcal{F}_X$ the following equality, which should be compared with equation \ref{prob:conditional_expectation}, holds:
 	        \begin{gather}
-			\int_AE(Y|X)dP = \int_AYdP
+			\int_AE(Y|X)dP = \int_AYdP.
 		\end{gather}
 	}
 	\remark{The previous two equations imply that the conditional expectation $E(Y|X)$ is the best representation of the random variable $Y$ as a function of $X$ (i.e. measurable with respect to $\mathcal{F}_X$).}
 
 	\begin{property}[Law of total expectation]
-	    	As mentioned above, applying Fubini's theorem gives:
+	    	As mentioned above, applying Fubini's theorem gives
 	    	\begin{gather}
-			\boxed{E(E(Y|X)) = E(Y)}
+			E(E(Y|X)) = E(Y).
 		\end{gather}
+	\end{property}
+	
+\section{Information theory}
+
+	\newdef{Self-information}{\index{information}
+		The self-information of an event $x$ described by a distribution $P$ is defined as follows:
+		\begin{gather}
+			I(x) = -\ln P(x).
+		\end{gather}
+		This definition is modeled on the following reasonable requirements:
+		\begin{itemize}
+			\item Events that are almost surely going to happen $P(x)\approx1$ contain only little information $I(x)\approx0$.
+			\item Events that are very rare contain a lot of information.
+			\item Independent events contribute additively to the information.
+		\end{itemize}
+	}
+	\newdef{Shannon entropy}{\index{entropy!Shannon}
+		The amount of uncertainty in a distribution $P$ is characterized by its (Shannon) entropy:
+		\begin{gather}
+			H(P) = E[I(X)]
+		\end{gather}
+	}
+
+	\newdef{Kullback-Leibler divergence\footnotemark}{\index{Kullback-Leibler}\index{entropy!relative}
+		\footnotetext{Sometimes called the \textbf{relative entropy}.}
+		Consider two probability distributions $p, q$. The Kullback-Leibler divergence of $p$ with respect to $q$ is defined as follows:
+		\begin{gather}
+			D(p||q) = \sum_ip_i\log\left(\frac{p_i}{q_i}\right)
+		\end{gather}
+		where the sum should be replaced by an integral if one works with continuous distributions. This quantity can be interpreted as the information gained when using the distribution $p$ instead of $q$.
+	}
+
+	\begin{property}[Gibbs' inequality]
+		By noting that the logarithm is a concave function and applying Jensen's equality \ref{linalgebra:jensen_inequality} one can prove that the Kullback-Leibler divergence is nonnegative:
+		\begin{gather}
+			D(p||q)\geq0.
+		\end{gather}
+		Furthermore, the Kullback-Leibler divergence is zero if and only if $p$ and $q$ are equal almost everywhere.
 	\end{property}

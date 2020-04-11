@@ -921,6 +921,90 @@ In this chapter, most definitions and formulas will be based on either a standar
 	\end{theorem}
 	\sremark{In some references the reciprocal of $\Lambda(x)$ is used as the definition of the likelihood ratio.}
 
+\section{Comparison tests}
+	
+	\newdef{McNemar test}{
+		Consider two models constructed for a given data set. Construct the contingency table describing the number of true positives and true negatives for both models:
+		\begin{gather}
+		\begin{array}{c||c|c}
+		&\text{TP (model 1)}&\text{TN (model 1)}\\
+		\hline
+		\text{TP (model 2)}&a&b\\
+		\hline
+		\text{TN (model 2)}&c&d
+		\end{array}
+		\end{gather}
+		The null hypothesis of the McNemar test is that there is no significant difference between the predictive power of the model, i.e. $ p_a+p_c = p_a+p_b \land p_b+p_d = p_c+p_d$ where $p_\alpha$ indicates the proportion of the variable $\alpha$. By noting that the diagonal values are redundant in this description one can write the hypotheses more concisely:
+		$$H_0: b=c$$$$H_1: b\neq c.$$
+		The test statistic is the McNemar chi-squared statistic: $\chi^2 = \frac{(b-c)^2}{b+c}$. When the values of $b$ and $c$ are large enough ($>25$) one can approximate this distribution by an ordinary $\chi^2$-distribution with 1 degree of freedom.
+	}
+	\begin{remark}
+		It is common to apply a continuity correction (similar to the \textit{Yates-correction} for the ordinary chi-squared test):
+		\begin{gather}
+		\chi^2 = \frac{(|b-c|-1)^2}{b+c}.
+		\end{gather}
+		This follows from the fact that for small $b, c$ the exact $p$-values should be compared with a binomial test which compares $b$ to $b+c$ (note the factor 2):
+		\begin{gather}
+		p = 2\sum_{i=b}^{b+c}\binom{b+c}{i}0.5^i(1 - 0.5)^{b+c-i}.
+		\end{gather}
+		The Edwards-correction gives a better approximation to this exact value.
+	\end{remark}
+	
+	\newdef{Wilcoxon signed-rank test}{
+		Consider a paired data sample, i.e. two dependent data samples for which the $i^{th}$ entries are paired together. This test checks if the population means are different. The test statistic is defined as follows:
+		
+		\indent First one calculates the differences $d_i$ and ranks their absolute values (ties are assigned an average rank). Then one calculates the sums of the ranks $R_+, R_-$ for positive differences and negative differences and take smallest of these: $T=\min(R_+, R_-)$. For small data samples ($n<25$) one can look for tables listing critical values for $T$. For larger data samples one can (approximately) use a standard normal distribution with statistic \[z = \frac{T-\frac{1}{4}n(n+1)}{\sqrt{\frac{1}{24}n(n+1)(2n+1)}}.\]
+	}
+	\begin{remark}
+		The major benefit of this test over a signed $t$-test is that the Wilcoxon test does not require the data samples to be drawn from a normal distribution. However in the case where the assumptions for a paired $t$-test are met, the $t$-test is more powerful.
+	\end{remark}
+	
+	\newdef{Family-wise error}{
+		Given a collection of hypothesis tests, the family-wise error is defined as the probability of making at least one type-I error.
+	}
+	
+	\newdef{Friedman test}{
+		Consider $k$ models tested on $N$ data sets. For every data set one ranks the models according to decreasing performance. For every $i\leq k$ one defines the average rank $R_i=\frac{1}{N}\sum_{j\leq N}r^j_i$ where $r^j_i$ is the rank of the $i^{th}$ model on the $j^{th}$ data set. Under the null hypothesis (all models perform equally well) the average ranks should be the same for all models.
+		
+		The Friedman statistic
+		\begin{gather}
+		\chi^2_F = \frac{12N}{k(k+1)}\left(\sum_{i\leq k}R_i^2 - \frac{k(k+1)^2}{4}\right)
+		\end{gather}
+		follows a $\chi^2$-distribution with $k-1$ degrees of freedom when $N>10$ and $k>5$. For smaller values of these parameters one can look up the exact critical values in the literature.
+	}
+	\begin{remark}
+		It was shown that the original Friedman test is rather conservative and that a better statistic is
+		\begin{gather}
+		F = \frac{(N-1)\chi^2_F}{N(k+1)-\chi^2_F}.
+		\end{gather}
+		This follows a $F$-distribution with $k-1$ and $(N-1)(k-1)$ degrees of freedom. As a further remark we mention that the (nonparametric) Friedman test is weaker than (parametric) repeated measures ANOVA whenever the assumptions for the latter hold (similar to the case of the Wilcoxon signed-rank test).
+	\end{remark}
+	
+	\subsection{Post-hoc tests}
+	
+	After successfully using one of the multi-model tests from the previous section to reject the null hypothesis of equal performance one is often interested in exactly which model outperforms the others. For this one can use one of the following pairwise tests:
+	
+	\newdef{Nemenyi test}{
+		Consider the average ranks $R_i$ from the Friedman test. As a test statistic one uses
+		\begin{gather}
+		z = \frac{R_i - R_j}{\sqrt{\frac{k(k+1)}{6N}}}
+		\end{gather}
+		where again $k$ is the number of models and $N$ is the number of data sets. The exact critical values can either be found in the literature or one can approximately use a normal distribution.
+	}
+	
+	\newdef{Bonferroni-Dunn test}{
+		If all one wants to do is see if a particular model performs better than a given baseline model than the Nemenyi test is too conservative since it corrects for $k(k-1)/2$ model comparisons instead of $k-1$. Therefore it is better to use a general method to control the family-wise error for multiple measurements. The Bonferroni-Dunn test modifies the Nemenyi test by performing a Bonferroni correction with $n-1$ degrees of freedom.
+	}
+	
+	A more powerful test is given by the following strategy:
+	\newdef{Holm test}{
+		Consider the $p$-values of the Nemenyi test. Instead of comparing all values to a single Bonferroni-corrected significance, one can use a so-called ''step-down'' method. First we order the $p$-values in ascending order and compare the smallest one to $\frac{\alpha}{k-1}$. If this value is significant, i.e. the hypothesis that the associated models perform equally well is rejected, then one compares $p_2$ to $\frac{\alpha}{k-2}$ and so on until one finds a hypothesis that cannot be rejected. All remaining hypotheses are retained as well.
+	}
+	
+	\begin{remark}
+		It is possible that the post hoc test fails to report a significant difference even though the Friedman test rejected the null hypothesis. This is a consequence of the lower power of the post hoc tests.
+	\end{remark}
+
 \section{Goodness of fit}\index{goodness of fit}
 	
 	Let $f(x;\theta)$ be the fitted function obtained using $N$ measurements.

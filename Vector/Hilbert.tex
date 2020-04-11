@@ -1,327 +1,306 @@
-\chapter{Normed Spaces}
+\chapter{Normed Spaces}\label{chapter:normed_spaces}
 
-	In this chapter the term "linear operator", which was previously reserved for vector space automorphisms, is now used instead of "linear map". This was done to keep the vocabulary in track with that of the standard literature on Banach spaces and operator spaces.
-	
-	For a revision of inner product spaces see section \ref{linalgebra:innerproduct}.
+    In this chapter the term ''linear operator'', which was previously reserved for vector space automorphisms, is now used instead of ''linear map''. This was done to keep the terminology in sync with that of the standard literature on Banach spaces and operator spaces. We will often talk about dual spaces. In this chapter this will mean the (linear) topological/continuous dual (and not just the linear dual) unless stated otherwise.
+
+    For a revision of topological spaces or inner product spaces see chapter \ref{chapter:topology} or section \ref{linalgebra:innerproduct} respectively. Main references for this chapter are \cite{AMP1, AMP2}.
 
 \section{Banach spaces}
 
-	\newdef{Topological vector space}{\index{vector!space}
-		\nomenclature[A]{TVS}{Topological vector space}
-		A topological vector space (TVS) over a base field $K$ is a vector space for which the addition and scalar multiplication over $K$ are continuous.
-	}
-	
-	\newdef{Weak topology}{\index{topology!weak}\label{hilbert:weak_topology}
-		The initial topology on a TVS with respect to its dual. 
-	}
+    \newdef{Topological vector space}{\index{vector!space}
+        \nomenclature[A]{TVS}{Topological vector space}
+        A topological vector space (TVS) over a field $K$ is a vector space for which the addition and scalar multiplication over $K$ are continuous.
+    }
 
-	\newdef{Norm}{\index{norm}
-    		Let $V$ be a TVS over a field $K$. A function $||\vec{v}||:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
-		\begin{itemize}
-			\item \textbf{Non-degeneracy:} $||\vec{v}|| = 0 \iff \vec{v} = 0$
-			\item \textbf{Homogeneity:} $||a\vec{v}|| = |a|||\vec{v}||$ for all scalars $a\in K$
-			\item \textbf{Triangle equality (subadditivity):} $||\vec{v} + \vec{w}|| \leq ||\vec{v}|| + ||\vec{w}||$
-		\end{itemize}
-	}
-	\remark{
-		A norm $||\cdot||$ clearly induces a metric\footnotemark\ by setting $d(x,y) = ||x-y||$.
-	}
-	\footnotetext{See definition \ref{topology:metric}.}
-    
-	\newdef{Normed vector space}{
-    		A TVS equipped with a norm $||\cdot||$.
-	}
-	\newdef{Banach space}{\index{Banach!space}\label{linalgebra:banach_space}
-	    	A normed vector space that is complete\footnote{See condition \ref{topology:cauchy_sequence}.} in the norm-topology.
-	}
-	
-	\begin{property}
-		The topological (continuous) dual of a Banach space is also a Banach space.
-	\end{property}
-	\newdef{Reflexive space}{
-		A Banach space $V$ that coincides with its double (topological) dual, i.e. $V = (V^*)^*$.
-	}
-	\begin{property}
-		Every finite-dimensional Banach spaces is reflexive. This follows from property \ref{linalgebra:dual_space_dimension}.
-	\end{property}
-	
-	\begin{property}
-		Let $(x_n)$ be a Cauchy sequence in a normed space $V$. Then $(||x_n||)$ is a convergent sequence in $\mathbb{R}$. This implies that every Cauchy sequence in a normed space is bounded.
-	\end{property}
+    \newdef{Weak topology}{\index{topology!weak}\label{hilbert:weak_topology}
+        The initial topology\footnote{See definition \ref{topology:initial_topology}.} on a TVS with respect to its dual, i.e. a sequence $\seq{x}$ in $X$ converges to $x$ if and only if $\lambda(x)_n\longrightarrow\lambda(x)$ for all $\lambda\in X^*$.
+    }
+    \newdef{Weak-* topology}{\index{topology!weak-*}\label{hilbert:weak_star_topology}
+        Every Banach space (in fact every TVS) admits a canonical embedding into its double dual: $\iota: X\rightarrow X^{**}: x\mapsto\text{ev}_x$ where the evaluation map ev$_x$ is defined as ev$_x:X^*\rightarrow K: \lambda\mapsto\lambda(x)$. The weak-* topology on the dual space $X^*$ is defined as the weak topology with respect to the image $\iota(X)\subseteq X^{**}$.
+    }
 
-	\begin{property}
-		Let $X$ be a TVS. Every linear map $\varphi:\mathbb{K}^n\rightarrow X$ is continuous.
-	\end{property}
-	\begin{property}
-		Let $X$ be a finite-dimensional normed vector space. Every linear bijection $\varphi:\mathbb{K}^n\rightarrow X$ is a homeomorphism.
-	\end{property}
-	\begin{result}
-		Two finite-dimensional normed vector spaces with the same dimension are homeomorphic. It follows that all metrics on a finite-dimensional normed vector space are equivalent.
-	\end{result}
+    \newdef{Norm}{\index{norm}
+        Let $V$ be a TVS over a field $K$. A function $||\vec{v}||:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
+        \begin{enumerate}
+            \item \textbf{Non-degeneracy:} $||\vec{v}|| = 0 \iff \vec{v} = 0$
+            \item \textbf{Homogeneity:} $||a\vec{v}|| = |a|||\vec{v}||$ for all scalars $a\in K$
+            \item \textbf{Triangle equality (subadditivity):} $||\vec{v} + \vec{w}|| \leq ||\vec{v}|| + ||\vec{w}||$
+        \end{enumerate}
+    }
+    \remark{A norm $||\cdot||$ induces a metric\footnote{See definition \ref{topology:metric}.} by setting $d(x,y) = ||x-y||$.}
 
-	\begin{theorem}[Open mapping theorem\footnotemark]\index{open mapping theorem}
-		\footnotetext{Sometimes called the \textit{Banach-Schauder} theorem.}
-		Let $f:V\rightarrow W$ be a continuous linear operator between two Banach spaces. If $f$ is surjective then it is also open.
-	\end{theorem}
-	
-	\begin{theorem}[Hahn-Banach theorem]\index{Hahn-Banach}
-		Let $V$ be a Banach space. Let $f:V\rightarrow\mathbb{R}$ be a sublinear map, i.e. a map that is both subadditive and positive-homogeneous, and let $\phi:U\rightarrow\mathbb{R}$ be a linear map dominated by $f$, defined on a linear subspace $U\subset V$. Then there exists a linear extension $\psi:V\rightarrow\mathbb{R}$ of $\phi$ that is dominated by $f$ on all of $V$.
-	\end{theorem}
+    \newdef{Normed vector space}{
+        A TVS equipped with a norm $||\cdot||$.
+    }
+    \newdef{Banach space}{\index{Banach!space}\label{linalgebra:banach_space}
+        A normed vector space that is complete\footnote{See condition \ref{topology:cauchy_sequence}.} in the norm-topology, i.e. the topology induced by the metric $||x-y||$.
+    }
+
+    \begin{property}
+        The dual of a Banach space is also a Banach space.
+    \end{property}
+    \newdef{Reflexive space}{
+        A Banach space $V$ for which the canonical inclusion $V\hookrightarrow V^{**}$ is an (isometric) isomorphism.
+    }
+    \begin{property}
+        Every finite-dimensional Banach spaces is reflexive.
+    \end{property}
+
+    \begin{property}
+        Let $\seq{x}$ be a Cauchy sequence in a normed space $V$. Then $(||x_n||)_{n\in\mathbb{N}}$ is a convergent sequence in $\mathbb{R}$. This implies that every Cauchy sequence in a normed space is bounded.
+    \end{property}
+
+    \begin{property}
+        Let $X$ be a TVS. Every linear map $\varphi:\mathbb{K}^n\rightarrow X$ is continuous.
+    \end{property}
+    \begin{property}
+        Let $X$ be a finite-dimensional normed vector space. Every linear bijection $\varphi:\mathbb{K}^n\rightarrow X$ is a homeomorphism.
+    \end{property}
+    \begin{result}
+        Two finite-dimensional normed vector spaces with the same dimension are homeomorphic. It follows that all metrics on a finite-dimensional normed vector space are equivalent.
+    \end{result}
+
+    \begin{theorem}[Open mapping theorem\footnotemark]\index{open mapping theorem}\index{Banach-Schauder}
+        \footnotetext{Sometimes called the \textbf{Banach-Schauder} theorem.}
+        Let $f:V\rightarrow W$ be a continuous linear operator between two Banach spaces. If $f$ is surjective then it is also open.
+    \end{theorem}
 
 \section{Hilbert space}
 
-	\newdef{Hilbert space}{\index{Hilbert!space}\label{hilbert:hilbert_space}
-		A vector space that is both a Banach space and an inner product space (where the norm is induced by the inner product).
-	}
+    \begin{remark}\index{parallelogram law}\index{polarization!identity}
+        Let $V$ be an inner product space. A norm on $V$ can be induced by the inner product in the following way:
+        \begin{gather}
+        \label{linalgebra:inner_product:norm}
+        ||v||^2 = \langle v|v \rangle.
+        \end{gather}
+        However, the converse is not true: not every norm induces an inner product. Only norms that satisfy the \textbf{parallelogram law}
+        \begin{gather}
+            \label{linalgebra:parallellogram_law}
+            ||v+w||^2 + ||v-w||^2 = 2(||v||^2 + ||w||^2)
+        \end{gather}
+        can be used to define an inner product. This inner product can be recovered through the \textbf{polarization identity}:
+        \begin{gather}
+            \label{linalgebra:polarization_identity}
+            4 \langle v|w \rangle = ||v+w||^2 - ||v-w||^2 + i\left(||v+iw||^2 - ||v-iw||^2\right).
+        \end{gather}
+    \end{remark}
 
-	\begin{example}
-		Let $f, g \in \mathcal{L}^2([a,b], \mathbb{C})$, the inner product of $f$ and $g$ is defined as:
-		\begin{equation}
-			\label{hilbert:inner_product}
-		        \boxed{\langle f|g\rangle = \int_a^bf^*(x)\overline{g(x)}dx}
-		\end{equation}
-	\end{example}
-	\remark{
-		See section \ref{lebesgue:section:hilbert_space} for a more formal treatment of this subject.
-	}
-    
-	\begin{formula}
-		It is also possible to define an inner product with respect to a weight function $\phi(x)$:
-		\begin{equation}
-			\label{hilbert:weighted_inner_product}
-			\int_a^bf^*(x)g(x)\phi(x)dx
-		\end{equation}
-		Using this formula it is possible to define orthogonality with respect to a weight function.
-	\end{formula}
-    
-\subsection{Inner products and norms}
-	\begin{formula}
-		Let $V$ be an inner product space. A norm on $V$ can be induced by the inner product in the following way:
-		\begin{equation}
-			\label{linalgebra:inner_product:norm}
-			||v||^2 = \langle v|v \rangle
-		\end{equation}
-		However not every norm induces an inner product. Only norms that satisfy the parallellogram law \ref{linalgebra:parallellogram_law} induce an inner product. This inner product can be recovered through the polarization identity \ref{linalgebra:polarization_identity} (see below).
-	\end{formula}
-	
-	\begin{property}[Cauchy-Schwarz inequality]\index{Cauchy-Schwarz}\label{linalgebra:theorem:cauchy_schwarz}
-		\begin{equation}
-			\boxed{|\langle v|w\rangle| \leq ||v||\ ||w||}
-		\end{equation}
-		where the equality holds if and only if $v$ and $w$ are linearly dependent.
-	\end{property}
-	\begin{result}
-		The Cauchy-Schwarz inequality can be used to prove the triangle inequality. Together with the properties of an inner product this implies that an inner product space is also a normed space.
-	\end{result}
-	
-	\begin{formula}[Parallellogram law]\index{parallellogram law}
-		\begin{equation}
-			\label{linalgebra:parallellogram_law}
-			||v+w||^2 + ||v-w||^2 = 2(||v||^2 + ||w||^2)
-		\end{equation}
-	\end{formula}
-	\begin{formula}[Polarization identity]\index{polarization!identity}
-		\begin{equation}
-			\label{linalgebra:polarization_identity}
-			4 \langle v|w \rangle = ||v+w||^2 - ||v-w||^2 + i\left(||v+iw||^2 - ||v-iw||^2\right)
-		\end{equation}
-	\end{formula}
-	\begin{formula}[Pythagorean theorem]\index{Pythagorean theorem}
-		In an inner product space the triangle equality reduces to the well-known Pythagorean theorem for orthogonal vectors $v, w$:
-		\begin{equation}
-			\label{linalgebra:pythagorean_theorem}
-			||v+w||^2 = ||v||^2 + ||w||^2
-		\end{equation}
-		This formula can be extended to any set of orthogonal vectors $x_1, ..., x_n$:
-		\begin{equation}
-			\boxed{\left\lVert\sum_{i=1}^nx_i\right\rVert^2 = \sum_{i=1}^n||x_i||^2}
-		\end{equation}
-	\end{formula}
+    \newdef{Hilbert space}{\index{Hilbert!space}\label{hilbert:hilbert_space}
+        A Banach space where the norm is induced by an inner product structure.
+    }
+
+    \begin{example}
+        Consider two square-integrable functions $f, g \in \mathcal{L}^2([a,b], \mathbb{C})$. The inner product of $f$ and $g$ is defined as follows:
+        \begin{gather}
+            \label{hilbert:inner_product_L2}
+            \langle f|g\rangle = \int_a^bf^*(x)\overline{g(x)}dx.
+        \end{gather}
+    \end{example}
+    \remark{See section \ref{lebesgue:section:hilbert_space} for a more formal treatment of this subject in the context of Lebesgue integration.}
+
+    \begin{formula}
+        It is also possible to define an inner product with respect to a weight function $\phi(x)$:
+        \begin{gather}
+            \label{hilbert:weighted_inner_product}
+            \int_a^bf^*(x)g(x)\phi(x)dx.
+        \end{gather}
+        Using this formula it is possible to define orthogonality with respect to the given weight function.
+    \end{formula}
+
+    \begin{property}[Cauchy-Schwarz inequality]\index{Cauchy-Schwarz}\label{linalgebra:theorem:cauchy_schwarz}
+        \begin{gather}
+            |\langle v|w\rangle| \leq ||v||\ ||w||
+        \end{gather}
+        The equality holds if and only if $v$ and $w$ are linearly dependent.
+    \end{property}
+    \begin{result}
+        The Cauchy-Schwarz inequality can be used to prove the triangle inequality. Together with the properties of an inner product this implies that an inner product space is indeed a normed space as mentioned in the beginning of this section.
+    \end{result}
+
+    \begin{formula}[Pythagorean theorem]\index{Pythagorean theorem}\label{linalgebra:pythagorean_theorem}
+        In an inner product space the triangle equality reduces to the well-known Pythagorean theorem for orthogonal vectors $v, w$:
+        \begin{gather}
+            ||v+w||^2 = ||v||^2 + ||w||^2.
+        \end{gather}
+        This formula can be extended to any set of orthogonal vectors $x_1, ..., x_n$ as follows:
+        \begin{gather}
+            \left\lVert\sum_{i=1}^nx_i\right\rVert^2 = \sum_{i=1}^n||x_i||^2.
+        \end{gather}
+    \end{formula}
 
 \subsection{Generalized Fourier series}
 
-	\begin{property}[Bessel's inequality]\index{Bessel!inequality}
-		First of all we have following general equality for orthonormal vectors $x_1, ..., x_n$ and complex scalars $a_1, ..., a_n$:
-		\begin{equation}
-			\left\lVert x - \sum_{i=1}^n a_ix_i\right\rVert^2 = ||x||^2 - \sum_{i=1}^n|\langle x, x_i\rangle|^2 + \sum_{i=1}^n|\langle x, x_i\rangle - a_i|^2
-		\end{equation}
-		This expression becomes minimal for $a_i = \langle x, x_i\rangle$ (last term becomes 0). This leads to Bessel's inequality:
-		\begin{equation}
-			\label{norm:bessels_inequality}
-			\boxed{\sum_{i=1}^n|\langle x, x_i\rangle|^2 \leq ||x||^2}
-		\end{equation}
-	\end{property}
-	\begin{result}\index{Fourier!generalized series}
-		The sum in \ref{norm:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^{+\infty}$ converges for all $x$. This implies that the sequences $(\langle x, x_n\rangle)$ belongs to the space $l^2$ of square-summable sequences.
-	\end{result}
-	
-	This result does however not imply that the generalized Fourier series $\sum_{i=1}^{+\infty}\langle x, x_i\rangle x_i$ converges to $x$. The following theorem gives a necessary and sufficient condition for the convergence.
-	\begin{theorem}
-		Let $\mathcal{H}$ be a Hilbert space. Let $(x_n)$ be an orthonormal sequence in $\mathcal{H}$ and let $(a_n)$ be a sequence in $\mathbb{C}$. The expansion $\sum_{i=1}^{+\infty}a_ix_i$ converges in $\mathcal{H}$ if and only if $(a_n)\in l^2$. Furthermore the expansion satisfies following equality:
-		\begin{equation}
-			\left\lVert\sum_{i=1}^{+\infty}a_ix_i\right\rVert^2 = \sum_{i=1}^{+\infty}|a_i|^2
-		\end{equation}
-		As we noted the sequence $(\langle x, x_n\rangle)$ belongs to $l^2$ so the generalized Fourier series converges of $x\in\mathcal{H}$ converges in $\mathcal{H}$.
-	\end{theorem}
-	\begin{remark}
-		Although the convergence of the generalized Fourier series of $x\in\mathcal{H}$ can be established using previous theorem, it does not follow that the expansion converges to $x$ itself. We can merely say that the Fourier expansion is the best approximation of $x$ with respect to the norm on $\mathcal{H}$.
-	\end{remark}
-    
-\subsection{Complete sets}
+    \begin{property}[Bessel's inequality]\index{Bessel!inequality}
+        The following general equality holds for all orthonormal vectors $x_1, ..., x_n$ and complex scalars $a_1, ..., a_n$:
+        \begin{gather}
+            \left\lVert x - \sum_{i=1}^n a_ix_i\right\rVert^2 = ||x||^2 - \sum_{i=1}^n|\langle x, x_i\rangle|^2 + \sum_{i=1}^n|\langle x, x_i\rangle - a_i|^2.
+        \end{gather}
+        This expression is minimized for $a_i = \langle x, x_i\rangle$ (last term becomes 0). This leads to Bessel's inequality:
+        \begin{gather}
+            \label{norm:bessels_inequality}
+            \sum_{i=1}^n|\langle x, x_i\rangle|^2 \leq ||x||^2.
+        \end{gather}
+    \end{property}
+    \begin{result}\index{Fourier!generalized series}
+        The sum in \ref{norm:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^{+\infty}|\langle x,x_i\rangle|^2$ converges for all $x$. This implies that the sequences $(\langle x, x_n\rangle)_{n\in\mathbb{N}}$ belongs to the space $l^2$ of square-summable sequences.
+    \end{result}
 
-	\newdef{Complete set}{\index{complete!set}
-		Let $\{e_i\}_{i\in I}$ be a set (possibly a sequence) of orthonormal vectors in an inner product space $V$. This set is said to be complete if every vector $x\in V$ can be expressed as follows:
-		\begin{equation}
-			x = \sum_{i\in I}\langle x, x_i\rangle x_i
-		\end{equation}
-		This implies that a complete set is a basis for the vector space.
-	}
-	Another characterization is the following.
-	\begin{adefinition}
-		A complete set of orthonormal vectors is a set $S\subset V$ such that we cannot add another vector $w$ to it satisfying:
-		\begin{equation}
-			\forall v_i\in S: \langle v_i, w\rangle = 0\qquad\land\qquad  w\neq0
-		\end{equation}
-	\end{adefinition}
-	
-	\begin{property}
-		For complete sequences $(x_n)$ the inequality of Bessel \ref{norm:bessels_inequality} becomes an equality. Furthermore, the generalized Fourier series with respect to the complete sequence is unique.
-	\end{property}
-	
-	Using previous property we can prove the following theorem due to Parceval.
-	\begin{theorem}[Parceval]\index{Parceval}
-		Let $(x_n)$ be a complete sequence in a Hilbert space $\mathcal{H}$. Every vector $x\in\mathcal{H}$ has a unique Fourier series representation $\sum_{i=1}^{+\infty}a_ix_i$ where the Fourier coefficients $(a_i)$ belong to $l^2$ and the inequality of Bessel is an equality.
-		
-		Conversely if the inequality of Bessel becomes an equality for every $x\in\mathcal{H}$ then the sequence $(x_n)$ is complete.
-	\end{theorem}
-	
-	\begin{property}
-		A sequence $(x_n)$ in a Hilbert space $\mathcal{H}$ is complete if and only if $\langle x, x_i\rangle = 0$ for all $x_i$ implies that $x=0$.
-	\end{property}
+    This result does however not imply that the generalized Fourier series $\sum_{i=1}^{+\infty}\langle x, x_i\rangle x_i$ converges to $x$. The following theorem gives a necessary and sufficient condition for the convergence:
+    \begin{theorem}
+        Let $\mathcal{H}$ be a Hilbert space. Let $\seq{x}$ be an orthonormal sequence in $\mathcal{H}$ and let $\seq{a}$ be a sequence in $\mathbb{C}$. The expansion $\sum_{i=1}^{+\infty}a_ix_i$ converges in $\mathcal{H}$ if and only if $\seq{a}\in l^2$. Furthermore, the expansion satisfies the following equality:
+        \begin{gather}
+            \left\lVert\sum_{i=1}^{+\infty}a_ix_i\right\rVert^2 = \sum_{i=1}^{+\infty}|a_i|^2.
+        \end{gather}
+        As we noted Bessel's inequality implies that the sequence $(\langle x, x_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$, so the generalized Fourier series of $x\in\mathcal{H}$ converges in $\mathcal{H}$.
+    \end{theorem}
+    \begin{remark}
+        Although the convergence of the generalized Fourier series of $x\in\mathcal{H}$ can be established using the previous theorem, it does not follow that the expansion converges to $x$ itself. We can merely say that the Fourier expansion is the best approximation of $x$ with respect to the norm on $\mathcal{H}$.
+    \end{remark}
+
+    \newdef{Complete set}{\index{complete!set}
+        Let $\{e_i\}_{i\in I}$ be a set (or a sequence) of orthonormal vectors in an inner product space $V$. This set is said to be complete if every vector $x\in V$ can be expressed as follows:
+        \begin{gather}
+            x = \sum_{i\in I}\langle x, x_i\rangle x_i.
+        \end{gather}
+        This in particular implies that a complete set contains a basis for the vector space.
+    }
+    Another characterization is the following one:
+    \begin{adefinition}
+        A complete set of orthonormal vectors is a set $S\subset V$ such that we cannot add another vector $w$ to it satisfying
+        \begin{gather}
+            \forall v_i\in S: \langle v_i, w\rangle = 0\qquad\land\qquad  w\neq0.
+        \end{gather}
+    \end{adefinition}
+
+    \begin{property}
+        For complete sequences $\seq{x}$ Bessel's inequality \ref{norm:bessels_inequality} becomes an equality. Furthermore, the generalized Fourier series with respect to the complete sequence is unique.
+    \end{property}
+
+    Using previous property we can prove the following theorem due to Parceval.
+    \begin{theorem}[Parceval]\index{Parceval}
+        Let $\seq{x}$ be a complete sequence in a Hilbert space $\mathcal{H}$. Every vector $x\in\mathcal{H}$ has a unique Fourier series representation $\sum_{i=1}^{+\infty}a_ix_i$ where the Fourier coefficients $\seq{a}$ belong to $l^2$.
+
+        Conversely if Bessel's inequality becomes an equality for every $x\in\mathcal{H}$ then the sequence $\seq{x}$ is complete.
+    \end{theorem}
 
 \subsection{Orthogonality and projections}
 
-	The basic notions on orthogonality in inner product space can be found in section \ref{linalgebra:section:orthogonality}.
+    The basic notions on orthogonality in inner product space can be found in section \ref{linalgebra:section:orthogonality}.
 
-	\begin{property}
-		Let $S$ be a subset (not necessarily a subspace) of a Hilbert space $\mathcal{H}$. The orthogonal complement $S^\perp$ is closed in $\mathcal{H}$.
-	\end{property}
-	\begin{result}
-		The previous property implies that the orthogonal complemement of some arbitrary subset of a Hilbert space is a Hilbert space itself.
-	\end{result}
-	
-	\begin{theorem}[Projection theorem]
-		\label{linalgebra:theorem:projection_theorem}
-		Let $H$ be a Hilbert space and $K\leq H$ a complete subspace. For every $h\in H$ there exists a unique $h'\in K$ such that $h-h'$ is orthogonal to every $k\in K$, i.e $h-h'\in K^\perp$.
-	\end{theorem}
-	\remark{
-		An equivalent definition for the unique $h'\in K$ is $||h-h'|| = \inf\{||h-k||:k\in K\}$.
-	}
-	\begin{result}
-		It follows that given a complete (or closed) subspace $S$ the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H} = S\oplus S^\perp$.
-	\end{result}
-	
-	\newdef{Trace}{\index{trace}
-		Let $\mathcal{H}$ be a Hilbert space wih orthogonal basis ${e_k}$. Given a bounded linear operator $S\in\mathcal{B}(\mathcal{H})$ we define its trace by the following formula:
-		\begin{equation}
-			\label{hilbert:trace}
-			\text{tr}(S) = \sum_k\langle |S|e_k, e_k\rangle
-		\end{equation}
-	}
+    \begin{property}
+        Let $S$ be a subset (not necessarily a subspace) of a Hilbert space $\mathcal{H}$. The orthogonal complement $S^\perp$ is closed in $\mathcal{H}$.
+    \end{property}
+    \begin{result}
+        The previous property implies that the orthogonal complemement of some arbitrary subset of a Hilbert space is a Hilbert space itself.
+    \end{result}
+
+    \begin{theorem}[Projection theorem]
+        \label{linalgebra:theorem:projection_theorem}
+        Let $H$ be a Hilbert space and $K\leq H$ a complete subspace. For every $h\in H$ there exists a unique $h'\in K$ such that $h-h'$ is orthogonal to every $k\in K$, i.e $h-h'\in K^\perp$.
+    \end{theorem}
+    \remark{
+        An equivalent definition for the unique $h'\in K$ is the vector $h'$ satisfying $||h-h'|| = \inf\{||h-k||:k\in K\}$.
+    }
+    \begin{result}
+        It follows that given a complete (or closed) subspace $S$ the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H} = S\oplus S^\perp$.
+    \end{result}
+
+    \newdef{Trace}{\index{trace}\label{hilbert:trace}
+        Let $\mathcal{H}$ be a Hilbert space wih orthogonal basis ${e_k}$. Given a bounded linear operator $S\in\mathcal{B}(\mathcal{H})$ we define its trace by the following formula:
+        \begin{gather}
+            \text{tr}(S) = \sum_k\langle Se_k, e_k\rangle.
+        \end{gather}
+    }
 
 \subsection{Separable Hilbert spaces}
 
-	The definition of separable spaces in the sense of point-set topology is given in \ref{topology:separable}. An equivalent definition for Hilbert spaces is the following.
-	\newadef{Separable Hilbert space}{
-		A Hilbert space is separable if it contains a complete sequence of orthonormal vectors.
-	}
-	\begin{result}
-		Using the Gram-Schmidt method it follows from previous definition that every finite-dimensional Hilbert space is separable.
-	\end{result}
+    The definition of separable spaces in the sense of point-set topology is given in \ref{topology:separable}. An equivalent definition for Hilbert spaces is the following one:\footnote{Provided that we accept Zorn's lemma.}
+    \newadef{Separable Hilbert space}{
+        A Hilbert space is separable if it contains a complete sequence (of orthonormal vectors).
+    }
+    \begin{result}
+        Using the Gram-Schmidt method it follows from the previous definition that every finite-dimensional Hilbert space is separable.
+    \end{result}
 
-	The following theorem shows that (up to an isomorphism) there are only 2 distinct types of separable Hilbert spaces.
-	\begin{theorem}
-		Let $\mathcal{H}$ be separable. If $\mathcal{H}$ is finite-dimensional with dimension $n$ then it is isometrically isomorphic to $\mathbb{C}^n$. If $\mathcal{H}$ is infinite-dimensional then it is isometrically isomorphic to $l^2$.
-	\end{theorem}
-	\begin{property}
-		Every orthogonal subset of a separable Hilbert space is countable.
-	\end{property}
+    The following theorem shows that (up to an isomorphism) there are only 2 distinct types of separable Hilbert spaces:
+    \begin{theorem}
+        Let $\mathcal{H}$ be separable. If $\mathcal{H}$ is finite-dimensional with dimension $n$ then it is isometrically isomorphic to $\mathbb{C}^n$. If $\mathcal{H}$ is infinite-dimensional then it is isometrically isomorphic to $l^2$.
+    \end{theorem}
+    \begin{property}
+        Every orthogonal subset of a separable Hilbert space is countable.
+    \end{property}
 
 \subsection{Linear functionals}
 
-	\begin{property}
-		Let $f$ be a continuous linear functional. Then two possibilities arise:
-		\begin{enumerate}
-			\item $\dim(\ker f)^\perp=0$ if $f\equiv0$.
-			\item $\dim(\ker f)^\perp=1$
-		\end{enumerate}
-	\end{property}
+    \begin{theorem}[Riesz' representation theorem]\index{Riesz'!representation theorem}\label{hilbert:riesz}
+        Let $\mathcal{H}$ be a Hilbert space. For every continuous linear functional $\rho\in\mathcal{H}^*$ there exists a unique element $x_0\in\mathcal{H}$ such that
+        \begin{gather}
+            \rho(h) = \langle h, x_0 \rangle
+        \end{gather}
+        for all $h\in\mathcal{H}$. This implies that $\mathcal{H}$ and $\mathcal{H}^*$ are isometrically isomorphic. Furthermore, the operator norm of $\rho$ is equal to the norm of $x_0$.
+    \end{theorem}
+    \begin{remark}
+        This theorem justifies the bra-ket notation used in quantum mechanics where one associates to every ket $|\psi\rangle\in\mathcal{H}$ a bra $\langle\psi|\in\mathcal{H}^*$.
+    \end{remark}
 
-	\begin{theorem}[Riesz' representation theorem]\index{Riesz'!representation theorem}
-    		Let $\mathcal{H}$ be a Hilbert space. For every continuous linear functional $\rho\in\mathcal{H}^*$ there exists a unique element $x_0\in\mathcal{H}$ such that
-    		\begin{equation}
-	    		\rho(h) = \langle h, x_0 \rangle
-    		\end{equation}
-	    	for all $h\in\mathcal{H}$. This implies that $\mathcal{H}$ and $\mathcal{H}^*$ are isometrically isomorphic. Furthermore the operator norm of $\rho$ is equal to the norm of $x_0$.
-	\end{theorem}
-	\begin{remark}
-    		This theorem justifies the bra-ket notation used in quantum mechanics where one associates to every ket $|\psi\rangle\in\mathcal{H}$ a bra $\langle\psi|\in\mathcal{H}^*$.
-	\end{remark}
-	
 \section{Seminorms}
 
-	\newdef{Seminorm}{\index{seminorm}
-		Let $V$ be a $K$-vector space. A function $p:V\rightarrow[0,+\infty[$ is called a seminorm if it satisfies following conditions:
-		\begin{itemize}
-			\item \textbf{Homogeneity:} $p(a\vec{v}) = |a|p(\vec{v})$ for all scalars $a\in K$
-			\item \textbf{Triangle equality (subadditivity):} $p(\vec{v} + \vec{w}) \leq p(\vec{v}) + p(\vec{w})$
-		\end{itemize}
-	}
-	
-	\begin{theorem}[Hahn-Banach]\index{Hahn-Banach}
-		Let $X$ be a TVS. If $f$ is a continuous linear functional on $X$ such that $|f(y)|\leq p(y)$ on a subspace $Y\leq X$ for some seminorm $p$ defined on $X$ then there exists a linear extension $F$ on $X$ such that:
-		\begin{itemize}
-			\item $F(y) = f(y), \forall y\in Y$.
-			\item $|F(x)|\leq p(x), \forall x\in X$.
-		\end{itemize}
-	\end{theorem}
-	
+    \newdef{Seminorm}{\index{seminorm}
+        Let $V$ be a $K$-vector space. A function $p:V\rightarrow[0,+\infty[$ is called a seminorm if it satisfies the following conditions:
+        \begin{enumerate}
+            \item \textbf{Homogeneity:} $p(av) = |a|\ p(v)$ for all scalars $a\in K$
+            \item \textbf{Triangle equality (subadditivity):} $p(v + w) \leq p(v) + p(w)$
+        \end{enumerate}
+    }
+
+    \begin{theorem}[Hahn-Banach]\index{Hahn-Banach}\label{banach:hahn_banach}
+        Let $X$ be a TVS. If $f$ is a continuous linear functional on $X$ such that $|f(y)|\leq p(y)$ on a subspace $Y\leq X$ for some seminorm $p$ defined on $X$, then there exists a linear extension $F$ of $f$ to $X$ such that
+        \begin{gather}
+            |F(x)|\leq p(x), \forall x\in X.
+        \end{gather}
+    \end{theorem}
+
 \subsection{Topology}
-	
-	In this subsection we denote by $\mathscr{P}$ a family of seminorms defined on a TVS $X$. By $I$ we denote the index family of $\mathscr{P}$.
-	
-	\newdef{$\mathscr{P}$-open ball}{\index{ball}
-		A $\mathscr{P}$-open ball centered on $x_0$ is a subset $Y\subseteq X$ such that all points $y\in Y$ satisfy the following condition for a finite number of seminorms $p_i\in\mathscr{P}, i\in I$:
-		\begin{equation}
-			p_i(y-x_0) \leq \varepsilon_i
-		\end{equation}
-		where $\varepsilon_i > 0$.
-	}
-	
-	\begin{property}
-		The set of $\mathscr{P}$-open balls generates a topology on $X$. This topology is often called the $\mathscr{P}$-topology.
-	\end{property}
-	\newdef{Separated family}{
-		A family of seminorms $\mathscr{P}$ is said to be separated if for every point $x\in X$ there exists a seminorm $p\in\mathscr{P}$ such that $p(x)\neq0$.
-	}
-	\begin{property}
-		A separated family of seminorms generates a Hausdorff topology on $X$. If the family is finite or countable the topology is also metrizable. In the case it is finite, the metric is induced by the norm $\sum_{i\in I}p_i$.
-	\end{property}
-	
+
+    In this subsection we denote by $\mathscr{P}$ a family of seminorms defined on a TVS $X$. By $I$ we denote the index family of $\mathscr{P}$.
+
+    \newdef{$\mathscr{P}$-open ball}{\index{ball}
+        A $\mathscr{P}$-open ball centered on $x_0$ is a subset $Y\subseteq X$ such that all points $y\in Y$ satisfy the following condition for a finite number of seminorms $p_i\in\mathscr{P}, i\in I$:
+        \begin{gather}
+            p_i(y-x_0) \leq \varepsilon_i
+        \end{gather}
+        where $\varepsilon_i > 0$.
+    }
+
+    \begin{property}
+        The set of $\mathscr{P}$-open balls generates a topology on $X$. This topology is often called the \textbf{$\mathscr{P}$-topology}.
+    \end{property}
+    \newdef{Separated family}{
+        A family of seminorms $\mathscr{P}$ is said to be separated if for every point $x\in X$ there exists a seminorm $p\in\mathscr{P}$ such that $p(x)\neq0$. If $\mathscr{P}$ is separated then $\sum_ip_i$ is a norm.
+    }
+    \begin{property}
+        A separated family of seminorms generates a Hausdorff topology on $X$. If the family is finite or countable, the topology is also metrizable. In the case it is finite, the metric is induced by the norm $\sum_{i\in I}p_i$.
+    \end{property}
+
+    Although the Hahn-Banach theorem \ref{banach:hahn_banach} does not imply that the linear extension is unique, one can refine the statement in the case of dense subspaces:
+    \begin{result}
+        Let $X$ be a TVS with a $\mathscr{P}$-topology and let $Y$ be a dense subspace. If $f$ is a linear form on $Y$, continuous under the subspace topology, then there exists a unique linear extension to $X$.
+    \end{result}
+
 \section{Locally convex spaces}
 
-	\newdef{Locally convex space}{\index{convex}\index{cone}
-		We first give some preliminary definitions:
-		\begin{itemize}
-			\item A subset $U$ is \textbf{convex} if for any two vectors $v, w\in U$ the line segment connecting them lies in $U$.
-			\item A \textbf{cone} is a subset $U$ such that for every vector $v\in U$ the line segment connecting it to the origin lies in $U$.
-			\item A subset $U$ is said to be balanced\footnote{A balanced subset is also called a \textit{circled cone}.} if for every vector $v\in U$ the scalar multiples $\lambda v$, with $|\lambda|\leq 1$, also lie in $U$.
-			\item An \textbf{absolutely convex} set is a balanced convex set. This is equivalent to the statement that the set is closed under linear combinations where the absolute values of the coefficients sum at most to 1.
-			\item A subset $U$ is said to be \textbf{absorbent} if the union of all sets $\lambda U$, where $\lambda$ ranges over the base field, equals the total space.
-			
-			A locally convex space is the defined as a topological vector space such that the origin admits a local base of absorbent absolutely convex sets.
-		\end{itemize}
-	}
-	\newdef{Locally convex space}{
-		A topological vector space is locally convex if its topology is generated by a family of seminorms.
-	}
+    \newdef{Locally convex space}{\index{convex}\index{cone}
+        We first give some preliminary definitions:
+        \begin{itemize}
+            \item A subset $U$ is \textbf{convex} if for any two vectors $v, w\in U$ the line segment connecting them lies in $U$.
+            \item A \textbf{cone} is a subset $U$ such that for every vector $v\in U$ the line segment connecting it to the origin lies in $U$.
+            \item A subset $U$ is said to be balanced\footnote{A balanced subset is also called a \textit{circled cone}.} if for every vector $v\in U$ the scalar multiples $\lambda v$, with $|\lambda|\leq 1$, also lie in $U$.
+            \item An \textbf{absolutely convex} set is a balanced convex set. This is equivalent to the statement that the set is closed under linear combinations where the absolute values of the coefficients sum at most to 1.
+            \item A subset $U$ is said to be \textbf{absorbent} if the union of all sets $\lambda U$, where $\lambda$ ranges over the base field, equals the total space.
+
+            A locally convex space is the defined as a topological vector space such that the origin admits a local base of absorbent absolutely convex sets.
+        \end{itemize}
+    }
+    Using the notion of seminorms one can restate this definition as follows:
+    \newadef{Locally convex space}{
+        A topological vector space is locally convex if its topology is generated by a family of seminorms.
+    }

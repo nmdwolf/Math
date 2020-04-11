@@ -232,7 +232,9 @@ References for this chapter are \cite{weibel, hom_algebra}.
 
 \section{Spectral sequences}
 
-	\newdef{Spectral sequence}{\index{spectral!sequence}
+	\sremark{In this section we will adopt the homological convention, i.e. differentials lower the degree.}
+
+	\newdef{Spectral sequence}{\index{spectral!sequence}\index{page}
 		Consider a sequence of differential objects $\{(E_i, d_i)\}$. This sequence is called a spectral sequence if it satisfies
 		\begin{gather}
 			H(E_i, d_i) = E_{i+1}
@@ -242,22 +244,24 @@ References for this chapter are \cite{weibel, hom_algebra}.
 			\item $\varphi_i\circ d_i = d_i'\circ\varphi_i$
 			\item $\varphi_{i+1} = H(\varphi_i)$
 		\end{itemize}
+		The objects $E_i$ are often called the \textbf{pages} of the spectral sequence.
 	}
+
+\subsection{Exact couples}
 	
 	\newdef{Exact couple}{\index{exact!couple}
-		An exact "couple" is a tuple $(A, B, \alpha, \beta, \gamma)$ such that diagram \ref{fig:exact_couple} commutes.
+		An exact ''couple'' is a tuple $(A, B, \alpha, \beta, \gamma)$ such that diagram \ref{fig:exact_couple} commutes.
 		\begin{figure}[!ht]
 			\centering
 			\begin{subfigure}{0.40\textwidth}
 				\centering
 				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-						A\&\&A\\
-						\&B\&\\
-					};
-					\draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$\alpha$};
-					\draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\beta$};
-					\draw[->] (m-2-2) -- (m-1-1) node[pos=0.5, below left]{$\gamma$};
+					\node (A) at (-1, 1) {$A$};
+					\node (A2) at (1, 1) {$A$};
+					\node (B) at (0, -1) {$B$};
+					\draw[->] (A) -- node[above]{$\alpha$} (A2);
+					\draw[->] (A2) -- node[below right]{$\beta$} (B);
+					\draw[->] (B) -- node[below left]{$\gamma$} (A);
 				\end{tikzpicture}
 				\caption{Exact couple.}
 				\label{fig:exact_couple}
@@ -265,29 +269,84 @@ References for this chapter are \cite{weibel, hom_algebra}.
 			\begin{subfigure}{0.49\textwidth}
 				\centering
 				\begin{tikzpicture}
-					\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em, minimum width=1em, ampersand replacement=\&]{
-						A'\&\&\&\&A'\\
-						\&A\&\&A\&\\
-						\&\&\&\&\\
-						\&\&B\&\&\\
-						\&\&B'\&\&\\
-					};
-					\draw[->] (m-1-1) -- (m-1-5) node[pos=0.5, above]{$\alpha'$};
-					\draw[->] (m-1-5) -- (m-5-3) node[pos=0.5, below right]{$\beta'$};
-					\draw[->] (m-5-3) -- (m-1-1) node[pos=0.5, below left]{$\gamma'$};
-					\draw[->] (m-2-2) -- (m-2-4) node[pos=0.5, above]{$\alpha$};
-					\draw[->] (m-2-4) -- (m-4-3) node[pos=0.6, above left]{$\beta$};
-					\draw[->] (m-4-3) -- (m-2-2) node[pos=0.45, above right]{$\gamma$};
-					\draw[->] (m-2-2) -- (m-1-1) node[pos=0.4, above right]{$f$};
-					\draw[->] (m-2-4) -- (m-1-5) node[pos=0.4, above left]{$f$};
-					\draw[->] (m-4-3) -- (m-5-3) node[pos=0.35, right]{$g$};
+					\node (A') at (-3, 3) {$A'$};
+					\node (A2') at (3, 3) {$A'$};
+					\node (B) at (0, -1) {$B$};
+					\node (A) at (-1, 1) {$A$};
+					\node (A2) at (1, 1) {$A$};
+					\node (B') at (0, -3) {$B$};
+					\draw[->] (A') -- node[above]{$\alpha'$} (A2');
+					\draw[->] (A2') -- node[below right]{$\beta'$} (B');
+					\draw[->] (B') -- node[below left]{$\gamma'$} (A');
+					\draw[->] (A) -- node[above]{$\alpha$} (A2);
+					\draw[->] (A2) -- node[below right]{$\beta$} (B);
+					\draw[->] (B) -- node[below left]{$\gamma$} (A);
+					\draw[->] (A) -- node[above right]{$f$} (A');
+					\draw[->] (A2) -- node[above left]{$f$} (A2');
+					\draw[->] (B) -- node[right]{$g$} (B');
 				\end{tikzpicture}
 				\caption{Morphism of exact couples.}
 				\label{fig:exact_couple_morphism}
 			\end{subfigure}
-			\caption{Exact couples and their morphisms.}
+			\caption{}
 			\label{fig:exact_couples_category}
 		\end{figure}
 		
 		A morphism of exact couples is a pair of morphisms $(f, g):(A, B)\rightarrow (A', B')$ that make the diagram \ref{fig:exact_couple_morphism} commute.
-		}
+	}
+
+	From any exact couple $(A, B, \alpha, \beta, \gamma)$ one can construct a spectral sequence using the following prescription:
+	\begin{align}
+		E_0 &= B\\
+		d_0 &= \beta\circ\gamma\\
+		&\nonumber\\
+		E_n &= \frac{\gamma^{-1}(\alpha^n(A))}{\beta(\alpha^{-n}(0))}\\
+		d_n &= \beta\circ\alpha^{-n}\circ\gamma
+	\end{align}
+	It is not so hard to see that $E_{n+1}=H(E_n, d_n)$, so this construction gives a functor from the category of exact couples to the category of spectral sequences. The higher exact couples $(\alpha^nD, E_n, \dots)$ are sometimes called \textbf{derived couples}.
+	
+	One can also define the term $E_\infty$ using the following limit procedure: For every $n$ one can look at the elements in $E_n$ that are closed under $d_n$, let's call them $E_{n,n+1}$. Since there exists a canonical surjection $E_{n,n+1}\rightarrow E_{n+1}$ one can then look at all the elements in $E_{n,n+1}$ for which their image in $E_{n+1}$ is closed under $d_{n+1}$ and call these $E_{n,n+2}$. The elements that remain after taking the limit of this operation form the set $E_{n, \infty}$. Now we can also take the (direct) limit of these $E_{n,\infty}$ and this gives us $E_\infty$. This is equivalent to
+	\begin{gather}
+		E_\infty = \frac{\cap_i Z(E_i)}{\cup_i B(E_i)}
+	\end{gather}
+	Hence $E_\infty$ contains the equivalence classes of elements that are cycles for all $d_n$ but boundaries for none. If $E_\infty$ is the associated graded object of some filtered object $G$ then we say that the spectral sequence \textbf{converges} to $G$.
+	
+	Now consider a differential object $(C, d)$ together with a filtration\footnote{See definition \ref{set:filtration}.} $\{F_pC\}_{p\in\mathbb{N}}$. The definition of the filtration immediately gives us a short exact sequence for every $p\in\mathbb{N}$:
+	\begin{gather}
+		0\longrightarrow F_{p-1}C\longrightarrow F_pC\longrightarrow F_pC/F_{p-1}C\longrightarrow0
+	\end{gather}
+	This short sequence then gives rise to a long exact sequence in homology, which can be expressed as an exact triangle, and this triangle in turn leads to an exact couple:
+	\begin{gather}
+		\begin{tikzpicture}
+			\node (A) at (-1, 1) {$D$};
+			\node (A2) at (1, 1) {$D$};
+			\node (B) at (0, -1) {$E$};
+			\draw[->] (A) -- node[above]{$\alpha$} (A2);
+			\draw[->] (A2) -- node[below right]{$\beta$} (B);
+			\draw[->] (B) -- node[below left]{$\gamma$} (A);
+		\end{tikzpicture}
+	\end{gather}
+	where $D_p = H(F_pC)$ and $E_p=H(F_pC/F_{p-1}C)$. From a more abstract (but at the same time more useful) point of view one can consider the object $E$ as a functor from the category of filtered (differential) objects to the category of graded objects. As such it is constructed from the composition of the homology functor $H$ and the \textit{associated graded object-functor} \[Gr:C\rightarrow \{G_pC := F_pC/F_{p-1}C\}_{p\in\mathbb{N}}.\]
+	
+	On the other hand we could of course also construct the composition $Gr\circ H$ which first maps a differential object to its homology object and then builds the graded object associated to the filtration \[F_pH(C):=\im\left(H(F_pC)\rightarrow H(C)\right).\] Now of course some interesting questions arise: ''\textit{How are the functors $H\circ Gr$ and $Gr\circ H$ related?}'', ''\textit{Do they coincide?}'', ... The latter question is easy to answer, namely ''\textit{No, they do not.}'' However they can be related and this happens through a spectral sequence that will tell us how the homology of the graded object associated to $C$ can be related to the homology of $C$ itself.
+	
+\subsection{Filtered complexes}
+
+	For the remainder of this section we will only consider graded differential objects, i.e. $C_\bullet=\{C_p\}_{p\in\mathbb{Z}}$ for which $dC_p\subseteq C_p$. In this case the exact couple now consist of $D=\{D^{p,q}:=H_q(F_pC_\bullet)\}$ and $E=\{E_{p,q}:=H_q(G_pC_\bullet)\}$ and hence the objects are now bigraded. (The filtration is also required to preserve the differential, i.e. $dF_iC_j\subseteq F_iC_{j-1}$.)
+	
+	\sremark{In contrast to most of the literature we did not adopt the \textit{complementary convention}, i.e. the convention where $p+q$ denotes the total degree and hence $E_{p,q}=H_{p+q}(G_pC_\bullet)$.}
+	
+	Before we introduce an expression for a general page $E_r$ we will consider the degree zero and one terms to get some intuition. The differential on $E_0$ is given by
+	\begin{gather}
+		d_0:\frac{F_pC_q}{F_{p-1}C_q}\rightarrow\frac{F_pC_{q-1}}{F_{p-1}C_{q-1}}
+	\end{gather}
+	and is induced by the differential $d$ on $C_\bullet$. The kernel of this map is clearly given by all elements $x\in F_pC_q$ such that $dx = 0\mod F_{p-1}C_{q-1}$ (with the additional remark that we also have to take the quotient by $F_{p-1}C_q$). As a result we find that the homology $E_1=H(E_0, d_0)$ is given by
+	\begin{gather}
+		E_1^{p,q}:=\frac{\{x\in F_pC_q: dx\in F_{p-1}C_{q-1}\}}{F_{p-1}C_q+dF_pC_{q+1}}.
+	\end{gather}
+	The first term in the denominator was already explained above. The second term comes from the $\im(d_0)$ part in the definition of $H(E_0, d_0)$. One might suspect that some data is missing since the relevant map $d_0^{p, q+1}$ goes from $\frac{F_pC_{q+1}}{F_{p-1}C_{q+1}}$ to $\frac{F_pC_q}{F_{p-1}C_{q}}$. However, the image of $F_{p-1}C_{q+1}$ is a subspace of $F_{p-1}C_q$ and this is already included in the first term, so we might as well work with all of $F_pC_{q+1}$.
+	
+	For arbitrary $r>0$ we define the page $E_r$ as follows:
+	\begin{gather}
+	E_r^{p,q}:=\frac{\{x\in F_pC_q: dx\in F_{p-r}C_{q-1}\}}{F_{p-1}C_q+dF_{p+r-1}C_{q+1}}.
+	\end{gather}

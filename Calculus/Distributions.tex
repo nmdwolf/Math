@@ -1,4 +1,4 @@
-\chapter{Distributions}
+\chapter{Distributions}\label{chapter:distributions}
 
 	Although this chapter is technically part of functional analysis and hence uses the language of normed spaces we chose to present it in the part on calculus. For important theorems or definitions we have inserted references to chapter \ref{chapter:normed_spaces}.
 
@@ -15,10 +15,10 @@
 	}
 
 	\begin{example}[Ordinary function as generalized function]
-	    	Every locally integrable function $f\in L^1_{loc}(\mathbb{R}^n)$ gives rise to a distribution:
-	    	\begin{gather}
-		    	\langle f, g\rangle = \int fg\ d^nx.
-	    	\end{gather}
+    	Every locally integrable function $f\in L^1_{loc}(\mathbb{R}^n)$ gives rise to a distribution:
+    	\begin{gather}
+	    	\langle f, g\rangle = \int fg\ d^nx.
+    	\end{gather}
 	\end{example}
 
 	\begin{property}
@@ -31,7 +31,8 @@
 			\end{gather}
 			for all $f\in\mathcal{D}(U)$, where $p_{K, m_K}$ is the (semi)norm\footnote{This is the family of semi(norms) defining the Fr\'echet topology on $\mathcal{D}_K(U)$ and the inductive limit topology on $\mathcal{D}(U)$.} defined by
 			\begin{gather}
-				p_{K, m}(f) = \sup_{|i|\leq m}\sup_{x\in K}||D^if(x)||
+                \label{distribution:D_seminorm}
+				p_{K, m}(f) = \sup_{|i|\leq m}\sup_{x\in K}||f^{(i)}(x)||
 			\end{gather}
 		\end{itemize}
 	\end{property}
@@ -45,8 +46,12 @@
 	}
 
 	\begin{property}
-			A distribution of order $k$ can be (uniquely) extended to a continuous linear functional on $\mathcal{D}^k(U)$. For the case $k=0$ this implies that we can identify order-0 distributions with \textit{Radon measures}.
+		A distribution of order $k$ can be (uniquely) extended to a continuous linear functional on $\mathcal{D}^k(U)$. For the case $k=0$ this implies that we can identify order-0 distributions with \textit{Radon measures}.
 	\end{property}
+
+    \begin{property}
+        The space $\mathcal{D}$ is dense in $\mathcal{D}'$.\footnote{To prove this one can work with a sequence of \textit{regularizations}. (This uses the concept of convolutions defined further below.)}
+    \end{property}
 
 \subsection{Support}
 
@@ -68,12 +73,17 @@
 
 \subsection{Derivatives}
 
-	\newdef{Derivative of a distribution}{\index{derivative}
+	\newdef{Derivative of a distribution}{\index{derivative!of distributions}\index{derivative!weak}\label{distributions:weak_derivative}
 		The derivative of a distribution $\phi$ is defined through the following formula:
 		\begin{gather}
 			\left\langle\pderiv{\phi}{x}, f\right\rangle := \left\langle\phi,\pderiv{f}{x}\right\rangle
 		\end{gather}
-		This formula makes sense since if $\phi$ is induced by a locally integrable function then the above formula is the one obtained through integration by parts.
+		This formula makes sense, since if $\phi$ is induced by a locally integrable function then the above formula is the one obtained through integration by parts.
+
+        In general an integrable function $g$ is said to be a \textbf{weak derivative} of an integrable function $f$ if it satisfies the following equation for all $\varphi\in\mathcal{D}$:
+        \begin{gather}
+            \langle f, \varphi'\rangle = \langle g, \varphi\rangle.
+        \end{gather}
 	}
 
 	\begin{property}
@@ -83,29 +93,29 @@
 \section{Dirac Delta distribution}
 
 	\newdef{Heaviside distribution}{\index{Heaviside!function}\label{distribution:heaviside_function}
-	    	The Heaviside function is defined as follows:\footnote{The case $x=0$ is often left undefined, but since this function will always enter formulas inside an integral this does not matter.}
-	    	\begin{gather}
-				H(x) =
-				\begin{cases}
-					0&x<0\\
-					1&x>0
-				\end{cases}
-			\end{gather}
-	        From this definition it follows that for every $f\in\mathcal{D}(U)$:
-        	\begin{gather}
-        		\label{distribution:heaviside_function_integral}
-				\langle H,f \rangle = \int_0^{+\infty}f(x)\ dx.
-			\end{gather}
+    	The Heaviside function is defined as follows:\footnote{The case $x=0$ is often left undefined, but since this function will always enter formulas inside an integral this does not matter.}
+    	\begin{gather}
+			H(x) =
+			\begin{cases}
+				0&x<0\\
+				1&x>0
+			\end{cases}
+		\end{gather}
+     From this definition it follows that for every $f\in\mathcal{D}(U)$:
+       	\begin{gather}
+       		\label{distribution:heaviside_function_integral}
+			\langle H,f \rangle = \int_0^{+\infty}f(x)\ dx.
+		\end{gather}
 	}
 
 	\newdef{Dirac delta distribution}{\index{Dirac!delta function}\label{distribution:dirac_delta}
-	    	The Dirac delta distribution is defined as the derivative of the Heaviside function:
-	        \begin{align*}
-				\langle \delta,f \rangle&:=\langle H',f \rangle\\
-        		&=-\langle H,f' \rangle\\
-				&=-\ds\int_0^{+\infty}f'(x)dx\\
-        		&=f(0)
-			\end{align*}
+    	The Dirac delta distribution is defined as the derivative of the Heaviside function:
+     \begin{align*}
+			\langle \delta,f \rangle&:=\langle H',f \rangle\\
+       		&=-\langle H,f' \rangle\\
+			&=-\ds\int_0^{+\infty}f'(x)dx\\
+       		&=f(0)
+		\end{align*}
 	}
 
 	\begin{property}[Sampling property]
@@ -132,7 +142,7 @@
 	\end{property}
 
 	\newformula{Differentiation across discontinuities}{
-	    	Let $f(x)$ be a piecewise continuous function with discontinuities at $x_1,...,x_n$. Let $f$ satisfy the conditions to be a generalized function. Define $\sigma_i = f^+(x_i) - f^-(x_i)$, i.e. the jumps of $f$ at its discontinuities. Next, define the (continuous) function \[f_c(x) = f(x) - \sum_{i=1}^n\sigma_iH(x-x_i).\] Differentiation of this formula  gives \[f'(x) = f'_c(x) + \sum_{i=1}^n\sigma_i\delta(x-x_i).\] It follows that the derivative in the generalized sense of a piecewise continuous function equals the derivative in the classical sense plus a summation of delta functions at every jump discontinuity.
+    	Let $f(x)$ be a piecewise continuous function with discontinuities at $x_1,...,x_n$. Let $f$ satisfy the conditions to be a generalized function. Define $\sigma_i = f^+(x_i) - f^-(x_i)$, i.e. the jumps of $f$ at its discontinuities. Next, define the (continuous) function \[f_c(x) = f(x) - \sum_{i=1}^n\sigma_iH(x-x_i).\] Differentiation of this formula  gives \[f'(x) = f'_c(x) + \sum_{i=1}^n\sigma_i\delta(x-x_i).\] It follows that the derivative in the generalized sense of a piecewise continuous function equals the derivative in the classical sense plus a summation of delta functions at every jump discontinuity.
 	}
 
 \section{Convolutions and kernels}
@@ -185,26 +195,26 @@
     \end{formula}
 
     \begin{property}[Convergence of the Fourier series]
-    	Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a $2\pi$-periodic function. If $f(x)$ is piecewise $C^1$ on $[-\pi, \pi]$ the the limit $\lim_{n\rightarrow+\infty}(D_n\ast f)(x)$ converges to $\frac{f(x+) + f(x-)}{2}$ for all $x\in\mathbb{R}$.
+    	Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a $2\pi$-periodic function. If $f$ is piecewise $C^1$ on $[-\pi, \pi]$ the limit $\lim_{n\rightarrow+\infty}(D_n\ast f)(x)$ converges to $\frac{f(x+) + f(x-)}{2}$ for all $x\in\mathbb{R}$.
     \end{property}
 
 	\newformula{Generalized Fourier series}{\index{Fourier!series}\label{transforms:fourier_series}
-    	Let $f(x)\in L^2[-l, l]$ be a $2l$-periodic function. This function can be approximated by the following series:
+    	Let $f\in L^2[-l, l]$ be a $2l$-periodic function. This function can be approximated by the following series:
         \begin{gather}
             f(x) = \sum_{n = -\infty}^{+\infty} \left(\frac{1}{2l}\int_{-l}^le^{-i\frac{n\pi x'}{l}}f(x')dx'\right) e^{i\frac{n\pi x}{l}}.
         \end{gather}
 	}
 
     \begin{formula}[Fourier coefficients]
-		As seen in the above formula, the Fourier coefficient $\widetilde{f}(n)$ can be calculated by taking the inner product \ref{hilbert:inner_product_L2} of $f(x)$ and the $n^{th}$ eigenfunction $e_n$:
+		As seen in the above formula, the Fourier coefficient $\widetilde{f}(n)$ can be calculated by taking the inner product \ref{hilbert:inner_product_L2} of $f$ and the $n^{th}$ eigenfunction $e_n$:
 		\begin{gather}
 			\label{transforms:fourier_coefficients}
-        		\widetilde{f}(n) = \int_{-l}^le_n^*(x)f(x)dx \qquad\text{with}\qquad e_n = \sqrt\frac{1}{2l}e^{i\frac{n\pi x}{l}}.
+       		\widetilde{f}(n) = \int_{-l}^le_n^*(x)f(x)dx \qquad\text{with}\qquad e_n = \sqrt\frac{1}{2l}e^{i\frac{n\pi x}{l}}.
 		\end{gather}
 	\end{formula}
 
 	\newdef{Periodic extension}{\index{periodic!extension}
-    	Let $f(x)$ be piecewise $C^1$ on $[-L, L]$. The periodic extension $f^L(x)$ is defined by gluing ''copies'' of $f(x)$ together. The \textbf{normalized periodic extension} is defined as follows:
+    	Let $f$ be piecewise $C^1$ on $[-L, L]$. The periodic extension $f^L$ is defined by gluing ''copies'' of $f$ together. The \textbf{normalized periodic extension} is defined as follows:
         \begin{gather}
         	f^{L, \nu}(x) = \stylefrac{f^L(x+) + f^L(x-)}{2}.
         \end{gather}
@@ -213,79 +223,30 @@
     	If $f:\mathbb{R}\rightarrow\mathbb{R}$ is piecewise $C^1$ on $[-L, L]$ then the Fourier series approximation of $f(x)$ converges to $f^{L, \nu}(x)$ for all $x\in\mathbb{R}$.
     \end{property}
 
-\section{Fourier transformation}\index{Fourier!transformation}
-
-	The Fourier series can be used to expand a $2l$-periodic function as an infinite series of exponentials. For expanding a nonperiodic function we need the Fourier integral:
-	\begin{gather}
-		\label{transforms:fourier}
-		\mathcal{F}(\omega) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty}f(t)e^{-i\omega t}dt.
-	\end{gather}
-    The inverse Fourier transformation is given by
-	\begin{gather}
-		\label{transforms:inverse_fourier}
-		f(t) = \mathcal{F}^{-1}(t) = \frac{1}{\sqrt{2\pi}} \Xint-_{-\infty}^{\infty}\mathcal{F}(\omega)e^{i\omega t}d\omega.
-	\end{gather}
-	Equation \ref{transforms:fourier} is called the (forward) Fourier transform of $f(t)$ and equation \ref{transforms:inverse_fourier} is called the inverse Fourier transform.
-
-	\begin{notation}
-		The Fourier transform of a function $f$, as seen in equation \ref{transforms:fourier}, is often denoted by $\widetilde{f}$ or $\hat{f}$.
-	\end{notation}
-
-	\begin{property}[Convergence of the Fourier integral]
-	    	If $f:\mathbb{R}\rightarrow\mathbb{R}$ is Lipschitz continuous (see \ref{calculus:lipschitz_continuity}) and if $\int_{-\infty}^{+\infty}|f(x)|dx$ is convergent then the Fourier integral converges to $f(x)$ for all $x\in\mathbb{R}$.
-	\end{property}
-	\begin{theorem}[Fourier inversion theorem]
-	    	If both $f(t), \mathcal{F}(\omega)\in L^1(\mathbb{R})$ are continuous then the Cauchy principal value in \ref{transforms:inverse_fourier} can be replaced by a normal integral.
-	\end{theorem}
-
-	\begin{property}
-	    	From the Riemann-Lebesgue lemma \ref{lebesgue:riemann_lebesue_lemma} it follows that
-	        \begin{gather}
-	        	\mathcal{F}(\omega)\rightarrow0 \qquad\text{if}\qquad |\omega|\rightarrow0.
-	        \end{gather}
-	\end{property}
-
-	\begin{theorem}[Parceval]\index{Parceval}
-	   	Let $(f, \widetilde{f})$ and $(g,\widetilde{g})$ be two Fourier transform pairs.
-	        \begin{gather}
-			\label{transforms:parcevals_theorem}
-		        \int_{-\infty}^{+\infty}f(x)g(x)dx = \int_{-\infty}^{+\infty}\widetilde{f}(k)\widetilde{g}(k)dk
-		\end{gather}
-	\end{theorem}
-	\begin{result}[Plancherel]\index{Plancherel}
-    		The integral of the square (of the modulus) of a Fourier transform is equal to the integral of the square (of the modulus) of the original function:
-    		\begin{gather}
-    			\label{transforms:plancherel_theorem}
-        		\int_{-\infty}^{+\infty}|f(x)|^2dx = \int_{-\infty}^{+\infty}|\widetilde{f}(k)|^2dk
-	   	\end{gather}
-	\end{result}
-
 \section{Laplace transformation}
 
-	\newformula{Laplace transform}{\index{Laplace!transform}
-	        \begin{gather}
-		        \label{transforms:laplace}
-        		\mathcal{L}\{F(t)\}_{(s)} = \int_{0}^{\infty}f(t)e^{-st}dt
-	        \end{gather}
+	\newformula{Laplace transform}{\index{Laplace!transform}\label{transforms:laplace}
+        \begin{gather}
+            \mathcal{L}\{F(t)\}_{(s)} = \int_{0}^{\infty}f(t)e^{-st}dt
+        \end{gather}
 	}
 
-	\newformula{Bromwich integral}{\index{Bromwich!integral}
-	        \begin{gather}
-		        \label{transforms:inverse_laplace}
-        		f(t) = \frac{1}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty}\mathcal{L}\{F(t)\}_{(s)}e^{st}ds
-	        \end{gather}
+	\newformula{Bromwich integral}{\index{Bromwich!integral}\label{transforms:inverse_laplace}
+        \begin{gather}
+            f(t) = \frac{1}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty}\mathcal{L}\{F(t)\}_{(s)}e^{st}ds
+        \end{gather}
 	}
 
 	\begin{notation}
-		The Laplace transform as defined in equation \ref{transforms:laplace} is often denoted by $f(s)$ .
+		The Laplace transform as defined in equation \ref{transforms:laplace} is often denoted by $f(s)$.
 	\end{notation}
 
 \section{Mellin transformation}
 
 	\newformula{Mellin transform}{\index{Mellin}\label{transforms:mellin}
-	    	\begin{gather}
-	    		\mathcal{M}\{f(x)\}(s) = \int_0^{+\infty}x^{s-1}f(x)dx
-	    	\end{gather}
+    	\begin{gather}
+    		\mathcal{M}\{f(x)\}(s) = \int_0^{+\infty}x^{s-1}f(x)dx
+    	\end{gather}
 	}
 	\newformula{Inverse Mellin transform}{
 		\begin{gather}
@@ -310,11 +271,14 @@
 \section{Tempered distributions}
 
 	\newdef{Schwartz space}{\index{Schwartz!space}\label{distribution:schwartz_space}
-		The Schwartz space of \textbf{rapidly decreasing functions}\footnotemark\ $\mathscr{S}(\mathbb{R})$ is defined as follows:
-		\footnotetext{These functions are said to be rapidly decreasing because every derivative $f^{(j)}(x)$ decays faster than any polynomial $x^i$ for $x\rightarrow+\infty$.}
+		The Schwartz space of \textbf{rapidly decreasing functions}\footnote{These functions are said to be rapidly decreasing because every derivative $f^{(j)}(x)$ decays faster than any inverse power $x^i$ for $x\rightarrow+\infty$.} $\mathscr{S}(\mathbb{R})$ is defined as follows:
 		\begin{gather}
-		\mathscr{S}(\mathbb{R}) = \left\{f(x)\in C^\infty(\mathbb{R}):\forall i,j\in\mathbb{N},\forall x\in\mathbb{R}:|x^if^{(j)}(x)|<+\infty\right\}.
+		\mathscr{S}(\mathbb{R}) = \left\{f\in C^\infty(\mathbb{R}):\forall i,j\in\mathbb{N},\forall x\in\mathbb{R}:|x^if^{(j)}(x)|<+\infty\right\}.
 		\end{gather}
+        An equivalent condition is the following: For every two integer $p, j\in\mathbb{N}$ there exists a constant $M_{p, j}(f)$ such that
+        \begin{gather}
+            \sup_{x\in\mathbb{R}}(1+|x|^2)^p|f^{(j)}|\leq M_{p, j}(f).
+        \end{gather}
 	}
 
 	\remark{This definition can be generalized to functions in $C^\infty(\mathbb{R}^n)$ or functions $f:\mathbb{R}^n\rightarrow\mathbb{C}$. The Schwartz space is then denoted by $\mathscr{S}(\mathbb{R}^n,\mathbb{C})$.}
@@ -322,11 +286,76 @@
 	\newdef{Functions of slow growth}{
 		The set of functions of slow growth $N(\mathbb{R})$ is defined as follows:
 		\begin{gather}
-		N(\mathbb{R}) = \{f(x)\in C^\infty(\mathbb{R}) : \forall i\in\mathbb{N},\exists M_i > 0: |f^{(i)}(x)| = O(|x|^i) \text{ for } |x|\rightarrow+\infty\}.
+            N(\mathbb{R}) = \left\{f\in C^\infty(\mathbb{R}) : \forall i\in\mathbb{N},\exists M_i > 0: |f^{(i)}(x)| = O(|x|^i) \text{ for } |x|\rightarrow+\infty\right\}.
 		\end{gather}
 	}
 	\sremark{It is clear that all polynomials belong to $N(\mathbb{R})$ but not to $\mathscr{S}(\mathbb{R})$.}
 
 	\begin{property}
-		If $f(x)\in\mathscr{S}(\mathbb{R})$ and $a(x)\in N(\mathbb{R})$ then $a(x)f(x)\in\mathscr{S}(\mathbb{R})$.
+		If $f\in\mathscr{S}(\mathbb{R})$ and $f\in N(\mathbb{R})$ then $fg\in\mathscr{S}(\mathbb{R})$.
 	\end{property}
+
+\subsection{Fourier transformation}\index{Fourier!transformation}
+
+    The Fourier series can be used to expand a $2l$-periodic function as an infinite series of exponentials. For expanding a nonperiodic function $f\in L^1(\mathbb{R})$ we need the integral Fourier transform:\footnote{We require $f$ to be (absolutely) integrable to make the integral converge. Weaker conditions are possible (see the literature).}
+    \begin{gather}
+        \label{transforms:fourier}
+        \mathcal{F}(\omega) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty}f(t)e^{-i\omega t}dt.
+    \end{gather}
+    The inverse Fourier transform (if it exists) is given by
+    \begin{gather}
+        \label{transforms:inverse_fourier}
+        f(t) = \mathcal{F}^{-1}(t) = \frac{1}{\sqrt{2\pi}} \Xint-_{-\infty}^{\infty}\mathcal{F}(\omega)e^{i\omega t}d\omega.
+    \end{gather}
+    Equation \ref{transforms:fourier} is called the (forward) Fourier transform of $f(t)$ and equation \ref{transforms:inverse_fourier} is called the inverse Fourier transform. The pair $(f, mathcal{F})$ is called a \textbf{Fourier transform pair}.
+
+    \begin{notation}
+        The Fourier transform of a function $f$, as seen in equation \ref{transforms:fourier}, is often denoted by $\widetilde{f}$ or $\widehat{f}$.
+    \end{notation}
+
+    \begin{property}
+        From the Riemann-Lebesgue lemma \ref{lebesgue:riemann_lebesue_lemma} it follows that
+        \begin{gather}
+            \mathcal{F}(\omega)\rightarrow0 \qquad\text{if}\qquad |\omega|\rightarrow0.
+        \end{gather}
+    \end{property}
+
+    \begin{theorem}[Parceval]\index{Parceval}\label{transforms:parcevals_theorem}
+        Let $(f, \widetilde{f})$ and $(g,\widetilde{g})$ be two Fourier transform pairs.
+        \begin{gather}
+            \int_{-\infty}^{+\infty}f(x)g(x)dx = \int_{-\infty}^{+\infty}\widetilde{f}(k)\widetilde{g}(k)dk
+        \end{gather}
+    \end{theorem}
+    \begin{result}[Plancherel]\index{Plancherel}\label{transforms:plancherel_theorem}
+        The integral of the square (of the modulus) of a Fourier transform is equal to the integral of the square (of the modulus) of the original function:
+        \begin{gather}
+            \int_{-\infty}^{+\infty}|f(x)|^2dx = \int_{-\infty}^{+\infty}|\widetilde{f}(k)|^2dk.
+        \end{gather}
+        This implies that the Fourier transform defines an isometry on $L^2$.
+    \end{result}
+
+    Now one can wonder why we introduced the Fourier transform in this chapter? The reason is that Fourier transforms can be generalized to distributions in a convenient way. We could try to extend the definition to distributions by duality, but for an arbitrary $\phi\in\mathcal{D}'$ we are not guaranteed that $\widehat{\phi}\in\mathcal{D}'$. This is where the Schwartz spaces come up:
+    \begin{property}
+        The Fourier transform defines an isomorphism on $\mathscr{S}$.
+    \end{property}
+    One can also show that every Schwartz space has the structure of a Fr\'echet space under the family of seminorms
+    \begin{gather}
+        s_{p,N}(\phi) := \sup_{x\in\mathbb{R}^n}\sup_{|j|\leq N}\left|(1+|x|^2)^p\phi^{(j)}(x)\right|.
+    \end{gather}
+    The space of \textbf{tempered distributions} is then defined as the continuous dual of $\mathscr{S}$ (often with the weak-* topology). These spaces have the following important property:
+    \begin{property}
+        The Schwartz space $\mathscr{S}$ contains the space of smooth compactly supported functions $\mathcal{D}$ as a dense subspace. This implies that tempered distributions are determined by their values on $\mathcal{D}$.
+    \end{property}
+
+    \begin{property}
+        The Fourier transform of tempered distributions has some nice additional properties:
+        \begin{itemize}
+            \item The Fourier transform also defines an isomorphism on $\mathscr{S}$.
+            \item The Fourier transform of a compactly supported function is of slow growth.
+            \item The Fourier transform of a convolution is equal to the product of the individual Fourier transforms. (Here one should restrict to the case of a compactly supported and a tempered distribution such that the convolution is also tempered.)
+        \end{itemize}
+    \end{property}
+    As a last item we mention an important relation with the theory of complex analysis:
+    \begin{theorem}[Paley-Wiener]\index{Paley-Wiener}
+        The Fourier transform of a compactly supported distribution can be extended to an analytic function on $\mathbb{C}^n$.
+    \end{theorem}

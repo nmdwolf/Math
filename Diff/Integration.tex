@@ -1,104 +1,127 @@
 \chapter{Integration Theory}\label{chapter:integration_manifolds}
 
-For the theory on measure spaces and Lebesgue integration see chapter \ref{chapter:lebesgue}.
+    For the theory on measure spaces and Lebesgue integration see chapter \ref{chapter:lebesgue}.
 
 \section{Orientation}
-	\newdef{Orientation}{\index{orientation}\index{volume}
-		Similar to definition \ref{tensor:orientation} we can define an orientation on a differentiable manifold $M$. First we modify the definition of the volume element a little bit. A \textbf{volume form} on $M$ is a nowhere-vanishing top-dimensional differential form $\text{Vol}\in\Omega^n(M)$ where $n = \dim(M)$. The definition of an orientation is then equivalent to that in \ref{tensor:orientation}.
-		
-		An \textbf{oriented atlas} is given by all charts of $M$ for which the pullback of the Euclidean volume form is a positive multiple of $\text{Vol}$. This also means that the transition functions have a positive Jacobian determinant\footnotemark. The existence of a volume form turns a differentiable manifold into an \textbf{orientable manifold}.
-		\footnotetext{This gives the equivalence with definition \ref{diff:orientable_structure} using $G$-structures.}
-		
-		Alternatively an orientable manifold with volume form $\omega$ is said to be \textbf{positively oriented} if $\omega(v_1, ..., v_n)>0$ where $(v_1, ..., v_n)$ is a basis for $T_pM$.
-	}
-	
-	\begin{example}\index{determinant}
-		Let $M=\mathbb{R}^n$. The canonical Euclidean volume form is given by the determinant map
-		\begin{equation}
-			\det:(u_1, ..., u_n)\mapsto\det(u_1, ..., u_n)
-		\end{equation}
-		where the $u_n$'s are expressed in the canonical basis $(e_1, ..., e_n)$. The name `volume form' is justified by noting that the determinant map gives the signed volume of the n-dimensional parallelotope spanned by the vectors $\{u_1, ..., u_n\}$.
-	\end{example}
-	
-	\begin{property}
-		Let $\omega_1, \omega_2$ be two volume forms on $M$. Then there exists a smooth function $f$ such that \[\omega_1 = f\omega_2\] Furthermore, the sign of this function is constant on every connected component of $M$.
-	\end{property}
+
+    \newdef{Orientation}{\index{orientation}\index{volume}
+        Similar to definition \ref{tensor:orientation} we can define an orientation on a differentiable manifold $M$. First, we slightly modify the definition of the volume element. A \textbf{volume form} on $M$ is a nowhere-vanishing top-dimensional differential form $\text{Vol}\in\Omega^n(M)$ where $n = \dim(M)$. The definition of an orientation is then the same as in definition \ref{tensor:orientation}.
+
+        An \textbf{oriented atlas} is given by all charts of $M$ for which the pullback of the Euclidean volume form is a positive multiple of $\text{Vol}$. This also implies that the transition functions have a positive Jacobian determinant\footnote{This gives the equivalence with definition \ref{diff:orientable_structure} using $G$-structures.}. The existence of a volume form turns a differentiable manifold into an \textbf{orientable manifold}.
+
+        Alternatively, an orientable manifold with volume form $\text{Vol}$ is said to be \textbf{positively oriented} if it comes equipped with a smooth choice of bases $\{v_1,\ldots,v_n\}$ for $T_pM$ such that $\text{Vol}(v_1,\ldots,v_n)>0$.
+    }
+
+    \begin{example}\index{determinant}
+        Let $M=\mathbb{R}^n$. The canonical Euclidean volume form is given by the determinant map
+        \begin{gather}
+            \det:\{u_1,\ldots,u_n\}\mapsto\det(u_1,\ldots,u_n)
+        \end{gather}
+        where the $u_n$'s are expressed in the canonical basis $(e_1,\ldots,e_n)$. The name ''volume form'' is justified by noting that the determinant map gives the signed volume of the n-dimensional parallelotope spanned by the vectors $\{u_1,\ldots,u_n\}$.
+    \end{example}
+
+    \begin{property}
+        Let $\omega_1, \omega_2$ be two volume forms on $M$. There exists a smooth function $f$ such that \[\omega_1 = f\omega_2.\] Furthermore, the sign of this function is constant on every connected component of $M$.
+    \end{property}
 
 \section{Integration of top-dimensional forms}\index{Lebesgue!integral}\index{measure}
 
-	\newdef{Measure zero}{
-		A subset $U\subset M$ of an orientable manifold is said to be of measure zero if it is the countable union of inverse images of null sets in $\mathbb{R}^n$.
-	}
-	
-	\newdef{Integrable form}{
-		A differential form is said to be integrable if its components with respect to any basis of $\Omega^k(M)$ are Lebesgue integrable on $\mathbb{R}^n$.
-	}
+    \newdef{Measure zero}{
+        A subset $U\subset M$ of an orientable manifold is said to be of measure zero if it is the countable union of inverse images (with respect to the chart maps on $M$) of null sets in $\mathbb{R}^n$.
+    }
 
-	\begin{formula}[Compact support]
-		Let $\omega$ be a top-dimensional form on $M$ with compact support on $U\subset M$.
-		\begin{equation}
-			\label{forms:integration_compact_support}
-			\int_M\omega = \int_U\omega = \int_{-\infty}^{+\infty}\cdots\int_{-\infty}^{+\infty}\omega_{12...n}(x)dx^1dx^2...dx^n
-		\end{equation}
-		This integral is well defined because under a (orientation preserving) change of coordinates the component $\omega_{1...n}$ transforms as $\omega'_{1...n} = J\omega_{1...n}$ where $J$ is the Jacobian determinant. Inserting this in the integral and replacing $dx_i$ by $dx'_i$ then gives us the well-known change-of-variables formula from Lebesgue integration theory.
-	\end{formula}
+    \newdef{Integrable form}{
+        A differential form is said to be integrable if its components with respect to any basis of $\Omega^k(M)$ are Lebesgue integrable on $\mathbb{R}^n$.
+    }
 
-	\begin{formula}[General]
-		Let $\omega$ be a top-dimensional form on $M$ and let $\{\varphi_i\}_i$ be a partition of unity\footnotemark\ subordinate to an atlas on $M$.
-		\footnotetext{This always exists if we require $M$ to be paracompact. See definition \ref{topology:partition_of_unity} and property \ref{topology:paracompact_partition_unity}.}
-		\begin{equation}
-			\label{forms:integration}
-			\int_M\omega = \sum_i\int_M\varphi_i\omega
-		\end{equation}
-		where the integrals on the right-hand side are defined as in equation \ref{forms:integration_compact_support}.
-	\end{formula}
-	
-	\newprop{Compact manifolds}{
-		Let $M$ be a smooth compact manifold. Because every continuous form on $M$ is obviously compactly supported all continuous forms are integrable on $M$.
-	}
-	\newprop{Pullback}{
-		Let $f:M\rightarrow N$ be an orientation-preserving diffeomorphism.
-		\begin{equation}
-			\int_Mf^*\omega = \int_N\omega
-		\end{equation}
-	}
-	
-	\begin{notation}
-		Because the integral of differential forms satisfies properties similar to the ones listed in \ref{lebesgue:general_properties} we introduce the following notation:
-		\begin{equation}
-			\int_M\omega = \langle M, \omega \rangle
-		\end{equation}
-	\end{notation}
-	
-\section{General integration}
+    \begin{formula}[Compact support]
+        Let $\omega$ be a top-dimensional form on $M$ with compact support on $U\subset M$.
+        \begin{gather}
+            \label{forms:integration_compact_support}
+            \int_M\omega = \int_U\omega := \int_{-\infty}^{+\infty}\cdots\int_{-\infty}^{+\infty}\omega_{12\ldots n}(x)dx^1dx^2\ldots dx^n.
+        \end{gather}
+        This integral is well-defined because under a (orientation-preserving) change of coordinates the component $\omega_{1\ldots n}$ transforms as $\omega'_{1\ldots n} = J\omega_{1\ldots n}$ where $J$ is the Jacobian determinant. Inserting this in the integral and replacing $dx_i$ by $dx'_i$ then gives us the well-known change-of-variables formula from Lebesgue integration theory.
+    \end{formula}
 
-\section{Stokes' theorem}	
+    \begin{formula}[General]
+        Let $\omega$ be a top-dimensional form on $M$ and let $\{\varphi_i\}_{i\in I}$ be a partition of unity\footnote{This always exists if we require $M$ to be paracompact. See definition \ref{topology:partition_of_unity} and property \ref{topology:paracompact_partition_unity}.} subordinate to an atlas on $M$.
+        \begin{gather}
+            \label{forms:integration}
+            \int_M\omega := \sum_{i\in I}\int_M\varphi_i\omega
+        \end{gather}
+        where the integrals on the right-hand side are defined as in equation \ref{forms:integration_compact_support}.
+    \end{formula}
 
-	\begin{theorem}[Stokes' theorem]\index{Stokes!theorem for differential forms}
-		Let $\Sigma$ be an orientable smooth manifold. Denote the boundary of $\Sigma$ by $\partial\Sigma$. Let $\omega$ be a differential $k$-form on $\Sigma$. We have the following equality:
-		\begin{equation}
-			\label{forms:theorem:stokes_theorem}
-			\boxed{\int_{\partial\Sigma}\omega = \int_\Sigma d\omega}
-		\end{equation}
-	\end{theorem}
-	\begin{result}
-		The Kelvin-Stokes theorem \ref{vectorcalculus:stokes_theorem}, the divergence theorem \ref{vectorcalculus:divergence_theorem} and Green's identity \ref{vectorcalculus:green_indentity} are immediate results of this (generalized) Stokes' theorem.
-	\end{result}
+    \newprop{Compact manifolds}{
+        Let $M$ be a smooth compact manifold. Because every form on $M$ is obviously compactly supported, all forms are integrable on $M$.
+    }
+    \newprop{Invariance under pullbacks}{
+        Consider an orientation-preserving diffeomorphism $f:M\rightarrow N$.
+        \begin{gather}
+            \int_Mf^*\omega = \int_N\omega
+        \end{gather}
+    }
+
+    \begin{notation}
+        Because the integral of differential forms satisfies properties similar to the ones listed in \ref{lebesgue:general_properties} we introduce the following notation:
+        \begin{gather}
+            \langle M, \omega \rangle := \int_M\omega.
+        \end{gather}
+    \end{notation}
+
+\section{Stokes' theorem}
+
+    \begin{theorem}[Stokes' theorem]\index{Stokes!theorem for differential forms}
+        \label{forms:theorem:stokes_theorem}
+        Let $M$ be an orientable smooth manifold. Denote the boundary of $M$ by $\partial M$. Let $\omega$ be a differential $k$-form on $M$. We have the following equality:
+        \begin{gather}
+            \int_{\partial M}\omega = \int_M d\omega.
+        \end{gather}
+    \end{theorem}
+    \begin{result}
+        The Kelvin-Stokes theorem \ref{vectorcalculus:stokes_theorem}, the divergence theorem \ref{vectorcalculus:divergence_theorem} and Green's identity \ref{vectorcalculus:green_indentity} are immediate results of this (generalized) Stokes' theorem.
+    \end{result}
 
 \section{de Rham Cohomology}\index{cochain}\index{de Rham!cohomology}
 
-	Now we can also give a little side note about why the de Rham cohomology groups \ref{forms:de_rham_cohomology} really form a cohomology theory. For this we need some concepts from homology which can be found in section \ref{section:homology}. Let $M$ be a compact differentiable manifold and let $\{\lambda_i:\Delta^k\rightarrow M\}$ be the set of singular $k$-simplexes on $M$.
-	
-	Now suppose that we want to integrate over a singular $k$-chain $C$ on $M$, i.e. $C = \sum_{i=0}^ka_i\lambda_i$. Formula \ref{forms:integration} says that we can pair the $k$-form $\omega$ and the chain $C$ such that they act as duals to each other (hence $p$-forms are also called $p$-\textbf{cochains}), producing a real number\footnote{This requires the chain group to have real coefficients instead of integer coefficients as is mostly used in homology.}:
-	\begin{equation}
-		\langle\cdot,C\rangle:\Omega^n(M)\rightarrow\mathbb{R}:\omega\mapsto\int_C\omega = \sum_{i=0}^ka_i\int_{\Delta_k}\lambda_i^{*}\omega
-	\end{equation}
-	where $\lambda_i^*$ pulls back $\omega$ to $\Delta^k$ which is a subset of $\mathbb{R}^k$ as required. Now Stokes' theorem \ref{forms:theorem:stokes_theorem} tells us that
-	\begin{equation}
-		\int_Cd\omega = \int_{\partial C}\omega
-	\end{equation}
-	Using the pairing $\langle\cdot,\cdot\rangle$ this becomes
-	\begin{equation}
-		\langle d\omega, C\rangle = \langle \omega, \partial C\rangle
-	\end{equation}
-	The operators $d$ and $\partial$ can thus be interpreted as formal adjoints. After checking (again using Stokes' theorem) that all chains $C$ and cochains $\omega$ belonging to the same equivalence classes $[C]\in H_k(M, \mathbb{R})$ and $[\omega]\in H^k(M, \mathbb{R})$ give rise to the same number\footnote{Suppose that $A, B\in [C]$ and $\phi, \chi\in[\omega]$ then $\langle \phi, A \rangle = \langle \chi, B \rangle$.} $\langle\omega, C\rangle$ we see that the singular homology groups and the de Rham cohomology groups on $M$ are well-defined dual groups. The name cohomology is thus wel chosen for \ref{forms:de_rham_cohomology}.
+    Now, we can also give a little side note about why the de Rham cohomology groups \ref{forms:de_rham_cohomology} really form a cohomology theory. For this we need some concepts from homology which can be found in section \ref{section:homology}. Let $M$ be a compact differentiable manifold and let $\{\lambda_i:\Delta^k\rightarrow M\}$ be the set of singular $k$-simplexes on $M$.
+
+    Suppose that we want to integrate a form over a singular $k$-chain $C = \sum_{i=0}^ka_i\lambda_i$ on $M$. Formula \ref{forms:integration} says that we can pair the $k$-form $\omega$ and the chain $C$ as if they are dual objects (hence $p$-forms are also called $p$-\textbf{cochains}) to produce a real number\footnote{This requires the chain group to have real coefficients instead of integer coefficients as is mostly used in homology.}:
+    \begin{gather}
+        \langle\cdot,C\rangle:\Omega^n(M)\rightarrow\mathbb{R}:\omega\mapsto\int_C\omega = \sum_{i=0}^ka_i\int_{\Delta_k}\lambda_i^{*}\omega
+    \end{gather}
+    where $\lambda_i^*$ pulls $\omega$ back to $\Delta^k$ (which is a subset of $\mathbb{R}^k$ as required). Stokes' theorem \ref{forms:theorem:stokes_theorem} then tells us that
+    \begin{gather}
+        \int_Cd\omega = \int_{\partial C}\omega.
+    \end{gather}
+    Using the pairing $\langle\cdot,\cdot\rangle$ this can be rewritten more explicitly as
+    \begin{gather}
+        \langle d\omega, C\rangle = \langle \omega, \partial C\rangle.
+    \end{gather}
+    The operators $d$ and $\partial$ can thus be interpreted as formal adjoints. After checking (again using Stokes' theorem) that all chains $C$ and cochains $\omega$ belonging to the same equivalence classes $[C]\in H_k(M, \mathbb{R})$ and $[\omega]\in H^k(M, \mathbb{R})$ give rise to the same number $\langle\omega, C\rangle$, we see that the singular homology groups and the de Rham cohomology groups on $M$ are well-defined dual groups. The name \textit{co}homology is thus well-chosen for \ref{forms:de_rham_cohomology}.
+
+\section{Distributions}
+
+    For more information on the theory of distributions on Euclidean space, see chapter \ref{chapter:distributions}.
+
+    There are two ways to introduce distributions on general manifolds. Either we use the locally Euclidean character and define distributions on charts and glue them using the right compatibility data (see for example \cite{AMP1}) or we define them again as the dual of the space of smooth functions (with compact support). Here we expand on the second possibility.
+
+    We will require our base manifold $M$ to be paracompact and second-countable. Moreover, we will also assume that we are given a Riemannian metric $g$. This data allows us to turn the space of $C^\infty$-sections of any tensor bundle over $M$ into a Fr\'echet space using a generalization of the seminorms \ref{distribution:D_seminorm} where we replace the (partial) derivatives $\partial^i$ by covariant derivatives $\nabla^i$ ($\nabla$ is the Levi-Civita connection induced by $g$). The norm will now also be the one induced (fibrewise) by $g$. In a similar way we can for every compact subset $K\subset M$ define the space $\mathcal{D}(K, \otimes^p)$ of smooth $p$-tensor fields with support in $K$ and by taking the direct limit (with its associated topology) we obtain the space of smooth compactly supported $p$-tensor fields $\mathcal{D}(M, \otimes^p)$.
+
+    \newdef{Tensor distribution}{\index{distribution!tensor}
+        The space of tensor distributions (of order $p$) is defined as the continuous dual of $\mathcal{D}(M, \otimes^p)$.
+    }
+
+    Much of the theory of distributions on Euclidean space can be generalized to smooth manifolds without too much trouble (for example we again obtain a dense inclusion $\mathcal{D}\hookrightarrow\mathcal{D}'$). An interesting generalization is the definition of the covariant derivative of tensor distributions:
+    \newdef{Covariant derivative}{\index{covariant!derivative}
+        Let $(M, g)$ be a Riemannian manifold with associated Levi-Civita connection $\nabla$. The covariant derivative of a tensor distribution $T$ is defined using duality as follows (as in the case of Euclidean space this can be interpreted as an extension of the integration by parts formula):
+        \begin{gather}
+            \langle \nabla T, \sigma\rangle := -\langle T, g\cdot\nabla\sigma\rangle
+        \end{gather}
+        where $g\cdot\nabla\sigma$ denotes the internal contraction (generalizing the divergence of a vector field) which, in local coordinates, is given by
+        \begin{gather}
+            (g\cdot\nabla\sigma)^{i_1\ldots i_p} = \nabla_j\sigma^{ji_1\ldots i_p}.
+        \end{gather}
+    }
+
+    ?? COMPLETE? ??

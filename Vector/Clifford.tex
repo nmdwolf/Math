@@ -1,4 +1,8 @@
-\chapter{Clifford Algebra}
+\chapter{Clifford Algebra}\label{chapter:clifford}
+
+    The main references for this chapter are \cite{AMP1, AMP2, gallier_clifford}. One should note that there are various conventions for the different structures that arise in the study of Clifford algebras and their representations. Even the references we give do not agree on the conventions they adopt.
+
+    In general we will also assume that all metrics (and quadratic forms) are nondegenerate. A part of the theory can also be extended to the degenerate case, but we will not need this. See \cite{gallier_clifford} for more information.
 
 \section{Clifford algebra}
 
@@ -23,12 +27,23 @@
     \end{construct}
 
     \begin{remark}
-        Looking at definition \ref{tensor:adef_exterior_algebra} we see that the exterior algebra $\Lambda^*(V)$ coincides with the Clifford algebra $C\ell(V, 0)$. If $Q\neq0$ then the two algebras are still isomorphic as vector spaces (if $\text{char}(V)\neq2$\footnote{This condition will often come back in this chapter.}).
+        Looking at definition \ref{tensor:adef_exterior_algebra} we see that the exterior algebra $\Lambda^*(V)$ coincides with the Clifford algebra $C\ell(V, 0)$. If $Q\neq0$ then the two algebras are still isomorphic as vector spaces (if\footnote{This condition will often come back in this chapter.} $\text{char}(V)\neq2$).
     \end{remark}
 
     \begin{property}[Dimension]
-        If $V$ has dimension $n$ then $C\ell(V, Q)$ has dimension $2^n$.
+        If $V$ has dimension $n$, then $C\ell(V, Q)$ has dimension $2^n$.
     \end{property}
+
+    \begin{example}
+        The classic example of a Clifford algebra is given by a vector space with Lorentzian signature $(p, q)$, i.e. a vector space with a semidefinite form $g(\cdot, \cdot)$ admitting a basis $\{e_i\}_{i\leq p+q}$ such that
+        \begin{gather}
+            \begin{cases}
+                g(e_i, e_i) = 1 & 1\leq i\leq p\\
+                g(e_i, e_i) = -1 & p<i\leq p+q.
+            \end{cases}
+        \end{gather}
+        The Clifford algebra $C\ell_{p,q}(K)$ or $K_{p, q}$ is then defined as the Clifford algebra generated under the relation $v\cdot v = g(v, v)1$.
+    \end{example}
 
 \section{Geometric algebra}
 
@@ -77,11 +92,11 @@
     \begin{formula}
         Let $A, B$ be two multivectors of respectively grades $m$ and $n$. Their inner product is defined as
         \begin{gather}
-            A\cdot B = \langle AB \rangle_{|m-n|}
+            A\cdot B := \langle AB \rangle_{|m-n|}
         \end{gather}
         and their exterior product is defined as
         \begin{gather}
-            A\wedge B = \langle AB \rangle_{m+n}.
+            A\wedge B := \langle AB \rangle_{m+n}.
         \end{gather}
         An explicit calculation for $A\in\mathcal{G}_1, B\in\mathcal{G}_k$ gives us:
         \begin{align}
@@ -94,7 +109,7 @@
 
     \begin{formula}[Dimensional reduction]
         \begin{gather}
-            \mathbb{R}_{p+1, q+1}\cong\mathbb{R}_{p, q}\otimes\mathbb{R}(2)
+            \mathbb{R}_{p+1, q+1}\cong\mathbb{R}_{p, q}\otimes M_2(\mathbb{R})
         \end{gather}
     \end{formula}
     \begin{formula}
@@ -108,14 +123,14 @@
         \end{gather}
     \end{formula}
 
+    The following theorem has deep implications in K-theory. It is also (through K-theory) related to the \textit{tenfold way} of Altland \& Zirnbauer in condensed matter physics
     \begin{theorem}[Bott periodicity]\index{Bott!periodicity}
         The classification of (real) Clifford algebras is periodic modulo 8:
         \begin{gather}
-            \mathbb{R}_{p, q+8}\cong\mathbb{R}_{p+8, q}\cong\mathbb{R}_{p, q}\otimes\mathbb{R}(16).
+            \mathbb{R}_{p, q+8}\cong\mathbb{R}_{p+8, q}\cong\mathbb{R}_{p, q}\otimes M_{16}(\mathbb{R}).
         \end{gather}
         For complex Clifford algebras one has a similar statement, but with periodicity 2.
     \end{theorem}
-    \sremark{This has deep implications in K-theory.}
 
 \section{Pin group}
 \subsection{Clifford group}
@@ -151,36 +166,48 @@
         \footnotetext{Sometimes called the \textbf{Lipschitz group}.}
         The Clifford group $\Gamma(V, Q)$ is defined as follows:
         \begin{gather}
-            \Gamma(V, Q) = \left\{s\in C\ell_{hom}(V, Q): v\in V \implies sv\hat{s}^{-1} \in V\right\}
+            \Gamma(V, Q) = \left\{s\in C\ell_{hom}(V, Q): s\text{ is invertible and }v\in V \implies sv\hat{s}^{-1} \in V\right\}
         \end{gather}
-        where the subscript $hom$ indicates that we only look at the homogeneous Clifford vectors. Because the units of $C\ell(V)$ form a group, $\Gamma(V, Q)$ also forms a group. The restriction of twisted conjugation to the Clifford group clearly preserves the norm on $V$ which in turn implies that $\chi(s)$ is an element of $O(V, Q)$ for all units $s$.
+        Because the units of $C\ell(V, Q)$ form a group, $\Gamma(V, Q)$ also forms a group.
     }
     \begin{property}
         When restricting to the units of $C\ell(V)$ that belong to $V$ itself, the twisted conjugation is given by a Householder transformation\footnote{See definition \ref{linalgebra:householder_transformation}.}.
     \end{property}
 
     \begin{property}
-        If $V$ is finite-dimensional and if $Q$ is non-degenerate, the map
+        Let us now restrict to the case where $V$ is finite-dimensional and $Q$ is nondegenerate. If we interpret the condition $\chi_s(v)\in V$ as stating the existence of a linear transformation\footnote{Here we use the isomorphism between the degree-1 subspace of $C\ell(V)$ and $V$ itself.} $L\in\text{End}(V)$ such that
         \begin{gather}
-            \chi:\Gamma(V, Q)\rightarrow O(V, Q): s\mapsto\chi(s)
+            se_i\hat{s}^{-1} = L^j_ie_j
         \end{gather}
-        defines a representation\footnote{In char$(K)\neq2$, the surjectiveness of the map $\chi$ follows from the \textit{Cartan-Dieudonn\'e theorem}. But even in characteristic 2, the surjectiveness holds.} called the \textbf{vectorial representation}. Furthermore, from the first isomorphism theorem \ref{group:theorem:first_isomorphism_theorem} it follows that $O(V, Q)$ is isomorphic to $\Gamma(V, Q)/\ker\chi$ where $\ker\chi = \mathbb{R}_0$. This isomorphism also implies\footnote{Again using the \textit{Cartan-Dieudonn\'e theorem}, valid only when char$(K)\neq2$.} that the Clifford group is given by the set of finite products of invertible elements $v\in V$:
+        then we see that $L$ preserves the norm on $V$ and accordingly that the map $s\mapsto L$ defines a surjective homomorphism\footnote{In char$(K)\neq2$, the surjectiveness of the map $\chi$ follows from the \textit{Cartan-Dieudonn\'e theorem}. For characteristic 2 one prove that the surjectiveness holds using different methods.}
         \begin{gather}
-            \Gamma(V, Q) = \left\{\prod_i^n s_i : s_i\text{ invertible in }V, n\in\mathbb{N}\right\}
+            \rho:\Gamma(V, Q)\rightarrow\text{O}(V, Q): s\mapsto L.
+        \end{gather}
+        Being a group morphism to a matrix group acting on $V$, it defines a representation called the \textbf{vector(ial) representation}. Furthermore, from the first isomorphism theorem \ref{group:theorem:first_isomorphism_theorem} it follows that $O(V, Q)$ is isomorphic to $\Gamma(V, Q)/\ker\chi$ where $\ker\chi = \mathbb{R}_0$. This isomorphism also implies\footnote{Again using the \textit{Cartan-Dieudonn\'e theorem}, valid only when char$(K)\neq2$.} that the Clifford group is given by the set of finite products of invertible elements $v\in V$:\footnote{This is more or less the Cartan-Dieudonn\'e theorem.}
+        \begin{gather}
+            \Gamma(V, Q) = \left\{\prod_i^n s_i : s_i\text{ invertible in }V, n\in\mathbb{N}\right\}.
         \end{gather}
     \end{property}
     \begin{result}
-        By noting that pure rotations can be decomposed as an even number of reflections we find that:
+        By noting that pure rotations can be decomposed as an even number of reflections we find that
         \begin{gather}
-            \Gamma^+(V, Q)/\mathbb{R}_0 \cong \text{SO}(V, Q)
+            \Gamma^+(V, Q)/\mathbb{R}_0\cong\text{SO}(V, Q)
         \end{gather}
         where $\Gamma^+$ is the intersection of the even Clifford algebra and the Clifford group.
     \end{result}
 
-\subsection{Pin and Spin}
+    \begin{remark}
+        As we noted in the beginning of this chapter, there is a variety of different conventions in use. One of the important distinctions is the definition (or choice) of conjugation map $\chi$. Atiyah, Bott and Shapiro have introduced the twisted conjugation map that we used for the definition of the Clifford group. Before them, the common choice was the ordinary conjugation map\footnote{The notation ad$_s$ comes from the fact that this map resembles the adjoint action of a group.}
+        \begin{gather}
+            \text{ad}_s:v\mapsto svs^{-1}.
+        \end{gather}
+        Although the difference between these maps seems to be rather subtle, the implications are important. If we would have chosen the conjugation $\text{ad}$ for our definition of the Clifford group, we would only have found a surjective homomorphism in the case of $\dim(V)$ being odd. Moreover, the action by a degree-1 element would not be given by a Householder transformation anymore, but instead it would be the negative of this operation. This distinction is in particular important for the next section.
+    \end{remark}
+
+\subsection{Pin and Spin}\label{clifford:section:spin}
 
     \newformula{Spinor norm}{\index{spinor!norm}
-        On $\Gamma(V, Q)$ one can define the spinor norm:\footnote{This map can be generalized to the full Clifford algebra, but then the image will not just be the underlying field any more.}
+        On $\Gamma(V, Q)$ one can define the spinor norm:\footnote{This map can be generalized to the full Clifford algebra, but then the image will not just be the underlying field anymore.}
         \begin{gather}
             \mathcal{N}(x):\Gamma(V, Q)\rightarrow K^\times:x\mapsto x^tx
         \end{gather}
@@ -190,11 +217,11 @@
         \nomenclature[S_Pin]{$\text{Pin}(V)$}{Pin group of the Clifford algebra $C\ell(V, Q)$.}
         Using the spinor norm $\mathcal{N}$ we can now define the pin and spins groups as follows:
         \begin{gather}
-            \text{Pin}(V) = \{s\in\Gamma(V, Q): \mathcal{N}(s) = 1\}
+            \text{Pin}(V) := \{s\in\Gamma(V, Q): \mathcal{N}(s) = \pm1\}
         \end{gather}
         and
         \begin{gather}
-            \text{Spin}(V) = \text{Pin}(V)\cap\Gamma^+(V, Q).
+            \text{Spin}(V) := \text{Pin}(V)\cap\Gamma^+(V, Q).
         \end{gather}
     }
     \begin{remark}
@@ -202,11 +229,10 @@
         \begin{gather}
             \mathcal{N}(x) = \hat{x}^tx.
         \end{gather}
-        When using this convention the definition of the pinor group uses the condition $|\mathcal{N}(s)| = 1$.
     \end{remark}
 
     \begin{adefinition}
-        The Pin group can also be defined as the set of elements in $\Gamma(V, Q)$ that can be written as a product of unit Clifford vectors. The Spin group is then defined as the elements that can be written as the product of an even number of unit Clifford vectors.
+        The Pin group can also be defined as the set of elements in $\Gamma(V, Q)$ that can be written as a product of unit Clifford vectors (here by unit we mean unit norm and not just invertible as before). The Spin group is then defined as the elements that can be written as the product of an even number of unit Clifford vectors.
     \end{adefinition}
 
     \begin{property}\label{clifford:pin_group}
@@ -214,14 +240,15 @@
         \begin{gather}
             \text{Pin}(V, Q)/\mathbb{Z}_2 \cong O(V, Q)
         \end{gather}
-        and analogously for the Spin group and SO$(V, Q)$. These relations also imply that the Pin and Spin groups form a double cover\footnotemark\ of respectively the orthogonal and special orthogonal groups.
-        \footnotetext{A covering group is a topological group that is also a covering space. See definition \ref{topology:covering_space} for more information about the latter.}
+        and analogously for the Spin group and SO$(V, Q)$. These relations imply that the Pin and Spin groups form a double cover\footnote{A covering group is a topological group that is also a covering space. See definition \ref{topology:covering_space} for more information about the latter.} of respectively the orthogonal and special orthogonal groups.
     \end{property}
 
-    \newdef{Spinor}{\index{spinor}\index{spin!representation}\index{Weyl!spinor}\index{Dirac!spinor}
-        Consider a vector space $V$ equipped with a representation of the group Spin$(n)$, called the \textbf{spin representation}. Elements of $V$ are called spinors.
+    \newdef{Spinor}{\index{spinor}\index{spin!representation}\index{Weyl!spinor}\index{Dirac!spinor}\index{gamma matrix}
+        Consider a vector space $V$ equipped with a (faithful) representation of the group Spin$(m,n)$. This representation is called the \textbf{spin(or) representation}. Elements of $V$ are called spinors.
 
-        If we consider the complex Clifford algebra $C\ell_n(\mathbb{C})$ then we can have two possibilities. Either $n$ is even or $n$ is odd. In the even case $n=2k$ one can prove (using Artin-Wedderburn) that the algebra is isomorphic to the matrix algebra $M(2^k, \mathbb{C})$. In the odd case $n=2k+1$ the algebra is isomorphic to the direct sum $M(2^k, \mathbb{C})\oplus M(2^k, \mathbb{C})$. The fundamental representation is often called the \textbf{Dirac representation}. If $n$ is even then the representation splits into two irreducible representations, the \textbf{Weyl representations}.
+        More precisely, if we consider the complex Clifford algebra $C\ell_{m,n}(\mathbb{C})$ then we can have two possibilities: either $m+n$ is even or $m+n$ is odd. In the even case ($m+n=2k$) one can prove (using the Artin-Wedderburn theorem \ref{algebra:artin_wedderburn}) that the algebra is isomorphic to the matrix algebra $M(2^k, \mathbb{C})$. In the odd case ($m+n=2k+1$) the algebra is isomorphic to the direct sum $M(2^k, \mathbb{C})\oplus M(2^k, \mathbb{C})$.
+
+        Inside these matrix algebras one can find a set of elements satisfying the Clifford relation \ref{clifford:condition} and thereby generating the Clifford algebra (the so-called \textbf{gamma matrices}). The real algebra generated by these elements is isomorphic to the real Clifford algebra $C\ell_{m,n}(\mathbb{R})$.\footnote{Note however that these matrices themselves will still be complex-valued.} The fundamental representation of this real algebra is often called the \textbf{Dirac representation}. If $m+n$ is even then the representation splits into two irreducible representations called the \textbf{Weyl} or \textbf{half-spin(or) representations}.
     }
 
     \begin{example}

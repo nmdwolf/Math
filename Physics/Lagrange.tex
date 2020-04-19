@@ -2,236 +2,390 @@
 
 \section{Action functional}
 
-	\begin{definition}[Generalized coordinates]\index{generalized!coordinates}
-		The generalized coordinates $q_k$ are independent coordinates that completely describe the current configuration of a system relative to a reference configuration.
-		
-		When a system has $N$ degrees of freedom and $n_c$ constraints, there are $(N - n_c)$ generalized coordinates. Furthermore, every set of generalized coordinates, describing the same system, should contain exactly $(N - n_c)$ coordinates.
-	\end{definition}
+    \begin{definition}[Generalized coordinates]\index{generalized!coordinates}
+        The generalized coordinates $q_k$ are independent coordinates that completely describe the current configuration of a system relative to a reference configuration.
+
+        When a system has $N$ degrees of freedom and $n_c$ constraints, there are $(N - n_c)$ generalized coordinates. Furthermore, every set of generalized coordinates describing the same system contains exactly $(N - n_c)$ coordinates.
+    \end{definition}
     \begin{definition}[Generalized velocities]
-		The generalized velocities $\dot{q}_k$ are the derivatives of the generalized coordinates with respect to time.
-	\end{definition}
+        The generalized velocities $\dot{q}_k$ are the derivatives of the generalized coordinates with respect to time.
+    \end{definition}
     \begin{notation}
-		\begin{gather}
-			\label{lagrange:notational_convention_1}
-            L\left(\vector{q}(t), \dot{\vector{q}}(t), t\right) \equiv L\left(q_1(t), ..., q_n(t), \dot{q}_1(t), ..., \dot{q}_n(t), t\right)
-		\end{gather}
-	\end{notation}
-    
-	\begin{definition}[Action]\index{action}
-		\begin{gather}
-			\label{lagrange:action}
-            \boxed{S = \int_{t_1}^{t_2}L\left(\vector{q}(t), \dot{\vector{q}}(t), t\right)dt}
-		\end{gather}
-	\end{definition}
+        Given a Lagrangian function, depending on $n$ generalized coordinates and their associated velocities, we often introduce the following shorthand notation:
+        \begin{gather}
+            \label{lagrange:notational_convention_1}
+            L\left(q(t), \dot{q}(t), t\right) \equiv L\left(q_1(t), ..., q_n(t), \dot{q}_1(t), ..., \dot{q}_n(t), t\right)
+        \end{gather}
+    \end{notation}
+
+    \begin{definition}[Action]\index{action}\label{lagrange:action}
+        \begin{gather}
+            S[q] := \int_{t_1}^{t_2}L\left(\vector{q}(t), \dot{\vector{q}}(t), t\right)dt.
+        \end{gather}
+    \end{definition}
 
 \section{Euler-Lagrange equations\texorpdfstring{$^\dag$}\ }\index{Lagrange!equations of motion}\index{Euler-Lagrange|see{Lagrange}}
-	\begin{formula}[Euler-Lagrange equation of the first kind]
-    	\begin{gather}
-        	\label{lagrange:first_kind}
-			\boxed{\deriv{}{t}\left(\pderiv{T}{\dot{q}^k}\right) - \pderiv{T}{q^k} = Q_k}
-		\end{gather}
-		where $T$ is the total kinetic energy.
+
+    \begin{formula}[Euler-Lagrange equation of the first kind]
+        \begin{gather}
+            \label{lagrange:first_kind}
+            \deriv{}{t}\left(\pderiv{T}{\dot{q}^k}\right) - \pderiv{T}{q^k} = Q_k
+        \end{gather}
+        where $T$ is the total kinetic energy.
     \end{formula}
-	\begin{formula}[Euler-Lagrange equation of the second kind]
-    	\begin{gather}
-        	\label{lagrange:second_kind}
-            \boxed{\deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) - \pderiv{L}{q^k} = 0}
+    \begin{formula}[Euler-Lagrange equation of the second kind]
+        \begin{gather}
+            \label{lagrange:second_kind}
+            \deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) - \pderiv{L}{q^k} = 0
         \end{gather}
     \end{formula}
 
 \section{Conservation laws and symmetry properties}
 
-	\begin{definition}[Conjugate momentum]\index{momentum!conjugate}
-		Also called the \textbf{canonically conjugate momentum}.
-	    	\begin{gather}
-			\label{lagrange:conjugate_momentum}
-			p_k = \pderiv{L}{\dot{q}^k}
-		\end{gather}
-	\end{definition}
-	\begin{definition}[Cyclic coordinate]
-	    	If the lagrangian $L$ does not explicitly depend on a coordinate $q_k$, the coordinate is called a cyclic coordinate.
-	\end{definition}
-    
-	\begin{property}
-		The conjugate momentum of a cyclic coordinate is a conserved quantity.
-		\begin{gather}
-			\dot{p}_k \overset{\ref{lagrange:conjugate_momentum}}{=} \deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) \overset{{\ref{lagrange:second_kind}}}{=}\pderiv{L}{q^k} \overset{\underset{\text{\tiny{coord.}}}{\text{\tiny{cyclic}}}}{=} 0
-		\end{gather}
-	\end{property}
+    \begin{definition}[Conjugate momentum]\index{momentum!conjugate}\label{lagrange:conjugate_momentum}
+        Also called the \textbf{canonically conjugate momentum}.
+        \begin{gather}
+            p_k = \pderiv{L}{\dot{q}^k}
+        \end{gather}
+    \end{definition}
+    \begin{definition}[Cyclic coordinate]
+        If the Lagrangian $L$ does not explicitly depend on a coordinate $q_k$, the coordinate is said to be cyclic.
+    \end{definition}
+
+    \begin{property}
+        The conjugate momentum of a cyclic coordinate is a conserved quantity:
+        \begin{gather}
+            \dot{p}_k \overset{\ref{lagrange:conjugate_momentum}}{=} \deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) \overset{{\ref{lagrange:second_kind}}}{=}\pderiv{L}{q^k} \overset{\underset{\text{\tiny{coord.}}}{\text{\tiny{cyclic}}}}{=} 0.
+        \end{gather}
+    \end{property}
 
 \subsection{Noether's theorem}\index{Noether!theorem}
 
-	\begin{theorem}[Noether's theorem$^\dag$]\index{Noether!charge}\label{qft:noethers_theorem}
-		Consider a field transformation
-		\begin{gather}
-			\label{qft:noether}
-			\phi(x)\rightarrow \phi(x) + \alpha\delta\phi(x)
-		\end{gather}
-		where $\alpha$ is an infinitesimal quantity and $\delta\phi$ is a small deformation. In case of a symmetry we obtain the following conservation law:
-		 \begin{gather}
-		 	\label{qft:conserved_current}
-		 	\partial_\mu\left(\pderiv{\mathcal{L}}{(\partial_\mu\phi)}\delta\phi - \mathcal{J}^\mu\right) = 0
-		 \end{gather}
-		 The factor between parentheses can be interpreted as a conserved current $j^\mu(x)$. Noether's theorem states that every symmetry of the form \ref{qft:noether} leads to such a current.
-		 
-		 The conservation can also be expressed in terms of a charge\footnote{The conserved current and its associated charge are called the \textbf{Noether current} and \textbf{Noether charge}.}:
-		 \begin{gather}
-		 	Q = \int_\Sigma j^0d^3x
-		 \end{gather}
-		 where $\Sigma$ is a spacelike hypersurface. The conservation law can then simply be restated as \[\deriv{Q}{t} = 0.\]
-	\end{theorem}
+    \begin{theorem}[Noether's first theorem$^\dag$]\index{Noether!charge}\label{qft:noethers_theorem}
+        Consider a field transformation
+        \begin{gather}
+            \label{qft:noether}
+            \phi(x)\rightarrow \phi(x) + \alpha\delta\phi(x)
+        \end{gather}
+        where $\alpha$ is an infinitesimal quantity and $\delta\phi$ is a small variation. In case of a symmetry we obtain the following conservation law:
+        \begin{gather}
+            \label{qft:conserved_current}
+            \partial_\mu\left(\pderiv{\mathcal{L}}{(\partial_\mu\phi)}\delta\phi - \mathcal{J}^\mu\right) = 0.
+        \end{gather}
+        The factor between parentheses can be interpreted as a conserved current $j^\mu(x)$. Noether's (first) theorem states that every symmetry of the form \ref{qft:noether} leads to such a current.
 
-	\begin{definition}[Stress-energy tensor]\index{stress-energy tensor}
-		Consider a field transformation
-		\[
-			\phi(x)\rightarrow\phi(x+a) = \phi(x) + a^\mu\partial_\mu\phi(x)
-		\]
-		Because the Lagrangian is a scalar it transforms similarly:
-		\begin{gather}
-			\mathcal{L}\rightarrow\mathcal{L} + a^\mu\partial_\mu\mathcal{L} = \mathcal{L} + a^\nu\partial_\mu(\delta^\mu_{\ \nu}\mathcal{L})
-		\end{gather}
-		This leads to the existence of 4 conserved currents. These can be used to define the stress-energy tensor:
-		\begin{gather}
-			\label{relativity:stress_energy_tensor}
-			\boxed{T^\mu_{\ \nu} = \pderiv{\mathcal{L}}{(\partial_\mu\phi)}\partial_\nu\phi - \mathcal{L}\delta^\mu_{\ \nu}}
-		\end{gather}
-	\end{definition}
+        The conservation can also be expressed in terms of a charge\footnote{The conserved current and its associated charge are called the \textbf{Noether current} and \textbf{Noether charge}.}:
+        \begin{gather}
+            Q = \int_\Sigma j^0d^3x
+        \end{gather}
+        where $\Sigma$ is a spacelike hypersurface. The conservation law can then simply be restated as \[\deriv{Q}{t} = 0.\]
+    \end{theorem}
+
+    \begin{definition}[Stress-energy tensor]\index{stress-energy tensor}
+        Consider a field transformation \[\phi(x)\rightarrow\phi(x+a) = \phi(x) + a^\mu\partial_\mu\phi(x)\] Because the Lagrangian is a scalar quantity it transforms as
+        \begin{gather}
+            \mathcal{L}\rightarrow\mathcal{L} + a^\mu\partial_\mu\mathcal{L} = \mathcal{L} + a^\nu\partial_\mu(\delta^\mu_{\ \nu}\mathcal{L}).
+        \end{gather}
+        This leads to the existence of 4 conserved currents. These can be used to define the stress-energy tensor:
+        \begin{gather}
+            \label{relativity:stress_energy_tensor}
+            T^\mu_{\ \nu} = \pderiv{\mathcal{L}}{(\partial_\mu\phi)}\partial_\nu\phi - \mathcal{L}\delta^\mu_{\ \nu}.
+        \end{gather}
+    \end{definition}
 
 \section{Hamilton's equations}
 
-	\newdef{Canonical coordinates}{\index{canonical!coordinates}
-		Consider the generalized coordinates $(q, \dot{p}, t)$ from the Lagrangian formalism. Using these we can define a new set of coordinates, called canonical coordinates, by exchanging the time-derivatives $\dot{q}^i$ in favour of the conjugate momenta $p_i$ (see definition \ref{lagrange:conjugate_momentum}) and leaving the coordinates $q^i$ and $t$ invariant.
-	}
+    \newdef{Canonical coordinates}{\index{canonical!coordinates}
+        Consider the generalized coordinates $(q, \dot{q}, t)$ from the Lagrangian formalism. Using these we can define a new set of coordinates, called canonical coordinates, by exchanging the time-derivatives $\dot{q}^i$ in favour of the conjugate momenta $p_i$ (see definition \ref{lagrange:conjugate_momentum}).
+    }
 
-	\newdef{Hamiltonian function}{\index{Hamilton!Hamiltonian function}
-		The (classical) Hamiltonian function is defined as follows:
-		\begin{gather}
-    			\label{hamilton:hamiltonian}
-			H(q, p, t) = \sum_ip_i\dot{q}^i - L(q, p, t)
-		\end{gather}
-	}
+    \newdef{Hamiltonian function}{\index{Hamilton!function}\label{hamilton:hamiltonian}
+        The Hamiltonian function is defined as follows:
+        \begin{gather}
+            H(q, p, t) := \sum_ip_i\dot{q}^i - L(q, p, t).
+        \end{gather}
+    }
 
-	\newformula{Hamilton's equations\footnotemark}{\index{Hamilton!equations of motion}\footnotetext{Also known as the \textit{canonical equations of Hamilton}.}
-    		\begin{empheq}[box=\widefbox]{align}
-	        	\label{lagrange:hamilton_equations}
-    			\dot{q}^i &= \pderiv{H}{p_i}\\
-    			\dot{p_i} &= -\pderiv{H}{q^i}\\
-    			\pderiv{L}{t} &= -\pderiv{H}{t}
-	    	\end{empheq}
-	}
+    \newformula{Hamilton's equations\footnotemark}{\index{Hamilton!equations of motion}\label{lagrange:hamilton_equations}
+        \footnotetext{Also known as the \textit{canonical equations of Hamilton}.}
+        \begin{align}
+            \dot{q}^i &= \pderiv{H}{p_i}\\
+            \dot{p_i} &= -\pderiv{H}{q^i}\\
+            \pderiv{L}{t} &= -\pderiv{H}{t}
+        \end{align}
+    }
 
-	The formula to obtain the Hamiltonian from the Lagrangian is an application of the following more general \textbf{Legendre transformation}:
-	\newdef{Legendre transformation}{\index{Legendre!transformation}
-		Consider an equation of the following form:
-		\begin{gather}
-			\label{lagrange:legendre1}
-			df = udx + vdy
-		\end{gather}
-		where $u = \pderiv{f}{x}$ and $v = \pderiv{f}{y}$.
-		
-		Suppose we want to perform a coordinate transformation $(x, y)\rightarrow (u, y)$ while preserving the general form of \ref{lagrange:legendre1} for differential quantities. To do this we consider the function
-		\begin{gather}
-			\label{lagrange:legendre}
-			g = f - ux
-		\end{gather}
-		Differentiating gives
-		\begin{align}
-			dg &= df - udx - xdu\nonumber\\
-			&= (udx + vdy) - udx - xdu\nonumber\\
-			&= vdy - xdu\nonumber
-		\end{align}
-		which has the form of \ref{lagrange:legendre1} as desired. The quantities $v$ and $x$ are now given by
-		\begin{gather}
-			x = -\pderiv{g}{u}\qquad\text{and}\qquad v=\pderiv{g}{y}
-		\end{gather}
-		
-		The transition $f\longrightarrow g$ defined by equations \ref{lagrange:legendre1} and \ref{lagrange:legendre} is called a Legendre transformation.
-	}
-	\begin{remark}
-		Although the previous derivation used only 2 coordinates, the definition of Legendre transformations can easily be generalized to more coordinates.
-	\end{remark}
+    The formula to obtain the Hamiltonian from the Lagrangian is an application of the following more general \textbf{Legendre transformation}:
+    \newdef{Legendre transformation}{\index{Legendre!transformation}
+        Consider an equation of the following form:
+        \begin{gather}
+            \label{lagrange:legendre1}
+            df = udx + vdy
+        \end{gather}
+        where $u = \pderiv{f}{x}$ and $v = \pderiv{f}{y}$.
+
+        Suppose we want to perform a coordinate transformation $(x, y)\rightarrow (u, y)$ that preserves the general form of \ref{lagrange:legendre1}. To do this we consider the function
+        \begin{gather}
+            \label{lagrange:legendre}
+            g = f - ux.
+        \end{gather}
+        Differentiation gives
+        \begin{align*}
+            dg &= df - udx - xdu\\
+            &= (udx + vdy) - udx - xdu\\
+            &= vdy - xdu
+        \end{align*}
+        which has the form of \ref{lagrange:legendre1} as desired. The quantities $v$ and $x$ are now given by
+        \begin{gather}
+            x = -\pderiv{g}{u}\qquad\text{and}\qquad v=\pderiv{g}{y}.
+        \end{gather}
+        The transition $f\longrightarrow g$ defined by equations \ref{lagrange:legendre1} and \ref{lagrange:legendre} is called a Legendre transformation.
+    }
+    \begin{remark}
+        Although the previous derivation used only 2 coordinates, the definition of Legendre transformations can easily be generalized to more coordinates.
+    \end{remark}
 
 \subsection{Poisson brackets}
 
-	\newdef{Poisson bracket}{\index{Poisson!bracket}
-		\nomenclature[O_sympoi]{$\{\cdot, \cdot\}$}{Poisson bracket}
-		\begin{gather}
-			\boxed{\{A, B\} = \pderiv{A}{p}\pderiv{B}{q} - \pderiv{B}{p}\pderiv{A}{q}}
-		\end{gather}
-		where $q, p$ are the generalized coordinates in the Hamiltonian formalism.
-	}
-	\newformula{Total time derivative}{
-		\begin{gather}
-			\deriv{F}{t} = \pderiv{F}{t} + \{H, F\}
-		\end{gather}
-		where $\{\cdot,\cdot\}$ is the Poisson bracket as defined above and $H$ is the Hamiltonian \ref{hamilton:hamiltonian}.
-	}
+    \newdef{Poisson bracket}{\index{Poisson!bracket}
+        \nomenclature[O_sympoi]{$\{\cdot, \cdot\}$}{Poisson bracket}
+        \begin{gather}
+            \{A, B\} = \pderiv{A}{p}\pderiv{B}{q} - \pderiv{B}{p}\pderiv{A}{q}
+        \end{gather}
+        where $q, p$ are the generalized coordinates in the Hamiltonian formalism.
+    }
+    \newformula{Total time derivative}{
+        \begin{gather}
+            \deriv{F}{t} = \pderiv{F}{t} + \{H, F\}
+        \end{gather}
+        where $\{\cdot,\cdot\}$ is the Poisson bracket as defined above and $H$ is the Hamiltonian \ref{hamilton:hamiltonian}.
+    }
 
 \section{Hamilton-Jacobi equation}
 
-	For a mathematical introduction see section \ref{section:hamilton_jacobi}.
+    For a mathematical introduction see section \ref{section:hamilton_jacobi}.
 
 \subsection{Canonical transformations}
 
-	\newdef{Canonical transformations}{\index{canonical!transformation}
-		A canonical transformation is a transformation that leaves the Hamiltonian equations of motion unchanged. Mathematically this means that the transformations leave the action invariant up to a constant, or equivalently, they leave the Lagrangian invariant up to a complete time-derivative:
-		\begin{gather}
-			\sum_i \dot{q}^ip_i - H(q, p, t) = \sum_i \dot{Q}^iP_i - K(Q, P, t) - \deriv{G}{t}(Q, P, t)
-		\end{gather}
-		The function $G$ is called the generating function of the canonical transformation. The choice of $G$ uniquely determines the transformation.
-	}
-    
-	\newformula{Hamilton-Jacobi equation}{\index{Hamilton-Jacobi}\index{Hamilton!principal function}
-		Sufficient conditions for the generating function $S$ are given by:
-		\begin{align}
-			P_i &=\ds\pderiv{S}{Q^i}\nonumber\\
-			Q^i &=\ds\pderiv{S}{P_i}\nonumber
-		\end{align}
-		and \[K = H + \pderiv{S}{t}\]
-		Choosing the new Hamiltonian function $K$ to be 0 gives the Hamilton-Jacobi equation:
-		\begin{gather}
-			\label{lagrange:hamilton_jacobi_equation}
-			\boxed{H\left(q, \pderiv{S}{q}\right)+\pderiv{S}{t} = 0}
-		\end{gather}
-		The function $S$ is called \textbf{Hamilton's principal function}.
-	}
-	
-	\begin{property}
-		The new coordinates $P_i$ and $Q^i$ are all constants of motion. This follows immediately from the choice $K = 0$.
-	\end{property}
-    
-	\newdef{Hamilton's characteristic function}{\index{Hamilton!characteristic function}\index{energy}
-		For time-independent systems the HJE can be rewritten as follows:\footnote{Note that this form is the same as equation \ref{diff:hamilton_jacobi} after a redefinition of $H$.}
-		\begin{gather}
-			\label{lagrange:time_independent_hje}
-			H\left(q, \pderiv{S}{q}\right) = -\pderiv{S}{t} := E.
-		\end{gather}
-		We thus obtain the classical result that for time-independent systems the Hamiltonian function is a constant of motion (the \textbf{energy}). Integration with respect to time then gives the following form of the principal function:
-		\begin{gather}
-			S(q, p, t) = W(q, p) - Et
-		\end{gather}
-		where $E$ is the energy. The time-independent function $W$ is called Hamilton's characteristic function.
-	}
+    \newdef{Canonical transformations}{\index{canonical!transformation}
+        A canonical transformation is a transformation that leaves the Hamiltonian equations of motion unchanged. Mathematically this means that the transformations leave the action invariant up to a constant, or equivalently, they leave the Lagrangian invariant up to a complete time-derivative:
+        \begin{gather}
+            \sum_i \dot{q}^ip_i - H(q, p, t) = \sum_i \dot{Q}^iP_i - K(Q, P, t) - \deriv{G}{t}(Q, P, t).
+        \end{gather}
+        The function $G$ is called the \textbf{generating function} of the canonical transformation. The choice of $G$ uniquely determines the transformation (the converse is not true).
+    }
+
+    \newformula{Hamilton-Jacobi equation}{\index{Hamilton-Jacobi}\index{Hamilton!principal function}
+        Sufficient conditions for the generating function $S$ are given by:
+        \begin{align*}
+            P_i &=\ds\pderiv{S}{Q^i}\\
+            Q^i &=\ds\pderiv{S}{P_i}
+        \end{align*}
+        and \[K = H + \pderiv{S}{t}.\]
+        Choosing the new Hamiltonian function $K$ to be 0 gives the Hamilton-Jacobi equation:
+        \begin{gather}
+            \label{lagrange:hamilton_jacobi_equation}
+            H\left(q, \pderiv{S}{q}\right)+\pderiv{S}{t} = 0.
+        \end{gather}
+        The function $S$ is called \textbf{Hamilton's principal function}.
+    }
+
+    \begin{property}
+        The new coordinates $P_i$ and $Q^i$ are all constants of motion. This follows immediately from the choice $K = 0$.
+    \end{property}
+
+    \newdef{Hamilton's characteristic function}{\index{Hamilton!characteristic function}\index{energy}
+        For time-independent systems the HJE can be rewritten as follows:\footnote{Note that this form is the same as equation \ref{diff:hamilton_jacobi} after a redefinition of $H$.}
+        \begin{gather}
+            \label{lagrange:time_independent_hje}
+            H\left(q, \pderiv{S}{q}\right) = -\pderiv{S}{t} := E.
+        \end{gather}
+        We thus obtain the classical result that for time-independent systems the Hamiltonian function is a constant of motion (the \textbf{energy}). Integration with respect to time then gives the following form of the principal function:
+        \begin{gather}
+            S(q, p, t) = W(q, p) - Et
+        \end{gather}
+        where $E$ is the energy. The time-independent function $W$ is called Hamilton's characteristic function.
+    }
 
 \subsection{St\"ackel potentials}
-	
-	\begin{remark}
-		If the principal function can be separated into $n$ equations, the HJE splits up into $n$ equations of the form
-		\begin{gather}
-			h_i\left(q^i, \deriv{S}{q^i}, \alpha_i\right) = 0
-		\end{gather}
-		The partial differential equation for $S$ can thus be rewritten as a system of $n$ ordinary differential equations.
-	\end{remark}
 
-	\begin{property}[St\"ackel condition]\index{St\"ackel potential}
-		The Hamilton-Jacobi equation is separable if and only if the potential is of the following form:
-		\begin{gather}
-			\label{lagrange:stackel_condition}
-			V(q) = \sum_{i=1}^n\ds\frac{1}{G_i^2(q)}W_i(q^i)
-		\end{gather}
-		whenever the Hamiltonian function can be written as
-		\begin{gather}
-			H(q, p) = \frac{1}{2}\sum_i\stylefrac{p_i^2}{G^2_i(q)} + V(q)
-		\end{gather}
-		Potentials of this form are called \textbf{St\"ackel potentials}.
-	\end{property}
+    \begin{remark}
+        If the principal function can be separated into $n$ equations, the HJE splits up into $n$ equations of the form
+        \begin{gather}
+            h_i\left(q^i, \deriv{S}{q^i}, \alpha_i\right) = 0.
+        \end{gather}
+        The partial differential equation for $S$ can thus be rewritten as a system of $n$ ordinary differential equations.
+    \end{remark}
+
+    \begin{property}[St\"ackel condition]\index{St\"ackel potential}
+        The Hamilton-Jacobi equation is separable if and only if the potential is of the following form:
+        \begin{gather}
+            \label{lagrange:stackel_condition}
+            V(q) = \sum_{i=1}^n\ds\frac{1}{G_i^2(q)}W_i(q^i)
+        \end{gather}
+        whenever the Hamiltonian function can be written as
+        \begin{gather}
+            H(q, p) = \frac{1}{2}\sum_i\stylefrac{p_i^2}{G^2_i(q)} + V(q).
+        \end{gather}
+        Potentials of this form are called \textbf{St\"ackel potentials}.
+    \end{property}
+
+\section{Analytical mechanics}
+\subsection{Phase space}
+
+    \newdef{Phase space}{\index{phase space}
+        The set of all possible $n$-tuples\footnote{Not only those as given by the equations of motion.} $(q^i, p_i)$ of generalized coordinates and associated momenta is called the phase space of the system. Given a system living on a smooth manifold $Q$, its phase space is modelled by the cotangent bundle $T^*Q$.
+    }
+
+    \newdef{Rotation}{\index{rotation}
+        A rotation is the change of a coordinate for which every possible value is allowed.
+    }
+    \newdef{Libration}{\index{libration}
+        A libration is the change of a coordinate for which only a subset of the total range is allowed. It is the generalization of an oscillation.
+    }
+
+\subsection{Material derivative}
+
+    \newdef{Lagrangian derivative\footnotemark}{\index{Lagrange!derivative|see{material derivative}}\index{material!derivative}\label{phasespace:lagrangian_derivative}
+        \footnotetext{Also known as the \textbf{material derivative}, especially when applied to fluid mechanics.}
+        Let $a(\vector{r}, \vector{v}, t)$ be a property defined at every point of the system. The Lagrangian derivative along a path $(\vector{r}(t), \vector{v}(t))$ in phase space is given by
+        \begin{align}
+            \ds\Deriv{a}{t} &= \lim_{\Delta t\rightarrow0}\ds\frac{a(\vector{r} + \Delta\vector{r}, \vector{v} + \Delta\vector{v}, t+\Delta t) - a(\vector{r}, \vector{v}, t)}{\Delta t}\nonumber\\
+            &= \pderiv{a}{t} + \deriv{\vector{r}}{t}\cdot\pderiv{a}{\vector{r}} + \deriv{\vector{v}}{t}\cdot\pderiv{a}{\vector{v}}\nonumber\\
+            &= \pderiv{a}{t} + \vector{v}\cdot\nabla a + \deriv{\vector{v}}{t}\cdot\pderiv{a}{\vector{v}}.
+        \end{align}
+        The second term $\vector{v}\cdot\nabla a$ in this equation is called the \textbf{advective} term.
+    }
+    \begin{remark}
+        In the case that $a(\vector{r}, \vector{v}, t)$ is a tensor field the gradient $\nabla$ has to be replaced by the covariant derivative. The advective term is then called the \textbf{convective} term.
+    \end{remark}
+
+    \begin{result}
+        If we take $a(\vector{r}, \vector{v}, t) = \vector{r}$ we obtain
+        \begin{gather}
+            \Deriv{\vector{r}}{t} = \vector{v}.
+        \end{gather}
+    \end{result}
+
+\subsection{Liouville's theorem}
+
+    \begin{formula}[Liouville's lemma]
+        Consider a phase space volume element $dV_0$ moving along a path $(\vector{r}(t), \vector{v}(t)) \equiv (\vector{x}(t))$. The Jacobian $J(\vector{x}, t)$ associated with this motion is given by
+        \begin{gather}
+            J(\vector{x}, t) = \deriv{V}{V_0} = \det\left(\pderiv{\vector{x}}{\vector{x}_0}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}.
+        \end{gather}
+        The Lagrangian derivative of this Jacobian then becomes
+        \begin{gather}
+            \label{fluidum:jacobian_derivative}
+            \Deriv{J}{t} = (\nabla\cdot\vector{x})J.
+        \end{gather}
+        Furthermore, using Hamilton's equations \ref{lagrange:hamilton_equations} it is easy to prove that
+        \begin{gather}
+            \nabla\cdot\vector{x} = 0
+        \end{gather}
+        and hence that the material derivative of $J$ vanishes.
+    \end{formula}
+
+    \begin{theorem}[Liouville's theorem]\index{Liouville!theorem on phase spaces}\label{fluidum:liouvilles_theorem}
+        Let $V(t)$ be a phase space volume containing a fixed set of particles. Applying Liouville's lemma gives
+        \begin{gather}
+            \Deriv{V}{t} = \Deriv{}{t}\int_{\Omega(t)}d^6x = \Deriv{}{t}\int_{\Omega_0}J(\vector{x}, t)d^6x_0 = 0.
+        \end{gather}
+        It follows that the phase space volume of a Hamiltonian system\footnote{A system that satisfies Hamilton's equations of motion.} is invariant with respect to time-evolution.
+    \end{theorem}
+
+    \newformula{Boltzmann's transport equation}{\index{Boltzmann!transport equation}\index{Vlasov equation}
+        Let $F(\vector{r}, \vector{v}, t)$ be the mass distribution function
+        \begin{gather}
+            M_{tot} = \int_{\Omega(t)}F(\vector{x}, t)d^6x.
+        \end{gather}
+        From the conservation of mass we can derive the following formula:
+        \begin{gather}
+            \label{fluidum:boltzmann_transport_gather}
+            \Deriv{F}{t} = \pderiv{F}{t} + \deriv{\vector{r}}{t}\cdot\pderiv{F}{\vector{r}} - \nabla V\cdot\pderiv{F}{\vector{v}} = \left[\pderiv{F}{t}\right]_{col}
+        \end{gather}
+        where the right-hand side gives the change of $F$ due to collisions.\footnote{The collisionless form of this equation is sometimes called the \textbf{Vlasov equation}.} This partial differential equation in 7 variables can be solved to obtain $F(\vector{x}, t)$.
+    }
+
+    Consider a Hamiltonian system with a finite phase space $\mathcal{V}$. By Liouville's theorem, the phase flow generated by the equations of motion is a measure (volume)-preserving map $g:\mathcal{V}\rightarrow\mathcal{V}$. This leads us to the following theorem:
+    \begin{theorem}[Poincar\'e recurrence theorem]\index{Poincar\'e!recurrence theorem}
+        Let $\mathcal{V}_0$ be the phase space volume of the system. For every point $x_0\in\mathcal{V}_0$ and for every neighbourhood $U$ of $x_0$ there exists a point $y\in U$ such that $g^ny\in U$ for every $n\in\mathbb{N}$.
+    \end{theorem}
+
+    \begin{theorem}[Strong Jeans theorem\footnotemark]\index{Jeans}\index{isolating integrals}
+        \footnotetext{Actually due to Donald Lynden-Bell.}
+        The distribution function $F(\vector{r}, \vector{v})$ of a time-independent system for which almost all orbits are regular can be expressed in terms of 3 integrals of motion. These are called the \textup{\textbf{isolating integrals}}.
+    \end{theorem}
+
+\subsection{Continuity equation}
+
+    \newformula{Reynolds transport theorem\footnotemark}{\index{Reynolds!transport theorem}\index{Leibniz!integral rule}\label{fluidum:reynolds_transport_theorem}
+        \footnotetext{This is a 3D extension of the \textit{Leibniz integral rule}.}
+        Consider a quantity \[F = \int_{V(t)}f(\vector{r}, \vector{v}, t)dV.\] Using equation \ref{fluidum:jacobian_derivative} together with the divergence theorem \ref{vectorcalculus:divergence_theorem} gives us
+        \begin{gather}
+            \Deriv{F}{t} = \int_V\pderiv{f}{t}dV + \oint_Sf\vector{v}\cdot d\vector{S}.
+        \end{gather}
+    }
+    \newformula{Continuity equations}{\index{continuity!equation}
+        For a conserved quantity the equation above becomes:
+        \begin{gather}
+            \label{fluidum:lagrangian_continuity_gather}
+            \Deriv{f}{t} + (\nabla\cdot\vector{v})f = 0
+        \end{gather}
+        \begin{gather}
+            \label{fluidum:eulerian_continuity_gather}
+            \pderiv{f}{t} + \nabla\cdot(f\vector{v}) = 0.
+        \end{gather}
+        If we set $f = \rho$ (the mass density) then the first equation is called the \textbf{Lagrangian continuity equation} and the second equation is called the \textbf{Eulerian continuity equation}. Both equations can be found by pulling the Lagrangian derivative inside the integral on the left-hand side of \ref{fluidum:reynolds_transport_theorem}.
+    }
+    \begin{result}
+        Combining the Reynolds transport theorem with the Lagrangian continuity equation gives the following identity for an arbitrary function $f$:
+        \begin{gather}
+            \label{fluidum:result1}
+            \Deriv{}{t}\int_V\rho fdV = \int_V\rho\Deriv{f}{t}dV.
+        \end{gather}
+    \end{result}
+
+\section{Fluid Mechanics}
+
+    \begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!stress theorem}
+        \footnotetext{Also known as \textbf{Cauchy's fundamental theorem}.}
+        Knowing the stress vectors acting on the coordinate planes through a point $A$ is sufficient to calculate the stress vector acting on an arbitrary plane passing through $A$.
+    \end{theorem}
+
+    The \textit{Cauchy stress theorem} is equivalent to the existence of the following tensor:
+    \newdef{Cauchy stress tensor}{\index{Cauchy!stress tensor}
+        The Cauchy stress tensor is a $(0,2)$-tensor $\mathbf{T}$ that gives the relation between a stress vector associated to a plane and the normal vector $\vector{n}$ to that plane:
+        \begin{gather}
+            \vector{t}_{(\vector{n})} = \mathbf{T}(\vector{n}).
+        \end{gather}
+    }
+    \begin{example}
+        For identical particles the stress tensor is given by
+        \begin{gather}
+            \mathbf{T} = -\rho \langle\vector{w}\otimes\vector{w}\rangle
+        \end{gather}
+        where $\vector{w}$ is the random component of the velocity vector and $\langle\cdot\rangle$ denotes the expectation value (see \ref{prob:expectation_value}).
+    \end{example}
+
+    \begin{theorem}[Cauchy's lemma]\index{Cauchy!lemma}
+        The stress vectors acting on opposite planes are equal in magnitude but opposite in direction:
+        \begin{gather}
+            \vector{t}_{(-\vector{n})} = -\vector{t}_{(\vector{n})}.
+        \end{gather}
+    \end{theorem}
+
+    \newformula{Cauchy momentum equation}{\index{Cauchy!momentum equation}
+        From Newton's second law \ref{forces:force} it follows that
+        \begin{gather}
+            \Deriv{\vector{P}}{t} = \int_V\vector{f}(\vector{x}, t)dV + \oint_S\vector{t}(\vector{x}, t)dS
+        \end{gather}
+        where $\vector{P}$ is the momentum density, $\vector{f}$ are body forces and $\vector{t}$ are surface forces (such as shear stress). Using Cauchy's stress theorem and the divergence theorem \ref{vectorcalculus:divergence_theorem} we get
+        \begin{gather}
+            \Deriv{\vector{P}}{t} = \int_V\left[\vector{f}(\vector{x}, t) + \nabla\cdot\mathbf{T}(\vector{x}, t)\right]dV.
+        \end{gather}
+        The left-hand side can be rewritten using \ref{fluidum:result1} as
+        \begin{gather}
+            \int_V\rho\Deriv{\vector{v}}{t}dV = \int_V\left[\vector{f}(\vector{x}, t) + \nabla\cdot\mathbf{T}(\vector{x}, t)\right]dV.
+        \end{gather}
+    }

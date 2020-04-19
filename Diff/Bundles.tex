@@ -1,511 +1,516 @@
-\chapter{Fibre Bundles}\label{diff:chapter:bundles}
+\chapter{Fibre Bundles}\label{chapter:bundles}
 
 \section{General bundles}
 
-	\newdef{Bundle}{\index{bundle}
-		A bundle is a triple $(E, B, \pi)$ where $E$ and $B$ are topological spaces and $\pi$ is a continuous map.\footnote{Sometimes one requires that the map $\pi$ is also surjective. However under this additional restriction we cannot make the association \textbf{Bundle}$(X)\cong\textbf{Top}/X$ of categories any more.}
-	}
-	\newdef{Fibered manifold}{\index{fibered manifold}
-		A fibered manifold is a surjective submersion\footnote{See definition \ref{manifolds:submersion}.} \[\pi:E\rightarrow B\] where $E$ is called the \textbf{total space}, $B$ the \textbf{base space} and $\pi$ the \textbf{projection}. For every point $p\in B$, the set $\pi^{-1}(p)$ is called the \textbf{fibre} over $p$.
-	}
+    \newdef{Bundle}{\index{bundle}
+        A bundle is a triple $(E, B, \pi)$ where $E$ and $B$ are topological spaces and $\pi$ is a continuous map.\footnote{Sometimes one requires that the map $\pi$ is also surjective. However under this additional restriction we cannot make the association \textbf{Bundle}$(X)\cong\textbf{Top}/X$ of categories anymore.}
+    }
+    \newdef{Fibered manifold}{\index{fibered manifold}\index{fibre}
+        A fibered manifold is a surjective submersion\footnote{See definition \ref{manifolds:submersion}.} \[\pi:E\rightarrow B\] where $E$ is called the \textbf{total space}, $B$ the \textbf{base space} and $\pi$ the \textbf{projection}. For every point $p\in B$, the set $\pi^{-1}(p)$ is called the \textbf{fibre} over $p$.
+    }
 
-	The most important example of a fibered manifold is a fibre bundle:
-	\newdef{Fibre bundle}{\index{fibre!bundle}\index{local!trivialization}\index{structure!group}
-		\label{manifolds:fibre_bundle}
-		A fibre bundle is a tuple $(E, B, \pi, F, G)$ where $E, B$ and $F$ are topological spaces and $G$ is a topological group (called the \textbf{structure group}), such that there exists a continuous surjective map \[\pi:E\rightarrow B\] and an open cover $\{U_i\}_{i\in I}$ of $B$ for which there exists a family of homeomorphisms $\{\varphi_i:\pi^{-1}(U_i)\rightarrow U_i\times F\}_{i\in I}$ that make the following diagram commute:
-		\begin{figure}[ht!]
-			\centering
-			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=2em,column sep=3em,minimum width=2em, ampersand replacement=\&]{
-					\pi^{-1}(U_i) \& \& U_i\times F\\
-					\& U_i\&\\
-				};
-				\path[-stealth]
-					(m-1-1) edge node [above] {$\varphi_i$} (m-1-3)
-					(m-1-1) edge node [below left] {$\pi$} (m-2-2)
-					(m-1-3) edge node [below right] {$\text{pr}_1$} (m-2-2);
-			\end{tikzpicture}
-		\end{figure}\\
-		As for topological bundles and fibered manifolds we call $E$ and $B$ the total space and base space respectively. The space $F$ is called the \textbf{(typical) fibre}. We also call $\varphi_i$ a \textbf{local trivialization}\footnote{This name follows from the fact that the bundle is locally homeomorphic to a (trivial) product space: $E\cong U\times F$.}, $(U_i, \varphi_i)$ a \textbf{bundle chart}\footnote{This is due to the similarities with the charts defined for manifolds.} and the set $\{(U_i, \varphi_i)\}_{i\in I}$ a \textbf{trivializing cover}.
+    The most important example of a fibered manifold is a fibre bundle:
+    \newdef{Fibre bundle}{\index{fibre!bundle}\index{local!trivialization}\index{structure!group}
+        \label{manifolds:fibre_bundle}
+        A fibre bundle is a tuple $(E, B, \pi, F, G)$ where $E, B$ and $F$ are topological spaces and $G$ is a topological group (called the \textbf{structure group}), such that there exists a continuous surjective map \[\pi:E\rightarrow B\] and an open cover $\{U_i\}_{i\in I}$ of $B$ for which there exists a family of homeomorphisms $\{\varphi_i:\pi^{-1}(U_i)\rightarrow U_i\times F\}_{i\in I}$ that make the following diagram commute for all $i\in I$:
 
-		The transition maps $\varphi_j\circ\varphi_i^{-1}:(U_i\cap U_j)\times F\rightarrow (U_i\cap U_j)\times F$ can be identified with the cocycle\footnote{See definition \ref{group:cocycle}.} $g_{ji}:U_i\cap U_j\rightarrow G$, associated to the (left) action (which we require to be faithful\footnote{See definition \ref{group:faithful_action}.}) of $G$ on every fibre, by the following relation:
-		\begin{gather}
-			\varphi_j\circ\varphi_i^{-1}(b, x) = (b, g_{ji}(b)\cdot x)
-		\end{gather}
-	}
-	\begin{remark}
-		One should pay attention that the bundle charts are not coordinate charts in the original sense \ref{manifolds:chart} because the image of $\varphi_i$ is not an open subset of $\mathbb{R}^n$. However they serve the same purpose and we can still use them to locally inspect the total space $P$.
-	\end{remark}
-	\begin{notation}
-		A fibre bundle $(E, B, \pi, F, G)$ is often indicated by the following diagram:
+        \begin{figure}[ht!]
+            \centering
+            \begin{tikzpicture}
+                \matrix (m) [matrix of math nodes,row sep=2em,column sep=3em,minimum width=2em, ampersand replacement=\&]{
+                    \pi^{-1}(U_i) \& \& U_i\times F\\
+                    \& U_i\&\\
+                };
+                \path[-stealth]
+                    (m-1-1) edge node [above] {$\varphi_i$} (m-1-3)
+                    (m-1-1) edge node [below left] {$\pi$} (m-2-2)
+                    (m-1-3) edge node [below right] {$\text{pr}_1$} (m-2-2);
+            \end{tikzpicture}
+        \end{figure}
+        As for topological bundles and fibered manifolds we call $E$ and $B$ the \textbf{total space} and \textbf{base space} respectively. The space $F$ is called the \textbf{(typical) fibre}. We also call $\varphi_i$ a \textbf{local trivialization}\footnote{This name follows from the fact that the bundle is locally homeomorphic to a (trivial) product space: $E\cong U\times F$.}, $(U_i, \varphi_i)$ a \textbf{bundle chart}\footnote{This is due to the similarities with the charts defined for manifolds.} and the set $\{(U_i, \varphi_i)\}_{i\in I}$ a \textbf{trivializing cover}.
 
-		\begin{figure}[ht!]
-			\centering
-			\begin{tikzpicture}
-				\matrix (m) [matrix of math nodes,row sep=2em,column sep=2em,minimum width=2em, ampersand replacement=\&]{
-				F \& E\\
-				\& B\\
-			};
-			\path[-stealth]
-				(m-1-1) [->] edge node [above] {} (m-1-2)
-				(m-1-2) [->] edge node [right] {$\pi$} (m-2-2);
-			\end{tikzpicture}
-		\end{figure}
-		or more compactly $F\hookrightarrow E\xrightarrow{\ \pi\ }{B}$. A drawback of these notations is that we do not immediately know what the structure group of the bundle is.
-	\end{notation}
+        The \textbf{transition maps} $\varphi_j\circ\varphi_i^{-1}:(U_i\cap U_j)\times F\rightarrow (U_i\cap U_j)\times F$ can be identified with the cocycle\footnote{See definition \ref{group:cocycle}.} $g_{ji}:U_i\cap U_j\rightarrow G$, associated to the (left) action (which we require to be faithful\footnote{See definition \ref{group:faithful_action}.}) of $G$ on every fibre, by the following relation:
+        \begin{gather}
+            \varphi_j\circ\varphi_i^{-1}(b, x) = (b, g_{ji}(b)\cdot x).
+        \end{gather}
+    }
+    \begin{remark}
+        One should pay attention that the bundle charts are not coordinate charts in the sense of manifolds \ref{manifolds:chart} because the image of $\varphi_i$ is not an open subset of $\mathbb{R}^n$. However, they serve the same purpose and we can still use them to locally describe the total space $P$.
+    \end{remark}
+    \begin{notation}
+        A fibre bundle $(E, B, \pi, F, G)$ is often indicated by the following diagram:
 
-	\newdef{Fibre}{\index{fibre}
-		Let $F\hookrightarrow E\xrightarrow{\ \pi\ }B$ be a fibre bundle over a base space $B$. The fibre over $b\in B$ is defined as the set $\pi^{-1}(b)$. It is often denoted by $F_b$.
-	}
+        \begin{figure}[ht!]
+            \centering
+            \begin{tikzpicture}
+                \matrix (m) [matrix of math nodes,row sep=2em,column sep=2em,minimum width=2em, ampersand replacement=\&]{
+                F \& E\\
+                \& B\\
+            };
+            \path[-stealth]
+                (m-1-1) [->] edge node [above] {} (m-1-2)
+                (m-1-2) [->] edge node [right] {$\pi$} (m-2-2);
+            \end{tikzpicture}
+        \end{figure}
+        or more compactly by $F\hookrightarrow E\xrightarrow{\ \pi\ }{B}$. A drawback of these notations is that we do not immediately know what the structure group of the bundle is.
+    \end{notation}
 
-	\newdef{Numerable fibre bundle}{\index{numerable}\label{manifolds:numerable_bundle}
-		A fibre bundle which admits a local trivialization of a numerable open cover.
-	}
+    \newdef{Numerable fibre bundle}{\index{numerable}\label{manifolds:numerable_bundle}
+        A fibre bundle that admits a local trivialization over a numerable open cover.
+    }
 
-	\newdef{Smooth fibre bundle}{
-		A smooth fibre bundle is a fibre bundle\\$(E, B, \pi, F, G)$ with the following constraints:
-		\begin{itemize}
-			\item The base space $B$ and typical fibre $F$ are smooth manifolds.
-			\item The structure goup $G$ is a Lie group.
-			\item The projection map, trivializing maps and transition functions are diffeomorphisms.
-		\end{itemize}
-	}
-	\begin{remark}
-		A smooth fibre bundle is also a smooth manifold.
-	\end{remark}
+    \newdef{Smooth fibre bundle}{
+        A smooth fibre bundle is a fibre bundle\\$(E, B, \pi, F, G)$ with the following constraints:
+        \begin{itemize}
+            \item The base space $B$ and typical fibre $F$ are smooth manifolds.
+            \item The structure goup $G$ is a Lie group.
+            \item The projection map, trivializing maps and transition functions are diffeomorphisms.
+        \end{itemize}
+    }
+    \begin{remark}
+        A smooth fibre bundle is also a smooth manifold. This can be proven by putting the local trivializations of the bundle together with the charts of the base and fibre manifolds.
+    \end{remark}
 
-	\begin{construct}[Fibre bundle construction theorem]\label{manifolds:theorem:fibre_bundle_construction_theorem}
-		Let $M$ and $F$ be topological spaces and let $G$ be a topological group equipped with a left action on $F$. Suppose that we are given a cover $\{U_i\}_{i\in I}$ of $M$ and a set of continuous functions $\{g_{ji}:U_i\cap U_j\rightarrow G\}$ that satisfy the cocycle condition \ref{group:cocycle}. A fibre bundle over $M$ can then be constructed as follows:
-		\begin{enumerate}
-			\item We first construct for every set $U_i$ an associated set $U_i\times F$.
-			\item We then construct the disjoint union $T\equiv\bigsqcup_{i\in I}U_i\times F$ equipped with the disjoint union topology\footnote{See definition \ref{topology:disjoint_union}.}.
-			\item From this disjoint union we construct a quotient space\footnote{See definition \ref{topology:quotient_space}.} (equipped with the quotient space topology) by applying following equivalence relation for every $i, j$:
-				\begin{gather}
-					(p, f)\sim(p, g_{ji}(x)\cdot f)
-				\end{gather}
-				for all $x\in U_i\cap U_j$ and $f\in F$. The fibre bundle is equal to this quotient space $T/\sim$ together with the projection $\pi$ that maps the equivalence class of $(x, f)\in T$ to $x\in M$.
-			\item Local trivializations are given by the maps $\varphi_i:\pi^{-1}(U_i)\rightarrow U_i\times F$ that satisfy:
-				\begin{gather}
-					\varphi_i^{-1}:(x, f)\mapsto [(x, f)]
-				\end{gather}
-				where $[A]$ means the equivalence class of $A$ in $T/\sim$.
-		\end{enumerate}
-	\end{construct}
-
-	\newdef{Compatible\footnotemark\ bundle charts}{\index{compatible!bundle charts}
-		\footnotetext{Also called an \textbf{admissible chart}.}
-		A bundle chart $(V, \psi)$ is compatible with a trivializing cover $\{(U_i, \varphi_i)\}_{i\in I}$ if whenever $V\cap U_i\neq\emptyset$ there exists a map $h_i:V\cap U_i\rightarrow G$ such that:
-		\begin{gather}
-			\psi\circ\varphi_i^{-1}(b, x) = (b, h_i(b)x)
-		\end{gather}
-		for all $b\in V\cap U_i$ and $x\in F$. Two trivializing covers are \textit{equivalent} if all bundle charts are cross-compatible. As in the case of manifolds, this gives rise to the notion of a \textbf{G-atlas}. A \textbf{G-bundle} is then defined as a fibre bundle eqipped with an equivalence class of $G$-atlases.
-	}
+    \newdef{Compatible\footnotemark\ bundle charts}{\index{compatible!bundle charts}
+        \footnotetext{Also called an \textbf{admissible chart}.}
+        A bundle chart $(V, \psi)$ is compatible with a trivializing cover $\{(U_i, \varphi_i)\}_{i\in I}$ if whenever $V\cap U_i\neq\emptyset$ there exists a map $h_i:V\cap U_i\rightarrow G$ such that:
+        \begin{gather}
+            \psi\circ\varphi_i^{-1}(b, x) = (b, h_i(b)x)
+        \end{gather}
+        for all $b\in V\cap U_i$ and $x\in F$. Two trivializing covers are equivalent if all bundle charts are cross-compatible. As in the case of manifolds, this gives rise to the notion of a \textbf{$G$-atlas}. A \textbf{$G$-bundle} is then defined as a fibre bundle eqipped with an equivalence class of $G$-atlases.
+    }
 
 \subsection{Bundle maps}
 
-	\newdef{Bundle map}{\index{bundle!map}
-		A bundle map between two fibre bundles $\pi_1:E_1\rightarrow B_1$ and $\pi_2:E_2\rightarrow B_2$ is a pair $(f_E, f_B)$ of continuous maps that make diagram \ref{tikz:bundle_map} commute:
+    \newdef{Bundle map}{\index{bundle!map}
+        A bundle map between two fibre bundles $\pi_1:E_1\rightarrow B_1$ and $\pi_2:E_2\rightarrow B_2$ is a pair $(f_E, f_B)$ of continuous maps that make diagram \ref{tikz:bundle_map} commute. The map $f_E$ is said to \textbf{cover} $f_B$.
 
-		\begin{figure}[ht!]
-		\centering
-		\begin{tikzpicture}
-			\matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
-				E_1 \& E_2\\
-				B_1 \& B_2\\
-			};
-			\path[-stealth]
-				(m-1-1) edge node [left] {$\pi_1$} (m-2-1)
-					edge node [above] {$f_E$} (m-1-2)
-				(m-2-1) edge node [below] {$f_B$} (m-2-2)
-				(m-1-2) edge node [right] {$\pi_2$} (m-2-2);
-		\end{tikzpicture}
-		\caption{Bundle map between fibre bundles.}
-		\label{tikz:bundle_map}
-		\end{figure}
+        \begin{figure}[ht!]
+        \centering
+        \begin{tikzpicture}
+            \matrix (m) [matrix of math nodes,row sep=3em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
+                E_1 \& E_2\\
+                B_1 \& B_2\\
+            };
+            \path[-stealth]
+                (m-1-1) edge node [left] {$\pi_1$} (m-2-1)
+                    edge node [above] {$f_E$} (m-1-2)
+                (m-2-1) edge node [below] {$f_B$} (m-2-2)
+                (m-1-2) edge node [right] {$\pi_2$} (m-2-2);
+        \end{tikzpicture}
+        \caption{Bundle map between fibre bundles.}
+        \label{tikz:bundle_map}
+        \end{figure}
 
-	}
-	\newdef{Isomorphic fibre bundles}{
-		Two fibre bundles $F$ and $G$ are isomorphic if there exist bundle maps $f:F\rightarrow G$ and $g:G\rightarrow F$ such that $f\circ g = \mathbbm{1}_G$ and $g\circ f = \mathbbm{1}_F$.
-	}
+    }
+    \newdef{Isomorphic fibre bundles}{
+        Two fibre bundles $F$ and $G$ are isomorphic if there exist bundle maps $f:F\rightarrow G$ and $g:G\rightarrow F$ such that $f\circ g = \mathbbm{1}_G$ and $g\circ f = \mathbbm{1}_F$.
+    }
 
-	\newdef{Equivalent fibre bundles}{\index{gauge!transformation}
-		Two fibre bundles $\pi_1:E_1\rightarrow B$ and $\pi_2:E_2\rightarrow B$ (with the same typical fibre and structure group) are equivalent if there exist trivializing covers\footnotemark\ $\{(U_i, \varphi_i)\}_{i\in I}$ and $\{(U_i, \varphi'_i)\}_{i\in I}$ and a family of smooth functions $\{\rho_i:U_i\rightarrow G\}_{i\in I}$ such that:
-		\begin{gather}
-			g'_{ji}(b) = \rho_j(b)\circ g_{ji}(b)\circ\rho_i^{-1}(b)
-		\end{gather}
-		for every $b\in U_i\cap U_j$. An explicit form of these functions is given by:
-		\begin{gather}
-			\rho_i = \varphi_i'\circ\varphi_i^{-1}
-		\end{gather}
-		\footnotetext{Remark that the collection $\{U_i\}_{i\in I}$ is the same for both trivializing covers.}
-	}
-	\begin{property}
-		Two fibre bundles over the same base space are equivalent if and only if they are isomorphic. Furthermore, every bundle map between bundles over the same base space induces an equivalence (and thus also an isomorphism).
-	\end{property}
+    \newdef{Equivalent fibre bundles}{\index{gauge!transformation}
+        Two fibre bundles $\pi_1:E_1\rightarrow B$ and $\pi_2:E_2\rightarrow B$, with the same typical fibre and structure group, are equivalent if there exist trivializing covers\footnote{Remark that the collection $\{U_i\}_{i\in I}$ is the same for both trivializing covers.} $\{(U_i, \varphi_i)\}_{i\in I}$ and $\{(U_i, \varphi'_i)\}_{i\in I}$ and a family of smooth functions $\{\rho_i:U_i\rightarrow G\}_{i\in I}$ such that
+        \begin{gather}
+            g'_{ji}(b) = \rho_j(b)\circ g_{ji}(b)\circ\rho_i^{-1}(b)
+        \end{gather}
+        for every $b\in U_i\cap U_j$. An explicit form of these functions is given by
+        \begin{gather}
+            \rho_i := \varphi_i'\circ\varphi_i^{-1}.
+        \end{gather}
+    }
+    \begin{property}
+        Two fibre bundles over the same base space are equivalent if and only if they are isomorphic.
+    \end{property}
 
-	\newdef{Trivial bundle}{\label{manifolds:trivial_bundle}
-		A fibre bundle $(E, B, \pi, F)$ is trivial if there exists an equivalence $E \cong B\times F$.
-	}
+    \begin{property}
+        Every bundle map covering the identity is in fact a bundle isomorphism.
+    \end{property}
 
-\subsection{Fibre bundle operations}
+    \newdef{Trivial bundle}{\index{trivial}\label{manifolds:trivial_bundle}
+        A fibre bundle $(E, B, \pi, F)$ is said to be trivial if there exists an equivalence $E \cong B\times F$.
+    }
 
-	\newdef{Subbundle}{\index{sub!bundle}
-		A subbundle of a fibre bundle $\pi:E\rightarrow B$ is a triple $(E', B', \pi')$ such that $E'\subset E$, $B'\subset B$ (where $\subset$ now means 'submanifold of') and $\pi' = \pi|_{E'}$.
-	}
-	\newdef{Pullback bundle}{\index{pullback!bundle}\label{manifolds:pullback_bundle}
-		Let $\pi:E\rightarrow B$ be a fibre bundle. Let $f:B'\rightarrow B$ be a continuous map between topological spaces. The pullback bundle $f^*E$ is defined as follows:
-		\begin{gather}
-			f^*E = \{(b', e)\in B'\times E:f(b') = \pi(e)\}
-		\end{gather}
-		The topology on $f^*E$ is induced by the subspace topology of the product $B'\times E$. The projection onto the second factor gives a map of total spaces $f^*E\rightarrow E$.
-	}
+\subsection{Constructions}
 
-	\newdef{Fibre product}{\index{fibre!product}
-		Let $(F_1, B, \pi_1)$ and $(F_2, B, \pi_2)$  be two fibre bundles on a base space $B$. Their fibre product is defined as:
-		\begin{gather}
-			\label{manifolds:fibre_product}
-			F_1\diamond F_2 = \{(f, g)\in F_1\times F_2: \pi_1(f) = \pi_2(g)\}
-		\end{gather}
-	}
+    \begin{construct}[Fibre bundle construction theorem]\label{manifolds:theorem:fibre_bundle_construction_theorem}
+        Let $M$ and $F$ be topological spaces and let $G$ be a topological group equipped with a left action on $F$. Suppose that we are given a cover $\{U_i\}_{i\in I}$ of $M$ and a set of continuous functions $\{g_{ji}:U_i\cap U_j\rightarrow G\}$ that satisfy the cocycle condition \ref{group:cocycle}. A fibre bundle over $M$ can then be constructed as follows:
+        \begin{enumerate}
+            \item We first construct for every set $U_i$ an associated set $U_i\times F$.
+            \item We then construct the disjoint union $T:=\bigsqcup_{i\in I}U_i\times F$ and equip it with the disjoint union topology (see definition \ref{topology:disjoint_union}).
+            \item From this disjoint union we construct a quotient space and equip it with the quotient space topology (see definition \ref{topology:quotient_space}). For this we define the following equivalence relation for every $i, j\in I$:
+                \begin{gather}
+                    (p, f)\sim(p, g_{ji}(x)\cdot f)
+                \end{gather}
+                for all $x\in U_i\cap U_j$ and $f\in F$.
+            \item The fibre bundle is equal to the quotient space $T/\sim$ together with the projection $\pi$ that maps the equivalence class of $(x, f)\in T$ to $x\in M$.
+            \item Local trivializations are given by the maps $\varphi_i:\pi^{-1}(U_i)\rightarrow U_i\times F$ that satisfy
+                \begin{gather}
+                    \varphi_i^{-1}:(x, f)\mapsto [(x, f)]
+                \end{gather}
+                where $[A]$ denotes the equivalence class of $A$ in $T/\sim$.
+        \end{enumerate}
+    \end{construct}
+
+    \newdef{Subbundle}{\index{sub!bundle}
+        A subbundle of a fibre bundle $\pi:E\rightarrow B$ is a triple $(E', B', \pi')$ such that $E'\subset E$, $B'\subset B$ and $\pi' = \pi|_{E'}$ (where $\subset$ means 'is a submanifold of').
+    }
+    \newdef{Pullback bundle}{\index{pullback!bundle}\label{manifolds:pullback_bundle}
+        Let $\pi:E\rightarrow B$ be a fibre bundle and let $f:B'\rightarrow B$ be a continuous map between topological spaces. The pullback bundle $f^*E$ is defined as follows:
+        \begin{gather}
+            f^*E := \big\{(b', e)\in B'\times E:f(b') = \pi(e)\big\}.
+        \end{gather}
+        The topology on $f^*E$ is induced by the subspace topology of the product $B'\times E$. The projection onto the second factor gives a map of total spaces $f^*E\rightarrow E$.
+    }
+
+    \newdef{Fibre product}{\index{fibre!product}
+        Let $(F_1, B, \pi_1)$ and $(F_2, B, \pi_2)$  be two fibre bundles on a base space $B$. Their fibre product is defined as follows:
+        \begin{gather}
+            \label{manifolds:fibre_product}
+            F_1\diamond F_2 := \big\{(f, g)\in F_1\times F_2: \pi_1(f) = \pi_2(g)\big\}.
+        \end{gather}
+    }
 
 \subsection{Sections}
 
-	\newdef{Section}{\index{section}
-		A \textbf{global} section on a fibre bundle $\pi:E\rightarrow B$ is a smooth function $s:B\rightarrow E$ such that $\pi\circ s = \mathbbm{1}_B$. For any open subset $U\subset B$ we define a local section as a smooth function $s_U:U\rightarrow E$ such that $\pi\circ s_U(b) = b$ for all $b\in U$.
-	}
-	\begin{notation}
-		The set of all global sections on a bundle $E$ is denoted by $\Gamma(E)$. The set of local sections on $U\subset E$ is similarly denoted by $\Gamma(U)$.
-	\end{notation}
+    \newdef{Section}{\index{section}
+        A (\textbf{global}) section of a fibre bundle $\pi:E\rightarrow B$ is a smooth function $s:B\rightarrow E$ such that $\pi\circ s = \mathbbm{1}_B$. For any open subset $U\subset B$ we define a \textbf{local} section as a smooth function $s_U:U\rightarrow E$ such that $\pi\circ s_U(b) = b$ for all $b\in U$.
+    }
+    \begin{notation}
+        \nomenclature[O_Gamma]{$\Gamma(E)$}{The set of global sections of a fibre bundle $E$.}
+        The set of all global sections of a bundle $E$ is denoted by $\Gamma(E)$. The set of local sections over $U$ is sometimes denoted by $\Gamma(U, E)$. With this latter notation we see that $\Gamma(E)\equiv\Gamma(B, E)$.
+    \end{notation}
 
-	\begin{property}
-		The sections on a fibre bundle $E$ pullback to the pullback bundle $f^*E$ by setting $f^*s = s\circ f$.
-	\end{property}
+    \begin{property}
+        The sections of a fibre bundle $E$ pullback to the pullback bundle $f^*E$ by setting $f^*s := s\circ f$.
+    \end{property}
 
 \section{Jet bundles}\label{section:jet_bundles}
 
-	Although the following constructions can be defined in the general context of smooth manifolds we will only consider them in the case of smooth fibre bundles. Only the notion of a jet will be defined in general for maps between smooth manifolds (to define a Whitney topology on the space of smooth functions).
+    Although the following constructions can be defined in the general context of smooth manifolds we will only consider them in the case of smooth fibre bundles. Only the notion of a jet will be defined in general for maps between smooth manifolds (such that we can define the Whitney topology on the space of smooth functions).
 
-	\newdef{Jet}{\index{jet}
-		Consider two manifolds $M, N$. Two maps $\sigma,\xi\in C^\infty(M, N)$ with local coordinates $(\sigma^i)$ and $(\xi^i)$ define the same $r$-jet at a point $p\in M$ if and only if:
-		\begin{gather}
-			\left.\mpderiv{\alpha}{\sigma^i}{x}\right|_p = \left.\mpderiv{\alpha}{\xi^i}{x}\right|_p
-		\end{gather}
-		for all $0\leq i\leq\dim M$ and every multi-index $\alpha$ such that $0\leq|\alpha|\leq r$. It is clear that this relation defines an equivalence relation. The $r$-jet at $p\in M$ with representative $\sigma$ is denoted by $j_p^r\sigma$. The number $r$ is called the \textbf{order} of the jet.
-	}
+    \newdef{Jet}{\index{jet}\index{order}
+        Consider two manifolds $M, N$. Two maps $\sigma,\xi\in C^\infty(M, N)$ with local coordinates $(\sigma^i)$ and $(\xi^i)$ define the same $r$-jet at a point $p\in M$ if and only if
+        \begin{gather}
+            \left.\mpderiv{\alpha}{\sigma^i}{x}\right|_p = \left.\mpderiv{\alpha}{\xi^i}{x}\right|_p
+        \end{gather}
+        for all $0\leq i\leq\dim M$ and every multi-index $\alpha$ with $0\leq|\alpha|\leq r$. It is clear that this relation defines an equivalence relation. The $r$-jet at $p\in M$ with representative $\sigma$ is denoted by $j_p^r\sigma$. The number $r$ is called the \textbf{order} of the jet.
+    }
 
-	\newdef{Whitney $C^k$-topology}{\index{Whitney!$C^k$-topology}\index{$C^k$-topology|seealso{Whitney}}
-		Let $M, N$ be two smooth manifolds and consider the manifold\footnote{This manifold will be constructed further down this section in the case of fibre bundles.} of $k$-jets $J^k(M, N)$. A basis for the Whitney $C^k$-topology on $C^\infty(M, N)$ is given by the sets
-		\begin{gather}
-			S^k(U) = \{f\in C^\infty(M, N):J^kf\in U\}
-		\end{gather}
-		where $U$ is open in $J^k(M, N)$.
-	}
+    \newdef{Whitney $C^k$-topology}{\index{Whitney!$C^k$-topology}\index{$C^k$-topology|seealso{Whitney}}
+        Let $M, N$ be two smooth manifolds and consider the manifold\footnote{This manifold will be constructed further down this section in the case of fibre bundles.} of $k$-jets $J^k(M, N)$. A basis for the Whitney $C^k$-topology on $C^\infty(M, N)$ is given by the sets
+        \begin{gather}
+            S^k(U) := \{f\in C^\infty(M, N):J^kf\in U\}
+        \end{gather}
+        where $U$ is open in $J^k(M, N)$.
+    }
 
-	\remark{The $k$-jet construction is easily carried over to the theory of bundles. To construct the jet space of sections on a (smooth) fibre bundle $(E, B, \pi)$ one just sets $M=B$ and $N=E$ in the previous definition. From this point on we will restrict to this case.}
+    \remark{The $k$-jet construction is easily carried over to the theory of bundles. To construct the jet space of sections on a (smooth) fibre bundle $(E, B, \pi)$ one just sets $M=B$ and $N=E$ in the previous definition. From this point on we will restrict to this case.}
 
-	\newdef{Jet manifold}{
-		Consider a fibre bundle $(E, B, \pi)$. The $r$-jet manifold $J^r(\pi)$ of the projection $\pi$ is defined as:
-		\begin{gather}
-			J^r(\pi) = \{j_p^r\sigma: \sigma\in\Gamma(E), p\in B\}
-		\end{gather}
-		The set $J^0(\pi)$ is identified with the total space $E$.
-	}
+    \newdef{Jet manifold}{
+        Consider a fibre bundle $(E, B, \pi)$. The $r$-jet manifold $J^r(\pi)$ of the projection $\pi$ is defined as follows:
+        \begin{gather}
+            J^r(\pi) := \{j_p^r\sigma: \sigma\in\Gamma(E), p\in B\}.
+        \end{gather}
+        The set $J^0(\pi)$ is identified with the total space $E$.
+    }
 
-	\newdef{Jet projections}{
-		Let $(E, B, \pi)$ be a fibre bundle with $r$-jet manifolds $J^r(\pi)$. The \textbf{source projection} $\pi_r$ and \textbf{target projection} $\pi_{r, 0}$ are defined as the maps
-		\begin{align}
-			\pi_r&:J^r(\pi)\rightarrow B:j_p^r\sigma\mapsto p\\
-			\pi_{r, 0}&:J^r(\pi)\rightarrow E:j_p^r\sigma\mapsto \sigma(p)
-		\end{align}
-		These projections satisfy $\pi_r = \pi\circ\pi_{r, 0}$. We can also define a \textbf{$k$-jet projection} $\pi_{r, k}$ as the map
-		\begin{gather}
-			\pi_{r, k}:J^r(\pi)\rightarrow J^k(\pi):j_p^r\sigma\mapsto j_p^k\sigma
-		\end{gather}
-		where $k\leq r$. The $k$-jet projections satisfy a transitivity property $j_{k, m} = j_{r, m}\circ j_{k, r}$.
-	}
-	\newdef{Jet prolongation}{
-		Let $\sigma$ be a section on a fibre bundle $\pi:E\rightarrow B$. The $r$-jet prolongation $j^r\sigma$ corresponding to $\sigma$ is defined as the following map:
-		\begin{gather}
-			j^r\sigma:B\rightarrow J^r(\pi):p\mapsto j_p^r\sigma
-		\end{gather}
-	}
+    \newdef{Jet projections}{
+        Let $(E, B, \pi)$ be a fibre bundle with $r$-jet manifolds $J^r(\pi)$. The \textbf{source projection} $\pi_r$ and \textbf{target projection} $\pi_{r, 0}$ are defined as the maps
+        \begin{align}
+            \pi_r&:J^r(\pi)\rightarrow B:j_p^r\sigma\mapsto p\\
+            \pi_{r, 0}&:J^r(\pi)\rightarrow E:j_p^r\sigma\mapsto \sigma(p).
+        \end{align}
+        These projections satisfy $\pi_r = \pi\circ\pi_{r, 0}$. We can also define a \textbf{$k$-jet projection} $\pi_{r, k}$ as the map
+        \begin{gather}
+            \pi_{r, k}:J^r(\pi)\rightarrow J^k(\pi):j_p^r\sigma\mapsto j_p^k\sigma
+        \end{gather}
+        where $k\leq r$. The $k$-jet projections satisfy the transitivity property $j_{k, m} = j_{r, m}\circ j_{k, r}$.
+    }
+    \newdef{Jet prolongation}{
+        Let $\sigma$ be a section of a fibre bundle $\pi:E\rightarrow B$. The $r$-jet prolongation $j^r\sigma$ corresponding to $\sigma$ is defined as the following map:
+        \begin{gather}
+            j^r\sigma:B\rightarrow J^r(\pi):p\mapsto j_p^r\sigma.
+        \end{gather}
+    }
 
-	\newdef{Jet bundle}{
-		The $r$-jet bundle corresponding to the projection $\pi$ is then defined as the triple $(J^r(\pi), B, \pi_r)$. The bundle charts $(U_i, \varphi_i)$\footnote{Where $\varphi_i = (x^k, u^\alpha)$ with $x^k$ the base space coordinates and $u^\alpha$ the total space coordinates.} on $E$ define \textit{induced} bundle charts on $J^r(\pi)$ in the following way:
-		\begin{align}
-			U_i^r &= \{j_p^r\sigma: \sigma(p)\in U_i\}\\\nonumber\\
-			\varphi_i^r &= \left(x^k, u^\alpha, \left.\mpderiv{I}{u^\alpha}{x}\right|_p \right)
-		\end{align}
-		where $I$ is a multi-index such that $0\leq|I|\leq r$. The partial derivatives $\left.\mpderiv{I}{u^\alpha}{x}\right|_p$ are called the \textbf{derivative coordinates} on $J^r(\pi)$.
-	}
+    \newdef{Jet bundle}{
+        The $r$-jet bundle corresponding to the projection $\pi$ is defined as the triple $(J^r(\pi), B, \pi_r)$. The bundle charts $(U_i, \varphi_i)$\footnote{Where $\varphi_i = (x^k, u^\alpha)$ with $x^k$ the base space coordinates and $u^\alpha$ the total space coordinates.} on $E$ define induced bundle charts on $J^r(\pi)$ in the following way:
+        \begin{align}
+            U_i^r &:= \{j_p^r\sigma: \sigma(p)\in U_i\}\\\nonumber\\
+            \varphi_i^r &:= \left(x^k, u^\alpha, \left.\mpderiv{I}{u^\alpha}{x}\right|_p \right)
+        \end{align}
+        where $I$ is a multi-index such that $0\leq|I|\leq r$. The partial derivatives \[\left.\mpderiv{I}{u^\alpha}{x}\right|_p\] are called the \textbf{derivative coordinates} on $J^r(\pi)$.
+    }
 
-	\newdef{Holonomic section}{\index{section!holonomic}
-		Consider a fibre bundle $\pi:E\rightarrow M$. A (local) section $\sigma$ of $\pi$ gives rise to a (local) section of $\pi_r$ given by the $r$-jet prolongation of $\sigma$. Sections of $J^r(E)$ which lie in the image of $j^r$ are said to be holonomic.
-	}
-
-	\newdef{Generalized vector field}{\index{vector field!generalized}
-		Consider a fibre bundle $E\rightarrow M$. A generalized vector field on $E$ is a (smooth) map $J^k(E)\rightarrow TE$ for some $k\in\mathbb{N}$. Intuitively it is a vector field with coefficients in some jet space of $E$.
-	}
+    \newdef{Holonomic section}{\index{section!holonomic}
+        Consider a fibre bundle $\pi:E\rightarrow M$. A (local) section $\sigma$ of $\pi$ gives rise to a (local) section of $\pi_r$ given by the $r$-jet prolongation of $\sigma$. Sections of $J^r(E)$ which lie in the image of $j^r$ are said to be holonomic.
+    }
 
 \subsection{Contact structure}
 
-	Every jet space $J^k$ carries a natural constact structure\footnote{See chapter \ref{diff:chapter:contact}.}:
-	\newdef{Contact form}{\index{Cartan!distribution}
-		Given a fibre bundle $\pi:E\rightarrow M$ and one of its jet bundles $J^k(E)$, we say that a differential form $\omega\in\Omega^\bullet(J^k(E))$ is a contact form if it is annihilated by all jet prolongations, i.e. $(j^{k+1}\sigma)^*\omega=0$ for all sections $\sigma\in\Gamma(E)$.
+    Every jet space $J^k$ carries a natural constact structure\footnote{See chapter \ref{diff:chapter:contact}.}:
+    \newdef{Contact form}{\index{contact!form}\index{Cartan!distribution}
+        Given a fibre bundle $\pi:E\rightarrow M$ and one of its jet bundles $J^k(E)$, we say that a differential form $\omega\in\Omega^\bullet(J^k(E))$ is a contact form if it is annihilated by all jet prolongations, i.e. $(j^{k+1}\sigma)^*\omega=0$ for all sections $\sigma\in\Gamma(E)$.
 
-		The space of such contact forms generates a differential ideal and this in turn defines a distribution, called the \textbf{Cartan distribution}. For finite order jet spaces this distribution is completely non-integrable, however for infinite jet bundles (where the Frobenius theorem does not need to hold) the distribution becomes involutive and integrable.
+        The space of such contact forms generates a differential ideal and this in turn defines a distribution, called the \textbf{Cartan distribution}. For finite order jet spaces this distribution is completely non-integrable, however for infinite jet bundles (where the Frobenius theorem need not hold) the distribution becomes involutive and integrable.
 
-		Locally the differential ideal is generated by the following contact forms:
-		\begin{gather}
-			\theta_I^\alpha = du^\alpha_I - \sum_i u^\alpha_{I, i}dx^i
-		\end{gather}
-		where the $x^i$ are the independent variables and the $u^\alpha_I$ are the dependent variables.
-	}
+        Locally the differential ideal is generated by the following contact forms:
+        \begin{gather}
+            \theta_I^\alpha := du^\alpha_I - \sum_i u^\alpha_{I, i}dx^i
+        \end{gather}
+        where the $x^i$ are the independent variables and the $u^\alpha_I$ are the dependent variables.
+    }
 
-	Now consider a vector field $X$ on the total space $E$. Then there exists a vector field on $J^k(E)$, called the prolongation of $X$:
-	\newdef{Prolongation}{\index{prolongation}
-		Given a vector field $X$ on a bundle $E\rightarrow M$ there exists a unique vector field $j^kE$ on the jet bundle $J^k(E)$ defined by the following conditions:
-		\begin{enumerate}
-			\item $X$ and $j^kX$ coincide on sections of $E$.
-			\item $j^kX$ preserves the contact ideal, i.e. if $\theta$ is a contact form then $\mathcal{L}_{j^kX}\theta$ is also a contact form.
-		\end{enumerate}
-	}
+    Now consider a vector field $X$ on the total space $E$. There exists a vector field on $J^k(E)$, called the prolongation of $X$:
+    \newdef{Prolongation}{\index{prolongation}
+        Given a vector field $X$ on a fibre bundle $\pi:E\rightarrow M$ there exists a unique vector field $j^kE$ on the jet bundle $J^k(E)$ defined by the following conditions:
+        \begin{enumerate}
+            \item $X$ and $j^kX$ coincide on sections of $E$.
+            \item $j^kX$ preserves the contact ideal, i.e. if $\theta$ is a contact form then $\mathcal{L}_{j^kX}\theta$ is also a contact form.
+        \end{enumerate}
+    }
 
-\subsection{Partial differential equations}
+\subsection{Partial differential equations}\index{PDE}
 
-	In this section we consider partial differential equations of the form
-	\begin{gather}
-		\label{diff:pde_jet}
-		f(x^i, u, u_i, u_{i,j}, ...) = 0
-	\end{gather}
-	for a given smooth function $f$. It is obvious that one can regard $f$ as a function on the jet bundle $J^k(\mathbb{R}^m)$ where $k$ is the order of the highest derivative and $m$ is the number of independent variables.
+    In this section we consider partial differential equations of the form
+    \begin{gather}
+        \label{diff:pde_jet}
+        f(x^i, u, u_i, u_{i,j}, ...) = 0
+    \end{gather}
+    for a given smooth function $f$. It is obvious that one can regard $f$ as a function on the jet bundle $J^k(\mathbb{R}^m)$ where $k$ is the order of the highest derivative and $m$ is the number of independent variables.
 
-	\newdef{Solution}{
-		In this framework one can define a solution of the PDE \ref{diff:pde_jet} as a function $u$ satisfying $f\circ j^ku=0$.
-	}
+    \newdef{Solution}{
+        In this framework one can define a solution of the above PDE as a function $u$ satisfying $f\circ j^ku=0$.
+    }
 
 \subsection{Pseudogroups}
 
-	\begin{example}[Diffeomorphism jets]
-		Let $M$ be a smooth manifold. Consider the set $\mathcal{D}^{\text{a}}_{\text{local}}(M)$ of local analytic diffeomorphisms $\phi:M\rightarrow M:z\mapsto\phi(z)\equiv Z$. The locality property turns this set into a (smooth) pseudogroup\footnote{See definition \ref{topology:pseudogroup}.}.
+    \begin{example}[Diffeomorphism jets]
+        Let $M$ be a smooth manifold. Consider the set $\mathcal{D}^{\text{an}}_{\text{local}}(M)$ of local analytic diffeomorphisms $\phi:M\rightarrow M:z\mapsto\phi(z)\equiv Z$. The locality property turns this set into a (smooth) pseudogroup\footnote{See definition \ref{topology:pseudogroup}.}.
 
-		By the inverse function theorem one can define the diffeomorphism jet bundle $D^r(M)$ as the subbundle of $J^r(M)$ for which \[\det\left(\pderiv{Z^\alpha}{z^\beta}\right)\neq0\] It is also possible to endow this jet bundle with the structure of a groupoid\footnote{See definition \ref{cat:groupoid}.}. Using the source and target projections one can check that two two elements $g^{(r)}, h^{(r)}\in D^r(M)$ can be multiplied if and only $\pi_r(h^{(r)}) = \pi_{r, 0}(g^{(r)})$. The derivative coordinates can be found using the \textit{Fa\'a di Bruno formula}.
+        By the inverse function theorem one can define the diffeomorphism jet bundle $D^r(M)$ as the subbundle of $J^r(M)$ for which \[\det\left(\pderiv{Z^\alpha}{z^\beta}\right)\neq0.\] It is also possible to endow this jet bundle with the structure of a groupoid\footnote{See definition \ref{cat:groupoid}.}. Using the source and target projections one can check that two elements $g^{(r)}, h^{(r)}\in D^r(M)$ can be multiplied if and only if $\pi_r(h^{(r)}) = \pi_{r, 0}(g^{(r)})$. The derivative coordinates can be found using the \textit{Fa\'a di Bruno formula}.
 
-		Furthermore every pseudogroup $\mathcal{G}\subset\mathcal{D}$ induces a jet bundle/Lie-subgroupoid $\mathcal{G}^{(r)}\subset\mathcal{D}^{(r)}$. This structure gives rise to the following notions:
-	\end{example}
-	\newdef{Regular pseudogroup}{\index{pseudo!group}\index{regular!pseudogroup}\index{order}
-	Consider a smooth manifold $M$. Let $\mathcal{D}(M)$ be its diffeomorphism pseudogroup and let $\mathcal{G}\subset\mathcal{D}$ be another pseudogroup. If there exists an $N\in\mathbb{N}_0$, where $N$ is called the \textbf{order}, such that for all $r\geq N$ the jets $\pi_r:\mathcal{G}^{(r)}\rightarrow M$ form an embedded submanifold of $\Pi_r:\mathcal{D}^{(r)}\rightarrow M$ and such that the jet projections $\pi_{r+1, r}:\mathcal{G}^{(r+1)}\rightarrow\mathcal{G}^{(r)}$ are fibrations then we say that $\mathcal{G}$ is a regular pseudogroup.
-	}
-	\newdef{Lie pseudogroup}{\index{Lie!pseudogroup}
-		Let $\mathcal{G}\subset\mathcal{D}$ be a regular analytic pseudogroup of order $N$. If every local diffeomorphism $\phi\in\mathcal{D}$ satisfying $j^N\phi\in\mathcal{G}^{(N)}$ is also an element of $\mathcal{G}$ then $\mathcal{G}$ is called a Lie pseudogroup.
-	}
-	\begin{property}
-		Let $\mathcal{G}$ be a Lie pseudogroup of order $N$. The regularity condition implies that the jet bundle $\mathcal{G}^{(r)}$ is described by a set of $r^{th}$-order partial differential equations \[F\left(z, Z^{(r)}\right) = 0\] The (local) solutions to these equations are exactly the analytic functions which have $(z_0, Z^{(r)}_0)$ as local coordinates of their $r$-jet at $z_0\in M$.
+        Furthermore, every pseudogroup $\mathcal{G}\subset\mathcal{D}$ induces a jet bundle/Lie-subgroupoid $\mathcal{G}^{(r)}\subset\mathcal{D}^{(r)}$. This structure gives rise to the following notions:
+    \end{example}
+    \newdef{Regular pseudogroup}{\index{pseudo!group}\index{regular!pseudogroup}\index{order}
+        Consider a smooth manifold $M$. Let $\mathcal{D}(M)$ be its diffeomorphism pseudogroup and let $\mathcal{G}\subset\mathcal{D}$ be another pseudogroup. If there exists an $N\in\mathbb{N}_0$, where $N$ is called the \textbf{order}, such that for all $r\geq N$ the jets $\pi_r:\mathcal{G}^{(r)}\rightarrow M$ form an embedded submanifold of $\Pi_r:\mathcal{D}^{(r)}\rightarrow M$ and such that the jet projections $\pi_{r+1, r}:\mathcal{G}^{(r+1)}\rightarrow\mathcal{G}^{(r)}$ are fibrations then we say that $\mathcal{G}$ is a regular pseudogroup.
+    }
+    \newdef{Lie pseudogroup}{\index{Lie!pseudogroup}
+        Let $\mathcal{G}\subset\mathcal{D}$ be a regular analytic pseudogroup of order $N$. If every local diffeomorphism $\phi\in\mathcal{D}$ satisfying $j^N\phi\in\mathcal{G}^{(N)}$ is also an element of $\mathcal{G}$ then $\mathcal{G}$ is called a Lie pseudogroup.
+    }
+    \begin{property}
+        Let $\mathcal{G}$ be a Lie pseudogroup of order $N$. The regularity condition implies that the jet bundle $\mathcal{G}^{(r)}$ is described by a set of $r^{th}$-order partial differential equations \[F\left(z, Z^{(r)}\right) = 0.\] The (local) solutions to these equations are exactly the analytic functions which have $(z_0, Z^{(r)}_0)$ as local coordinates of their $r$-jet at $z_0\in M$.
 
-		The Lie condition on $\mathcal{G}$ implies that every solution to the system is in fact an element of $\mathcal{G}$. This system of equations is called the \textbf{determining system} of the Lie pseudogroup.
-	\end{property}
+        The Lie condition on $\mathcal{G}$ implies that every solution to the system is in fact an element of $\mathcal{G}$. This system of equations is called the \textbf{determining system} of the Lie pseudogroup.
+    \end{property}
 
-	\newdef{Lie completion}{\index{Lie!completion}
-		Let $\mathcal{G}$ be a regular pseudogroup. The Lie completion $\overline{\mathcal{G}}$ of $\mathcal{G}$ is defined as the set of all (local) analytic diffeomorphisms solving the determining system of $\mathcal{G}$. This completion is itself a Lie pseudogroup. If $\mathcal{H}$ is a Lie pseudogroup then $\overline{\mathcal{H}}=\mathcal{H}$.
-	}
+    \newdef{Lie completion}{\index{Lie!completion}
+        Let $\mathcal{G}$ be a regular pseudogroup. The Lie completion $\overline{\mathcal{G}}$ of $\mathcal{G}$ is defined as the set of all (local) analytic diffeomorphisms solving the determining system of $\mathcal{G}$. This completion is itself a Lie pseudogroup. If $\mathcal{H}$ is a Lie pseudogroup then $\overline{\mathcal{H}}=\mathcal{H}$.
+    }
+
+    ?? COMPLETE (IS THIS EVEN USEFUL?) ??
 
 \input{Diff/VectorBundles}
 
-
 \chapter{Principal Bundles}\label{manifolds:section:principal_bundles}
 
-References for this chapter are \cite{principal_bundles}.
+    References for this chapter are \cite{principal_bundles}.
 
 \section{Principal bundles}
 
-	\begin{definition}[Principal bundle]\index{principal!bundle}
-		A principal bundle is a fibre bundle $P$ together with a right action $\rho:P\times G\rightarrow P$ that satisfies two properties:
-		\begin{itemize}
-			\item Free action\footnote{See definition \ref{group:free_action}.}: This implies that the orbits are isomorphic to the structure group.
-			\item Fibrewise transitivity\footnote{See definition \ref{group:transitive}.}: This action preserves fibres, i.e. $y\cdot g\in F_b$ for all $y\in F_b, g\in G$ which implies that the fibres over $B$ are exactly the orbits of $\rho$.
-		\end{itemize}
-		Together these properties imply that the typical fibre $F$ and structure group $G$ can be identified.
-	\end{definition}
-	\begin{property}
-		A corrolary of this definition is that the bundle $E\xrightarrow{\pi}M$ is isomorphic to the bundle $E\xrightarrow{\rho}E/G$ where $E/G$ denotes the orbit space of $E$ with respect to the $G$-action and $\rho$ is the projection onto an equivalence class in the orbit space. (This property could have been used as part of the definition instead of the fibrewise transitivity.)
-	\end{property}
-	\begin{remark}\index{torsor}
-		We remark that although the fibres are homeomorphic to $G$, they do not carry a group structure due to the lack of a distinct identity element. This turns them into G-torsors\footnote{See definition \ref{group:torsor}.}. However it is possible to locally (i.e. in a neighbourhood of a point $p\in M$), but not globally, endow the fibres with a group structure by choosing an element of every fibre to be identity element.
-	\end{remark}
+    \begin{definition}[Principal bundle]\index{principal!bundle}
+        A principal bundle is a (smooth) fibre bundle $P$ together with a right action $\rho:P\times G\rightarrow P$ that satisfies two properties:
+        \begin{enumerate}
+            \item \textbf{Free action}\footnote{See definition \ref{group:free_action}.}: This implies that the orbits are isomorphic to the structure group.
+            \item \textbf{Fibrewise transitivity}\footnote{See definition \ref{group:transitive}.}: The action preserves fibres, i.e. $y\cdot g\in F_b$ for all $y\in F_b, g\in G$. In turn this implies that the fibres over $B$ are exactly the orbits of $\rho$.
+        \end{enumerate}
+        Together these properties imply that the typical fibre $F$ and structure group $G$ can be identified. The right action of $G$ on $P$ will often be denoted by $R_g$ (unless this would give conflicts with the same notation for the action of $G$ on itself).
+    \end{definition}
+    \begin{remark}\index{torsor}
+        We remark that although the fibres are homeomorphic to $G$, they do not carry a group structure due to the lack of a distinct identity element. This turns them into G-torsors\footnote{See definition \ref{group:torsor}.}. However, it is possible to locally (i.e. in a neighbourhood of a point $p\in M$) endow the fibres with a group structure by choosing an element of every fibre to be the identity element.
+    \end{remark}
+    \begin{property}
+        A corollary of this definition is that the bundle $\pi:E\rightarrow M$ is isomorphic to the bundle $\rho:E\rightarrow E/G$ where $E/G$ denotes the orbit space of $E$ with respect to the $G$-action and $\rho$ is the projection onto an equivalence class in the orbit space. (This property could have been used as part of the definition instead of the fibrewise transitivity.)
+    \end{property}
 
-	\begin{property}[Dimension]
-		The dimension of $P$ is given by:
-		\begin{gather}
-			\label{manifolds:principal_bundle_dimension}
-			\dim P = \dim M + \dim G
-		\end{gather}
-	\end{property}
+    \begin{property}[Dimension]
+        The dimension of $P$ is given by
+        \begin{gather}
+            \label{manifolds:principal_bundle_dimension}
+            \dim P = \dim M + \dim G.
+        \end{gather}
+    \end{property}
 
-	\begin{property}
-		Every local trivialization $\varphi_i$ is $G$-equivariant:
-		\begin{gather}
-			\varphi_i(z\cdot g) = \varphi_i(z)\cdot g
-		\end{gather}
-	\end{property}
+    \begin{property}
+        Every local trivialization $\varphi_i$ is $G$-equivariant:
+        \begin{gather}
+            \varphi_i(z\cdot g) = \varphi_i(z)\cdot g.
+        \end{gather}
+    \end{property}
 
-	\newdef{Principal bundle map}{\index{bundle!map}
-		A bundle map $F:P_1\rightarrow P_2$ between principal $G$-bundles is a pair of smooth maps $(f_B, f_P)$ such that:
-		\begin{enumerate}
-			\item $(f_B, f_P)$ is a bundle map in the sense of fibre bundles.
-			\item $f_P$ is $G$-equivariant\footnotemark.
-		\end{enumerate}
-		The map $f_P$ is said to \textbf{cover} $f_B$.
-		\footnotetext{See definition \ref{group:equivariant}.}
-	}
+    \newdef{Principal bundle map}{\index{bundle!map}
+        A bundle map $F:P_1\rightarrow P_2$ between principal $G$-bundles is a pair of smooth maps $(f_B, f_P)$ such that:
+        \begin{enumerate}
+            \item $(f_B, f_P)$ is a bundle map in the sense of fibre bundles.
+            \item $f_P$ is $G$-equivariant\footnote{See definition \ref{group:equivariant}.}.
+        \end{enumerate}
+        The map $f_P$ is said to \textbf{cover} $f_B$.
+    }
 
-	\newdef{Vertical automorphism}{\index{vertical!automorphism}\index{gauge!transformation}
-		Consider a principal $G$-bundle $\pi:P\rightarrow M$. An automorphism $f$ of this bundle\footnote{In fact one could easily generalize this notion to a general fibre bundle.} is said to be vertical if it covers the identity, i.e. $\pi\circ f = \pi$. It is exactly this subgroup Aut$_V(P)\subset\text{Aut}(P)$ which is known as the \textbf{group of gauge transformations} or \textbf{gauge group}\footnote{Do not confuse with the structure group $G$ which is also sometimes called the gauge group in physics.} in physics.
-	}
+    We the following analogue of a property for general bundle maps:
+    \begin{property}
+        Every principal bundle map covering the identity is in fact a principal bundle isomorphism.
+    \end{property}
 
-	\begin{property}
-		Any principal bundle morphism between two $G$-bundles over the same base manifold which covers the identity is an isomoprhism.
-	\end{property}
+    \newdef{Vertical automorphism}{\index{vertical!automorphism}\index{gauge!transformation}
+        Consider a principal $G$-bundle $\pi:P\rightarrow M$. An automorphism $f$ of this bundle\footnote{In fact one could easily generalize this notion to a general fibre bundle.} is said to be vertical if it covers the identity, i.e. $\pi\circ f = \pi$. It is the subgroup $\text{Aut}_V(P)\subset\text{Aut}(P)$ of vertical automorphisms that is known as the \textbf{group of gauge transformations} or \textbf{gauge group}\footnote{This should not be confused with the structure group $G$, which is also sometimes called the gauge group in physics.} in physics.
+    }
 
 \subsection{Associated bundles}
 
-	\begin{construct}[Associated principal bundle]
-		For every fibre bundle we can construct an associated principal $G$-bundle by replacing the fibre $F$ by $G$ itself using the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} where the left action of $G$ is given by left multiplication in $G$.
-	\end{construct}
+    \begin{construct}[Associated principal bundle]
+        For every fibre bundle we can construct an associated principal $G$-bundle by replacing the fibre $F$ by $G$ itself using the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} where the left action of $G$ is given by left multiplication in $G$.
+    \end{construct}
 
-	\begin{property}
-		A fibre bundle $\xi$ is trivial if and only if the associated principal bundle is trivial. More generally, two fibre bundles are isomorphic if and only if their associated principal bundles are isomorphic.
-	\end{property}
+    \begin{property}
+        A fibre bundle $\xi$ is trivial if and only if the associated principal bundle is trivial. More generally, two fibre bundles are isomorphic if and only if their associated principal bundles are isomorphic.
+    \end{property}
 
-	\begin{example}[Frame bundle]\index{frame!bundle}\index{frame}\label{bundles:frame_bundle}
-		Let $V$ be an $n$-dimensional vector space. Denote the set of ordered bases (or \textbf{frames}) of $V$ by $F(V)$. It follows from the fact that every basis transformation is given by the action of an element of the general linear group that $F(V)$ is isomorphic to $\text{GL}(V)\cong\text{GL}(\mathbb{R}^n)$.
+    \begin{example}[Frame bundle]\index{frame!bundle}\index{frame}\label{bundles:frame_bundle}
+        Let $V$ be an $n$-dimensional vector space. Denote the set of ordered bases (or \textbf{frames}) of $V$ by $F(V)$. It follows from the fact that every basis transformation is given by the action of an element of the general linear group that $F(V)$ is isomorphic to $\text{GL}(V)\cong\text{GL}(\mathbb{R}^n)$.
 
-		Given an $n$-dimensional vector bundle $E$ we can thus construct an associated principal bundle by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong$ GL$(\mathbb{R}^n)$. The right action on this bundle by $g\in\text{GL}(\mathbb{R}^n)$ is given by the basis transformation $\widetilde{e}_j = g^i_je_i$.
-	\end{example}
-	\begin{property}[Trivial vector bundles]\label{diff:prop:trivial_vector_bundle_frames}
-		Property \ref{diff:prop:trivial_vector_bundle} can now be reformulated as follows: A vector bundle is trivial if and only if its associated frame bundle admits a global section.
-	\end{property}
+        Given an $n$-dimensional vector bundle $E$ we can thus construct an associated principal bundle by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong$ GL$(\mathbb{R}^n)$. The right action on this bundle by $g\in\text{GL}(\mathbb{R}^n)$ is given by the basis transformation $\widetilde{e}_j = g^i_je_i$.
+    \end{example}
 
-	\begin{construct}[Associated bundle to a principal bundle]
-		Consider a principal bundle $\prin{G}{P}{M}$ and let $F$ be a smooth manifold equipped with a left $G$-action $\vartriangleright$. One can then construct an associated bundle $P_F \equiv P \times_\vartriangleright F$ in the following way:
-		\begin{enumerate}
-			\item Define an equivalence relation $\sim_G$ on the product manifold $P\times F$ by:
-			\begin{gather}
-				\label{diff:prin:associated_bundle_equivalence}
-				(p, f)\sim_G (p', f')\iff \exists g\in G: (p', f') = (p\cdot g, g^{-1}\vartriangleright f)
-			\end{gather}
-			\item The total space of the associated bundle is then given by the following quotient manifold:
-			\begin{gather}
-				P_F := (P\times F)/\sim_G
-			\end{gather}
-			\item The projection map $\pi_F:P_F\rightarrow M$ is defined as
-			\begin{gather}
-				\pi_F:[p, f]\mapsto \pi(p)
-			\end{gather}
-			where $[p, f]$ is the equivalence class of $(p, f)\in P\times F$ in the quotient manifold $P_F$.
-		\end{enumerate}
-	\end{construct}
+    \begin{construct}[Associated bundle to a principal bundle]\index{associated!bundle}
+        Consider a principal bundle $\prin{G}{P}{M}$ and let $F$ be a smooth manifold equipped with a left $G$-action $\vartriangleright$. One can then construct an associated bundle $P_F \equiv P \times_\vartriangleright F$ in the following way:
+        \begin{enumerate}
+            \item Define an equivalence relation $\sim_G$ on the product manifold $P\times F$ by
+                \begin{gather}
+                    \label{diff:prin:associated_bundle_equivalence}
+                    (p, f)\sim_G (p', f')\iff \exists g\in G: (p', f') = (p\cdot g, g^{-1}\vartriangleright f).
+                \end{gather}
+            \item The total space of the associated bundle is then given by the following quotient manifold:
+                \begin{gather}
+                    P_F := (P\times F)/\sim_G.
+                \end{gather}
+            \item The projection map $\pi_F:P_F\rightarrow M$ is defined as
+                \begin{gather}
+                    \pi_F:[p, f]\mapsto \pi(p)
+                \end{gather}
+            where $[p, f]$ is the equivalence class of $(p, f)\in P\times F$ in the quotient manifold $P_F$.
+        \end{enumerate}
+    \end{construct}
 
-	\begin{example}[Tangent bundle]
-		Starting from the frame bundle $F(M)$ over a manifold $M$ one can reconstruct (up to a bundle isomorphism) the tangent bundle $TM$ in the following way:
+    \begin{example}[Tangent bundle]
+        Starting from the frame bundle $F(M)$ over a manifold $M$ one can reconstruct (up to a bundle isomorphism) the tangent bundle $TM$ in the following way:
 
-		Consider the left $G$-action $\vartriangleright$ given by:
-		\begin{gather}
-			\vartriangleright:G\times\mathbb{R}^n\rightarrow\mathbb{R}^n : (g\vartriangleright f)^i = g^i_{\ j}f^j
-		\end{gather}
-		The tangent bundle is bundle isomorphic to the associated bundle $LM\times_\vartriangleright \mathbb{R}^n$ where the bundle map is defined as $[e, v]\mapsto v^ie_i \in TM$.
-	\end{example}
+        Consider the left $G$-action $\vartriangleright$ given by
+        \begin{gather}
+            \vartriangleright:G\times\mathbb{R}^n\rightarrow\mathbb{R}^n : (g\vartriangleright f)^i = g^i_{\ j}f^j.
+        \end{gather}
+        The tangent bundle is isomorphic to the associated bundle $LM\times_\vartriangleright \mathbb{R}^n$ where the bundle map is defined as $[e, v]\mapsto v^ie_i \in TM$.
+    \end{example}
 
-	\begin{construct}[Associated bundle map]\index{bundle!map}
-		Given principal bundle map, denoted by $(f_P, f_B)$, between two principal bundles one can construct an associated bundle map between any two of their associated bundles with the same typical fibre in the following way:
-		\begin{enumerate}
-			\item The total space map $\widetilde{f}_P:P\times_G F\rightarrow P\times_{G'} F$ is given by:
-			\begin{gather}
-				\widetilde{f}_P([p, f]) = [f_P(p), f]
-			\end{gather}
-			\item the base space map is simply given by $f_B$ itself:
-			\begin{gather}
-				\widetilde{f}_B(b) = f_B(b)
-			\end{gather}
-		\end{enumerate}
-	\end{construct}
+    \begin{construct}[Associated bundle map]\index{bundle!map}
+        Given a principal bundle map $(f_P, f_B)$ between two principal bundles one can construct an associated bundle map between any two of their associated bundles with the same typical fibre in the following way:
+        \begin{enumerate}
+            \item The total space map $\widetilde{f}_P:P\times_G F\rightarrow P\times_{G'} F$ is given by
+                \begin{gather}
+                    \widetilde{f}_P([p, f]) := [f_P(p), f].
+                \end{gather}
+            \item The base space map is simply given by $f_B$ itself:
+                \begin{gather}
+                    \widetilde{f}_B(b) = f_B(b).
+                \end{gather}
+        \end{enumerate}
+    \end{construct}
 
 \subsection{Sections}
 
-	Although every vector bundle has at least one global section, the \textbf{zero section}\footnotemark, a general principal bundle does not necessarily have a global section. This is made clear by the following property:
-	\footnotetext{This is the map $s:b\rightarrow\vector{0}$ for all $b\in B$.}
-	\begin{property}
-		A principal $G$-bundle $P$ is trivial if and only if there exists a global section on $P$. Furthermore, there exists a bijection between the set of all global sections $\Gamma(P)$ and the set of trivializations $\text{Triv}(P)$.
-	\end{property}
+    Although every vector bundle has at least one global section, the \textbf{zero section}\footnote{This is the map $s:b\rightarrow\mathbf{0}$ for all $b\in B$.}, a general principal bundle does not necessarily have a global section. This is made clear by the following property:
+    \begin{property}
+        A principal $G$-bundle $P$ is trivial if and only if there exists a global section of $P$. Furthermore, there exists a bijection between the set of global sections $\Gamma(P)$ and the set of trivializations $\text{Triv}(P)$.
+    \end{property}
 
-	\begin{result}\label{diff:prin_section_triv}
-		Every local section $\sigma:U\rightarrow P$ induces a local trivialization $\varphi$ by:
-		\begin{gather}
-			\varphi^{-1}:(m, g)\mapsto \sigma(m)\cdot g
-		\end{gather}
-	\end{result}
+    \begin{result}\label{diff:prin_section_triv}
+        Every local section $\sigma:U\rightarrow P$ induces a local trivialization $\varphi$ by
+        \begin{gather}
+            \varphi^{-1}:(m, g)\mapsto \sigma(m)\cdot g.
+        \end{gather}
+    \end{result}
 
-	Property \ref{diff:prop:trivial_vector_bundle_frames} can also be stated as follows:
-	\begin{property}
-		A vector bundle is trivial if and only if its associated principal bundle is trivial.
-	\end{property}
+    \begin{property}[Trivial vector bundles]
+        Property \ref{diff:prop:trivial_vector_bundle} can now be reformulated as follows: A vector bundle is trivial if and only if its associated frame bundle admits a global section. This can easily be interpreted as follows: If one can for every fibre choose a basis in a smooth way, then one can also express the restriction of any vector field to a fibre in terms of this basis in a smooth way.
+    \end{property}
 
-	\begin{property}\label{diff:prin:section_bijection}\index{Higgs!field}
-		Let $\prb$ be a principal bundle and let $P_F$ be an associated bundle. There exists a bijection between the sections of $P_F$ and the $G$-equivariant maps $\phi:P\rightarrow F$, i.e. maps satisfying $\phi(p\cdot g) = g^{-1}\cdot\phi(p)$.
+    \begin{property}\label{diff:prin:section_bijection}\index{Higgs!field}
+        Let $\prb$ be a principal bundle and let $P_F$ be an associated bundle. There exists a bijection between the sections of $P_F$ and the $G$-equivariant maps $\phi:P\rightarrow F$, i.e. maps satisfying $\phi(p\cdot g) = g^{-1}\cdot\phi(p)$.
 
-		An explicit correspondence is given by:
-		\begin{gather}
-			\sigma_\phi:M\rightarrow P_F:m\mapsto [p, \phi(p)]
-		\end{gather}
-		where $p$ is any point\footnote{This is well defined due to equation \ref{diff:prin:associated_bundle_equivalence}.} in $\pi^{-1}(\{m\})$. In the other direction we find:
-		\begin{gather}
-			\label{diff:prin:section_bijection_phi}
-			\phi_\sigma:P\rightarrow F: p\mapsto j_p^{-1}\circ\sigma(\pi(p))
-		\end{gather}
-		where $j_p:F\rightarrow P_F:f\mapsto[p, f]$ is a bijection. Either of these maps ($\phi_\sigma$ or $\sigma_\phi$) is called a \textbf{Higgs field} in the physics literature.
-	\end{property}
+        An explicit correspondence is given by
+        \begin{gather}
+            \sigma_\phi:M\rightarrow P_F:m\mapsto [p, \phi(p)]
+        \end{gather}
+        where $p$ is any point\footnote{This is well defined due to equation \ref{diff:prin:associated_bundle_equivalence}.} in $\pi^{-1}(\{m\})$. In the other direction we find
+        \begin{gather}
+            \label{diff:prin:section_bijection_phi}
+            \phi_\sigma:P\rightarrow F: p\mapsto j_p^{-1}\circ\sigma(\pi(p))
+        \end{gather}
+        where $j_p:F\rightarrow P_F:f\mapsto[p, f]$ is a bijection. Either of these maps ($\phi_\sigma$ or $\sigma_\phi$) is (sometimes) called a \textbf{Higgs field} in the physics literature.
+    \end{property}
 
 \section{Reduction of the structure group}\label{section:G-structure}
 
-	\newdef{Reduction}{\index{reduction}
-		Consider a principal bundle $\prin{G}{P}{M}$. Let $H$ be a subgroup of $G$. If the transition functions of $P$ can be chosen as elements of $H$ then we say that the structure group $G$ can be reduced to $H$.
+    \newdef{Reduction}{\index{reduction}
+        Consider a principal bundle $\prin{G}{P}{M}$ and let $H$ be a subgroup of $G$. If the transition functions of $P$ can be chosen to take values in $H$ then we say that the structure group $G$ can be reduced to $H$.
 
-		More generally\footnote{This allows for covering maps $\lambda:H\rightarrow G$. (See for example the definition of spinor bundles in section \ref{section:spinor_bundles}.)}, a principal bundle $\prin{H}{\tilde{P}}{M}$ with structure group $H$ is an $H$-reduction of $P$ if there exists a vertical bundle morphism $\tilde{P}\rightarrow P$.
-	}
+        More generally\footnote{This allows for covering maps $\lambda:H\rightarrow G$. (See for example the definition of spinor bundles in section \ref{section:spinor_bundles}.)}, a principal bundle $\prin{H}{\tilde{P}}{M}$ with structure group $H$ is an $H$-reduction of $P$ if there exists a vertical bundle morphism $\tilde{P}\rightarrow P$.
+    }
 
-	\newdef{$G$-structure}{\index{G-structure}
-		Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group GL$(n)$ of the frame bundle $F(M)$ to a subgroup $G\subset\text{GL}(n)$.
-	}
-	\newdef{Integrability}{\index{integrable!$G$-structure}
-		Consider a $G$-structure $\prin{G}{\tilde{P}}{M}$. This $G$-structure is said to be integrable if for every point $m\in M$ there exists a chart $U\ni m$ such that the induced holonomic frame $\{\partial_i\}$ is a local section of $P$.
-	}
+    \newdef{$G$-structure}{\index{G-structure}
+        Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group GL$(n)$ of the frame bundle $F(M)$ to a subgroup $G\subset\text{GL}(n)$.
+    }
+    \newdef{Integrability}{\index{integrable!$G$-structure}
+        Consider a $G$-structure $\prin{G}{\tilde{P}}{M}$. This $G$-structure is said to be integrable if for every point $m\in M$ there exists a chart $U\ni m$ such that the associated holonomic frame $\{\partial_i\}_{i\leq\dim(M)}$ gives a local section of $P$.
+    }
 
-	\begin{example}[Orientable manifold]\label{diff:orientable_structure}\index{orientation}
-		An $n$-dimensional manifold is orientable if and only if the structure group GL$(n)$ of its frame bundle $F(M)$ is reducible to GL$^+(n)$, i.e. the group of invertible matrices with positive determinant. Furthermore, this structure is always integrable (if it exists).
-	\end{example}
-	\begin{example}[Riemannian manifold]
-		An O$(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} using the transpose inverse, which leaves O$(n)$ invariant, of the transition maps of the tangent bundle $TM$ these two bundles are equivalent. The isomorphism is given by the musical isomorphism(s)\footnote{See definition \ref{riemann:musical_isomorphisms}.}.
-	\end{example}
+    \begin{example}[Orientable manifold]\label{diff:orientable_structure}\index{orientation}
+        An $n$-dimensional manifold is orientable if and only if the structure group can be reduced to $\text{GL}^+(n)$, the group of invertible matrices with positive determinant. Furthermore, this structure is always integrable (if it exists).
+    \end{example}
+    \begin{example}[Riemannian manifold]
+        An $\text{O}(n)$-structure on $M$ turns the manifold into a Riemannian manifold\footnote{See definition \ref{riemann:riemannian_manifold}.}. Because the cotangent bundle $T^*M$ transforms\footnote{See example \ref{manifolds:cotangent_bundle}.} under the contragredient representation, which coincides with the regular representation in the case of $\text{O}(n)$, of the transition maps of the tangent bundle $TM$, these two bundles are equivalent. The isomorphism is given by the musical isomorphism(s) \ref{riemann:musical_isomorphisms}.
+    \end{example}
+
+    The following property gives a classification of reductions in terms of equivariant morphisms:
+    \begin{property}\label{diff:prin:reduction_classification}
+        Consider a principal bundle $\prb$ and a space $F$ admitting a transitive Lie group action $\varphi:G\rightarrow\text{Aut}(F)$. For every $f\in F$ and
+        every equivariant morphism $\psi:P\rightarrow F$ there exists a reduction of $G$ to the isotropy subgroup $G_f$ defined by
+        \begin{gather}
+            P_f := \{p\in P:\psi(p) = f\}.
+        \end{gather}
+        We can generalize this definition to arbitrary Lie group action by restricting to the equivariant morphisms that take value in a single. orbit\footnote{Since transitive actions have a unique orbit this is a well-defined generalization.} Without loss of generality (at least in the finite-dimensional case) we can restrict to the case where $F$ is a vector space.
+    \end{property}
+    An alternative existence condition (in terms of holonomy) will be given below in property \ref{diff:prin:reducible_holonomy}.
 
 \section{Universal bundle}
 
-	\newdef{Universal bundle}{\index{universal!bundle}\index{classifying space}
-		Consider a (compact) Lie group $G$. The universal bundle of $G$ is the principal bundle \[G\hookrightarrow EG\rightarrow BG\]
-		where $EG$ is weakly contractible and $G$ acts freely on $EG$. The space $BG$ is called the \textbf{classifying space} of $G$.
-	}
-	\begin{property}
-		A principal $G$-bundle $EG\rightarrow BG$ is universal if and only if $EG$ is weakly contractible.
-	\end{property}
-	\newdef{$n$-universal bundle}{
-		A principal bundle with $(n-1)$-connected total space.
-	}
+    \newdef{Universal bundle}{\index{universal!bundle}\index{classifying space}
+        Consider a (compact) Lie group $G$. The universal bundle of $G$ is the principal bundle \[G\hookrightarrow EG\rightarrow BG\]
+        where $EG$ is weakly contractible. The space $BG$ is called the \textbf{classifying space} of $G$.
+    }
+    \begin{property}
+        A principal $G$-bundle $EG\rightarrow BG$ is universal if and only if $EG$ is weakly contractible.
+    \end{property}
+    \newdef{$n$-universal bundle}{
+        A principal bundle with $(n-1)$-connected total space.
+    }
 
-	\begin{property}[Classification]
-		The collection of principal $G$-bundles over a CW-complex $X$ is in bijection with $[X, BG]$, i.e. the homotopy classes of continuous functions $f:X\rightarrow BG$. This bijection is given by the pullback-construction $f\mapsto f^*EG$.
-	\end{property}
+    \begin{property}[Classification]
+        The collection of principal $G$-bundles over a CW-complex $X$ is in bijection with $[X, BG]$, the set of homotopy classes of continuous functions $f:X\rightarrow BG$. This bijection is given by the pullback-construction $f\mapsto f^*EG$.
+    \end{property}
 
-	\remark{There also exists a slightly different notion of universal bundles and their associated classifying property. When we require the total space of the universal bundle to be contractible instead of weakly contractible, the mapping space $[X, BG]$ only classifies numerable principal bundles\footnote{See definition \ref{manifolds:numerable_bundle}.}, but now over arbitrary base spaces $X$.}
+    \remark{There also exists a slightly different notion of universal bundles and their associated classifying property. When we require the total space of the universal bundle to be contractible instead of weakly contractible, the mapping space $[X, BG]$ only classifies numerable principal bundles\footnote{See definition \ref{manifolds:numerable_bundle}.}, but now over arbitrary base spaces $X$.}
 
-	An explicit construction of the numerable universal bundle for any topological group $G$ was provided by Milnor:
-	\begin{construct}[Milnor]\index{Milnor!construction}
-		First consider the infinite join $E_\infty$ equipped with the strong topology (this space is constructed as the direct limit of finite joins $E_n=\underbrace{G\circ\cdots\circ G}_{n\text{ times}}$ where $E_n$ is embedded in $E_{n+1}$ using the identity element). Then construct the quotient of $E_n$ (resp. $E_\infty$) by the canonical right action of $G$ on $E_n$. The bundle $p_n:E_n\rightarrow B_n$ (resp. $p:E_\infty\rightarrow B_\infty$) is an $n$-universal bundle (resp. $\infty$-universal bundle). It follows from the above property that $p:E_\infty\rightarrow B_\infty$ is a universal bundle for $G$.
-	\end{construct}
+    An explicit construction of the numerable universal bundle for any topological group $G$ was provided by Milnor:
+    \begin{construct}[Milnor]\index{Milnor!construction}
+        First, consider the infinite join $E_\infty$ equipped with the strong topology. This space is constructed as the direct limit of finite joins \[E_n=\underbrace{G\circ\cdots\circ G}_{n\text{ times}}\] where $E_n$ is embedded in $E_{n+1}$ using the identity element. Then, construct the quotient of $E_n$ (resp. $E_\infty$) by the canonical right action of $G$ on $E_n$ (resp. $E_\infty$). The bundle $p_n:E_n\rightarrow B_n$ (resp. $p:E_\infty\rightarrow B_\infty$) is an $n$-universal bundle (resp. $\infty$-universal bundle). It follows from the above property that $p:E_\infty\rightarrow B_\infty$ is a universal bundle for $G$.
+    \end{construct}

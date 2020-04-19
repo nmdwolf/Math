@@ -1,253 +1,269 @@
-\chapter{Riemannian Geometry}\label{diff:chapter:riemann}
+\chapter{Riemannian Geometry}\label{chapter:riemann}
 
-	The main reference for this chapter is \cite{petersen}.
+    The main reference for this chapter is \cite{petersen}.
 
 \section{Riemannian manifolds}
 \subsection{Metric}
 
-	\begin{definition}[Bundle metric]\index{metric!bundle}
-		Consider the bundle of second order covariant vectors. Following from \ref{tensor:tensor_product} every section $g$ of this bundle gives a bilinear map \[g_x:T_xM\times T_xM\rightarrow\mathbb{R}\]
-		for all $x\in M$. If this map is symmetric and non-degenerate and if it depends smoothly on $p$ it is called a \textbf{(Lorentzian}) metric.\footnote{See also the section about Hermitian forms and metric forms \ref{linalgebra:innerproduct}.}
-		
-		The maps $\{g_x\}_{x\in M}$ can be `glued' together to form a global metric $g$, defined on the fibre product\footnotemark\ $TM\diamond TM$. Defining this map on $TM\times TM$ is not possible as tangent vectors belonging to different points in $M$ cannot be `compared'. The collection $\{\langle\cdot|\cdot\rangle_x|x\in M\}$ is called a \textbf{bundle metric}\index{metric!bundle}.
-		\footnotetext{See definition \ref{manifolds:fibre_product}.}
-	\end{definition}
+    \begin{definition}[Bundle metric]\index{metric}
+        Consider the bundle of second order covariant vectors. From definition \ref{tensor:tensor_product} we know that every section $g$ of this bundle gives a bilinear map \[g_p:T_pM\times T_pM\rightarrow\mathbb{R}\] for all $p\in M$. If this map is symmetric and nondegenerate it is called a \textbf{(Lorentzian}) metric.\footnote{See also the section about Hermitian forms and metric forms \ref{linalgebra:innerproduct}.}
 
-	A Riemannian metric also induces a duality between $TM$ and $T^*M$. This is given by the \textit{flat} and \textit{sharp} isomorphisms:
-	\newdef{Musical isomorphisms}{\index{musical isomorphism}\label{riemann:musical_isomorphisms}
-		Let $g:TM\times TM\rightarrow\mathbb{R}$ be the Riemannian metric on $M$. The \textbf{flat} isomorphism is defined as:
-		\begin{gather}
-			\label{manifolds:flat_map}
-			\flat:v\mapsto g(v, \cdot)
-		\end{gather}
-		The \textbf{sharp} isomorphism is defined as the inverse map:
-		\begin{gather}
-			\label{manifolds:sharp_map}
-			\sharp:g(v, \cdot)\mapsto v
-		\end{gather}
-		These 'musical' isomorphisms can be used to lower and raise tensor indices.
-	}
+        The maps $\{g_p\}_{p\in M}$ can be glued together to form a global metric $g$, defined on the fibre product\footnote{See definition \ref{manifolds:fibre_product}.} $TM\diamond TM$. Defining this map on $TM\times TM$ is not possible as tangent vectors belonging to different points in $M$ cannot be `compared'. The collection $\{\langle\cdot|\cdot\rangle_p:p\in M\}$ is called a \textbf{bundle metric} or \textbf{fibre metric}.
+    \end{definition}
+
+    A Riemannian metric induces a duality between $TM$ and $T^*M$. This is given by the \textit{flat} and \textit{sharp} isomorphisms:
+    \newdef{Musical isomorphisms}{\index{musical isomorphism}\label{riemann:musical_isomorphisms}
+        Let $g:TM\times TM\rightarrow\mathbb{R}$ be a Riemannian metric on $M$. The \textbf{flat} isomorphism is defined as
+        \begin{gather}
+            \label{manifolds:flat_map}
+            \flat:v\mapsto g(v, \cdot).
+        \end{gather}
+        The \textbf{sharp} isomorphism is defined as the inverse map. For an arbitrary covector field $\omega$ it is implicitly given by
+        \begin{gather}
+            \label{manifolds:sharp_map}
+            g(\omega^\sharp, v) = \omega(v).
+        \end{gather}
+        These \textbf{musical isomorphisms} can be used to raise and lower tensor indices.
+    }
+
+    \newdef{Codifferential}{\index{codifferential}
+        Using the de Rham differential $d$ and the Hodge star operator \ref{tensor:hodge_star} (here extended to manifolds) we can define a boundary operator\footnote{This means that $\delta^2 = 0$ (see \ref{topology:boundary_operator_relation}).} $\delta:\Omega^k(M)\rightarrow \Omega^{k-1}(M)$:
+        \begin{gather}
+            \label{manifolds:codifferential}
+            \delta := (-1)^k\ast^{-1} d \ast = (-1)^{n(k+1)+1}\ast d \ast.
+        \end{gather}
+    }
+    \newdef{Hodge Laplacian\footnotemark}{\index{Hodge!Laplacian}
+        \footnotetext{Sometimes called the \textbf{Hodge-de Rham} or \textbf{Laplace-de Rham} operator.}
+        Using the de Rham differential and codifferential one can define a derivation $\Delta:\Omega^k(M)\rightarrow\Omega^k(M)$:
+        \begin{gather}
+            \label{diff:hodge_laplacian}
+            \Delta := d\delta + \delta d.
+        \end{gather}
+    }
 
 \subsection{Riemannian manifold}
 
-	\newdef{Pseudo-Riemannian manifold}{\index{Riemann!manifold}\label{riemann:riemannian_manifold}
-		Let $M$ be a smooth manifold. This manifold is called pseudo-Riemannian if it is equipped with a pseudo-Riemannian metric. A \textbf{Riemannian manifold} is similarly defined.
-	}
-	
-	\newdef{Riemannian isometry}{\index{isometry}
-		Let $(M, g_M)$ and $(N, g_N)$ be two Riemannian manifolds. An isometry \ref{diff:isometry_def} $f:M\rightarrow N$ is said to be Riemannian if $F^*g_N = g_M$.
-	}
-	
-	\begin{property}\index{index}
-		Let $M$ be a pseudo-Riemannian manifold. For every $p\in M$ there exists a splitting $T_pM = P\oplus N$ where $P$ is a subspace on which the pseudometric is positive definite and $N$ is a subspace on which the pseudometric is negative-definite. This splitting is however not unique, only the dimensions of the two subspaces are well-defined.
-	\end{property}
-	Due to the continuity of the pseudometric, the dimensions of this splitting wil be the same for points in the same neighbourhood. For connected manifolds this amounts to a global invariant:
-	\newdef{Index}{
-		Let $M$ be a connected pseudo-Riemannian manifold. The dimension of the \textit{negative} subspace $N$ in the above splitting $T_pP = P\oplus N$ is called the index of the pseudo-Riemannian manifold.
-	}
-	
-	\begin{theorem}[Whitney's embedding theorem]\index{Whitney!embedding theorem}
-		Every smooth paracompact\footnotemark\ manifold $M$ can be embedded in $\mathbb{R}^{2\dim M}$.
-		\footnotetext{See definition \ref{topology:paracompact}.}
-	\end{theorem}
-	\begin{theorem}[Whitney's immersion theorem]\index{Whitney!immersion theorem}
-		Every smooth paracompact manifold $M$ can be immersed in $\mathbb{R}^{2\dim M - 1}$.
-	\end{theorem}
-	\begin{theorem}[Immersion conjecture]\index{immersion!conjecture}
-		Every smooth paracompact manifold $M$ can be immersed in $\mathbb{R}^{2\dim M - a(\dim M)}$ where $a(n)$ is the number of 1's in the binary expansion of $n$.
-	\end{theorem}
-	
-	\newdef{Riemannian cone}{\index{Riemann!cone}\label{riemann:riemannian_cone}
-		Let $(M, g)$ be a Riemannian manifold. Consider the product manifold $M\times]0, +\infty[$. This manifold can also be turned into a Riemannian manifold by equipping it with the metric $t^2g+dt^2$. This manifold is called the Riemannian cone or \textbf{metric cone} of $(M, g)$.
-	}
-	
+    \newdef{Pseudo-Riemannian manifold}{\index{Riemann!manifold}\label{riemann:riemannian_manifold}
+        Let $M$ be a smooth manifold. This manifold is said to be pseudo-Riemannian if it is equipped with a pseudo-Riemannian metric. A \textbf{Riemannian manifold} is defined similarly.
+    }
+
+    \newdef{Riemannian isometry}{\index{isometry}
+        Let $(M, g_M)$ and $(N, g_N)$ be two Riemannian manifolds. An isometry \ref{diff:isometry_def} $f:M\rightarrow N$ is said to be Riemannian if $f^*g_N = g_M$.
+    }
+
+    \begin{property}\index{index}
+        Let $M$ be a pseudo-Riemannian manifold. For every $p\in M$ there exists a splitting $T_pM = P\oplus N$ where $P$ is a subspace on which the pseudometric is positive definite and $N$ is a subspace on which the pseudometric is negative-definite. This splitting is however not unique, only the dimensions of the two subspaces are well-defined.
+    \end{property}
+    Due to the continuity of the pseudometric, the dimensions of this splitting will be the same for all points in a connected neighbourhood. For connected manifolds this amounts to a global invariant:
+    \newdef{Index}{
+        Let $M$ be a connected pseudo-Riemannian manifold. The dimension of the \textit{negative} subspace $N$ in the above splitting $T_pP = P\oplus N$ is called the index of the pseudo-Riemannian manifold.
+    }
+
+    \begin{theorem}[Whitney's embedding theorem]\index{Whitney!embedding theorem}
+        Every smooth paracompact\footnote{See definition \ref{topology:paracompact}.} manifold $M$ can be embedded in $\mathbb{R}^{2\dim M}$.
+    \end{theorem}
+    \begin{theorem}[Whitney's immersion theorem]\index{Whitney!immersion theorem}
+        Every smooth paracompact manifold $M$ can be immersed in $\mathbb{R}^{2\dim M - 1}$.
+    \end{theorem}
+    The following theorem is slightly stronger:
+    \begin{theorem}[Immersion conjecture]\index{immersion!conjecture}
+        Every smooth paracompact manifold $M$ can be immersed in $\mathbb{R}^{2\dim M - a(\dim M)}$ where $a(n)$ is the number of 1's in the binary expansion of $n$.
+    \end{theorem}
+
+    \newdef{Riemannian cone}{\index{Riemann!cone}\label{riemann:riemannian_cone}
+        Let $(M, g)$ be a Riemannian manifold. Consider the product manifold $M\times\ ]0, +\infty[$. This manifold can also be turned into a Riemannian manifold by equipping it with the metric $t^2g+dt^2$. This manifold is called the Riemannian cone or \textbf{metric cone} of $(M, g)$.
+    }
+
 \subsection{Levi-Civita connection}
 
-	\newdef{Riemannian connection}{\index{Riemann!connection}\index{Levi-Civita!connection|see{Riemann connection}}\label{riemann:levi_civita_connection}
-		An affine connection $\nabla$ on a Riemannian manifold $(M, g)$ is said to be Riemannian if it satisfies following two conditions:
-		\begin{enumerate}
-			\item $\nabla$ is metric:
-			\begin{gather}
-				X(g(Y, Z)) = g(\nabla_XY, Z) + g(Y, \nabla_XZ)
-			\end{gather}
-			\item $\nabla$ is torsion-free:
-			\begin{gather}
-				\nabla_XY - \nabla_YX = [X, Y]
-			\end{gather}
-		\end{enumerate}
-		A Riemannian connection is often called a \textbf{Levi-Civita connection}. 
-	}
-	
-	\begin{theorem}[Fundamental theorem of Riemannian geometry]
-		The Levi-Civita connection on a Riemannian manifold $(M, g)$ is unique.
-	\end{theorem}
-	
-	\newformula{Koszul formula}{\index{Koszul!formula}
-		The Levi-Civita connection $\nabla$ on a Riemannian manifold $(M, g)$ is implicitly (and uniquely\footnote{Any connection satisfying this formula necessarily coincides with the Levi-Civita connection.}) given by the following formula:
-		\begin{align}
-			2g(\nabla_XY, Z) &= \mathcal{L}_Xg(Y, Z) + d(\iota_Xg)(Y, Z)\\
-			&= X(g(Y, Z)) + Y(g(Z, X)) - Z(g(X, Y))\nonumber\\
-			&\hspace{3cm}+ g([X, Y], Z) - g([Z, X], Y) - g([Y, Z], X)
-		\end{align}
-	}
-	
-	The following (local) formula can be useful, especially in general relativity:
-	\newformula{Divergence}{
-		Let $\nabla$ be the Levi-Civita connection of a given Riemannian manifold. Using the metric determinant one can write the (covariant) divergence in terms of the ordinary partial derivatives:
-		\begin{gather}
-			\label{diff:divergence_partial}
-			\nabla_\mu V^\mu = \frac{1}{\sqrt{g}}\partial_\mu(\sqrt{g}V^\mu)
-		\end{gather}
-	}
+    \newdef{Riemannian connection}{\index{Riemann!connection}\index{Levi-Civita!connection|see{Riemann connection}}\label{riemann:levi_civita_connection}
+        An affine connection $\nabla$ on a Riemannian manifold $(M, g)$ is said to be Riemannian if it satisfies the following two conditions:
+        \begin{enumerate}
+            \item $\nabla$ is \textbf{metric}:
+            \begin{gather}
+                X(g(Y, Z)) = g(\nabla_XY, Z) + g(Y, \nabla_XZ).
+            \end{gather}
+            \item $\nabla$ is \textbf{torsion-free}:
+            \begin{gather}
+                \nabla_XY - \nabla_YX = [X, Y].
+            \end{gather}
+        \end{enumerate}
+        A Riemannian connection is often called a \textbf{Levi-Civita connection}.
+    }
+
+    Because the existence of a metric is equivalent to the integrability of an $\text{O}(n)$-structure, properties \ref{diff:prin:reducible_holonomy}, \ref{diff:prin:connection_reducibility} and \ref{diff:prin:integrable_torsion_free} imply that there exists a torsion-free connection that preserves this structure. The following theorem gives an even sharper result:
+    \begin{theorem}[Fundamental theorem]
+        Every Riemannian manifold $(M, g)$ admits a unique Levi-Civita connection.
+    \end{theorem}
+
+    \newformula{Koszul formula}{\index{Koszul!formula}
+        The Levi-Civita connection $\nabla$ on a Riemannian manifold $(M, g)$ is implicitly defined by the following formula:
+        \begin{align}
+            2g(\nabla_XY, Z) &= \mathcal{L}_Xg(Y, Z) + d(\iota_Xg)(Y, Z)\\
+            &= X(g(Y, Z)) + Y(g(Z, X)) - Z(g(X, Y))\nonumber\\
+            &\hspace{3cm}+ g([X, Y], Z) - g([Z, X], Y) - g([Y, Z], X).
+        \end{align}
+    }
+
+    The following (local) formula can be useful (especially in general relativity):
+    \newformula{Divergence}{
+        Let $\nabla$ be the Levi-Civita connection on a given Riemannian manifold. Using the metric determinant one can write the (covariant) divergence in terms of the ordinary partial derivatives:
+        \begin{gather}
+            \label{diff:divergence_partial}
+            \nabla_\mu V^\mu = \frac{1}{\sqrt{g}}\partial_\mu(\sqrt{g}V^\mu).
+        \end{gather}
+    }
+
+    ?? COMPLETE (DIVERGENCE, HESSIAN, ...) ??
 
 \subsection{Killing vectors}
 
-	\newdef{Killing vector}{\index{Killing!vector}\label{diff:killing_vector}
-		Let $(M, g)$ be a Riemannian manifold. A vector field $X$ satisfying
-		\begin{gather}
-			\boxed{\mathcal{L}_Xg = 0}
-		\end{gather}
-		is called a Killing vector field.
-		
-		A simple calculation gives us the following coordinate expression:
-		\begin{gather}
-			(\mathcal{L}_Xg)_{\mu\nu} = X^\lambda\partial_\lambda g_{\mu\nu} + g_{\lambda\mu}\partial_\nu X^\lambda + g_{\lambda\nu}\partial_\mu X^\lambda
-		\end{gather}
-	}
-	\begin{formula}
-		Given a Levi-Civita connection $\nabla$ on $(M, g)$ we can rewrite the Killing condition as follows:
-		\begin{gather}
-			\nabla_{(m}X_{n)} = 0
-		\end{gather}
-	\end{formula}
+    \newdef{Killing vector}{\index{Killing!vector}\label{diff:killing_vector}
+        Let $(M, g)$ be a Riemannian manifold. A vector field $X$ satisfying
+        \begin{gather}
+            \mathcal{L}_Xg = 0
+        \end{gather}
+        is called a Killing vector field. A straightforward calculation gives us the following coordinate expression:
+        \begin{gather}
+            (\mathcal{L}_Xg)_{\mu\nu} = X^\lambda\partial_\lambda g_{\mu\nu} + g_{\lambda\mu}\partial_\nu X^\lambda + g_{\lambda\nu}\partial_\mu X^\lambda.
+        \end{gather}
+    }
+    \begin{formula}
+        Given a Levi-Civita connection $\nabla$ on $(M, g)$ we can rewrite the Killing condition as follows:
+        \begin{gather}
+            \nabla_{(m}X_{n)} = 0.
+        \end{gather}
+    \end{formula}
 
-	\newdef{Killing tensor}{\index{Killing!tensor}
-		Let $\nabla$ be the Levi-Civita connection on $(M, g)$. A tensor $T$ satisyfing
-		\begin{gather}
-			\label{diff:killing_tensor}
-			\nabla_{(m_N}T_{m_1...m_{N-1})} = 0
-		\end{gather}
-		is called a Killing tensor. It is obvious that this \textbf{generalized Killing condition} is a direct generalization of the Killing condition as given above.
-	}
+    \newdef{Killing tensor}{\index{Killing!tensor}
+        Let $\nabla$ be the Levi-Civita connection on $(M, g)$. A tensor $T$ satisfying
+        \begin{gather}
+            \label{diff:killing_tensor}
+            \nabla_{(m_N}T_{m_1...m_{N-1})} = 0
+        \end{gather}
+        is called a Killing tensor. It is obvious that this \textbf{generalized Killing condition} is a direct generalization of the Killing condition as given above.
+    }
 
 \section{Curvature}\label{diff:section:curvature}
 
-	\newformula{Riemann curvature tensor}{\index{Riemann!curvature}
-		The Riemann (curvature) tensor $R$ is defined as following $(1,3)$-tensor:
-		\begin{gather}
-			R(v, w)z = [\nabla_v, \nabla_w]z - \nabla_{[v, w]}z
-		\end{gather}
-		where $\nabla$ is the Levi-Civita connection. In index notation it is given by:
-		\begin{gather}
-			R^i_{jkl} = dx^i\big(R(e_k, e_l)e_j\big)
-		\end{gather}
-	}
-	
-	\newformula{Directional curvature operator\footnotemark}{\index{tidal force operator}
-		\footnotetext{Also called the \textbf{tidal force operator} (mostly in physics).}
-		\begin{gather}
-			R_v(w) = R(w, v)v
-		\end{gather}
-	}
-	
-	\newformula{Sectional curvature}{\index{sectional!curvature}
-		\begin{gather}
-			\text{sec}(v, w) = \frac{g(R(w, v)v, w)}{g(v, v)g(w,w) - g(v, w)^2} = \frac{g(R_v(w), w)}{g(v\wedge w, v\wedge w)}
-		\end{gather}
-		An important result states that the sectional curvature only depends on the span of $v, w$.
-	}
-	\remark{For surfaces the sectional curvature coincides with the Gaussian curvature $K$ (see Theorema Egregium \ref{diff:theorema_egregium}). Generally the sectional curvature gives the Gaussian curvature of the plane spanned by the vector $v, w$.}
-	
-	\newformula{Ricci tensor}{\index{Ricci!tensor}
-	    	\begin{gather}
-    			\label{diff:manifolds:ricci_tensor}
-        	R_{\mu\nu} = R^\lambda_{\ \mu\lambda\nu}
-	    	\end{gather}
-	}
-    
-	\newformula{Ricci scalar}{\index{Ricci!scalar}\index{scalar!curvature}
-	    	\begin{gather}
-	    		\label{diff:manifolds:ricci_scalar}
-	        R = R^\mu_{\ \mu}
-	    	\end{gather}
-	        This scalar quantity is also called the \textbf{scalar curvature}.
-	}
+    \newformula{Riemann curvature tensor}{\index{Riemann!curvature}
+        The Riemann (curvature) tensor $R$ is defined as the following $(1,3)$-tensor:
+        \begin{gather}
+            R(v, w)z := [\nabla_v, \nabla_w]z - \nabla_{[v, w]}z
+        \end{gather}
+        where $\nabla$ is the Levi-Civita connection. In index notation it is given by
+        \begin{gather}
+            R^i_{jkl} := dx^i\big(R(e_k, e_l)e_j\big).
+        \end{gather}
+    }
 
-	\newformula{Einstein tensor}{\index{Einstein!tensor}
-		\begin{gather}
-			\label{diff:manifolds:einstein_tensor}
-			G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R
-		\end{gather}
-	}
-	\begin{property}
-	    	For 4-dimensional manifolds the Einstein tensor $G_{\mu\nu}$ is the only tensor containing at most second derivatives of the metric $g_{\mu\nu}$ and satisfying:
-	        \begin{gather}
-	        	\nabla_\mu G^{\mu\nu} = 0
-	        \end{gather}
-	\end{property}
-	
-	\newdef{Einstein manifold}{\index{Einstein!manifold}\label{diff:einstein_manifold}
-		A Riemannian manifold for which the Ricci tensor $R_{\mu\nu}$ is proportional to the metric $g_{\mu\nu}$.
-	}
-	\sremark{This name is justified by the fact that Einstein manifolds are exactly the solutions of the Einstein field equations \ref{rel:einstein_field_equations} with a cosmological constant.}
+    \newformula{Directional curvature operator\footnotemark}{\index{tidal force operator}
+        \footnotetext{Also called the \textbf{tidal force operator} (mostly in physics).}
+        \begin{gather}
+            R_v(w) := R(w, v)v
+        \end{gather}
+    }
+
+    \newformula{Sectional curvature}{\index{sectional!curvature}
+        \begin{gather}
+            \text{sec}(v, w) := \frac{g(R(w, v)v, w)}{g(v, v)g(w,w) - g(v, w)^2} = \frac{g(R_v(w), w)}{g(v\wedge w, v\wedge w)}
+        \end{gather}
+        An important result states that the sectional curvature only depends on the span of $v, w$.
+    }
+    \remark{For surfaces the sectional curvature coincides with the Gaussian curvature $K$ (see Theorema Egregium \ref{diff:theorema_egregium}). Generally, the sectional curvature gives the Gaussian curvature of the plane spanned by the vectors $v, w$.}
+
+    \newformula{Ricci tensor}{\index{Ricci!tensor}
+        \begin{gather}
+            \label{diff:manifolds:ricci_tensor}
+            R_{\mu\nu} := R^\lambda_{\ \mu\lambda\nu}
+        \end{gather}
+    }
+
+    \newformula{Ricci scalar}{\index{Ricci!scalar}\index{scalar!curvature}
+        \begin{gather}
+            \label{diff:manifolds:ricci_scalar}
+            R := R^\mu_{\ \mu}
+        \end{gather}
+        This scalar quantity is also called the \textbf{scalar curvature}.
+    }
+
+    \newformula{Einstein tensor}{\index{Einstein!tensor}
+        \begin{gather}
+            \label{diff:manifolds:einstein_tensor}
+            G_{\mu\nu} := R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R
+        \end{gather}
+    }
+    \begin{property}
+        For 4-dimensional manifolds the Einstein tensor $G_{\mu\nu}$ is the only tensor containing at most second derivatives of the metric $g_{\mu\nu}$ and satisfying
+        \begin{gather}
+            \nabla_\mu G^{\mu\nu} = 0.
+        \end{gather}
+    \end{property}
+
+    \newdef{Einstein manifold}{\index{Einstein!manifold}\label{diff:einstein_manifold}
+        A Riemannian manifold for which the Ricci tensor $R_{\mu\nu}$ is proportional to the metric $g_{\mu\nu}$.
+    }
+    \sremark{This name is justified by the fact that Einstein manifolds are exactly the solutions of the Einstein field equations \ref{rel:einstein_field_equations} with a cosmological constant.}
 
 \section{Spinor bundles}\label{section:spinor_bundles}
 
-	In this subsection we only work with Riemannian manifolds\footnote{This also works for Lorentzian manifolds and Spin$(1, n-1)$ groups.} $(M, g)$ because this ensures the existence of an O$(n)$ reduction of the tangent bundle $TM$ (see the example above).
+    In this subsection we only work with Riemannian manifolds\footnote{This also works for Lorentzian manifolds and Spin$(1, n-1)$-reductions.} $(M, g)$ because this ensures the existence of an O$(n)$ reduction of the tangent bundle $TM$.
 
-	\newdef{Spin structure}{\index{spin!structure}\index{spin!frame}
-		Consider the (oriented) orthonormal frame bundle $\pi_{SO}:F_{SO}(M)\rightarrow M$ which is obtained by reducing the structure group of the frame bundle $F(M)$ from GL$(n)$ to SO$(n)$. Furthermore, let $\pi_{spin}:P_{spin}\rightarrow M$ be a principal Spin$(n)$-bundle over $M$.
-		
-		The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $P_{spin}$, i.e. a morphism $\xi:P_{spin}\rightarrow F_{SO}(M)$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy:
-		\begin{itemize}
-			\item $\pi_{SO}\circ\xi = \pi_{spin}$
-			\item $\xi(p\vartriangleleft g) = \xi(p)\cdot\rho(g)$
-		\end{itemize}
-		for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold} and the principal Spin$(n)$-bundle $P$ is called the \textbf{spin frame bundle}.
-	}
-	
-	\begin{property}
-		A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes.
-	\end{property}
-	\begin{property}
-		A special case occurs when $\dim M = 3$. We then have that $M$ is spin if it is compact and orientable.
-	\end{property}
-	
-	\newdef{Spin bundle}{\index{spin!bundle}
-		A spin bundle is a vector bundle associated to a spin frame bundle.
-	}
-	\newdef{Spinor field}{\index{spinor}
-		A spinor field is a (smooth) section of a spin bundle.
-	}
+    \newdef{Spin structure}{\index{spin!structure}\index{spin!frame}
+        Consider the (oriented) orthonormal frame bundle \[\pi_{SO}:F_{SO}(M)\rightarrow M\] which is obtained by reducing the structure group of the frame bundle $F(M)$ from GL$(n)$ to SO$(n)$. Furthermore, let $\pi_{spin}:P_{spin}\rightarrow M$ be a principal Spin$(n)$-bundle over $M$.
+
+        The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $P_{spin}$, i.e. a morphism $\xi:P_{spin}\rightarrow F_{SO}(M)$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy:
+        \begin{itemize}
+            \item $\pi_{SO}\circ\xi = \pi_{spin}$
+            \item $\xi(p\vartriangleleft g) = \xi(p)\cdot\rho(g)$
+        \end{itemize}
+        for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold} and the principal Spin$(n)$-bundle $P_{spin}$ is called the \textbf{spin frame bundle}.
+    }
+
+    \begin{property}
+        A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes.
+    \end{property}
+    \begin{property}
+        A special case occurs when $\dim M = 3$. We then have that $M$ is spin if it is compact and orientable.
+    \end{property}
+
+    \newdef{Spin bundle}{\index{spin!bundle}\index{spinor}
+        A spin bundle is a vector bundle associated to a spin frame bundle. Sections of a spin bundle are called spinor fields
+    }
 
 \section{Sphere bundles}
 
-	\newdef{Unit sphere bundle}{\index{unit!sphere bundle}
-		Let $V$ be a normed vector space. Consider a vector bundle $\prin{V}{E}{B}$. From this bundle we can derive a new bundle where we replace the typical fibre $V$ by the unit sphere $\{v\in V : ||v|| = 1\}$. It should be noted that this new bundle is not a vector bundle since the unit sphere is not a vector space.
-	}
-	\begin{remark}[Unit disk bundle]\index{unit!disk bundle}
-		A similar construction can be made by replacing the unit sphere by the unit disk $\{v\in V : ||v||\leq1\}$.
-	\end{remark}
+    \newdef{Unit sphere bundle}{\index{unit!sphere bundle}
+        Let $V$ be a normed vector space and consider a vector bundle $\prin{V}{E}{B}$. From this bundle we can derive a new bundle where we replace the typical fibre $V$ by the unit sphere $S(V) := \{v\in V : ||v|| = 1\}$. It should be noted that this new bundle is not a vector bundle since the unit sphere is not a vector space.
+    }
+    \begin{remark}[Unit disk bundle]\index{unit!disk bundle}
+        A similar construction can be made by replacing the unit sphere by the unit disk $D(V) := \{v\in V : ||v||\leq1\}$.
+    \end{remark}
+
+    ?? COMPLETE (E.G. THOM ISOMORPHISM) ??
 
 \section{Hilbert bundles}
-	
-	\newdef{Hilbert bundle}{\index{Hilbert!bundle}
-		A vector bundle for which the typical fibre is a Hilbert space is called a Hilbert bundle.
-	}
-	\newdef{Compatible Hilbert bundle}{
-		Consider the isomorphisms
-		\begin{gather}
-			l_x:F_x\rightarrow\mathcal{H}:h\mapsto\varphi_i(x, h)\in\pi(x)
-		\end{gather}
-		where $\mathcal{H}$ is the typical fibre and where $\{(U_i, \varphi_i)\}_{i\in I}$ is a trivializing cover. These maps $l_x$ are called \textbf{point-trivializing maps}.
-		
-		Using these maps we can extend the metric structure of the typical fibre $\mathcal{H}$ to the fibres $F_x$ for all $x$ by:
-		\begin{gather}
-			\langle v|w \rangle_x = \langle l_x(v)|l_x(w) \rangle_{\mathcal{H}}
-		\end{gather}
-		The Hilbert bundle is said to be compatible (with the metric structure on $\mathcal{H}$) if the above extension is valid for all $v, w \in F_x$.
-	}
-	
-	\begin{remark*}
-		For compatible Hilbert bundles, the transition maps $l_{x\rightarrow y} = l_y^{-1}\circ l_x:\pi^{-1}(x)\rightarrow\pi^{-1}(y)$ are easily seen to be isometries.
-	\end{remark*}
+
+    \newdef{Hilbert bundle}{\index{Hilbert!bundle}
+        A vector bundle where the typical fibre is a Hilbert space.
+    }
+    \newdef{Compatible Hilbert bundle}{
+        Consider the isomorphisms
+        \begin{gather}
+            l_x^{-1}:\mathcal{H}\rightarrow F_x:h\mapsto\varphi_i^{-1}(x, h)\in\pi^{-1}(x)
+        \end{gather}
+        where $\mathcal{H}$ is the typical fibre and where $\{(U_i, \varphi_i)\}_{i\in I}$ is a trivializing cover. The maps $l_x$ are called \textbf{point-trivializing maps}.
+
+        Using these maps we can extend the metric structure of the typical fibre $\mathcal{H}$ to the fibres $F_x$ for all $x$ by:
+        \begin{gather}
+            \langle v|w \rangle_x := \langle l_x(v)|l_x(w) \rangle_{\mathcal{H}}.
+        \end{gather}
+        The Hilbert bundle is said to be compatible (with the metric structure on $\mathcal{H}$) if the above extension is valid for all $v, w \in F_x$.
+    }
+
+    \begin{remark*}
+        For compatible Hilbert bundles, the transition maps $l_{x\rightarrow y} = l_y^{-1}\circ l_x:\pi^{-1}(x)\rightarrow\pi^{-1}(y)$ are easily seen to be isometries.
+    \end{remark*}
+
+    ?? COMPLETE (B. Iliev OR S. Lang) ??

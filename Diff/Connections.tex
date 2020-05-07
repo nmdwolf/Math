@@ -3,7 +3,7 @@
 
     Because smooth fibre bundles (which include smooth principal $G$-bundles) are also smooth manifolds, we can define the traditional notions such as the tangent bundle. We use these to construct the horizontal and vertical (sub)bundles:
     \newdef{Vertical vector}{\index{bundle!vertical}
-        Let $\pi:E\rightarrow B$ be a smooth fibre bundle. The subbundle $\text{Vert}(TE):=\ker(\pi_\ast)$ of $TE$ is called the vertical (sub)bundle over $E$. Elements of the vertical space $\text{Vert}(T_pE)$ are called vertical vectors.
+        Let $\bundle$ be a smooth fibre bundle. The subbundle $\text{Vert}(TE):=\ker(\pi_\ast)$ of $TE$ is called the vertical (sub)bundle over $E$. Elements of the vertical space $\text{Vert}(T_pE)$ are called vertical vectors.
     }
 
     For principal $G$-bundles we can use an equivalent definition:
@@ -181,6 +181,25 @@
     \begin{property}
         The Maurer-Cartan form is the unique principal connection on the bundle $G\hookrightarrow G\rightarrow \{x\}$.
     \end{property}
+
+    \newdef{Darboux derivative}{\index{Darboux!derivative}\index{integral}\index{primitive}
+        Consider a smooth function $f:M\rightarrow G$ between a smooth manifold and a Lie group. The Darboux derivative of $f$ is defined as follows:
+        \begin{gather}
+            \omega_f := f^*\Omega.
+        \end{gather}
+        $f$ is said to be an \textbf{integral} or \textbf{primitive} of $\omega_f$.
+    }
+    \begin{property}
+        If two functions $f,g:M\rightarrow G$ (where $M$ is assumed to be connected) have the same Darboux derivative then there exists an element $C\in G$ such that $f(x)=C\cdot g(x)$ for all $x\in M$.
+    \end{property}
+
+    \begin{theorem}[Fundamental theorem of calculus]\index{fundamental theorem!of calculus}\index{Maurer-Cartan!equation}
+        Consider a smooth manifold $M$ and a Lie group $G$ with Lie algebra $\mathfrak{g}$. If $\omega:TM\rightarrow\mathfrak{g}$ satisfies the Maurer-Cartan equation
+        \begin{gather}
+            d\omega + \frac{1}{2}[\omega\wedge\omega] = 0
+        \end{gather}
+        then there exists (locally) a smooth function $f:M\rightarrow G$ such that $\omega = f^*\Omega$.
+    \end{theorem}
 
 \subsection{Local representation}
 
@@ -367,7 +386,7 @@
     \end{remark}
 
     \newdef{Covariant derivative}{\index{covariant!derivative}
-        Consider a vector bundle with model fibre space $V$ and its associated principal GL$(V)$-bundle with principal connection $\omega$ (both over a base manifold $M$). Let $\sigma:M\rightarrow E$ be a section of the vector bundle and let $X$ be a vector field on $M$. The covariant derivative of $\sigma$ with respect to $X$ is defined as
+        Consider a vector bundle $\bundle$ with model fibre space $V$ and its associated principal GL$(V)$-bundle with principal connection $\omega$ (both over a base manifold $M$). Let $\sigma:M\rightarrow E$ be a section of the vector bundle and let $X$ be a vector field on $M$. The covariant derivative of $\sigma$ with respect to $X$ is defined as
         \begin{gather}
             \nabla_X\sigma|_{x_0} = \lim_{t\rightarrow0}\stylefrac{(\text{Par}_t^\gamma)^{-1}\sigma(\gamma(t)) - \sigma(x_0)}{t}
         \end{gather}
@@ -473,14 +492,14 @@
         One should pay attention to the fact that this result\mnote{\dbend} does not generalize to arbitrary differential forms. Only the exterior derivative satisfies the coboundary condition $d^2 \equiv 0$, the exterior covariant derivative does not.
     \end{remark}
 
-    \newformula{Cartan structure equation}{\index{Cartan!structure equation}
+    \newformula{Cartan structure equation}{\index{Cartan!structure equation}\label{cartan_structure_equation}
         Let $\omega$ be a principal connection and let $\Omega$ be its curvature form. The curvature can be expressed in terms of the connection as follows:
         \begin{gather}
             \Omega = d\omega + \frac{1}{2}[\omega\wedge\omega].
         \end{gather}
     }
 
-    The following property is an immediate consequence of the Frobenius integrability theorem \ref{manifolds:frobenius} and the fact that a connection vanishes on the horizontal subbundle:
+    The following property is an immediate consequence of the Frobenius' integrability theorem \ref{manifolds:frobenius} and the fact that a connection vanishes on the horizontal subbundle:
     \begin{property}\index{integrable}
         Let $\omega$ be a principal connection. The associated horizontal distribution\footnote{See definition \ref{manifolds:distribution}.} \[p\mapsto\text{Hor}(T_pP)\] is integrable if and only if the connection $\omega$ is flat. However, the vertical distribution is always integrable.
     \end{property}
@@ -525,32 +544,166 @@
 \section{Characteristic classes}
 
     \newdef{Characteristic class}{\index{characteristic!class}
-        Let $M$ be a smooth manifold. A characteristic class is a map\footnote{The coefficient ring is often assumed to be the base field ($\mathbb{R}$ or $\mathbb{C}$) but this is not always the case (e.g. Stiefel-Whitney classes).} $c: \text{Vect}(M)\rightarrow H^\ast(M)$ such that if $E, E'\in\text{Vect}(M)$ are equivalent, then $c(E) = c(E')$.
+        Let $M$ be a smooth manifold. A characteristic class is a map\footnote{The coefficient ring is often assumed to be the base field ($\mathbb{R}$ or $\mathbb{C}$) but this is not always the case (e.g. Stiefel-Whitney classes).} from each isomorphism class of vector bundles or principal bundles $E\rightarrow M$ to a cohomology class $c(E)\in H^*(M)$ such that if there exists a morphism $f:N\rightarrow M$ then $c(f^*E) = f^*c(E)\in H^*(N)$.
     }
+    Using the classification property \ref{diff:prin:classification} one can give a concise construction of characteristic classes in the case of principal bundles:
+    \begin{construct}
+        Consider a principal bundle $\prb$ with classifying map $\varphi\in[M, BG]$. For every $c\in H^*(BG)$ we define a characteristic class $c(P)\in H^*(M)$ as the pullback of $c$ under $\varphi$.
+    \end{construct}
+
+    As the definition implies, both vector bundles and principal bundles admit a theory of characteristic classes. However, in the literature most authors always focus on either one of them and hence it is not always easy to see which theorems can be translated and how to this if possible. The relation between the two theories is given by the associated bundle construction \ref{diff:prin:associated_bundle} (see \cite{sorensen_characteristic} for more information). It can be shown that every vector bundle\footnote{In fact every fibre bundle, but we are not interested in the general case.} can be obtained as an associated bundle to its frame bundle. The characteristic classes of a vector bundle are then defined as the ones of its frame bundle. Because of this duality we will freely switch between the language of vector bundles and principal bundles, depending on where we want to apply the results.
+
+    Because the statement of the ''splitting principle'' is quite different when given in the language of principal bundles or that of vector bundles, we will give it twice. First we need an additional construction:
+    \newdef{Flag bundle}{
+        Let $\bundle$ be vector bundle. Using the definition of the flag manifold \ref{linalgebra:flag_manifold} one can construct for every fibre $E_p, p\in M$ a space $Fl(E_p)$ that has the complete flags of $E_p$ as points (expressed as a sequence of one-dimensional subspaces). Using the bundle construction theorem we can then obtain the flag bundle $\pi_{Fl}:Fl(E)\rightarrow M$ that has the flag manifolds as fibres.
+    }
+    \begin{theorem}[Splitting principle]\index{splitting principle}
+        Consider a vector bundle $\bundle$. Its flag bundle has the following properties:
+        \begin{itemize}
+            \item The pullback bundle $\pi_{Fl}^*E$ can be decomposed as a Whitney sum of line bundles.
+            \item The induced cohomology map $\pi_{Fl}^*:H^*(M)\rightarrow H^*(Fl(E))$ is injective.
+        \end{itemize}
+    \end{theorem}
+    For the following form of the splitting principle, see \cite{may_splitting, debray_characteristic}.
+    \begin{theorem}[Splitting principle\footnotemark]
+        \footnotetext{Sometimes called the \textbf{generalized splitting principle}.}
+        Consider a principal bundle $\prin{G}{P}{M}$ where the structure group $G$ is compact. Every compact Lie group contains a maximal torus $T\cong\mathbb{T}^n$ (where $\mathbb{T}$ is the standard 1-torus $S^1\cong\text{U}(1)$). The inclusion $\iota:T\hookrightarrow G$ induces a $G$-bundle\footnote{The total space $EG$ clearly admits a free $T$-action and hence $BT:=EG/T$ can serve as a classifying space for $T$.} $B\iota:BT\rightarrow BG$ with fibre $G/T$ and the pullback of $B\iota$ along the classifying map $p\in[M, BG]$ of $P$ defines another $G$-bundle $\rho:p^*B\iota\rightarrow M$ (also with fibre $G/T$). This fibre bundle has the following properties:
+        \begin{itemize}
+            \item $\rho^*p$ admits a reduction of the structure group to $T$.
+            \item The induced cohomology map $\rho^*:H^*(M)\rightarrow H^*(\rho^*P)$ is injective.
+        \end{itemize}
+    \end{theorem}
+    Since $B\mathbb{T}^n\cong(B\mathbb{T})^n$ one can use the fibration $B\iota$ to pull any class $c\in H^*(BG)$ back to a tuple of classes in $H^*(B\text{U}(1))$. Hence every characteristic class of $\rho^*P$ is a tuple of characteristic classes of circle bundles. The injectivity of $\rho^*$ then implies that every characteristic class of $P$ can also be characterized by such a tuple.
+
+    \begin{remark}
+        The splitting principle allows us to prove general statements or formulas involving (polynomial) expressions in the characteristic classes only in the case of direct sums of line bundles.
+    \end{remark}
 
 \subsection{Chern-Weil theory}
 
     The characteristic classes of a vector bundle can be constructed from the connection and curvature forms on the vector bundle. This is done using a class of polynomials on the Lie algebra $\mathfrak{g}$ of the structure group.
 
     \newdef{Chern-Weil morphism}{\index{Chern-Weil}
-        Let $E\rightarrow M$ be a vector bundle with connection $A$ and curvature $F$. There exists a morphism of algebras $K[\mathfrak{g}]^G\rightarrow H^*_{dR}(M):P\mapsto P(F)$ satisfying:
+        Let $\bundle$ be a vector bundle with connection one-form $A$ and curvature two-form $F$. There exists a morphism of algebras $K[\mathfrak{g}]^G\rightarrow H^*_{dR}(M):P\mapsto P(F)$ satisfying:
         \begin{itemize}
             \item $P(F)$ is closed.
-            \item $P(F)$ pulls back uniquely to a (closed) form $\overline{P}(F) := \pi^\ast P(F)$ on $M$.
+            \item $P(F)$ pulls back uniquely to a (closed) form $\overline{P}(F) := \pi^* P(F)$ on $M$.
             \item $\overline{P}(F)$ does not depend on the connection $A$, i.e. for connections $A, A'$ the difference $\overline{P}(F_A) - \overline{P}(F_{A'})$ is exact.
         \end{itemize}
     }
 
-\subsection{Chern classes}
+\subsection{Complex bundles}
+
+    In this section we only consider complex bundles such that their connection one-forms are $\mathfrak{u}(n)$-valued. (See chapter \ref{chapter:complex_geometry} for more information.)
+
+    \newdef{Chern class}{\index{Chern!class}
+        Consider a rank-$n$ vector bundle (or principal bundle) $\bundle$ with curvature two-form $F$. Using Chern-Weil theory we define the Chern classes $c_k(E)$ as follows
+        \begin{gather}
+            \det\left(1 + \frac{it}{2\pi}F\right) =: \sum_{k=1}^nc_k(E)t^k.
+        \end{gather}
+        The $i^{th}$ Chern class is a cohomology class in $H^{2i}(M)$.
+    }
+
+    \newdef{Chern polynomial}{
+        Let $c_k(P)$ denote the $k^{th}$ Chern class of $P$. The Chern polynomial is defined as follows:
+        \begin{gather}
+            c_t(P) := \sum_{i=1}^\infty c_i(P)t^i.
+        \end{gather}
+        The total Chern class is recovered by taking $t=1$.
+    }
+
+    \begin{formula}[Whitney product formula\footnotemark]\index{Whitney!product formula}
+        \footnotetext{Also called the \textbf{Whitney sum formula}.}
+        The following equality holds for all bundles $P_1, P_2$:
+        \begin{gather}
+            c_t(P_1\oplus P_2) = c_t(P_1)c_t(P_2).
+        \end{gather}
+    \end{formula}
+    \begin{result}[Chern root]\index{Chern!root}
+        The product formula and the splitting principle imply that the Chern polynomial of any rank-$n$ vector bundle can be decomposed as follows:
+        \begin{gather}
+            c_t(E) = \prod_{i=1}^n(1+x_it)
+        \end{gather}
+        where, in the case of decomposable vector bundles $E\equiv\oplus_{i=1}^n L_i$, the $x_i$ are the first Chern classes $c_1(L_i)$. The factors $x_i$ are called the \textbf{Chern roots}.
+
+        By working out the above formula we see that the coefficient in degree $k$, i.e. the $k^{th}$ Chern class, is given by the $k^{th}$ elementary symmetric polynomial:
+        \begin{gather}
+            c_k(E) = \sum_{i_1<\cdots<i_k}x_{i_1}\cdots x_{i_k}.
+        \end{gather}
+    \end{result}
 
     \newdef{Canonical class}{\index{canonical!class}
         Consider a smooth manifold $M$. The first Chern class of the canonical bundle $\bigwedge^nT^*M$ is called the canonical class of $M$.
     }
-    \newdef{Theta characteristic}{label{theta characteristic}
+    \newdef{Theta characteristic}{\index{theta characteristic}
         Consider a smooth manifold $M$ together with its canonical class $K_M$. The theta characteristic, if it exists, is a characteristic class $\Theta$ such that $\Theta\cup\Theta=K_M$ where $\cup$ is the cup-product in cohomology (see formula \ref{forms:cup_product}).
     }
 
+    After finding the Chern roots of a vector bundle, we can us them to define more advanced classes:
+    \begin{construct}[Genus]\index{genus}
+        Let $f\in K[[t]]$ be a formal power series with constant term 1. For any $k\in\mathbb{N}$ we can easily see that $f(x_1)\cdots f(x_k)$ is a symmetric power series (also with constant term 1). For every such $f$ we then define the $f$-genus by the formula\footnote{In the case that $E$ splits as a sum for line bundles then we simply obtain the product $f(x_1)\cdots f(x_k)$.}
+        \begin{gather}
+            G_f(E) := \det f\left(\frac{it}{2\pi}F\right).
+        \end{gather}
+        The coefficients of this power series induce characteristic classes in cohomology.
+    \end{construct}
+
+    \begin{example}[Chern class]
+        The total Chern class is recovered as the genus of $f=1+x$.
+    \end{example}
+
+    The following genus is very important, especially in the context of the Atiyah-Singer index theorem (see further below):
+    \begin{example}[Todd genus]\index{Todd!class}\index{Bernoulli!number}
+        Consider the function
+        \begin{gather}
+            Q(x) := \frac{x}{1-e^{-x}} = 1 \frac{x}{2} + \sum_{i=1}^\infty\frac{(-1)^{i-1}B_i}{(2i)!}x^{2i}
+        \end{gather}
+        where $B_i$ is the $i^{th}$ \textit{Bernoulli number}. Let $\pi:E\rightarrow M$ be rank-$n$ vector bundle with curvature two-form $F$. If $x_i$ are the Chern roots of $E$ then the Todd class is defined as
+        \begin{gather}
+            \text{td}(E) := \prod_{i=1}^nQ(x_i).
+        \end{gather}
+        The characteristic function of the Todd genus is the unique power series with constant term 1 that has the property that for all $n\in\mathbb{N}$ the $n^{th}$ degree term in $f(x)^{n+1}$ has coefficient 1.
+    \end{example}
+    Another genus that is used in the context of the index theorems is the following one:
+    \begin{example}[$\hat{A}$-genus\footnotemark]\label{diff:prin:a_roof_genus}
+        \footnotetext{This is pronounced as \textit{A-roof genus}.}
+        The $\hat{A}$-genus is defined through the following function:
+        \begin{gather}
+            Q(x) := \frac{\sqrt{x}/2}{\sinh(\sqrt{x}/2)} = 1 - \frac{x}{24} + \frac{7x^2}{5760} - \cdots.
+        \end{gather}
+    \end{example}
+
     ?? COMPLETE ??
+
+\subsection{Real bundles}
+
+    In the case of real vector bundles\footnote{Let us assume that they come equipped with a fibre metric, such that the connection one-form is $\mathfrak{o}(n)$-valued.} one can also define a set of characteristic classes.
+
+    \newdef{Pontryagin class}{\index{Pontryagin!class}
+        Consider a vector bundle $\bundle$. The Pontryagin classes of $E$ are defined as follows:
+        \begin{gather}
+            p_i(E) := (-1)^ic_{2i}(E^{\mathbb{C}})\in H^{4i}(M)
+        \end{gather}
+        where $E^{\mathbb{C}}$ is the complexification of $E$.
+    }
+
+    When the vector bundles in question are orientable we can further reduce the structure group to $\text{SO}(n)$. If the rank is even then we can define the following characteristic class:
+    \newdef{Euler class}{\index{Euler!class}
+        Let $\bundle$ be an orientable vector bundle of rank $2k$. The Euler class of $E$ is defined as follows:
+        \begin{gather}
+            e(E) := p_k(E)\smile p_k(E).
+        \end{gather}
+    }
+    \begin{property}
+        Using the fact that we can write the total Pontryagin class using Chern-Weil theory as
+        \begin{gather}
+            p(E) = \det\left(1 - \frac{1}{2\pi}F\right)
+        \end{gather}
+        and that the determinant is the square of the Pfaffian, we can equivalently define the Euler class as follows:
+        \begin{gather}
+            e(E) := \text{Pf}\left(-\frac{1}{2\pi}F\right).
+        \end{gather}
+    \end{property}
 
 \subsection{Cohomology of Lie groups}\index{cohomology!Lie group}
 
@@ -558,3 +711,108 @@
     \begin{gather}
         H^*(BG; \mathbb{Z})\cong H^*_c(G; \mathbb{Z}).
     \end{gather}
+
+\section{Cartan connections}\label{section:cartan_geometry}
+
+    In the first part of this section we will give a short overview of Klein's \textit{Erlangen program} which unifies (and generalizes) Euclidean and non-Euclidean geometries. In the second part of this section we will give Cartan's generalization in terms of bundle theory. A reference for this section is \cite{sharpe} (there the author also gives a definition of Cartan geometries using charts and atlases similar to the definition of smooth manifolds).
+
+\subsection{Klein geometry}
+
+    \newdef{Klein geometry}{\index{Klein!geometry}
+        Consider a Lie group $G$ together with a closed subgroup $H$. The orbit space $G/H$ is called a Klein geometry (if it is connected). If the associated Lie algebras are denoted by $\mathfrak{g}, \mathfrak{h}$ then we call the pair $(\mathfrak{g}, \mathfrak{h})$ a \textbf{Klein pair}.\footnote{In fact one calls any pair $(\mathfrak{g}, \mathfrak{h}\leq\mathfrak{g})$ a Klein pair.} The group $G$ is called the \textbf{principal group}. If the principal space is also connected then the Klein geometry is said to be \textbf{geometrically oriented}.
+
+        It is clear that every Klein geometry gives a homogeneous space and hence a principal bundle (of dimension $\dim(G)-\dim(H)$).
+    }
+    \newdef{Effective Klein pair}{
+        The action of $G$ on $X\equiv G/H$ is not necessarily effective, i.e. the kernel of $\rho:G\rightarrow G/H$,
+        \begin{gather}
+            \text{ker}(\rho)=\{x\in G: g^{-1}xg\in H, \forall g\in G\},
+        \end{gather}
+        is not necessarily trivial. If it is, we call the Klein geometry effective. In terms of the associated Klein pair this means that $\mathfrak{h}$ contains no nontrivial ideals of $\mathfrak{g}$. A Klein geometry is said to be locally effective if the kernel is discrete.
+    }
+    \newdef{Reductive Klein pair}{
+        A Klein pair $(\mathfrak{g}, \mathfrak{h})$ is said to be reductive if $\mathfrak{g}$ admits a decomposition of the form
+        \begin{gather}
+            \mathfrak{g} = \mathfrak{h} + \mathfrak{m}
+        \end{gather}
+        where $\mathfrak{m}$ is an $\text{Ad}_H$-module.
+    }
+
+    Some examples are in order:
+    \begin{example}[Euclidean space]
+        Consider the Euclidean space $\mathbb{R}^n$. Now, consider the Euclidean group $\text{Euc}(n)\equiv\mathbb{R}^n\rtimes\text{O}(n)$, i.e. the symmetry group of the Euclidean space. This group clearly acts transitively and, furthermore, the subgroup $\text{O}(n)$ can be seen to leave the origin fixed. We conclude that $\mathbb{R}^n$ is a homogenous space and even a Klein geometry of the form $\text{Euc}(n)/\text{O}(n)$.
+    \end{example}
+
+    An extension of Klein geometries is given by the following concept:
+    \newdef{Model geometry}{\index{model!geometry}
+        A model geometry consists of the following data:
+        \begin{enumerate}
+            \item An effective Klein pair $(\mathfrak{g}, \mathfrak{h})$.
+            \item A Lie group $H$ such that $\text{Lie}(H)=\mathfrak{h}$.
+            \item A representation $\text{Ad}:H\rightarrow\text{Aut}(\mathfrak{g})$ that restricts to the adjoint representation $\text{Ad}_H:H\rightarrow\text{Aut}(\mathfrak{h})$.
+        \end{enumerate}
+    }
+
+    \newdef{Local Klein geometry}{
+        A local Klein geometry consists of the following data:
+        \begin{enumerate}
+            \item A Lie group $G$.
+            \item A closed subgroup $H\subset G$.
+            \item A subgroup $\Gamma\subset G$ acting by covering transformations on $G/H$ such that the left coset space $\Gamma\backslash G/H$ is connected.
+        \end{enumerate}
+    }
+
+\subsection{Cartan geometry}
+
+    The definition of a Klein geometry can be rephrased in the language of bundle theory. First we will give an alternative characterization of Lie groups in terms of the Maurer-Cartan connection:
+    \begin{property}[Lie group]\index{complete!connection}
+        Let $M$ be a smooth manifold and let $\mathfrak{g}$ be a Lie algebra. Assume that $M$ comes equipped with a $\mathfrak{g}$-valued one-form $\omega$ satisfying the following conditions:
+        \begin{enumerate}
+            \item \textbf{Maurer-Cartan equation}: $d\omega + \frac{1}{2}[\omega,\omega]=0$
+            \item \textbf{Soldering}: $\omega$ restricts to an isomorphism on every fibre.
+            \item \textbf{Completeness}: $\omega$ is complete, i.e. every vector field that maps constantly to $\mathfrak{g}$ complete.
+        \end{enumerate}
+        The universal cover $p:\widetilde{G}\rightarrow M$ has the structure of a $G$-torsor, where $G$ is a Lie group with Lie algebra $\mathfrak{g}$. Furthermore, the pullback $p^*\omega$ coincides with the Maurer-Cartan form on $G$.
+    \end{property}
+
+    In a similar way we can characterize Klein geometries as follows:
+    \begin{property}
+        The bundle $\pi:P\rightarrow M$ of a Klein geometry $G/H$ admits a one-form $\omega:TP\rightarrow\mathfrak{g}$ that satisfies the following conditions:
+        \begin{enumerate}
+            \item $\omega$ restricts to a linear isomorphism on each fibre.
+            \item $\omega$ is $H$-equivariant: $R_h^*\omega = \text{Ad}(h^{-1})\omega$.
+            \item $\omega$ cancels $\mathfrak{h}$-fundamental vector fields: $\omega(A^\#)=A$ for all $A\in\mathfrak{h}$.
+            \item $\omega$ satisfies the Maurer-Cartan equation.
+            \item $\omega$ is complete.
+        \end{enumerate}
+    \end{property}
+    The second and third conditions show that $\omega$ defined as connection on $G/H$, while the fourth condition states that connection is flat. (It should be clear that this defining one-form is exactly the Maurer-Cartan form on $G$, where conditions 3 and 4 are obtained by restricting to the subgroup $H\subset G$.)
+
+    By dropping the flatness and completeness conditions we obtain the notion of Cartan connections:
+    \newdef{Cartan geometry}{\index{Cartan!geometry}
+        Consider a principal $H$-bundle $\pi:P\rightarrow M$ that we are given a Lie algebra $\mathfrak{g}$ such that $\text{Lie}(H)=\mathfrak{h}\leq\mathfrak{g}$ (in general we will asumme these to be given by a model geometry). A Cartan geometry is defined by a one-form $\omega:TP\rightarrow\mathfrak{g}$ satisfying the following conditions:
+        \begin{enumerate}
+            \item $\omega$ restrict to an isomorphism on each fibre.
+            \item $\omega$ is $H$-equivariant.
+            \item $\omega$ cancels $\mathfrak{h}$-fundamental vector fields: $\omega(A^\#)=A$ for all $A\in\mathfrak{h}$.
+        \end{enumerate}
+        The form $\omega$ is called the Cartan connection.
+    }
+    \newdef{Curvature}{\index{curvature}
+        By analogy with the Maurer-Cartan condition and the Cartan structure equation \ref{cartan_structure_equation} we define the curvature of a Cartan connection as follows:
+        \begin{gather}
+            \Omega := d\omega + \frac{1}{2}[\omega\wedge\omega].
+        \end{gather}
+    }
+
+    If we restrict to reductive model spaces then we obtain an important decomposition of the Cartan connection.
+    \begin{property}
+        Consider a Cartan geometry $\pi:P\rightarrow M$ with a reductive model space $(\mathfrak{g}, \mathfrak{h})$ such that the Cartan connection can be decomposed as $\omega=\omega_{\mathfrak{h}}+\omega_{\mathfrak{m}}$. This decomposition has the following important properties:
+        \begin{itemize}
+            \item The form $\omega_{\mathfrak{h}}$ defines a principal connection on the Cartan geometry $P$.
+            \item The form $\omega_{\mathfrak{m}}$ defines a soldering of $M$.
+            \item The decomposition of the associated curvature form $\Omega$ gives the curvature and torsion of the induced principal connection and solder forms respectively.
+        \end{itemize}
+        Furthermore, the Cartan geometry $\pi:P\rightarrow M$ gives a reduction of the frame bundle $FM$ (induced by the solder form $\omega_{\mathfrak{m}}$).
+    \end{property}
+    ?? COMPLETE ??

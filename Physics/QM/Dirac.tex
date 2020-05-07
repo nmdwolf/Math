@@ -1,6 +1,6 @@
-\chapter{Dirac Equation}
+\chapter{Dirac Equation}\label{chapter:dirac}
 
-    References for this chapter are \cite{supergravity}. (Note that one uses the mostly-pluses signature there.) For the mathematical background on Clifford algebras and Spin groups, see chapter \ref{chapter:clifford} and in particular section \ref{clifford:section:spin}.
+    References for this chapter are \cite{supergravity}. (Note that one uses the mostly-pluses signature there.) For the mathematical background on Clifford algebras and Spin groups, see chapter \ref{chapter:clifford} and in particular section \ref{clifford:section:spin}. For the extension to (pseudo-)Riemannian manifolds see section \ref{section:spinor_bundles}.
 
 \section{Dirac matrices}
 
@@ -52,7 +52,7 @@
     \remark{In the remainder of this compendium we will adopt the Weyl representation.}
 
     \newnot{Feynman slash notation}{\index{Feynman!slash}
-        Let $\mathbf{a} = a^\mu\mathbf{e}_\mu\in V$ be a general 4-vector. The Feynman slash $\slashed{a}$ is defined as follows:
+        Let $\mathbf{a} = a^\mu\mathbf{e}_\mu\in V$ be a general 4-vector. The Feynman slash is defined as follows:
         \begin{gather}
             \slashed{a} := a^\mu\gamma_\mu.
         \end{gather}
@@ -95,17 +95,21 @@
 
 \subsection{Chiral spinors}
 
-    In even dimensions one can define an additional matrix \footnote{In $d=4$ this matrix is often denoted by $\gamma_5$.} which also satisfies equation \ref{dirac:clifford_relation}:
+    In even dimensions one can define an additional matrix which also satisfies equation \ref{dirac:clifford_relation}:
     \newdef{Chiral matrix}{\index{chiral!matrix}
-        Assume that the dimension, given by $d=m+n$, is even. The chiral matrix can then be defined as follows:\footnote{Some authors add a constant to this definition.}
+        Assume that the dimension, given by $d=m+n$, is even. The chiral (helicity) matrix can then be defined as follows:\footnote{Some authors add a constant to this definition.}
         \begin{gather}
-            \gamma_\ast := \gamma_0\gamma_1...\gamma_{d-1}.
+            \gamma_{d+1} := \gamma_1\gamma_2...\gamma_d.
         \end{gather}
-        In odd dimensions ($d=2m+1$) a generating set for the Clifford algebra can be obtained by taking the generating set from one dimension lower and adjoining the element $k\gamma_\ast$ where $k^2=(-1)^{n+d/2}$. This gives two inequivalent representations of the Clifford algebra (depending on the sign).
-
-        In $d=3+1$ one generally takes the following representation for $\gamma_\ast$:
+        In odd dimensions ($d=2m+1$) a generating set for the Clifford algebra can be obtained by taking the generating set from one dimension lower and adjoining the element $k\gamma_\ast$ where $k^2=(-1)^{n+d/2}$. This gives two inequivalent representations of the Clifford algebra (depending on the sign). From here on we will use the redefinition
         \begin{gather}
-            \gamma_\ast :=
+            \gamma_{d+1}\longrightarrow k\gamma_{d+1}.
+        \end{gather}
+        This has the benefit that $\gamma_{d+1}^2 = \mathbbm{1}$.
+
+        In $d=3+1$ one generally takes the following representation for $\gamma_5$:\footnote{Such a block diagonal form can always (i.e. for all even $d$) be chosen by working in a helicity-adapted basis.}
+        \begin{gather}
+            \gamma_{d+1} :=
             \begin{pmatrix}
                 \mathbbm{1}&0\\
                 0&-\mathbbm{1}
@@ -116,11 +120,11 @@
     \newdef{Chiral projection}{
         The chiral projections of a spinor $\psi$ are defined as follows:
         \begin{gather}
-            \psi_L := \frac{1+\gamma_\ast}{2}\psi
+            \psi_L := \frac{1+\gamma_{d+1}}{2}\psi
         \end{gather}
         and
         \begin{gather}
-            \psi_R := \frac{1-\gamma_\ast}{2}\psi.
+            \psi_R := \frac{1-\gamma_{d+1}}{2}\psi.
         \end{gather}
         Every spinor can then be written as a sum of its chiral parts:
         \begin{gather}
@@ -153,4 +157,20 @@
 
 \subsection{Fierz identities}
 
-    Using a spinor $u$ and a cospinor $\overline{v}$ one can build a bilinear form $\overline{v}u$. ?? COMPLETE ??
+    Using a spinor $u\in S$ and a cospinor $\overline{v}\in S^*$ one can build a bilinear form $\overline{v}u$. However, for two spinors $u, \omega$ and two cospinors $\overline{v}, \overline{\rho}$ one can interpret the expression $(\overline{v}u)(\overline{\rho}\omega)$ either as a quadrilinear form on $u\otimes\overline{v}\otimes\omega\otimes\overline{\rho}$ or as a quadrilinear form on $\omega\otimes\overline{v}\otimes u\otimes\overline{\rho}$. Because $C\ell_{3, 1}(\mathbb{C})$ is isomorphic to the endomorphism ring on $S$ there must exist coefficients $a^{ij}$ where $i,j=1,\ldots,2^D$ such that
+    \begin{gather}
+        (\overline{v}u)(\overline{\rho}\omega) = \sum_{i,j=1}^{2^D}a^{ij}(\overline{v}\gamma_i\omega)(\overline{\rho}\gamma_ju).
+    \end{gather}
+    By using the trace orthogonality relations one can find that
+    \begin{gather}
+        \alpha^{ij} =
+        \begin{cases}
+            0&i\neq j\\
+            \frac{1}{2^{\lfloor D/2 \rfloor}}&i=j.
+        \end{cases}
+    \end{gather}
+    The above equality can then also be rewritten as follows:
+    \begin{gather}
+        \delta_b^a\delta_d^c = \frac{1}{2^{\lfloor D/2 \rfloor}}\sum_{i=1}^{2^D}(\gamma_i)_d^a(\gamma_i)_b^c.
+    \end{gather}
+    This expression (and the techniques used to find it) allow one to rearrange almost all multilinear expressions involving spinors and cospinors.

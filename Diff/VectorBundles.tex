@@ -367,7 +367,7 @@
         Let $W$ be a distribution over a smooth manifold $M$. $W$ is integrable if and only if it satisfies the Frobenius integrability condition.
     \end{theorem}
 
-\section{Differential \texorpdfstring{$k$}{k}-forms}\label{manifolds:section:forms}
+\section{Differential \texorpdfstring{$k$}{k}-forms}\label{diff:section:forms}
 
     \newdef{Differential form}{\index{differential form}
         \nomenclature[S_zsymOmegak]{$\Omega^k(M)$}{$C^\infty(M)$-module of differential $k$-forms on the manifold $M$.}
@@ -798,35 +798,44 @@
         \end{align}
     }
 
+\subsection{Induced connections}
+
+    \begin{formula}[Connection on tensors]
+        Applying the Leibniz property of a Koszul connection to tensor contractions gives us the following form of the induced connection on the $(s, k)$-tensor bundle:
+        \begin{align}
+            \nabla_YT(\omega^1,\ldots, \omega^s, X_1,\ldots, X_k) := Y\Big(&T(\omega^1,\ldots, \omega^s, X_1,\ldots, X_k)\Big)\nonumber\\
+            &- \sum_{i=1}^sT(\omega^1,\ldots, \nabla_Y\omega^i,\ldots, \omega^s, X_1,\ldots, X_k)\nonumber\\
+            &- \sum_{i=1}^kT(\omega^1,\ldots, \omega^s, X_1,\ldots, \nabla_YX_i,\ldots, X_k)
+        \end{align}
+        where $Y, X_1,\ldots, X_k\in\mathfrak{X}(M)$ and $\omega^1,\ldots,\omega^s\in\Omega^1(M)$.
+    \end{formula}
+
+    \begin{result}
+        By noting that the covariant derivative of a vector field is a vector-valued differential form, we can use the previous formula to compute the covariant derivative of the covariant derivative:
+        \begin{gather}
+            (\nabla_X\nabla)_YZ = \nabla_X(\nabla_YZ) - \nabla_{\nabla_XY}Z - \nabla_Y(\nabla_XZ).
+        \end{gather}
+        We added parentheses to make it clear that the outer covariant derivatives act on the result of the inner derivatives. If we would not have added these parentheses, we could have confused these terms with the second covariant derivative (whose definition also follows from a Leibniz-type argument):
+        \begin{gather}
+            \nabla^2_{X, Y}S : = \nabla_X(\nabla_YS) - \nabla_{\nabla_XY}S.
+        \end{gather}
+    \end{result}
+
+    As an example of the second covariant derivative we give the definition of the Hessian on arbitrary smooth manifolds:
     \newdef{Hessian}{\index{Hessian}
         Consider a smooth manifold with connection $\nabla$. The Hessian of a function $f\in C^\infty(M)$ is defined as the iterated covariant derivative:
         \begin{gather}
-            \text{Hess}(f) := \nabla\nabla f.
+            \text{Hess}(f) := \nabla^2f
+        \end{gather}
+        where one should note that by the above definition the first covariant derivative also acts on the second one, i.e\mnote{\dbend}
+        \begin{gather}
+            \nabla\nabla f(X, Y) = \nabla_X(\nabla_Yf) - \nabla_{\nabla_XY}f.
         \end{gather}
         For a scalar function we know that $\nabla f = df$ and for covector fields we know that (in local coordinates) \[\nabla_i\sigma_j = \partial_i\sigma_j - \Gamma^k_{ij}\sigma_k\] where $\Gamma^k_{ij}$ are the connection coefficients. Combining these facts we obtain the following local formula for the Hessian of $f$:
         \begin{gather}
             \text{Hess}(f) = \left(\frac{\partial^2f}{\partial x_i\partial x_j} - \Gamma^k_{ij}\pderiv{f}{x_k}\right)dx^i\otimes dx^j.
         \end{gather}
     }
-
-\subsection{Induced connections}
-
-    \begin{formula}[Connection on differential forms]
-        Applying the Leibniz property of a Koszul connection to tensor contractions gives us the following form of the induced connection on the $(s, k)$-tensor bundle:
-        \begin{align}
-            \nabla_YT(\omega^1,\ldots, \omega^s, X_1,\ldots, X_k) = Y\Big(&T(\omega^1,\ldots, \omega^s, X_1,\ldots, X_k)\Big)\nonumber\\
-            &- \sum_{i=1}^sT(\omega^1,\ldots, \nabla_Y\omega^i,\ldots, \omega^s, X_1,\ldots, X_k)\nonumber\\
-            &- \sum_{i=1}^kT(\omega^1,\ldots, \omega^s, X_1,\ldots, \nabla_YX_i,\ldots, X_k)
-        \end{align}
-        where $Y, X_1,\ldots, X_k\in\mathfrak{X}(M)$ and $\omega^1,\ldots, \omega^s\in\Omega^1(M)$.
-    \end{formula}
-
-    \begin{result}
-        By noting that the covariant derivative of a vector field is a vector-valued differential form, we can use the previous formula to compute the covariant derivative of the covariant derivative:
-        \begin{gather}
-            (\nabla_X\nabla)_YZ := \nabla_X\nabla_YZ - \nabla_{\nabla_XY}Z - \nabla_Y\nabla_XZ.
-        \end{gather}
-    \end{result}
 
     \newdef{Pullback connection}{\index{connection!pullback}
         Let $E\rightarrow M$ be a vector bundle with Koszul connection $\nabla$ and let $f:M'\rightarrow M$ be a smooth map. On the pullback bundle\footnote{See definition \ref{manifolds:pullback_bundle}.} $f^*E$ there exists a unique Koszul connection $\nabla'$ satisfying

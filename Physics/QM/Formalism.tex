@@ -7,11 +7,11 @@
 \subsection{Postulate 6: Eigenfunction expansion}
 
     \newdef{Observable}{\index{observable}
-        An operator $\hat{A}$ which possesses a complete set of eigenfunctions is called an observable.
+        An operator $\hat{A}$ that possesses a complete set of eigenfunctions.
     }
 
     \begin{formula}\index{eigenfunction!expansion}
-        Let $|\Psi\rangle$ be an arbitrary wave function representing the system. Let the set $\{|\psi_n\rangle\}_{i\in I}$ be a complete set of eigenfunctions of an observable of the system. The wave function $|\Psi\rangle$ can be expanded as a linear combination of those eigenfunctions:
+        Let $|\Psi\rangle$ be a wave function representing a given system. Let the set $\{|\psi_n\rangle\}_{i\in I}$ be a complete set of eigenfunctions of some observable of the system. The wave function $|\Psi\rangle$ can be expanded as a linear combination of those eigenfunctions:
         \begin{gather}
             \label{qm_formalism:eigenfunction_expansion}
             |\Psi\rangle = \sum_nc_n|\psi_n\rangle + \int c_a|\psi_a\rangle da
@@ -20,7 +20,7 @@
     \end{formula}
 
     \begin{formula}[Closure relation]\index{closure!relation}\index{resolution!of the identity}
-        For a complete set of discrete eigenfunctions the closure relation\footnote{This relation is also called the \textbf{resolution of the identity}.} reads:
+        For a complete set of discrete eigenfunctions the closure relation\footnote{This relation is also called the \textbf{resolution of the identity}.} is given by
         \begin{gather}
             \label{qm_formalism:closure}
             \sum_n|\psi_n\rangle\langle\psi_n| = \mathbbm{1}.
@@ -32,52 +32,70 @@
         \end{gather}
         For a mixed set of eigenfunctions a similar relation is obtained by summing over the discrete eigenfunctions and integrating over the continuous eigenfunctions.
     \end{formula}
-    \sremark{To simplify the notation we will almost always use the notation of equation \ref{qm_formalism:closure} but implicitly integrate over the continuous spectrum.}
+    \sremark{To simplify the notation we will almost always use the notation of equation \ref{qm_formalism:closure} and implicitly integrate over the continuous spectrum.}
 
 \section{Uncertainty principle}
 
-    \newdef{Compatible observables}{\index{observable!compatibile observables}
-        Let $\hat{A}, \hat{B}$ be two observables. If there exists a complete set of functions $|\psi_n\rangle$ that are eigenfunctions of both $\hat{A}$ and $\hat{B}$ then the two operators are said to be compatible.
+    \newdef{Compatible observables}{\index{observable!compatibility}
+        Let $\hat{A}, \hat{B}$ be two observables. If there exists a complete set of mutual eigenfunctions $|\psi_n\rangle$ then the two operators are said to be compatible.
     }
 
-    \newformula{Uncertainty relation}{\index{Heisenberg!uncertainty relation}
-        Let $\hat{A}, \hat{B}$ be two observables and let $\Delta A, \Delta B$ be the corresponding uncertainties. The (Robertson) uncertainty relation reads
+    \newformula{Uncertainty relation}{\index{Heisenberg!uncertainty relation}\index{Robertson|see{Heisenberg uncertainty relation}}
+        Let $\hat{A}, \hat{B}$ be two observables and let $\Delta A, \Delta B$ be the corresponding uncertainties:
+        \begin{gather}
+            \Delta A := \langle\hat{A}^2\rangle - \langle\hat{A}\rangle^2.
+        \end{gather}
+        The (\textbf{Robertson}) uncertainty relation reads as follows:
         \begin{gather}
             \label{qm_formalism:uncertainty_relation}
             \Delta A\Delta B \geq \stylefrac{1}{4}\left|\left\langle\left[\hat{A}, \hat{B}\right]\right\rangle\right|^2.
         \end{gather}
     }
 
-\section{Matrix representation}
+\section{Symmetries}
 
-    \begin{formula}
-        The following formula gives the matrix representation of $\hat{A}$ with respect to the orthonormal basis $\{\psi_n\}$:
+    \newdef{State space}{
+        By the postulates of quantum mechanics, the states in a quantum theory are given by rays in the projective Hilbert space $P\mathcal{H}$. Probabilities are then defined through the canonical metric on $P\mathcal{H}$ as follows:
         \begin{gather}
-            \label{qm_formalism:matrix_entry}
-            A_{mn} = \langle\psi_m|\hat{A}|\psi_n\rangle.
+            \mathcal{P}(\psi, \phi) := \cos^2\big[d(\psi,\phi)\big] = \frac{|\langle\psi|\phi\rangle|^2}{\langle\psi|\psi\rangle\langle\phi|\phi\rangle}
         \end{gather}
-    \end{formula}
-    \begin{remark}
-         The basis $\{\psi_n\}$ need not consist out of eigenfunctions of $\hat{A}$.
-    \end{remark}
+        where $|\psi\rangle,|\phi\rangle$ are two representatives in $P\mathcal{H}$.
+    }
 
-\section{Slater determinants}
+    \newdef{Symmetry}{\index{symmetry}\index{automorphism!quantum}
+        A symmetry (or \textbf{quantum automorphism}) is an isometric automorphism of $P\mathcal{H}$. We will denote this group by $\text{Aut}_{qm}(P\mathcal{H})$.
+    }
 
-    \begin{theorem}[Symmetrization postulate]\index{symmetrization postulate}
-        Let $\mathcal{H}$ be the Hilbert space belonging to a single particle. A system of $n$ identical particles is described by a wave function $\Psi$ belonging to either $S^n(\mathcal{H})$ or $\Lambda^n(\mathcal{H})$.
+    The following theorem due to Wigner gives a linear characterization of quantum symmetries:\footnote{In fact it is a particular case of a more general theorem in projective geometry.}
+    \begin{theorem}[Wigner]\index{Wigner}
+        Every quantum automorphism on $P\mathcal{H}$ is induced by a unitary or anti-unitary operator on $\mathcal{H}$.
     \end{theorem}
+    This is equivalent to saying that the group morphism $\pi:\text{Aut}(\mathcal{H}, \mathcal{P}):=\text{U}(\mathcal{H})\times\text{AU}(\mathcal{H})\rightarrow\text{Aut}_{qm}(P\mathcal{H})$ is surjective. The kernel is given by phase shifts, i.e. $\text{U}(1)$, and hence we obtain a short exact sequence:
+    \begin{gather}
+        1\longrightarrow\text{U}(1)\longrightarrow\text{Aut}(\mathcal{H}, \mathcal{P})\longrightarrow\text{Aut}_{qm}(P\mathcal{H})\longrightarrow1.
+    \end{gather}
+
+    In the case of symmetry breaking (e.g. lattice systems) the full symmetry group is reduced to a subgroup $G\subset\text{Aut}_{qm}(P\mathcal{H})$. The group of operators acting on $\mathcal{H}$ is then given by the pullback $\widetilde{G}$ of the diagram \[\text{Aut}(\mathcal{H}, \mathcal{P})\longrightarrow\text{Aut}_{qm}(P\mathcal{H})\longleftarrow G.\] It should also be noted that the kernel of the homomorphism (and in fact projection) $\widetilde{G}\rightarrow G$ is again $\text{U}(1)$. This then leads to the property that $\widetilde{G}$ is a $\mathbb{Z}_2$-twisted (and hence non-central) $\text{U}(1)$-extension of $G$ (where the twist is induced by the homomorphism $\phi:\text{Aut}(\mathcal{H}, \mathcal{P})\rightarrow\mathbb{Z}_2$ that tells us whether an operator is unitary or anti-unitary).
+
+    ?? COMPLETE ??
+
+\section{Symmetric states}
+
+    \begin{axiom}[Symmetrization postulate]\index{symmetrization postulate}
+        Let $\mathcal{H}$ be the Hilbert space belonging to a single particle. A system of $n$ identical particles is described by a state $\Psi$ belonging to either $S^n(\mathcal{H})$ or $\Lambda^n(\mathcal{H})$.
+    \end{axiom}
     \begin{remark}
         In ordinary quantum mechanics this is a postulate, but in quantum field theory this is a consequence of the spin-statistics theorem of Pauli.
     \end{remark}
 
     \begin{formula}
-        Consider the permutation group $\{\sigma\}\equiv S_n$ on $n$ elements. Let $|\psi\rangle$ be a single-particle wave function. Bosonic systems are described by a wave function of the form
+        Consider the permutation group $S_n$ on $n$ elements. Let $|\psi\rangle$ be a single-particle wave function. Bosonic systems are described by a wave function of the form
         \begin{gather}
-            |\Psi_B\rangle = \sum_{\sigma}|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle.
+            |\Psi_B\rangle = \sum_{\sigma\in S_n}|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle.
         \end{gather}
         Fermionic systems are described by a wave function of the form
         \begin{gather}
-            |\Psi_F\rangle = \sum_{\sigma}\sgn(\sigma)|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle.
+            |\Psi_F\rangle = \sum_{\sigma\in S_n}\sgn(\sigma)|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle.
         \end{gather}
     \end{formula}
 
@@ -85,11 +103,11 @@
         Let $\{\phi_i(\vector{q})\}_{i\leq N}$ be a set of wave functions, called \textbf{spin orbitals}, describing a system of $N$ identical fermions. The totally antisymmetric wave function of the system is given by\footnote{For bosonic systems one can define a similar function using the concept of \textit{permanents}.}
         \begin{gather}
             \label{qm_formalism:slater_determinant}
-            \psi(\vector{q}_1, ..., \vector{q}_N) = \frac{1}{\sqrt{N!}}\det\left(
+            \psi(\vector{q}_1,\ldots,\vector{q}_N) = \frac{1}{\sqrt{N!}}\det\left(
             \begin{array}{ccc}
-                    \phi_1(\vector{q}_1)&\cdots&\phi_N(\vector{q}_1)\\
-                    \vdots&\ddots&\vdots\\
-                    \phi_1(\vector{q}_N)&\cdots&\phi_N(\vector{q}_N)
+                \phi_1(\vector{q}_1)&\cdots&\phi_N(\vector{q}_1)\\
+                \vdots&\ddots&\vdots\\
+                \phi_1(\vector{q}_N)&\cdots&\phi_N(\vector{q}_N)
             \end{array}
             \right).
          \end{gather}
@@ -101,7 +119,7 @@
     \begin{formula}
         In the interaction picture we define the state vector as follows:
         \begin{gather}
-            |\psi(t)\rangle_I = e^{\frac{i}{\hbar}\hat{H}_0t}|\psi(t)\rangle.
+            |\psi(t)\rangle_I := e^{\frac{i}{\hbar}\hat{H}_0t}|\psi(t)\rangle.
         \end{gather}
         From this it follows that the operators in the interaction picture are given by
         \begin{gather}

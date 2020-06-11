@@ -18,20 +18,71 @@
 \subsection{Classical systems}
 
     \newdef{Noether symmetry}{
-        Let $L(q^i, \dot{q}^i, t)$ be the Lagrangian function describing some system $\mathcal{S}$. An infinitesimal transformation\footnote{The transformation for $\dot{q}^i$ is in fact induced by the ones for $q^i$ and $t$.}
-        \begin{align*}
-            q^i& \longrightarrow q^i + \varepsilon\xi^i(q^k, t)\\
-            t&\longrightarrow t + \varepsilon\tau(q^k, t)\\
-            \dot{q}^i&\longrightarrow \dot{q}^i + \varepsilon(\dot{\xi}^i - \dot{q}^i\dot{\tau})
-        \end{align*}
-        is called a Noether symmetry for $L$ if it satisfies
+        Consider an integral quantity $I$ defined through some Lagrangian function $L(q, u)$:
         \begin{gather}
-            \int_{\tilde{t}_0}^{\tilde{t}_1}L(\tilde{q}^i, \dot{\tilde{q}}^i, \tilde{t})d\tilde{t} = \int_{t_0}^{t_1}L(q^i, \dot{q}^i, t)dt + \varepsilon\int_{t_0}^{t_1}\deriv{f}{t}dt
+            I_M = \int_ML(q, u, \partial u)dq
         \end{gather}
-        for every curve $q:[a, b]\rightarrow\mathbb{R}$, for every subinterval $[t_0, t_1]\subseteq[a, b]$ and for some function $f(q^i, t)$.
+        where $u$ are (analytic) functions of the variables $q$. A transformation $q\longrightarrow\tilde{q}n u\longrightarrow\tilde{u}$ of the variables \footnote{The transformations of the derivatives $\partial u$ are induced by the ones for $u$.} is called a Noether symmetry for $L$ if it satisfies
+        \begin{gather}
+            \int_{\widetilde{M}}L(\tilde{q}, \tilde{u}, \partial\tilde{u})d\tilde{q} = \int_ML(q, u, \partial u)dq
+        \end{gather}
+        for arbitrary $M$.
     }
 
-\section{Variational bicomplex}
+    Following Lie we introduce the notion of a group of transformations:
+    \newdef{Finite continuous group}{
+        A collection of analytic functions, closed under inverses and composition, such that every function depends analytically on a finite number of parameters. In this chapter we will denote these groups by $\mathfrak{G}_k$ (where $k$ is the number of independent parameters).
+    }
+    \remark{It should be clear that this is the same as a finite-dimensional Lie group (see definition \ref{lie:lie_group}).}
+
+    Instead of a parameters, one can also generalize to functions:
+    \newdef{Infinite continuous group}{
+        A collection of analytic functions, closed under inverses and composition, such that every function depends analytically on a finite number of arbitrary (analytic) functions. In this chapter we will denote these groups by $\mathfrak{G}_{\infty, k}$ (where $k$ is the number of independent functions).
+    }
+    \remark{In physics terminology the infinite groups would be the symmetry groups obtained by gauging a global symmetry $\mathfrak{G}_k$.}
+
+    \begin{theorem}[Noether]\index{Noether}
+        Consider an integral quantity $I$ that is invariant under some group $\mathfrak{G}$.
+        \begin{itemize}
+            \item If $\mathfrak{G}$ is finite continuous (and hence of the form $\mathfrak{G}_k$) then there exist $k$ independent (linear) combinations among the Lagrangian expressions of $I$ that are equal to divergences. Conversely, if there exist $k$ independent combinations among the Lagrangian expressions that are divergences, then $I$ is invariant under a group of the form $\mathfrak{G}_k$.
+            \item If $\mathfrak{G}$ is infinite continuous (and hence of the form $\mathfrak{G}_{\infty, k}$) then there exists $k$ independent relations among the Lagrangian expressions and their derivatives\footnote{The order up to which the derivatives occur is equal to the order of derivatives up to which the transformations depend on the $k$ arbitrary functions.}. Conversely, if $k$ such relations exist, then the integral $I$ is invariant under a group of the form $\mathfrak{G}_{\infty, k}$.
+        \end{itemize}
+    \end{theorem}
+    \remark{In fact the first theorem is also valid in the limit of an infinite number of parameters.}
+
+    \newdef{Improper relations}{
+        Divergence relations $\sum_i\psi_i\delta u_i = \nabla\cdot B$ obtained in a variational problem with symmetry group $\mathfrak{G}_k$ can be classified into two groups:
+        \begin{itemize}
+            \item If the quantities $B$ are linear combinations of Lagrangian expressions (and their derivatives) then the divergence relations are said to be improper. It can be shown that this is the case if and only if $\mathfrak{G}_k$ is a subgroup of an infinite continuous symmetry group $\mathfrak{G}_{\infty, k}$.
+            \item Otherwise the divergence relations are said to be proper.
+        \end{itemize}
+    }
+
+    For Lagrangians describing ''point particles'', hence where $M\subseteq\mathbb{R}$, we can obtain the following result:
+    \begin{example}[One dimension]
+        Infinitesimal transformations
+        \begin{align*}
+            q^i \longrightarrow q^i &+ \varepsilon\xi^i(q^k, t)\\
+            t \longrightarrow t &+ \varepsilon\tau(q^k, t)\\
+            \dot{q}^i \longrightarrow \dot{q}^i &+ \varepsilon(\dot{\xi}^i - \dot{q}^i\dot{\tau})
+        \end{align*}
+        generate Noether symmetries if they leave the Lagrangian invariant up to a total derivative (in first order) for every subinterval $[t_0, t_1]\subseteq[a, b]$ and for some function $f(q, t)$:
+        \begin{gather}
+            \int_{\tilde{t}_0}^{\tilde{t}_1}L(\tilde{q}, \dot{\tilde{q}}, \tilde{t})d\tilde{t} = \int_{t_0}^{t_1}L(q, \dot{q}, t)dt + \varepsilon\int_{t_0}^{t_1}\deriv{f}{t}dt + O(\varepsilon^2).
+        \end{gather}
+        This is equivalent to requiring that the transformation is a solution of the following differential equation:
+        \begin{gather}
+            \pderiv{L}{\tau} + \pderiv{L}{q^i}\xi^i + \pderiv{L}{\dot{q}^i}(\dot{\xi}^i - \dot{q}^i\dot{\tau}) + L\dot{\tau} = \dot{f}.
+        \end{gather}
+        By Noether's (first) theorem we obtain for every such symmetry a conserved quantity of the following form
+        \begin{gather}
+            F := f - \left[L\tau + \pderiv{L}{\dot{q}^i}(\xi^i - \dot{q}^i\tau)\right].
+        \end{gather}
+    \end{example}
+
+    ?? IS THIS A GENUINE GENERALIZATION OR NOT ??
+
+\section{\difficult{Variational bicomplex}}
 
     In this section we use the language of jet bundles as introduced in section \ref{section:jet_bundles}.
 

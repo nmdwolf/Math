@@ -5,11 +5,11 @@
 \section{Symplectic manifolds}
 
     \newdef{Symplectic form}{\index{symplectic!form}
-        Le $M$ be a smooth manifold and consider a 2-form $\omega\in\Omega^2(M)$. $\omega$ is said to be symplectic\footnote{If one drops the closedness condition then one obtains a \textbf{almost symplectic manifold}.} if it satisfies following properties:
-        \begin{itemize}
+        Le $M$ be a smooth manifold and consider a 2-form $\omega\in\Omega^2(M)$. $\omega$ is said to be symplectic\footnote{If one drops the closedness condition then one obtains a \textbf{almost symplectic manifold}.} if it satisfies the following properties:
+        \begin{enumerate}
             \item \textbf{Closedness}: $d\omega = 0$
-            \item \textbf{Nondegeneracy}: if $\omega(u, v) = 0, \forall u\in TM$ then $v=0$
-        \end{itemize}
+            \item \textbf{Nondegeneracy}: $\iota_X\omega = 0 \implies X=0$
+        \end{enumerate}
     }
     \newdef{Symplectic manifold}{\index{symplectic!manifold}
         A manifold $M$ equipped with a symplectic 2-form $\omega$ is called a symplectic manifold. This structure is often denoted by the pair $(M, \omega)$.
@@ -68,10 +68,30 @@
         \footnotetext{Also known as the \textbf{canonical one-form}.}
         Let $M$ be a smooth manifold. The cotangent bundle $T^*M$ comes equipped with a canonical symplectic form: Let $(q, p)$ denote the local coordinates on $T^*M$ and define a one-form $\alpha$ by \[\alpha := p_idq^i.\] In coordinate-free notation this can be written as follows:
         \begin{gather}
-            \alpha(z) = \pi_2(z)\Big(\pi_*(z)\Big)
+            \label{diff:liouville}
+            \alpha(z) = \pi_2(z)\big(\pi_*(z)\big)
         \end{gather}
         where $z\in TT^*M$ and where $\pi: T^*M\rightarrow M$ and $\pi_2:TT^*M\rightarrow T^*M$ are the obvious bundle projections. This one-form serves as a symplectic potential for the cotangent bundle: \[\omega = d\alpha.\]
     \end{construct}
+
+    \newdef{Multisymplectic structure}{\index{symplectic!manifold}\index{$n$-plectic manifold}
+        In analogy to the definition of a symplectic structure one can also define multisymplectic (or \textbf{$n$-plectic}) structures as $(n+1)$-forms $\omega$ that satisfy the same 2 conditions:
+        \begin{enumerate}
+            \item \textbf{Closedness}: $d\omega = 0$
+            \item \textbf{Nondegeneracy}: $\iota_X\omega = 0 \implies X=0$
+        \end{enumerate}
+    }
+    \begin{construct}
+        One can generalize the construction of the canonical one-form on cotangent bundles $T^*M$ to exterior powers of the cotangent bundle through equation \ref{diff:liouville}:
+        \begin{gather}
+            \alpha(X_1, \ldots, X_n) := y\big(\pi_*X_1, \ldots, \pi_*X_n\big)
+        \end{gather}
+        where $X_1,\ldots,X_n\in T_y\Omega^n(M)$.
+    \end{construct}
+
+    \begin{example}[Killing form]\index{Killing!form}
+        The transgression 3-cocycle \ref{lie:killing_transgression} induced by the Killing form of a compact simple Lie group turns this group into a 2-plectic manifold.
+    \end{example}
 
 \subsection{Symplectomorphisms}
 
@@ -90,9 +110,10 @@
         Equivalently, a vector field is symplectic if its flow is a symplectomorphism. These vector fields form a Lie subalgebra of $\mathfrak{X}(M)$.
     }
 
-    \newdef{Hamiltonian vector field}{\label{diff:hamilton_vectorfield}\index{Hamilton!vector field}
+    \newdef{Hamiltonian vector field}{\index{Hamilton!vector field}\label{diff:hamilton_vectorfield}
         Let $(M, \omega)$ be a symplectic manifold. For every function $f\in C^\infty(M)$ we define the associated Hamiltonian vector field $X_f$ by the following relation\footnote{A lot of different conventions exist in the literature. We use the one compatible with the Hamiltonian equations \ref{lagrange:hamilton_equations} which are universally accepted.}:
         \begin{gather}
+            \label{diff:hamilton_vectorfield1}
             \omega(X_f, \cdot) = -df(\cdot).
         \end{gather}
         This can be rewritten by using $\omega^\sharp$ as
@@ -123,6 +144,24 @@
     \begin{property}
         From the property above every symplectic manifold is a Poisson manifold. The converse however is not true.
     \end{property}
+
+    \begin{remark}
+        Most of this section can be generalized to multisymplectic manifolds. For example, the definitions of Hamiltonian vector fields and the induced Lie algebra structure remain virtually the same. However, given a $(n-1)$-form $f$ there might not exist a vector field $X_f$ that satisfies equation \ref{diff:hamilton_vectorfield1}. If we restrict to the subspace $\text{Ham}(M)$ of such \textbf{Hamiltonian forms} that do induce a Hamiltonian vector field, we can define a generalized Poisson structure as follows:
+        \begin{gather}
+            \{f, g\} := \mathcal{L}_{X_g}f.
+        \end{gather}
+        Since the Lie derivative of a function along a vector field is equal to the action of the vector field on the function, we see that this definition reduces to the ordinary definition in the case of $n=1$. For $n>1$ the structure is not exactly Poisson because the bracket is only antisymmetric up to an exact form. Following \cite{category_symplectic} we will call this the \textbf{hemi-bracket}.
+
+        For $n=1$ one can equivalently define the Poisson bracket as
+        \begin{gather}
+            \{f,g\}_s := \iota_{X_g}\iota_{X_f}\omega.
+        \end{gather}
+        For $n>1$, however, this structure they differ by an exact form:
+        \begin{gather}
+            \{f,g\} = \{f,g\}_s + d\iota_{X_f}g.
+        \end{gather}
+        The \textbf{semi-bracket} $\{\cdot,\cdot\}_s$ does satisfy antisymmetry, but instead it fails to satisfy the Jacobi identity. Although these brackets do not define a Lie algebra, they do define a Lie 2-algebra (see definition \ref{lie:2-algebra}) where $L_1:=C^\infty(M)$ and $L_0:=\text{Ham}(M)$. They are isomorphic as Lie 2-algebras.
+    \end{remark}
 
 \section{Lagrangian submanifolds}
 
@@ -340,3 +379,5 @@
         \end{itemize}
         for all $g\in\text{Mp}(2n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups.
     }
+
+    ?? COMPLETE ??

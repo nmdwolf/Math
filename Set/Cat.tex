@@ -20,6 +20,7 @@
         \begin{gather}
             \mathbf{S}(X, Y) = \mathbf{C}(X, Y).
         \end{gather}
+        A subcategory is said to be \textbf{wide} or \textbf{lluf} if it contains all objects, i.e. $\ob{S}=\ob{C}$.
     }
 
     \newdef{Small category}{\index{small}
@@ -47,6 +48,15 @@
         \begin{enumerate}
             \item $\mathbf{W}$ contains all isomorphisms in $\mathbf{C}$.
             \item Any two composable morphisms $f, g\in\text{hom}(\mathbf{W})$ satisfy the 2-out-of-3 property: If any two of $\{f, g, f\circ g\}$ are in $\mathbf{W}$ then so is the third.
+        \end{enumerate}
+    }
+
+    \newdef{Reedy category}{\index{Reedy category}
+        A category $\mathbf{C}$ equipped with a function $\ob{C}\rightarrow\alpha$ (for some ordinal $\alpha$) and two wide subcategories $\mathbf{C}_\pm$ that satisfy the following conditions:
+        \begin{enumerate}
+            \item Nontrivial morphisms in $\mathbf{C}_+$ increase the degree.
+            \item Nontrivial morphisms in $\mathbf{C}_-$ decrease the degree.
+            \item All morphisms admit a unique factorisation as a morphism in $\mathbf{C}_-$ followed by a morphism in $\mathbf{C}_+$.
         \end{enumerate}
     }
 
@@ -297,7 +307,7 @@
         The functor $F$ (resp. G) is called the left (resp. right) adjoint\footnote{Sometimes the word \textbf{adjunct} is used (French versus Latin).}.
     }
     \begin{notation}
-        An adjunction $(F, G)$ between categories $\mathbf{C}, \mathbf{D}$ is often denoted by \[\mathbf{C}\adj{F}{G}\mathbf{D}\] or if the ambient categories are clear by \[F\dashv G.\]
+        An adjunction $(F, G)$ between categories $\mathbf{C}, \mathbf{D}$ is often denoted by \[\mathbf{D}\adj{F}{G}\mathbf{C}\] or if the ambient categories are clear by \[F\dashv G.\]
     \end{notation}
 
     \newdef{Unit-counit adjunction}{\index{triangle!identities}\index{unit}\index{zig-zag|see{triangle identity}}
@@ -766,8 +776,20 @@
     }
 
     \newdef{Localization}{\index{localization}\label{cat:localization}
-        Consider a category $\mathbf{C}$ with a collection of morphism $M\subset\text{mor}(\mathbf{C})$. The localization of $\mathbf{C}$ with respect to $M$ is constructed by adding for each morphism $f\in M$ a formal inverse to $\text{mor}(\textbf{C})$.
+        Consider a category $\mathbf{C}$ with a collection of morphism $M\subset\text{mor}(\mathbf{C})$. The localization of $\mathbf{C}$ with respect to $M$ is constructed by adding for each morphism $f\in M$ a formal inverse to $\text{mor}(\textbf{C})$. More specifically the localization consists of the following data:
+        \begin{enumerate}
+            \item a category $\mathbf{C}[W^{-1}]$ (even in the case were $C$ is locally small, the localization might be large)
+            \item a functor $F_W:\mathbf{C}\rightarrow\mathbf{C}[W^{-1}]$ such that $F_W(w)$ is invertible for all $w\in W$
+        \end{enumerate}
+        such that for every other category $\mathbf{D}$ and functor $\func{F}{C}{D}$, where $F(w)$ is invertible for all $w\in W$, the following conditions are satisfied:
+        \begin{itemize}
+            \item there exists a functor $Z_F:\mathbf{C}[W^{-1}]\rightarrow\mathbf{D}$ such that $Z_F\circ F_W$ is naturally isomorphic to $F$
+            \item the composition functor $F_W^*:[\mathbf{C}[W^{-1}], \mathbf{D}]\rightarrow[\mathbf{C}, \mathbf{D}]$ is fully faithfull.
+        \end{itemize}
     }
+    \begin{property}
+        The localization $\mathbf{C}[W^{-1}]$ is unique up to equivalence.
+    \end{property}
 
 \section{Abelian categories}
 
@@ -1114,7 +1136,7 @@
         Consider a group $G$. Its delooping $\mathbf{B}G$ is defined as the one-object groupoid for which $\mathbf{B}G(\ast,\ast)=G$.
     \end{example}
 
-    \newdef{Core}{\index{core}
+    \newdef{Core}{\index{core}\label{cat:core}
         Let $\mathbf{C}$ be a (small) category. The core Core$(\mathbf{C})\in\mathbf{Grpd}$ of $\mathbf{C}$ is defined as the maximal subgroupoid of $\mathbf{C}$.
     }
 
@@ -1130,12 +1152,6 @@
     \newdef{Transitive groupoid}{\index{transitive!groupoid}
         A groupoid $\mathcal{G}$ is said to be transitive if for all objects $x, y\in\text{ob}(\mathcal{G})$, where $x\neq y$, the set hom$_{\mathcal{G}}(x, y)$ is not empty.
     }
-
-    \newdef{Lie groupoid\footnotemark}{\index{Lie!groupoid}
-        \footnotetext{Similarly one can define \textit{topological groupoids, \'etal\'e groupoids}, ...}
-        A groupoid internal to $\mathbf{Diff}$. As noted in the remark below definition \ref{cat:internal_category} the pullbacks of the source and target morphisms should exist. In $\mathbf{Diff}$ this is equivalent to assuming that the source and target morphisms should be (surjective) submersions.
-    }
-    \remark{In the Ehresmannian approach one gives the manifold of composable morphisms $D_1\times_{D_0}D_1$ as part of the data. Hence we do not have to assume anything about the source and target morphisms.}
 
     \newdef{2-Groupoid}{
         A 2-groupoid is a 2-category in which all 1-morphisms are invertible and every 2-morphisms has a 'vertical' inverse. (The 'horizontal' inverse can be constructed from the other inverses.)
@@ -1167,13 +1183,13 @@
 \section{Model categories}
 
     \newdef{Model structure}{
-        Let $C$ be a category. A model structure (in the sense of Quillen\footnote{Also called a \textbf{closed model category}.}) on $C$ consists of 3 classes of morphisms
+        Let $C$ be a category. A model structure (in the sense of \textit{Quillen}\footnote{Also called a \textbf{closed model category}.}) on $C$ consists of 3 classes of morphisms
         \begin{enumerate}
-            \item Weak equivalences $W$
-            \item Fibrations $Fib$
-            \item Cofibrations $Cof$
+            \item \textbf{weak equivalences} $W$
+            \item \textbf{fibrations} Fib
+            \item \textbf{cofibrations} Cof
         \end{enumerate}
-        which satisfy the following two conditions:
+        that satisfy the following two conditions:
         \begin{itemize}
             \item $W$ turns $C$ into a category with weak equivalences (see \ref{category:weak_equivalence}).
             \item $(\text{Cof}, \text{Fib}\cap W)$ and $(\text{Cof}\cap W, \text{Fib})$ are weak factorization systems on $C$ (see \ref{category:wfc}).
@@ -1181,21 +1197,133 @@
     }
 
     \newdef{Model category}{\index{model!category}
-        A complete and cocomplete category equipped with a model structure.
+        A complete and cocomplete category equipped with a model structure.\footnote{Quillen's original definition only required small limits and small colimits.}
     }
 
     \newdef{Acyclic}{\index{acyclic!fibration}
-        The morphisms in $\text{Fib}\cap W$ and $\text{Cof}\cap W$ are called \textbf{acyclic} or \textbf{trivial} fibrations and cofibrations.
+        The morphisms in $\text{Fib}\cap W$ and $\text{Cof}\cap W$ are said to be \textbf{acyclic} or \textbf{trivial}.
     }
+
     \newdef{Fibrant}{\index{fibrant}
         An object in a model category is said to be fibrant if the unique morphism to the terminal object is a fibration. Dually, an object in a model category is said to be cofibrant if the unique morphism from the initial object is a cofibration.
     }
+    \begin{property}
+        In a model category the (co)completeness property and the weak factorization property together imply that one can for every object $X$ find a weakly equivalent fibrant replacement $X^f$ and a weakly equivalent cofibrant replacement $X^c$.
+    \end{property}
+
+    \begin{property}[Model structure on functor categories]\label{cat:model_functor}
+        Consider a category $\mathbf{C}$ and model category $\mathbf{D}$. The functor category $[\mathbf{C}, \mathbf{D}]$ admits two mode structures:
+        \begin{itemize}
+            \item \textbf{Injective model structure}: The weak equivalences are the natural transformations that are elementwise weak equivalences and the cofibrations are the natural transformations that are elementwise cofibrations.
+            \item \textbf{Projective model structure}: The weak equivalences are the natural transformations that are elementwise weak equivalences and the fibrations are the natural transformations that are elementwise fibrations.
+        \end{itemize}
+    \end{property}
 
     \newdef{Quillen equivalence}{\index{Quillen!equivalence}
-        Let $\mathbf{C}, \mathbf{D}$ be two model categories. An adjuction \[\mathbf{C}\adj{F}{G}\mathbf{D}\] is called a \textbf{Quillen adjunction} if the left adjoint preserves cofibrations and acyclic cofibrations. It follows from the axioms that this is equivalent to requiring that the right adjoint preserves fibrations and acyclic fibrations. These adjoint functors are called (left and right) \textbf{Quillen functors}.
+        Let $\mathbf{C}, \mathbf{D}$ be two model categories. An adjuction \[\mathbf{D}\adj{F}{G}\mathbf{C}\] is called a \textbf{Quillen adjunction} if the left adjoint preserves cofibrations and acyclic cofibrations. It follows from the axioms that this is equivalent to requiring that the right adjoint preserves fibrations and acyclic fibrations. These adjoint functors are called (left and right) \textbf{Quillen functors}.
 
         If $(F, G)$ is a Quillen adjunction such that for all cofibrant objects $A$ and fibrant objects $B$ the morphism $FA\rightarrow B$ is a weak equivalence if and only if the adjunct morphism $A\rightarrow GB$ is a weak equivalence, then $(F, G)$ is called a Quillen equivalence.
     }
+
+    \newdef{Homotopy category}{\index{homotopy!category}
+        Let $\mathbf{M}$ be a model category. The homotopy category $\mathbf{Ho}(\mathbf{M})$ is the category with the following structure:
+        \begin{itemize}
+            \item $\ob{Ho(M)}:=\ob{M}$
+            \item $\text{Hom}_{\mathbf{Ho}(\mathbf{M})}(X, Y) := [X^{cf}, Y^{cf}]$.
+        \end{itemize}
+    }
+
+    \begin{property}
+        If two model categories are Quillen equivalent, their homotopy categories are equivalent.
+    \end{property}
+
+\subsection{Simplicial spaces}
+
+    A good reference for this section and in particular for the theory of Segal spaces is \cite{rezk}.
+
+    \begin{example}[Topological spaces]
+        As a first example we look at the category $\mathbf{Top}$ of topological spaces\footnote{See chapter \ref{chapter:topology} and onwards.}. This category can be endowed with the structure of a model category by taking the weak equivalences to be the weak homotopy equivalences and by taking the fibrations to be the Serre fibrations.
+    \end{example}
+    \begin{example}[Simplicial sets]
+        As a second example we can consider the category $\mathbf{sSet}$ of simplicial sets\footnote{See definition \ref{sheaf:simplicial set}.}. This category can be turned into a model category by taking the weak equivalences to be the morphisms that induce weak homotopy equivalence between geometric realisations and by taking the fibrations to be Kan fibrations (fibrant objects are exactly the Kan complexes). The cofibrations are easily seen to be the ordinary inclusion maps.
+    \end{example}
+    \begin{property}
+        The adjoint pair of geometric realisation and singular set functors gives a Quillen equivalence between the above model categories. This result enables us to look at simplicial sets as if they were spaces and vice versa. Most of homotopy theory can be done in either categories.
+    \end{property}
+    \begin{property}
+        Equivalent categories have weakly equivalent nerves.
+    \end{property}
+    The converse is not true:
+    \remark{Because the information in nerves is not sufficient to distinguish between categories (and groupoids) because information about things such as invertibility is lost, i.e. weakly equivalent nerves do not necessarily come from equivalent categories, it is often useful to replace the model structure on $\mathbf{sSet}$ by an alternative one. Instead of taking the Kan complexes to be the fibrant object, \textit{Joyal} and \textit{Lurie} have shown that one can also take the (strictly weaker) quasicategories as fibrant objects to obtain a more informative structure, i.e. weak equivalences can distinguish between (nerves of) categories and groupoids. The fibrations will now be the inner Kan fibrations.}
+
+    \newdef{Dwyer-Kan equivalence}{\index{equivalence!Dwyer-Kan}
+        Consider a simplicial functor $\func{F}{C}{D}$ between two simplicial categories. This functor is called a Dwyer-Kan equivalence if
+        \begin{itemize}
+            \item the induced map on Hom-objects is a weak equivalence. $F$ is also said to be $\infty$-fully faithful.\footnote{This is related to the fact that simplicial categories are models for $\infty$-categories.}
+            \item the induced map on connected components $\pi_0 F:\pi_0\mathbf{C}\rightarrow\pi_0\mathbf{D}$ is an equivalence (of categories).
+        \end{itemize}
+    }
+    \begin{property}
+        Quillen equivalent model categories have Dwyer-Kan equivalent simplicial localisations.
+    \end{property}
+
+    \begin{example}[Bisimplicial sets]
+        One can also look at the simplicial objects in $\mathbf{sSet}$. These are often called bisimplicial sets or \textbf{simplicial spaces}\footnote{The latter name follows from the fact that topological spaces and simplicial sets are (Quillen) equivalent.}. Since $\mathbf{sSet}$ is a model category we know from property \ref{cat:model_functor} above that $\mathbf{ssSet}$ admits itself a model structure. It can be shown that the injective model structure on $\mathbf{ssSet}$ coincides with the so-called \textit{Reedy model structure}.\footnote{This is highly nontrivial.}
+
+        This allows us to define the notion of \textbf{Segal spaces}:
+    \end{example}
+    \newdef{Segal space}{\index{Segal!space}
+        Consider a fibrant object $X$ in the injective (or Reedy) model structure on $\mathbf{ssSet}$. This bisimplicial set is called a Segal space if it satisfies the following weak form of the \textit{Segal condition}:
+        \begin{gather}
+            X_n\xrightarrow{\simeq}X_1\times_{X_0}\cdots\times_{X_0}X_1
+        \end{gather}
+        is a weak equivalence for all $n\geq1$. These maps are called \textbf{Segal maps} in general.
+    }
+    \newdef{Segal category}{\index{Segal!category}
+        A bisimplicial set $X$ is called a Segal precategory if $X_0$ is discrete. It is called a Segal category if in addition all its Segal maps are weak equivalences.
+    }
+
+    \newdef{Mapping space}{\index{mapping space}
+        Consider a Segal space $X$. For every two points $x,y\in X_0$ we define the mapping space $\text{Map}(x, y)$ as the fibre of $(d_1,d_0):X_1\rightarrow X_0\times X_0$ over the point $(x,y)$. The identity element can then be defined as $s_0x$ for all $x\in X_0$.
+    }
+
+    \newdef{Homotopy category}{\index{homotopy}
+        Consider a Segal space $X$. Its homotopy category $\mathbf{Ho}(X)$ is defined as follows:
+        \begin{itemize}
+            \item $\text{ob}(\mathbf{Ho}(X)):=X_0$
+            \item $\text{Hom}_{\mathbf{Ho}(X)}(x, y) := \pi_0\text{Map}(x, y)$
+        \end{itemize}
+        Two points $f,g\in \text{Map}(x, y)$ are said to be \textbf{homotopic} if they are identified in $\mathbf{Ho}(X)$. A point $f\in\text{Map}(x, y)$ is called a \textbf{homotopy equivalence} if it admits both a left and a right inverse in $\mathbf{Ho}(X)$. The subspace $X_{hoequiv}\subset X_1$ consists of the components that contain homotopy equivalences.\footnote{It should be noted that if any one point in a component is a homotopy equivalence, then all points in that component are homotopy equivalences.}
+    }
+
+    \newdef{Complete Segal space}{
+        A Segal space $X$ for which the map $s_0:X_0\rightarrow X_{hoequiv}$ is a weak equivalence.
+    }
+
+    \newdef{Dwyer-Kan equivalence}{\index{equivalence!Dwyer-Kan}
+        A map $F$ of Segal spaces such that
+        \begin{itemize}
+            \item the induced map on mapping spaces is a weak equivalence.
+            \item the induced map between homotopy categories is an equivalence (of categories).
+        \end{itemize}
+    }
+    \begin{property}
+        A map of Segal spaces is a Dwyer-Kan equivalence if and only if it is a weak equivalence in the complete Segal space model structure $\mathcal{CSS}$. A map of complete Segal spaces is a Dwyer-Kan equivalence if and only if it is a levelwise weak equivalence.
+    \end{property}
+
+    Instead of changing the model structure on $\mathbf{sSet}$ to overcome the issues with taking nerves of categories or groupoids (as mentioned before) we can also change the construction of the nerve functor. Here we introduce an alternative notion introduced by \textit{Rezk}:
+    \newdef{Classifying diagram}{\index{classifying!diagram}
+        Consider a (small) category $\mathbf{C}$ together with the functor category $\mathbf{C}^{[n]}$ where $[n]$ is the totally ordered set on $n+1$ elements interpreted as a category. The classifying diagram of $\mathbf{C}$ is the bisimplicial set $\widetilde{N}\mathbf{C}$ defined levelwise as follows:
+        \begin{gather}
+            \widetilde{N}\mathbf{C}_k := N(\text{Core}(\mathbf{C}))
+        \end{gather}
+        where $N$ is the ordinary nerve functor and the core $\text{Core}$ was defined in definition \ref{cat:core}.
+
+        The reason why this construction is better for distinguishing categories and groupoids comes from the fact that information about isomoprhisms is already captured at level 0, while information about noninvertible morphisms is only captured from level 1 onwards.
+    }
+    \begin{property}
+        If $\mathbf{C}$ is small then $\widetilde{N}\mathbf{C}$ is a complete Segal space.
+    \end{property}
 
 \section{Operad theory}
 \subsection{Operads}
@@ -1207,7 +1335,7 @@
             \item $P(1)$ contains an identity element $\mathbbm{1}$.
             \item For all positive integers $n, k_1, \ldots, k_n$ there exists a composition
             \begin{gather}
-                \circ:P(n)\times P(k_1)\times\cdots\times P(k_n)\rightarrow P(k_1+\cdots k_n):(\psi, \theta_1, \ldots, \theta_n)\mapsto \psi\circ(\theta_1, \ldots, \theta_n)
+                \circ:P(n)\times P(k_1)\times\cdots\times P(k_n)\rightarrow P(k_1+\cdots+k_n):(\psi, \theta_1, \ldots, \theta_n)\mapsto \psi\circ(\theta_1, \ldots, \theta_n)
             \end{gather}
             that satisfies two additional axioms:
             \begin{itemize}

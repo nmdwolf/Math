@@ -2,48 +2,48 @@
 
 \section{Regression}
 
-	\begin{method}[Normal equation\footnotemark]\index{normal!equation}
-		\footnotetext{The name stems from the fact that the equation $A^TAx = A^Tb$ implies that the residual is orthogonal (normal) to the range of $A$.}
-		Given a linear problem \[Ax=b\] one can try to solve this problem by minimizing the $\ell^2$-norm $||Ax-b||^2$:
-		\begin{gather}
-			\min_x(Ax-b)^T(Ax-b)\longrightarrow\hat{x}.
-		\end{gather}
-		This can be formally be solved by $x=(A^TA)^{-1}A^Tb$ where $(A^TA)^{-1}A^T$ is the pseudoinverse of $A$.
-	\end{method}
+    \begin{method}[Normal equation\footnotemark]\index{normal!equation}
+        \footnotetext{The name stems from the fact that the equation $A^TAx = A^Tb$ implies that the residual is orthogonal (normal) to the range of $A$.}
+        Given a linear problem \[Ax=b\] one can try to solve this problem by minimizing the $\ell^2$-norm $||Ax-b||^2$:
+        \begin{gather}
+            \min_x(Ax-b)^T(Ax-b)\longrightarrow\hat{x}.
+        \end{gather}
+        This can be formally be solved by $x=(A^TA)^{-1}A^Tb$ where $(A^TA)^{-1}A^T$ is the pseudoinverse of $A$.
+    \end{method}
 
 \subsection{Collinearity}
 
-	\newdef{Multicollinearity}{\index{collinearity}
-		Consider a finite set of random variables $\{X_i\}_{1\leq i\leq n}$. These random variables are set to be perfectly (multi)collinear if there exists an affine relation between them, i.e. there exists variables $\{\lambda_i\}_{0\leq i\leq n}$ such that
-		\begin{gather}
-			\lambda_0 + \lambda_1X_1 + \cdots + \lambda_nX_n = 0.
-		\end{gather}
-		The same concept can be applied to data samples by requiring this equation to hold for all entries of the data set. However in this case one also defines "near multicollinearity" if the variables $X_i$ are related as above up to some error term $\varepsilon$. If the variance of $\varepsilon$ is small then the matrix $X^TX$ might have an ill-conditioned inverse which might render the algorithms unstable.
-	}
-	
-	\newdef{Variance inflation factor}{\index{VIF}
-		The VIF is an estimate for how much the variance of a coefficient is inflated by the multicollinearity in the model. The VIF of a coefficient $\beta_i$ is defined as follows:
-		\begin{gather}
-			\text{VIF}_i = \frac{1}{1-R_i^2}
-		\end{gather}
-		where $R_i^2$ is the $R^2$-value obtained after regressing the predictor $X_i$ on all other predictors. The rule of thumb is that $\text{VIF}\geq10$ implies that a significant amount of multicollinearity is present in the model.
-	}
-	
-	\begin{method}[Tikhonov regularization]{\index{Tikhonov!regularization}
-		Consider a linear (regression) problem \[Ax = b\] where we try to find $x$ in terms of $A, b$. The most straightforward way to solve for $x$ is the least squares method introduced above. Formally a solution is given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However sometimes it might happen that $A$ is nearly singular so that we may wish for $x$ to have a specific property.
-		
-		In this case we can add a regularization term to the minimization problem:
-		\begin{gather}
-			||Ax-b||^2+||\Gamma x||^2
-		\end{gather}
-		where $\Gamma$ is called the \textbf{Tikhonov matrix}. In the case that $\Gamma=\lambda\mathbbm{1}$ we speak of \textbf{$\ell^2$-regularization}. This regularization technique will benefit solutions with smaller norms.
-	}
-	\end{method}
-	\begin{remark}\index{lasso}\index{ridge}
-		One can generalize the $\ell^2$-regulatization as defined above. By replacing the 2-norm $||\cdot||$ by any $p$-norm $||\cdot||_p$ one obtains an $\ell^p$-regularization. In this cases of $p=1$ and $p=2$ one often speaks of \textbf{lasso} and \textbf{ridge} regression. For general $p\geq0$ one also speaks of \textbf{bridge} regression.
-		
-		The minimization procedures for $p\leq1$ have the interesting feature that they not only shrink the coefficients but that they even perform feature selection, i.e. some coefficients become identically zero. However it can be shown that the optimization problem for $p<1$ is nonconvex and hence is harder to solve. In general it is found that lasso regression gives the best results.
-	\end{remark}
+    \newdef{Multicollinearity}{\index{collinearity}
+        Consider a finite set of random variables $\{X_i\}_{1\leq i\leq n}$. These random variables are set to be perfectly (multi)collinear if there exists an affine relation between them, i.e. there exists variables $\{\lambda_i\}_{0\leq i\leq n}$ such that
+        \begin{gather}
+            \lambda_0 + \lambda_1X_1 + \cdots + \lambda_nX_n = 0.
+        \end{gather}
+        The same concept can be applied to data samples by requiring this equation to hold for all entries of the data set. However in this case one also defines "near multicollinearity" if the variables $X_i$ are related as above up to some error term $\varepsilon$. If the variance of $\varepsilon$ is small then the matrix $X^TX$ might have an ill-conditioned inverse which might render the algorithms unstable.
+    }
+
+    \newdef{Variance inflation factor}{\index{VIF}
+        The VIF is an estimate for how much the variance of a coefficient is inflated by the multicollinearity in the model. The VIF of a coefficient $\beta_i$ is defined as follows:
+        \begin{gather}
+            \text{VIF}_i = \frac{1}{1-R_i^2}
+        \end{gather}
+        where $R_i^2$ is the $R^2$-value obtained after regressing the predictor $X_i$ on all other predictors. The rule of thumb is that $\text{VIF}\geq10$ implies that a significant amount of multicollinearity is present in the model.
+    }
+
+    \begin{method}[Tikhonov regularization]{\index{Tikhonov!regularization}
+        Consider a linear (regression) problem \[Ax = b\] where we try to find $x$ in terms of $A, b$. The most straightforward way to solve for $x$ is the least squares method introduced above. Formally a solution is given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However sometimes it might happen that $A$ is nearly singular so that we may wish for $x$ to have a specific property.
+
+        In this case we can add a regularization term to the minimization problem:
+        \begin{gather}
+            ||Ax-b||^2+||\Gamma x||^2
+        \end{gather}
+        where $\Gamma$ is called the \textbf{Tikhonov matrix}. In the case that $\Gamma=\lambda\mathbbm{1}$ we speak of \textbf{$\ell^2$-regularization}. This regularization technique will benefit solutions with smaller norms.
+    }
+    \end{method}
+    \begin{remark}\index{lasso}\index{ridge}
+        One can generalize the $\ell^2$-regulatization as defined above. By replacing the 2-norm $||\cdot||$ by any $p$-norm $||\cdot||_p$ one obtains an $\ell^p$-regularization. In this cases of $p=1$ and $p=2$ one often speaks of \textbf{lasso} and \textbf{ridge} regression. For general $p\geq0$ one also speaks of \textbf{bridge} regression.
+
+        The minimization procedures for $p\leq1$ have the interesting feature that they not only shrink the coefficients but that they even perform feature selection, i.e. some coefficients become identically zero. However it can be shown that the optimization problem for $p<1$ is nonconvex and hence is harder to solve. In general it is found that lasso regression gives the best results.
+    \end{remark}
 
 \section{Trees and forests}
 
@@ -51,150 +51,199 @@
 
 \section{Time series analysis}\index{time series}
 
-	\newdef{Autocorrelation function}{\index{autocorrelation}\index{correlation|seealso{autocorrelation}}
-		Consider a time series $\{X_t\}_{t\in\mathbb{N}}$. The autocovariance function of this time series is defined as the covariance function of the random variables $\{X_t\}_{t\in\mathbb{N}}$. Similarly, the autocorrelation function of the time series is defined as the correlation function of its associated collection of random variables.
-	}
-	
-	\newdef{Spectral density}{\index{spectral!density}\index{memory}
-		Consider a time series $\{X_t\}_{t\in\mathbb{N}}$. If we require the associated autocovariance time series to be in $\ell^1$, i.e. require it to be absolutely summable, then we can define the spectral density as the discrete Fourier transform of the autocovariance function:
-		\begin{gather}
-			f(\omega) = \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty}\gamma(k)e^{i\omega k}
-		\end{gather}
-		where $\gamma(k)$ is the autocovariance function at lag $k$.
-		
-		Under the assumption that the spectral density exists, we say that a time series has \textbf{short memory} if $f(0)$ is finite. Otherwise the series is said to have \textbf{long memory}.
-	}
-	
-	\newdef{Lag operator\footnotemark}{\index{lag}\index{backshift|see{lag}}
-		\footnotetext{Also called the \textbf{backshift operator}.}
-		The lag operator sends an entry of a time series to the preceding value:
-		\begin{gather}
-			BX_t = X_{t-1}.
-		\end{gather}
-		An important concept (especially in the context of autoregressive models) is that of a \textbf{lag polynomial}\footnote{The notation for these is not completely fixed in the literature. The $\theta$-notation is however a frequent choice.}:
-		\begin{align}
-			\theta(B) &= 1 + \sum_{i=1}^k \theta_iB^i\\
-			\varphi(B) &= 1 - \sum_{i=1}^k \varphi_iB^i
-		\end{align}
-	}
-	\newnot{Difference operator}{\index{difference}
-		In terms of the lag operator $B$ one defines the difference operator $\Delta$ as follows:
-		\begin{gather}
-			\Delta = 1 - B.
-		\end{gather}
-		In the same way one can define the \textbf{seasonal} difference operator:
-		\begin{gather}
-			\Delta_s = 1 - B^s.
-		\end{gather}
-	}
-	
-	\begin{method}[Ljung-Box test]\index{Ljung-Box}
-		The Ljung-Box test checks if a given set of autocorrelations of a time series is different from zero. Consider a data sample of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k$ lagged autocorrelation functions. The test statistic is defined as
-		\begin{gather}
-			Q = n(n+2)\sum_{i=1}^k\frac{\rho_k}{n-k}.
-		\end{gather}
-		If the null hypothesis ''there is no correlation'' is true then the test statistic will asymptotically follow a $\chi^2$-distribution with $k$ degrees of freedom.
-	\end{method}
-	
-	\begin{method}[Augmented Dickey-Fuller test]\index{Dickey-Fuller}
-		Consider a time series $\{X_t\}_{t\leq T}$. The (augmented) Dickey-Fuller test checks if the time series is (trend) stationary. For this test we consider the following regression model (similar to the \textit{ARIMA-models} discussed in the next section):
-		\begin{gather}
-			\Delta X_t = \alpha + \beta t + \gamma X_{t-1} + \sum_{i=1}^{p-1} \theta_i\Delta X_{t-i} + \varepsilon_t.
-		\end{gather}
-		The test statistic for this test is
-		\begin{gather}
-			DF = \frac{\gamma}{SE(\gamma)}
-		\end{gather}
-		where $SE$ denotes the standard error. The null hypothesis states that $\gamma=0$, i.e. there is a \textit{unit root} $(1-B)$ present in the model. Comparing the test statistic to tabulated critical values will give an indication wheter to reject the hypothesis or not (the more negative the statistic the more significant the result).
-	\end{method}
+    \newdef{Autocorrelation function}{\index{autocorrelation}\index{correlation|seealso{autocorrelation}}
+        Consider a time series $\{X_t\}_{t\in\mathbb{N}}$. The autocovariance function of this time series is defined as the covariance function of the random variables $\{X_t\}_{t\in\mathbb{N}}$. Similarly, the autocorrelation function of the time series is defined as the correlation function of its associated collection of random variables.
+    }
+
+    \newdef{Spectral density}{\index{spectral!density}\index{memory}
+        Consider a time series $\{X_t\}_{t\in\mathbb{N}}$. If we require the associated autocovariance time series to be in $\ell^1$, i.e. require it to be absolutely summable, then we can define the spectral density as the discrete Fourier transform of the autocovariance function:
+        \begin{gather}
+            f(\omega) = \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty}\gamma(k)e^{i\omega k}
+        \end{gather}
+        where $\gamma(k)$ is the autocovariance function at lag $k$.
+
+        Under the assumption that the spectral density exists, we say that a time series has \textbf{short memory} if $f(0)$ is finite. Otherwise the series is said to have \textbf{long memory}.
+    }
+
+    \newdef{Lag operator\footnotemark}{\index{lag}\index{backshift|see{lag}}
+        \footnotetext{Also called the \textbf{backshift operator}.}
+        The lag operator sends an entry of a time series to the preceding value:
+        \begin{gather}
+            BX_t = X_{t-1}.
+        \end{gather}
+        An important concept (especially in the context of autoregressive models) is that of a \textbf{lag polynomial}\footnote{The notation for these is not completely fixed in the literature. The $\theta$-notation is however a frequent choice.}:
+        \begin{align}
+            \theta(B) &= 1 + \sum_{i=1}^k \theta_iB^i\\
+            \varphi(B) &= 1 - \sum_{i=1}^k \varphi_iB^i
+        \end{align}
+    }
+    \newnot{Difference operator}{\index{difference}
+        In terms of the lag operator $B$ one defines the difference operator $\Delta$ as follows:
+        \begin{gather}
+            \Delta = 1 - B.
+        \end{gather}
+        In the same way one can define the \textbf{seasonal} difference operator:
+        \begin{gather}
+            \Delta_s = 1 - B^s.
+        \end{gather}
+    }
+
+    \begin{method}[Ljung-Box test]\index{Ljung-Box}
+        The Ljung-Box test checks if a given set of autocorrelations of a time series is different from zero. Consider a data sample of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k$ lagged autocorrelation functions. The test statistic is defined as
+        \begin{gather}
+            Q = n(n+2)\sum_{i=1}^k\frac{\rho_k}{n-k}.
+        \end{gather}
+        If the null hypothesis ''there is no correlation'' is true then the test statistic will asymptotically follow a $\chi^2$-distribution with $k$ degrees of freedom.
+    \end{method}
+
+    \begin{method}[Augmented Dickey-Fuller test]\index{Dickey-Fuller}
+        Consider a time series $\{X_t\}_{t\leq T}$. The (augmented) Dickey-Fuller test checks if the time series is (trend) stationary. For this test we consider the following regression model (similar to the \textit{ARIMA-models} discussed in the next section):
+        \begin{gather}
+            \Delta X_t = \alpha + \beta t + \gamma X_{t-1} + \sum_{i=1}^{p-1} \theta_i\Delta X_{t-i} + \varepsilon_t.
+        \end{gather}
+        The test statistic for this test is
+        \begin{gather}
+            DF = \frac{\gamma}{SE(\gamma)}
+        \end{gather}
+        where $SE$ denotes the standard error. The null hypothesis states that $\gamma=0$, i.e. there is a \textit{unit root} $(1-B)$ present in the model. Comparing the test statistic to tabulated critical values will give an indication wheter to reject the hypothesis or not (the more negative the statistic the more significant the result).
+    \end{method}
 
 \subsection{Autoregressive models}
 
-	\newdef{AR$(p)$-model}{\index{autoregressive model}
-		Consider a time series $\{X_t\}_{t\leq T}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1}, ..., X_{t-p}$ of the time series:
-		\begin{gather}
-			X_t = \beta_0 + \beta_1X_{t-1} + \cdots + \beta_pX_{t-p} + \varepsilon_t.
-		\end{gather}
-	}
-	
-	\newdef{Partial autocorrelation function}{
-		The $p^{th}$ autocorrelation function is defined as the $p^{th}$ coefficient in the AR$(p)$-model.
-	}
-	\remark{The optimal order $p$ of an autoregressive model is the one for which all higher partial autocorrelation functions (almost) vanish.}
-	
-	\newdef{MA$(p)$-model}{\index{moving average}
-		Consider a time series $\{X_t\}_{t\leq T}$ where every $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0, \sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1}, ..., \varepsilon_{t-p}$ of the error term:
-		\begin{gather}
-			X_t = \beta_0 + \beta_1\varepsilon_{t-1} + \cdots + \beta_p\varepsilon_{t-p} + \varepsilon_t.
-		\end{gather}
-		Since the error terms are assumed to have mean zero we see that the intercept term $\beta_0$ gives the mean of the time series.
-	}
-	\remark{The optimal order $p$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
-	
-	\newdef{Invertibility}{\index{invertibility}\index{stationarity}
-		An MA$(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e. $1/\theta(B)$ can be written as a convergent series in the operator $B$. This then implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the MA$(q)$-model as an AR$(p)$-model where possibly $p=\infty$. The analogous property for AR$(p)$-models leads to a definition of \textit{stationarity}.
-	}
-	
-	In practice it is not always possible to describe a data set using either an autoregressive or a moving average model. However, nothing stops us from combining these two types of models:
-	\newdef{ARMA$(p, q)$-model}{
-		\nomenclature[A_ARMA]{ARMA}{Autoregressive moving-average model}
-		\begin{gather}
-			X_t = \alpha_0 + \sum_{i=1}^p\alpha_iX_{t-i} + \sum_{j=1}^q\beta_j\varepsilon_{t-j} + \varepsilon_t
-		\end{gather}
-		As above one can find the optimal values for $p$ and $q$ by checking the autocorrelation and partial autocorrelation functions.
-	}
-	
-	Using the lag polynomials one can rewrite the ARMA$(p, q)$-model as follows:
-	\begin{gather}
-		\varphi(B)X_t = \alpha_0 + \theta(B)\varepsilon_t.
-	\end{gather}
-	By considering the special case where the polynomial $\mathcal{B}^-_\alpha$ has a unit root $1-B$ with multiplicity $d$ we can obtain a generalization of our model:
-	\begin{gather}
-		\varphi(B)(1-B)^dX_t = \alpha_0 + \theta(B)\varepsilon_t.
-	\end{gather}
-	The interpretation of this additional factor $(1-B)^d$ is related to the stationarity of the time series. The operator $1-B$ is a ''differencing operator'':
-	\begin{align*}
-		(1-B)\phantom{^2}X_t &= X_t - X_{t-1}\\
-		(1-B)^2X_t &= (X_t-X_{t-1}) - (X_{t-1}-X_{t-2})\\
-		&\cdots
-	\end{align*}
-	By successively applying it one can obtain a stationary time series from a nonstationary time series. This combination of differencing, autoregression and moving averages is called the \textbf{ARIMA}-model\footnote{The 'I' stands for ''integrated''.}.
-	
-	\remark{Including so-called \textit{exogenous} variables, i.e. external predictors, leads to an \textbf{ARIMA\underline{X}}-model.}
-	
-	\begin{remark}[Fitting AR- and MA-models]
-		As is clear from the definition of an AR$(p)$-model the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However in contrast to AR-models where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are by definition unknown.
-	\end{remark}
-	To estimate the coefficients in a MA-model researchers have introduced multiple techniques (see for example \cite{MA_fit}). One of the most famous ones is Durbin's method:
-	\begin{method}[Durbin]\index{Durbin}
-		By restricting to invertible MA$(q)$-models (or by approximating a noninvertible model by an invertible one) we can first fit an AR$(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$. Then in a second step one can again use a least squares-method to solve for the coefficients in the MA-model.
-	\end{method}
-	
-	As a last modification we can introduce seasonal components. Simple trends such as a linear growth are easily removed from the time series by detrending or differencing. However, a periodic pattern is harder to remove and in general ARIMA-models are not made to accompany these features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations.
-	
-	The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model but where we replace the lag operator $B$ by a seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation):
-	\newdef{ARIMA$(p,q,d)(P,Q,D)_s$-model}{
-		\begin{gather}
-			\Phi(B^s)\varphi(B)\Delta_s^D\Delta^dX_t = \theta(B)\Theta(B^s)\varepsilon_t
-		\end{gather}
-	}
-	
+    \newdef{AR$(p)$-model}{\index{autoregressive model}
+        Consider a time series $\{X_t\}_{t\leq T}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1}, ..., X_{t-p}$ of the time series:
+        \begin{gather}
+            X_t = \beta_0 + \beta_1X_{t-1} + \cdots + \beta_pX_{t-p} + \varepsilon_t.
+        \end{gather}
+    }
+
+    \newdef{Partial autocorrelation function}{
+        The $p^{th}$ autocorrelation function is defined as the $p^{th}$ coefficient in the AR$(p)$-model.
+    }
+    \remark{The optimal order $p$ of an autoregressive model is the one for which all higher partial autocorrelation functions (almost) vanish.}
+
+    \newdef{MA$(p)$-model}{\index{moving average}
+        Consider a time series $\{X_t\}_{t\leq T}$ where every $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0, \sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1}, ..., \varepsilon_{t-p}$ of the error term:
+        \begin{gather}
+            X_t = \beta_0 + \beta_1\varepsilon_{t-1} + \cdots + \beta_p\varepsilon_{t-p} + \varepsilon_t.
+        \end{gather}
+        Since the error terms are assumed to have mean zero we see that the intercept term $\beta_0$ gives the mean of the time series.
+    }
+    \remark{The optimal order $p$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
+
+    \newdef{Invertibility}{\index{invertibility}\index{stationarity}
+        An MA$(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e. $1/\theta(B)$ can be written as a convergent series in the operator $B$. This then implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the MA$(q)$-model as an AR$(p)$-model where possibly $p=\infty$. The analogous property for AR$(p)$-models leads to a definition of \textit{stationarity}.
+    }
+
+    In practice it is not always possible to describe a data set using either an autoregressive or a moving average model. However, nothing stops us from combining these two types of models:
+    \newdef{ARMA$(p, q)$-model}{
+        \nomenclature[A_ARMA]{ARMA}{Autoregressive moving-average model}
+        \begin{gather}
+            X_t = \alpha_0 + \sum_{i=1}^p\alpha_iX_{t-i} + \sum_{j=1}^q\beta_j\varepsilon_{t-j} + \varepsilon_t
+        \end{gather}
+        As above one can find the optimal values for $p$ and $q$ by checking the autocorrelation and partial autocorrelation functions.
+    }
+
+    Using the lag polynomials one can rewrite the ARMA$(p, q)$-model as follows:
+    \begin{gather}
+        \varphi(B)X_t = \alpha_0 + \theta(B)\varepsilon_t.
+    \end{gather}
+    By considering the special case where the polynomial $\mathcal{B}^-_\alpha$ has a unit root $1-B$ with multiplicity $d$ we can obtain a generalization of our model:
+    \begin{gather}
+        \varphi(B)(1-B)^dX_t = \alpha_0 + \theta(B)\varepsilon_t.
+    \end{gather}
+    The interpretation of this additional factor $(1-B)^d$ is related to the stationarity of the time series. The operator $1-B$ is a ''differencing operator'':
+    \begin{align*}
+        (1-B)\phantom{^2}X_t &= X_t - X_{t-1}\\
+        (1-B)^2X_t &= (X_t-X_{t-1}) - (X_{t-1}-X_{t-2})\\
+        &\cdots
+    \end{align*}
+    By successively applying it one can obtain a stationary time series from a nonstationary time series. This combination of differencing, autoregression and moving averages is called the \textbf{ARIMA}-model\footnote{The 'I' stands for ''integrated''.}.
+
+    \remark{Including so-called \textit{exogenous} variables, i.e. external predictors, leads to an \textbf{ARIMA\underline{X}}-model.}
+
+    \begin{remark}[Fitting AR- and MA-models]
+        As is clear from the definition of an AR$(p)$-model the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However in contrast to AR-models where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are by definition unknown.
+    \end{remark}
+    To estimate the coefficients in a MA-model researchers have introduced multiple techniques (see for example \cite{MA_fit}). One of the most famous ones is Durbin's method:
+    \begin{method}[Durbin]\index{Durbin}
+        By restricting to invertible MA$(q)$-models (or by approximating a noninvertible model by an invertible one) we can first fit an AR$(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$. Then in a second step one can again use a least squares-method to solve for the coefficients in the MA-model.
+    \end{method}
+
+    As a last modification we can introduce seasonal components. Simple trends such as a linear growth are easily removed from the time series by detrending or differencing. However, a periodic pattern is harder to remove and in general ARIMA-models are not made to accompany these features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations.
+
+    The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model but where we replace the lag operator $B$ by a seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation):
+    \newdef{ARIMA$(p,q,d)(P,Q,D)_s$-model}{
+        \begin{gather}
+            \Phi(B^s)\varphi(B)\Delta_s^D\Delta^dX_t = \theta(B)\Theta(B^s)\varepsilon_t
+        \end{gather}
+    }
+
 \subsection{Causality}
 
-	\newdef{Granger causality}{\index{causality!Granger}
-		Consider two time series $\{X_t\}_{t\in\mathbb{N}}$ and $\{Y_t\}_{t\in\mathbb{N}}$. The time series $X_t$ is said to Granger-cause $Y_t$ if past values of $X_t$ help to predict future values of $Y_t$. More formally this can be stated as follows:
-		\begin{gather}
-			P[Y_{t+k}\in A|\Omega(t)]\neq P[Y_{t+k}\in A|\Omega\backslash X(t)]
-		\end{gather}
-		for some $k$ where $\Omega(t)$ and $\Omega\backslash X(t)$ denote the available information at time $t$ with and without removing the variable $X$ from the universe.
-		
-		This formulation of causality was introduced by Granger under the following two assumptions:
-		\begin{itemize}
-			\item The cause always happens prior to the effect.
-			\item The cause has unique information about the effect.
-		\end{itemize}
-	}
-	\remark{A slightly different but for computational purposes often more useful\footnote{In fact this was the original definition by Granger.} notion of Granger-causality is as follows. A time series $X_t$ is said to Granger-cause a time series $Y_t$ if the variance of predictions of $Y_t$ becomes smaller when we take the information contained in $X_t$ into account.}
-	
-	
-	\remark{Assume that we are given two uncorrelated models giving predictions of a time series $X_t$. One way to check if they have the same accuracy is the \textit{Diebold-Mariano test}. However, when testing for Granger-causality one should pay attention. This test is not valid for nested models and hence is not applicable to two models that only differ by a set of extra predictors (in this case an external time series).}
+    \newdef{Granger causality}{\index{causality!Granger}
+        Consider two time series $\{X_t\}_{t\in\mathbb{N}}$ and $\{Y_t\}_{t\in\mathbb{N}}$. The time series $X_t$ is said to Granger-cause $Y_t$ if past values of $X_t$ help to predict future values of $Y_t$. More formally this can be stated as follows:
+        \begin{gather}
+            P[Y_{t+k}\in A|\Omega(t)]\neq P[Y_{t+k}\in A|\Omega\backslash X(t)]
+        \end{gather}
+        for some $k$ where $\Omega(t)$ and $\Omega\backslash X(t)$ denote the available information at time $t$ with and without removing the variable $X$ from the universe.
+
+        This formulation of causality was introduced by Granger under the following two assumptions:
+        \begin{itemize}
+            \item The cause always happens prior to the effect.
+            \item The cause has unique information about the effect.
+        \end{itemize}
+    }
+    \remark{A slightly different but for computational purposes often more useful\footnote{In fact this was the original definition by Granger.} notion of Granger-causality is as follows. A time series $X_t$ is said to Granger-cause a time series $Y_t$ if the variance of predictions of $Y_t$ becomes smaller when we take the information contained in $X_t$ into account.}
+
+    \remark{Assume that we are given two uncorrelated models giving predictions of a time series $X_t$. One way to check if they have the same accuracy is the \textit{Diebold-Mariano test}. However, when testing for Granger-causality one should pay attention. This test is not valid for nested models and hence is not applicable to two models that only differ by a set of extra predictors (in this case an external time series).}
+
+\section{Prediction regions}
+\subsection{Conformal prediction}
+
+    A very general framework for the construction of prediction intervals in a model-independent manner is given by the conformal prediction framework by \textit{Vovk et al}. (a good introduction is \cite{cp}). The main ingredients for the construction are randomization and conformity measures.
+
+    The first step will be studying the behaviour under randomization of the existing data (be it measurements or past predictions). To ensure that the procedure satisfies the required confidence (or probability) bounds, one has to make some assumptions. One of the main benefits of this framework is that we can relax the condition of the data being i.i.d. to it being exchangeable:
+    \newdef{Exchangeable data}{\index{exchangeability}
+        Consider a data sample $(z_i)_{1\leq i\leq N}$. The joint distribution $P(z_1,\ldots,z_N)$ is said to be exchangeable if it is invariant under any permutation of the data points. A generalization for infinite data sets is obtained by requiring exchangeability of any finite subset.
+
+        This definition can be restated in a purely combinatorial way. First we define the notion of a \textbf{bag}: The bag obtained from the (ordered) data sample $(z_i)_{1\leq i\leq N}$ is just the (unordered) set $\mathcal{B}$ containing these elements. The joint distribution $F$ is then said to be exchangeable if the probability of finding any sequence of data points is equal to the probability of drawing this same sequence from the bag of these elements. Since this latter probability is purely combinatorial and hence completely independent of the ordering, it should be clear that this coincides with the first definition.
+    }
+
+    \newdef{Nonconformity measure}{\index{measure!conformity}
+        Consider a bag of elements $\mathcal{B}$ together with a new element $z^*$. A noncomformity measure is a function that gives a number indicating how different $z^*$ is from the content of $\mathcal{B}$. Although this definition does not state specific requirements for the functions, it should be obvious that the better the function detects dissimilarities, the better the resulting prediction regions will be.
+    }
+    \sremark{One could easily well use conformity measures everywhere (hence looking at similarities instead of dissimilarities). It will become clear that the procedure is invariant under monotone transformations and hence we can just multiply everything by $-1$.}
+    \begin{example}[Point predictors]
+        A general class of nonconformity measures is obtained from point predictors. Given a point predictor $\rho$ that takes a bag $\mathcal{B}$ as input one can define a nonconformity measure as follows:
+        \begin{gather}
+            A_\rho(\mathcal{B}, z^*) := d(\rho(\mathcal{B}), z^*)
+        \end{gather}
+        where $d:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ is any distance function (in general just the Euclidean distance).
+    \end{example}
+
+    \begin{construct}[Conformal predictor]
+        Consider a data sample given as a bag $\mathcal{B}$ together with a given nonconformity measure $A$. Let $\alpha$ denote the confidence level at which we want to construct a prediction region. For any new element $z^*$ we proceed as follows:
+        \begin{enumerate}
+            \item Let $\mu^*$ denote the nonconformity $A(\mathcal{B}, z^*)$.
+            \item For any element $z$ in $\mathcal{B}$ we can similarly define $\mu_z$ by replacing $z$ by $z^*$ in the bag and calculating the nonconformity.
+            \item Let $p^*$ denote the fraction of elements $z$ of $\mathcal{B}$ for which $\mu_z\geq\mu^*$.
+            \item The element $z^*$ belongs to the $\alpha$-level prediction region $C^\alpha$ if $p^*>\alpha$.
+        \end{enumerate}
+        It should be noted that in general the construction of these regions can be quite time-consuming. For low dimensional regions it can often be achieved by solving inequalities derived from the specific form of the given nonconformity measure.
+    \end{construct}
+
+    \begin{property}[Conformal predictors are optimal]
+        Given any procedure for obtaining predictions that satisfies the following three properties there exists a conformal predictor that is more efficient:
+        \begin{itemize}
+            \item Ordering is irrelevant, i.e. the procedure only depends on the bag of prior elements.
+            \item Regions are valid, i.e. $P(z^*\in C^\alpha)\geq1-\alpha$ and $P(p^*\leq\alpha)\leq\alpha$.
+            \item Regions are nested, i.e. $\alpha\leq\alpha'\implies C^\alpha\subseteq C^{\alpha'}$.
+        \end{itemize}
+    \end{property}
+
+    Now we could wonder if the assumption of exchangeability is a realistic assumption. Obviously if we apply this to independent observations then everything is fine (i.i.d. sequences are clearly exchangeable). However, some important sequences of data are clearly not exchangeable. The main example for us will be that of time series. For this kind of data we in general take advantage of prior knowledge and hence the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
+    \begin{gather}
+        p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}(A(\sigma\cdot\vector{z})\geq A(\vector{z}))
+    \end{gather}
+    where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using this language of explicit permutations one can generalize the construction to arbitrary randomization schemes, i.e. to subgroups of $S_{N+1}$. However, we should take into account that this generically will ruin the validity of the procedure. As was proven in the \cite{cp_time_series} if we choose the permutations as those

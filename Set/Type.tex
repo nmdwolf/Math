@@ -67,9 +67,9 @@
     \begin{method}[Type definition]
         The general method for the definition of a new type consists of 4 rules:
         \begin{enumerate}
-            \item \textbf{Formation rule}: This rule tells us when the new type can be introduced.
-            \item \textbf{Introduction rule}: This rule gives a \textbf{constructor} of the new type, possibly based on type judgements of simpler types.
-            \item \textbf{Elimination rule}: This rule tells us what we can (or want) to do with the new type.
+            \item \textbf{Formation rule}: This rule tells us when the new type can be introduced (possibly using simpler types).
+            \item \textbf{Introduction rule}: This rule gives a \textbf{constructor} of the new type (possibly based on type judgements of simpler types).
+            \item \textbf{Elimination rule}: This rule tells us what we can do with the new type.
             \item \textbf{Computation rule}: This rule tells us how the elimination and introduction rules interact.
         \end{enumerate}
     \end{method}
@@ -92,7 +92,7 @@
             \item Formation rule: Given two types $\type{A,B}$ one can form the function type $\type{A\rightarrow B}$.
             \item Introduction rule: One can either define a function by an explicit definition $f(x):\equiv\Phi$, where $\Phi$ is an expression possibly involving $x$, or by $\lambda$-abstraction $f:\equiv\lambda x.\Phi$.
             \item Elimination rule: If $a:A$ and $\lambda x.\Phi:A\rightarrow B$ then $\lambda x.\Phi(a):B$.
-            \item Computation rule\footnote{In $\lambda$-calculus this is often called $\beta$-reduction. (See the next section.)}: $\lambda x.\Phi(a):\equiv\Phi(a)$, i.e. function application is equivalent to the subsitution\footnote{\textit{Capture-avoiding} substitution to be precise.} of $a$ for the variable $x$ in the expression $\Phi$.
+            \item Computation rule\footnote{In $\lambda$-calculus this is often called $\beta$-reduction. (See the next section.)}: $\lambda x.\Phi(a):\equiv\Phi(a)$, i.e. function application is equivalent to the subsitution\footnote{In technical terms we require the substitution to be \textit{capture-avoiding}.} of $a$ for the variable $x$ in the expression $\Phi$.
         \end{itemize}
         We will also include the uniqueness principle for function types in the definition, i.e. $\lambda x.f(x)\equiv f$. This says that every function is uniquely defined by its image.
     }
@@ -163,7 +163,7 @@
         \begin{itemize}
             \item Formation rule: Given any two types $\type{A, B}$ one can form the product type $\type{A\times B}$.
             \item Introduction rule: Given terms $a:A, b:B$ one can construct the term $(a,b):A\times B$. This called the \textbf{pairing} of the terms $a:A,b:B$.
-            \item Elimination and computation rules: First we will introduce the \textbf{projections}, analogous to the projection functions associated to the set-theoretic Cartesian product: If $x:A\times B$ then $\pi_1(x):A$ and $\pi_2(x):B$. On the constructor these should act as we expect, i.e.
+            \item Elimination and computation rules: First we will introduce the \textbf{projections}, analogous to the projection functions associated to the set-theoretic Cartesian product: If $x:A\times B$ then $\pi_1(x):A$ and $\pi_2(x):B$. On the constructor these should act as we expect:
             \begin{gather}
                 \pi_1(a,b):\equiv a\qquad\qquad\qquad\pi_2(a,b):\equiv b
             \end{gather}
@@ -340,7 +340,7 @@
         \begin{gather}
             \pi_1(\text{lift}(p, u))=p.
         \end{gather}
-        The equality $\text{lift}(p, u)$ acts between terms of the $\Sigma$-type $\sum_{a:A}P(a)$, which can be interpreted as the total space of a \textbf{fibration} $\pi_1:\sum_{a:A}P(a)\rightarrow A$. To take this terminology even further, one can could call functions $\sum_{a:A}P(a)$ \textbf{sections} (of $\pi_1$).
+        The equality $\text{lift}(p, u)$ acts between terms of the $\Sigma$-type $\sum_{a:A}P(a)$, which can be interpreted as the total space of a \textbf{fibration} $\pi_1:\sum_{a:A}P(a)\rightarrow A$. To take this terminology even further, one can could call functions $\sigma:\prod_{a:A}P(a)$ \textbf{sections} (of $\pi_1$).
     \end{property}
     Now, as we mentioned before, for dependent functions we cannot just compare $f(a)$ and $f(b)$ if $a\not\equiv b$. However, the function $\text{lift}(p, \cdot)$ gives us a canonical path from one fibre to the other and we expect that every path between these fibres should factor through this canonical one essentially uniquely. Hence we can define a path between $\alpha$ and $\beta$ in the total space $\sum_{a:A}P(a)$, lying over $p:a=b$, to be a path $p_*(\alpha)=\beta$ (up to equivalence):
     \begin{property}

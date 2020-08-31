@@ -490,21 +490,6 @@
     \end{remark}
     \remark{The sum of Gaussians will be exactly Gaussian.}
 
-\subsection{Distribution of sample mean}\index{distribution}
-
-    The difference between a sample mean $\overline{x}$ and the true mean $\mu$ is described by a distribution with following mean and variance:
-    \begin{property}
-        \begin{gather}
-            \langle\overline{x}\rangle = \mu
-        \end{gather}
-    \end{property}
-    \begin{property}
-        \begin{gather}
-            \label{statistics:variance_sample_mean}
-            V(\overline{x}) = \stylefrac{\sigma^2}{N}
-        \end{gather}
-    \end{property}
-
 \section{Errors}
 
     \newdef{Systematic error}{
@@ -610,10 +595,6 @@
         \end{gather}
     }
 
-    \newdef{Efficiency}{\index{efficiency}
-        An estimator $\hat{a}$ is said to be efficient if its variance $V(\hat{a})$ is equal to the minimum variance bound \ref{statistics:theorem:minimum_variance_bound}.
-    }
-
     \newdef{Mean squared error}{
         The mean squared error (MSE) of an estimator is defined as follows:
         \begin{gather}
@@ -625,9 +606,20 @@
 
 \subsection{Fundamental estimators}
 
-    \newprop{Mean estimator}{\index{mean!estimator}
-        The sample mean $\overline{x}$ is a consistent and unbiased estimator for the true mean $\mu$ due to the CLT. The variance $V(\overline{x})$ of the estimator is given by equation \ref{statistics:variance_sample_mean}.
-    }
+    \begin{property}[Unbiased mean]
+        The sample mean \ref{statistics:arithmetic_mean} is an unbiased estimator for the population mean:
+        \begin{gather}
+            \langle\overline{x}\rangle = \mu.
+        \end{gather}
+        Furthermore, it is also consistent. Both of these properties are a consequence of the CLT.
+    \end{property}
+    \begin{formula}[Standard error of the mean]\index{standard!error}
+        Using the Bienaym\'e formula \ref{prob:bienayme} one can show that the standard error, i.e. the standard deviation of the sample mean, is given by the following formula:
+        \begin{gather}
+            \label{statistics:standard_error}
+            V(\overline{x}) = \stylefrac{\sigma^2}{N}.
+        \end{gather}
+    \end{formula}
 
     \newformula{Variance estimator for known mean}{\index{variance!estimator}
         If the true mean $\mu$ is known then a consistent and unbiased estimator for the variance is given by:
@@ -681,8 +673,8 @@
         \end{gather}
     \end{property}
 
-    \begin{theorem}[Minimum variance bound]\index{minimum!variance bound}
-        The variance of an \textbf{unbiased} estimator has a lower bound: the minimum variance bound\footnote{It is also known as the \textbf{Cramer-Rao bound}.} (MVB)
+    \begin{theorem}[Cramer-Rao bound]\index{Cramer-Rao}\index{minimum!variance bound}
+        The variance of an \textbf{unbiased} estimator has a lower bound: the Cramer-Rao bound or \textbf{minimum variance bound (MVB)}:
         \begin{gather}
             \label{statistics:theorem:minimum_variance_bound}
             V(\hat{a})\geq\stylefrac{1}{\left<\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right>}.
@@ -704,9 +696,20 @@
             \label{statistics:fisher_information}
             I_X(a) := \left<\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right> = N\int\left(\deriv{\ln P}{a}\right)^2PdX
         \end{gather}
+        Using this definition we can rewrite the Cramer-Rao inequality as follows:
+        \begin{gather}
+            V(\hat{a})\geq I_X(a).
+        \end{gather}
     }
 
-\subsection{Maximum likelihood estimator}
+    \newdef{Finite-sample efficiency}{\index{efficient}
+        An unbiased estimator is said to be (finite-sample) efficient if it saturates the Cramer-Rao bound. In general the \textbf{efficiency} of (unbiased) estimators is defined through the Cramer-Rao bound as follows:
+        \begin{gather}
+            e(\hat{a}) := \frac{I_X(a)^{-1}}{V(\hat{a})}.
+        \end{gather}
+    }
+
+\subsection{Maximum likelihood estimation}
 
     From definition \ref{likelihood} it follows that the estimator $\hat{a}_{MLH}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is therefore not the most probable estimator.
 
@@ -726,7 +729,7 @@
     \result{The invariance implies that the two estimators $\hat{a}$ and $\widehat{f(a)}$ cannot both be unbiased at the same time.}
 
     \begin{property}
-        Asymptotically ($N\rightarrow\infty$) every consistent estimator becomes unbiased and efficient.
+        Asymptotically every consistent estimator becomes unbiased and efficient.
     \end{property}
 
 \subsection{Least squares estimation}
@@ -748,12 +751,12 @@
     \end{property}
 
     \newformula{Linear fit}{\index{linear!fit}
-        When all uncertainties $\sigma_i$ are equal, the slope $\hat{m}$ and intercept $\hat{c}$ are given by following formulas:
+        When all uncertainties $\sigma_i$ are equal, the slope $\hat{m}$ and intercept $\hat{c}$ are given by the following formulas:
         \begin{align}
             \label{statistics:least_squares_slope}
             \hat{m} &= \stylefrac{\overline{xy} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2} = \stylefrac{\text{cov}(x, y)}{V(x)}\\
             \label{statistics:least_squares_intercept}
-            \hat{c} &= \overline{y} - \hat{m}\overline{x} = \stylefrac{\overline{x^2} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2}
+            \hat{c} &= \overline{y} - \hat{m}\overline{x} = \stylefrac{\overline{x^2} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2}.
         \end{align}
     }
     \remark{The equation $\overline{y} = \hat{c} + \hat{m}\overline{x}$ means that the linear fit passes through the center of mass $(\overline{x}, \overline{y})$.}
@@ -775,7 +778,7 @@
         \end{gather}
     \end{remark}
 
-    The least squares method is very useful to fit data which has been grouped in bins (histograms):
+    The least squares method is very useful to fit data that has been grouped in bins (histograms):
     \newmethod{Binned least squares}{$ $
         \begin{enumerate}
             \item $N$ i.i.d. events with distributions $P(X;a)$ divided in $N_B$ intervals where the interval $j$ is centered on the value $x_j$, has a width $W_j$ and contains $n_j$ events.
@@ -785,14 +788,14 @@
         \end{enumerate}
     }
 
-\section{Confidence}\index{confidence}
+\section{Confidence intervals}\index{confidence}
 
-    The real value of a parameter $\varepsilon$ can never be known exactly. But it is possible to construct an interval $I$ in which the real value should lie with a certain confidence $C$.
+    The true value of a parameter $\varepsilon$ can never be known exactly. However, it is possible to construct an interval $I$ in which this value should lie with a certain confidence $C$.
     \begin{example}
-        Let $X$ be a random variable with distribution $\mathcal{G}(x;\mu, \sigma)$. The measurement $x$ lies in the interval $[\mu - 2\sigma;\mu+2\sigma]$ with 95\% \textbf{chance}. The real value $\mu$ lies in the interval $[x - 2\sigma;x+2\sigma]$ with 95\% \textbf{confidence}.
+        Let $X$ be a random variable with distribution $\mathcal{N}(x;\mu,\sigma)$. The measurement $x$ lies in the interval $[\mu - 1.96\sigma, \mu+1.96\sigma]$ with 95\% \underline{probability}. The true value $\mu$ lies in the interval $[x - 2\sigma, x+2\sigma]$ with 95\% \underline{confidence}.
     \end{example}
     \begin{remark*}
-        In the previous example there are some Bayesian assumptions: all possible values (left or right side of peak) are given the same possiblity due to the Gaussian distribution, but if one removes the symmetry it is mandatory to use a more careful approach. The symmetry between uncertainties $\sigma$ and confidence levels is only valid for Gaussian distributions.
+        In the previous example there are some Bayesian assumptions: all possible values (left or right side of peak) are given the same probability due to the Gaussian distribution. If one removes this symmetry condition a more careful approach is required. Furthermore, the apparent symmetry between the uncertainty and confidence levels is only valid for Gaussian distributions.
     \end{remark*}
 
 \subsection{Interval types}
@@ -820,7 +823,7 @@
             P(x \leq x_+) &= \int_{-\infty}^{x_+}P(x)dx = C
         \end{align}
     }
-    \remark{For a discrete distribution it is often impossible to find integers $x_{\pm}$ such that the real value lies with exact confidence $C$ in the interval $[x_-;x_+]$.}
+    \remark{For a discrete distribution it is often impossible to find integers $x_{\pm}$ such that the real value lies with exact confidence $C$ in the interval $[x_-, x_+]$.}
 
     \newdef{Discrete central confidence interval}{
         \begin{align}
@@ -835,7 +838,7 @@
 
     For every value of the true parameter $X$ it is possible to construct a confidence interval. This leads to the construction of two functions $x_-(X)$ and $x_+(X)$. The 2D diagram obtained by plotting $x_-(X)$ and $x_+(X)$ with the $x$-axis horizontally and $X$-axis vertically is called the \textbf{confidence region}.
     \begin{method}
-        Let $x_0$ be a measurement of the parameter $X$. From the confidence region it is possible to infere a confidence interval $[X_-(x);X_+(x)]$, where the upper limit $X_+$ is not the limit such that there is only a $\stylefrac{1-C}{2}$ chance of having a true parameter $X\geq X_+$, but the limit such that if the true parameter $X\geq X_+$ then there is a chance of $\stylefrac{1-C}{2}$ to have a measurement $x_0$ or smaller.
+        Let $x_0$ be a point estimate of the parameter $X$. From the confidence region it is possible to infere a confidence interval $[X_-(x), X_+(x)]$, where the upper limit $X_+$ is not the limit such that there is only a $\stylefrac{1-C}{2}$ chance of having a true parameter $X\geq X_+$, but the limit such that if the true parameter $X\geq X_+$ then there is a chance of $\stylefrac{1-C}{2}$ to have a measurement $x_0$ or smaller.
     \end{method}
 
 \subsection{Interval for a sample mean}
@@ -1071,7 +1074,12 @@
 
 \subsection{Kolmogorov test}\index{test!Kolmogorov}
 
-    \newdef{Empirical distribution function}{
+    \newdef{Empirical distribution function}{\index{distribution!empirical}\label{statistics:empirical_distribution}
+        The empirical probability distribution function is defined by placing delta masses at the measurements:
+        \begin{gather}
+            P_n := \frac{1}{n}\sum_{i=1}^n\delta_{x_i}.
+        \end{gather}
+        The associated cumulative distribution is then given by
         \begin{gather}
             \label{statistics:empirical_distribution_function}
             F_n(x) := \frac{1}{n}\sum_{i=1}^n\mathbbm{1}_{]-\infty,x]}(x_i)

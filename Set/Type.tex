@@ -1,10 +1,49 @@
-\chapter{Logic and Type theory}
+\chapter{Logic and Type theory}\label{chapter:type_theory}
 
     The main reference for this chapter is \cite{hott}. For a formal introduction to $\lambda$-calculus see \cite{lambda_notes}.
 
-    In almost every section of this chapter (at least the ones about type theory) we could have put cross-references to analogous definitions and propositions in other parts of this compendium, in particular the chapter on category theory \ref{chapter:cat}. However, to reduce the number of references we will only mention this here and encourage the reader to take a look at \ref{chapter:cat} during or after this chapter.
+    In almost every section of this chapter (at least the ones about type theory) we could have put cross-references to analogous definitions and propositions in other parts of this compendium, in particular the chapter on category theory \ref{chapter:cat}. However, to reduce the number of references we will only mention this and encourage the reader to take a look at \ref{chapter:cat} during or after reading this chapter.
 
 \section{Logic}
+\subsection{Languages}
+
+    \newdef{Language}{\index{language}\index{Kleene star}
+        An \textbf{alphabet} is a set of symbols. A \textbf{word} in the language is then a string of symbols in the alfabet.
+
+        A more formal way to state the definition of a (formal) language is as follows: Consider an alphabet $A$. From this alphabet one can construct the free monoid $A^*$ (the $\ast$-operator is sometimes called the \textbf{Kleene star}). This monoid represents the set of all words in $A$ and a (formal) language is a subset $L\subseteq A^*$.
+    }
+    \newdef{Signature}{\index{signature}
+        Consider an alphabet $A$ in a language $L$. A signature is a tuple $(F, R, \text{ar})$ that assigns a syntactic meaning to the symbols. $F$ and $R$ are respectively the sets of function symbols and relation symbols $(A=F\cup R)$. The function $\text{ar}:A\rightarrow\mathbb{N}$ assigns to every symbol its arity \textbf{arity} $n$. Nullary function symbols are also called \textbf{constants}.
+    }
+
+    To give meaning to a language we have to add some extra structure:
+    \newdef{$L$-structure}{\index{universe}
+        Consider a (formal) language $L$. An $L$-structure consists of the following data:
+        \begin{enumerate}
+            \item A nonempty set $U$ called the \textbf{universe}.
+            \item For each function symbol $f$ a function $\text{ap}_f:U^{\text{ar}(f)}\rightarrow U$. In particular, for each constant $c$ an element $u_c\in U$.
+            \item For each relation symbol $\in$ a set $R_\in\subseteq U^{\text{ar}(\in)}$.
+        \end{enumerate}
+    }
+
+    \newdef{$L$-term}{\index{term}\index{variable}
+        A word in $L$ possibly containing new symbols, called \textbf{variables}, defined recursively as follows:
+        \begin{enumerate}
+            \item Every variable and every constant is a term.
+            \item If $f$ is an $n$-ary function symbol and $x_1,\ldots,x_n$ are terms then so is $f(x_1,\ldots,x_n)$.
+        \end{enumerate}
+    }
+    \newdef{$L$-formula}{\index{formula}
+        Consider a (formal) language $L$. An $L$-formula is a sentence in $L$ consisting of terms in $L$ together with parentheses and logical symbols (also called \textbf{logical connectives}):
+        \begin{itemize}
+            \item \textbf{Equality}: $=$
+            \item \textbf{Negation}: $\lnot$
+            \item \textbf{Conjunction}: $\land$
+            \item \textbf{Existential quantifier}: $\exists$.
+        \end{itemize}
+        A variable is said to be \textbf{free} if it does not first appear next to a quantifier, otherwise it is said to be \textbf{bound}.
+    }
+
 \subsection{Propositional logic}
 
     \newdef{Proposition}{\index{proposition}

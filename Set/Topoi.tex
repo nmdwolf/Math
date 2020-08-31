@@ -1,23 +1,31 @@
-\chapter{Topos theory}
+\chapter{\difficult{Topos theory}}
+
+    The main reference for this chapter is \cite{johnstone}. Other references include \cite{caramello}.
 
 \section{Elementary topoi}
 
     \newdef{Subobject classifier}{\index{subobject!classifier}
-        Consider a finitely complete category (in fact the existence of a terminal object suffices). A subobject classifier is a mono\footnote{The symbol for this morphism will become clear in subsection \ref{cat:internal_logic}.} $\texttt{true}:\mathbf{1}\hookrightarrow\Omega$ from the terminal object such that for every mono $\phi:a\hookrightarrow b$ there exists a unique morphism $\chi:b\rightarrow\Omega$ such that the following pullback square exists:
+        Consider a finitely complete category (in fact the existence of a terminal object suffices). A subobject classifier is a mono\footnote{The symbol for this morphism will become clear in subsection \ref{cat:internal_logic}.} $\texttt{true}:1\hookrightarrow\Omega$ from the terminal object such that for every mono $\phi:a\hookrightarrow b$ there exists a unique morphism $\chi:b\rightarrow\Omega$ such that the following pullback square exists:
         \begin{figure}[ht!]
             \centering
-            \begin{tikzcd}[ampersand replacement=\&, row sep=4em,column sep=4em, minimum width=2em]
-                a \arrow[r, "!"] \arrow[d, hook, "\phi"'] \& \mathbf{1} \arrow[d, hook, "\texttt{true}"]\\
-                b \arrow[r, "\chi!"] \& \Omega
-            \end{tikzcd}
+            \begin{tikzpicture}
+                \node (A) at (0, 0) {$a$};
+                \node (B) at (0, -2) {$b$};
+                \node (1) at (2, 0) {$1$};
+                \node (O) at (2, -2) {$\Omega$};
+                \draw[->] (A) -- node[above]{$!$} (1);
+                \draw[right hook->] (A) -- node[left]{$\phi$} (B);
+                \draw[right hook->] (1) -- node[right]{$\texttt{true}$} (O);
+                \draw[->] (B) -- node[above]{$\chi!$} (O);
+            \end{tikzpicture}
             \caption{Subobject classifier.}
             \label{fig:subobject_classifier}
         \end{figure}
     }
     \begin{adefinition}
-        Consider a well-powered category $\mathbf{C}$. The assignment of subobjects Sub$(a)$ to an object $a\in\ob{C}$ is a contravariant functor $\mathcal{S}:\mathbf{C}\rightarrow\mathbf{Set}$. A subobject classifier $\Omega$ is a representation of this functor, i.e. the following isomorphism is natural in $a$:
+        Consider a well-powered category $\mathbf{C}$. The assignment of subobjects $\text{Sub}(a)$ to an object $a\in\ob{C}$ is a contravariant functor $\text{Sub}:\mathbf{C}\rightarrow\mathbf{Set}$. A subobject classifier $\Omega$ is a representation of this functor, i.e. the following isomorphism is natural in $a$:
         \begin{gather}
-            \mathcal{S}(a)\cong\text{hom}_{\mathbf{C}}(a, \Omega).
+            \text{Sub}(a)\cong\mathbf{C}(a, \Omega).
         \end{gather}
     \end{adefinition}
 
@@ -26,13 +34,17 @@
     \end{example}
 
     \newdef{Elementary topos}{\index{topos!elementary}
-        An elementary topos is a Cartesian closed category containing a subobject classifier. Equivalently, one can define an elementary topos as a finitely complete category in which all power objects exist.
+        An elementary topos is a finitely complete Cartesian closed category containing a subobject classifier. Equivalently, one can define an elementary topos as a finitely complete category in which all power objects exist.
 
-        The power object $Pa$ of $a$ is related to the subobject classifier $\Omega$ through the exponential by the following relation:
+        The power object $Pa$ of $a$ is related to the subobject classifier $\Omega$ by the following relation:
         \begin{gather}
             Pa = \Omega^a.
         \end{gather}
     }
+
+    \begin{remark}[Finite colimits]
+        The original definition by \textit{Lawvere} also required the existence of finite colimits. However, it can be proven that finite cocompleteness follows from the other axioms.
+    \end{remark}
 
     \begin{example}[Slice category]
         Let $\mathcal{C}$ be a topos. For every object $c\in\ob{C}$ the slice category $\mathbf{C}/c$ is also a topos. The subobject classifier is given by $\pi_2:\Omega\times c\rightarrow c$.
@@ -50,17 +62,19 @@
         The mono is called the \textbf{image} of $f$.
     \end{property}
 
-\subsection{Topological sheafs}
+\subsection{Topological sheaves}
+
+    See chapter \ref{chapter:sheaf} for the application of sheaves to topology.
 
     \begin{property}[Presheaf topos]\label{topoi:sheaf_topos}
-        Consider the presheaf category\footnote{See chapter \ref{chapter:sheaf} for the application of sheafs in topology.} $\mathbf{Psh}(X) = \widehat{\mathbf{Open}(X)}$ over a topological space $X$. This category is an elementary topos where the subobject classifier $\Omega$ is defined as follows:
+        Consider the presheaf category $\mathbf{Psh}(X) = \widehat{\mathbf{Open}(X)}$ over a topological space $X$. This category is an elementary topos where the subobject classifier $\Omega$ is defined as follows:
         \begin{gather}
             \Omega(U) := \{V:V\text{ is an open subset of }U\}.
         \end{gather}
     \end{property}
     \remark{In fact the presheaf category $\mathbf{Psh}(\mathbf{C})$ for any (small) category $\mathbf{C}$ is an elementary topos. See property \ref{topoi:presheaf_topos} below.}
 
-    \begin{construct}[Sheafs and \'etal\'e bundles]
+    \begin{construct}[sheaves and \'etal\'e bundles]
         Let $X$ be a topological space. The functor \[I:\mathbf{Open}(X)\rightarrow\mathbf{Top}/X:U\mapsto(U\hookrightarrow X)\] induces the following adjunction:
         \begin{gather}
             \label{category:etale_adjunction}
@@ -72,7 +86,7 @@
         \begin{gather}
             \mathbf{Et}(X)\cong\mathbf{Sh}(X).
         \end{gather}
-        The category on the right is the category of sheafs on a topological space $X$. The category on the left is the full subcategory on local homeomorphisms, i.e. \'etal\'e spaces as defined in chapter \ref{chapter:sheaf}.
+        The category on the right is the category of sheaves on a topological space $X$. The category on the left is the full subcategory on local homeomorphisms, i.e. \'etal\'e spaces as defined in chapter \ref{chapter:sheaf}.
     \end{construct}
 
     \begin{property}[Associated sheaf]
@@ -86,22 +100,33 @@
     In this subsection we consider finitely complete categories which admit a subobject classifier (they don't have to be a topos).
 
     \newdef{Truth value}{\index{truth value}
-        A global element of the subobject classifier, i.e. a morphism $\mathbf{1}\rightarrow\Omega$. The subobject classifier $\Omega$ is therefore sometimes called the \textbf{object of truth values}.
+        A global element of the subobject classifier, i.e. a morphism $1\rightarrow\Omega$. The subobject classifier $\Omega$ is therefore sometimes called the \textbf{object of truth values}.
     }
 
     \begin{property}[Internal Heyting algebra]
-        For all objects $X$ in an elementary topos, the poset of subobjects Sub$(X)$ has the structure of a Heyting algebra\footnote{See definition \ref{set:heyting}.}. Hence every topos canonically gives an external Heyting algebra, namely Sub$(\mathbf{1})$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P{\mathbf{1}}$.
+        For all objects $x$ in an elementary topos, the poset of subobjects $\text{Sub}(x)$ has the structure of a Heyting algebra\footnote{See definition \ref{set:heyting}.}. Hence every topos canonically gives an external Heyting algebra, namely $\text{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
     \end{property}
 
 \section{Geometric morphisms}
 
+    \newdef{Base change}{\index{base change}
+        Consider a category $\mathbf{C}$ with pullbacks. For every morphism $f:a\rightarrow b$ one can define a functor $f^*:\mathbf{C}/b\rightarrow\mathbf{C}/a$. This functor acts by pullback along $f$.
+    }
+
     \newdef{Logical morphism}{\index{morphism!logical}
         Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ is called a logical morphism if it preserves finite limits, exponential objects and subobject classifiers.
     }
+    \begin{property}
+        If a logical morphism has a left adjoint then it also has a right adjoint.
+    \end{property}
 
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
-        Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part.
+        Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part. If $f^*$ itself also has a left adjoint then $f$ is said to be \textbf{essential}.
     }
+
+    \begin{property}[Base change]
+        The base change functors on a topos are logical and admit a left adjoint (this is just the postcomposition functor). This implies that these functors can be refined to essential geometric morphisms.
+    \end{property}
 
     \begin{example}[Topological spaces]
         Every continuous map $f:X\rightarrow Y$ induces a geometric morphism
@@ -122,7 +147,9 @@
 
     \newnot{Category of topoi}{
         \nomenclature[S_Topos]{$\mathbf{Topos}$}{The 2-category of (elementary) topoi and geometric morphisms.}
-        The category of elementary topoi and geometric morphisms forms a (2-)category. We will denote this 2-category by $\mathbf{Topos}$.
+        The category of elementary topoi and geometric morphisms is a 2-category. We will denote this category by $\mathbf{Topos}$.
+
+        In fact to obtain the structure of a 2-category we need to define an appropriate notion of 2-morphism. Because a geometric morphism consists of an adjunction one can consider two distinct conventions, namely one can choose the 2-morphisms in $\mathbf{Topos}$ to be natural transformations $f^*\Rightarrow g^*$ (with associated transformations $g_*\Rightarrow f_*$) or one can choose them to be natural transformations $f_*\Rightarrow g_*$ (and associated transformations $g^*\Rightarrow f^*$). We will follow \cite{johnstone} and use the inverse image convention, i.e. a 2-morphism $f\Rightarrow g$ consists of natural transformations $f^*\Rightarrow g^*$ and $g_*\Rightarrow f_*$.
     }
 
 \section{Grothendieck topos}\label{section:grothendieck_topos}
@@ -130,7 +157,7 @@
     \newdef{Sieve}{\index{sieve}
         Let $\mathbf{C}$ be a small category. A sieve $S$ on $\mathbf{C}$ is a fully faithfull discrete fibration $S\hookrightarrow\mathbf{C}$.
 
-        A sieve $S$ on an object $c\in\mathbf{C}$ is a sieve in the slice category $\mathbf{C}/c$. This means that $S$ is a subset of $\text{ob}(\mathbf{C}/c)$ that is closed under \textit{precomposition}, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(\mathbf{C})$ then the composition $a\rightarrow b\rightarrow c\in S$.
+        A sieve $S$ on an object $c\in\mathbf{C}$ is a sieve in the slice category $\mathbf{C}/c$. This means that $S$ is a subset of $\text{ob}(\mathbf{C}/c)$ that is closed under precomposition, i.e. if $b\rightarrow c\in S$ and $a\rightarrow b\in\text{hom}(\mathbf{C})$ then the composition $a\rightarrow b\rightarrow c\in S$.
 
         All of this can be summarized by saying that a sieve on an object $c\in\ob{C}$ is a subfunctor of the hom-functor $\mathbf{C}(-, c)$.
     }
@@ -141,7 +168,7 @@
     \begin{example}[Pullback sieve]
         Consider a morphism $f:a\rightarrow b$. Given a sieve $S$ on $b$ one can construct the pullback sieve $f^*S$ on $a$ as the sieve of morphisms in $S$ which factor through $f$:
         \begin{gather}
-            f^*S(a) = \{(g:c\rightarrow a):f\circ g\in S(b)\}.
+            f^*S(a) = \big\{(g:c\rightarrow a):f\circ g\in S(b)\big\}.
         \end{gather}
     \end{example}
 
@@ -162,9 +189,9 @@
     \newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}\index{cover}
         A Grothendieck topology on a category is a function $J$ assigning to every object a collection of sieves satisfying the following conditions:
         \begin{itemize}
-            \item (Identity\footnote{This condition can be rephrased in terms of isomorphisms: The sieve generated by any isomorphism is a covering sieve.}): For every object $c$ the maximal sieve $M_c$ is an element of $J(c)$.
-            \item (Base change): If $S\in J(c)$ then $f^*S\in J(d)$ for every morphism $f:d\rightarrow c$.
-            \item (Locality): Consider a sieve $S$ on $c$. If there exists a sieve $R\in J(c)$ such that for every morphism $(f:d\rightarrow c)\in R$ the pullback sieve $f^*S\in J(d)$ then $S\in J(c)$.
+            \item \textbf{Identity}\footnote{This condition can be rephrased in terms of isomorphisms: Sieves generated by an isomorphism are covering sieves. The name itself stems from the fact that the maximal sieve is generated from the identity morphism.}: For every object $c$ the maximal sieve $M_c$ is an element of $J(c)$.
+            \item \textbf{Base change}: If $S\in J(c)$ then $f^*S\in J(d)$ for every morphism $f:d\rightarrow c$.
+            \item \textbf{Locality}: Consider a sieve $S$ on $c$. If there exists a sieve $R\in J(c)$ such that for every morphism $(f:d\rightarrow c)\in R$ the pullback sieve $f^*S\in J(d)$, then $S\in J(c)$.
         \end{itemize}
         The sieves in $J$ are called (J-)\textbf{covering sieves}. A collection of morphisms with codomain $c\in\ob{C}$ is called a \textbf{cover}\footnote{Sometimes this term is also used to denote any collection of morphism with common codomain $c$, i.e. without reference to a covering sieve.} of $c$ if the sieve generated by thse morphisms is a covering sieve on $c$.
     }
@@ -183,8 +210,8 @@
         A (small) category equipped with a Grothendieck topology $J$.
     }
 
-    \newdef{Matching family}{\label{topoi:matching_family}
-        Consider a presheaf $F\in\widehat{\mathbf{C}}$ together with a sieve $S$ on $c\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\Rightarrow F$ between $S$, regarded as a subfunctor of hom$(-, c)$, and $F$.
+    \newdef{Matching family}{\index{matching!family}\label{topoi:matching_family}
+        Consider a presheaf $F\in\widehat{\mathbf{C}}$ together with a sieve $S$ on $c\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\Rightarrow F$ between $S$, regarded as a subfunctor of $\mathbf{C}(-, c)$, and $F$.
 
         More explicitly it is an assignment of an element $x_f\in Fd$ to every morphism $(f:d\rightarrow c)\in S$ such that
         \begin{gather}
@@ -199,15 +226,13 @@
         \begin{gather}
             F(f)(z) = x_f
         \end{gather}
-        for all morphisms $f\in S(d)$.
+        for all morphisms $f\in S(d)$. The existence of such an element can also be stated in terms of natural transformations: Consider the obvious inclusion $\iota_S$ of $S$ into the the hom-functor $\mathbf{C}(-,c)$. Every morphism with codomain $c$ can be obtained from the identity morphism by precomposition and hence a natural transformation $\mathbf{C}(-,c)\Rightarrow F$ is determined by its action on the identity morphisms $\mathbbm{1}_c$. The existence of an amalgamation is thus equivalent to the existence of an extension of $S$ along $\iota_S$.
     }
     \remark{If the base category has all pullbacks, for example if it is a topos on its own, then one can restrict the above commuting diagrams to the pullback diagrams of morphisms in the sieve $S$.}
 
     \newdef{Sheaf}{\index{sheaf}\index{presheaf!separated}
         \nomenclature[S_Shsite]{$\mathbf{Sh}(\mathbf{C}, J)$}{Category of $J$-sheaves on a site $(\mathbf{C}, J)$.}
-        Consider a site $(\mathbf{C}, J)$. A presheaf $F$ on $\mathbf{C}$ is called a $J$-sheaf if every matching family for any covering sieve (on any object in $\mathbf{C}$) in $J$ admits a unique amalgamation\footnote{If there exists at most one amalgamation then the presheaf is said to be \textbf{separated}.}.
-
-        From the natural transformation point of view this condition amounts to the existence of a unique extension of every natural transformation $\alpha:S\Rightarrow F$ along the inclusion $S\hookrightarrow\text{hom}(-, c)$ or equivalently of an isomorphism\footnote{If this map is merely a monomorphism then the presheaf is separated. (See also the previous footnote.)} $\iota_S:\text{Nat}(h_{\mathbf{C}}, F)\rightarrow\text{Nat}(S, F)$.
+        Consider a site $(\mathbf{C}, J)$. A presheaf $F$ on $\mathbf{C}$ is called a $J$-sheaf if every matching family for any covering sieve (on any object in $\mathbf{C}$) in $J$ admits a unique amalgamation\footnote{If there exists at most one amalgamation then the presheaf is said to be \textbf{separated}.} or equivalently if all sieves admit a unique extension to representable presheafs.
 
         The category $\mathbf{Sh}(\mathbf{C}, J)$ of $J$-sheaves on the site $(\mathbf{C}, J)$ is the full subcategory of $\widehat{\mathbf{C}}$ on the presheaves which satisfy the above condition.
     }
@@ -216,9 +241,20 @@
         The usual category of sheaves $\mathbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\mathbf{Open}(X), J_{\text{open}(X)})$. Since the morphisms in the covering sieves are exactly the inclusion maps $U_i\hookrightarrow U$, the pullback of two such morphisms is given by the intersection $U_i\cap U_j$. Hence the condition for a matching family, as formulated in equation \ref{topoi:matching_family} above, gives the second part of definition \ref{sheaf:def}. The uniqueness of an amalgamation is equivalent to the first part of that definition.
     \end{example}
 
+    \begin{example}[Canonical topology]\index{topology!canonical}
+        The canonical topology on a category is the largest Grothendieck topology for which all representable presheafs are sheafs. A subcanonical topology is then defined as a subtopology of the canonical one, i.e. any Grothendieck topology for which all representable presheafs are sheafs.
+    \end{example}
+    \begin{example}[Minimal and maximal topologies]
+        The minimal Grothendieck topology on a category is the one for which only the maximal sieves are covering sieves. In this topology all presheafs are sheafs. The maximal Grothendieck topology is the one for which all sieves are covering sieves. In this topology only the terminal element of the associated presheaf category is a sheaf.
+    \end{example}
+
     \newdef{Grothendieck topos}{\index{Grothendieck!topos}
-        A category\footnote{The fact that a Grothendieck topos is an elementary topos follows from the fact that $\mathbf{Set}$ is a topos.} equivalent to the category of sheaves on a (small) site.
+        A category\footnote{The fact that a Grothendieck topos is an elementary topos follows from the fact that $\mathbf{Set}$ is a topos.} equivalent to the category of sheaves on a (small) site. This site is often called the \textbf{site of definition} for the given topos.
     }
+
+    \begin{property}
+        For every Grothendieck topos there exists a site of definition for which the Grothendieck topology is (sub)canonical.
+    \end{property}
 
 \subsection{Lawvere-Tierney topology}
 

@@ -105,282 +105,7 @@
         It should be noted that the Berezinian is only well-defined for invertible even matrices.
     }
 
-\section{Monoidal categories}
-
-    \newdef{Monoidal category}{\index{monoidal!category}\index{tensor!product}\label{category:monoidal_category}
-        A category $\mathbf{C}$ equipped with a bifunctor \[-\otimes -:\mathbf{C}\times\mathbf{C}\rightarrow\mathbf{C}\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms, called the \textbf{coherence maps}:
-        \begin{enumerate}
-            \item \textbf{Associator}: $\alpha_{A, B, C}:(A\otimes B)\otimes C\cong A\otimes(B\otimes C)$
-            \item \textbf{Left unitor}: $\lambda_A:\mathbf{1}\otimes A\cong A$
-            \item \textbf{Right unitor}: $\rho_A: A\otimes\mathbf{1}\cong A$
-        \end{enumerate}
-        such that the \textbf{triangle} and \textbf{pentagon} diagrams commute. (See figures \ref{fig:triangle_diagram} and \ref{fig:pentagon_diagram}.)
-
-        \begin{figure}[ht!]
-            \centering
-            \begin{tikzpicture}
-                \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em,minimum width=2em, ampersand replacement=\&]{
-                    (A\otimes\mathbf{1})\otimes B\&\&A\otimes(\mathbf{1}\otimes B)\\
-                    \&A\otimes B\&\\
-                };
-                \draw[->] (m-1-1) -- (m-1-3) node[pos=0.5, above]{$\alpha_{A, \mathbf{1}, B}$};
-                \draw[->] (m-1-1) -- (m-2-2) node[pos=0.5, below left]{$\rho_A\otimes\mathbbm{1}$};
-                \draw[->] (m-1-3) -- (m-2-2) node[pos=0.5, below right]{$\mathbbm{1}\otimes\lambda_B$};
-            \end{tikzpicture}
-            \caption{Triangle diagram.}
-            \label{fig:triangle_diagram}
-        \end{figure}
-        \begin{figure}[ht!]
-            \centering
-            \begin{tikzpicture}
-                \matrix (m) [matrix of math nodes,row sep=4em,column sep=-2em,minimum width=1em, ampersand replacement=\&]{
-                    \&((A\otimes B)\otimes C)\otimes D\&\&(A\otimes (B\otimes C))\otimes D\&\\
-                    (A\otimes B)\otimes(C\otimes D)\&\&\&\&A\otimes((B\otimes C)\otimes D)\\
-                    \&\&A\otimes(B\otimes (C\otimes D))\&\&\\
-                };
-                \draw[->] (m-1-2) -- (m-1-4) node[pos=0.5, above]{$\alpha_{A, B, C}\otimes\mathbbm{1}$};
-                \draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\alpha_{A\otimes B, C, D}$};
-                \draw[->] (m-2-1) -- (m-3-3) node[pos=0.5, below left]{$\alpha_{A, B, C\otimes D}$};
-                \draw[->] (m-1-4) -- (m-2-5) node[pos=0.5, above right]{$\alpha_{A, B\otimes C, D}$};
-                \draw[->] (m-2-5) -- (m-3-3) node[pos=0.5, below right]{$\mathbbm{1}\otimes\alpha_{B, C, D}$};
-            \end{tikzpicture}
-            \caption{Pentagon diagram.}
-            \label{fig:pentagon_diagram}
-        \end{figure}
-    }
-
-    \newdef{Strict monoidal category}{
-        A monoidal category for which the associator $\alpha$ and the unitors $\lambda,\rho$ are identity morphisms.
-    }
-
-    \newdef{Scalar}{\index{scalar}
-        In a monoidal category the scalars are defined as the endomorphisms $\mathbf{1}\rightarrow\mathbf{1}$.
-    }
-    \begin{property}
-        The set of scalars forms a commutative monoid.
-    \end{property}
-    \begin{property}
-        Every scalar $s:\mathbf{1}\rightarrow\mathbf{1}$ induces a natural transformation \[s_A:A\cong\mathbf{1}\otimes A\xrightarrow{s\otimes\mathbbm{1}}\mathbf{1}\otimes A\cong A\] satisfying the "usual" rules of scalar multiplication in linear algebra:
-        \begin{itemize}
-            \item $s\diamond(s'\diamond f) = (s\circ s')\diamond f$
-            \item $(s\diamond f)\circ(s'\diamond g) = (s\circ s')\diamond(f\circ g)$
-            \item $(s\diamond f)\otimes(s'\diamond g) = (s\circ s')\diamond(f\otimes g)$
-        \end{itemize}
-        where $s\diamond f$ denotes $f\circ s_A = s_B\circ f$.
-    \end{property}
-
-    \newdef{Weak inverse}{\index{weak!inverse}
-        Let $(\mathbf{C},\otimes, \mathbf{1})$ be a monoidal category. Consider an object $X\in\ob{C}$. An object $Y\in\ob{C}$ is called a weak inverse of $X$ if it satisfies $X\otimes Y\cong\mathbf{1}$.
-    }
-    \remark{One can show that the existence of a one-sided weak inverse (as in the definition above) is sufficient to prove that it is in fact a two-sided weak inverse, i.e. $Y\otimes X\cong\mathbf{1}$.}
-
-    \begin{theorem}[MacLane's coherence theorem]\index{coherence!theorem}
-        Consider two functors $\func{F, G}{C}{D}$ between two monoidal categories $\mathbf{C}, \mathbf{D}$. Any two natural transformations $\eta,\varepsilon:F\Rightarrow G$, constructed solely from the associator $\alpha$ and the unitors $\lambda,\rho$, coincide.
-    \end{theorem}
-
-    \newdef{Closed monoidal category}{
-        A monoidal category $(\mathbf{C}, \otimes, \mathbf{1})$ is said to be closed monoidal if for every object $B\in\ob{C}$ there exists a a right adjoint\footnote{See definition \ref{category:internal_hom} of an \textit{internal hom} for more information.} to the tensor product functor $-\otimes B:\mathbf{C}\rightarrow\mathbf{C}$, i.e.:
-        \begin{gather}
-            \forall A, C\in\ob{C}:\exists B\Rightarrow C\in\ob{C}:\mathbf{C}(A\otimes B, C)\cong\mathbf{C}(A, B\Rightarrow C)
-        \end{gather}
-        where the isomorphism is natural in $A, C\in\ob{C}$.
-    }
-
-\subsection{Monoidal functors}
-
-    \newdef{Monoidal functor}{\index{monoidal!functor}\index{coherence!maps}
-        Let $(\mathbf{C}, \otimes, \mathbf{1}_C), (\mathbf{D}, \circledast, \mathbf{1}_D)$ be two monoidal categories. A functor $\func{F}{C}{D}$ is said to be monoidal if there exists:
-        \begin{enumerate}
-            \item A natural isomorphism $\psi_{A, B}: FA\circledast FB\Rightarrow F(A\otimes B)$ such that the diagram in figure \ref{fig:monoidal_functor1} commutes.
-                \begin{figure}[ht!]
-                    \centering
-                    \begin{tikzpicture}
-                        \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-                            (FA\circledast FB)\circledast FC\&FA\circledast(FB\circledast FC)\\
-                            F(A\otimes B)\circledast FC\&FA\circledast F(B\otimes C)\\
-                            F\Big((A\otimes B)\otimes C\Big)\&F\Big(A\otimes (B\otimes C)\Big)\\
-                        };
-                        \draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\alpha_{\mathbf{D}}$};
-                        \draw[->] (m-3-1) -- (m-3-2) node[pos=0.5, below]{$F(\alpha_{\mathbf{C}})$};
-
-                        \draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\psi_{A, B}\circledast\mathbbm{1}$};
-                        \draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\psi_{A\otimes B, C}$};
-                        \draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\mathbbm{1}\circledast\psi_{B, C}$};
-                        \draw[->] (m-2-2) -- (m-3-2) node[pos=0.5, right]{$\psi_{A, B\otimes C}$};
-                    \end{tikzpicture}
-                    \caption{Monoidal functor.}
-                    \label{fig:monoidal_functor1}
-                \end{figure}
-
-            \item An isomorphism $\phi: \mathbf{1}_D\rightarrow F\mathbf{1}_C$ which makes the two diagrams in figure \ref{fig:unitality} commute.
-            \begin{figure}[ht!]
-                \centering
-                \begin{subfigure}[b]{0.49\textwidth}
-                    \centering
-                    \begin{tikzpicture}
-                        \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-                            FA\circledast\mathbf{1}_D\&FA\circledast F\mathbf{1}_C\\
-                            FA\&F(A\otimes\mathbf{1}_C)\\
-                        };
-                        \draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\mathbbm{1}\circledast\phi$};
-                        \draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F(\rho_{\mathbf{C}})$};
-
-                        \draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\rho_{\mathbf{D}}$};
-                        \draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{A, \mathbf{1}_C}$};
-                    \end{tikzpicture}
-                \end{subfigure}
-                \begin{subfigure}[b]{0.49\textwidth}
-                    \centering
-                    \begin{tikzpicture}
-                        \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-                            \mathbf{1}_D\circledast FB\&F\mathbf{1}_C\circledast FB\\
-                            FB\&F(\mathbf{1}_C\otimes B)\\
-                        };
-                        \draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\phi\circledast\mathbbm{1}$};
-                        \draw[->] (m-2-2) -- (m-2-1) node[pos=0.5, below]{$F(\lambda_{\mathbf{C}})$};
-
-                        \draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\lambda_{\mathbf{D}}$};
-                        \draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\psi_{\mathbf{1}_C, B}$};
-                    \end{tikzpicture}
-                \end{subfigure}
-                \caption{Unitality diagrams.}
-                \label{fig:unitality}
-            \end{figure}
-        \end{enumerate}
-    }
-    \remark{The morphisms $\psi_{A, B}$ and $\phi$ are also called \textbf{coherence maps} or \textbf{structure morphisms}.}
-
-    \begin{property}
-        For every monoidal functor $F$ there exists a canonical isomorphism $\phi:\mathbf{1}_D\rightarrow F\mathbf{1}_C$ defined by the commutative diagram in figure \ref{fig:canonical_monoidal_isom}.
-        \begin{figure}[ht!]
-            \centering
-            \begin{tikzpicture}
-                \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-                    \mathbf{1}_D\circledast F\mathbf{1}_C\&F\mathbf{1}_C\\
-                    F\mathbf{1}_C\circledast F\mathbf{1}_C\&F(\mathbf{1}_C\otimes\mathbf{1}_C)\\
-                };
-                \draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\lambda_{\mathbf{D}}$};
-                \draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\psi_{\mathbf{1}_C, \mathbf{1}_C}$};
-
-                \draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\phi\circledast\mathbbm{1}$};
-                \draw[->] (m-2-2) -- (m-1-2) node[pos=0.5, right]{$F(\lambda_{\mathbf{C}})$};
-            \end{tikzpicture}
-            \caption{Canonical unit isomorphism.}
-            \label{fig:canonical_monoidal_isom}
-        \end{figure}
-    \end{property}
-
-    \newdef{Lax monoidal functor}{\index{lax!monoidal functor}
-        A monoidal functor for which the coherence maps are merely morphisms and not isomorphisms.
-    }
-
-    \newdef{Monoidal natural transformation}{
-        A natural transformation $\eta$ between (lax) monoidal functors $(F, \psi, \phi_F)$ and $(G, \sigma_G, \phi_G)$ is said to be (lax) monoidal if it makes the diagrams in figure \ref{fig:monoidal_natural_transformation} commute.
-        \begin{figure}[ht!]
-            \centering
-            \begin{subfigure}[b]{0.49\textwidth}
-                \centering
-                \begin{tikzpicture}
-                    \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-                        \&\mathbf{1}_D\&\\
-                        F\mathbf{1}_C\&\&G\mathbf{1}_C\\
-                    };
-                    \draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\phi_F$};
-                    \draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\phi_G$};
-                    \draw[->] (m-2-1) -- (m-2-3) node[pos=0.5, below]{$\eta_{\mathbf{1}_C}$};
-                \end{tikzpicture}
-            \end{subfigure}
-            \begin{subfigure}[b]{0.49\textwidth}
-                \centering
-                \begin{tikzpicture}
-                    \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=1em, ampersand replacement=\&]{
-                        FA\circledast FB\&F(A\otimes B)\\
-                        GA\circledast GB\&G(A\otimes B)\\
-                    };
-                    \draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\psi_{A, B}$};
-                    \draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$\sigma_{A, B}$};
-
-                    \draw[->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$\eta_A\circledast\eta_B$};
-                    \draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\eta_{A\otimes B}$};
-                \end{tikzpicture}
-            \end{subfigure}
-            \caption{Monoidal natural transformation.}
-            \label{fig:monoidal_natural_transformation}
-        \end{figure}
-    }
-
-    \newdef{Monoidal equivalence}{\index{monoidal!equivalence}
-        Two monoidal categories $\mathbf{C}, \mathbf{D}$ are monoidally equivalent if there exist monoidal functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ such that there exist monoidal natural isomorphisms $\eta:\mathbbm{1}_C\Rightarrow G\circ F$ and $\varepsilon:F\circ G\Rightarrow\mathbbm{1}_D$.
-    }
-
-    \begin{theorem}[MacLane strictness theorem]\index{MacLane}
-        Every monoidal category is monoidally equivalent to a strict monoidal category.
-    \end{theorem}
-
-\subsection{Braided categories}
-
-    \newdef{Braided monoidal category}{\index{braiding}
-        Let $(\mathbf{C}, \otimes, \mathbf{1})$ be a monoidal category. $\mathbf{C}$ is called a braided monoidal category if it comes equipped with a natural isomorphism \[\sigma_{A, B}:A\otimes B\cong B\otimes A\]
-        such that the two \textbf{hexagon} diagrams in figures \ref{fig:hexagon_diagrams1} and \ref{fig:hexagon_diagrams2} commute. The isomorphism $\sigma$ is called the \textbf{braiding} (morphism).
-        \begin{figure}[ht!]
-            \centering
-            \begin{tikzpicture}
-                \matrix (m) [matrix of math nodes,row sep=2em,column sep=2.5em, minimum width=1em, ampersand replacement=\&]{
-                    \&(A\otimes B)\otimes C\&\\
-                    (B\otimes A)\otimes C\&\&A\otimes(B\otimes C)\\
-                    B\otimes (A\otimes C)\&\&(B\otimes C)\otimes A\\
-                    \&B\otimes(C\otimes A)\&\\
-                };
-                \draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\sigma_{A, B}\otimes\mathbbm{1}$};
-                \draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha_{A, B, C}$};
-
-                \draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha_{B, A, C}$};
-                \draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A, B\otimes C}$};
-
-                \draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\mathbbm{1}\otimes\sigma_{C, A}$};
-                \draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha_{B, C, A}$};
-            \end{tikzpicture}
-            \caption{Hexagon diagram 1.}
-            \label{fig:hexagon_diagrams1}
-        \end{figure}
-        \begin{figure}[ht!]
-            \centering
-            \begin{tikzpicture}
-                \matrix (m) [matrix of math nodes,row sep=1.5em,column sep=1.5em, minimum width=1em, ampersand replacement=\&]{
-                    \&A\otimes(B\otimes C)\&\\
-                    A\otimes(C\otimes B)\&\&(A\otimes B)\otimes C\\
-                    (A\otimes C)\otimes B\&\&C\otimes(A\otimes B)\\
-                    \&(C\otimes A)\otimes B\&\\
-                };
-                \draw[->] (m-1-2) -- (m-2-1) node[pos=0.5, above left]{$\mathbbm{1}\otimes\sigma_{B, C}$};
-                \draw[->] (m-1-2) -- (m-2-3) node[pos=0.5, above right]{$\alpha^{-1}_{A, B, C}$};
-
-                \draw[->] (m-2-1) -- (m-3-1) node[pos=0.5, left]{$\alpha^{-1}_{A, C, B}$};
-                \draw[->] (m-2-3) -- (m-3-3) node[pos=0.5, right]{$\sigma_{A\otimes B,C}$};
-
-                \draw[->] (m-3-1) -- (m-4-2) node[pos=0.5, below left]{$\sigma_{A, C}\otimes\mathbbm{1}$};
-                \draw[->] (m-3-3) -- (m-4-2) node[pos=0.5, below right]{$\alpha^{-1}_{C, A, B}$};
-            \end{tikzpicture}
-            \caption{Hexagon diagram 2.}
-            \label{fig:hexagon_diagrams2}
-        \end{figure}
-    }
-    \begin{property}\index{Yang-Baxter}
-        The braiding $\sigma_{A, A}$ satisfies the Yang-Baxter equation. More generally the braiding $\sigma$ satisfies the following equation for all objects $A, B, C\in\ob{C}$:
-        \begin{gather}
-            (\sigma_{B,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{A,C})\circ(\sigma_{A,B}\otimes\mathbbm{1}) = (\mathbbm{1}\otimes\sigma_{A,B})\circ(\sigma_{A,C}\otimes\mathbbm{1})\circ(\mathbbm{1}\otimes\sigma_{B,C}).
-        \end{gather}
-    \end{property}
-    \remark{When drawing the above equality using string diagrams one sees that the Yang-Baxter equation is equal to the invariance of string diagrams under a \textit{Reidemeister III move}.}
-
-    \newdef{Symmetric monoidal category}{
-        A braided monoidal category where the braiding $\sigma$ satisfies
-        \begin{gather}
-            \sigma_{X, Y} \circ \sigma_{Y, X} = \mathbbm{1}.
-        \end{gather}
-    }
-
-\subsection{Duals}
+\section{Monoidal categories II: Duality}
 
     \newdef{Dual object}{\index{dual!object}\label{cat:dual}
         Let $(\mathbf{C}, \otimes, \mathbf{1})$ be a monoidal category and let $A\in\ob{C}$. A left dual\footnote{Analogously, $A$ is called the \textbf{right dual} of $A^*$. The right dual of $B$ is often denoted by $^*B$.} $A^*$ of $A$ is an object in $\mathbf{C}$ together with two morphisms $\eta:\mathbf{1}\rightarrow A\otimes A^*$ and $\varepsilon:A^*\otimes A\rightarrow\mathbf{1}$, called the \textbf{unit} and \textbf{counit} morphisms\footnote{Also called the \textbf{coevaluation} and \textbf{evaluation} morphisms.}, such that the diagrams \ref{fig:dual_object1} and \ref{fig:dual_object2} commute.
@@ -435,7 +160,7 @@
     }
 
     \begin{example}[FinVect]\index{dual!space}\index{resolution!of the identity}
-        Consider the category $\mathbf{FinVect}$ of finite-dimensional vector spaces (we assume the base field to be $\mathbb{R}$). The categorical dual of a vector space $V$ is the algebraic dual $V^*$. The unit morphism is given by the ''resolution of the identity'':
+        Consider the category $\mathbf{FinVect}$ of finite-dimensional vector spaces (we assume the ground field to be $\mathbb{R}$). The categorical dual of a vector space $V$ is the algebraic dual $V^*$. The unit morphism is given by the ''resolution of the identity'':
         \begin{gather}
             \eta: \mathbf{1}\rightarrow V\otimes V^*:1\mapsto\sum_{i=1}^{\dim(V)}e_i\otimes \phi^i
         \end{gather}
@@ -443,7 +168,20 @@
 
         It should be noted that the category $\mathbf{Vect}$ of all vector spaces is not rigid. By property \ref{cat:braided_rigid} above, left and right duals coincide in any braided monoidal category (such as $\mathbf{Vect}$). However for infinite-dimensional vector spaces it is known that $A\cong(A^*)^*$ never holds and as such the rigidity cannot be extended to $\mathbf{Vect}$.
     \end{example}
+    \begin{property}[Tannaka duality]\index{Tannaka duality}
+        Let us again consider the category $\mathcal{V}=\mathbf{FinVect}_K$ where we now explicitly mention the underlying ground field. Using coends one can reconstruct the base field from its modules, i.e. the objects in $\mathcal{V}$:\footnote{This result can be shown to hold for all compact closed categories $\mathcal{V}$. In this context it is known as \textbf{Tannaka reconstruction}.}
+        \begin{gather}
+            \int^{V\in\mathcal{V}}V^*\otimes V\cong K.
+        \end{gather}
+        A more general statement goes as follows:
+        \begin{gather}
+            \int^{V\in\mathcal{V}}\mathcal{V}(V, -)\otimes\text{id}_{\mathcal{V}}V\cong\text{id}_{\mathcal{V}}.
+        \end{gather}
+        The components $\eta_V:\mathcal{V}(V, V)\rightarrow K$ of the coend can be shown to coincide with the trace and such the trace obtains a universal property.
+    \end{property}
+    \remark{This property can also be generalized by replacing $\mathcal{V}$ by a category $\mathbf{Mod}_A$ for some finite-dimensional algebra $A$. The end and coend than give respectively the algebra $A$ and its dual $A^*$.}
 
+    The trace on $\mathbf{FinVect}$ can be generalized as follows:
     \newdef{Trace}{\index{trace}
         Let $(\mathbf{C}, \otimes, \mathbf{1})$ be a rigid category and let $f\in\hom_{\mathbf{C}}(A, A^{**})$. The left (\textbf{categorical} or \textbf{quantum}) trace of $f$ is defined as the following morphism in End$_{\mathbf{C}}(\mathbf{1})$:
         \begin{gather}
@@ -509,11 +247,11 @@
     \newdef{Tensor category}{\index{tensor!category}
         A monoidal category with the following properties:
         \begin{enumerate}
-            \item rigid
-            \item Abelian
-            \item $k$-linear (which should be compatible with the Abelian structure)
-            \item End$(\mathbf{1})\cong k$
-            \item $-\otimes -$ is bilinear on morphisms
+            \item It is rigid;
+            \item It is Abelian;
+            \item It is $k$-linear (and it is so in a way compatible with the Abelian structure);
+            \item End$(\mathbf{1})\cong k$;
+            \item $-\otimes -$ is bilinear on morphisms.
         \end{enumerate}
         Some authors (such as \cite{etingof}) also add ''locally finite'' as a condition (see definition \ref{category:locally_finite}).
     }
@@ -626,6 +364,27 @@
         \end{gather}
         This property implies that the $S$-matrix of a modular category determines the fusion coefficients of the underlying fusion category.
     \end{formula}
+
+\section{Module categories}
+\subsection{Over a monoidal category}
+
+    By categorifying the definition of a module over a ring one obtains the notion of a module category:
+    \newdef{Module category}{\index{module!category}
+        Let $\mathbf{M}$ be a monoidal category. A left $\mathbf{M}$-module (category) is a linear category $\mathbf{C}$ equipped with a bilinear functor $\func{\triangleright}{M\times C}{C}$  together with natural isomorphisms that categorify the associativity and unit conditions of modules (these are also required to be compatible with the associator and unitors of $\mathbf{M}$).
+    }
+    \remark{Similar to how a $G$-set can be defined as a functor $\mathbf{B}G\rightarrow\mathbf{Set}$, one can define a module category as a 2-functor $\mathbf{BM}\rightarrow\mathbf{Cat}$.}
+
+    Analogous to definition \ref{category:internal_hom} one can also define internal homs for module categories:
+    \newdef{Internal hom}{\index{internal!hom}
+        Consider a left $\mathbf{M}$-module $\mathbf{C}$. Given two objects $c,c'\in\ob{C}$ one defines their internal hom (if it exists) as the object $\underline{\hom}(c, c')\in\ob{M}$ satisfying the following condition
+        \begin{gather}
+            \mathbf{C}(m\triangleright c, c')\cong\mathbf{M}(m, \underline{\hom}(c, c'))
+        \end{gather}
+        for all $m\in\ob{M}$.
+    }
+    \begin{property}
+        It should be noted that for the case $\mathbf{C}\equiv\mathbf{M}$ (where the action is given by the tensor product in $\mathbf{M}$) we obtain definition \ref{category:internal_hom} as a particular case.
+    \end{property}
 
 \section{Higher vector spaces}
 \subsection{Kapranov-Voevodksy 2-vector spaces}

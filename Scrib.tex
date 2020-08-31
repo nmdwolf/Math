@@ -1,0 +1,93 @@
+\chapter{Scribblings}
+\section{Functorial uncertainty measures}
+\subsection{Uncertainty}
+
+    Let us for now assume that we work on finite spaces $\Omega$, i.e. $|\Omega|<\infty$. In this case one can characterize a probability measure as a set-theoretic function $P:2^\Omega\rightarrow[0, 1]$ with the following properties:
+    \begin{enumerate}
+        \item $P(\emptyset) = 0$ and $P(\Omega) = 1$;
+        \item Additivity: If $A,B\subset\Omega$ are disjoint, then
+            \begin{gather}
+                \label{scrib:additive}
+                P(A\cup B) = P(A) + P(B).
+            \end{gather}
+    \end{enumerate}
+    When we want to quantify the uncertainty in the prediction of a random variable $X$ we can also take the cardinality of all possible values of $X$ as an indicator, i.e. a situation where we predict that $X$ can take on a value in $\{1, 2, 3, 4, 5\}$ has more uncertainty than a prediction where $X\in\{1, 2\}$. From the logical side we can characterize this through an indicator function $\Pi:2^\Omega\times2^\Omega\rightarrow\{0, 1\}$ where given a subset $Z$ the function $\Pi_Z$ tells us if a prediction $W\in2^\Omega$ has any overlap with $Z$. (Here the cardinality of the set $Z$ quantifies the degree of uncertainty, the larger $Z$ the less certain we are.) This function should satisfy the following conditions:
+    \begin{enumerate}
+        \item $\Pi_Z(\emptyset) = 0$;
+        \item $\Pi_Z(\Omega) = 1$;
+        \item Maxitivity\footnote{I didn't invent this name.}: If $A,B\subset\Omega$ are disjoint, then
+            \begin{gather}
+                \label{scrib:maxitive}
+                P_Z(A\cup B) = \max(P_Z(A), P_Z(B)).
+            \end{gather}
+    \end{enumerate}
+
+\subsection{Posets and categories}
+
+    We know want to unify these notions and for this we need to find the common structure behind addition and taking maxima. For this it is better if we consider the (co)domains of our operations as posets (partially ordered sets) and their associated categorical structure:
+    \newdef{Poset}{
+        A set $X$ wih a binary operation $\leq$ that satisfies the following conditions:
+        \begin{enumerate}
+            \item Reflexivity: $x\leq x$;
+            \item Antisymmetry: $x\leq y\land y\leq x\implies x=y$;
+            \item Transitivity: $x\leq y\land y\leq z\implies x\leq z$.
+        \end{enumerate}
+    }
+    \newprop{Posets are categories}{
+        Let $(X, \leq)$ be a poset. This set admits the structure of a category $\mathbf{X}$ by taking $\ob{X}:=X$ and \[\hom_{\mathbf{X}}(a, b)=\begin{cases}
+            \{\ast\}&a\leq b\\
+            \emptyset&\text{otherwise.}
+        \end{cases}\]
+        So a (unique) morphism between two objects $a,b$ exists if and only if $a\leq b$. (One can generalize this to \textit{preorders} and \textit{thin} categories. Posets are then exactly the \textit{skeletal} thin categories.)
+    }
+    So what about out operations? It is easily shown that both the union and the operation of taking maxima define coproducts on the posets under consideration.
+
+    By restricting to disjoint subsets we find that equation \ref{scrib:maxitive} in fact tell us that the $\Pi_Z$ (for any $Z\subset\Omega$) are coproduct-preserving functors. We are left with to issues: How do we extend this structure to not necessarily disjoint subsets $A,B\subset\Omega$? How do we interpret equation \ref{scrib:additive} as addition is not a coproduct (at most it defines a \textit{cowedge})?
+
+\subsection{Monoidal posets}
+
+    Let us first introduce a different kind of structure on posets:
+    \newdef{Monoidal poset}{\index{monoidal!poset}\index{poset|seealso{monoidal}}
+        A poset $(X, \leq)$ equipped with a monotone bifunctor $\otimes$, i.e. a function $\otimes:X\times X\rightarrow X$ such that
+        \begin{gather}
+            \label{scrib:monotone}
+            a\leq x\land b\leq y\implies a\otimes b\leq x\otimes y.
+        \end{gather}
+        and an object $\mathbf{1}$ such that $(X, \otimes, \mathbf{1})$ is a monoid. For those of us that like internal structures, monoidal posets are exactly the monoid objects in the category $\mathbf{Poset}$.
+    }
+    The natural notion of morphism between monoidal posets is that of monoidal monotone
+    \newdef{Monoidal monotone}{\index{monoidal!monotone}
+        Consider two monoidal posets $(X, \leq, \otimes, \mathbf{1}_X)$ and $(Y, \preceq, \odot, \mathbf{1}_Y)$. A monoidal monotone $f:X\rightarrow Y$ is a monotone function satisfying the following conditions:
+        \begin{enumerate}
+            \item $f(\mathbf{1}_X) = \mathbf{1}_Y$;
+            \item $f(x\otimes x') = f(x)\odot f(x')$ for all $x,x'\in X$.
+        \end{enumerate}
+        If the equalities are relaxed then we obtain the notion of \textbf{lax} monoidal monotones. Reversing the direction of the inequalities gives \textbf{oplax} monoidal monotones. For this reason one sometimes calls ordinary monoidal monotones \textbf{strong/strict} (especially true categorists do this since they always work with weak/lax functors).
+    }
+    The existence of (finite) coproducts gives rise to a monoidal structure and it should not be too hard to see that \ref{scrib:monotone} is satisfied for the partial orders that we considered in the previous section. Furthermore, equation \ref{scrib:maxitive} tells us that the functions $\Pi_Z$ are (strong) monoidal monotones (again when restricted to disjoint subsets).
+
+    The reason why we introduced these monoidal structures is twofold. First of all it is not hard to show that $([0, 1], \leq, \oplus)$ is in fact also a monoidal poset (where $\oplus$ denotes truncated addition). Secondly, it allows us to extend our functors to not necessarily disjoint subsets. In those cases we have to relax the equality in equation \ref{scrib:additive}, i.e.
+    \begin{gather}
+        P(A\cup B) = P(A) + P(B) - P(A\cap B) \leq P(A) + P(B)
+    \end{gather}
+    for all $A,B\subset\Omega$. BY the above definitions this is the same as relaxing the strong monoidal monotone to an oplax one.
+
+\subsection{Countable additivity}
+
+    In the beginning of this chapter we made a nontrivial assumption, namely that our sample space $\Omega$ was finite. Although this assumption was never explicitly used throughout the above sections, it remains important. It allows us to restrict our attention to finite unions in equations \ref{scrib:additive} and \ref{scrib:maxitive}. However, the completely rigorous definition of a (probability) measure actually requires countable additivity (also called  $\sigma$-additivity):
+    \begin{gather}
+        \label{scrib:sigma_additivity}
+        P\left(\bigcup_{A\in\mathcal{P}}A\right)=\sum_{A\in\mathcal{P}}P(A)
+    \end{gather}
+    for any finite or countable collection $\mathcal{P}\subset2^\Omega$ of disjoint subsets of $\Omega$.
+
+    On the level of coproducts this is not a problem. One can perfectly well take countable (or even uncountable) coproducts. However, for monoidal products this is a different matter. Here one usually defines the structure through a (bi)functor and hence it is not as clear on how to pass to the countable setting.
+
+\subsection{Outlook}
+
+    \begin{itemize}
+        \item In \textit{Leinster}'s ''Higher operads, higher categories'' the author introduced the notion of \textit{unbiased} monoidal categories. Unbiased in the sense that the monoidal operation was not just defined in terms of binary and nullary operations, but that one can take arbitrary (finite) monoidal products (the link to operads is rather straightforward). An extension to the infinite setting can be made by suitably generalizing the definition of Leinster to transfinite ordinals. It should be examined if equation \ref{scrib:sigma_additivity} can be obtained as the defining property for a monoidal functor between $\omega$-ary\footnote{$\omega$ being the first transfinite ordinal, i.e. the ordinal type of $\mathbb{N}$.} unbiased monoidal categories.
+        \item The study of the combination of monoid structures on posets (or in fact lattices) culminates in the definition of \textit{quantales}. It might be interesting to study this further.
+        \item The structures that we encountered above are in fact not mere monoidal posets. They carry more structure. They not only have a bottom element (which plays the role of monoidal unit), but they also contain a top element and admit all joins/meets. They form so-called \textbf{complete quasi-monoidal lattices} which form the basic notion of \textit{fuzzy topology}. The application of fuzzy topology (or fuzzy sets) to probability theory and the quantification of uncertainty is not new. It would make sense if these are connected.
+        \item The whole idea of monoidal posets (and their applications) was established in the book ''Seven Sketches in Compositionality'' (and preceding work) by \textit{Fong} \& \textit{Spivak}. A thorough study of the relevant chapters might help.
+    \end{itemize}

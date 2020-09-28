@@ -1,40 +1,40 @@
 \chapter{Maxwell Theory}\label{chapter:maxwell}
 \section{Lorentz force}
 
-    \begin{formula}[Lorentz force]\label{maxwell:lorentz_force}
+    \begin{formula}[Lorentz force]\index{Lorentz!force}\label{maxwell:lorentz_force}
         \begin{gather}
             \vector{F} = q\left(\vector{E} + \vector{v}\times\vector{B}\right)
         \end{gather}
     \end{formula}
 
-    \begin{formula}[Lorentz force density]
+    \begin{formula}[Lorentz force density]\label{maxwell:lorentz_force_density}
         \begin{gather}
-            \label{maxwell:lorentz_force_density}
             \vector{f} = \rho\vector{E} + \vector{J}\times\vector{B}
         \end{gather}
     \end{formula}
 
 \section{Differential Maxwell equations}
 
-    \newformula{Gauss' law for electricity}{
+    \newformula{Gauss's law for electricity}{\index{Gauss!laws for electricity and magnetism}
         \begin{gather}
             \label{maxwell:gauss_electricity}
             \nabla\cdot\vector{E} = \stylefrac{\rho}{\varepsilon}
         \end{gather}
     }
-    \newformula{Gauss' law for magnetism}{
+    \newformula{Gauss's law for magnetism}{
         \begin{gather}
             \label{maxwell:gauss_magnetism}
             \nabla\cdot\vector{B} = 0
         \end{gather}
+        If magnetic charges would exist, then the right-hand side would contain a density as in the case of electricity.
     }
-    \newformula{Faraday's law}{
+    \newformula{Faraday's law}{\index{Faraday}
         \begin{gather}
             \label{maxwell:faraday}
             \nabla\times\vector{E} = -\pderiv{\vector{B}}{t}
         \end{gather}
     }
-    \newformula{Maxwell's law\footnotemark}{
+    \newformula{Maxwell's law\footnotemark}{\index{Maxwell}
         \footnotetext{Also called the law of Maxwell-Amp\`ere.}
         \begin{gather}
             \label{maxwell:maxwell}
@@ -42,25 +42,25 @@
         \end{gather}
     }
 
-\section{Potentials}
+\section{Potentials}\index{potential}
 \subsection{Decomposition in potentials}
 
-    From the Helmholtz decomposition \ref{vectorcalculus:helmholtz_decomposition}, together with Gauss' law \ref{maxwell:gauss_magnetism}, we can derive the following general form for $\vector{B}$:
+    The Helmholtz decomposition \ref{vectorcalculus:helmholtz_decomposition} together with Gauss's law \ref{maxwell:gauss_magnetism} imply the following general form for $\vector{B}$:
     \begin{gather}
         \label{maxwell:magnetic_potential}
         \vector{B} = \nabla\times\vector{A}
     \end{gather}
-    where $\vector{A}$ is the magnetic potential.
+    where $\vector{A}$ is the so-called \textbf{magnetic potential}.
 
-    Combining equation \ref{maxwell:magnetic_potential} with Faraday's law \ref{maxwell:faraday} (and rewriting it a bit) gives the following general form for $\vector{E}$:
+    Combining equation \ref{maxwell:magnetic_potential} with Faraday's law \ref{maxwell:faraday} (and doing some rewriting) gives the following general form for $\vector{E}$:
     \begin{gather}
         \label{maxwell:electric_potential}
         \vector{E} = -\nabla V - \pderiv{\vector{A}}{t}
     \end{gather}
-    where $V$ is the electrostatic potential.
+    where $V$ is the \textbf{electrostatic potential}.
 
     \begin{property}
-        Substituting the previous two expressions into Gauss' law \ref{maxwell:gauss_electricity} and Maxwell's law \ref{maxwell:maxwell} gives the following two (coupled) conditions for the electromagnetic potentials:
+        Substituting the previous two expressions into \ref{maxwell:gauss_electricity} and \ref{maxwell:maxwell} gives the following two (coupled) conditions for the electromagnetic potentials:
         \begin{align}
             \label{maxwell:potential_conditions_A}
             \lap\vector{A} - \varepsilon\mu\mpderiv{2}{\vector{A}}{t} &= \nabla\left(\nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t}\right) - \mu\vector{J}\\
@@ -73,18 +73,19 @@
 
     Looking at equation \ref{maxwell:magnetic_potential}, it is clear that a transformation $\vector{A}\longrightarrow\vector{A} + \nabla\psi$ has no effect on $\vector{B}$ due to property \ref{vectorcalculus:rotor_of_gradient}. To compensate for this in equation \ref{maxwell:electric_potential}, we also have to perform a transformation $V\longrightarrow V - \pderiv{\psi}{t}$.
 
-    The (scalar) function $\psi(\vector{r}, t)$ is called a \textbf{gauge function}. The transformations are called \textbf{gauge transformations}.
+    The (scalar) function $\psi(\vector{r}, t)$ is called a \textbf{gauge function} and the transformations are called \textbf{gauge transformations}.
     \newdef{Gauge fixing conditions}{
-        Conditions that fix a certain gauge (or class of gauge transformations) are called gauge fixing conditions. These select one of many physically equivalent configurations.
+        Conditions that fix a certain gauge (or class of gauge transformations). These select one of many physically equivalent configurations. Mathematically this corresponds to picking a representative for any orbit of the gauge transformations. (See chapter \ref{chapter:gauge_theory} for more.)
     }
+    \remark{It often happens that a gauge condition does not completely fix the gauge, i.e. the condition does not pick a unique representative but only fixes a subset of the gauge orbit that still has some remaining symmetry or freedom.}
 
-    \begin{example}[Lorenz gauge]\index{Lorenz!gauge}
-        A first example of a gauge fixing condition is the Lorenz gauge\footnote{Named after Ludvig Lorenz. Not to be confused with Hendrik Lorentz.}:
+    \begin{example}[Lorenz gauge]\index{Lorenz gauge}
+        A first example of a gauge fixing condition is the Lorenz gauge\footnote{Named after \textit{Ludvig Lorenz}. Not to be confused with \textit{Hendrik Lorentz}.}:
         \begin{gather}
             \label{maxwell:lorenz_gauge}
             \nabla\cdot\vector{A} + \varepsilon\mu\pderiv{V}{t} = 0.
         \end{gather}
-        When using this gauge fixing condition, equations \ref{maxwell:potential_conditions_A} and \ref{maxwell:potential_conditions_V} become uncoupled and can be rewritten as:
+        When using this gauge fixing condition, equations \ref{maxwell:potential_conditions_A} and \ref{maxwell:potential_conditions_V} uncouple. This allows u to rewrite them as
         \begin{align}
             \Box\vector{A} &= -\mu\vector{J}\\
             \Box V &= -\stylefrac{\rho}{\varepsilon}.
@@ -102,8 +103,8 @@
     \end{example}
 
     \begin{example}[Coulomb gauge]\index{Coulomb!gauge}
-        Apart from the Lorenz gauge \ref{maxwell:lorenz_gauge}, there is also the Coulomb gauge:
-        \begin{gather}\index{Coulomb!gauge}
+        Apart from the Lorenz gauge there is also the Coulomb gauge:
+        \begin{gather}
             \label{maxwell:coulomb_gauge}
             \nabla\cdot\vector{A} = 0.
         \end{gather}
@@ -126,17 +127,17 @@
 
 \section{Differential-geometric perspective}
 
-    Using the tools given introduced in chapter \ref{chapter:vector_bundles} (e.g. differential forms) we can rewrite all of the above formulas in a more elegant form, which will also allow us to generalize them to higher dimensions and to more general settings. See for example \cite{principal_bundles} for a complete derivation and interpretation. It should be noted that we use \textit{Gaussian units} throughout this section.
+    Using the tools introduced in chapter \ref{chapter:vector_bundles} (e.g. differential forms) we can rewrite all of the above formulas in a more elegant form. This will also allow us to generalize them to higher dimensions and to more general settings. See for example \cite{principal_bundles} for a complete derivation and interpretation. (It should be noted that we use \textit{Gaussian units} throughout this section.)
 
     \newdef{Field strength}{\index{field!strength}
-        Let \[\mathbf{E} = E_1dx^1 + E_2dx^2 + E_3dx^3\] and \[\mathbf{B} = B_1dx^2\wedge dx^3 + B_2dx^3\wedge dx^1 + B_3dx^1\wedge dx^2\] be the electric and magnetic field forms respectively. Using these forms we can write the field strength as follows:
+        Define \[\mathbf{E} = E_1dx^1 + E_2dx^2 + E_3dx^3\] and \[\mathbf{B} = B_1dx^2\wedge dx^3 + B_2dx^3\wedge dx^1 + B_3dx^1\wedge dx^2\] as the electric and magnetic field forms. Using these differential forms we can write the field strength as follows:
         \begin{gather}
             \mathbf{F} = \mathbf{B} - dt \wedge \mathbf{E}.
         \end{gather}
     }
 
     \begin{formula}[Maxwell's equations]
-        Denote the electric 4-current by \[\mathbf{J} = \rho dt - J_1dx^1 - J_2dx^2 - J_3dx^3.\] Maxwell's equations can now be rewritten as follows:
+        Define the electric 4-current as \[\mathbf{J} = \rho dt - J_1dx^1 - J_2dx^2 - J_3dx^3.\] Maxwell's equations can now be rewritten as follows:
         \begin{align}
             d\mathbf{F} &= 0\label{maxwell:diff_homogeneous}\\
             \ast d(\ast \mathbf{F}) &= 4\pi\mathbf{J}
@@ -145,7 +146,7 @@
     \end{formula}
 
     \newdef{Potential}{\index{potential}\index{gauge!field}
-        The homogeneous equation \ref{maxwell:diff_homogeneous} together with Poincar\'e's lemma\footnote{See theorem \ref{forms:theorem:poincare}.} imply that there exists a differential 1-form $\mathbf{A}$ such that
+        The homogeneous equation \ref{maxwell:diff_homogeneous} and Poincar\'e's lemma\footnote{See theorem \ref{forms:theorem:poincare}.} imply that there exists a differential 1-form $\mathbf{A}$ such that
         \begin{gather}
             \mathbf{F} = d\mathbf{A}.
         \end{gather}
@@ -155,5 +156,7 @@
         \end{gather}
     }
     \begin{property}[Gauge transformation]\index{gauge!transformation}
-        Because $d^2 = 0$ the above equation is invariant under a transformation $\mathbf{A}\longrightarrow\mathbf{A}+df$ for any $f\in C^\infty(\mathbb{R}^3)$. When written out in coordinates, this gives us exactly the gauge transformations from equation \ref{maxwell:gauge_transformations}.
+        Because $d^2 \equiv 0$ the above equation is invariant under a transformation $\mathbf{A}\longrightarrow\mathbf{A}+df$ for any $f\in C^\infty(\mathbb{R}^3)$. When written out in coordinates, this gives us exactly the gauge transformations from equation \ref{maxwell:gauge_transformations}.
     \end{property}
+
+    ?? COMPLETE ??

@@ -133,7 +133,7 @@
 \section{Probability distribution}
 
     \newdef{Probability distribution}{\index{probability!distribution}\label{prob:probability_distribution}
-        Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$. The following function is a measure on the Borel $\sigma$-algebra:
+        Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$. The following function is a measure on the Borel $\sigma$-algebra of $\mathbb{R}$:
         \begin{gather}
             P_X(B) = P(X^{-1}(B)).
         \end{gather}
@@ -475,7 +475,7 @@
     }
 
     \newdef{Adapted process}{\index{adapted!process}
-        Consider a stochastic process $\seq{X}$ on a filtered probability space $(\Omega, \Sigma, \mathbb{F}, P)$ is said to be adapted to the filtration $\mathbb{F}$ is $X_n$ is $\mathbb{F}_n$-measurable for all $n\geq0$.
+        A stochastic process $\seq{X}$ on a filtered probability space $(\Omega, \Sigma, \mathbb{F}, P)$ is said to be adapted to the filtration $\mathbb{F}$ if $X_n$ is $\mathbb{F}_n$-measurable for all $n\geq0$.
     }
     \newdef{Predictable process}{\index{predictable}
         A stochastic process $\seq{X}$ on a filtered probability space $(\Omega, \Sigma, \mathbb{F}, P)$ is said to be predictable if $X_{n+1}$ is $\mathbb{F}_n$-measurable for all $n\geq0$.
@@ -498,7 +498,7 @@
             \item Each random variable $X_n$ is integrable, i.e. $X_n\in L^1(P)$ for all $n\geq0$.
             \item For all $n\geq0: E[X_{n+1}|\mathcal{F}_n]=X_n$.
         \end{enumerate}
-        If the equality in the last condition is replace by the inequality $\leq$ (resp. $\geq$) then we call the stochastic process a \textbf{supermartingale} (resp. \textbf{submartingale}).
+        If the equality in the last condition is replaced by the inequality $\leq$ (resp. $\geq$) then we call the stochastic process a \textbf{supermartingale} (resp. \textbf{submartingale}).
     }
 
     \begin{theorem}[Doob decomposition]\index{Doob}
@@ -662,3 +662,22 @@
         \end{gather}
         for all $n\geq1$.
     \end{property}
+
+\section{\difficult{Randomness}}
+
+    Note that this section is strongly related to computability theory (see section \ref{section:turing}).
+
+    \newdef{Kolmogorov randomness}{\index{Kolmogorov!randomness}
+        Consider a \textit{universal Turing machine} $U$. The \textbf{Kolmogorov complexity} $C(\kappa)$ of a finite bit string $\kappa$ (with respect to $U$) is defined as
+        \begin{gather}
+            C(\kappa) := \min\{|\sigma|:\sigma\text{ is finite}, U(\sigma)=\kappa\}.
+        \end{gather}
+        A finite bit string is said to be Kolmogorov random (with respect to $U$) if there exists an integer $n\in\mathbb{N}$ such that $C(\kappa)\geq|\sigma|-n$.
+    }
+
+    \begin{property}
+        For every universal Turing machine there exists at least one Kolmogorov random string. This easily follows from the pigeonhole principle since for every $n\in\mathbb{N}$ there are $2^n$ strings of length $n$ but only $2^n-1$ programs of length less than $n$.
+    \end{property}
+    \remark{Note that, although universal Turing machines can emulate each other, the randomness of a string is not absolute. Its randomness depends on the chosen machine.}
+
+    It would be pleasing if this notion of randomness could easily be extended to infinite bit strings, for example by giving such a string the label random if there exists a uniform choice of constant $k$ such that all initial segments of the string are $k$-random. However, a result by \textit{Martin-L\"of} there does not exist any string satisfying this condition.

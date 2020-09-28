@@ -233,14 +233,14 @@
     }
 
     \newdef{Cumulative distribution function}{\index{cumulative distribution function}
-        Let $X$ be a random variable and $f(X)$ the associated PDF The cumulative distribution function $F(X)$ is defined as follows:
+        Let $X$ be a random variable and let $P(X)$ be the associated PDF. The cumulative distribution function (CDF) $F(X)$ is defined as follows:
         \begin{gather}
             \label{statistics:cdf}
             F(x) := \int_{-\infty}^xf(X)dX.
         \end{gather}
     }
     \begin{theorem}
-        Let $X$ be a random variable. Let $P(X)$ and $F(X)$ be the associated PDF and c.d.f. Using standard calculus the following equality can be proven:
+        Let $X$ be a random variable. Let $P(X)$ and $F(X)$ be the associated PDF and CDF. Using standard calculus the following equality can be proven:
         \begin{gather}
             P(x_1\leq X\leq x_2) = F(x_2) - F(x_1).
         \end{gather}
@@ -300,7 +300,7 @@
         \end{gather}
         where we should pay attention to the remark made when we defined \ref{prob:formal_conditional}.
     }
-    \result{If $X$ and $Y$ are independent, then by remark \ref{prob:remark_independence} the marginal p.d.f is equal to the conditional PDF.}
+    \result{If $X$ and $Y$ are independent, then by remark \ref{prob:remark_independence} the marginal PDF is equal to the conditional PDF.}
 
     \begin{theorem}[Bayes' theorem]\index{Bayes}
         The conditional PDF can be computed without prior knowledge of the joint PDF:
@@ -713,7 +713,7 @@
 
     From definition \ref{likelihood} it follows that the estimator $\hat{a}_{MLH}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is therefore not the most probable estimator.
 
-    Using Bayes' theorem we find $P(a;x) = P(x;a)\frac{P(a)}{P(x)}$. The prior probability $P(x)$ is fixed since the values $x_i$ are given by our measurement and hence does not vary and the probability $P(a)$ is generally assumed to be a uniform distribution if there is no prior knowledge about $a$. It follows that $P(a;x)$ and $P(x;a)$ are proportional and hence the logarithms of these functions differ only by an additive constant. This leads us to following method for finding an estimator $\hat{a}$:
+    Using Bayes's theorem we find $P(a;x) = P(x;a)\frac{P(a)}{P(x)}$. The prior probability $P(x)$ is fixed since the values $x_i$ are given by our measurement and hence does not vary and the probability $P(a)$ is generally assumed to be a uniform distribution if there is no prior knowledge about $a$. It follows that $P(a;x)$ and $P(x;a)$ are proportional and hence the logarithms of these functions differ only by an additive constant. This leads us to following method for finding an estimator $\hat{a}$:
 
     \newmethod{Maximum likelihood estimator}{\index{likelihood!estimator}
         The maximum likelihood estimator $\hat{a}$ is obtained by solving the following equation:
@@ -788,6 +788,16 @@
         \end{enumerate}
     }
 
+\section{Bayesian modelling}
+
+    \newdef{Conjugate distributions}{\index{conjugate!distribution}
+        Consider a prior distribution $P(\theta)$ and a posterior distribution $P(\theta|X)$. If these distributions belong to the same family, e.g. they are both Gaussians, then they are said to be conjugate. In this case the prior $P(\theta)$ is said to be a \textbf{conjugate prior} for the likelihood $P(X|\theta)$.
+    }
+
+    \begin{example}
+        The simplest example is the case of binomial distributions, for these the conjugate prior is the Beta distribution. This can be generalized to multi-class situations. The conjugate prior of a \textit{categorical} (or even multinomial) distribution is the \textit{Dirichlet distribution}.
+    \end{example}
+
 \section{Confidence intervals}\index{confidence}
 
     The true value of a parameter $\varepsilon$ can never be known exactly. However, it is possible to construct an interval $I$ in which this value should lie with a certain confidence $C$.
@@ -795,7 +805,7 @@
         Let $X$ be a random variable with distribution $\mathcal{N}(x;\mu,\sigma)$. The measurement $x$ lies in the interval $[\mu - 1.96\sigma, \mu+1.96\sigma]$ with 95\% \underline{probability}. The true value $\mu$ lies in the interval $[x - 2\sigma, x+2\sigma]$ with 95\% \underline{confidence}.
     \end{example}
     \begin{remark*}
-        In the previous example there are some Bayesian assumptions: all possible values (left or right side of peak) are given the same probability due to the Gaussian distribution. If one removes this symmetry condition a more careful approach is required. Furthermore, the apparent symmetry between the uncertainty and confidence levels is only valid for Gaussian distributions.
+        In the previous example we made some assumptions: all possible values (left or right side of peak) are given the same probability due to the Gaussian distribution. If one removes this symmetry condition a more careful approach is required. Furthermore, the apparent symmetry between the uncertainty and confidence levels is only valid for Gaussian distributions.
     \end{remark*}
 
 \subsection{Interval types}
@@ -885,47 +895,53 @@
         Accepting a false null hypothesis.
     }
 
-    \newdef{Significance}{\index{significance}
+    \newdef{Significance}{\index{significance}\label{statistics:significance}
         The probability of making a type I error:
         \begin{gather}
-            \label{statistics:significance}
-            \alpha = \int P_{H_0}(x)dx.
+            \alpha = \int_\Omega P_I(x)dx
         \end{gather}
     }
     \begin{property}
-        Let $a_1 > a_2$. An $a_2$-level test is also significant at the $a_1$-level.
+        Let $\alpha_1>\alpha_2$. An $\alpha_2$-level test is also significant at the $\alpha_1$-level.
     \end{property}
     \remark{For discrete distributions it is not always possible to achieve an exact level of significance.}
-    \sremark{Type I errors occur occasionally. They cannot be prevented, they should however be controlled.}
+    \sremark{Type I errors occur occasionally. They cannot be prevented, one can only try to control them.}
 
     \newdef{Power}{\index{power}
         The probability of not making a type II error:
         \begin{gather}
-            \label{statistics:power}
-            \beta = \int P_{H_1}(x)dx\qquad\rightarrow\qquad\text{power: }1-\beta.
+            \beta = \int_\Omega P_{II}(x)dx\quad\longrightarrow\quad\text{power: }1-\beta.
         \end{gather}
     }
 
     \begin{remark}
-        A good test is a test with a small significance and a large power. The propabilities $P_{H_0}(x)$ and $P_{H_1}(x)$ should be as different as possible.
+        A good test is a test with a small significance and a large power. The probabilities $P_I(x)$ and $P_{II}(x)$ should be as different as possible.
     \end{remark}
 
-    \begin{theorem}[Neyman-Pearson test]\index{Neyman-Pearson test}
-        The following test is the most powerful test at significance level $\alpha$ for a threshold $\eta$:
-
-        The null hypothesis $H_0$ is rejected in favour of the alternative hypothesis $H_1$ if the likelihood ratio $\Lambda$ satisfies the following condition:
-        \begin{gather}\index{likelihood!ratio}
+    \begin{definition}[Likelihood ratio test]\index{likelihood!ratio}
+        The null hypothesis $H_0:\theta=\theta_0$ is rejected in favour of the alternative hypothesis $H_1:\theta=\theta_1$ if the likelihood ratio $\Lambda$ satisfies the following condition:
+        \begin{gather}
             \label{statistics:likelihood_ratio}
-            \Lambda(x) = \stylefrac{L(x|H_0)}{L(x|H_1)} \leq \eta
+            \Lambda(x) = \stylefrac{\mathcal{L}(\theta_0|x)}{\mathcal{L}(\theta_1|x)} \leq \eta
         \end{gather}
-        where $P(\Lambda(x)\leq\eta|H_0) = \alpha $
-    \end{theorem}
+        where $P(\Lambda(x)\leq\eta|H_0) = \alpha $.
+    \end{definition}
     \sremark{In some references the reciprocal of $\Lambda(x)$ is used as the definition of the likelihood ratio.}
+    \begin{theorem}[Neyman-Pearson lemma]\index{Neyman-Pearson}
+        The likelihood ratio test is the most powerful test at significance level $\alpha$.
+    \end{theorem}
+
+    \begin{construct}[Bonferroni correction]\index{Bonferroni correction}
+        Consider a set of hypotheses $\{H_i\}_{1\leq i\leq n}$. The higher the number of tests, the higher the chance that by statistical fluctuations at least one of these hypotheses will be rejected. To avoid this problem of multiple comparisons, one can try to control the ''family-wise error rate'', i.e. the probability of falsely rejecting at least one hypothesis. The easiest way to control this error rate is by modifying the individual significance levels:
+        \begin{gather}
+            \alpha\longrightarrow\frac{\alpha}{n}.
+        \end{gather}
+    \end{construct}
 
 \section{Comparison tests}
 
     \newdef{McNemar test}{\index{test!McNemar}
-        Consider two models constructed for a given data set. Construct the contingency table describing the number of true positives and true negatives for both models:
+        Consider two models or hypotheses describing a given data set. Construct the contingency table describing the number of true positives and true negatives for both models:
         \begin{gather}
             \begin{array}{c||c|c}
                 &\text{TP (model 1)}&\text{TN (model 1)}\\
@@ -935,14 +951,14 @@
                 \text{TN (model 2)}&c&d
             \end{array}
         \end{gather}
-        The null hypothesis of the McNemar test is that there is no significant difference between the predictive power of the model, i.e. $ p_a+p_c = p_a+p_b \land p_b+p_d = p_c+p_d$ where $p_\alpha$ indicates the proportion of the variable $\alpha$. By noting that the diagonal values are redundant in this description one can write the hypotheses more concisely: \[H_0: b=c\]\[H_1: b\neq c.\] The test statistic is the McNemar chi-squared statistic: $\chi^2 = \frac{(b-c)^2}{b+c}$. When the values of $b$ and $c$ are large enough ($>25$) one can approximate this distribution by an ordinary $\chi^2$-distribution with 1 degree of freedom.
+        The null hypothesis of the McNemar test is that there is no significant difference between the predictive power of the model, i.e. $ p_a+p_c = p_a+p_b$ and $p_b+p_d = p_c+p_d$ where $p_i$ indicates the proportion of the variable $i$. By noting that the diagonal values are redundant in this description one can write the hypotheses more concisely: \[H_0: b=c\]\[H_1: b\neq c.\] The test statistic is the McNemar chi-squared statistic: $\chi^2 = \frac{(b-c)^2}{b+c}$. When the values of $b$ and $c$ are large enough ($>25$) one can approximate this distribution by an ordinary $\chi^2$-distribution with 1 degree of freedom.
     }
-    \begin{remark}[Edwards' correction]\index{Edwards' correction}
+    \begin{remark}[Edwards correction]\index{Edwards correction}
         It is common to apply a continuity correction (similar to the \textit{Yates-correction} for the ordinary chi-squared test):
         \begin{gather}
            \chi^2 := \frac{(|b-c|-1)^2}{b+c}.
         \end{gather}
-        This follows from the fact that for small $b, c$ the exact $p$-values should be compared with a binomial test which compares $b$ to $b+c$ (note the factor 2):
+        This follows from the fact that for small $b, c$ the exact $p$-values should be compared with a binomial test which compares $b$ to $b+c$ (note the factor of 2):
         \begin{gather}
            p = 2\sum_{i=b}^{b+c}\binom{b+c}{i}0.5^i(1 - 0.5)^{b+c-i}.
         \end{gather}
@@ -951,7 +967,11 @@
     \newdef{Wilcoxon signed-rank test}{\index{test!Wilcoxon}
         Consider a paired data sample, i.e. two dependent data samples for which the $i^{th}$ entries are paired together. This test checks if the population means are different. The test statistic is defined as follows:
 
-        \qquad First one calculates the differences $d_i$ and ranks their absolute values (ties are assigned an average rank). Then one calculates the sums of the ranks $R_+, R_-$ for positive differences and negative differences and take smallest of these: $T=\min(R_+, R_-)$. For small data samples ($n<25$) one can look for tables listing critical values for $T$. For larger data samples one can (approximately) use a standard normal distribution with statistic \[z := \frac{T-\frac{1}{4}n(n+1)}{\sqrt{\frac{1}{24}n(n+1)(2n+1)}}.\]
+        \qquad First one calculates the differences $d_i$ and ranks their absolute values (ties are assigned an average rank). Then one calculates the sums of the ranks $R_+, R_-$ for positive and negative differences and takes smallest of these:
+        \begin{gather}
+            T:=\min(R_+, R_-).
+        \end{gather}
+        For small data samples ($n<25$) one can look up critical values in the literature. For larger data samples one can (approximately) use a standard normal distribution with statistic \[z := \frac{T-\frac{1}{4}n(n+1)}{\sqrt{\frac{1}{24}n(n+1)(2n+1)}}.\]
     }
     \begin{remark}
         The major benefit of this test over a signed $t$-test is that the Wilcoxon test does not require the data samples to be drawn from a normal distribution. However in the case where the assumptions for a paired $t$-test are met, the $t$-test is more powerful.
@@ -975,7 +995,7 @@
         \begin{gather}
             F := \frac{(N-1)\chi^2_F}{N(k+1)-\chi^2_F}.
         \end{gather}
-        This follows a $F$-distribution with $k-1$ and $(N-1)(k-1)$ degrees of freedom. As a further remark we mention that the (nonparametric) Friedman test is weaker than (parametric) repeated measures ANOVA whenever the assumptions for the latter hold (similar to the case of the Wilcoxon signed-rank test).
+        This follows an $F$-distribution with $k-1$ and $(N-1)(k-1)$ degrees of freedom. As a further remark we mention that the (nonparametric) Friedman test is weaker than (parametric) \textit{repeated-measures ANOVA} whenever the assumptions for the latter hold (similar to the case of the Wilcoxon signed-rank test).
     \end{remark}
 
 \subsection{Post-hoc tests}

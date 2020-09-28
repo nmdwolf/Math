@@ -1,43 +1,71 @@
 \chapter{Mathematical Formalism}\label{chapter:mathematical_formalism_qm}
 
+    The main reference for the mathematically rigorous treatment of quantum mechanics, in particular in the infinite-dimensional setting, is \cite{moretti_QM}. Relevant chapters in this compendium are \ref{chapter:distributions}, \ref{chapter:normed_spaces} and \ref{chapter:operator_algebras}.
+
+    ?? COMPLETE LIST ??
+
 \section{Postulates}
 
-?? FINISH THIS ??
+    \begin{axiom}[State spaces]
+        The possible states of a (closed) system are represented by vectors in a (complex) Hilbert space. In the infinite-dimensional setting one often further restricts to separable spaces.
+    \end{axiom}
 
-\subsection{Postulate 6: Eigenfunction expansion}
+    \begin{axiom}[Observables]\index{observable}
+        A self-adjoint operator. In the finite-dimensional case this is equivalent to an operator that admits a complete set of eigenfunctions
+    \end{axiom}
 
-    \newdef{Observable}{\index{observable}
-        An operator $\hat{A}$ that possesses a complete set of eigenfunctions.
-    }
+    \begin{axiom}[Rays]
+        The dynamics of the system do not depend on the global phase of states. Hence we can describe states as rays in a projective Hilbert space.
+    \end{axiom}
+
+\subsection{Observables}
 
     \begin{formula}\index{eigenfunction!expansion}
-        Let $|\Psi\rangle$ be a wave function representing a given system. Let the set $\{|\psi_n\rangle\}_{i\in I}$ be a complete set of eigenfunctions of some observable of the system. The wave function $|\Psi\rangle$ can be expanded as a linear combination of those eigenfunctions:
+        Let $|\Psi\rangle$ be a state vector representing a given system and let the set $\{|\psi_i\rangle\}_{i\in I}$ be a complete set of eigenvectors of some observable of the system. The state vector $|\Psi\rangle$ can be expressed as a linear combination of the eigenfunctions:
         \begin{gather}
             \label{qm_formalism:eigenfunction_expansion}
-            |\Psi\rangle = \sum_nc_n|\psi_n\rangle + \int c_a|\psi_a\rangle da
+            |\Psi\rangle = \sum_ic_i|\psi_i\rangle + \int c_a|\psi_a\rangle da
         \end{gather}
         where the summation ranges over the discrete spectrum and the integral over the continuous spectrum.
     \end{formula}
 
     \begin{formula}[Closure relation]\index{closure!relation}\index{resolution!of the identity}
-        For a complete set of discrete eigenfunctions the closure relation\footnote{This relation is also called the \textbf{resolution of the identity}.} is given by
+        For a complete set of discrete eigenvectors the closure relation\footnote{This relation is also called the \textbf{resolution of the identity}.} is given by
         \begin{gather}
             \label{qm_formalism:closure}
             \sum_n|\psi_n\rangle\langle\psi_n| = \mathbbm{1}.
         \end{gather}
-        For a complete set of continuous eigenfunctions we have the following counterpart:
+        For a complete set of continuous eigenvectors we have the following counterpart:
         \begin{gather}
             \label{qm_formalism:closure_continuouos}
             \int|i\rangle\langle i|di = \mathbbm{1}.
         \end{gather}
-        For a mixed set of eigenfunctions a similar relation is obtained by summing over the discrete eigenfunctions and integrating over the continuous eigenfunctions.
+        For a mixed set of eigenvectors a similar relation is obtained by summing over the discrete part and integrating over the continuous part.
     \end{formula}
     \sremark{To simplify the notation we will almost always use the notation of equation \ref{qm_formalism:closure} and implicitly integrate over the continuous spectrum.}
+
+    \newdef{Canonical commutation relations}{\index{CCR}\label{qm_formalism:CCR}
+        \nomenclature[A_CCR]{CCR}{canonical commutation relation}
+        Two observables $A,B$ are said to obey a canonical commutation relation (CCR) if they satisfy (often up to a constant $\hbar$)
+        \begin{gather}
+            [A, B] = i.
+        \end{gather}
+        The prime example are the position and momentum operators $\hat{x}, \hat{p}$. By functional calculus we can then define the exponential operators $e^{isA}$ and $e^{itB}$, the above relation then induces the so-called Weyl form of the CCR:
+        \begin{gather}
+            e^{isA}e^{itB} = e^{ist}e^{itB}e^{isA}.
+        \end{gather}
+    }
+    \begin{theorem}[Stone-von Neumann]\index{Stone-von Neumann}\label{qm_formalism:stone_von_neumann}
+        All pairs of irreducible unitary one-parameter subgroups satisfying the Weyl form of the CCR are unitarily equivalent.
+    \end{theorem}
+    \begin{result}
+        The Stone-von Neumann theorem implies that the Schr\"odinger and Heisenberg pictures are unitarily equivalent.
+    \end{result}
 
 \section{Uncertainty principle}
 
     \newdef{Compatible observables}{\index{observable!compatibility}
-        Let $\hat{A}, \hat{B}$ be two observables. If there exists a complete set of mutual eigenfunctions $|\psi_n\rangle$ then the two operators are said to be compatible.
+        Let $\hat{A}, \hat{B}$ be two observables. If there exists a complete set of mutual eigenvectors $|\psi_n\rangle$, the two operators are said to be compatible.
     }
 
     \newformula{Uncertainty relation}{\index{Heisenberg!uncertainty relation}\index{Robertson|see{Heisenberg uncertainty relation}}
@@ -53,9 +81,10 @@
     }
 
 \section{Symmetries}
+\subsection{Quantum symmetries}
 
     \newdef{State space}{
-        By the postulates of quantum mechanics, the states in a quantum theory are given by rays in the projective Hilbert space $P\mathcal{H}$. Probabilities are then defined through the canonical metric on $P\mathcal{H}$ as follows:
+        By the postulates of quantum mechanics, the states in a quantum theory are given by rays in the projective Hilbert space $P\mathcal{H}$ since phase factors are irrelevant. Probabilities are then defined through the canonical metric on $P\mathcal{H}$ as follows:
         \begin{gather}
             \mathcal{P}(\psi, \phi) := \cos^2\big[d(\psi,\phi)\big] = \frac{|\langle\psi|\phi\rangle|^2}{\langle\psi|\psi\rangle\langle\phi|\phi\rangle}
         \end{gather}
@@ -63,23 +92,22 @@
     }
 
     \newdef{Symmetry}{\index{symmetry}\index{automorphism!quantum}
-        A symmetry (or \textbf{quantum automorphism}) is an isometric automorphism of $P\mathcal{H}$. We will denote this group by $\text{Aut}_{qm}(P\mathcal{H})$.
+        A quantum symmetry (or \textbf{quantum automorphism}) is an isometric automorphism of $P\mathcal{H}$. We will denote this group by $\text{Aut}_{qm}(P\mathcal{H})$.
     }
 
-    The following theorem due to Wigner gives a linear characterization of quantum symmetries:\footnote{In fact it is a particular case of a more general theorem in projective geometry.}
+    The following theorem due to Wigner gives a (linear) characterization of quantum symmetries:\footnote{In fact it is a particular case of a more general theorem in projective geometry.}
     \begin{theorem}[Wigner]\index{Wigner}
-        Every quantum automorphism on $P\mathcal{H}$ is induced by a unitary or anti-unitary operator on $\mathcal{H}$.
+        Every quantum automorphism of $P\mathcal{H}$ is induced by a unitary or anti-unitary operator on $\mathcal{H}$.
     \end{theorem}
-    This is equivalent to saying that the group morphism $\pi:\text{Aut}(\mathcal{H}, \mathcal{P}):=\text{U}(\mathcal{H})\times\text{AU}(\mathcal{H})\rightarrow\text{Aut}_{qm}(P\mathcal{H})$ is surjective. The kernel is given by phase shifts, i.e. $\text{U}(1)$, and hence we obtain a short exact sequence:
+    This is equivalent to saying that the group morphism $\pi:\text{Aut}(\mathcal{H}, \mathcal{P}):=\text{U}(\mathcal{H})\times\text{AU}(\mathcal{H})\rightarrow\text{Aut}_{qm}(P\mathcal{H})$ is surjective. The kernel $\text{U}(1)$ is given by phase shifts and hence we obtain a short exact sequence:
     \begin{gather}
         1\longrightarrow\text{U}(1)\longrightarrow\text{Aut}(\mathcal{H}, \mathcal{P})\longrightarrow\text{Aut}_{qm}(P\mathcal{H})\longrightarrow1.
     \end{gather}
-
-    In the case of symmetry breaking (e.g. lattice systems) the full symmetry group is reduced to a subgroup $G\subset\text{Aut}_{qm}(P\mathcal{H})$. The group of operators acting on $\mathcal{H}$ is then given by the pullback $\widetilde{G}$ of the diagram \[\text{Aut}(\mathcal{H}, \mathcal{P})\longrightarrow\text{Aut}_{qm}(P\mathcal{H})\longleftarrow G.\] It should also be noted that the kernel of the homomorphism (and in fact projection) $\widetilde{G}\rightarrow G$ is again $\text{U}(1)$. This then leads to the property that $\widetilde{G}$ is a $\mathbb{Z}_2$-twisted (and hence non-central) $\text{U}(1)$-extension of $G$ (where the twist is induced by the homomorphism $\phi:\text{Aut}(\mathcal{H}, \mathcal{P})\rightarrow\mathbb{Z}_2$ that tells us whether an operator is unitary or anti-unitary).
+    In the case of symmetry breaking (e.g. lattice systems) the full symmetry group is reduced to a subgroup $G\subset\text{Aut}_{qm}(P\mathcal{H})$. The group of operators acting on $\mathcal{H}$ is then given by the pullback $\widetilde{G}$ of the diagram \[\text{Aut}(\mathcal{H}, \mathcal{P})\longrightarrow\text{Aut}_{qm}(P\mathcal{H})\longleftarrow G.\] It should also be noted that the kernel of the homomorphism (in fact projection) $\widetilde{G}\rightarrow G$ is again $\text{U}(1)$. This then leads to the property that $\widetilde{G}$ is a $\mathbb{Z}_2$-twisted (and hence non-central) $\text{U}(1)$-extension of $G$ (where the twist is induced by the homomorphism $\phi:\text{Aut}(\mathcal{H}, \mathcal{P})\rightarrow\mathbb{Z}_2$ that tells us whether an operator is unitary or anti-unitary).
 
     ?? COMPLETE ??
 
-\section{Symmetric states}
+\subsection{Symmetric states}
 
     \begin{axiom}[Symmetrization postulate]\index{symmetrization postulate}
         Let $\mathcal{H}$ be the Hilbert space belonging to a single particle. A system of $n$ identical particles is described by a state $\Psi$ belonging to either $S^n(\mathcal{H})$ or $\Lambda^n(\mathcal{H})$.

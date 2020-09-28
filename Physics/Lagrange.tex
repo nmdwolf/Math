@@ -100,7 +100,7 @@
     }
 
     \newdef{Hamiltonian function}{\index{Hamilton!function}\label{hamilton:hamiltonian}
-        The Hamiltonian function is defined as follows:
+        Given a Lagrangian $L$ one defines the Hamiltonian function as follows:
         \begin{gather}
             H(q, p, t) := \sum_ip_i\dot{q}^i - L(q, p, t).
         \end{gather}
@@ -110,9 +110,9 @@
         \footnotetext{Also known as the \textit{canonical equations of Hamilton}.}
         \begin{align}
             \dot{q}^i &= \pderiv{H}{p_i}\\
-            \dot{p_i} &= -\pderiv{H}{q^i}\\
-            \pderiv{L}{t} &= -\pderiv{H}{t}
+            \dot{p_i} &= -\pderiv{H}{q^i}
         \end{align}
+        Systems obeying these equations are called \textbf{Hamiltonian systems} (see section \ref{section:hamiltonian_dynamics} for a formal introduction).
     }
 
     The formula to obtain the Hamiltonian from the Lagrangian is an application of the following more general \textbf{Legendre transformation}:
@@ -124,17 +124,15 @@
         \end{gather}
         where $u = \pderiv{f}{x}$ and $v = \pderiv{f}{y}$.
 
-        Suppose we want to perform a coordinate transformation $(x, y)\rightarrow (u, y)$ that preserves the general form of \ref{lagrange:legendre1}. To do this we consider the function
+        Suppose we want to perform a coordinate transformation $(x, y)\rightarrow (u, y)$ that preserves the general form of \ref{lagrange:legendre1}. To this end we consider the function
         \begin{gather}
             \label{lagrange:legendre}
             g = f - ux.
         \end{gather}
         Differentiation gives
-        \begin{align*}
-            dg &= df - udx - xdu\\
-            &= (udx + vdy) - udx - xdu\\
-            &= vdy - xdu
-        \end{align*}
+        \begin{gather*}
+            dg = vdy - xdu
+        \end{gather*}
         which has the form of \ref{lagrange:legendre1} as desired. The quantities $v$ and $x$ are now given by
         \begin{gather}
             x = -\pderiv{g}{u}\qquad\text{and}\qquad v=\pderiv{g}{y}.
@@ -154,7 +152,9 @@
         \end{gather}
         where $q, p$ are the generalized coordinates in the Hamiltonian formalism.
     }
+    \remark{Some authors define the Poisson bracket with the opposite sign. One should always pay attention to which convention is used.}
     \newformula{Total time derivative}{
+        Hamilton's equations imply the following expression for the total time derivative:
         \begin{gather}
             \deriv{F}{t} = \pderiv{F}{t} + \{H, F\}
         \end{gather}
@@ -163,7 +163,7 @@
 
 \section{Hamilton-Jacobi equation}
 
-    For a mathematical introduction see section \ref{section:hamilton_jacobi}.
+    For a formal introduction see section \ref{section:hamilton_jacobi}.
 
 \subsection{Canonical transformations}
 
@@ -185,7 +185,7 @@
         Choosing the new Hamiltonian function $K$ to be 0 gives the Hamilton-Jacobi equation:
         \begin{gather}
             \label{lagrange:hamilton_jacobi_equation}
-            H\left(q, \pderiv{S}{q}\right)+\pderiv{S}{t} = 0.
+            H\left(q, \pderiv{S}{q}, t\right)+\pderiv{S}{t} = 0.
         \end{gather}
         The function $S$ is called \textbf{Hamilton's principal function}.
     }
@@ -200,11 +200,11 @@
             \label{lagrange:time_independent_hje}
             H\left(q, \pderiv{S}{q}\right) = -\pderiv{S}{t} := E.
         \end{gather}
-        We thus obtain the classical result that for time-independent systems the Hamiltonian function is a constant of motion (the \textbf{energy}). Integration with respect to time then gives the following form of the principal function:
+        We thus obtain the classical result that for time-independent systems the Hamiltonian function is a constant of motion (the \textbf{energy}). Integration with respect to time then gives the following form of the principal function:\footnote{Note that often $E$ will be the energy, however this is not a general fact.}
         \begin{gather}
-            S(q, p, t) = W(q, p) - Et
+            S(q, p, t) = W(q, p) - Et.
         \end{gather}
-        where $E$ is the energy. The time-independent function $W$ is called Hamilton's characteristic function.
+        The time-independent function $W$ is called Hamilton's characteristic function.
     }
 
 \subsection{St\"ackel potentials}
@@ -212,7 +212,7 @@
     \begin{remark}
         If the principal function can be separated into $n$ equations, the HJE splits up into $n$ equations of the form
         \begin{gather}
-            h_i\left(q^i, \deriv{S}{q^i}, \alpha_i\right) = 0.
+            h_i\left(q^i, \pderiv{S}{q^i}, \alpha_i\right) = 0.
         \end{gather}
         The partial differential equation for $S$ can thus be rewritten as a system of $n$ ordinary differential equations.
     \end{remark}
@@ -237,11 +237,15 @@
         The set of all possible $n$-tuples\footnote{Not only those as given by the equations of motion.} $(q^i, p_i)$ of generalized coordinates and associated momenta is called the phase space of the system. Given a system living on a smooth manifold $Q$, its phase space is modelled by the cotangent bundle $T^*Q$.
     }
 
-    \newdef{Rotation}{\index{rotation}
-        A rotation is the change of a coordinate for which every possible value is allowed.
-    }
     \newdef{Libration}{\index{libration}
-        A libration is the change of a coordinate for which only a subset of the total range is allowed. It is the generalization of an oscillation.
+        A closed trajectory for which the coordinates take on only a subset of the allowed values. It is the generalization of an oscillation. Topologically it is characterized by a closed trajectory that is contractible.
+    }
+    \newdef{Rotation}{\index{rotation}
+        A closed trajectory in which at least one of the variables takes on all possible values. Topologicaly these are characterized as those closed trajectories that are noncontractible.
+    }
+
+    \newdef{Separatrix}{\index{separatrix}
+        When plotting different (closed) trajectories in the phase space of a system, the curve that separates regions of librations and rotations is called the separatrix.\footnote{In general the separatrix of a dynamical system is a curve that separates regions with different behaviour.}
     }
 
 \subsection{Material derivative}
@@ -270,9 +274,9 @@
 \subsection{Liouville's theorem}
 
     \begin{formula}[Liouville's lemma]
-        Consider a phase space volume element $dV_0$ moving along a path $(\vector{r}(t), \vector{v}(t)) \equiv (\vector{x}(t))$. The Jacobian $J(\vector{x}, t)$ associated with this motion is given by
+        Consider a phase space volume element $dV_0$ moving along a path $(\vector{r}(t), \vector{v}(t))\equiv\vector{x}(t)$. The Jacobian $J(\vector{x}, t)$ associated with this motion is given by
         \begin{gather}
-            J(\vector{x}, t) = \deriv{V}{V_0} = \det\left(\pderiv{\vector{x}}{\vector{x}_0}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}.
+            J(\vector{x}(t)) = \deriv{V}{V_0} = \det\left(\pderiv{\vector{x}}{\vector{x}_0}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}.
         \end{gather}
         The Lagrangian derivative of this Jacobian then becomes
         \begin{gather}
@@ -286,36 +290,37 @@
         and hence that the material derivative of $J$ vanishes.
     \end{formula}
 
-    \begin{theorem}[Liouville's theorem]\index{Liouville!theorem on phase spaces}\label{fluidum:liouvilles_theorem}
+    \begin{theorem}[Liouville]\index{Liouville!theorem on phase spaces}\label{fluidum:liouvilles_theorem}
         Let $V(t)$ be a phase space volume containing a fixed set of particles. Applying Liouville's lemma gives
         \begin{gather}
             \Deriv{V}{t} = \Deriv{}{t}\int_{\Omega(t)}d^6x = \Deriv{}{t}\int_{\Omega_0}J(\vector{x}, t)d^6x_0 = 0.
         \end{gather}
-        It follows that the phase space volume of a Hamiltonian system\footnote{A system that satisfies Hamilton's equations of motion.} is invariant with respect to time-evolution.
+        It follows that the phase space volume of a Hamiltonian system is invariant with respect to time-evolution.
     \end{theorem}
 
     \newformula{Boltzmann's transport equation}{\index{Boltzmann!transport equation}\index{Vlasov equation}
         Let $F(\vector{r}, \vector{v}, t)$ be the mass distribution function
         \begin{gather}
-            M_{tot} = \int_{\Omega(t)}F(\vector{x}, t)d^6x.
+            M_{tot} = \int_{\Omega(t)}F(\vector{r}, \vector{v}, t)d^6x.
         \end{gather}
         From the conservation of mass we can derive the following formula:
         \begin{gather}
             \label{fluidum:boltzmann_transport_gather}
             \Deriv{F}{t} = \pderiv{F}{t} + \deriv{\vector{r}}{t}\cdot\pderiv{F}{\vector{r}} - \nabla V\cdot\pderiv{F}{\vector{v}} = \left[\pderiv{F}{t}\right]_{col}
         \end{gather}
-        where the right-hand side gives the change of $F$ due to collisions.\footnote{The collisionless form of this equation is sometimes called the \textbf{Vlasov equation}.} This partial differential equation in 7 variables can be solved to obtain $F(\vector{x}, t)$.
+        where the right-hand side gives the change of $F$ due to collisions.\footnote{The collisionless form of this equation is sometimes called the \textbf{Vlasov equation}.} This partial differential equation in 7 variables can be solved to obtain $F(\vector{r}, \vector{v}, t)$.
     }
 
-    Consider a Hamiltonian system with a finite phase space $\mathcal{V}$. By Liouville's theorem, the phase flow generated by the equations of motion is a measure (volume)-preserving map $g:\mathcal{V}\rightarrow\mathcal{V}$. This leads us to the following theorem:
+    Consider a Hamiltonian system with a phase space $\mathcal{V}$. By Liouville's theorem, the phase flow generated by the equations of motion is a measure- or volume-preserving map $g:\mathcal{V}\rightarrow\mathcal{V}$. This leads us to the following theorem:
     \begin{theorem}[Poincar\'e recurrence theorem]\index{Poincar\'e!recurrence theorem}
-        Let $\mathcal{V}_0$ be the phase space volume of the system. For every point $x_0\in\mathcal{V}_0$ and for every neighbourhood $U$ of $x_0$ there exists a point $y\in U$ such that $g^ny\in U$ for every $n\in\mathbb{N}$.
+        Let $\mathcal{V}_0$ be the phase space volume of the system. For every point $x_0\in\mathcal{V}_0$ and for every neighbourhood $U$ of $x_0$ there exists a point $y\in U$ such that $g^n(y)\in U$ for every $n\in\mathbb{N}$.
     \end{theorem}
 
-    \begin{theorem}[Strong Jeans theorem\footnotemark]\index{Jeans}\index{isolating integrals}
+    \begin{theorem}[Strong Jeans's theorem\footnotemark]\index{Jeans}\index{isolating integrals}
         \footnotetext{Actually due to Donald Lynden-Bell.}
-        The distribution function $F(\vector{r}, \vector{v})$ of a time-independent system for which almost all orbits are regular can be expressed in terms of 3 integrals of motion. These are called the \textup{\textbf{isolating integrals}}.
+        The distribution function $F(\vector{r}, \vector{v})$ of a time-independent system for which almost all orbits are regular can be expressed in terms of 3 integrals of motion.
     \end{theorem}
+    The constants in Jeans's theorem are called the \textup{\textbf{isolating integrals}} of the system.
 
 \subsection{Continuity equation}
 
@@ -337,6 +342,8 @@
             \pderiv{f}{t} + \nabla\cdot(f\vector{v}) = 0.
         \end{gather}
         If we set $f = \rho$ (the mass density) then the first equation is called the \textbf{Lagrangian continuity equation} and the second equation is called the \textbf{Eulerian continuity equation}. Both equations can be found by pulling the Lagrangian derivative inside the integral on the left-hand side of \ref{fluidum:reynolds_transport_theorem}.
+
+        The difference between these two equations corresponds to the way we observe the system. In the Eulerian approach one observes a fixed point in space and measures how a given quantity at that point evolves. In the Lagrangian approach one observes a given point (or particle) in the system and measures how a given quantity evolves around the chosen point as it moves throughout space.
     }
     \begin{result}
         Combining the Reynolds transport theorem with the Lagrangian continuity equation gives the following identity for an arbitrary function $f$:
@@ -346,9 +353,54 @@
         \end{gather}
     \end{result}
 
+\section{Dynamical systems}
+
+    The following property, although seemingly innocuous, is rather important:
+    \begin{property}
+        For dynamical systems governed by ODEs satisfying the Picard-Lindel\"of conditions \ref{diffeq:picard_lindelof}, different trajectories never intersect (this follows from the uniqueness part).
+    \end{property}
+
+    The above property has an important consequence\footnote{The proof is a bit more involved than that.}
+    \begin{theorem}[Poincar\'e-Bendixson]\index{Poincar\'e-Bendixson}
+        In a phase plane, i.e. a 2D phase space, the only trajectories inside of a closed bounded subregion without fixed points are either closed orbits or trajectories spiralling into closed orbits.
+    \end{theorem}
+    \begin{result}
+        In 2D (Cartesian) phase spaces there cannot exist chaos, i.e. no strange attractors can exist.
+    \end{result}
+
+    \newdef{Lypanuov exponents}{
+        Consider two trajectories of a system throughout phase space. Let $s_0 := s(t_0)$ be the distance between these trajectories at a time $t_0$ (we can take this time to be 0 without loss of generality). If after some time $t$ we can write
+        \begin{gather}
+            s(t) \approx e^{\lambda t}s_0
+        \end{gather}
+        then we call $\lambda$ the Lyapunov exponent of the system.
+    }
+
+    \newdef{Limit cycle}{\index{cycle|seealso{limit}}\index{limit!cycle}
+        Consider a closed trajectory $C$. If there exist curves that asymptotically $(t\rightarrow\pm\infty$) converge to $C$, i.e. their \textbf{limit set} is $C$, then we call $C$ a limit cycle.
+    }
+
+    \newdef{Poincar\'e map}{\index{Poincar\'e!map}
+        Consider a dynamical system determined by a phase flow $\phi$. Let $S$ be a codimension-1 hypersurface in the phase space $Q$ that is transversal to $\phi$, i.e. all trajectories intersect $S$ at isolated points.
+
+        Intuitively, the Poincar\'e map $P:S\rightarrow S$ is defined as the ''first return map'', i.e. for every point $x\in S$ the point $P(x)$, if it exists, is given by $\phi_T(x)$ with $T=:\min\{t\in\mathbb{R}^+:\phi_t(x)\in S\}$.
+
+        One can give a more formal definition (one that also avoids the fact that $P$ would only be partially defined). The Poincar\'e map $P$ is defined as follows:
+        \begin{enumerate}
+            \item A differentiable map $P:U\rightarrow S$ where $U\subset S$ is open and connected.
+            \item $P|_{P(U)}$ is a diffeomorphism.
+            \item For every point $u\in U$ the positive semi-orbit of $u$ intersects $S$ for the first time at $P(u)$.
+        \end{enumerate}
+
+        The usefulness of this map lies in the fact that it preserves (quasi)periodicity whilst reducing the dimensionality of the space. Its main use lies in the study of 3D spaces where the section $S$ is 2-dimensional and hence easily visualized.
+    }
+    \begin{property}
+        Fixed points of the Poincar\'e map correspond to closed orbits.
+    \end{property}
+
 \section{Fluid Mechanics}
 
-    \begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!stress theorem}
+    \begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!fundamental theorem}
         \footnotetext{Also known as \textbf{Cauchy's fundamental theorem}.}
         Knowing the stress vectors acting on the coordinate planes through a point $A$ is sufficient to calculate the stress vector acting on an arbitrary plane passing through $A$.
     \end{theorem}
@@ -380,7 +432,7 @@
         \begin{gather}
             \Deriv{\vector{P}}{t} = \int_V\vector{f}(\vector{x}, t)dV + \oint_S\vector{t}(\vector{x}, t)dS
         \end{gather}
-        where $\vector{P}$ is the momentum density, $\vector{f}$ are body forces and $\vector{t}$ are surface forces (such as shear stress). Using Cauchy's stress theorem and the divergence theorem \ref{vectorcalculus:divergence_theorem} we get
+        where $\vector{P}$ is the momentum density, $\vector{f}$ are body forces and $\vector{t}$ are surface forces (such as \textit{shear stress}). Using Cauchy's stress theorem and the divergence theorem \ref{vectorcalculus:divergence_theorem} we get
         \begin{gather}
             \Deriv{\vector{P}}{t} = \int_V\left[\vector{f}(\vector{x}, t) + \nabla\cdot\mathbf{T}(\vector{x}, t)\right]dV.
         \end{gather}

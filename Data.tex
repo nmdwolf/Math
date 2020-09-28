@@ -1,17 +1,24 @@
-\chapter{Data Analysis}
+\chapter{Data Analysis and Optimization Problems}
 
-\section{Regression}
+    Although this chapter is a continuation of the previous one, the focus here lies more on the computational aspect of the analysis of large and complex data sets. For this reason we will also include some sections on applied linear algebra (for a refresher see chapter \ref{chapter:linear_algebra}). We mainly follow \cite{conjugategradient} for the sections on optimization problems.
+
+\section{Optimization}
+\subsection{Linear equations}
 
     \begin{method}[Normal equation\footnotemark]\index{normal!equation}
         \footnotetext{The name stems from the fact that the equation $A^TAx = A^Tb$ implies that the residual is orthogonal (normal) to the range of $A$.}
-        Given a linear problem \[Ax=b\] one can try to solve this problem by minimizing the $\ell^2$-norm $||Ax-b||^2$:
+        Given the equation \[Ax=b\] one can try to solve this problem for $x$ by minimizing the $\ell^2$-norm $||Ax-b||^2$:
         \begin{gather}
-            \min_x(Ax-b)^T(Ax-b)\longrightarrow\hat{x}.
+            \hat{x}=\arg\min_x(Ax-b)^T(Ax-b).
+        \end{gather}
+        This leads to the so-called normal equation
+        \begin{gather}
+            \label{data:normal_equation}
+            A^TAx = A^Tb.
         \end{gather}
         This can be formally be solved by $x=(A^TA)^{-1}A^Tb$ where $(A^TA)^{-1}A^T$ is the pseudoinverse of $A$.
     \end{method}
-
-\subsection{Collinearity}
+    \remark{It is easy to see that the above linear problem is obtained when trying to extremize the quadratic form associated to a symmetric matrix $A$.}
 
     \newdef{Multicollinearity}{\index{collinearity}
         Consider a finite set of random variables $\{X_i\}_{1\leq i\leq n}$. These random variables are set to be perfectly (multi)collinear if there exists an affine relation between them, i.e. there exists variables $\{\lambda_i\}_{0\leq i\leq n}$ such that
@@ -30,7 +37,7 @@
     }
 
     \begin{method}[Tikhonov regularization]{\index{Tikhonov!regularization}
-        Consider a linear (regression) problem \[Ax = b\] where we try to find $x$ in terms of $A, b$. The most straightforward way to solve for $x$ is the least squares method introduced above. Formally a solution is given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However sometimes it might happen that $A$ is nearly singular so that we may wish for $x$ to have a specific property.
+        Consider a linear (regression) problem \[Ax = b\] where we try to find $x$ in terms of $A, b$. The most straightforward way to solve for $x$ is the least squares method introduced above. Formally a solution is given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular so that we may wish for $x$ to have a specific property.
 
         In this case we can add a regularization term to the minimization problem:
         \begin{gather}
@@ -40,16 +47,196 @@
     }
     \end{method}
     \begin{remark}\index{lasso}\index{ridge}
-        One can generalize the $\ell^2$-regulatization as defined above. By replacing the 2-norm $||\cdot||$ by any $p$-norm $||\cdot||_p$ one obtains an $\ell^p$-regularization. In this cases of $p=1$ and $p=2$ one often speaks of \textbf{lasso} and \textbf{ridge} regression. For general $p\geq0$ one also speaks of \textbf{bridge} regression.
+        One can generalize the $\ell^2$-regularization as defined above. By replacing the 2-norm $||\cdot||$ by any $p$-norm $||\cdot||_p$ one obtains an $\ell^p$-regularization. For $p=1$ and $p=2$ one often speaks of \textbf{lasso} and \textbf{ridge} regression respectively. For general $p\geq0$ one also speaks of \textbf{bridge} regression.
 
-        The minimization procedures for $p\leq1$ have the interesting feature that they not only shrink the coefficients but that they even perform feature selection, i.e. some coefficients become identically zero. However it can be shown that the optimization problem for $p<1$ is nonconvex and hence is harder to solve. In general it is found that lasso regression gives the best results.
+        The minimization procedures for $p\leq1$ have the interesting feature that they not only shrink the coefficients but that they even perform feature selection, i.e. some coefficients become identically zero. However, it can be shown that the optimization problem for $p<1$ is nonconvex and hence is harder to solve. In general it is found that lasso regression gives the best results.
+
+        A benefit of $\ell^2$-regularization is that it can be derived from a Bayesian approach. If we put a Gaussian prior $\mathcal{N}(0, \lambda^{-1})$ on the weights, then Bayesian inference immediately gives us the $\ell^2$-regularized cost function as the log-likelihood. Accordingly the $\ell^2$-regularized linear regressor is equivalent to the maximum likelihood estimator with Gaussian priors. One can also obtain $\ell^1$-regularization in a similar way by replacing the Gaussian priors with Laplace priors.
     \end{remark}
+
+\subsection{Descent methods}
+
+    We first introduce the steepest descent algorithm in the case of extremizing quadratic forms:
+    \begin{method}[Steepest descent]\index{residual}
+        Consider the quadratic form $f(x) = \frac{1}{2}x^TAx - b^Tx + c$. Let us assume that $A$ is symmetric and positive-definite such that $Ax=b$ gives us the minimum of the function $f$. A simple recursive algorithm starts from an arbitrary guess $x_0$. One then takes a step in the direction of steepest descent, i.e. in the direction opposite to $f'(x_0) = Ax_0-b =: -r_0$:
+        \begin{gather}
+            x_{i+1} := x_i + \alpha r_i.
+        \end{gather}
+        The quantities $r_i$ are called the \textbf{residuals}. One keeps repeating this procedure until the residual vanishes.
+
+        A naive gradient descent method would require the user to fine-tune the step size $\alpha$. However, a more efficient method is given by the ''line search'' algorithm, were one optimizes the value of $\alpha$ in every step as to minimize $f$ along the line defined by $r_i$. A standard calculus argument leads to the following form of the step size:
+        \begin{gather}
+            \alpha_i = \frac{r_i^Tr_i}{r_i^TAr_i}.
+        \end{gather}
+        This choice forces the descent direction to be orthogonal to the previous one since $\deriv{}{\alpha}f(x_i) = -f'(x_i)^Tf'(x_{i-1})$. As a consequence this minimization scheme often results in a chaotic zigzag trajectory through the configuration space. The higher the \textbf{condition number} $\kappa=\frac{|\lambda_\text{max}|}{|\lambda_\text{min}|}$, the worse the zigzag motion will be. A very steep valley (or some higher-dimensional analogue) will arise and this will make the trajectory bounce back and forth between the walls, instead of moving towards the minimum.
+    \end{method}
+
+\subsection{Conjugate gradient}\index{conjugate!gradient}
+
+    As noted at the end of the steepest descent method in the previous section, a common problem is that the direction of steepest descent is often not the same as the direction pointing to the optimal solution and hence convergence occurs only after a long time.
+
+    A simple solution can be obtained by considering multiple orthogonal directions and taking a suitable step once in every direction. This way one obtains an algorithm that converges in $n$ steps (with $n$ the dimension of the coefficient matrix $A$). By requiring that the error at step $i+1$ is orthogonal to the direction $d_i$ we make sure that no direction is used twice. The main problem with this general approach is that the exact error $e_i$ is not known and hence we cannot calculate the required steps.
+
+    By modifying the orthogonality condition one can avoid this problem. This is the idea behind ''conjugate direction'' methods:
+    \newdef{Conjugate vectors}{
+        Consider a symmetric positive-definite matrix $A$. Associated to this matrix one can define an inner product as follows:
+        \begin{gather}
+            \label{data:A_inner_product}
+            \langle v|w\rangle_A := v^TAw.
+        \end{gather}
+        Two vector $v,w$ are said to be ($A$-)conjugate if they are othogonal with respect to $\langle\cdot|\cdot\rangle_A$.
+    }
+    If we optimize the step size $\alpha_i$ in the same way as for steepest descent, we obtain
+    \begin{gather}
+        \alpha_i = \frac{d_i^Tr_i}{d_i^TAd_i}.
+    \end{gather}
+
+    The general way to obtain a basis of $A$-conjugate vectors is a modified version of the Gram-Schmidt procedure \ref{linalgebra:inner_product:gram_schmidt} where we replace the ordinary Euclidean inner product by \ref{data:A_inner_product}. This modification is called the \textbf{Arnoldi method}.\label{Arnoldi iteration}
+
+    By taking the input vectors of the Arnoldi method to be the residuals $r_i$ one obtains the \textbf{conjugate gradient} (CG) algorithm. It is interesting to note that the residuals themselves satisfy a recurrence relation:
+    \begin{gather}
+        r_{i+1} = r_i - \alpha_iAd_i.
+    \end{gather}
+    Since the direction vectors are constructed using the residuals, they span the same subspace. So if we denote the subspace spanned by the first $i$ directions by $\mathcal{D}_i$ then $r_{i+1}\in\mathcal{D}_i+Ad_i$ which leads to the following form by the above recurrence relation:
+    \begin{gather}
+        \mathcal{D}_i = \text{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}.
+    \end{gather}
+    Because of their prominence in the literature on numeric optimization techniques these subspaces have earned their own name:
+    \newdef{Krylov subspace}{\index{Krylov subspace}
+        \nomenclature[S_KnAv]{$\mathcal{K}_n(A, v)$}{Krylov subspace of dimension $n$ generated by the matrix $A$ and the vector $v$.}
+        A vector space $\mathcal{K}$ of the form
+        \begin{gather}
+            \mathcal{K} := \text{span}\left\{v,Av,\ldots,A^nv\right\}
+        \end{gather}
+        for some matrix $A$, vector $v$ and natural number $n\in\mathbb{N}$. Given such an $A$ and $v$ one denotes the associated Krylov subspace of dimension $n$ by $\mathcal{K}_n(A, v)$.
+    }
+
+    The fact that the spaces $\mathcal{D}_i$ are of Krylov type also has an import implication for the numerical complexity of the CG algorithm. The residual $r_{i+1}$ can be shown to be orthogonal to the space $\mathcal{D}_{i+1}$ (it is said to satisfy the \textbf{Galerkin condition}\index{Galerkin condition}). But since $A\mathcal{D}_i\subset\mathcal{D}_{i+1}$ this also implies that $r_{i+1}$ is $A$-conjugate to $\mathcal{D}_i$. It follows that the only relevant contribution in the Arnoldi method in is given by the last direction vector $d_i$. This reduced the complexity (both time-wise and memory-wise) from $O(n^2)$ to $O(n)$ in each iteration.
+
+    The steps in the CG algorithm are summarized below:
+    \begin{method}[Conjugate gradient]
+        Let $x_0$ be the initial guess with associated residual $r_0:=b-Ax_0$ acting as the first direction vector $d_0$. The following steps give an iterative $n$-step ($n$ being the dimension of the coefficient matrix $A$) algorithm to obtain the solution to $Ax=b$:
+        \begin{align}
+            \alpha_i &:= \frac{r_i^Tr_i}{d_i^TAd_i}\\
+            x_{i+1} &:= x_i+\alpha_id_i\\
+            r_{i+1} &:= r_i-\alpha_iAd_i\label{data:residual_recurrence}\\
+            d_{i+1} &:= r_{i+1}+\frac{r_{i+1}^Tr_{i+1}}{r_i^Tr_i}d_i.\label{data:beta}
+        \end{align}
+    \end{method}
+
+    \remark{It is time for an important remark here. In exact arithmetic the above optimization scheme would result in the exact solution after $n$ iterations (in fact the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, for numerical purposes we should not work with exact arithmetic and take into account the occurrence of floating-point errors. These not only ruin the accuracy of the residual recurrence relation \ref{data:residual_recurrence}, but more importantly\footnote{The residual problem can be solved by computing the residual ''exactly'', i.e. by the formula $r_i=b-Ax_i$, every $k$ iterations.} it might result in the search directions not being $A$-conjugate. Furthermore
+
+    Now, what about general coefficient matrices $A$ (for example those resulting in under- or overdetermined systems)? For nonsymmetric or nondefinite square matrices we can still solve the normal equation \ref{data:normal_equation} using the same methods, since $A^TA$ is both symmetric and positive-definite. For underdetermined systems an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems we are again lucky since $A^TA$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^TA$ is the square of that of $A$ and hence the algorithms will convergence much slower.
+
+    A different approach exists. Where we do not apply CG to the matrix $A^TA$, but work with the individual matrices $A,A^T$ directly. This way we generate not one Krylov space, but two ''copies''
+    \begin{align*}
+        \mathcal{D}_i &:= \text{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\\
+        \widetilde{\mathcal{D}}_i &:= \text{span}\left\{\widetilde{r}_0,A^T\widetilde{r}_0,\ldots,(A^T)^{i-1}\widetilde{r}_0\right\}
+    \end{align*}
+    where $\widetilde{r}_0$ does not have to be related to $r_0$. In this case there are two Galerkin conditions $r_i\perp\mathcal{D}_i$ and $\widetilde{r}_i\perp\widetilde{\mathcal{D}}_i$ (only the first one is relevant). The residuals form biorthogonal bases of the Krylov subspaces:
+    \begin{gather}
+        \langle r_i|r_j \rangle = ||r_i||^2\delta_{ij}.
+    \end{gather}
+    As a consequence the search directions form biconjugate bases:
+    \begin{gather}
+        \langle d_i|d_j \rangle_A = ||d_i||_A^2\delta_{ij}.
+    \end{gather}
+
+\subsection{Nonlinear conjugate gradients}\index{conjugate!gradient}
+
+    Of course, many real-world applications are determined by nonlinear equations and hence it would be pleasing if we could salvage some of the above ideas even when linear algebra is not the natural language. The main requirement is that we can calculate the gradient of the function $f$ that we are trying to minimize.
+
+    On the level of the implementation the structure of the algorithm remains more or less the same. What does change is the form of Arnoldi method. In particular the prefactor in equation \ref{data:beta}. For linear CG there are multiple equivalent formulas, but for nonlinear CG these do not lead to the same algorithm. We give the two most common choices below:
+    \begin{method}[Nonlinear CG]\index{Fletcher-Reeves formula}\index{Polak-Ribi\`ere formula}
+        Since there is no linear equation related to the minimization problem, we always define the residual as $r_i:=-f'(x_i)$. The algorithm consists of the following iterations:
+        \begin{align}
+            \alpha_i &:= \arg\min_\alpha f(x_i+\alpha d_i)\label{data:argmin}\\
+            x_{i+1} &:= x_i+\alpha_id_i\\
+            r_{i+1} &:= -f'(x_i)\\
+            d_{i+1} &:= r_{i+1}+\beta_{i+1}d_i.
+        \end{align}
+        where $\beta_{i+1}$ is computed by one of the following formulas:
+        \begin{itemize}
+            \item \textbf{Fletcher-Reeves formula}:
+                \begin{gather}
+                    \beta_{i+1} := \frac{r_{i+1}^Tr_{i+1}}{r_i^Tr_i}.
+                \end{gather}
+            \item \textbf{Polak-Ribi\`ere formula}:
+                \begin{gather}
+                    \label{data:polak_ribiere}
+                    \beta_{i+1} := \max\left\{\frac{r_{i+1}^T(r_{i+1}-r_i)}{r_i^Tr_i}, 0\right\}.
+                \end{gather}
+        \end{itemize}
+    \end{method}
+
+    Some general remarks have to be made concerning the nonlinear CG algorithm:
+    \begin{remark}
+        As was already mentioned for the linear version, floating-point errors might lead to a loss of conjugacy. For the nonlinear extension this becomes worse: the more $f$ deviates from a quadratic function, the quicker conjugacy is lost (for quadratic formulas the Hessian is exactly the matrix $A$, but for higher-degree functions the Hessian varies from point to point). Another problem, one that did not occur for quadratic functions, is that nonlinear functions might have multiple local minima. The CG method does not care about local vs. global and hence it will not necessarily converge to the global one. A last remark concerns the fact that there is no theoretical guarantee that the method will converge in $n$ steps. Since the Gram-Schmidt procedure can only construct $n$ conjugate vectors, the simplest solution is to perform a restart of the algorithm every $n$ iterations.\footnote{The $max$ operation in formula \ref{data:polak_ribiere} is already a form of restarting, due to the fact that the Polak-Ribi\`ere version of nonlinear CG sometimes results in cyclic behaviour.}
+    \end{remark}
+
+    For linear CG we had a simple formula for finding the optimal value of $\alpha_i$. However, for nonlinear CG we cannot solve equation \ref{data:argmin} as easily. The main idea, i.e. that $f'$ should be orthogonal to the previous search direction remains, is still valid. Here we only consider the \textit{Newton-Raphson approach}.\footnote{Another common method is the \textit{secant method}.} This gives us
+    \begin{gather}
+        \alpha_i = \frac{f'(x_i)^Td_i}{d_i^Tf''(x_i)d_i}.
+    \end{gather}
+    To obtain the optimal $\alpha$-value one should iteratively apply the Newton-Raphson method in every CG iteration and if the action of the Hessian $f''$ on $d_i$ cannot be simplified, i.e. if the full Hessian has to be computed in every iteration, then this can lead to considerable computational overhead. The general rule of thumb is to perform only a few Newton-Raphson iterations and obtain a less accurate but more efficient algorithm. To make sure that the search descent direction is indeed a direction of descent (and not one of ascent) one can check that $r^Td\geq0$ and restart the procedure if it is negative.
+
+\subsection{Krylov methods}
+
+    For sake of completeness we add this section on the general properties of Krylov subspace-based methods. We also include some other optimization algorithms based on Krylov subspaces.
+
+    Generally one starts from an iterative fixed-point based technique to solve the linear equation $Ax=b$ as before, i.e. one iterates $x_{i+1} = b + (\mathbbm{1}-A)x_i$. Using the residuals $r_i = b - Ax_i$ this can be rewritten as
+    \begin{gather}
+        x_i = x_0 + \sum_{k=0}^{i-1}r_k = x_0 + \sum_{k=0}^{i-1}(\mathbbm{1}-A)^kr_0.
+    \end{gather}
+    It is clear that this results in $x_i-x_0\in\mathcal{K}_i(A, r_0)$. The main idea is then to find optimal degree-$k$ polynomials $P_k$ such that $x_i-x_0=\sum_{k=0}^{i-1}P_k(A)r_0$.
+
+    \begin{method}[Jacobi method]\index{Jacobi!method}
+        Consider a linear problem $Ax=b$ where $A$ has spectral radius less than $1$. First we decompose $A$ as the sum of a diagonal matrix $D$ and and a matrix $E$ with zero diagonal elements. If we assume that $D$ is invertible, then we obtain the following recursive scheme:
+        \begin{gather}
+            x_{i+1} := D^{-1}(b-Ex_i).
+        \end{gather}
+        A sufficient condition for convergence is strict diagonal dominance, i.e. $|D_{ii}|>\sum_{j\neq i}|E_{ij}|$.
+    \end{method}
+
+    ?? COMPLETE ??
 
 \section{Trees and forests}
 
+    ?? ADD ??
+
 \section{Support-vector machines}
 
+    ?? ADD ??
+
 \section{Time series analysis}\index{time series}
+\subsection{Stationarity}
+
+    \newdef{Strict stationarity}{\index{stationarity}
+        A time series $\{X_t\}_{t\in\mathbb{N}}$ is said to be (strictly) stationary if for any integer $r\in\mathbb{N}$ the joint distribution satisfies the following condition for all $s\in\mathbb{N}$:
+        \begin{gather}
+            P(X_{t_1},\ldots,X_{t_r}) = P(X_{t_1+s},\ldots,X_{t_r+s}).
+        \end{gather}
+    }
+
+    \newdef{Weak stationarity}{
+        A time series $\{X_t\}_{t\in\mathbb{N}}$ is weakly (or \textbf{covariance}) stationary if it satisfies the following conditions:
+        \begin{enumerate}
+            \item \textbf{Mean-stationary}: $E[X_t] = E[X_0]$ for all $t\in\mathbb{N}$.
+            \item \textbf{Finite covariance}: $\text{cov}(X_i, X_j)\leq\infty$ for all $i,j\in\mathbb{N}$.
+            \item \textbf{Covariance-stationary}: $\text{cov}(X_i, X_{i+j}) = \text{cov}(X_0, X_j)$ for all $i,j\in\mathbb{N}$.
+        \end{enumerate}
+    }
+
+    The following definition is a reformulation of theorem \ref{lebesgue:ergodic}:
+    \newdef{Ergodicity}{\index{ergodic}
+        A time series $\{X_t\}_{t\in\mathbb{Z}}$ (mind the fact that we have used a different convention for the indexing here) is ergodic if for every measurable function $f$ we have the following equation:
+        \begin{gather}
+            \lim_{T\rightarrow+\infty}\frac{1}{2T+1}\sum_{t=-T}^Tf(X_t) = E[f(X_t)].
+        \end{gather}
+        Intuitively this means that state space averages can be evaluated as time averages.
+    }
+
+\subsection{Correlation}
 
     \newdef{Autocorrelation function}{\index{autocorrelation}\index{correlation|seealso{autocorrelation}}
         Consider a time series $\{X_t\}_{t\in\mathbb{N}}$. The autocovariance function of this time series is defined as the covariance function of the random variables $\{X_t\}_{t\in\mathbb{N}}$. Similarly, the autocorrelation function of the time series is defined as the correlation function of its associated collection of random variables.
@@ -88,7 +275,7 @@
         \end{gather}
     }
 
-    \begin{method}[Ljung-Box test]\index{Ljung-Box}
+    \begin{method}[Ljung-Box test]\index{Ljung-Box test}
         The Ljung-Box test checks if a given set of autocorrelations of a time series is different from zero. Consider a data sample of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k$ lagged autocorrelation functions. The test statistic is defined as
         \begin{gather}
             Q = n(n+2)\sum_{i=1}^k\frac{\rho_k}{n-k}.
@@ -96,7 +283,7 @@
         If the null hypothesis ''there is no correlation'' is true then the test statistic will asymptotically follow a $\chi^2$-distribution with $k$ degrees of freedom.
     \end{method}
 
-    \begin{method}[Augmented Dickey-Fuller test]\index{Dickey-Fuller}
+    \begin{method}[Augmented Dickey-Fuller test]\index{Dickey-Fuller test}
         Consider a time series $\{X_t\}_{t\leq T}$. The (augmented) Dickey-Fuller test checks if the time series is (trend) stationary. For this test we consider the following regression model (similar to the \textit{ARIMA-models} discussed in the next section):
         \begin{gather}
             \Delta X_t = \alpha + \beta t + \gamma X_{t-1} + \sum_{i=1}^{p-1} \theta_i\Delta X_{t-i} + \varepsilon_t.
@@ -165,14 +352,14 @@
     \begin{remark}[Fitting AR- and MA-models]
         As is clear from the definition of an AR$(p)$-model the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However in contrast to AR-models where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are by definition unknown.
     \end{remark}
-    To estimate the coefficients in a MA-model researchers have introduced multiple techniques (see for example \cite{MA_fit}). One of the most famous ones is Durbin's method:
+    To estimate the coefficients in a MA-model people have introduced multiple techniques (see for example \cite{MA_fit}). One of the most famous ones is Durbin's method:
     \begin{method}[Durbin]\index{Durbin}
-        By restricting to invertible MA$(q)$-models (or by approximating a noninvertible model by an invertible one) we can first fit an AR$(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$. Then in a second step one can again use a least squares-method to solve for the coefficients in the MA-model.
+        By restricting to invertible MA$(q)$-models (or by approximating a noninvertible model by an invertible one) we can first fit an AR$(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$. Then, in a second step, one can again use a least squares-method to solve for the coefficients in the MA-model.
     \end{method}
 
-    As a last modification we can introduce seasonal components. Simple trends such as a linear growth are easily removed from the time series by detrending or differencing. However, a periodic pattern is harder to remove and in general ARIMA-models are not made to accompany these features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations.
+    As a last modification we can introduce seasonal components. Simple trends such as a linear growth are easily removed from the time series by detrending or differencing. However, a periodic pattern is harder to remove and in general ARIMA-models are not made to accompany this type of features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations.
 
-    The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model but where we replace the lag operator $B$ by a seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation):
+    The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model where we replace the lag operator $B$ by a seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation):
     \newdef{ARIMA$(p,q,d)(P,Q,D)_s$-model}{
         \begin{gather}
             \Phi(B^s)\varphi(B)\Delta_s^D\Delta^dX_t = \theta(B)\Theta(B^s)\varepsilon_t
@@ -199,9 +386,26 @@
     \remark{Assume that we are given two uncorrelated models giving predictions of a time series $X_t$. One way to check if they have the same accuracy is the \textit{Diebold-Mariano test}. However, when testing for Granger-causality one should pay attention. This test is not valid for nested models and hence is not applicable to two models that only differ by a set of extra predictors (in this case an external time series).}
 
 \section{Prediction regions}
+
+    To characterize the quality of prediction regions one can use different measures. One of the truly probabilistic notions is that of validity:
+    \newdef{Validity}{\index{validity}
+        Consider a region predictor $C^\alpha$ at confidence level $\alpha\in[0, 1]$. We distinguish two types of validity:
+        \begin{itemize}
+            \item Conservative validity:
+            \begin{gather}
+                P(y_{true}\in C^\alpha)\geq 1-\alpha.
+            \end{gather}
+            \item Exact validity:
+            \begin{gather}
+                P(y_{true}\in C^\alpha) = 1-\alpha.
+            \end{gather}
+        \end{itemize}
+    }
+    In practice we will always prefer models that are as exact as possible.
+
 \subsection{Conformal prediction}
 
-    A very general framework for the construction of prediction intervals in a model-independent manner is given by the conformal prediction framework by \textit{Vovk et al}. (a good introduction is \cite{cp}). The main ingredients for the construction are randomization and conformity measures.
+    A very general framework for the construction of prediction intervals in a model-independent manner is given by the conformal prediction framework by \textit{Vovk et al}. (a good introduction is \cite{cp}, for a full treatment see \cite{cp_all}). The main ingredients for the construction are randomization and conformity measures.
 
     The first step will be studying the behaviour under randomization of the existing data (be it measurements or past predictions). To ensure that the procedure satisfies the required confidence (or probability) bounds, one has to make some assumptions. One of the main benefits of this framework is that we can relax the condition of the data being i.i.d. to it being exchangeable:
     \newdef{Exchangeable data}{\index{exchangeability}
@@ -222,7 +426,9 @@
         where $d:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ is any distance function (in general just the Euclidean distance).
     \end{example}
 
-    \begin{construct}[Conformal predictor]
+    ?? FIX DEFINITION OF POINT-PREDICTOR (DOES DEPEND ON BAG AND NEW POINT) ??
+
+    \begin{construct}[Conformal predictor]\label{data:cp}
         Consider a data sample given as a bag $\mathcal{B}$ together with a given nonconformity measure $A$. Let $\alpha$ denote the confidence level at which we want to construct a prediction region. For any new element $z^*$ we proceed as follows:
         \begin{enumerate}
             \item Let $\mu^*$ denote the nonconformity $A(\mathcal{B}, z^*)$.
@@ -230,14 +436,14 @@
             \item Let $p^*$ denote the fraction of elements $z$ of $\mathcal{B}$ for which $\mu_z\geq\mu^*$.
             \item The element $z^*$ belongs to the $\alpha$-level prediction region $C^\alpha$ if $p^*>\alpha$.
         \end{enumerate}
-        It should be noted that in general the construction of these regions can be quite time-consuming. For low dimensional regions it can often be achieved by solving inequalities derived from the specific form of the given nonconformity measure.
+        It should be noted that in general the construction of these regions can be quite time-consuming. For low-dimensional regions it can often be achieved by solving inequalities derived from the specific form of the given nonconformity measure.
     \end{construct}
 
-    \begin{property}[Conformal predictors are optimal]
-        Given any procedure for obtaining predictions that satisfies the following three properties there exists a conformal predictor that is more efficient:
+    \begin{property}[Optimality]
+        Given any confidence predictor satisfying the three properties below\footnote{CPs always satisfy these conditions.}, there exists a conformal predictor that is more efficient:
         \begin{itemize}
             \item Ordering is irrelevant, i.e. the procedure only depends on the bag of prior elements.
-            \item Regions are valid, i.e. $P(z^*\in C^\alpha)\geq1-\alpha$ and $P(p^*\leq\alpha)\leq\alpha$.
+            \item Regions are (conservatively) valid, i.e. $P(z^*\in C^\alpha)\geq1-\alpha$ and $P(p^*\leq\alpha)\leq\alpha$.
             \item Regions are nested, i.e. $\alpha\leq\alpha'\implies C^\alpha\subseteq C^{\alpha'}$.
         \end{itemize}
     \end{property}
@@ -247,3 +453,37 @@
         p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}(A(\sigma\cdot\vector{z})\geq A(\vector{z}))
     \end{gather}
     where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using this language of explicit permutations one can generalize the construction to arbitrary randomization schemes, i.e. to subgroups of $S_{N+1}$. However, we should take into account that this generically will ruin the validity of the procedure. As was proven in the \cite{cp_time_series} if we choose the permutations as those ?? FINISH ??
+
+    We now introduce a modification of the original CP construction. The main reason is the computational inefficiency of conformal prediction. If we choose the distance with respect to a point-predictor as the nonconformity measure in construction \ref{data:cp}, we have to retrain the predictor for every bag in step 2 of the algorithm. For most applications, especially those in machine learning and big data, this leads to considerable computational overhead. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification:
+    \begin{construct}[Inductive CP]
+        First one splits the full dataset $\mathcal{D}$ into a training set $\mathcal{T}$ and a ''calibration'' set $\mathcal{C}$. Using $\mathcal{T}$ one trains the point-predictor $\rho\equiv\rho(\mathcal{T})$. For every point $z$ in $\mathcal{C}$ one then constructs the nonconformity measure $\mu_z = d\big(\rho(z), z^*\big)$. For a new observation $z^*$ we define $p^*$ as the fraction of points in $\mathcal{C}$ for which the nonconformity measure is larger than the one for $z^*$. As in the original CP algorithm a new observation $z^*$ will belong to the prediction region if $p^*>\alpha$.
+    \end{construct}
+    It is clear that we only have to train the predictor once. An easy way to proceed is order all the nonconformity measures for $\mathcal{C}$ and look at the $\alpha$-quantile. This will be the cut-off determining the prediction region $C^\alpha$.
+
+    \begin{remark}
+        The name ''inductive CP'' stems from the fact that we induce the general behaviour from a small subset of all observations. For this reason one sometimes calls the original algorithm a ''transductive'' method.
+    \end{remark}
+
+    The above off-line ICP algorithm can be generalized to an on-line algorithm:
+    \begin{construct}[On-line ICP]
+        Consider an increasing sequence of positive integers $\seq{m}$ such that for every ''update threshold'' $m_k$ we are given a calibration set \[\mathcal{C}_k:=\{(x_1, y_1),\ldots,(x_{m_k}, y_{m_k})\}.\] The confidence region $C^\alpha(\mathcal{S})$ for the data sample $\mathcal{S}:=\{(x_1, y_1),\ldots,(x_n, y_n)\}$ is defined as follows:
+        \begin{itemize}
+            \item If $n\leq m_1$: One uses a fixed conformal predictor to construct $C^\alpha(\mathcal{S})$.
+            \item If $n>m_1$: One finds the integer $k$ such that $m_k<n\leq m_{k+1}$. Then we construct $C^\alpha(\mathcal{S})$ as follows:
+            \begin{gather}
+                C^\alpha(\mathcal{S}) := \left\{y\in Y:\frac{|\{m_k<j\leq n:\alpha_j\geq\alpha_n\}|}{n-m_k}>\varepsilon\right\}
+            \end{gather}
+            where
+            \begin{align*}
+                \alpha_j &:= A\big(\mathcal{B}(\mathcal{C}_k), (x_j, y_j)\big)\\
+                \alpha_n &:= A\big(\mathcal{B}(\mathcal{C}_k), (x_n, y)\big)
+            \end{align*}
+        \end{itemize}
+        It is clear that for $k\ll|\mathcal{C}|$ the off-line ICP algorithm approximates the on-line version.
+    \end{construct}
+
+    \begin{property}[Validity]
+        It can be shown that the on-line ICP algorithm is conservative. Because of the remark about off-line ICP above, the off-line version produces approximately conservative prediction regions.
+    \end{property}
+
+    ?? COMPLETE ??

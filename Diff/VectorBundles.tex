@@ -9,16 +9,19 @@
         Let $M$ be an $n$-dimensional manifold with atlas $\{(U_i, \varphi_i)\}_{i\leq n}$. Construct for every open set $O$ an associated set $TO := O\times\mathbb{R}^n$ and construct for every smooth function $f$ an associated smooth function on $TO$, called the \textbf{differential} or \textbf{derivative} of $f$, by
         \begin{gather}
             \label{diff:manifolds:T_function}
-            Tf:O\times\mathbb{R}^n\rightarrow f(O)\times\mathbb{R}^n:(p,v)\mapsto(f(p),Df(p)v)
+            Tf:O\times\mathbb{R}^n\rightarrow f(O)\times\mathbb{R}^n:(p, v)\mapsto(f(p), Df(p)v)
         \end{gather}
         where $Df(p):\mathbb{R}^n\rightarrow\mathbb{R}^n$ is the linear operator represented by the Jacobian matrix of $f$ at $p$.
 
-        By applying this definition to the transition functions $\psi_{ji}$ we obtain a new set of functions \[\widetilde{\psi}_{ji} \equiv T\psi_{ji}:U_i\times\mathbb{R}^n\rightarrow U_j\times\mathbb{R}^n\] given by
+        By applying this definition to the transition functions $\psi_{ji}$ we obtain a new set of functions \[\widetilde{\psi}_{ji} \equiv T\psi_{ji}:TU_i\rightarrow TU_j\] given by
         \begin{gather}
-            \widetilde{\psi}_{ji}(\varphi_i(p),v) = \left(\varphi_j(p),D(\varphi_j\circ\varphi_i^{-1})(\varphi_i(p))v\right).
+            \widetilde{\psi}_{ji}(\varphi_i(p), v) = \left(\varphi_j(p), D(\varphi_j\circ\varphi_i^{-1})(\varphi_i(p))v\right).
         \end{gather}
-        Because the transition functions are diffeomorphisms, the Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $\text{GL}(\mathbb{R}^n)$. The tangent bundle is now obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n,\text{GL}(\mathbb{R}^n))$ together with the cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\leq n}$.
+        Because the transition functions are diffeomorphisms, the associated Jacobians are invertible. This implies that the maps $\widetilde\psi_{ji}$ are elements of $\text{GL}(\mathbb{R}^n)$. The tangent bundle is then obtained by applying the fibre bundle construction theorem \ref{manifolds:theorem:fibre_bundle_construction_theorem} to the triple $(M, \mathbb{R}^n,\text{GL}(\mathbb{R}^n))$ together with the cover $\{U_i\}_{i\leq n}$ and the cocycle $\{\widetilde\psi_{ji}\}_{i,j\leq n}$.
     \end{construct}
+    \begin{remark}[Disjoint union]
+        Although the tangent bundle is by construction bijective to the Cartesian product $M\times\mathbb{R}^n$ or the disjoint union $\bigsqcup_{p\in M}T_pM$, this does not hold on the level of topology. Although it is constructed as a disjoint union it is not equipped with the disjoint union topology.
+    \end{remark}
 
     \newdef{Natural chart}{\index{natural!chart}\index{adapted!chart|see{natural chart}}
         The charts in the atlas on this bundle are sometimes called \textbf{natural charts} or \textbf{adapted charts}, because the first $n$ coordinates are equal to the coordinates on the base space.
@@ -36,21 +39,13 @@
         \end{align*}
     }
 
-    \begin{adefinition}
-        The above construction eventually comes down to the following, more intuitive, definition of the tangent bundle (where one starts from the tangent spaces as introduced in chapter \ref{chapter:manifolds}):
+    \begin{property}[Smooth structure]
+        An atlas on $TM$ is given by the charts $(TU_i, \theta)$ with
         \begin{gather}
-            TM := \bigsqcup_{p\in M}T_pM
-        \end{gather}
-        equipped with the disjoint union topology \ref{topology:disjoint_union} and the projection map\footnote{The map $\pi$ is single-valued because the tangent bundle is defined as the disjoint union of the tangent spaces.}
-        \begin{gather}
-            \pi:TM\rightarrow M:(p, X)\mapsto p
-        \end{gather}
-        where $X$ is a tangent vector in $T_pM$. An atlas on $TM$ is then given by the charts $(\pi^{-1}(U_i), \theta)$ with
-        \begin{gather}
-            \theta:TM\rightarrow\mathbb{R}^{2n}:(p, X)\mapsto(\varphi_i(p),X^1,\ldots,X^n)
+            \theta:TM\rightarrow\mathbb{R}^{2n}:(p, X)\mapsto(\varphi_i\circ\pi(p),X^1,\ldots,X^n)
         \end{gather}
         where $(U_i, \varphi_i)$ is a chart on $M$ covering the point $p\in M$ with local coordinates $(x^1,\ldots,x^n)$ such that $X$ can be expressed as $X^i\left.\pderiv{}{x^i}\right|_p\in T_pM$.
-    \end{adefinition}
+    \end{property}
 
     \begin{property}[Dimension]
         Let $M$ be an $n$-dimensional manifold. Using the natural charts on $TM$ and the charts on $M$, which give a local homeomorphism \[\psi_i:TM\rightarrow U_i\times\mathbb{R}^n\xrightarrow{\varphi}\mathbb{R}^n\times\mathbb{R}^n,\] we can see that $TM$ is locally isomorphic to $\mathbb{R}^{2n}$. This implies that:
@@ -236,14 +231,14 @@
     \end{theorem}
 
     \newdef{Pullback}{\index{pullback}
-        Let $X$ be vector field on $N$ and let $\varphi:M\rightarrow N$ be a diffeomorphism between smooth manifolds. The pullback of $X$ along $\varphi$ is defined as
+        Let $X$ be vector field on $N$ and let $\varphi:M\rightarrow N$ be a diffeomorphism. The pullback of $X$ along $\varphi$ is defined as
         \begin{gather}
             \label{manifolds:pullback}
             (\varphi^*X)_p := T\varphi^{-1}(X_{\varphi(p)}).
         \end{gather}
     }
     \newdef{Pushforward}{\index{pushforward}
-        Let $X$ be a vector field on $M$ and let $\varphi:M\rightarrow N$ be a diffeomorphism between smooth manifolds. Using the differential $T\varphi$ we can define the pushforward of $X$ along $\varphi$ as
+        Let $X$ be a vector field on $M$ and let $\varphi:M\rightarrow N$ be a diffeomorphism. Using the differential $T\varphi$ we can define the pushforward of $X$ along $\varphi$ as
         \begin{gather}
             \label{manifolds:pushforward}
             (\varphi_*X)_{\varphi(p)} := T\varphi(X_p).

@@ -43,7 +43,7 @@
 \section{Conservation laws and symmetry properties}
 
     \begin{definition}[Conjugate momentum]\index{momentum!conjugate}\label{lagrange:conjugate_momentum}
-        Also called the \textbf{canonically conjugate momentum}.
+        Also called the \textbf{canonically} conjugate momentum.
         \begin{gather}
             p_k = \pderiv{L}{\dot{q}^k}
         \end{gather}
@@ -52,46 +52,12 @@
         If the Lagrangian $L$ does not explicitly depend on a coordinate $q_k$, the coordinate is said to be cyclic.
     \end{definition}
 
-    \begin{property}
+    \begin{property}[Noether's theorem]\index{Noether}\label{lagrange:noether_cyclic}
         The conjugate momentum of a cyclic coordinate is a conserved quantity:
         \begin{gather}
             \dot{p}_k \overset{\ref{lagrange:conjugate_momentum}}{=} \deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) \overset{{\ref{lagrange:second_kind}}}{=}\pderiv{L}{q^k} \overset{\underset{\text{\tiny{coord.}}}{\text{\tiny{cyclic}}}}{=} 0.
         \end{gather}
     \end{property}
-
-\subsection{Noether's theorem}\index{Noether!theorem}
-
-    \begin{theorem}[Noether's first theorem$^\dag$]\index{Noether!charge}\label{qft:noethers_theorem}
-        Consider a field transformation
-        \begin{gather}
-            \label{qft:noether}
-            \phi(x)\rightarrow \phi(x) + \alpha\delta\phi(x)
-        \end{gather}
-        where $\alpha$ is an infinitesimal quantity and $\delta\phi$ is a small variation. In case of a symmetry we obtain the following conservation law:
-        \begin{gather}
-            \label{qft:conserved_current}
-            \partial_\mu\left(\pderiv{\mathcal{L}}{(\partial_\mu\phi)}\delta\phi - \mathcal{J}^\mu\right) = 0.
-        \end{gather}
-        The factor between parentheses can be interpreted as a conserved current $j^\mu(x)$. Noether's (first) theorem states that every symmetry of the form \ref{qft:noether} leads to such a current.
-
-        The conservation can also be expressed in terms of a charge\footnote{The conserved current and its associated charge are called the \textbf{Noether current} and \textbf{Noether charge}.}:
-        \begin{gather}
-            Q = \int_\Sigma j^0d^3x
-        \end{gather}
-        where $\Sigma$ is a spacelike hypersurface. The conservation law can then simply be restated as \[\deriv{Q}{t} = 0.\]
-    \end{theorem}
-
-    \begin{definition}[Stress-energy tensor]\index{stress-energy tensor}
-        Consider a field transformation \[\phi(x)\rightarrow\phi(x+a) = \phi(x) + a^\mu\partial_\mu\phi(x)\] Because the Lagrangian is a scalar quantity it transforms as
-        \begin{gather}
-            \mathcal{L}\rightarrow\mathcal{L} + a^\mu\partial_\mu\mathcal{L} = \mathcal{L} + a^\nu\partial_\mu(\delta^\mu_{\ \nu}\mathcal{L}).
-        \end{gather}
-        This leads to the existence of 4 conserved currents. These can be used to define the stress-energy tensor:
-        \begin{gather}
-            \label{relativity:stress_energy_tensor}
-            T^\mu_{\ \nu} = \pderiv{\mathcal{L}}{(\partial_\mu\phi)}\partial_\nu\phi - \mathcal{L}\delta^\mu_{\ \nu}.
-        \end{gather}
-    \end{definition}
 
 \section{Hamilton's equations}
 
@@ -441,3 +407,81 @@
             \int_V\rho\Deriv{\vector{v}}{t}dV = \int_V\left[\vector{f}(\vector{x}, t) + \nabla\cdot\mathbf{T}(\vector{x}, t)\right]dV.
         \end{gather}
     }
+
+\section{Geometric description}
+
+    In this section we reformulate the current chapter in a differential geometric framework (for an introduction to differential geometry see chapter \ref{chapter:manifolds} and onwards). This section is based on \cite{palais_solitons}.
+
+    We first begin by reformulating ordinary Newtonian mechanics. The general setting here is a Riemannian manifold\footnote{The metric is mainly for defining the kinetic term $\frac{1}{2}g(v, v)$.} $(M, g)$ together with a second-order ODE in the form of a vector field on $TM$ such that $\pi_*(X_v) = v$ (where $\pi$ denotes the tangent bundle projection). For integral curves $\gamma$ of second-order ODEs it is easy to show that they are the tangent vector fields of their projections. If $q_i(t)$ are the local coordinates of the base curve $\sigma:=\pi(\gamma)$ then it can be shown that the tangent coordinates $\dot{q}^i$ of $\gamma$ are exactly the derivatives of the coordinates $q_i$:
+    \begin{gather}
+        \dot{q}^i(t) = \deriv{q^i}{t}(t)
+    \end{gather}
+    and as such the abuse of notation $\dot{q}^i$ is justified. Furthermore, it can be shown that a vector field on $TM$ is second-order if and only if this is true for any local chart, i.e. if the vector field $X\in\mathfrak{X}(TM)$ can be expressed as follows:
+    \begin{gather}
+        X = \dot{q}^i\pderiv{}{q^i} + F^i(q,\dot{q})\pderiv{}{\dot{q}^i}.
+    \end{gather}
+    By writing this vector field as a system of differential equations we get the second-order ODE (hence the terminology)
+    \begin{gather}
+        \mderiv{2}{q^i}{t} = F^i(q,\dot{q}).
+    \end{gather}
+    The prime example of such a second-order ODE is the vector field generating the geodesic flow on $TM$, i.e. the integral curves are the tangent curves of geodesics on $M$. The similarity between the above equation and equation \ref{diff:geodesic_equation} is therefore striking. By adopting the notation of equation \ref{riemann:geodesic} one can generalize the geodesic equation to obtain Newton's equation for an arbitrary smooth ''potential'' $U:M\rightarrow\mathbb{R}$:
+    \begin{formula}[Newton's equation]\index{Newton!equation}
+        Let $(M, g)$ be a Riemannian manifold and let $U:M\rightarrow\mathbb{R}$ be a smooth function. Newton's equation for a curve $\sigma:[a,b]\rightarrow M$ reads
+        \begin{gather}
+            \nabla_{\dot{\sigma}}\dot{\sigma} = -\text{grad}(U)
+        \end{gather}
+    \end{formula}
+    where $\nabla$ indicates the Levi-Civita connection and $\text{grad}$ denotes the gradient operator.
+
+\subsection{Lagrangian formalism}
+
+    We now turn to Noether's theorem and in particular the version concerning cyclic coordinates \ref{lagrange:noether_cyclic}. Any diffeomorphism of $M$ induces a diffeomorphism on $TM$ by pushforward. A symmetry of the Lagrangian function $L:TM\rightarrow\mathbb{R}$ is a diffeomorphism $\phi$ of $M$ such that $\phi^*L = L$. Infinitesimal symmetries (or infinitesimal symmetry generators) are then the vector fields for which the flow is a symmetry. Given a complete vector field $X$, one can define the conjugate momentum $\widehat{X}:TM\rightarrow\mathbb{R}$ as follows:
+    \begin{gather}
+        \label{lagrange:metric_conjugate_momentum}
+        \widehat{X}(v) := g(X_{\pi(v)}, v).
+    \end{gather}
+    Using this definition we can reformulate Noether's theorem \ref{lagrange:noether_cyclic} as follows:
+    \begin{theorem}[Noether's theorem]\index{Noether}
+        The conjugate momentum of an infinitesimal symmetry is a constant of motion.
+    \end{theorem}
+
+    If one denotes the conjugate momenta of the coordinate-induced vector fields $\partial_i$ by $P_i$, the nondegeneracy of $g$ implies that the set $\{q^i, P_i\}_{i\leq n}$ gives well-defined coordinate functions on $T^*M$. The equivalence of the Lagrangian action principle and the Newtonian equations of motion imply that the second-order ODE associated to the potential $U$ takes the following form:
+    \begin{gather}
+        X^U := \dot{q}^i\pderiv{}{q^i} + \pderiv{L}{q^i}\pderiv{}{P_i}.
+    \end{gather}
+    After performing the Legendre transformation $E:=P_i\dot{q}^i-L$ to obtain the (Hamiltonian) energy function\footnote{We refrain from calling the Hamiltonian function, as we reserve this terminology for objects on the cotangent bundle.}, we can rewrite Newton's equations in the Hamiltonian form:
+    \begin{gather}
+        X^E = \pderiv{E}{P_i}\pderiv{}{q^i}-\pderiv{E}{q^i}\pderiv{}{P_i}.
+    \end{gather}
+
+\subsection{Hamiltonian formalism}
+
+    The procedure of mapping a (complete) vector field to its conjugate momentum can be generalized to an isomorphism $TM\rightarrow T^*M$ as follows:
+    \newdef{Fibre derivative}{\index{fibre!derivative}
+        Let $L:TM\rightarrow\mathbb{R}$ be a smooth Lagrangian. The fiber derivative of $L$ is defined as the Fr\'echet derivative
+        \begin{gather}
+            \langle FL(v), w\rangle := \left.\deriv{}{t}\right|_{t=0}L(v + tw).
+        \end{gather}
+        Because $FL(v)\in\mathcal{L}(TM, \mathbb{R})\equiv T^*M$ by definition of the derivative, we see that $FL$ defines a map $TM\rightarrow T^*M$. In local coordinates $(q^i, \dot{q}^i)$ the fiber derivative is given by
+        \begin{gather}
+            FL:(q^i, \dot{q}^i)\mapsto\left(q^i, \pderiv{L}{\dot{q}^i}\right)\equiv(q^i, p_i)
+        \end{gather}
+        As such we obtain the classical definition \ref{lagrange:conjugate_momentum} for conjugate momenta. In the case of kinetic Lagrangians defined by a metric $g$, it is not hard to see that this boils down to equation \ref{lagrange:metric_conjugate_momentum} of conjugate momenta given in the previous paragraph.
+    }
+    \begin{remark}[Legendre transform]\index{Legendre!transformation}
+        The fibre derivative $FL$ is often called the Legendre transformation of $L$. Although this does not exactly coincide with definitions \ref{info:legendre} or \ref{lagrange:legendre}, the relation is simple enough. The Legendre transformation $L\mapsto E$ (on the tangent bundle) is implemented as $E(X) = \langle FL(X), X\rangle - L(X)$.
+    \end{remark}
+    Lagrangians for which the Legendre transformation is invertible, i.e. for which $FL$ is a diffeomorphism, give rise to mechanics on the cotangent bundle: Given such a Lagrangian one constructs the associated energy function $E$ by a Legendre transformation and maps it to a Hamiltonian $H$ on the cotangent bundle as $H:=E\circ FL^{-1}$. (By abuse of notation we set $L\equiv L\circ FL^{-1}$.) The transformation also induces a Hamiltonian vector field on $T^*M$ by $X^H:=FL_*X^E$ or alternatively by $X^E=FL^*X^H$. If we choose cotangent coordinates $p_i(\alpha) := \alpha(\partial_i)$, then we easily see that $p_i\circ FL=P_i$. This way the Hamiltonian equations remain virtually unchanged when transporting them to the cotangent bundle.
+
+    For any choice of coordinates such that the symplectic form on $T^*M$ takes the standard Darboux form $\omega=dp_i\wedge dq^i$, the Newtonian equations of motion take on a Hamiltonian form. If there exists a coordinate chart in which the Hamiltonian function $H$ does not depend on any of the base coordinates $q^i$, then we call the coordinates \textbf{action-angle} variables and the system is said to be \textbf{completely integrable}.\index{action-angle coordinates}
+
+\subsection{Symplectic structure on infinite-dimensional systems}
+
+    Although we could have put this section in chapter \ref{chapter:symplectic}, we thought it better fit here, since the study of these manifolds is almost always related to the study of physical phenomena such as \textit{solitons}.
+
+    The general definition of a symplectic manifold $(M, \omega)$ remains the same, i.e. it is a smooth manifold $M$ equipped with a closed, nondegenerate $2$-form $\omega$. Even though we remain in the 2-plectic setting, the content of remark \ref{symplectic:hamiltonian_forms} applies also to infinite-dimensional systems. If we restrict to the space of Hamiltonian functions (and vector fields) we can define a Poisson structure as follows:
+    \begin{gather}
+        \{F, G\} := \omega(X^G, X^F).
+    \end{gather}
+
+    ?? COMPLETE (e.g. Palais, cursus Antwerpen)??

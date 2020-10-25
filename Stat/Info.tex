@@ -1,0 +1,340 @@
+\chapter{Information Geometry}\label{chapter:info}
+
+    For more information on differential geometry see chapter \ref{chapter:manifolds} and onwards. The main reference for this chapter is \cite{amari}.
+
+\section{Divergences}
+
+    \newdef{Divergence}{\index{divergence}\label{info:divergence}
+        Let $M$ be a smooth manifold. A smooth function $f(\cdot||\cdot):M\times M\rightarrow\mathbb{R}$ with the following properties is called a divergence on $M$:
+        \begin{enumerate}
+            \item \textbf{Positivity}: $f(p||q) \geq 0$ for all $p, q\in M$.
+            \item \textbf{Nondegeneracy}: $f(p||q)=0$ if and only if $p=q$.
+        \end{enumerate}
+    }
+
+    An interesting feature of these functions is that one can use their Hessians (with respect to either of the two arguments) to construct a Riemannian metric on $M$:
+    \begin{gather}
+        g_{ij}(\theta) := \frac{\partial^2f}{\partial p^i\partial p^j}(\theta||\theta) = \frac{\partial^2f}{\partial q^i\partial q^j}(\theta||\theta).
+    \end{gather}
+
+    \begin{example}[$f$-divergences and $\alpha$-divergences]\index{$f$-divergence}\index{$\alpha$-divergence}
+        Let $f$ be a smooth convex function such that $f(1)=0$ and let $P, Q$ be two probability distributions such that $P$ is absolutely continuous with respect to $Q$. The $f$-divergence is defined as follows:
+        \begin{gather}
+            D_f(P||Q) := \int_\Omega f\left(\deriv{P}{Q}\right)dQ.
+        \end{gather}
+        In the case where both $P$ and $Q$ are absolutely continuous with respect to some given measure $d\mu$, we can rewrite the above formula as
+        \begin{gather}
+            D_f(P||Q) = \int_\Omega q(x)f\left(\frac{p(x)}{q(x)}\right)d\mu(x).
+        \end{gather}
+
+        It is not hard to see that $f$-divergences remain invariant under affine transformations of the form
+        \begin{gather}
+            f(x)\longrightarrow f(x) + c(x-1)
+        \end{gather}
+        where the shift $x-1$ is necessary to preserve the condition $f(1)=0$. This implies that we can always choose $f'(1)=0$ without loss of generality. Moreover, one can also easily see that divergences transform linearly under scale transformations and hence we can also always choose $f''(1)=1$. $f$-divergences with these properties are said to be \textbf{standard}.
+
+        A particular class of $f$-divergences are the $\alpha$-divergences (in the sense of \textit{Csisz\'ar}\footnote{\textit{Tsallis} and \textit{R\'enyi} introduced different divergences/entropies with the same name.}) where
+        \begin{gather}
+            f_\alpha(x) = \frac{1-x^\alpha}{\alpha(1-\alpha)}.
+        \end{gather}
+        Note that some authors replace $(1-x^a)$ by $(x-x^a)$ since this does not make any difference when calculating the divergence for normalised distributions. For the cases $\alpha=0,1$ one can use a workaround. For $\alpha=0$ one can take the limit of the above definition to obtain $f_0(x) = -\ln x$. This results in $D_0(p||q) = D_{KL}(q||p)$. For $\alpha=1$ one can look at the general expression of $D_\alpha$ and notice that it is invariant under the simultaneous exchanges $(\alpha\leftrightarrow1-\alpha)$ and $(p\leftrightarrow q)$. Using this trick we see that $D_1(p||q) = D_{KL}(p||q)$.
+    \end{example}
+
+    \begin{definition}[Bregman divergence]\index{Bregman divergence}\label{info:bregman_divergence}
+        Let $F:\mathbb{R}^n\rightarrow\mathbb{R}$ be a convex function. Because the function is convex, at every point $q\in\mathbb{R}^n$ the tangent plane to the graph of $F$ is a supporting hyperplane, i.e. it lies underneath the graph everywhere and it touches the graph only at $q$. Using this hyperplane one can define the Bregman divergence as follows:
+        \begin{gather}
+            D_F(p||q) := F(p) - F(q) - DF(q)\cdot(p-q).
+        \end{gather}
+        This function gives the difference in ''height'' between the function value at $p$ and the position of the tangent plane (defined by $q$) at $p$. Because the gradient of a convex function is monotonic, this difference will always increase\footnote{For convex functions this will in general only be nondecreasing. However, in the remainder of this chapter we will almost always assume strict convexity.} the further the points are spread apart.
+    \end{definition}
+    \begin{example}\index{Kullback-Leibler divergence}
+        The Kullback-Leibler divergence \ref{prob:kullback_leibler} can be obtained as the Bregman divergence associated to the (negative) Shannon entropy $F(\rho) := \sum_{i=1}^n\rho_i\ln\rho_i$. It is also equal to the $f$-divergence associated to the choice $f=\ln$.
+    \end{example}
+
+    A Bregman divergence can also be used to endow the underlying manifold with further structure. If we restrict to strictly convex functions, i.e. if we require the Hessian to be positive-definite, one can apply a Legendre transform to obtain a new function:\index{Legendre!transformation}
+    \begin{gather}
+        \label{info:legendre}
+        F^*(x^*) := x^*\cdot y - F(y)
+    \end{gather}
+    where $DF(y)=x^*$\footnote{For general convex functions this relation is not necessarily invertible.} It can be shown that $F^*$ is itself (strictly) convex and hence also defines a Bregman divergence, called the \textbf{dual divergence}. These divergences satisfy the following equality:
+    \begin{gather}
+        D_F(p||q) = D_{F^*}(q^*||p^*).
+    \end{gather}
+    This duality allows us to rewrite the original divergence as follows:
+    \begin{gather}
+        D_F(p||q) = F(p) + F'(q) - x^i(p)y_i(q).
+    \end{gather}
+
+    Now we have two convex functions $F, F^*$ defined on coordinate systems that are related as follows:
+    \begin{gather}
+        y:=DF(x) \qquad\text{and}\qquad x:=DF^*(y).
+    \end{gather}
+    However, convexity of functions is not preserved under arbitrary coordinate transformations and hence we should restrict the class of allowed coordinate transformations. To preserve convexity we only allow affine transformations. In affine coordinates we can express any geodesic, i.e. any path $\gamma$ such that $\nabla_{\dot{\gamma}}\dot{\gamma}=0$, as a straight line:
+    \begin{gather}
+        \gamma_{q\rightarrow p}(t) \equiv tx(p) + (1-t)x(q).
+    \end{gather}
+    Geodesics for the conjugate connection are called \textbf{dual geodesics}. It is important to note that the Legendre transform that maps the primal coordinates to the dual coordinates is in general not an affine transformation and hence does not preserve the dual structure. Moreover, it can be shown that neither of the parallel transport maps, although completely trivial due to the affine structure, are metric-preserving. However, parallel transporting one vector by $\nabla$ and the other by $\widetilde{\nabla}$ does preserve the metric. The metric structures induced by the Hessians are also intertwined:
+    \begin{gather*}
+        g_{ij} = \frac{\partial^2F}{\partial x^i\partial x^j}\qquad\text{and}\qquad \widetilde{g}^{ij} = \frac{\partial^2F'}{\partial y_i\partial y_j}
+    \end{gather*}
+    are mutual inverses. Manifolds with this structure are said to be \textbf{dually flat} (see also the section with this name further below.)
+
+\section{Projections}
+
+    The following theorem generalizes the to the classic Pythagorean theorem on $\mathbb{R}^n$ (and reduces to it when we choose the self-dual Euclidean distance as divergence function)
+    \begin{theorem}[Pythagoras]\index{Pythagoras}
+        Consider a triangle $PQR$ on a dually flat manifold $M$ with divergence $D$. If the geodesic $PQ$ and the dual geodesic $QR$ are orthogonal (at $Q$) then the following equation holds:
+        \begin{gather}
+            D(P||R) = D(P||Q) + D(Q||R).
+        \end{gather}
+        One obtains a similar statement by dualizing all quantities.
+    \end{theorem}
+
+    In Euclidean space (and more general in Hilbert spaces) one of the most powerful theorems is the projection theorem which states that the shortest path from a point to a subspace is given by orthogonal projection. We first define what we mean by an orthogonal projection:
+    \newdef{Orthogonal projection}{\index{projection}
+        Consider a point $p\in M$ and a submanifold $S$ of a dually flat manifold $M$ (such that $p\not\in S$). A geodesic (orthogonal) projection of $p$ on $S$ is a point $p_S\in\partial S$ such that the affine geodesic connecting $p$ and $p_S$ is orthogonal to all of $T_{p_S}S$. Similarly we can obtain the notion of a dual geodesic projection.
+    }
+    Because in general there exist multiple projections we cannot state a strict minimality theorem:
+    \begin{theorem}[Projection theorem]
+        The extremal points of the map $s\mapsto D(p||s)$ are geodesic projections of $p$ onto $S$. The dual statement also holds.
+    \end{theorem}
+    The projection theorem for Hilbert spaces only holds for affine subspaces. In the manifold setting this is reflected by a flatness condition:
+    \begin{property}
+        If the submanifold $S$ is $\widetilde{\nabla}$-flat then the geodesic projection of $p\not\in S$ is unique and it minimizes the map $s\mapsto D(p||s)$. The dual statement also holds.
+    \end{property}
+
+    \begin{theorem}[Sanov]\index{Sanov}
+        Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d. samples from it. Let $P_n$ be the empirical distribution function of the samples.\footnote{See definition \ref{statistics:empirical_distribution}.} Let us consider a set of probability distributions $\Gamma$ that we consider a acceptable such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
+        \begin{gather}
+            q^n(P_n\in\Gamma) \leq (n+1)^{|S|}2^{-n D_{KL}(p^*||q)}
+        \end{gather}
+        where $p^*$ is the information projection of $q$ on $\Gamma$. For sets $\Gamma=\overline{\Gamma^\circ}$ this can be restated as
+        \begin{gather}
+            \lim_{n\rightarrow\infty}\frac{1}{n}q^n(P_n\in\Gamma) = - D_{KL}(p^*||q).
+        \end{gather}
+    \end{theorem}
+
+\section{Geodesics}\index{geodesic}
+
+    The two types of geodesics that we have encountered in the preceding sections are often given the names \textbf{e-geodesic} and \textbf{m-geodesic} in the literature. In this section we explain the reason behind this naming convention.
+
+\subsection{Exponential families}
+
+    Let us first introduce the following general family of probability distributions:
+    \newdef{Exponential family}{\index{distribution!exponential}
+        Let $X:\Omega\rightarrow\mathbb{R}^k$ be a random variable. For every integer $n\in\mathbb{N}$, every collection of smooth functions $\{h_i:\mathbb{R}^k\rightarrow\mathbb{R}\}_{1\leq i\leq n}$ and any smooth function $\lambda:\mathbb{R}^k\rightarrow\mathbb{R}$ one can define the following family of distributions (indexed by a parameter $\theta\in\mathbb{R}^n$):
+        \begin{gather}
+            p(X;\theta) := \exp\big[h_i(X)\theta^i + \lambda(X) - \psi(\theta)\big].
+        \end{gather}
+        The function $\psi(\theta)$ is introduced as a normalisation function:
+        \begin{gather}
+            \label{info:free_energy}
+            \psi(X) = \ln\int\exp(h_i(X)\theta^i)d\mu(X).
+        \end{gather}
+        The function $\lambda$ is often included in a redefinition of the measure: $dX\longrightarrow d\mu(X):=\exp(\lambda(X))dX$.
+    }
+    \begin{remark}\index{cumulant}\index{energy!free}
+        It should be noted that the function $\psi$ (which can be shown to be convex) is the same as the cumulant-generating function (or free energy in physics terminology).
+    \end{remark}
+
+    Such a family of exponential distributions forms a manifold with affine coordinates $\theta^i$ (these are also called the \textbf{natural parameters}). The dual coordinates $\nabla\psi(\theta)$ are the expectation values $E[X]$ and the associated dual convex function $\phi$ is the Shannon entropy. Accordingly, the Bregman divergence associated to $\psi$ is given by the (reversed) Kullback-Leibler divergence:
+    \begin{gather}
+        \label{info:KL_reversal}
+        D_\psi(\theta||\theta') = D_{KL}(\theta'||\theta).
+    \end{gather}
+    The metric induced by this structure is the Fisher information:
+    \begin{gather}
+        g_{ij} = \mathcal{I}_{ij}[X;\theta] := E\left[\left(\pderiv{}{\theta^i}\ln p(X;\theta)\right)\left(\pderiv{}{\theta^j}\ln p(X;\theta)\right)\right].
+    \end{gather}
+
+    We now come back to first part of what we initially wanted to do: explain the terminology ''e-geodesic''. Consider an affine combination of natural parameters (hence an affine geodesic in the manifold of an exponential family): \[\theta(t) = t\theta_2 + (1-t)\theta_1.\] The probability distributions along this path can themselves be interpreted as constituting an exponential family with natural parameter $t$ and hence we call the primal geodesic $\theta(t)$ an e-geodesic ('e' for exponential).
+
+\subsection{Mixtures}
+
+    Another important class of probability distributions is given by mixtures:
+    \newdef{Mixture}{\index{distribution!mixture}
+        Consider a collection of probability distributions $\{p_i(X)\}_{0\leq i\leq n}$. For every point $\eta\equiv(\eta_0,\ldots,\eta_n)$ in the probability simplex $\Delta^n$ one can define the distribution
+        \begin{gather}
+            p(X;\eta) := \sum_{i=0}^n\eta_ip_i(X).
+        \end{gather}
+        This mixture family forms a manifold with affine coordinates $\{\eta_i\}_{1\leq i\leq n}$ (note that $\eta_0$ can be calculated from the other weights and thus is not an independent coordinate).
+    }
+    The (negative) Shannon entropy of a mixture defines a convex function $\varphi$ and, as noted before, it induces the Kullback-Leibler divergence:
+    \begin{gather}
+        D_\varphi(\eta||\eta') = D_{KL}(\eta||\eta').
+    \end{gather}
+
+    \begin{example}[Discrete distribution]
+        An interesting example of mixtures is given by the class of discrete (or categorical) distributions:
+        \begin{gather}
+            p(X;\eta) = \sum_{i=0}^n\eta_i\delta_i(X)
+        \end{gather}
+        where $\eta\in\Delta^n$. At the same time these models can be considered as distributions in an exponential family with affine coordinates $\theta^i:=\ln\frac{p_i}{p_0}$. For these models the primal coordinates $\overline{\theta}$, dual to $\eta$, coincide with the natural parameters $\theta$.
+    \end{example}
+
+    As for the case of exponential families we are now ready to explain the name ''m-geodesic''. Consider two points with dual coordinates $\eta_1,\eta_2$. The dual geodesic connecting these points is of the form \[\eta(t) = t\eta_2 + (1-y)\eta_1.\] In the case of discrete distributions, where the dual coordinates are given by elements of the probability simplex $\Delta^n$, we see that such a geodesic induces a linear interpolation of distributions and as such defines a mixture family. For this reason one generally\footnote{For arbitrary families the dual geodesic does necessarily induce a mixture of distributions.} calls a dual geodesic an m-geodesic ('m' for mixture).
+
+    \begin{remark}
+        We want to make the reader aware of an important source of confusion. The above sections would lead us to the following naming convention:
+        \begin{center}
+            e-geodesic $\leftrightarrow$ primal geodesic\\
+            m-geodesic $\leftrightarrow$ dual geodesic
+        \end{center}
+        However, because the Kullback-Leibler divergence is the most widely used divergence measure, equation \ref{info:KL_reversal} made it possible that the above convention got reversed in the bulk of the literature. This reversal would also force us to interchange ''primal'' and ''dual'' in most statements such as the Pythagorean and projections theorems. (This is indeed what happens in the literature.)
+
+        To prevent confusion it is important that one pays attention to which divergence is used. We will always try to make a distinction between the e/m-convention and the primal/dual convention. In fact we will mostly adopt the second convention since this one is uniquely determined once one knows the divergence that is used.
+
+        In general the e- and m-projections are defined as follows:\index{geodesic}
+        \begin{itemize}
+            \item e-geodesic: $\pi_e(p) := \arg\min_{q\in S} D_{KL}(q||p)$
+            \item m-geodesic: $\pi_m(p) := \arg\min_{q\in S} D_{KL}(p||q)$
+        \end{itemize}
+    \end{remark}
+
+\section{Dually flat manifolds}
+\subsection{Statistical manifolds}
+
+    In the current section we will introduce an important subclass of Riemannian manifolds that admit two related flat connections. These manifolds will formalize the concepts introduced in the preceding sections.
+    \newdef{Conjugate connections}{\index{connection!conjuagte}
+        Consider a Riemannian manifold $(M, g)$ with an affine connection $\nabla$. The conjugate connection $\widetilde{\nabla}$ is defined by the following equation:
+        \begin{gather}
+            X\left(g(Y, Z)\right) = g(\nabla_XY, Z) + g(Y, \widetilde{\nabla}_XZ).
+        \end{gather}
+        where $X, Y, Z\in TM$. Furthermore, this construction is involutive: $\widetilde{\widetilde{\nabla}}=\nabla$.
+    }
+
+    \begin{property}
+        Consider two conjugate connections $\nabla, \widetilde{\nabla}$ on a Riemannian manifold $(M,g)$ and denote their parallel transport maps by $\mathcal{P}$ and $\mathcal{P'}$ respectively. ''Dual transport'' preserves the metric, i.e.
+        \begin{gather}
+            g(v, w) = g\left(\mathcal{P}_\gamma v, \widetilde{\mathcal{P}}_\gamma w\right).
+        \end{gather}
+    \end{property}
+
+    \begin{property}
+        Consider two conjugate connections $\nabla, \widetilde{\nabla}$ on a Riemannian manifold $(M,g)$. The connection
+        \begin{gather}
+            \overline{\nabla} := \frac{\nabla+\widetilde{\nabla}}{2}
+        \end{gather}
+        is metric, i.e. $\overline{\nabla}g = 0$. Furthermore, if both $\nabla$ and $\widetilde{\nabla}$ are torsion-free then $\overline{\nabla}$ is equal to the Levi-Civita connection of $g$.
+    \end{property}
+
+    The above properties lead us to the following definition
+    \newdef{Statistical manifold}{\index{manifold!statistical}\index{Codazzi condition}
+        A Riemannian manifold $(M, g)$ equipped with a torsion-free connection that satisfies the \textit{Codazzi condition}
+        \begin{gather}
+            \nabla_Xg(Y, Z) = \nabla_Yg(X, Z),
+        \end{gather}
+        i.e. $\nabla g$ is totally symmetric, is called a statistical manifold. The rank-3 tensor $T:=\nabla g$ is sometimes called the \textbf{cubic tensor} or \textbf{Amari-Chentsov} tensor. In local coordinates it allows for an expression in terms of the Christoffel symbols of $\nabla$ and $\widetilde{\nabla}$:
+        \begin{gather}
+            T_{ijk} = \widetilde{\Gamma}_{ijk} - \Gamma_{ijk}
+        \end{gather}
+        where $\Gamma_{ijk} := \Gamma^m_{\ \ ij}g_{km}$.
+
+        In the case where $\nabla$ has nonvanishing torsion one can generalize this definition by also relaxing the Codazzi equation:
+        \begin{gather}
+            \nabla_Xg(Y, Z)-\nabla_Yg(X, Z) = -g(T^\nabla(X, Y), Z).
+        \end{gather}
+        If this equation is satisfied for all vector fields $X, Y$ and $Z$, then the dual connection is torsion-free and the tuple $(M, g, \nabla)$ is called a \textbf{statistical manifold admitting torsion}.\footnote{This situation arises in the study of quantum systems and density operators.} The existence of a torsion-free connection is sufficient to turn a (pseudo-)Riemannian manifold into a statistical manifold admitting torsion.
+    }
+
+    \newdef{Dually flat manifold}{
+        Consider a statistical manifold $(M, g, \nabla)$. If $\nabla$ is flat, then its conjugate $\widetilde{\nabla}$ is also flat and we call the tuple $(M, g, \nabla, \widetilde{\nabla})$ a dually flat manifold.
+    }
+
+    Because the affine connections are flat, they endow the manifold with an \textit{affine structure}, i.e. there exist coordinate charts such that the coordinate-induced vector fields satisfy
+    \begin{gather}
+        \nabla_{\partial_i}\partial_j = 0
+    \end{gather}
+    for all $i,j\leq n$ and such that the transition functions are affine transformations.\index{manifold!affine}
+
+    It can be shown that the conjugate metric induces a similar $\widetilde{\nabla}$-affine coordinate chart such that the coordinate-induced vector fields satisfy the following orthonormality condition:
+    \begin{gather}
+        g\left(\pderiv{}{x^i}, \pderiv{}{y_j}\right) = \delta^j_i.
+    \end{gather}
+    This coordinate system is called the \textbf{dual system}. The dually flat structure enables us to define these coordinate systems through two functions $\psi,\phi$ (the \textbf{potentials}):
+    \begin{gather}
+        \pderiv{\psi}{x^i} = y_i\qquad\qquad \pderiv{\phi}{y_i}=x^i.
+    \end{gather}
+    It can be shown that these functions are (strictly) convex and that they are Legendre transforms:
+    \begin{gather}
+        \psi(p) = x^i(p)y_i(p)-\phi(p).
+    \end{gather}
+    This formula also gives rise to the \textbf{canonical divergence} (which is just the Bregman divergence induced by $\psi$ and $\phi$):
+    \begin{gather}
+        D(p||q) := \psi(p) + \phi(q) - x^i(p)y_i(q).
+    \end{gather}
+
+\subsection{Compatible divergences}
+
+    The question we try to answer in this section is the following one: ''Given a dually flat manifold, which divergences are compatible with this structure?'' We have already seen that exponential families and mixture families naturally give rise to the Kullback-Leibler divergence, but not all dually flat manifolds are induced by such families.
+
+    A basic requirement, as is generally the case with geometric structures, is that we will require that the divergences are invariant under coordinate transformations. To this end we introduce the monotonicity criterion of \textit{Chentsov}. This criterion states that any transformation $y=\xi(x)$ should decrease the divergence between two points (this corresponds to the idea that transformations can never increase the amount of information). However, there remains a class of (noninvertible) transformations that do leave the divergence invariant:
+    \newdef{Sufficient statistic}{\index{Fisher-Neyman}
+        Consider a random variable $X$ described by a distribution $p(X;\theta)$. A transformation $\xi(X)$ is said to be sufficient (with respect to $\theta$) if the distribution of $X$ conditioned on $\xi(X)$ is independent of $\theta$. The \textbf{Fisher-Neyman factorisation theorem} states that this is equivalent to the existence of the following decomposition
+        \begin{gather}
+            p(X;\theta) = f(X)g_\theta(\xi(X))
+        \end{gather}
+        for some nonnegative functions $f, g_\theta$.
+    }
+    The invariance criterion states that these transformations are the only transformations that leave the divergence invariant:
+    \begin{axiom}[Invariance criterion]
+        Consider a dually flat manifold $M$. Compatible divergences should satisfy the following inequality for all transformations $\overline{x}:=\xi(x)$:
+        \begin{gather}
+            \overline{D}(\theta||\theta')\leq D(\theta||\theta').
+        \end{gather}
+        The equality should hold if and only if the transformed variable $\overline{x}$ is a sufficient statistic.
+    \end{axiom}
+
+    \begin{example}[$f$-divergences]
+        An important class of invariant divergences on the manifold $\Delta^n$ is given by the $f$-divergences introduced in the beginning of this chapter. These also have the additional property that they are \textbf{decomposable}:
+        \begin{gather}
+            D_f(p||q) = \sum_{i=0}^n d(p_i, q_i)
+        \end{gather}
+        for some nonnegative function $d$.
+    \end{example}
+    The following theorem gives a partial characterization of invariant divergences on the manifold of discrete distributions $\Delta^n$:
+    \begin{property}
+        A divergence $D$ on $\Delta^n$ ($n>1$) is invariant and decomposable if and only if it it an $f$-divergence. If we also require $D$ to be flat, i.e. if we require the induced geometric structure to be flat, then $D = D_{KL}$. If we extend to $\mathbb{R}^n_+$ (discrete positive measures) then one recovers the collection of all $\alpha$-divergences.
+    \end{property}
+    \remark{Because every Bregman divergence is flat, we see that $D_{KL}$ is the only Bregman divergence that is also an $f$-divergence.}
+
+    One can also go a step further and ask which metrics arise on such invariant structures. The question is quite simple (at least for discrete distributions):
+    \begin{theorem}[Chentsov]\index{Chentsov}
+        Up to scaling, the only invariant metric that exists on $\Delta^n$ is the Fisher information metric\footnote{This metric coincides with the standard Euclidean metric in these cases}. Again, we can extend this result to the manifold $\mathbb{R}^n_+$ of discrete positive measures, i.e. the only invariant metric on $\mathbb{R}^n_+$ is the Euclidean metric.
+    \end{theorem}
+    \sremark{Extensions to other families/manifolds of distributions can be found in the literature. However, most of these theorems have to make additional assumptions.}
+
+\subsection{Flat structures}
+
+    In this paragraph we focus on flat structures on $\mathbb{R}^n_+$. By a property above these are exactly the $\alpha$-divergences. To follow \textit{Amari} we first make the transformation $\alpha=2q-1$. (This is in fact the relation between the definitions by \textit{Tsallis} and \textit{Csisz\'ar}.) Given a positive discrete measure with coefficients $m_i$ we define the affine coordinates as follows:
+    \begin{gather}
+        \theta^i \equiv h_\alpha(m_i) := m_i^{\frac{1-\alpha}{2}}.
+    \end{gather}
+    It is not hard to see that the inverse function $\theta^i\mapsto m_i$ is convex (for $|\alpha|\leq1$) and hence we can define an affine potential as follows:
+    \begin{gather}
+        \psi_\alpha(\theta) := \frac{1-\alpha}{2}\sum_{i=0}^n m_i = \frac{1-\alpha}{2}\sum_{i=0}^n \left(\theta^i\right)^{\frac{2}{1-\alpha}}.
+    \end{gather}
+    The dual coordinates are then given by
+    \begin{gather}
+        \eta_i \equiv h_{-\alpha(m_i)} = m_i^{\frac{1+\alpha}{2}}.
+    \end{gather}
+    It should be noted that the normalisation constraint $\sum_{i=0}^nm_i=1$ that embeds $\Delta^n$ in $\mathbb{R}^n_+$ is a nonlinear constraint on the affine coordinates except for $\alpha=-1$ (for the dual coordinates this happens for $\alpha=1$). This recovers the fact that the Kullback-Leibler divergence is the only flat, invariant and decomposable structure on $\Delta^n$.
+
+    For any monotonic function $h$ one can define the so-called \textbf{$h$-representation} $h(x)$ of $x$. Using this representation one can define the $h$-mean as follows:
+    \begin{gather}
+        m_h(x, y) := h^{-1}\left(\frac{h(x)+h(y)}{2}\right).
+    \end{gather}
+    The $\alpha$-representations are exactly the ones inducing linearly scaling $h$-means:
+    \begin{gather}
+        m_\alpha(\lambda x, \lambda y) = \lambda m_\alpha(x, y).
+    \end{gather}
+    It is not hard to see that all well-known means, such as the ordinary, geometric and harmonic means, are examples of $\alpha$-means. Given this $\alpha$-representation we can define an $\alpha$-mixture of distributions as the $\alpha$-mean of the distributions (up to normalisation). If we allow for weighted means by introducing weights $w_i$ in the sum then we obtain the so-called \textbf{$\alpha$-family} or \textbf{$\alpha$-integration of distributions} with coordinate system $\{w_i\}_{1\leq i\leq N}$. It is easy to see that $\alpha=-1$ and $\alpha=1$ correspond respectively to ordinary mixtures and exponential families.
+
+\section{Estimation and testing}
+\subsection{Estimation}
+
+    Consider a sample $\mathbf{x}:=\{x_1,\ldots,x_n\}$ drawn from a distribution $P(x; \theta)$. The likelihood is given by \[p(\mathbf{x}; \theta) = \prod_{i=1}^nP(x_i; \theta).\] The $m$-coordinates of our observed distribution is
+    \begin{gather}
+        \eta = \frac{1}{n}\sum_{i=1}^nx_i = \overline{x}.
+    \end{gather}
+    The optimal value for $\theta$ can be found by maximizing the log-likelihood $\log(p(\mathbf{x}; \theta))$, or equivalently by minimizing the Kullback-Leibler divergence between the observed distribution and the ''true'' distribution $P(x; \xi)$. The latter is found by $m$-projecting the observed point $\eta$ on the submanifold $S$ of ''admissible'' distributions.

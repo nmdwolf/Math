@@ -7,8 +7,8 @@
     \newdef{Presheaf}{\index{presheaf}\index{section}
         Let $(X, \tau)$ be a topological space. A presheaf over $X$ consists of an algebraic structure $\mathcal{F}(U)$ for every open set $U\in\tau$ and a morphism $\Phi^U_V:\mathcal{F}(U)\rightarrow \mathcal{F}(V)$ for every two open sets $U, V\in\tau$ with $V\subseteq U$ such that the following conditions are satisfied:
         \begin{enumerate}
-            \item $\Phi^U_U = \text{Id}$
-            \item If $W\subseteq V\subseteq U$ then $\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
+            \item $\Phi^U_U = \mathbbm{1}_{\mathcal{F}(U)}$, and
+            \item if $W\subseteq V\subseteq U$, then $\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
         \end{enumerate}
         The set $\mathcal{F}(U)$ is called the set of \textbf{sections} over $U$ and the morphisms $\Phi^U_V$ are called the \textbf{restriction maps}.
     }
@@ -186,11 +186,11 @@
 
         Their fundamental relations are called the \textbf{simplicial identities}:
         \begin{itemize}
-            \item $d_i\circ d_j = d_{j-1}\circ d_i$ for $i<j$
-            \item $d_i\circ s_j = s_{j-1}\circ d_i$ for $i<j$
-            \item $d_i\circ s_j = \text{id}$ for $i=j$ or $i=j+1$
-            \item $d_i\circ s_j = s_j\circ d_{i-1}$ for $i>j+1$
-            \item $s_i\circ s_j = s_{j+1}\circ s_i$ for $i\leq j$
+            \item $d_i\circ d_j = d_{j-1}\circ d_i$ for $i<j$,
+            \item $d_i\circ s_j = s_{j-1}\circ d_i$ for $i<j$,
+            \item $d_i\circ s_j = \text{id}$ for $i=j$ or $i=j+1$,
+            \item $d_i\circ s_j = s_j\circ d_{i-1}$ for $i>j+1$, and
+            \item $s_i\circ s_j = s_{j+1}\circ s_i$ for $i\leq j$.
         \end{itemize}
     \end{property}
 
@@ -214,7 +214,7 @@
         \end{gather}
     \end{construct}
 
-    \begin{example}[Nerve]\index{nerve}
+    \begin{example}[Nerve of a category]\index{nerve}\label{sheaf:nerve}
         \nomenclature[S_Nerve]{$N\mathbf{C}$}{The simplicial nerve of a small category $\mathbf{C}$.}
         To every small category \textbf{C} one can associate a simplicial set $N\mathbf{C}$ in the following way. The set $N\mathbf{C}_0$ is given by the set of objects in $\mathbf{C}$. The set $N\mathbf{C}_1$ is given by the set of morphisms in $\mathbf{C}$. Now, for every two composable morphisms $f, g$ one obtains a canonical commuting triangle. Let $N\mathbf{C}_2$ be the set of all these triangles. The higher simplices are defined analogously. Face maps act by composing morphisms or by dropping the exterior morphisms. Degeneracy maps act by inserting an identity morphism.
 
@@ -243,7 +243,7 @@
         \begin{gather}
             \text{Sing}(X)_n := \mathbf{Top}(\Delta^n, X).
         \end{gather}
-        This is the object of relevance in the definition of singular (co)homology (see also the \textit{Dold-Kan correspondence}).
+        This is the object of relevance in the definition of singular (co)homology (see also the Dold-Kan correspondence \ref{sheaf:dold_kan} further below).
     }
 
     \begin{property}[Classifying space]\index{bar construction}\index{classifying!space}
@@ -271,3 +271,21 @@
     \newdef{Quasicategory}{\index{quasicategory}
         A simplicial set that has (not necessarily unique) fillers for all inner horns.
     }
+
+\subsection{Homological algebra}
+
+    In this section we relate simplicial sets to homological algebra (see chapter \ref{chapter:hom_alg}). A basic introduction is \cite{master2020homology}.
+
+    The objects of focus in this section will be the simplicial vector spaces, i.e. functors $\Delta^{op}\rightarrow\mathbf{Vect}$. Any simplicial set $X:\Delta^{op}\rightarrow Set$ can be turned into a simplicial vector space through composition with the free vector space functor $F$.
+
+    Given a simplicial vector space $X$, one can construct a chain complex $\mathbf{X}$ as follows:
+    \begin{construct}[Alternating face map complex]
+        For every $n\in\mathbb{N}$ we define $\mathbf{X}_n := X_n \equiv X([n])$. The boundary maps $\delta_n$ are defined as an alternating sum of the face maps:
+        \begin{gather}
+            \delta_n := \sum_{i=1}^n(-1)^id_i.
+        \end{gather}
+        If we quotient out the degenerate simplices, we obtain the so-called normalized complex.
+    \end{construct}
+    \begin{theorem}[Dold-Kan correspondence]\index{Dold-Kan correspondence}\label{sheaf:dold_kan}
+        The functor mapping simplicial vector spaces to normalized chain complexes gives an equivalence of categories $\mathbf{sVect}\rightarrow\mathbf{Ch}_\bullet(\mathbf{Vect})$.
+    \end{theorem}

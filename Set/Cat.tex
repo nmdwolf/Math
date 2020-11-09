@@ -1,13 +1,15 @@
 \chapter{Category theory}\label{chapter:cat}
 
-    For the general theory of categories we refer to the classic work \cite{maclane}. The main reference for (co)end calculus is \cite{end}. For the theory of higher categories and its applications to topology and algebra we refer to the lecture notes of \textit{Baez} \cite{baez_cohom}. For more information on higher categories we refer to the book by \textit{Baez \& May} \cite{towards_higher_cat}. A good starting point for bicategories (and more) is the paper by \textit{Leinster} \cite{basic_bicategories}.
+    For the general theory of categories we refer to the classic work \cite{maclane}. The main reference for (co)end calculus is \cite{end}. For the theory of higher categories and its applications to topology and algebra we refer to the book by \textit{Baez et al.} \cite{towards_higher_cat}. A good starting point for bicategories (and more) is the paper by \textit{Leinster} \cite{basic_bicategories}.
 
 \section{Categories}
 
     \newnot{Identity morphism}{
         In general we will denote the identity morphism on an object $X$ by $\mathbbm{1}_X$.
     }
-    \remark{In general one defines a category using the notion of objects and morphisms between them. However one does not need to consider objects as a separate notion since every object has at least an identity morphism (by definition) and hence one can work solely with morphisms. It should be noted that for higher categories this remark can be omitted since one regards objects as 0-morphisms in that context.}
+    \begin{remark}
+        In general one defines a category using the notion of objects and morphisms between them. However one does not need to consider objects as a separate notion since every object has at least an identity morphism (by definition) and hence one can work solely with morphisms. It should be noted that for higher categories this remark can be omitted since one regards objects as 0-morphisms in that context.
+    \end{remark}
 
     \newdef{Subcategory}{\index{full!subcategory}
         Let $\mathbf{C}$ be a category. A subcategory $\mathbf{S}$ of $\mathbf{C}$ consists of a subcollection of objects $\ob{S}$ and a subcollection of morphisms hom$(\mathbf{S})$ that satisfy the following conditions:
@@ -59,7 +61,7 @@
             \item All morphisms admit a unique factorisation as a morphism in $\mathbf{C}_-$ followed by a morphism in $\mathbf{C}_+$. This factorisation is sometimes called the \textbf{(canonical) Reedy factorisation}.
         \end{enumerate}
     }
-    \begin{property}[Minimality]\index{degree}
+    \begin{property}[Minimality]\index{degree!of factorisation}
         The Reedy factorisation is the (unique) factorisation of minimal degree (the \textbf{degree} of a factorisation $x\xrightarrow{f}y\xrightarrow{g}z$ is equal to the degree of $y$).
     \end{property}
 
@@ -87,7 +89,7 @@
         \end{enumerate}
     }
     \begin{remark}[Presheaves]\index{presheaf}
-        \nomenclature[S_Psh]{$\mathbf{Psh}(\mathbf{C})$, $\widehat{\mathbf{C}}$}{Category of presheaves on a (small) category $\mathbf{C}$.}
+        \nomenclature[S_Psh]{$\mathbf{Psh}(\mathbf{C})$, $\widehat{\mathbf{C}}$}{category of presheaves on a (small) category $\mathbf{C}$}
         A contravariant functor can also be defined as a covariant functor from the opposite category and accordingly, from now on, we will drop the word ''covariant'' when talking about functors. Furthermore, a contravariant functor $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$ is often called a \textbf{presheaf}. The collection of all presheaves on $\mathbf{C}$ forms a (functor) category $\mathbf{Psh}(\mathbf{C})$ (sometimes denoted by $\widehat{\mathbf{C}}$).
     \end{remark}
 
@@ -231,14 +233,14 @@
         \footnotetext{Also called a \textbf{$\dag$-category}.}
         A category equipped with a contravariant endofunctor, i.e. a functor $\dag:\mathbf{C}^{op}\rightarrow\mathbf{C}$, such that:
         \begin{enumerate}
-            \item $\forall c\in\ob{C}: \mathbbm{1}_c^\dag = \mathbbm{1}_c$
+            \item for all $c\in\ob{C}: \mathbbm{1}_c^\dag = \mathbbm{1}_c$, and
             \item $\dag\circ\dag = \mathbbm{1}_c$.
         \end{enumerate}
         The second property says that $\dag$ is an \textbf{involutive} functor.
     }
     \remark{The concept of a dagger structure allows the usual definition of \textbf{unitary} and \textbf{self-adjoint} morphisms.}\index{unitary}
     \begin{property}
-        The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid}.}.
+        The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid} further below.}.
     \end{property}
 
     \newdef{Comma category}{\index{category!comma}
@@ -374,7 +376,7 @@
         \footnotetext{A more suitable name would be ''module over a monad'', since these are modules over a monoid if we view monads as monoids in $\mathbf{End}_{\mathbf{C}}$.}
         Consider a monad $(T, \mu, \eta)$ on a category $\mathbf{C}$. A algebra over $T$ is a couple $(a, \kappa)$ where $a\in\ob{C}$ and $\kappa:Ta\rightarrow a$ such that the following conditions are satisfied:
         \begin{enumerate}
-            \item $\kappa\circ T\kappa = \kappa\circ\mu_a$
+            \item $\kappa\circ T\kappa = \kappa\circ\mu_a$, and
             \item $\kappa\circ\eta_a = \mathbbm{1}_a$.
         \end{enumerate}
         Morphisms $(a, \kappa_a)\rightarrow(b, \kappa_b)$ of $T$-algebras are morphisms $f:a\rightarrow b$ in $\mathbf{C}$ such that $f\circ\kappa_a = \kappa_b\circ Tf$. An algebra of the form $(Ta, \mu_a)$ is said to be \textbf{free}.
@@ -571,17 +573,16 @@
         A category $\mathbf{C}$ is said to be well-powered if for every object $a\in\ob{C}$ the class of subobjects $\text{Sub}(a)$ is small.
     }
 
-    \newdef{Generator\footnotemark}{\index{generator}\label{cat:generator}
-        \footnotetext{Also called a \textbf{separator}.}
-        Let $\mathbf{C}$ be a category. A collection of objects $\mathcal{O}\subset\ob{C}$ is called a collection of generators for $\mathbf{C}$ if, given any two objects $a,b\in\ob{C}$ and any two parallel morphisms $f,g:a\rightarrow b$, we have that
+    \newdef{Generator}{\index{generator}\index{separator|see{generator}}\label{cat:generator}
+        Let $\mathbf{C}$ be a category. A collection of objects $\mathcal{O}\subset\ob{C}$ is called a collection of generators or \textbf{separators} for $\mathbf{C}$ if, given any two objects $a,b\in\ob{C}$ and any two parallel morphisms $f,g:a\rightarrow b$, we have that
         \begin{gather}
             f\neq g\implies\exists o\in\mathcal{O}: \exists h\in\mathbf{C}(o, a): f\circ h\neq g\circ h.
         \end{gather}
         This equivalently says that the generalized elements of the objects in $\mathcal{O}$ are sufficient to distinguish all morphisms in $\mathbf{C}$.
     }
 
-    \newdef{Decategorification}{
-        Let $\mathbf{C}$ be a (essentially) small category. The set of isomorphism classes of $\mathbf{C}$ is called the decategorification of $\mathbf{C}$. This is given by a functor $\func{Decat}{Cat}{Set}$.\footnote{This can be generalized to higher category theory to go from $n\mathbf{Cat}$ to $(n-1)\mathbf{Cat}$.}
+    \newdef{Decategorification}{\index{decategorification}\label{cat:decategorification}
+        Let $\mathbf{C}$ be a (essentially) small category. The set of isomorphism classes of $\mathbf{C}$ is called the decategorification of $\mathbf{C}$. This is given by a functor $\func{\text{Decat}}{Cat}{Set}$. This can be generalized to higher category theory as a functor $n\mathbf{Cat}\rightarrow(n-1)\mathbf{Cat}$.
     }
 
 \subsection{Diagrams and universal constructions}\label{cat:section:diagrams}
@@ -892,7 +893,7 @@
         Consider a general functor $\func{F}{C}{D}$. If the right Kan extension $\text{Ran}_FF$ exists, then it defines a monad. Functors for which this monad is the identity are said to be \textbf{codense}.\footnote{Codense functors are usually defined in a different way, but one can show that this is an equivalent definition (hence the name).} Left Kan extensions give by duality rise to \textit{density comonads}.
     }
 
-\section{Abelian categories}
+\section{Abelian categories}\label{section:abelian_categories}
 
     \newdef{Pre-additive category}{
         A (locally small) category enriched over $\mathbf{Ab}$, i.e. every hom-set is an Abelian group and composition is bilinear.
@@ -901,9 +902,9 @@
     \begin{property}\index{zero!object}
         Let $\mathbf{A}$ be a pre-additive category and consider an object $a\in\ob{A}$. The following statements are equivalent:
         \begin{itemize}
-            \item $a$ is an initial object.
-            \item $a$ is a final object.
-            \item $\mathbbm{1}_a$ = 0.
+            \item $a$ is an initial object,
+            \item $a$ is a final object, and
+            \item $\mathbbm{1}_a = 0$.
         \end{itemize}
         It follows that every initial/terminal object in a pre-additive category is automatically a zero object\footnote{See definition \ref{cat:zero_object}.}.
     \end{property}
@@ -925,11 +926,15 @@
         One can generalize this notion to pre-additive categories. A functor between pre-additive categories is said to be additive if it acts as a group morphism on hom-spaces.
     }
 
+    \newdef{Grothendieck group}{\index{Grothendieck!group}
+        Let $\mathbf{A}$ be an additive category and consider its decategorification $\text{Decat}(\mathbf{A})$. This set carries the structure of an Abelian monoid and hence we can apply the Grothendieck construction \ref{group:grothendieck_completion} to obtain an Abelian group $K(\mathbf{A})$. This group is called the Grothendieck group of $\mathbf{A}$.
+    }
+
     In a pre-additive category one can define the classical notions from (homological) algebra such as images and kernels:
     \newdef{Kernel}{\index{kernel}
         Let $f:x\rightarrow y$ be a morphism. A\footnote{Note the word \textit{a}. The kernel of a morphism is determined up to an isomoprhism.} kernel is a morphism $k:z\rightarrow x$ such that
         \begin{enumerate}
-            \item $f\circ k = 0$.
+            \item $f\circ k = 0$, and
             \item for every other morphism $k':z'\rightarrow x$ such that $f\circ k' = 0$ there exists a unique morphism $h:z'\rightarrow z$ such that $k\circ h = k'$. (This is the universal property characterizing kernels.)
         \end{enumerate}
         Hence a kernel of $f$ is an equalizer of $f$ and 0.
@@ -941,7 +946,7 @@
     \newdef{Cokernel}{
         Let $f:x\rightarrow y$ be a morphism. A cokernel is a morphism $p:y\rightarrow z$ such that
         \begin{enumerate}
-            \item $p\circ f = 0$.
+            \item $p\circ f = 0$, and
             \item for every other morphism $p':y\rightarrow z'$ such that $p'\circ f = 0$ there exists a unique morphism $h:z\rightarrow z'$ such that $h\circ p = p'$. (This is the universal property characterizing cokernels.)
         \end{enumerate}
         Hence a cokernel of $f$ is a coequalizer of $f$ and 0.
@@ -951,8 +956,11 @@
     \end{notation}
     \remark{The name and notation of the kernel\footnote{Similarly for the cokernel.} (in the categorical sense) is explained by remarking that by Yoneda's lemma the morphism \[\ker(f)\rightarrow x\] represents the functor \[F:z\mapsto\ker\Big(\mathbf{C}(z, x)\rightarrow\mathbf{C}(z, y)\Big).\]}
 
+    \newdef{Pseudo-Abelian category}{\label{category:pseudo_abelian}
+        An additive category in which every projection, i.e. every morphism $p$ such that $p^2=p$, has a kernel.
+    }
     \newdef{Pre-Abelian category}{
-        An additive category is pre-Abelian if every morphism has a kernel and cokernel.
+        An additive category in which every morphism has a kernel and cokernel.
     }
     \newdef{Abelian category}{\index{Abelian!category}
         A pre-Abelian category in which every mono is a kernel and every epi is a cokernel or equivalently if for every morphism $f$ there exists an isomorphism
@@ -1014,8 +1022,8 @@
     \newdef{Locally finite}{\label{category:locally_finite}
         A $k$-linear Abelian category is said to be locally finite if it satisfies the following conditions:
         \begin{enumerate}
-            \item Every hom-space is finite-dimensional.
-            \item Every object has finite length.
+            \item every hom-space is finite-dimensional, and
+            \item every object has finite length.
         \end{enumerate}
     }
     \newdef{Finite}{\index{finite}
@@ -1050,9 +1058,9 @@
     \newdef{Monoidal category}{\index{monoidal!category}\index{tensor!product}\label{category:monoidal_category}
         A category $\mathbf{C}$ equipped with a bifunctor \[-\otimes -:\mathbf{C}\times\mathbf{C}\rightarrow\mathbf{C}\] called the \textbf{tensor product} or \textbf{monoidal product}, together with a distinct object $\mathbf{1}$, called the \textbf{unit object}, and 3 natural isomorphisms, called the \textbf{coherence maps}:
         \begin{enumerate}
-            \item \textbf{Associator}: $\alpha_{a, b, c}:(a\otimes b)\otimes c\cong a\otimes(b\otimes c)$;
-            \item \textbf{Left unitor}: $\lambda_a:\mathbf{1}\otimes a\cong a$;
-            \item \textbf{Right unitor}: $\rho_a:a\otimes\mathbf{1}\cong a$;
+            \item \textbf{Associator}: $\alpha_{a, b, c}:(a\otimes b)\otimes c\cong a\otimes(b\otimes c)$,
+            \item \textbf{Left unitor}: $\lambda_a:\mathbf{1}\otimes a\cong a$, and
+            \item \textbf{Right unitor}: $\rho_a:a\otimes\mathbf{1}\cong a$
         \end{enumerate}
         such that the \textbf{triangle} and \textbf{pentagon} diagrams commute. (See figures \ref{fig:triangle_diagram} and \ref{fig:pentagon_diagram}.)
 
@@ -1101,8 +1109,8 @@
     \begin{property}
         Every scalar $s:\mathbf{1}\rightarrow\mathbf{1}$ induces a natural transformation \[s_a:a\cong\mathbf{1}\otimes a\xrightarrow{s\otimes\mathbbm{1}_a}\mathbf{1}\otimes a\cong a\] satisfying the "usual" rules of scalar multiplication in linear algebra:
         \begin{itemize}
-            \item $s\diamond(s'\diamond f) = (s\circ s')\diamond f$
-            \item $(s\diamond f)\circ(s'\diamond g) = (s\circ s')\diamond(f\circ g)$
+            \item $s\diamond(s'\diamond f) = (s\circ s')\diamond f$,
+            \item $(s\diamond f)\circ(s'\diamond g) = (s\circ s')\diamond(f\circ g)$, and
             \item $(s\diamond f)\otimes(s'\diamond g) = (s\circ s')\diamond(f\otimes g)$
         \end{itemize}
         where $s\diamond f$ denotes the composite $f\circ s_a = s_b\circ f$.
@@ -1354,10 +1362,10 @@
     \newdef{Enriched category}{\index{category!enriched}
             Let $(\mathcal{V}, \otimes, \mathbf{1})$ be a monoidal category. A $\mathcal{V}$-enriched category, also called a $\mathcal{V}$-category\footnote{Not to be confused with the notation for fibre categories.}, consists of the following elements:
             \begin{enumerate}
-                \item a collection of objects $\ob{C}$;
-                \item for every pair of objects $a,b\in\ob{C}$ there is an object $\mathbf{C}(a, b)\in\ob{\mathcal{V}}$ for which the following morphisms exist:
+                \item a collection of objects $\ob{C}$, and
+                \item for every pair of objects $a,b\in\ob{C}$ an object $\mathbf{C}(a, b)\in\ob{\mathcal{V}}$ for which the following morphisms exist:
                 \begin{itemize}
-                    \item $\text{id}_a: \mathbf{1}\rightarrow\mathbf{C}(a, a)$ giving the (enriched) identity morphism;
+                    \item $\text{id}_a: \mathbf{1}\rightarrow\mathbf{C}(a, a)$ giving the (enriched) identity morphism, and
                     \item $\circ_{abc}:\mathbf{C}(b, c)\otimes\mathbf{C}(a, b)\rightarrow\mathbf{C}(a, c)$ replacing the usual composition.
                 \end{itemize}
             \end{enumerate}
@@ -1366,7 +1374,7 @@
     \newdef{Underlying category}{
         Given a $\mathcal{V}$-enriched category $\mathbf{C}$ one defines the underlying category $\mathbf{C}_0$ as follows:
         \begin{itemize}
-            \item $\ob{C_0}:=\ob{C}$;
+            \item $\ob{C_0}:=\ob{C}$, and
             \item $\mathbf{C}_0(x, y):=\mathcal{V}(\mathbf{1}, \mathbf{C}(x, y))$
         \end{itemize}
         where $\mathbf{1}$ is the monoidal unit in $\mathcal{V}$.
@@ -1379,7 +1387,7 @@
     \newdef{Enriched functor}{
         A $\mathcal{V}$-enriched functor $\func{F}{C}{D}$ consists of the following data:
         \begin{enumerate}
-            \item a function $F_0:\ob{C}\rightarrow\ob{D}$ (as for ordinary functors);
+            \item a function $F_0:\ob{C}\rightarrow\ob{D}$ (as for ordinary functors), and
             \item for every two objects $a,b\in\ob{C}$ a morphism $F_{a, b}:\mathbf{C}(a, b)\rightarrow\mathbf{D}(Fa, Fb)$ in $\mathcal{V}$.
         \end{enumerate}
         These have to satisfy the ''obvious'' composition and unit conditions.
@@ -1428,8 +1436,8 @@
     \newdef{Two-variable adjunction}{\index{adjunction}\label{cat:two_variable_adjunction}
         Consider three categories $\mathbf{C, D}$ and $\mathbf{E}$. A two-variable adjunction $\mathbf{C}\times\mathbf{D}\rightarrow\mathbf{E}$ consists of three bifunctors:
         \begin{enumerate}
-            \item $\func{-\otimes-}{C\times D}{E}$
-            \item $\text{hom}_L:\mathbf{C}^{op}\times\mathbf{E}\rightarrow\mathbf{D}$
+            \item $\func{-\otimes-}{C\times D}{E}$,
+            \item $\text{hom}_L:\mathbf{C}^{op}\times\mathbf{E}\rightarrow\mathbf{D}$, and
             \item $\text{hom}_R:\mathbf{D}^{op}\times\mathbf{E}\rightarrow\mathbf{C}$
         \end{enumerate}
         admitting the following natural isomorphisms:
@@ -1518,7 +1526,7 @@
     \end{property}
 
     \newdef{Exponential object}{\index{exponential!object}\label{category:exponential_object}
-        In the case of Cartesian (monoidal) categories, i.e. categories where the monoidal structure is given by the (Cartesian) product, the internal hom $\underline{\text{hom}}(a, b)$ is called the exponential object. This is often denoted by $b^a$.
+        In the case of Cartesian (monoidal) categories, i.e. categories where the monoidal structure is given by the (Cartesian) product, the internal hom $\underline{\text{Hom}}(a, b)$ is called the exponential object. This is often denoted by $b^a$.
     }
     \newdef{Closed category}{\index{category!closed}
         A (symmetric) monoidal category is said to be closed if it admits all inner homs.
@@ -1527,10 +1535,10 @@
     \newdef{Internal category}{\label{cat:internal_category}
         Let $\mathcal{E}$ be a category with pullbacks. A category $\mathbf{C}$ internal to $\mathcal{E}$ consists of the following objects:
         \begin{enumerate}
-            \item an object $C_0\in\ob{\mathcal{E}}$ of objects;
-            \item an object $C_1\in\ob{\mathcal{E}}$ of morphisms;
-            \item source and target morphisms $s, t\in\mathcal{E}(C_1, C_0)$;
-            \item an ''identity-assigning'' morphism $e\in\mathcal{E}(C_0, C_1)$ such that \[s\circ e = \mathbbm{1}_{C_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{C_0};\]
+            \item an object $C_0\in\ob{\mathcal{E}}$ of objects,
+            \item an object $C_1\in\ob{\mathcal{E}}$ of morphisms,
+            \item source and target morphisms $s, t\in\mathcal{E}(C_1, C_0)$,
+            \item an ''identity-assigning'' morphism $e\in\mathcal{E}(C_0, C_1)$ such that \[s\circ e = \mathbbm{1}_{C_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{C_0},\] and
             \item a composition morphism $c:C_1\times_{C_0}C_1\rightarrow C_1$ such that the following equations hold:
             \begin{align*}
                 s\circ c = s\circ\pi_1\qquad\qquad&\qquad\qquad t\circ c = t\circ\pi_2\\
@@ -1572,8 +1580,8 @@
     \newdef{$n$-category}{\index{n-category}
         A (strict) $n$-category consists of:
         \begin{itemize}
-            \item objects (0-morphisms)
-            \item 1-morphisms going between 0-morphisms
+            \item objects (0-morphisms),
+            \item 1-morphisms going between 0-morphisms,
             \item ...
             \item $n$-morphisms going between $(n-1)$-morphisms
         \end{itemize}
@@ -1611,7 +1619,7 @@
     }
 
     \begin{property}[Monoidal categories]\index{monoidal!category}\index{delooping!of monoidal categories}\label{cat:monoidal_or_2}
-        Consider a monoidal category\footnote{See definition \ref{category:monoidal_category}.} $(\mathbf{C}, \otimes, \mathbf{1})$. From this monoidal category one can construct the so-called \textbf{delooping} $\mathbf{BC}$, which is a bicategory, in the following way:
+        Consider a monoidal category\footnote{See definition \ref{category:monoidal_category}.} $(\mathbf{C},\otimes,\mathbf{1})$. From this monoidal category one can construct the so-called \textbf{delooping} $\mathbf{BC}$, which is a bicategory, in the following way:
         \begin{itemize}
             \item There is a single object $\ast$.
             \item The 1-morphisms in $\mathbf{BC}$ are the objects in $\mathbf{C}$.
@@ -1619,7 +1627,7 @@
             \item Horizontal composition in $\mathbf{BC}$ is the tensor product in $\mathbf{C}$.
             \item Vertical composition in $\mathbf{BC}$ is composition in $\mathbf{C}$.
         \end{itemize}
-        Conversely every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent. (This property and its generalizations are the content of the \textit{delooping hypothesis}.)
+        Conversely, every 2-category with a single object comes from a monoidal category. Hence the 2-category of (pointed) 2-categories with a single object and the 2-category of monoidal categories are equivalent. (This property and its generalizations are the content of the \textit{delooping hypothesis}.)
 
         In the same way one can deloop a braided monoidal category twice and find an identification with a one-object tricategory with one 1-morphism. However, this identification is not a trivial one as it makes use of the Eckmann-Hilton argument to identify different monoidal structures on this tricategory. (See also section \ref{section:monoidal_n_cat}.)
     \end{property}
@@ -1629,7 +1637,7 @@
     \newdef{2-functor}{\index{pseudofunctor}
         A 2-functor $\mathbf{F}:\mathcal{A}\rightarrow\mathcal{B}$ (often called a \textbf{pseudofunctor}) is a morphism between bicategories. It consists of the following data:
         \begin{itemize}
-            \item a function $F:\ob{\mathcal{A}}\rightarrow\ob{\mathcal{B}}$;
+            \item a function $F:\ob{\mathcal{A}}\rightarrow\ob{\mathcal{B}}$, and
             \item for every two objects $x,y\in\ob{\mathcal{A}}$ a functor\footnote{This functor is also often denoted by $F$.} $F_{x,y}:\mathcal{A}(x, y)\rightarrow\mathcal{B}(Fx, Fy)$.
         \end{itemize}
         These operations need to satisfy the following coherence conditions:
@@ -1648,7 +1656,7 @@
     \newdef{Lax natural transformation}{
         Consider two 2-functors $\mathbf{F}, \mathbf{G}$ between 2 bicategories $\mathcal{A}$ and $\mathcal{B}$. A lax natural transformation $\eta:\mathbf{F}\Rightarrow\mathbf{G}$ consists of the following data:
         \begin{itemize}
-            \item for every object $a\in\ob{\mathcal{A}}$ a 1-morphism $\eta_a:Fa\rightarrow Ga$;
+            \item for every object $a\in\ob{\mathcal{A}}$ a 1-morphism $\eta_a:Fa\rightarrow Ga$, and
             \item for every 1-morphism $f:a\rightarrow b$ in $\mathcal{A}$ a 2-morphism $\eta_f:Gf\circ\eta_a\Rightarrow\eta_b\circ Ff$ such that the $\eta_f$ are the components of a natural transformation $(\eta_a)^*\circ G\Rightarrow (\eta_b)_*\circ F$ and such that the assignment $f\mapsto\eta_f$ satisfies the ''obvious'' identity and composition axioms.
         \end{itemize}
     }
@@ -1667,10 +1675,10 @@
     \begin{example}\index{perturbation}
         The definitions for operations in bicategories above lead us to the following ''explicit'' expressions for $k$-transfors (for small $k$):
         \begin{itemize}
-            \item $k=0$: $n$-functors
-            \item $k=1$: ($n$-)natural transformations
-            \item $k=2$: modifications
-            \item $k=3$: \textbf{perturbations}
+            \item $k=0$: $n$-functors,
+            \item $k=1$: ($n$-)natural transformations,
+            \item $k=2$: modifications, and
+            \item $k=3$: \textbf{perturbations}.
         \end{itemize}
     \end{example}
 
@@ -1681,17 +1689,8 @@
 
 \section{Groupoids}\label{section:groupoids}
 
-    \newdef{Categorical group}{\index{group!categorical}
-        Let $(\mathbf{C}, \otimes, \mathbf{1})$ be a monoidal category. This category is called a categorical group, \textbf{gr-category} or \textbf{weak 2-group}\footnote{See also the end of this section.} if it satisfies the following conditions:
-        \begin{itemize}
-            \item All morphisms are invertible.
-            \item Every object is weakly invertible with respect to the monoidal structure.
-        \end{itemize}
-        By property \ref{cat:monoidal_or_2} above one can equivalently define a weak 2-group as a 2-category with a single object, weakly invertible 1-morphisms and invertible 2-morphisms.
-    }
-
     \newdef{Groupoid}{\index{groupoid}\label{cat:groupoid}
-        \nomenclature[S_Grpd]{$\mathbf{Grpd}$}{Category of groupoids.}
+        \nomenclature[S_Grpd]{$\mathbf{Grpd}$}{category of groupoids}
         A (small) groupoid $\mathcal{G}$ is a (small) category in which all morphisms are invertible.
     }
 
@@ -1716,17 +1715,6 @@
         A groupoid $\mathcal{G}$ is said to be transitive if for all objects $x, y\in\text{ob}(\mathcal{G})$, where $x\neq y$, the set hom$_{\mathcal{G}}(x, y)$ is not empty.
     }
 
-    \newdef{2-Groupoid}{
-        A 2-groupoid is a 2-category in which all 1-morphisms are invertible and every 2-morphisms has a 'vertical' inverse. (The 'horizontal' inverse can be constructed from the other inverses.)
-    }
-    \newdef{Strict 2-group}{
-        A 2-group is defined as a 2-groupoid with only one object. From this it follows that the set of 1-morphisms forms a group and so does the set of 2-morphisms under horizontal composition. The 2-morphisms do not form a group under vertical composition\footnote{Because the sources/targets may not match up.}.
-    }
-
-    \newdef{$\infty$-groupoid}{
-        A $\infty$-category in which all morphisms are invertible. This is equivalent to a $(\infty, 0)$-category in the language of $(n,r)$-categories.
-    }
-
 \section{\difficult{Lawvere theories}}
 
     \newdef{Lawvere theory}{\index{Lawvere!theory}
@@ -1735,7 +1723,7 @@
         Equivalently a Lawvere theory is a small category $\mathbf{L}$ with a \textbf{generic object} $c_0$ such that every object $c\in\ob{L}$ is a finite power of $c_0$.
     }
     \begin{property}
-        \nomenclature[S_Law]{$\mathbf{Law}$}{The category of Lawvere theories.}
+        \nomenclature[S_Law]{$\mathbf{Law}$}{category of Lawvere theories}
         Lawvere theories $(L, \mathcal{L})$ form a category $\mathbf{Law}$. Morphisms between Lawvere theories are (finite) product-preserving functors.
     \end{property}
 
@@ -1759,14 +1747,15 @@
             \end{gather}
             that satisfies two additional axioms:
             \begin{itemize}
-                \item Identity:
+                \item \textbf{Identity}:
                 \begin{gather}
-                    \theta\circ (\mathbbm{1},\ldots,\mathbbm{1}) = \mathbbm{1}\circ\theta = \theta.
+                    \theta\circ (\mathbbm{1},\ldots,\mathbbm{1}) = \mathbbm{1}\circ\theta = \theta,
                 \end{gather}
-                \item Associativity:
+                and
+                \item \textbf{Associativity}:
                 \begin{align}
-                    \psi\circ\Big(\theta_1\circ&(\theta_{1, 1}, \ldots, \theta_{1, k_1}), \ldots, \theta_n\circ(\theta_{n, 1}, \ldots, \theta_{n, k_n})\Big)\nonumber\\
-                    &= \Big(\psi\circ(\theta_1, \ldots, \theta_n)\Big) \circ (\theta_{1,1}, \ldots, \theta_{1, k_1}, \theta_{2, 1}, \ldots, \theta_{n, k_n}).
+                    \psi\circ\Big(\theta_1\circ&(\theta_{1,1},\ldots,\theta_{1,k_1}),\ldots,\theta_n\circ(\theta_{n,1},\ldots,\theta_{n,k_n})\Big)\nonumber\\
+                    &= \Big(\psi\circ(\theta_1,\ldots,\theta_n)\Big) \circ (\theta_{1,1},\ldots,\theta_{1,k_1},\theta_{2,1},\ldots,\theta_{n,k_n}).
                 \end{align}
             \end{itemize}
         \end{enumerate}
@@ -1778,7 +1767,7 @@
     \remark{One can define plain operads in any monoidal category. In the same way one can define a symmetric operad in any symmetric monoidal category.}
 
     \begin{example}\index{endomorphism!operad}
-        \nomenclature[S_endop]{$\mathcal{E}$nd}{Endomorphism operad}
+        \nomenclature[S_endop]{$\mathcal{E}$nd}{endomorphism operad}
         Consider a vector space $V$. For every $n\in\mathbb{N}$ one can define the endomorphism algebra End$(V^{\otimes n}, V)$. The endomorphism operad $\mathcal{E}\text{nd}(V)$ is defined as $\{\text{End}(V^{\otimes n}, V)\}_{n\in\mathbb{N}}$.
     \end{example}
 
@@ -1789,7 +1778,7 @@
         An $O$-algebra in the category $\mathbf{Cat}$.
     \end{example}
 
-\subsection{Algebraic topology and homotopy theory}
+\subsection{Algebraic topology}
 
     \newdef{Stasheff operad}{\index{Stasheff!operad}
         A topological operad $\mathcal{K}$ such that $\mathcal{K}(n)$ is given by the $n^{th}$ Stasheff polytope/associahedron. Composition is given by the inclusion of faces.

@@ -31,7 +31,7 @@
     \newdef{Variance inflation factor}{\index{VIF}
         The VIF is an estimate for how much the variance of a coefficient is inflated by the multicollinearity in the model. The VIF of a coefficient $\beta_i$ is defined as follows:
         \begin{gather}
-            \text{VIF}_i = \frac{1}{1-R_i^2}
+            \text{VIF}_i := \frac{1}{1-R_i^2}
         \end{gather}
         where $R_i^2$ is the $R^2$-value obtained after regressing the predictor $X_i$ on all other predictors. The rule of thumb is that $\text{VIF}\geq10$ implies that a significant amount of multicollinearity is present in the model.
     }
@@ -238,19 +238,17 @@
     it is not hard to see that $\displaystyle\max_{\alpha,\beta;\beta_j\geq0}\mathcal{L}(x,\alpha,\beta) = \infty$ if any of the constraints is violated or $f(x)$ if all constraints are satisfied. If we denote this maximal value by $\theta_P(x)$, then we obtain an equivalent optimization problem:
     \newdef{Primal optimization problem}{
         \begin{gather}
-            \min_x\theta_P(x) = \min_x\max_{\alpha,\beta;\beta_i\geq0}\mathcal{L}(x,\alpha,\beta).
+            p^* := \min_x\theta_P(x) = \min_x\max_{\alpha,\beta;\beta_i\geq0}\mathcal{L}(x,\alpha,\beta).
         \end{gather}
-        For convenience we will denote this minimal value by $p^*$.
     }
     By interchanging the max and min operators in the primal formulation we obtain another problem:
     \newdef{Primal optimization problem}{
         \begin{gather}
-            \max_{\alpha,\beta;\beta_i\geq0}\theta_D(\alpha,\beta) = \max_{\alpha,\beta;\beta_i\geq0}\min_x\mathcal{L}(x,\alpha,\beta).
+            d^* := \max_{\alpha,\beta;\beta_i\geq0}\theta_D(\alpha,\beta) = \max_{\alpha,\beta;\beta_i\geq0}\min_x\mathcal{L}(x,\alpha,\beta).
         \end{gather}
-        For convenience we will denote this maximal value by $d^*$.
     }
 
-    By standard calculus we now that $\max\min\leq\min\max$ and hence that $d^*\leq p^*$. The difference $p^*-d^*$ is called the \textbf{duality gap} and if $d^*=p^*$ we say \textbf{strong duality} holds. The real question then becomes, "When does strong duality hold?" We only state the result that we are interested in:
+    By standard calculus we now that $\max\min\leq\min\max$ and hence that $d^*\leq p^*$. The difference $p^*-d^*$ is called the \textbf{duality gap} and if $d^*=p^*$ we say \textbf{strong duality} holds. The real question then becomes: ''\textit{When does strong duality hold?}'' We only state the result that we are interested in:
     \newdef{Slater conditions}{\index{Slater!conditions}
         Consider a convex optimization problem, i.e. a problem of the form \ref{data:constrained_optimization} where $f$ is convex, the $g_i$ are convex for all $i\leq m$ and the $h_i$ are affine for all $i\leq n$. This problem is said to satisfy the Slater condition(s) if there exists a value for $x$ such that $x$ is strictly \textbf{feasible}, i.e. $h_i(x)<0$ for all $i\leq n$.
     }
@@ -375,7 +373,7 @@
     \end{proof}
 
     \begin{formula}
-        Let $\mathcal{H}$ be an RKHS with kernel $k$. If $\{e_i\}_{i\leq\dim(\mathcal{H})}$ is an orthonormal basis for $\mathcal{H}$ then
+        Let $\mathcal{H}$ be an RKHS with kernel $k$. If $\{e_i\}_{i\leq\dim(\mathcal{H})}$ is an orthonormal basis for $\mathcal{H}$, then
         \begin{gather}
             k(x, y) = \sum_{i\leq\dim(\mathcal{H})}e_i(x)\overline{e_i(y)}.
         \end{gather}
@@ -406,8 +404,8 @@
         \begin{gather}
             k(x, y) = \langle\phi(x)|\phi(y)\rangle_{\mathcal{H}}.
         \end{gather}
+        When using Mercer's theorem the feature maps are given by $\phi_i:x\mapsto\sqrt{\lambda_i}e_i(x)$.
     }
-    When using Mercer's theorem the feature maps are given by $\phi_i:x\mapsto\sqrt{\lambda_i}e_i(x)$.
 
 \subsection{Decision boundaries}
 
@@ -447,7 +445,6 @@
     \begin{gather}
         y \equiv w^Tx + b = \sum_{i=1}^n\beta_iy_i\langle x_i|x \rangle + b.
     \end{gather}
-
     Two observations can be made now: First of all complementary slackness implies that the only relevant vectors $x_i$ in this calculation are the ones that satisfy $\gamma(x_i)=0$. These are called the \textbf{support vectors} and they give their name to a class of models called \textbf{support-vector machines} (SVMs)\index{support-vectopr machine}\nomenclature[A_SVM]{SVM}{support-vector machine}. Theseare the models that are trained using the above optimization problem. Furthermore, we can write $y$ in terms of an inner product. It is exactly this last observation that allows us to generalize the above model to nonlinear decision boundaries. From the previous section we know that inner products are equivalent to (Mercer) kernels. Hence by choosing nontrivial kernel functions we can implicitly work with nonlinear feature maps, this is often called the \textbf{kernel trick}. E.g. polynomial kernels represent feature maps from $x$ to monomials in the coefficients of $x$.
 
     As usually happens with data analysis algorithms, however, the procedure is sensitive to outliers. This is especially the case for kernels that are based on feature maps to infinite-dimensional spaces (e.g. the RBF kernel). To solve this problem we can introduce a regularization term to the cost function. The simplest such term for support-vector machines is a simple $\ell^1$-penalty:
@@ -524,7 +521,7 @@
         An important concept (especially in the context of autoregressive models) is that of a \textbf{lag polynomial}\footnote{The notation for these is not completely fixed in the literature. The $\theta$-notation is however a frequent choice.}:
         \begin{align}
             \theta(B) &= 1 + \sum_{i=1}^k \theta_iB^i\\
-            \varphi(B) &= 1 - \sum_{i=1}^k \varphi_iB^i
+            \varphi(B) &= 1 - \sum_{i=1}^k \varphi_iB^i.
         \end{align}
     }
     \newnot{Difference operator}{\index{difference}
@@ -555,25 +552,25 @@
         \begin{gather}
             DF = \frac{\gamma}{SE(\gamma)}
         \end{gather}
-        where $SE$ denotes the standard error. The null hypothesis states that $\gamma=0$, i.e. there is a \textit{unit root} $(1-B)$ present in the model. Comparing the test statistic to tabulated critical values will give an indication wheter to reject the hypothesis or not (the more negative the statistic the more significant the result).
+        where $SE$ denotes the standard error. The null hypothesis states that $\gamma=0$, i.e. there is a \textit{unit root} $(1-B)$ present in the model. Comparing the test statistic to tabulated critical values will give an indication whether to reject the hypothesis or not (the more negative the statistic the more significant the result).
     \end{method}
 
 \subsection{Autoregressive models}
 
-    \newdef{AR$(p)$-model}{\index{autoregressive model}
-        Consider a time series $\{X_t\}_{t\leq T}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1}, ..., X_{t-p}$ of the time series:
+    \newdef{$\text{AR}(p)$-model}{\index{autoregressive model}
+        Consider a time series $\{X_t\}_{t\leq T}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1},\ldots,X_{t-p}$ of the time series:
         \begin{gather}
             X_t = \beta_0 + \beta_1X_{t-1} + \cdots + \beta_pX_{t-p} + \varepsilon_t.
         \end{gather}
     }
 
     \newdef{Partial autocorrelation function}{
-        The $p^{th}$ autocorrelation function is defined as the $p^{th}$ coefficient in the AR$(p)$-model.
+        The $p^{th}$ autocorrelation function is defined as the $p^{th}$ coefficient in the $\text{AR}(p)$-model.
     }
     \remark{The optimal order $p$ of an autoregressive model is the one for which all higher partial autocorrelation functions (almost) vanish.}
 
-    \newdef{MA$(p)$-model}{\index{moving average}
-        Consider a time series $\{X_t\}_{t\leq T}$ where every $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0, \sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1}, ..., \varepsilon_{t-p}$ of the error term:
+    \newdef{$\text{MA}(p)$-model}{\index{moving average}
+        Consider a time series $\{X_t\}_{t\leq T}$ where every $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0, \sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1},\ldots,\varepsilon_{t-p}$ of the error term:
         \begin{gather}
             X_t = \beta_0 + \beta_1\varepsilon_{t-1} + \cdots + \beta_p\varepsilon_{t-p} + \varepsilon_t.
         \end{gather}
@@ -582,11 +579,11 @@
     \remark{The optimal order $p$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
 
     \newdef{Invertibility}{\index{invertibility}\index{stationarity}
-        An MA$(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e. $1/\theta(B)$ can be written as a convergent series in the operator $B$. This then implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the MA$(q)$-model as an AR$(p)$-model where possibly $p=\infty$. The analogous property for AR$(p)$-models leads to a definition of \textit{stationarity}.
+        An $\text{MA}(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e. $1/\theta(B)$ can be written as a convergent series in the operator $B$. This then implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the $\text{MA}(q)$-model as an $\text{AR}(p)$-model where possibly $p=\infty$. The analogous property for $\text{AR}(p)$-models leads to a definition of \textit{stationarity}.
     }
 
     In practice it is not always possible to describe a data set using either an autoregressive or a moving average model. However, nothing stops us from combining these two types of models:
-    \newdef{ARMA$(p, q)$-model}{
+    \newdef{$\text{ARMA}(p,q)$-model}{
         \nomenclature[A_ARMA]{ARMA}{Autoregressive moving-average model}
         \begin{gather}
             X_t = \alpha_0 + \sum_{i=1}^p\alpha_iX_{t-i} + \sum_{j=1}^q\beta_j\varepsilon_{t-j} + \varepsilon_t
@@ -594,7 +591,7 @@
         As above one can find the optimal values for $p$ and $q$ by checking the autocorrelation and partial autocorrelation functions.
     }
 
-    Using the lag polynomials one can rewrite the ARMA$(p, q)$-model as follows:
+    Using the lag polynomials one can rewrite the $\text{ARMA}(p,q)$-model as follows:
     \begin{gather}
         \varphi(B)X_t = \alpha_0 + \theta(B)\varepsilon_t.
     \end{gather}
@@ -613,11 +610,11 @@
     \remark{Including so-called \textit{exogenous} variables, i.e. external predictors, leads to an \textbf{ARIMA\underline{X}}-model.}
 
     \begin{remark}[Fitting AR- and MA-models]
-        As is clear from the definition of an AR$(p)$-model the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However in contrast to AR-models where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are by definition unknown.
+        As is clear from the definition of an $\text{AR}(p)$-model the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However in contrast to AR-models where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are by definition unknown.
     \end{remark}
     To estimate the coefficients in a MA-model people have introduced multiple techniques (see for example \cite{MA_fit}). One of the most famous ones is Durbin's method:
     \begin{method}[Durbin]\index{Durbin}
-        By restricting to invertible MA$(q)$-models (or by approximating a noninvertible model by an invertible one) we can first fit an AR$(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$. Then, in a second step, one can again use a least squares-method to solve for the coefficients in the MA-model.
+        By restricting to invertible $\text{MA}(q)$-models (or by approximating a noninvertible model by an invertible one) we can first fit an $\text{AR}(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$. Then, in a second step, one can again use a least squares-method to solve for the coefficients in the MA-model.
     \end{method}
 
     As a last modification we can introduce seasonal components. Simple trends such as a linear growth are easily removed from the time series by detrending or differencing. However, a periodic pattern is harder to remove and in general ARIMA-models are not made to accompany this type of features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations.
@@ -739,7 +736,7 @@
             where
             \begin{align*}
                 \alpha_j &:= A\big(\mathcal{B}(\mathcal{C}_k), (x_j, y_j)\big)\\
-                \alpha_n &:= A\big(\mathcal{B}(\mathcal{C}_k), (x_n, y)\big)
+                \alpha_n &:= A\big(\mathcal{B}(\mathcal{C}_k), (x_n, y)\big).
             \end{align*}
         \end{itemize}
         It is clear that for $k\ll|\mathcal{C}|$ the off-line ICP algorithm approximates the on-line version.

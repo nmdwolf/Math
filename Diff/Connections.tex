@@ -18,10 +18,9 @@
         \end{gather}
     \end{adefinition}
 
-    \begin{property}[Dimension]
+    \begin{property}[Dimension of vertical bundle]\label{diff:vertical_dimension}
         It follows from the second definition that the vertical vectors of a principal $G$-bundle are nothing but the pushforward of the Lie algebra $\mathfrak{g}$ under the right action of $G$ on $P$. Furthermore, the exactness of the sequence implies that $\iota_{p,\ast}:\mathfrak{g}\rightarrow\text{Vert}(T_pP)$ is an isomorphism of vector spaces. In particular, it implies that
         \begin{gather}
-            \label{manifolds:vertical_dimension}
             \dim\text{Vert}(T_pP) = \dim\mathfrak{g} = \dim G.
         \end{gather}
     \end{property}
@@ -62,15 +61,15 @@
 \subsection{Ehresmann connections}
 
     \newdef{Ehresmann connection}{\index{connection!Ehresmann}\index{horizontal!vector}\label{manifolds:connection}
-        Consider a smooth fibre bundle $P$. An (Ehresmann) connection on $P$ is the selection of a subspace $\text{Hor}(T_pP)\leq T_pP$ for every $p\in P$ such that:
+        Consider a smooth fibre bundle $E$. An (Ehresmann) connection on $E$ is the selection of a subspace $\text{Hor}(T_eE)\leq T_eE$ for every $e\in E$ such that:
         \begin{enumerate}
-            \item The horizontal and vertical bundles are complementary: $\text{Vert}(T_pP)\oplus\text{Hor}(T_pP) = T_pP$.
-            \item The choice of subspace depends smoothly on $p$.\footnote{See the definition of a (smooth) distribution \ref{manifolds:distribution}.}
+            \item The horizontal and vertical bundles are complementary: $\text{Vert}(T_eE)\oplus\text{Hor}(T_eE) = T_eE$.
+            \item The choice of subspace depends smoothly on $e\in E$.\footnote{See the definition of a (smooth) distribution \ref{manifolds:distribution}.}
         \end{enumerate}
-        The vectors in $\text{Hor}(T_pP)$ are said to be \textbf{horizontal} (with respect to the connection).
+        The vectors in $\text{Hor}(T_eE)$ are said to be \textbf{horizontal} (with respect to the connection).
     }
     \newdef{Horizontal bundle}{
-        The horizontal (sub)bundle $\text{Hor}(TP)$ is defined as $\bigsqcup_{p\in P}\text{Hor}(T_pP)$.
+        The horizontal (sub)bundle $\text{Hor}(TE)$ is defined as $\bigsqcup_{e\in E}\text{Hor}(T_eE)$.
     }
 
     \newdef{Principal connection}{\index{connection!principal}\label{manifolds:principal_connection}
@@ -84,32 +83,40 @@
     \end{remark}
 
     \begin{property}[Dimension]\label{manifolds:connection_dimensions}
-        Properties \ref{manifolds:principal_bundle_dimension} and \ref{manifolds:vertical_dimension} together with the direct sum decomposition of $T_pP$ imply the following relation:
+        Properties \ref{diff:principal_bundle_dimension} and \ref{diff:vertical_dimension}, together with the direct sum decomposition of $T_pP$, imply the following relation $\forall p\in P$:
         \begin{gather}
             \dim\text{Hor}(T_pP) = \dim M.
         \end{gather}
-        We briefly summarize all dimensional relations between the components of a principal $G$-bundle over a base manifold $M$:
+        We briefly summarize all dimensional relations between the data of a principal bundle $\prb$:
         \begin{align}
-            \dim P &= \dim M + \dim G\\
+            \dim P &= \dim M + \dim G\nonumber\\
             \dim M &= \dim\text{Hor}(T_pP)\\
-            \dim G &= \dim\text{Vert}(T_pP)
+            \dim G &= \dim\text{Vert}(T_pP)\nonumber
         \end{align}
         for all $p\in P$.
     \end{property}
 
+    \newdef{Dual connection}{\index{dual!connection}
+        First we define the dual of the horizontal bundle:
+        \begin{gather}
+            \text{Hor}(T_p^*P) := \big\{h\in T_p^*P:h(v)=0, v\in\text{Vert}(T_pP)\big\}.
+        \end{gather}
+        It is the set of 1-forms that vanish on the vertical subspace. A dual connection can then be defined as the selection of a vertical covector bundle $\text{Vert}(T_p^*P)$ satisfying the conditions of definition \ref{manifolds:connection} and \ref{manifolds:principal_connection} (where $\text{Vert}$ and $\text{Hor}$ should now be interchanged). Note that here the horizontal bundle is canonically defined.
+    }
+
     \newdef{Horizontal and vertical forms}{\index{horizontal!form}\index{vertical!form}\label{forms:horizontal_form}
-        Let $\theta\in\Omega^k(P)$ be a differential $k$-form. We can define the following notions:
+        Let $\theta\in\Omega^k(P)$ be a differential $k$-form.
         \begin{itemize}
             \item $\theta$ is said to be horizontal if
             \begin{gather}
                 \theta(v_1,\ldots,v_k) = 0
             \end{gather}
-            whenever at least 1 of the $v_i$ lives in $\text{Vert}(T_pP)$.
+            whenever at least one of the $v_i$ is in $\text{Vert}(T_pP)$.
             \item $\theta$ is said to be vertical if
             \begin{gather}
                 \theta(v_1,\ldots,v_k) = 0
             \end{gather}
-            whenever at least 1 of the $v_i$ lives in $\text{Hor}(T_pP)$.
+            whenever at least one of the $v_i$ is in $\text{Hor}(T_pP)$.
         \end{itemize}
         For functions $f\in\Omega^0(P)$ it is vacuously true that they are both vertical and horizontal.
     }
@@ -120,26 +127,19 @@
         \end{gather}
     }
 
-    \newdef{Dual connection}{\index{dual!connection}
-        First we define the dual of the horizontal bundle:
-        \begin{gather}
-            \text{Hor}(T_p^*P) := \big\{h\in T_p^*P:h(v)=0, v\in\text{Vert}(T_pP)\big\}.
-        \end{gather}
-        It is the set of 1-forms that vanish on the horizontal subspace. A dual connection can then be defined as the selection of a vertical covector bundle $\text{Vert}(T_p^*P)$ satisfying the conditions of definition \ref{manifolds:connection} and \ref{manifolds:principal_connection} (where $\text{Vert}$ and $\text{Hor}$ should now be interchanged).
-    }
-
 \subsection{Connection forms}
 
     \newdef{Connection one-form}{\index{connection!form}
-        Let $\prb$ be a principal bundle. A connection one-form, associated to a given principal connection, is a $\mathfrak{g}$-valued 1-form $\omega:\Gamma(TP)\rightarrow\mathfrak{g}$ that satisfies the following two conditions:
+        Let $P$ be a principal bundle $G$-bundle. A connection one-form, associated to a given principal connection, is a $\mathfrak{g}$-valued 1-form $\omega\in\Omega^1(P; \mathfrak{g})$ that satisfies the following two conditions:
         \begin{enumerate}
             \item \textbf{Cancellation of fundamental vector fields}:
             \begin{gather}
-                \omega(A^\#) = A
+                \omega(A^\#) = A,
             \end{gather}
+            and
             \item \textbf{$G$-equivariance}:
             \begin{gather}
-                \omega\circ R_{g, \ast} = \text{Ad}_{g^{-1}}\circ\omega
+                \omega\circ R_{g, \ast} = \text{Ad}_{g^{-1}}\circ\omega.
             \end{gather}
         \end{enumerate}
         The horizontal subspaces are then recovered as $\text{Hor}(T_pP) = \ker\omega|_p$.
@@ -153,33 +153,27 @@
     \end{formula}
 
     \begin{property}\index{connection!pullback}
-        Consider two principal $G$-bundles $P_1,P_2$. Let $\omega$ be a connection one-form on $P_1$ and let $F:P_1\rightarrow P_2$ be a bundle map. The map $F^*\omega$ defines an Ehresmann connection on $P_2$, called the \textbf{pullback connection}.
+        Consider two principal $G$-bundles $P_1,P_2$. Let $\omega$ be a connection one-form on $P_1$ and let $F:P_1\rightarrow P_2$ be a bundle map. The map $F^*\omega$ defines an principal connection on $P_2$, called the \textbf{pullback connection}.
     \end{property}
-
-    \newdef{Reducible connection}{\index{connection!reducible}\label{diff:prin:reducible_connection}
-        Consider a principal $G$-bundle $P$ equipped with a connection one-form $\omega$. If a bundle map $F$ induces an $H$-reduction of $P$ then the connection $\omega$ is said to be reducible if $F^*\omega$ takes values in $\mathfrak{h}$. A connection is said to be compatible with a bundle reduction if it is reducible (to that reduction).
-    }
 
 \subsection{Maurer-Cartan form}
 
     \newdef{Maurer-Cartan form}{\index{Maurer-Cartan!form}\index{Cartan!(connection) form|see{Maurer-Cartan}}
-        For every $g\in G$ we know that the tangent space $T_gG$ is isomorphic to $T_eG\equiv\mathfrak{g}$. A convenient isomorphism $T_gG\rightarrow\mathfrak{g}$ is given by the Maurer-Cartan form:
+        For every $g\in G$ we know that the tangent space $T_gG$ is isomorphic to $T_eG\equiv\mathfrak{g}$. A canonical isomorphism $T_gG\rightarrow\mathfrak{g}$ is given by the Maurer-Cartan form
         \begin{gather}
             \Omega := L_{g^{-1},\ast}.
         \end{gather}
     }
-
     \begin{construct}
-        Consider a one-point manifold $M = \{x\}$. When constructing a principal $G$-bundle over $M$ we see that the total space $P = \{x\}\times G$ can be identified with the structure group $G$. From the relations in property \ref{manifolds:connection_dimensions} it follows that the horizontal spaces are null-spaces (this trivially defines a smooth distribution and thus a connection according to \ref{manifolds:connection}) and that the vertical spaces are equal to the tangent spaces, i.e. $\text{Vert}(T_gG) = T_gG$ (where we used the association $P\cong G$).
+        Consider the one-point manifold $M=\ast$. When constructing a principal $G$-bundle over $M$ we see that the total space $P=\ast\times G$ can be identified with the structure group $G$. From the relations in property \ref{manifolds:connection_dimensions} it follows that the horizontal spaces are null-spaces (this trivially defines a smooth distribution and thus a connection according to \ref{manifolds:connection}) and that the vertical spaces are equal to the tangent spaces, i.e. $\text{Vert}(T_gG)=T_gG$ (where we used the association $P\cong G$).
 
-        The simplest way to define a connection form $\omega$ on this bundle would be the trivial projection $\mathbbm{1}_{TP}:TP\rightarrow TP=\text{Vert}(TP)$. However, the image of this map would be $T_gG$ and not $\mathfrak{g}$ as required. This can be solved by using the Maurer-Cartan form $\Omega:T_gG\rightarrow\mathfrak{g}$:
+        The simplest way to define a connection form $\omega$ on this bundle would be the trivial projection $\mathbbm{1}_{TP}:TP\rightarrow TP\equiv\text{Vert}(TP)$. However, the image of this map would be $T_gG$ and not $\mathfrak{g}$ as required. This can be solved by using the Maurer-Cartan form $\Omega:T_gG\rightarrow\mathfrak{g}$:
         \begin{gather}
             \omega(v) := \Omega(v).
         \end{gather}
     \end{construct}
-
     \begin{property}
-        The Maurer-Cartan form is the unique principal connection on the bundle $G\hookrightarrow G\rightarrow \{x\}$.
+        The Maurer-Cartan form is the unique principal connection on the bundle $G\hookrightarrow G\rightarrow\ast$.
     \end{property}
 
     \newdef{Darboux derivative}{\index{Darboux!derivative}\index{integral}\index{primitive}
@@ -187,48 +181,47 @@
         \begin{gather}
             \omega_f := f^*\Omega.
         \end{gather}
-        $f$ is said to be an \textbf{integral} or \textbf{primitive} of $\omega_f$.
+        The function $f$ is said to be an \textbf{integral} or \textbf{primitive} of $\omega_f$.
     }
     \begin{property}
-        If two functions $f,g:M\rightarrow G$ (where $M$ is assumed to be connected) have the same Darboux derivative then there exists an element $C\in G$ such that $f(x)=C\cdot g(x)$ for all $x\in M$.
+        If two functions $f,f':M\rightarrow G$ (where $M$ is assumed to be connected) have the same Darboux derivative, then there exists an element $g\in G$ such that $f(x)=g\cdot f'(x)$ for all $x\in M$.
     \end{property}
 
     \begin{theorem}[Fundamental theorem of calculus]\index{fundamental theorem!of calculus}\index{Maurer-Cartan!equation}
         Consider a smooth manifold $M$ and a Lie group $G$ with Lie algebra $\mathfrak{g}$. If $\omega:TM\rightarrow\mathfrak{g}$ satisfies the Maurer-Cartan equation
         \begin{gather}
-            d\omega + \frac{1}{2}[\omega\wedge\omega] = 0
+            d\omega + \frac{1}{2}[\omega\wedge\omega] = 0,
         \end{gather}
-        then there exists (locally) a smooth function $f:M\rightarrow G$ such that $\omega = f^*\Omega$.
+        then (locally) there exists a smooth function $f:M\rightarrow G$ such that $\omega = f^*\Omega$.
     \end{theorem}
 
 \subsection{Local representations}
 
     \newdef{Yang-Mills field}{\index{Yang-Mills!field}\label{diff:prin:yang_mills_field}
-        Consider a principal bundle $\prb$ and an open subset $U\subseteq M$. Given a principal connection $\omega$ on $P$ and a local section $\sigma:U\rightarrow P$, we define the Yang-Mills field $\omega^U:\Gamma(TU)\rightarrow\mathfrak{g}$ as follows:
+        Consider a principal $G$-bundle $P\rightarrow M$ and an open subset $U\subseteq M$. Given a principal connection $\omega$ on $P$ and a local section $\sigma:U\rightarrow P$, we define the Yang-Mills field $\omega^U\in\Omega^1(U; \mathfrak{g})$ as follows:
         \begin{gather}
             \omega^U := \sigma^*\omega.
         \end{gather}
     }
-
     \newdef{Local representation}{
-        Consider a principal bundle $\prb$ and let $(U, \varphi)$ be a bundle chart on $P$. The local representation of a principal connection $\omega$ on $P$ with respect to the chart $(U, \varphi)$ is given by $(\varphi^{-1})^*\omega$.
+        Consider a principal bundle $P\rightarrow M$ and let $(U,\varphi)$ be a bundle chart on $P$. The local representation of a principal connection $\omega$ on $P$ with respect to the chart $(U,\varphi)$ is defined as $(\varphi^{-1})^*\omega$.
     }
 
     \begin{formula}
-        Consider a principal connection $\omega$ on a principal bundle $\prb$. Because of property \ref{diff:prin_section_triv} every local section $\sigma:U\rightarrow P$ induces both a Yang-Mills field $\omega^U$ and a local representation of $\omega$. These two forms are related by the following equation:
+        Consider a principal connection $\omega$ on a principal $G$-bundle $P\rightarrow M$. Because of property \ref{diff:prin_section_triv} every local section $\sigma:U\rightarrow P$ induces both a Yang-Mills field $\omega^U$ and a local representation of $\omega$. These two forms are related by the following equation:
         \begin{gather}
-            \varphi^*\omega_{(m, g)}(v, X) = \text{Ad}_{g^{-1}}(\omega^U_m(v)) + \Omega_g(X)
+            \sigma^*\omega|_{(m, g)}(v, X) = \text{Ad}_{g^{-1}}(\omega^U_m(v)) + \Omega_g(X)
         \end{gather}
-        where $v\in T_mU$, $X\in\mathfrak{g}$, $\Omega$ is the Maurer-Cartan form on $G$ and $\varphi$ is the local trivialization induced by $\sigma$.
+        where $v\in T_mU$, $X\in\mathfrak{g}$ and $\Omega$ is the Maurer-Cartan form on $G$.
     \end{formula}
 
     \begin{formula}[Compatibility condition]
-        Consider a principal bundle $\prb$ and two open subsets $U, V$ of $M$. Given two local sections $\sigma_U:U\rightarrow P$ and $\sigma_V:V\rightarrow P$ and a principal connection $\omega$ on $P$, we can define two Yang-Mills field $\omega^U$ and $\omega^V$ on $M$.
+        Consider a principal $G$-bundle $P\rightarrow M$ and two open subsets $U,V$ of $M$. Given two local sections $\sigma_U:U\rightarrow P$, $\sigma_V:V\rightarrow P$ and a principal connection $\omega$ on $P$, we can define two Yang-Mills field $\omega^U$ and $\omega^V$.
 
         On the intersection $U\cap V\subset M$ we can find a (unique) gauge transformation $\xi:U\cap V\rightarrow G$ such that $\sigma_V(m) = \sigma_U(m)\cdot\xi(m)$. Using this gauge transformation we can relate $\omega^U$ and $\omega^V$ as follows:
         \begin{gather}
             \label{diff:prin:local_compatibility}
-            \omega^V_m = \text{Ad}_{\xi(m)^{-1}}\omega^U_m + (\xi^*\Omega)_m
+            \omega^V|_m = \text{Ad}_{\xi(m)^{-1}}\omega^U|_m + \xi^*\Omega|_m
         \end{gather}
         where $\Omega$ is the Maurer-Cartan form on $G$.
     \end{formula}
@@ -256,11 +249,11 @@
 \subsection{Parallel transport}
 
     \begin{definition}[Horizontal lift]\index{horizontal!lift}
-        Consider a principal bundle $\prb$ and a curve $\gamma:[0, 1]\rightarrow M$. Given an Ehresmann connection $\text{Hor}$, for every point $p_0\in \pi^{-1}(\gamma(0))$ there exists a unique curve $\widetilde{\gamma}_{p_0}:[0, 1]\rightarrow P$ satisfying the following conditions:
+        Consider a principal bundle $\prb$ and a curve $\gamma:[0,1]\rightarrow M$. Given an Ehresmann connection $\text{Hor}$, for every point $p_0\in \pi^{-1}(\gamma(0))$ there exists a unique curve $\widetilde{\gamma}_{p_0}:[0,1]\rightarrow P$ satisfying the following conditions:
         \begin{enumerate}
-            \item $\widetilde{\gamma}_{p_0}(0) = p_0$
-            \item $\pi\circ\widetilde{\gamma}_{p_0} = \gamma$
-            \item $\widetilde{\gamma}_{p_0}'(t)\in\text{Hor}(T_{\widetilde{\gamma}_{p_0}(t)}P)$ for all $t\in[0, 1]$.
+            \item $\widetilde{\gamma}_{p_0}(0) = p_0$,
+            \item $\pi\circ\widetilde{\gamma}_{p_0} = \gamma$, and
+            \item $\widetilde{\gamma}_{p_0}'(t)\in\text{Hor}(T_{\widetilde{\gamma}_{p_0}(t)}P)$ for all $t\in[0,1]$.
         \end{enumerate}
         The curve $\widetilde{\gamma}_{p_0}$ is called the \textbf{horizontal lift} of $\gamma$ starting at $p_0$. When it is clear from the context what the basepoint $p_0$ is, the subscript is often omitted and we write $\widetilde{\gamma}$ instead of $\widetilde{\gamma}_{p_0}$.
     \end{definition}
@@ -310,27 +303,44 @@
         \end{gather}
         where $A$ is the Yang-Mills field associated to the local section $\sigma$. This can be rewritten using the standard ''square integration'' trick\footnote{Well-known from the Dyson series \ref{QM:dyson_series}.} as
         \begin{gather}
-            g(t) = \left[I - \int_0^tdt_1A(\gamma'(t_1)) + \frac{1}{2!}\int_0^tdt_1\int_0^{\textcolor{red}{t}}dt_2\mathcal{T}\Big(A(\gamma'(t_1))A(\gamma'(t_2))\Big)-\ldots\right]g(0).
+            g(t) = \left[I - \int_0^tdt_1A(\gamma'(t_1)) + \frac{1}{2!}\int_0^tdt_1\int_0^tdt_2\mathcal{T}\Big(A(\gamma'(t_1))A(\gamma'(t_2))\Big)-\ldots\right]g(0).
         \end{gather}
         By noting that this formula is equal to the path-ordered exponential series we find
         \begin{gather}
+            \label{diff:g0_to_gt}
             g(t) = \mathcal{T}\exp\left(-\int_0^tdt'A(\gamma'(t'))\right)g(0).
         \end{gather}
     \end{method}
 
     \newdef{Parallel transport}{\index{parallel transport!on principal bundles}
-        \nomenclature[O_Par]{$\text{Par}_t^\gamma$}{Parallel transport map with respect to the curve $\gamma$.}
+        \nomenclature[O_Par]{$\text{Par}_t^\gamma$}{parallel transport map with respect to the curve $\gamma$}
         The parallel transport map along the curve $\gamma$ is defined as follows:
         \begin{gather}
             \text{Par}_t^\gamma:\pi^{-1}(\gamma(0))\rightarrow\pi^{-1}(\gamma(t)):p_0\mapsto \widetilde{\gamma}_{p_0}(t).
         \end{gather}
-        This map is $G$-equivariant and it is an isomorphism of fibres.
+        This map is $G$-equivariant and it is an isomorphism of fibres. The group element given by the path-ordered exponential in equation \ref{diff:g0_to_gt} is generally called the holonomy along the curve $\gamma$.
     }
 
-\subsection{Holonomy}
+    Using the above constructions that assign Lie group elements to paths we can give an alternative definition of principal connections:
+    \newadef{\difficult{Principal connection}}{\index{connection!principal}\label{diff:holonomy_functor}
+        Let $M$ be a smooth manifold and consider its path groupoid\footnote{See definition \ref{hdg:path_groupoid} for a rigorous exposition.} $\mathcal{P}_1(M)$ which has the points of $M$ as objects and homotopy classes of smooth paths in $M$ as morphisms. Let $\prb$ be a principal $G$-bundle over $M$ and denote the delooping \ref{cat:group_delooping} of $G$ by $\mathbf{B}G$. The assignment of holonomies to smooth paths locally defines a functor
+        \begin{gather}
+            \text{hol}_i:\mathcal{P}_1(U_i)\rightarrow\mathbf{B}G
+        \end{gather}
+        for every chart $U_i\subset M$. Globally these can be glued together using the transition cocycles $g_{ij}$ (in there incarnation as natural isomorphisms) to obtain a functor
+        \begin{gather}
+            \text{hol}:\mathcal{P}_1(M)\rightarrow\mathbf{Trans}_1(P)\subset G\mathbf{Torsor}
+        \end{gather}
+        where $\text{Trans}_1(P)$ is the full subcategory of the category of $G$-torsors on the fibres of $P$ (see also remark \ref{diff:fibre_torsor}).
+
+        It can be shown that any functor of this type gives rise to a principal connection on $P$ and, conversely, every principal connection gives rise to a holonomy functor through the parallel transport constructions as given in this section.
+        ?? COMPLETE ??
+    }
+
+\subsection{Holonomy group}
 
     \newdef{Holonomy group}{\index{holonomy}
-        \nomenclature[S_Hol]{$\text{Hol}_p(\omega)$}{Holonomy group at $p$ with respect to the connection $\omega$.}
+        \nomenclature[S_Hol]{$\text{Hol}_p(\omega)$}{holonomy group at $p$ with respect to the connection $\omega$}
         Consider a principal bundle $\prb$ and choose a point $m\in M$. Let $\Omega^{ps}_mM\subset\Omega_m M$ be the subset of the based loop space consisting of piecewise smooth loops with basepoint $m\in M$. The holonomy group $\text{Hol}_p(\omega)$ based at $p\in\pi^{-1}(m)$ with respect to the connection form $\omega$ is given by
         \begin{gather}
             \text{Hol}_p(\omega) := \{g\in G: p \sim p\cdot g\}
@@ -341,21 +351,15 @@
         The reduced holonomy group $\text{Hol}_p^0(\omega)$ is defined as the subset of $\text{Hol}_p(\omega)$ consisting of contractible loops.
     }
 
-    \newdef{Holonomy bundle}{
+    \newdef{Holonomy bundle}{\index{holonomy!bundle}
         Let $M$ be a smooth path-connected manifold. Consider a principal bundle $P$ over $M$ with principal connection $\omega$. We can equip $P$ with an equivalence relation $\sim$ such that $p\sim q$ if and only if there exists a horizontal curve connecting $p$ and $q$. For every point $p\in P$ one can then construct the following set:\footnote{Path-connectedness of the base manifold implies that $H(p)$ and $H(q)$ are isomorphic for all $p,q\in P$.}
         \begin{gather}
             H(p) := \{q\in P: p\sim q\}.
         \end{gather}
         It can be shown that this set is in fact a principal bundle itself with structure group $\text{Hol}_p(\omega)$.
     }
-    \begin{property}
-        The holonomy bundle $H(p)$ is a reduction of $P$. Furthermore, the connection $\omega$ is reducible to $H(p)$ and one can prove that this reduction is minimal, i.e. there exists no further reduction of $H(p)$ (and hence of $\omega$).
-    \end{property}
-    \begin{result}\label{diff:prin:reducible_holonomy}
-        From the above construction and property we can conclude that a ''nice'' principal bundle (and associated connection) is irreducible (to a subgroup of the structure group\footnote{Lifts as in the case of spin-structures do not fall under the holonomy classification.}) if and only if it coincides with its holonomy bundle.
-    \end{result}
 
-\section{Covariant derivatives}
+\section{Covariant derivatives}\label{section:covariant_derivatives}
 \subsection{Koszul connections}
 
     \newdef{Horizontal lifts on associated bundles}{\index{horizontal!lift}
@@ -439,7 +443,7 @@
                 &+ \sum_{i<j}^k(-1)^{i+j}\theta([v_i, v_j], v_0, ..., \hat{v}_i, ..., \hat{v}_j, ..., v_k)
             \end{aligned}
         \end{gather}
-        where as usual  $\hat{v}_i$ means that this vector is omitted. As an example we explicitly give the formula for a 1-form $\Phi$:
+        where as usual  $\hat{v}_i$ means that this vector is omitted. As an example we explicitly give the formula for a one-form $\Phi$:
         \begin{gather}
             D\Phi(X, Y) = \nabla_X(\Phi(Y)) - \nabla_Y(\Phi(X)) - \Phi([X, Y]).
         \end{gather}
@@ -471,10 +475,6 @@
         \end{gather}
         This is exactly the formula known from classic differential geometry and relativity.
     \end{example}
-
-    \begin{property}\label{diff:prin:connection_reducibility}
-        Consider a principal bundle $\prb$ together with a reduction $P_f$ induced by an equivariant morphism $\psi:P\rightarrow F$ (where $f\in F$). A principal connection on $P$ is reducible to $P_f$ if and only if $\psi$ is parallel with respect to this connection, i.e. $D\psi = 0$.
-    \end{property}
 
 \subsection{Curvature}
 
@@ -573,9 +573,9 @@
     For the following form of the splitting principle, see \cite{may_splitting, debray_characteristic}.
     \begin{theorem}[Splitting principle\footnotemark]
         \footnotetext{Sometimes called the \textbf{generalized splitting principle}.}
-        Consider a principal bundle $\prin{G}{P}{M}$ where the structure group $G$ is compact. Every compact Lie group contains a maximal torus $T\cong\mathbb{T}^n$ (where $\mathbb{T}$ is the standard 1-torus $S^1\cong\text{U}(1)$). The inclusion $\iota:T\hookrightarrow G$ induces a $G$-bundle\footnote{The total space $EG$ clearly admits a free $T$-action and hence $BT:=EG/T$ can serve as a classifying space for $T$.} $B\iota:BT\rightarrow BG$ with fibre $G/T$ and the pullback of $B\iota$ along the classifying map $p\in[M, BG]$ of $P$ defines another $G$-bundle $\rho:p^*B\iota\rightarrow M$ (also with fibre $G/T$). This fibre bundle has the following properties:
+        Consider a principal bundle $\prin{G}{P}{M}$ where the structure group $G$ is compact. Every compact Lie group contains a maximal torus $T\cong\mathbb{T}^n$ where $\mathbb{T}$ is the standard 1-torus $S^1\cong\text{U}(1)$. The inclusion $\iota:T\hookrightarrow G$ induces a $G$-bundle\footnote{The total space $EG$ clearly admits a free $T$-action and hence $BT:=EG/T$ can serve as a classifying space for $T$.} $B\iota:BT\rightarrow BG$ with fibre $G/T$ and the pullback of $B\iota$ along the classifying map $p\in[M, BG]$ of $P$ defines another $G$-bundle $\rho:p^*B\iota\rightarrow M$ (also with fibre $G/T$). This fibre bundle has the following properties:
         \begin{itemize}
-            \item $\rho^*p$ admits a reduction of the structure group to $T$.
+            \item $\rho^*p$ admits a reduction of the structure group to $T$ (see section \ref{section:G-structure} further below).
             \item The induced cohomology map $\rho^*:H^*(M)\rightarrow H^*(\rho^*P)$ is injective.
         \end{itemize}
     \end{theorem}
@@ -693,7 +693,7 @@
         where $E^{\mathbb{C}}$ is the complexification of $E$.
     }
 
-    When the vector bundles in question are orientable we can further reduce the structure group to $\text{SO}(n)$. If the rank is even then we can define the following characteristic class:
+    When the vector bundles in question are orientable we can further reduce the structure group to $\text{SO}(n)$ as explained in section \ref{section:G-structure} further below. If the rank is even then we can define the following characteristic class:
     \newdef{Euler class}{\index{Euler!class}
         Let $\bundle$ be an orientable vector bundle of rank $2k$. The Euler class of $E$ is defined as follows:
         \begin{gather}
@@ -753,18 +753,18 @@
     \newdef{Model geometry}{\index{model!geometry}
         A model geometry consists of the following data:
         \begin{enumerate}
-            \item An effective Klein pair $(\mathfrak{g}, \mathfrak{h})$.
-            \item A Lie group $H$ such that $\text{Lie}(H)=\mathfrak{h}$.
-            \item A representation $\text{Ad}:H\rightarrow\text{Aut}(\mathfrak{g})$ that restricts to the adjoint representation $\text{Ad}_H:H\rightarrow\text{Aut}(\mathfrak{h})$.
+            \item an effective Klein pair $(\mathfrak{g},\mathfrak{h})$,
+            \item a Lie group $H$ such that $\text{Lie}(H)=\mathfrak{h}$, and
+            \item a representation $\text{Ad}:H\rightarrow\text{Aut}(\mathfrak{g})$ that restricts to the adjoint representation $\text{Ad}_H:H\rightarrow\text{Aut}(\mathfrak{h})$.
         \end{enumerate}
     }
 
     \newdef{Local Klein geometry}{
         A local Klein geometry consists of the following data:
         \begin{enumerate}
-            \item A Lie group $G$.
-            \item A closed subgroup $H\subset G$.
-            \item A subgroup $\Gamma\subset G$ acting by covering transformations on $G/H$ such that the left coset space $\Gamma\backslash G/H$ is connected.
+            \item a Lie group $G$,
+            \item a closed subgroup $H\subset G$, and
+            \item a subgroup $\Gamma\subset G$ acting by covering transformations on $G/H$ such that the left coset space $\Gamma\backslash G/H$ is connected.
         \end{enumerate}
     }
 
@@ -774,8 +774,8 @@
     \begin{property}[Lie group]\index{complete!connection}
         Let $M$ be a smooth manifold and let $\mathfrak{g}$ be a Lie algebra. Assume that $M$ comes equipped with a $\mathfrak{g}$-valued one-form $\omega$ satisfying the following conditions:
         \begin{enumerate}
-            \item \textbf{Maurer-Cartan equation}: $d\omega + \frac{1}{2}[\omega,\omega]=0$
-            \item \textbf{Soldering}: $\omega$ restricts to an isomorphism on every fibre.
+            \item \textbf{Maurer-Cartan equation}: $d\omega + \frac{1}{2}[\omega,\omega]=0$,
+            \item \textbf{Soldering}: $\omega$ restricts to an isomorphism on every fibre, and
             \item \textbf{Completeness}: $\omega$ is complete, i.e. every vector field that maps constantly to $\mathfrak{g}$ complete.
         \end{enumerate}
         The universal cover $p:\widetilde{G}\rightarrow M$ has the structure of a $G$-torsor, where $G$ is a Lie group with Lie algebra $\mathfrak{g}$. Furthermore, the pullback $p^*\omega$ coincides with the Maurer-Cartan form on $G$.
@@ -822,3 +822,49 @@
         Furthermore, the Cartan geometry $\pi:P\rightarrow M$ gives a reduction of the frame bundle $FM$ (induced by the solder form $\omega_{\mathfrak{m}}$).
     \end{property}
     ?? COMPLETE ??
+
+\section{Reduction of the structure group}\label{section:G-structure}
+
+    \newdef{Reduction}{\index{reduction}
+        Consider a principal bundle $\prin{G}{P}{M}$ and let $H$ be a subgroup of $G$. If the transition functions of $P$ can be chosen to take values in $H$, we say that the structure group $G$ can be reduced to $H$.
+
+        More generally, a principal bundle $\prin{H}{\widetilde{P}}{M}$ with structure group $H$ is an $H$-reduction of $P$ if there exists a vertical bundle morphism $\widetilde{P}\rightarrow P$. This allows for morphisms besides inclusions, such as covering maps $\lambda:H\rightarrow G$. (See for example the definition of spinor bundles in section \ref{section:spinor_bundles}.) As such the name ''reduction'' is not the best choice of terminology. For covering maps the term \textbf{lift(ing)} is sometimes used.
+    }
+
+    \newdef{$G$-structure}{\index{G!structure}
+        Consider a manifold $M$. A $G$-structure on $M$ is the reduction of the structure group GL$(n)$ of the frame bundle $F(M)$ to the group $\iota:G\rightarrow\text{GL}(n)$.
+    }
+    \newdef{Integrability}{\index{integrable!$G$-structure}
+        Consider a $G$-structure $\prin{G}{\widetilde{P}}{M}$. It is said to be integrable if for every point $m\in M$ there exists a chart $U\ni m$ such that the associated holonomic frame $\{\partial_i\}_{i\leq\dim(M)}$ induces a local section of $P$.
+    }
+
+    \begin{example}[Orientable manifold]\label{diff:orientable_structure}\index{orientation}
+        An $n$-dimensional manifold is orientable if and only if the structure group can be reduced to $\text{GL}^+(n)$, the group of invertible matrices with positive determinant. Furthermore, this structure is always integrable if it exists.
+    \end{example}
+    \begin{example}[Riemannian manifold]
+        An $\text{O}(n)$-structure turns $M$ into a Riemannian manifold \ref{riemann:riemannian_manifold}. Because the cotangent bundle $T^*M$ transforms under the contragredient representation\footnote{which coincides with the regular representation in the case of $\text{O}(n)$} of the transition maps of the tangent bundle $TM$, these two bundles are equivalent. The isomorphism is given by the musical isomorphism(s) \ref{riemann:musical_isomorphisms}.
+    \end{example}
+
+    The following property gives a classification of reductions in terms of equivariant morphisms:
+    \begin{property}\label{diff:prin:reduction_classification}
+        Consider a principal $G$-bundle $P$ and let $F$ be a space that admits a transitive action $\varphi:G\rightarrow\text{Aut}(F)$. For every $f\in F$ and every equivariant morphism $\psi:P\rightarrow F$, there exists a reduction of $G$ to the isotropy subgroup $G_f$ defined by
+        \begin{gather}
+            P_f := \{p\in P:\psi(p) = f\}.
+        \end{gather}
+        We can generalize this definition to arbitrary Lie group actions by restricting to the equivariant morphisms that take value in a single orbit.\footnote{Since transitive actions have a unique orbit this is a well-defined generalization.} Furthermore, we can restrict to the case where $F$ is a vector space without loss of generality (at least in the finite-dimensional case).
+    \end{property}
+
+    \newdef{Reducible connection}{\index{connection!reducible}\label{diff:prin:reducible_connection}
+        Consider a principal $G$-bundle $P$ equipped with a connection one-form $\omega$. If a bundle map $F$ induces an $H$-reduction of $P$, then the connection $\omega$ is said to be reducible (and to be compactible with the given reduction) if $F^*\omega$ takes values in $\mathfrak{h}$.
+    }
+    \begin{property}\label{diff:prin:connection_reducibility}
+        Consider a principal bundle $P$ together with a reduction $P_f$ induced by an equivariant morphism $\psi:P\rightarrow F$ (where $f\in F$). A principal connection on $P$ is reducible to $P_f$ if and only if $\psi$ is parallel with respect to this connection, i.e. $D\psi = 0$.
+    \end{property}
+
+    The following two properties characterize bundle reductions in terms of holonomy bundles:
+    \begin{property}[Holonomy bundles and reductions]
+        The holonomy bundle $H(p)$ is a reduction of $P$. Furthermore, the connection $\omega$ is reducible to $H(p)$ and one can prove that this reduction is minimal, i.e. there exists no further reduction of $H(p)$ (and hence of $\omega$).
+    \end{property}
+    \begin{result}\label{diff:prin:reducible_holonomy}
+        From the above construction and property we can conclude that a principal bundle (and any associated connection) is irreducible to a subgroup of the structure group\footnote{Lifts as in the case of Spin-structures do not fall under the holonomy classification.} if and only if it is equivalent to its holonomy bundle.
+    \end{result}

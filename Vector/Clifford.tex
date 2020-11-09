@@ -27,7 +27,7 @@
     \end{construct}
 
     \begin{remark}
-        Looking at definition \ref{tensor:adef_exterior_algebra} we see that the exterior algebra $\Lambda^*(V)$ coincides with the Clifford algebra $C\ell(V, 0)$. If $Q\neq0$ then the two algebras are still isomorphic as vector spaces (if\footnote{This condition will often come back in this chapter.} $\text{char}(V)\neq2$).
+        Looking at definition \ref{tensor:adef_exterior_algebra} we see that the exterior algebra $\Lambda^\bullet(V)$ coincides with the Clifford algebra $C\ell(V, 0)$. If $Q\neq0$ then the two algebras are still isomorphic as vector spaces (if\footnote{This condition will often come back in this chapter.} $\text{char}(V)\neq2$).
     \end{remark}
 
     \begin{property}[Dimension]
@@ -105,7 +105,7 @@
         \end{align}
     \end{formula}
 
-\section{Classification of Clifford algebras}
+\section{Classification}
 
     \begin{formula}[Dimensional reduction]
         \begin{gather}
@@ -123,14 +123,65 @@
         \end{gather}
     \end{formula}
 
-    The following theorem has deep implications in K-theory. It is also (through K-theory) related to the \textit{tenfold way} of Altland \& Zirnbauer in condensed matter physics
-    \begin{theorem}[Bott periodicity]\index{Bott!periodicity}
+    The following theorem has deep implications in $K$-theory. It is also (through $K$-theory) related to the \textit{tenfold way} of \textit{Altland} \& \textit{Zirnbauer} in condensed matter physics
+    \begin{theorem}[Bott periodicity]\index{Bott!periodicity}\label{clifford:bott_periodicity}
         The classification of (real) Clifford algebras is periodic modulo 8:
         \begin{gather}
-            \mathbb{R}_{p, q+8}\cong\mathbb{R}_{p+8, q}\cong\mathbb{R}_{p, q}\otimes M_{16}(\mathbb{R}).
+            \mathbb{R}_{p,q+8}\cong\mathbb{R}_{p+8,q}\cong\mathbb{R}_{p,q}\otimes M_{16}(\mathbb{R}).
         \end{gather}
         For complex Clifford algebras one has a similar statement, but with periodicity 2.
     \end{theorem}
+
+\subsection{\difficult{Bott periodicity in category theory}}\label{section:clifford_bott}
+
+    Bott periodicity also has some implications in category theory. Here we will use the language of section \ref{section:abelian_categories}. Furthermore, we will restrict to a specific kind of category:
+    \newdef{Banach category}{\index{Banach!category}
+        An additive category enriched over (real) Banach spaces.
+    }
+
+    For every Banach category $\mathbf{C}$ and finite-dimensional $\mathbb{R}$-algebra $A$ we define the category $\mathbf{C}^A$ as follows:
+    \begin{enumerate}
+        \item The objects are pairs $(X,\rho)$ where $X\in\ob{C}$ and $\rho:A\rightarrow\text{End}(X)$ is an $A$-representation on $X$.
+        \item The morphisms are $A$-equivariant morphisms/intertwiners.
+    \end{enumerate}
+    \begin{notation}
+        For brevity we introduce specific notations for the cases $A=\mathbb{R}_{p,q}$ and $A=M_n(\mathbb{R})$: $\mathbf{C}^{p,q}$ and $\mathbf{C}(n)$.
+    \end{notation}
+
+    \begin{property}[Morita equivalence]\index{Morita equivalence}
+        Every pseudo-Abelian Banach category $\mathbf{C}$ is equivalent to $\mathbf{C}(n)$ for all $n\in\mathbb{N}$.
+    \end{property}
+
+    \begin{property}
+        For $A,B$ two finite-dimensional $\mathbb{R}$-algebras and $\mathbf{C}$ a pseudo-Abelian Banach category we have the following equivalences of categories:
+        \begin{align}
+            \mathbf{C}^{A\oplus B}&\cong\mathbf{C}^A\times\mathbf{C}^B\\
+            \mathbf{C}^{A\otimes B}&\cong\left(\mathbf{C}^A\right)^B.
+        \end{align}
+    \end{property}
+    \begin{property}[Bott periodicity]\label{clifford:bott_periodicity_category}
+        For $\mathbf{C}$ a pseudo-Abelian real Banach category, the equivalence classes of categories $\mathbf{C}^{p,q}$ are determined by $p-q\mod8$.
+    \end{property}
+
+    \begin{construct}[Grothendieck group of a Banach functor]\index{Grothendieck!group}\label{clifford:functor_k_group}
+        Consider a Banach functor $\func{\varphi}{C}{C'}$ between Banach categories, i.e. a functor that acts linearly and continuously on hom-spaces. Furthermore, assume that $\varphi$ is \textit{quasi-surjective}, i.e. every object in $C'$ is a direct summand of an object in the image of $\varphi$. To this functor we can assign an Abelian group $K(\varphi)$ as follows:
+
+        \qquad Let $\mathscr{V}(\varphi)$ denote the set of triples $(X,Y,f)$ where $X,Y\in\ob{C}$ and $f:\varphi(X)\rightarrow\varphi(Y)$ is an isomorphism. Elements in $\mathscr{V}(\varphi)$ are said to be isomorphic if there exist isomorphisms in $\mathbf{C}$ that make the ''obvious'' diagram in $\mathbf{C'}$ commute. The sum of such triples is defined elementwise. Let $\mathscr{E}(\varphi)$ denote the subset of $\mathscr{V}(\varphi)$ consisting of triples $(X,Y,f)$ where $X=Y$ and $f$ is homotopic to $\mathbbm{1}_{\varphi(X)}$ in $\text{Aut}(\varphi(X))$. The group $K(\varphi)$ is defined as the quotient of $\mathscr{V}(\varphi)$ by the following equivalence relation:
+        \begin{gather}
+            v\sim v' \iff \exists e,e'\in\mathscr{E}(\varphi):v+e\cong_{\mathscr{V}} v'+e'.
+        \end{gather}
+    \end{construct}
+
+    \newdef{$K^{p,q}$}{
+        Consider a pseudo-Abelian Banach category $\mathbf{C}$. The group $K^{p,q}(\mathbf{C})$ is defined as the Grothendieck group of the canonical functor $\mathbf{C}^{p+1,q}\rightarrow\mathbf{C}^{p,q}$ (this functor is sometimes called "restriction of scalars" since it is contravariantly induced by the inclusion $\mathbb{R}_{p,q}\hookrightarrow\mathbb{R}_{p+1,q}$). It follows from Bott periodicity that these groups only depend on $p-q\mod8$.
+    }
+    \begin{example}[$K^{0,0}(\mathbf{C})$]\label{clifford:k00}
+        The functor $\mathbf{C}^{1,0}\rightarrow\mathbf{C}^{0,0}$ is (up to equivalence) the direct sum functor $\mathbf{C}\times\mathbf{C}\rightarrow\mathbf{C}:(X,Y)\mapsto X\oplus Y$.
+    \end{example}
+
+    \begin{remark}[Complex spaces]\label{clifford:complex_bott_periodicity}
+        The above constructions can also be done in the setting of complex Banach spaces and complex algebras. However, Bott periodicity will then give a $p-q\mod2$ classification.
+    \end{remark}
 
 \section{Pin group}
 \subsection{Clifford group}
@@ -177,13 +228,13 @@
     \begin{property}
         Let us now restrict to the case where $V$ is finite-dimensional and $Q$ is nondegenerate. If we interpret the condition $\chi_s(v)\in V$ as stating the existence of a linear transformation\footnote{Here we use the isomorphism between the degree-1 subspace of $C\ell(V)$ and $V$ itself.} $L\in\text{End}(V)$ such that
         \begin{gather}
-            se_i\hat{s}^{-1} = L^j_ie_j
+            se_i\hat{s}^{-1} = L^j_ie_j,
         \end{gather}
-        then we see that $L$ preserves the norm on $V$ and accordingly that the map $s\mapsto L$ defines a surjective homomorphism\footnote{In char$(K)\neq2$, the surjectiveness of the map $\chi$ follows from the \textit{Cartan-Dieudonn\'e theorem}. For characteristic 2 one prove that the surjectiveness holds using different methods.}
+        we see that $L$ preserves the norm on $V$ and accordingly that the map $s\mapsto L$ defines a surjective homomorphism\footnote{In char$(K)\neq2$, the surjectiveness of the map $\chi$ follows from the \textit{Cartan-Dieudonn\'e theorem}. For characteristic 2 one prove that the surjectiveness holds using different methods.}
         \begin{gather}
             \rho:\Gamma(V, Q)\rightarrow\text{O}(V, Q): s\mapsto L.
         \end{gather}
-        Being a group morphism to a matrix group acting on $V$, it defines a representation called the \textbf{vector(ial) representation}. Furthermore, from the first isomorphism theorem \ref{group:theorem:first_isomorphism_theorem} it follows that $O(V, Q)$ is isomorphic to $\Gamma(V, Q)/\ker\chi$ where $\ker\chi = \mathbb{R}_0$. This isomorphism also implies\footnote{Again using the \textit{Cartan-Dieudonn\'e theorem}, valid only when char$(K)\neq2$.} that the Clifford group is given by the set of finite products of invertible elements $v\in V$:\footnote{This is more or less the Cartan-Dieudonn\'e theorem.}
+        Being a group morphism to a matrix group acting on $V$, it defines a representation called the \textbf{vector(ial) representation}. Furthermore, from the first isomorphism theorem \ref{group:theorem:first_isomorphism_theorem} it follows that $O(V, Q)$ is isomorphic to $\Gamma(V, Q)/\ker\chi$ where $\ker\chi = \mathbb{R}_0$. This isomorphism also implies\footnote{Again using the \textit{Cartan-Dieudonn\'e theorem}, valid only when char$(K)\neq2$. In fact this statement is more or less the \textit{Cartan-Dieudonne\'e} theorem in terms of geometric algebra.} that the Clifford group is given by the set of finite products of invertible elements $v\in V$:
         \begin{gather}
             \Gamma(V, Q) = \left\{\prod_i^n s_i : s_i\text{ invertible in }V, n\in\mathbb{N}\right\}.
         \end{gather}
@@ -197,7 +248,7 @@
     \end{result}
 
     \begin{remark}
-        As we noted in the beginning of this chapter, there is a variety of different conventions in use. One of the important distinctions is the definition (or choice) of conjugation map $\chi$. Atiyah, Bott and Shapiro have introduced the twisted conjugation map that we used for the definition of the Clifford group. Before them, the common choice was the ordinary conjugation map\footnote{The notation ad$_s$ comes from the fact that this map resembles the adjoint action of a group.}
+        As we noted in the beginning of this chapter, there is a variety of different conventions in use. One of the important distinctions is the definition (or choice) of conjugation map $\chi$. \textit{Atiyah, Bott} and \textit{Shapiro} have introduced the twisted conjugation map that we used for the definition of the Clifford group. Before them, the common choice was the ordinary conjugation map\footnote{The notation ad$_s$ comes from the fact that this map resembles the adjoint action of a group.}
         \begin{gather}
             \text{ad}_s:v\mapsto svs^{-1}.
         \end{gather}
@@ -207,7 +258,7 @@
 \subsection{Pin and Spin}\label{clifford:section:spin}
 
     \newformula{Spinor norm}{\index{spinor!norm}
-        On $\Gamma(V, Q)$ one can define the spinor norm:\footnote{This map can be generalized to the full Clifford algebra, but then the image will not just be the underlying field anymore.}
+        On $\Gamma(V, Q)$ one can define the spinor norm\footnote{This map can be generalized to the full Clifford algebra, but then the image will not just be the underlying field anymore.}
         \begin{gather}
             \mathcal{N}(x):\Gamma(V, Q)\rightarrow K^\times:x\mapsto x^tx
         \end{gather}
@@ -238,9 +289,9 @@
     \begin{property}\label{clifford:pin_group}
         The Pin group satisfies the following isomorphism:
         \begin{gather}
-            \text{Pin}(V, Q)/\mathbb{Z}_2 \cong O(V, Q)
+            \text{Pin}(V, Q)/\mathbb{Z}_2 \cong\text{O}(V, Q).
         \end{gather}
-        and analogously for the Spin group and SO$(V, Q)$. These relations imply that the Pin and Spin groups form a double cover\footnote{A covering group is a topological group that is also a covering space. See definition \ref{topology:covering_space} for more information about the latter.} of respectively the orthogonal and special orthogonal groups.
+        An analogous relation holds for the Spin group and $\text{SO}(V, Q)$. These relations imply that the Pin and Spin groups form a double cover\footnote{A covering group is a topological group that is also a covering space. See definition \ref{topology:covering_space} for more information about the latter.} of respectively the orthogonal and special orthogonal groups.
     \end{property}
 
     \newdef{Spinor}{\index{spinor}\index{spin!representation}\index{Weyl!spinor}\index{Dirac!spinor}\index{gamma matrix}
@@ -252,7 +303,7 @@
     }
 
     \begin{example}
-        The following table gives some group isomorphisms for the spin group in $\dim n$:
+        The following table gives some group isomorphisms for the spin group in dim $n$:
         \begin{gather*}
             \begin{array}{c|c}
                 n&\text{Spin}(n)\\
@@ -263,7 +314,7 @@
                 4&\text{SU}(2)\times\text{SU}(2)
             \end{array}
         \end{gather*}
-        For quadratic forms of signature $(p, q)$ we find the following table:
+        For quadratic forms of signature $(p,q)$ we find the following table:
         \begin{gather*}
             \begin{array}{c|c}
                 (1, n)&\text{Spin}(1, n)\\
@@ -289,5 +340,5 @@
         \end{gather}
     \end{property}
     \begin{remark}
-        Note that the above isomorphism only holds for the $\text{Spin}$-groups and not for the associated $\text{Pin}$-groups. This could have major consequences in physics. In general physicists freely switch between a $(1,3)$- and $(3,1)$-signature because all particles are assumed to be spinors (and not pinors). However, some pinors can only occur for one specific signature and this way it might be possible to detect the signature of the universe.
+        Note that the above isomorphism only holds for the Spin-groups and not for the associated Pin-groups. This could have major consequences in physics. In general physicists freely switch between a $(1,3)$- and $(3,1)$-signature because all particles are assumed to be spinors (and not pinors). However, some pinors can only occur for a specific signature and this way it might be possible to detect the signature of the universe (see \cite{pin_physics}).
     \end{remark}

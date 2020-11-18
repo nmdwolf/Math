@@ -1,0 +1,167 @@
+\chapter{Equations of Motion}\label{chapter:EOM}
+
+\section{General quantities}
+\subsection{Linear quantities}
+
+    \begin{axiom}[Force]\index{force}\label{forces:force}
+        Newton's second law (in fact an axiom) states that the force acting on a system can be related to its change of momentum in the following way:
+        \begin{gather}
+            \vector{F} := \deriv{\vector{p}}{t}.
+        \end{gather}
+    \end{axiom}
+
+    \begin{formula}[Work]\index{work}\label{forces:work}
+        \begin{gather}
+            W := \int\vector{F}\cdot d\vector{l}
+        \end{gather}
+    \end{formula}
+    \begin{definition}[Conservative force]\index{conservative}
+        If the work done by a force is independent of the path taken, the force is said to be \textbf{conservative}:
+        \begin{gather}
+            \label{forces:conservative_force_2}
+            \oint_C\vector{F}\cdot d\vector{l}=0.
+        \end{gather}
+        Stokes's theorem \ref{vectorcalculus:stokes_theorem} together with relation \ref{vectorcalculus:rotor_of_gradient} lets us rewrite the conservative force as the gradient of a scalar field:
+        \begin{gather}
+            \label{forces:conservative_force}
+            \vector{F} = -\nabla V.
+        \end{gather}
+    \end{definition}
+
+    \begin{definition}[Central force]
+        A force that only depends on the relative position of two objects:
+        \begin{gather}
+            \vector{F}_c \equiv F\Big(||\vector{r}_2 - \vector{r}_1||\Big)\boldsymbol{\hat{e}_r}.
+        \end{gather}
+    \end{definition}
+
+    \begin{formula}[Kinetic energy]\index{energy}\label{forces:kinetic_energy}
+        For a free particle with momentum $\vector{p}$ the kinetic energy is given by the following formula:
+        \begin{gather}
+            E_{kin} := \stylefrac{p^2}{2m}.
+        \end{gather}
+    \end{formula}
+
+\subsection{Angular quantities}
+
+    In this section $r$ always denotes the the distance from the object's center of mass to the axis around which the object rotates.
+
+    \newformula{Angular velocity}{\label{forces:angular_velocity}
+        \begin{gather}
+            \omega := \stylefrac{v}{r}
+        \end{gather}
+    }
+    \newformula{Angular frequency}{\label{forces:frequency}
+        \begin{gather}
+            \nu := \stylefrac{\omega}{2\pi}
+        \end{gather}
+    }
+
+    \newformula{Moment of inertia}{\index{inertia}\label{forces:moment_of_inertia}
+        For a symmetric object the moment of inertia is given by
+        \begin{gather}
+            I := \int_V r^2\rho(r)dV.
+        \end{gather}
+        For a general body we can define the moment of inertia tensor:
+        \begin{gather}
+            \label{forces:inertia_tensor}
+            \mathcal{I} := \int_V\rho(\vector{r})\left(r^2\mathbbm{1} - \vector{r}\otimes\vector{r}\right)dV.
+        \end{gather}
+    }
+
+    \newdef{Principal axes of inertia}{\index{principal!axis}
+        Let $I$ be the matrix of inertia, i.e. the matrix associated with the inertia tensor \ref{forces:inertia_tensor}. This is a real symmetric matrix and, by property \ref{linalgebra:diagonalizable_hermitian}, admits an eigendecomposition of the form
+        \begin{gather}
+            I = Q\Lambda Q^T.
+        \end{gather}
+        The columns of $Q$ determine the principal axes of inertia. The eigenvalues are called the \textbf{principal moments of inertia}.
+    }
+
+    \begin{example}[Objects with azimuthal symmetry$^\dag$]
+        Let $r$ denote the radius of the object.
+        \begin{itemize}
+            \item Solid disk: $I = \frac{1}{2}mr^2$
+            \item Cylindrical shell: $I = mr^2$
+            \item Hollow sphere: $I = \frac{2}{3}mr^2$
+            \item Solid sphere: $I = \frac{2}{5}mr^2$
+        \end{itemize}
+    \end{example}
+
+    \begin{theorem}[Parallel axis theorem\footnotemark]\index{Steiner}\label{forces:theorem:parallel_axis_theorem}
+        \footnotetext{Also called \textbf{Steiner's theorem}.}
+        Consider a rotation about an axis $\psi$ through a point $A$. Let $\psi_{CM}$ be a parallel axis through the center of mass. The moment of inertia about $\psi$ is related to the moment of inertia about $\psi_{CM}$ in the following way:
+        \begin{gather}
+            I_A = I_{CM} + M||\vector{r}_A - \vector{r}_{CM}||^2
+        \end{gather}
+        where $M$ is the mass of the rotating body.
+    \end{theorem}
+
+    \begin{formula}[Angular momentum]\label{forces:angular_momentum}
+        \begin{gather}
+            \vector{L} := \vector{r}\times\vector{p}
+        \end{gather}
+        Given the angular velocity vector we can compute the angular momentum as follows:
+        \begin{gather}
+            \label{forces:angular_momentum_general}
+            \vector{L} = \mathcal{I}(\vector{\omega})
+        \end{gather}
+        where $\mathcal{I}$ is the moment of inertia tensor. If $\vector{\omega}$ is parallel to a principal axis, then the formula reduces to
+        \begin{gather}
+            \vector{L} = I\vector{\omega}
+        \end{gather}
+        with $I$ the corresponding principal moment of inertia.
+    \end{formula}
+
+    \begin{formula}[Torque]\index{torque}\label{forces:torque}
+        For angular momenta there exists a formula analogous to Newton's second law:
+        \begin{gather}
+            \vector{\tau} :=\deriv{\vector{L}}{t}.
+        \end{gather}
+        For constant bodies this formula can be rewritten as follows:
+        \begin{gather}
+            \vector{\tau} = I\vector{\alpha} = \vector{r}\times\vector{F}.
+        \end{gather}
+    \end{formula}
+
+    \begin{remark}
+        From the previous definitions it follows that both the angular momentum and torque vectors are in fact pseudovectors and accordingly change sign under coordinate transformations with $\det = -1$.
+    \end{remark}
+
+    \newformula{Rotational energy}{\index{energy}\label{forces:rotational_energy}
+        \begin{gather}
+            E_{rot} := \frac{1}{2}\mathcal{I}(\omega)\cdot\omega
+        \end{gather}
+    }
+
+\section{Kepler problem}\index{Kepler!problem}
+
+    \begin{formula}[Potential for a point mass]\index{gravity}
+        \begin{gather}
+            \label{forces:gravity:potential}
+            V = -G\stylefrac{M}{r}
+        \end{gather}
+        where $G = \num{6,67E-11}\stylefrac{Nm^2}{\text{kg}^2}$ is the \textbf{gravitational constant}.
+    \end{formula}
+
+\section{Harmonic oscillator}
+
+    \begin{formula}[Harmonic potential]
+        \begin{gather}
+            \label{forces:harmonic_oscillator:potential}
+            V = \stylefrac{1}{2}kx^2
+        \end{gather}
+        or
+        \begin{gather}
+            \label{forces:harmonic_oscillator:potential_2}
+            V = \stylefrac{1}{2}m\omega^2x^2
+        \end{gather}
+        where we have set $\omega = \sqrt{\stylefrac{k}{m}}$.
+    \end{formula}
+
+    \begin{formula}[Solution]
+        The solution of the equations of motion of a particle moving in a harmonic potential is given by the following expression:
+        \begin{gather}
+            \label{forces:harmonic_oscillator:solution}
+            x(t) = A\sin\omega t + B\cos\omega t.
+        \end{gather}
+    \end{formula}

@@ -2,17 +2,28 @@
 
     In this chapter we generalize certain constructions and theorems introduced in the previous chapters to the setting of higher categories. As such it can been as an analogue to chapter \ref{chapter:hda} for (differential) geometry.
 
-    The main references are \cite{higher_gauge, phd_schreiber}. For a refresher on (higher) category theory see chapter \ref{chapter:cat}. Section \ref{section:higher_lie_structures} gives a different approach to the higher-dimensional analogues of Lie algebras.
+    The main references are \cite{higher_gauge, phd_schreiber}. For a refresher on (higher) category theory see chapter \ref{chapter:cat}. The section on smooth spaces is inspired by \cite{baez_convenient}. Section \ref{section:higher_lie_structures} gives a different approach to the higher-dimensional analogues of Lie algebras.
 
     ?? CITE BAEZ, SCHREIBER, BARTELS, ... ??
 
 \section{Smooth spaces}\label{section:smooth_spaces}
+
+    In this section we consider some generalizations of spaces that are better behaved when considering their properties as a whole. Before moving to the smooth setting, we will first give a bit of history starting in the ordinary topological setting.
+
+    The first problem in the study of the global properties of spaces arose in algebraic topology. When consider mapping spaces we sometimes like to use the currying operation \[C(X\times Y, Z)\rightarrow C(X, C(Y, Z)).\] However, in general, this is not a homeomorphism, i.e. currying does not define an adjunction and therefore $\mathbf{Top}$ is not Cartesian closed (see definition \ref{cat:closed}). This problem was treated by \textit{Steenrod} and others, and the solution was simply to restrict to a smaller class of better behaved spaces: the compactly generated Hausdorff spaces.\footnote{This is in general not a problem since all interesting spaces, such as CW complexes, belong to this class.}
+
+    Whilst studying varieties in algebraic geometry people experienced similar problems. For this reason \textit{Grothendieck} invented schemes (see chapter \ref{chapter:alggeom} and section \ref{section:schemes} in particular). The main takeaway of this approach was that it is often better to work with a well-behaved category containing some ''nasty'' objects, than to work with a ''nasty'' category containing only nice objects.
+
+    The category $\mathbf{Diff}$ of finite-dimensional smooth manifolds suffers the same problems, namely the space of smooth functions $C^\infty(X, Y)$ is in general some kind of infinite-dimensional manifold. It becomes even worse if we consider mapping spaces between those. \textit{Kriegl} and \textit{Michor} have introduced a framework in which one can work safely, but the main problem with their solution is that not all interesting spaces are included. Certain other operations such as quotients and (co)limits are also not guaranteed to stay within that category.
+
+    In the rest of this section we study one type of generalization that leads to a Cartesian closed category that also admits all (co)limits:
+
 \subsection{Diffeological spaces}
 
     \newdef{Diffeological space}{\index{diffeology}\index{plot}
-        Let $X$ be a set. A diffeology $\mathcal{D}$ on $X$ is defined as a collection of maps $f:U\subseteq\mathbb{R}^n\rightarrow X$, called \textbf{plots}, satisfying the following conditions (where $U,V$ and $W$ are open sets):
+        Let $X$ be a set. A diffeology $\mathcal{D}$ on $X$ is defined as a collection of functions $f:U\subseteq\mathbb{R}^n\rightarrow X$, called \textbf{plots}, satisfying the following conditions (where $U,V$ and $W$ are open sets):
         \begin{enumerate}
-            \item If $f$ is constant, then $f\in\mathcal{D}$.
+            \item If $f$ is constant, then $f\in\mathcal{D}$. Equivalently, every function $f:\mathbb{R}^0\rightarrow X$ is a plot.
             \item If $\{U_i\}_{i\in I}$ is an open cover of $U$ and if $f|_{U_i}\in\mathcal{D}$ for all $i\in I$, then $f\in\mathcal{D}$.
             \item If $f\in\mathcal{D}$ and $g:W\subseteq\mathbb{R}^m\rightarrow\dom(f)$ is smooth, then $f\circ g\in\mathcal{D}$.
         \end{enumerate}
@@ -32,13 +43,29 @@
     }
 
     \begin{adefinition}[Manifold]\index{manifold}
-        Let $M$ be a diffeological space. $M$ is called an $n$-manifold if it is locally diffeomorphic to $\mathbb{R}^n$.
+        Let $M$ be a diffeological space. $M$ is called an $n$-manifold if it is locally diffeomorphic to $\mathbb{R}^n$. A map between manifolds is smooth in the sense of this chapter if and only if it smooth in the sense of definition \ref{manifolds:smooth_function}.
     \end{adefinition}
 
     \begin{notation}[Smooth spaces]
         \nomenclature[S_Cinf]{$\mathbf{C^\infty}$}{category of smooth spaces}
         We will denote the category of smooth spaces (whatever model we might use) by $\mathbf{C^\infty}$.
     \end{notation}
+
+    There exist two trivial smooth structures:
+    \begin{example}[Discrete structure]\index{discrete!smooth structure}
+        The smooth structure defined by taking the plots to be the constant functions.
+    \end{example}
+    \begin{example}[Indiscrete structure]
+        The smooth structure obtained by taking all the functions to be plots.
+    \end{example}
+
+    \begin{property}
+        There exists an adjunction
+        \begin{gather}
+            \mathbf{Top}\adj{top}{\text{\textit{diff}}}\mathbf{C^\infty}.
+        \end{gather}
+        The functor $\text{\textit{diff}}$ endows a topological space $X$ with the smooth structure for which every continuous map $U\rightarrow X$ is a plot. The adjoint functor $top$ sends a smooth space to the topological space equipped with the finest topology for which all plots become continuous maps.
+    \end{property}
 
 \subsection{Smooth algebras}
 

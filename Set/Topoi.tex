@@ -41,7 +41,6 @@
             Pa = \Omega^a.
         \end{gather}
     }
-
     \begin{remark}[Finite colimits]
         The original definition by \textit{Lawvere} also required the existence of finite colimits. However, it can be proven that finite cocompleteness follows from the other axioms.
     \end{remark}
@@ -88,14 +87,14 @@
     \end{property}
 
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
-        Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part. If $f^*$ itself also has a left adjoint then $f$ is said to be \textbf{essential}.
+        Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
     }
 
     \begin{property}[Base change]
         The base change functors on a topos are logical and admit a left adjoint (this is just the postcomposition functor). This implies that these functors can be refined to essential geometric morphisms.
     \end{property}
 
-    \begin{example}[Topological spaces]
+    \begin{example}[Topological spaces]\label{topos:topological_spaces}
         Every continuous map $f:X\rightarrow Y$ induces a geometric morphism
         \begin{gather}
             \mathbf{Sh}(X)\adj{f^*}{f_*}\mathbf{Sh}(Y)
@@ -215,7 +214,7 @@
         The minimal Grothendieck topology on a category is the one for which only the maximal sieves are covering sieves. In this topology all presheafs are sheafs. The maximal Grothendieck topology is the one for which all sieves are covering sieves. In this topology only the terminal element of the associated presheaf category is a sheaf.
     \end{example}
 
-    \newdef{Grothendieck topos}{\index{Grothendieck!topos}
+    \newdef{Grothendieck topos}{\index{Grothendieck|seealso{topos}}\index{topos!Grothendieck}
         A category\footnote{The fact that a Grothendieck topos is an elementary topos follows from the fact that $\mathbf{Set}$ is a topos.} equivalent to the category of sheaves on a (small) site. This site is often called the \textbf{site of definition} for the given topos.
     }
 
@@ -226,6 +225,14 @@
     \begin{construct}[Sheafification]\index{sheafification}
         Given a presheaf $\mathcal{F}$ one can construct a sheaf $\overline{\mathcal{F}}$ along the same lines of construction \ref{sheaf:colimit_construction}.
     \end{construct}
+
+    \newdef{Global sections functor}{\index{global!sections}
+        Every Grothendieck topos $\mathcal{E}$ admits a geometric morphism to $\mathbf{Set}$ where the left adjoint assigns to an object $X$ its set of global elements:
+        \begin{gather}
+            \Gamma:\mathcal{E}\rightarrow\mathbf{Set}:X\mapsto\Gamma(1,X).
+        \end{gather}
+        When $\mathcal{E}$ is the sheaf topos over a topological space, this is exactly the global sections functor \ref{sheaf:global_sections_functor}. The right adjoint assigns to every set $S$ the copower $S\cdot1\equiv\bigsqcup_{s\in S}1$. When $\mathcal{E}$ is a sheaf topos, this right adjoint is exactly the constant sheaf functor.
+    }
 
 \subsection{Topological sheaves}
 
@@ -245,7 +252,7 @@
             \label{category:etale_adjunction}
             \mathbf{Top}/X\adj{E}{\Gamma}\mathbf{Psh}(X).
         \end{gather}
-        The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of (global) sections, i.e. it is the global sections functor. The left adjoint assigns to every presheaf its bundle of germs.
+        The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of local sections. The left adjoint assigns to every presheaf its bundle of germs.
 
         By restricting to the subcategories on which this adjunction becomes an adjoint equivalence we obtain the \textbf{\'etal\'e bundle} and \textbf{sheaf} categories respectively:
         \begin{gather}
@@ -258,6 +265,16 @@
         The inclusion functor $\mathbf{Sh}(X)\hookrightarrow\mathbf{Psh}(X)$ admits a left adjoint. This is exactly the sheafification functor which assigns to every presheaf its associated sheaf. This functor is given by the composition $\Gamma\circ E$.\footnote{This amounts to construction \ref{sheaf:etale_construction}.}
 
         The fact that the counit of adjunction \ref{category:etale_adjunction} restricts to an isomorphism on the full subcategory $\mathbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
+    \end{property}
+
+    \newdef{Petit and gros topoi}{\index{topos!petit \& gros}
+        Consider a topological space $X$ together with its category of opens $\mathbf{Op}(X)$. The petit topos over $X$ is defined as the usual sheaf topos $\mathbf{Sh}(X)$. It represents $X$ as some kind of generalized space. However, we can also build a topos whose objects are generalized spaces. To this end we choose a site $S$ of ''probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. (See section \ref{section:smooth_spaces} for more information.)
+    }
+
+    \begin{property}[Localic reflection]\index{localic reflection}
+        Mapping a topological space to its sheaf of continuous sections defines a functor $\func{\mathbf{Sh}}{Top}{Topos}$ by example \ref{topos:topological_spaces}. When restricted to the full subcategory of sober spaces \ref{topology:sober_space} this functor becomes fully faithful. When generalizing to sober locales, we even obtain a reflective inclusion \ref{cat:reflective_inclusion}.
+
+        This property states that we lose no information when regarding (sober) topological spaces as sheaf topoi. This also explains the name ''petit topos''.
     \end{property}
 
 \subsection{Lawvere-Tierney topology}
@@ -280,7 +297,7 @@
     \newdef{Dense object}{\index{dense}
         Given a Lawvere-Tierney topology $j:\Omega\rightarrow\Omega$, a subobject $U\in\text{Sub}(X)$ is said to be dense (in $X$) if it satisfies $j_\ast(U) = X$.
     }
-    \newdef{Sheaf}{\index{sheaf}
+    \newadef{Sheaf}{\index{sheaf}
         Given a Lawvere-Tierney topology $j:\Omega\rightarrow\Omega$ on a topos $\mathcal{E}$, one calls an object $S\in\ob{E}$ a $j$-sheaf if for all dense morphisms $U\hookrightarrow X$ the induced map \[\mathcal{E}(X, S)\rightarrow\mathcal{E}(U, S)\] is a bijection.
     }
 
@@ -291,3 +308,29 @@
         \end{proof}
     \end{property}
     \sremark{We can conclude that Lawvere-Tierney topologies generalize Grothendieck topologies from presheaf topoi to general topoi.}
+
+\section{Cohesion}
+
+    In this section we will often talk about topoi \textbf{over} some base topos $\mathcal{S}$. These are topoi equipped with a geometric morphism to $\mathcal{S}$.
+
+    \newdef{Local topos}{\index{local!topos}
+        Consider a topos $\mathcal{E}$ over a base topos $\mathcal{S}$. $\mathcal{E}$ is said to be ($\mathcal{S}$-)local if the geometric morphism $(f^*\dashv f_*):\mathcal{E}\leftrightarrows\mathcal{S}$ admits a fully faithful right adjoint $f^!$. This latter property can be replaced by either of the following (necessarily equivalent) statements:
+        \begin{itemize}
+            \item $f^*$ is fully faithful.
+            \item $f^!$ is an $\mathcal{S}$-indexed functor.
+            \item $f^!$ is Cartesian closed.
+        \end{itemize}
+        If we take $\mathcal{S}=\mathbf{Set}$, the condition on $f^!$ is automatically satisfied since all functors are $\mathbf{Set}$-indexed.
+    }
+
+    \newdef{Connected topos}{\index{connected!topos}
+        An object in a topos is said to be \textbf{connected} if its representable functor preserves finite coproducts. A Grothendieck topos is said to be \textbf{locally connected} is all objects can be written as coproducts of connected objects. If the topos is a Grothendieck topos, we obtain a left adjoint to the constant sheaf functor. In particular, a Grothendieck topos is locally connected if and only if its global sections geometric morphism is esssential. More generally we say a topos over some base topos $\mathcal{S}$ is \textbf{locally connected} if its associated geometric morphism is essential and the left adjoint is $\mathcal{S}$-indexed.
+
+        A topos over a base topos is said to be \textbf{connected} if the inverse image part of the associated geometric morphism is fully faithful. For locally connected topoi this amounts to the property that the left adjoint in its adjoint triple preserves the terminal object. A locally connected Grothendieck topos is said to be \textbf{strongly connected} if the left adjoint in its adjoint triple preserves finite products.
+    }
+
+    \newdef{Cohesive topos}{\index{topos!cohesive}
+        A local strongly connected topos.
+    }
+
+    ?? COMPLETE (e.g. work by Schreiber) ??

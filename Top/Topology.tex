@@ -221,7 +221,7 @@
     \begin{theorem}[Urysohn's lemma]\index{Urysohn!lemma}\label{topology:urysohns_lemma}
         A topological space X is normal\footnote{See definition \ref{topology:normal}.} if and only if every two closed disjoint subsets $A, B\subset X$ can be separated by a continuous function $f:X\rightarrow [0,1]$ i.e.
         \begin{gather}
-            f(a) = 0\qquad\qquad f(b) = 1.
+            f(a) = 0\qquad\text{and}\qquad f(b) = 1.
         \end{gather}
         for all $a\in A,b\in B$.
     \end{theorem}
@@ -243,8 +243,8 @@
     \newdef{Embedding}{\index{embedding}\label{topology:embedding}
         A continuous map is an embedding if it is a homeomorphism onto its image.
     }
-    \newdef{Local homeomorphism}{\index{local!homeomorphism}\index{\'etale map}
-        A continuous map $f:X\rightarrow Y$ is a local homeomorphism if for every point $x\in X$ there exists an open neighbourhood $U$ such that $f(U)$ is open and such that $f_U$ is an embedding. Local homeomorphisms are also said to be \textbf{\'etale}.
+    \newdef{Local homeomorphism}{\index{local!homeomorphism}\index{\'etale morphisms}\label{topology:etale_morphism}
+        A continuous map $f:X\rightarrow Y$ is a local homeomorphism if for every point $x\in X$ there exists an open neighbourhood $U$ such that $f(U)$ is open and such that $f_U$ is an embedding. Local homeomorphisms are also said to be \textbf{\'etale morphisms}.
     }
 
     \newdef{Covering space}{\index{covering!space}\label{topology:covering_space}
@@ -273,10 +273,10 @@
         Let $X$ be a topological space. A pseudogroup is a collection $\mathcal{G}$ of homeomorphisms $\phi:U\rightarrow V$ between open subsets of $X$ such that:
         \begin{itemize}
             \item $\mathbbm{1}_U\in\mathcal{G}$ for all open $U\subseteq X$.
-            \item If $\phi\in\mathcal{G}$ then $\phi^{-1}\in\mathcal{G}$.
-            \item If $V\subset U$ is open then $\phi|_V\in\mathcal{G}$.
-            \item If $U=\bigcup_{i\in I}U_i$ and $\phi|_{U_i}:U_i\rightarrow V$ is an element of $\mathcal{G}$ for all $i\in I$ then $\phi\in\mathcal{G}$.
-            \item If $\phi:U\rightarrow V$ and $\psi:U'\rightarrow V'$ are elements of $\mathcal{G}$ and $V\cap U'\neq\emptyset$ then $\psi\circ\phi|_{\phi^{-1}(V\cap U')}\in\mathcal{G}$.
+            \item If $\phi\in\mathcal{G}$, then $\phi^{-1}\in\mathcal{G}$.
+            \item If $V\subset U$ is open, then $\phi|_V\in\mathcal{G}$.
+            \item If $U=\bigcup_{i\in I}U_i$ and $\phi|_{U_i}:U_i\rightarrow V$ is an element of $\mathcal{G}$ for all $i\in I$, then $\phi\in\mathcal{G}$.
+            \item If $\phi:U\rightarrow V$ and $\psi:U'\rightarrow V'$ are elements of $\mathcal{G}$ and $V\cap U'\neq\emptyset$, then $\psi\circ\phi|_{\phi^{-1}(V\cap U')}\in\mathcal{G}$.
         \end{itemize}
     }
 
@@ -406,15 +406,15 @@
 
     \newdef{Path-connected space\protect\footnotemark}{\index{arc!connected|see{path-connected}}\index{path!connected}
         \footnotetext{A similar notion is that of \textbf{arcwise-connectedness} where the function $\varphi$ is required to be a homeomorphism.}
-        Let $X$ be a topological space. If for every two points $x, y\in X$ there exists a continuous function $\varphi:[0, 1]\rightarrow X$ (i.e. a \textbf{path}) such that $\varphi(0)=x$ and $\varphi(1)=y$ then the space is said to be path-connected.
+        Let $X$ be a topological space. If for every two points $x,y\in X$ there exists a continuous function $\varphi:[0, 1]\rightarrow X$ (i.e. a \textbf{path}) such that $\varphi(0)=x$ and $\varphi(1)=y$, then the space is said to be path-connected.
     }
 
     \begin{property}[Path-connected implies connected]
         Every path-connected space is connected. The converse does not hold. There exists however the following (stronger) relation: A connected and locally path-connected space is path-connected.
     \end{property}
 
-    \begin{remark}
-        The notions of connectedness and path-connectedness define equivalence relations on the space $X$. The equivalence classes are closed in $X$ and form a cover of $X$. The set of path components of $X$ is often denoted by $\pi_0(X)$.\footnote{This follows from the relation with homotopy groups (see section \ref{section:homotopy}).}
+    \begin{remark}[Connected components]\label{topology:connected_components}
+        The notions of connectedness and path-connectedness define equivalence relations on the space $X$. The equivalence classes are closed in $X$ and form a cover of $X$. The set of path components of $X$ is often denoted by $\pi_0(X)$.
     \end{remark}
 
 \section{Compact spaces}
@@ -568,7 +568,11 @@
     \begin{construct}[From locale to topological space]
         There exists an adjunction \[\textbf{Loc}\adj{\iota}{\text{Point}}\textbf{Top}\] where the right adjoint is defined as follows:
 
-        \qquad Let $L$ be a locale. For a topological space the points are given by continuous maps $\ast\rightarrow X$ and hence by frame morphisms $\textbf{Open}(X)\rightarrow\Omega_{\text{Frame}}=\{0, 1\}$. Generalizing this to locales one defines the set of points of $L$ as the $\Omega_{\text{Loc}}$-elements: \[\text{Point}(L) := \textbf{Loc}(\Omega_{\text{Loc}}, L).\] This set can be given a topology by declaring for every $U\in L$ the set $\{p\in\text{Point}(L) : p^{-1}(U) = 1\}$ to be open.
+        \qquad Let $L$ be a locale. For a topological space the points are given by continuous maps $\ast\rightarrow X$ and hence by frame morphisms $\textbf{Open}(X)\rightarrow1\equiv\Omega_{\text{Frame}}=\{0, 1\}$. Generalizing this to locales one defines the set of points of $L$ as the $\Omega_{\text{Loc}}$-elements: \[\text{Point}(L) := \textbf{Loc}(1, L).\] This set can be given a topology by declaring for every $U\in L$ the set $\{p\in\text{Point}(L) : p^{-1}(U) = 1\}$ to be open.
     \end{construct}
+
+    \newdef{Sober space}{\index{sober}\label{topology:sober_space}
+        A topological space $X$ such that the map from $X$ to $\text{Point}(X)$ is a homeomorphism, i.e. the points of $X$ are precisely determined by its frame of opens. Equivalently, a topological space such that every irreducible closed subset is the closure of a unique point.
+    }
 
     ?? COMPLETE ??

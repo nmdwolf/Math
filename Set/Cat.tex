@@ -72,7 +72,7 @@
         A contravariant functor can also be defined as a covariant functor from the opposite category and accordingly, from now on, we will drop the word ''covariant'' when talking about functors. Furthermore, a contravariant functor $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$ is often called a \textbf{presheaf}. The collection of all presheaves on $\mathbf{C}$ forms a category $\mathbf{Psh}(\mathbf{C})$ (sometimes denoted by $\widehat{\mathbf{C}}$).
     }
 
-    \begin{example}[hom-functor]
+    \begin{example}[Hom-functor]
         Let $\mathbf{C}$ be a locally small category. Every object $x\in\ob{C}$ induces a functor $\func{h^x}{C}{Set}$ defined as follows:
         \begin{itemize}
             \item $h^x$ maps every object $y\in\ob{C}$ to the set $\mathbf{C}(x, y)$.
@@ -179,6 +179,10 @@
         called the Yoneda embedding.
     \end{result}
 
+    \newdef{Local object}{\index{local!object}\label{cat:local_object}
+        Consider a collection of morphisms $S\subset\text{hom}(\mathbf{C})$. An object $c\in\ob{C}$ is said to be $S$-local if the Yoneda embedding $\mathcal{Y}c$ maps morphisms in $S$ to isomorphisms in $\mathbf{Set}$. A morphism $f\in\text{hom}(\mathbf{C})$ is said to be $S$-local if its image under the Yoneda embedding of every $S$-local object is an isomorphism in $\mathbf{Set}$.
+    }
+
 \subsection{Equivalences}
 
     \newdef{Equivalence of categories}{\index{equivalence!of categories}
@@ -280,26 +284,6 @@
         The unitary morphisms in a dagger category form a groupoid\footnote{See definition \ref{cat:groupoid} further below.}.
     \end{property}
 
-    \newdef{Category with weak equivalences}{\index{weak!equivalence}\label{category:weak_equivalence}
-        A category $\mathbf{C}$ with a subcategory $\mathbf{W}$ such that:
-        \begin{enumerate}
-            \item $\mathbf{W}$ contains all isomorphisms in $\mathbf{C}$.
-            \item Any two composable morphisms $f, g\in\text{hom}(\mathbf{W})$ satisfy the ''2-out-of-3 property'': If any two of $\{f, g, f\circ g\}$ are in $\text{hom}(\mathbf{W})$, then so is the third.
-        \end{enumerate}
-    }
-
-    \newdef{Reedy category}{\index{Reedy category}\label{cat:reedy}
-        A category $\mathbf{C}$ equipped with a function $\ob{C}\rightarrow\alpha$, where $\alpha$ is an ordinal \ref{set:ordinal}, and two wide subcategories $\mathbf{C}_\pm$ that satisfy the following conditions:
-        \begin{enumerate}
-            \item Nontrivial morphisms in $\mathbf{C}_+$ (strictly) increase the degree.
-            \item Nontrivial morphisms in $\mathbf{C}_-$ (strictly) decrease the degree.
-            \item All morphisms admit a unique factorization as a morphism in $\mathbf{C}_-$ followed by a morphism in $\mathbf{C}_+$. This factorization is sometimes called the \textbf{(canonical) Reedy factorization}.
-        \end{enumerate}
-    }
-    \begin{property}[Minimality]\index{degree!of factorization}
-        The Reedy factorization is the (unique) factorization of minimal degree (the \textbf{degree} of a factorization $x\xrightarrow{f}y\xrightarrow{g}z$ is equal to the degree of $y$).
-    \end{property}
-
     \newdef{Comma category}{\index{category!comma}
         Let $\mathbf{A}, \mathbf{B}$ and $\mathbf{C}$ be three categories and let $\func{F}{A}{C}$ and $\func{G}{B}{C}$ be two functors. The comma category $F\downarrow G$ is defined as follows:
         \begin{itemize}
@@ -308,9 +292,13 @@
             \item Composition of morphisms is defined componentwise.
         \end{itemize}
     }
-    \newdef{Arrow category}{\index{category!arrow}
-        The comma category of the pair of functors $(\text{id},\text{id})$.
+    \newdef{Arrow category}{\index{category!arrow}\index{walking!arrow}\index{interval!category}
+        The comma category of the pair of functors $(\text{id},\text{id})$. This is equivalently the functor category $[\mathbf{2},\mathbf{C}]$ where $\mathbf{2}$ is the \textbf{interval category/walking arrow} $\{0\rightarrow1\}$.
     }
+    \newdef{Functorial factorization}{\index{factorization!functorial}\label{cat:functorial_factorization}
+        A \textit{section} of the composition functor \[\func{\circ}{[3,C]}{[2,C]}.\]
+    }
+
     \newdef{Slice category}{\index{category!slice}
         Let $\mathbf{C}$ be a category and let $c\in\ob{C}$. The slice category $\mathbf{C}/c$ of $\mathbf{C}$ over $c$ is defined as follows:
         \begin{itemize}
@@ -534,7 +522,7 @@
 \subsection{Lifts}
 
     \newdef{Lifts and extensions}{\index{lift}\index{extension}
-        A lift of a morphism $f:a\rightarrow b$ along an epi $e:x\rightarrow b$ is a morphism $\widetilde{f}:a\rightarrow x$ satisfying $f = e\circ\widetilde{f}$. The dual of this definition gives rise to extensions. (We sometimes drop the epi/mono condition in these definitions.)
+        A lift of a morphism $f:a\rightarrow b$ along an epi $e:x\rightarrow b$ is a morphism $g:a\rightarrow x$ satisfying $f=e\circ g$. Dualizing this definition gives the notion of extensions. (The epi/mono condition is often dropped in the literature.)
     }
     \newdef{Lifting property}{\index{orthogonal!lifting}\label{cat:lifting_property}
         A morphism $f:a\rightarrow b$ has the left lifting property with respect to a morphism $g:c\rightarrow d$ if for every commutative diagram
@@ -554,14 +542,12 @@
         there exists a morphism $\psi:b\rightarrow c$ such that the triangles commute. The morphism $g$ is also said to have the right lifting property with respect to $f$. If the morphism $\psi$ is unique, then $f$ and $g$ are said to be \textbf{orthogonal}.
     }
     \newdef{Injective and projective morphisms}{\index{injective!morphism}\index{projective!morphism}
-        Consider a class of morphisms $I\subseteq\text{hom}(\mathbf{C})$. A morphism $f\in\text{hom}(\mathbf{C})$ is said to be $I$-injective (resp. $I$-projective) if it has the right (resp. left) lifting property with respect to all morphisms in $J$.
+        Consider a class of morphisms $I\subseteq\text{hom}(\mathbf{C})$. A morphism $f\in\text{hom}(\mathbf{C})$ is said to be $I$-injective (resp. $I$-projective) if it has the right (resp. left) lifting property with respect to all morphisms in $I$.
 
-        Given a set of morphisms $I$ we denote the set of $I$-injective morphisms by $\text{rlp}(I)$ and the set of $I$-projective morphisms by $\text{llp}(I)$.
+        Given a set of morphisms $I$, we denote the set of $I$-injective morphisms by $\text{rlp}(I)$ and the set of $I$-projective morphisms by $\text{llp}(I)$.
     }
     \newdef{Injective and projective objects}{\index{injective!object}\index{projective!object}
-        If $\mathbf{C}$ has a terminal object $1$, an object $x$ is called $I$-injective if the unique morphism $x\rightarrow1$ is $I$-injective. If $\mathbf{C}$ has an initial object, we can analogously define $I$-projective objects.
-
-        One often modifies this definition by only considering one triangle in the lifting squares:
+        If $\mathbf{C}$ has a terminal object $1$, an object $x$ is called $I$-injective if its terminal morphism is $I$-injective. If $\mathbf{C}$ has an initial object, we can dually define $I$-projective objects:
 
         \begin{figure}[ht!]
             \centering
@@ -592,7 +578,7 @@
                 \label{fig:projective_object}
             \end{subfigure}
         \end{figure}
-        In general we speak of \textbf{injective} (resp. \textbf{projective}) objects if $I$ is the class of monomorphisms (resp. epimorphisms). For projectives this is equivalent to requiring that the (covariant) hom-functor preserves epimorphisms.
+        In general we speak of \textbf{injective} (resp. \textbf{projective}) objects if $I$ is the class of monomorphisms (resp. epimorphisms). For projective objects this is equivalent to requiring that the (covariant) hom-functor preserves epimorphisms.
 
         A category $\mathbf{C}$ is said to \textbf{have enough injectives} if for every object there exists a monomorphism into an injective object. The category is said to \textbf{have enough projectives} if for every object there exists an epimorphism from a projective object onto it.
     }
@@ -600,7 +586,7 @@
         Consider a category $\mathbf{C}$ together with a class $I\subseteq\text{hom}(\mathbf{C})$ of morphisms. A morphism $f\in\text{hom}(\mathbf{C})$ is called a $I$-fibration (resp. $I$-cofibration) if it has the right (resp. left) lifting property with respect to all $I$-projective (resp. $I$-injective) morphisms.
     }
 
-\subsection{Diagrams and universal constructions}\label{section:diagrams}
+\subsection{Limits and colimits}\label{section:diagrams}
 
     \newdef{Diagram}{\index{diagram}
         A diagram in $\mathbf{C}$ with index category $\mathbf{I}$ is a (covariant) functor $\func{D}{I}{C}$.
@@ -658,6 +644,11 @@
     \begin{uproperty}\label{cat:limit_uproperty}
         Let $\func{D}{I}{C}$ be a diagram. For every cone $(c,\psi)\in\mathbf{Cone}(D)$ there exists a unique morphism $f:c\rightarrow\lim D$. This defines a bijection \[[\mathbf{I}, \mathbf{C}](\Delta_c, D) \cong \mathbf{C}(c, \lim D).\]
         If all (small) limits exist, we can define the limit functor $\func{\lim}{[I, C]}{C}$. The universal property of limits then implies that it is right adjoint to the constant functor $\Delta$.
+
+        For diagrams in $\mathbf{Set}$ we can use the fully faithfulness of the Yoneda embedding to obtain the following expression:
+        \begin{gather}
+            \lim D \cong \funccat{I}{Set}(\Delta_\ast, D).
+        \end{gather}
     \end{uproperty}
     \begin{remark}
         In section \ref{section:enriched_category_theory} on enriched category theory we will give a generalization (the so-called \textit{weighted limits}) of the above construction that is better suited to the enriched setting and allows us to express a wide variety of constructions as (weighted) limits.
@@ -678,7 +669,10 @@
         A functor that preserves all small limits.
     }
     \begin{example}[Hom-functors]
-        In a locally small category every hom-functor is continuous (in fact these functors even preserve limits that are not necessarily small).
+        In a locally small category every hom-functor is continuous (in fact these functors even preserve limits that are not necessarily small). This implies for example that
+        \begin{gather}
+            \mathbf{C}(c, \lim D) \cong \lim\mathbf{C}(c, D).
+        \end{gather}
     \end{example}
 
     In the case where $\mathbf{C}$ is small, we can characterize the Yoneda embedding through a universal property:
@@ -686,7 +680,7 @@
         The Yoneda embedding $\mathbf{C}\hookrightarrow\widehat{\mathbf{C}}$ turns the presheaf category $\widehat{\mathbf{C}}$ into the \textbf{free cocompletion} of $\mathbf{C}$, i.e. there exists an equivalence of categories between the functor category of cocontinuous functors $[\widehat{\mathbf{C}}, \mathbf{D}]_{\text{cont}}$ and the ordinary functor category $[\mathbf{C}, \mathbf{D}]$.
     \end{uproperty}
 
-    \newdef{Tiny object}{\index{tiny}
+    \newdef{Tiny object}{\index{tiny}\label{cat:tiny}
         An object in a locally small category such that its covariant hom-functor preserves small colimits. This is sometimes called a \textbf{small-projective} object since it is in particular projective\footnote{Epimorphisms are characterized by a \textit{pushout} (see definition \ref{cat:pushout_epi} further below).}.
     }
     \newdef{Cauchy completion}{\index{Cauchy!completion}\index{Karoubi!envelope}
@@ -850,7 +844,7 @@
 
     Using the above properties and definitions we obtain the following two statements, called the \textbf{Yoneda reduction} and \textbf{co-Yoneda lemma}:
     \begin{property}[Ninja Yoneda lemma]\index{Yoneda!lemma}\label{cat:ninja_yoneda}
-        Let $\func{F}{C}{D}$ be a covariant functor.
+        Let $\func{F}{C}{D}$ be a covariant functor (similar statements hold for contravariant functors).
         \begin{align}
             &\int_{c\in\mathbf{C}}\mathbf{Set}\left(\mathbf{C}(-, c), Fc\right)\cong F\\
             &\int^{c\in\mathbf{C}}\mathbf{C}(c, -)\times Fc\cong F.
@@ -886,11 +880,11 @@
     \end{property}
 
     \newdef{Absolute Kan extension}{
-        A (left) Kan extension $\text{Lan}_GF$ is said to be absolute if for every functor $H$ with the same codomain as $F$ the following isomorphism holds:
+        A (left\footnote{A analogous definition exists for right Kan extensions.}) Kan extension $\text{Lan}_GF$ is said to be absolute if for every functor $H$ with the same codomain as $F$ the following isomorphism holds:
         \begin{gather}
-            H(\text{Lan}_GF)\cong\text{Lan}_G(HF).
+            H(\text{Lan}_GF)\cong\text{Lan}_G(HF),
         \end{gather}
-        An analogous definition exists for right Kan extensions.
+        i.e. a Kan extension is absolute if right whiskering it by another functor defines the Kan extension of the composition.
     }
     \newdef{Pointwise Kan extension}{\label{cat:pointwise_kan_extension}
         A Kan extension is said to be pointwise if it is preserved by all representable functors.
@@ -1251,7 +1245,7 @@
         In Cartesian closed categories a different, but frequently used, notation is $a\Rightarrow b$. However, we will not use this as it might confuse with the notation for \textit{2-morphisms}.
     \end{notation}
 
-    \newdef{Cartesian closed functor}{
+    \newdef{Cartesian closed functor}{\index{Cartesian!closed}\label{cat:cartesian_closed_functor}
         A functor between Cartesian closed categories that preserves products and exponential objects. (As such it is the natural notion of functor between Cartesian closed categories.)
     }
     \begin{property}[Frobenius reciprocity]\index{Forbenius!reciprocity}
@@ -1296,7 +1290,7 @@
 
 \section{Enriched category theory}\label{section:enriched_category_theory}
 
-    \newdef{Cosmos}{\index{cosmos}
+    \newdef{Cosmos}{\index{cosmos}\label{cat:cosmos}
         A complete and cocomplete closed symmetric monoidal category.
     }
 
@@ -1365,6 +1359,8 @@
          \end{figure}
     }
 
+\subsection{Enriched constructions}
+
     \newdef{Functor tensor product}{\index{tensor!product}\label{cat:functor_tensor_product}
         Consider a covariant functor $\func{G}{C}{M}$ and a contravariant functor $\cfunc{F}{C}{M}$ into a monoidal category $\mathbf{M}$. ($\mathbf{C}$ does not have to be enriched over $\mathbf{M}$.) The tensor product of $F$ and $G$ is defined as the following coend:
         \begin{gather}
@@ -1385,13 +1381,13 @@
     \newdef{Copower}{\index{co-!power}\index{power} % Both terms are indexed since copowers are rather important on their own.
         Consider a $\mathcal{V}$-enriched category $\mathbf{C}$. We define the copower (or tensor) functor $\func{\cdot}{\mathcal{V}\times C}{C}$ by the following natural isomorphism:
         \begin{gather}
-            \mathbf{C}(v\cdot c, c')\cong[v, \mathbf{C}(c, c')].
+            \mathbf{C}(v\cdot c, c')\cong[v,\mathbf{C}(c, c')]
         \end{gather}
-        Dually, we define the power (or cotensor) functor $\func{[-,-]}{\mathcal{V}\times C}{C}$ by the following natural isomorphism:
+        where the brackets $[-,-]$ on the right-hand side denote the internal Hom in $\mathcal{V}$. Dually, we define the power (or cotensor) functor $\func{[-,-]}{\mathcal{V}\times C}{C}$ by the following natural isomorphism:
         \begin{gather}
-            \mathbf{C}(c, [v, c'])\cong[v, \mathbf{C}(c, c')].
+            \mathbf{C}(c, [v,c'])\cong[v,\mathbf{C}(c, c')]
         \end{gather}
-        If an enriched category admits all (co)powers, it is said to be \textbf{(co)powered} (over its enriching category).
+        where the brackets $[-,-]$ on the right-hand side again denote the internal Hom in $\mathcal{V}$. If an enriched category admits all (co)powers, it is said to be \textbf{(co)powered} (over its enriching category).
     }
     \remark{Equation \ref{cat:internal_symmetry} says that every (closed) symmetric monoidal category $\mathbf{M}$ is powered over itself, the power object just being the internal hom. The same holds for the copower, which is just the usual tensor product functor.}
 
@@ -1413,10 +1409,13 @@
         \end{enumerate}
         admitting the following natural isomorphisms:
         \begin{gather}
-            \mathbf{E}(c\otimes d, e)\cong\mathbf{C}(c, \text{hom}_L(d, e))\cong\mathbf{D}(d, \text{hom}_R(c, e)).
+            \mathbf{E}(c\otimes d, e)\cong\mathbf{C}(c, \text{hom}_R(d, e))\cong\mathbf{D}(d, \text{hom}_L(c, e)).
         \end{gather}
         It should be noted that fixing any of the variables gives rise to ordinary adjunctions in the sense of section \ref{section:adjunction}.
     }
+    \begin{property}[Powers and copowers]
+        A category $\mathbf{C}$ enriched over a monoidal category $\mathcal{V}$ is powered and copowered over $\mathcal{V}$ exactly if the hom-functor $\mathbf{C}^{op}\times\mathbf{C}\rightarrow\mathcal{V}$ is the right adjoint in an enriched two-variable adjunction. The power and copower functors are then given by the other two adjoints.
+    \end{property}
 
     The following definition constructs Kan extensions in the enriched setting (these can be shown to reduce to \ref{cat:kan_extension} when enriching over $\mathbf{Set}$):
     \newadef{Kan extension}{\index{Kan!extension}\label{cat:enriched_kan_extension}
@@ -1446,13 +1445,15 @@
 
     We now come back to the definition of ordinary limits and, in particular, its defining universal property \ref{cat:limit_uproperty}. In this construction the constant functor $\Delta_c$ was one of the main ingredients. This functor can be factorized as $\mathbf{I}\rightarrow1\rightarrow\mathbf{C}$ where $1$ denotes the terminal category. On the level of morphisms this factorization takes the form $\mathbf{I}(i, j)\rightarrow\ast\rightarrow\mathbf{C}(c, c)$ where $\ast$ denotes the terminal one-element set. However, whenever the enriching context is not $\mathbf{Set}$, we do not necessarily have access to a terminal object.
 
-    First we will redefine limits as representing objects. To this end let us consider a general diagram $\func{D}{I}{C}$. By postcomposition with the Yoneda embedding w obtain the presheaf-valued diagram $\mathbf{C}(-, D-):\mathbf{I}\rightarrow[\mathbf{C}^{op}, \mathbf{Set}]$. Since presheaf categories are complete (example \ref{cat:complete_presheaf_category}), we can always find the limit of this diagram: \[\mathbf{Set}(s, \lim\mathbf{C}(c, D-))\cong\funccat{I}{Set}(\Delta_s, \mathbf{C}(c, D-)).\] If we restrict to the terminal set $s=\ast$, we obtain \[\lim\mathbf{C}(c, D-)\cong\funccat{I}{Set}(\Delta_\ast, \mathbf{C}(c, D-)).\] If this presheaf is representable, we can use the continuity of the covariant hom-functor, together with the fact that the Yoneda embedding is fully faithful, to show that the representing object is (isomorphic to) $\lim D$, i.e.
+    First we will redefine limits as representing objects. To this end let us consider a general diagram $\func{D}{I}{C}$. By postcomposition with the Yoneda embedding we obtain the presheaf-valued diagram $\mathbf{C}(-, D-):\mathbf{I}\rightarrow[\mathbf{C}^{op}, \mathbf{Set}]$. Since presheaf categories are complete (example \ref{cat:complete_presheaf_category}), we can always find the limit of this diagram: \[\mathbf{Set}(s, \lim\mathbf{C}(c, D-))\cong\funccat{I}{Set}(\Delta_s, \mathbf{C}(c, D-)).\] If we restrict to the terminal set $s=\ast$, we obtain \[\lim\mathbf{C}(c, D-)\cong\funccat{I}{Set}(\Delta_\ast, \mathbf{C}(c, D-)).\] If this presheaf is representable, we can use the continuity of the covariant hom-functor, together with the fact that the Yoneda embedding is fully faithful, to show that the representing object is (isomorphic to) $\lim D$, i.e.
     \begin{gather}
         \funccat{I}{Set}(\Delta_\ast, \mathbf{C}(c, D-))\cong\mathbf{C}(c, \lim D).
     \end{gather}
 
+    ?? CLEAN THIS UP (note that continuity and pointwise definition was already mentioned for ordinary limits) ??
+
     \newdef{Weighted limit}{\index{limit!conical}\label{cat:weighted_limit}
-        We can now generalize this definition by replacing the constant functor $\Delta_\ast$ by any functor $\func{W}{I}{Set}$. A representing object is then called the $W$-weighted limit of $D$. This object is often denoted by $\wlim{W}D$ or $\{W,F\}$. To distinguish weighted limits from ordinary ones, we sometimes call the latter \textbf{conical limits}.
+        We can now generalize this definition by replacing the constant functor $\Delta_\ast$ by any functor $\func{W}{I}{Set}$. A representing object is then called the $W$-weighted limit of $D$. This object is often denoted by $\wlim{W}D$ or $\{W,D\}$. To distinguish weighted limits from ordinary ones, we sometimes call the latter \textbf{conical limits}.
     }
 
     \begin{remark}
@@ -1460,30 +1461,44 @@
     \end{remark}
 
     The generalization to the enriched setting is now evident. There is no reference to the terminal object left, so we can replace $\mathbf{Set}$ by any enriching category. We will often use (co)end formulas for (weighted) limits, especially in the enriched setting:
-    \newformula{Weighted limits}{\label{cat:weighted_limits}
-        By expressing the natural transformations as an end (see equation \ref{cat:natural_end}) and by using the powering in $\mathbf{Set}$, we can express weighted limits as follows:
+    \newformula{Enriched weighted limits}{\label{cat:weighted_limits}
+        By expressing the natural transformations as an end (see equation \ref{cat:natural_end}) and by using the canonical powering in $\mathbf{Set}$, we can express ordinary weighted limits as follows:
         \begin{gather}
-            \wlim{W}F\cong\int_{i\in\mathbf{I}}[Wi,Fi].
+            \wlim{W}D\cong\int_{i\in\mathbf{I}}[Wi,Di].
         \end{gather}
-        The generalization to other enriching categories is now straightforward: Consider a diagram $\func{F}{I}{C}$ and a weight functor $\func{W}{I}{\mathcal{V}}$ where $\mathbf{C}$ is $\mathcal{V}$-enriched. If $\mathbf{C}$ is powered over $\mathcal{V}$, we define the $W$-weighted limit of $F$ by the same formula as before:
+        The generalization to other enriching categories is now straightforward: Consider a diagram $\func{D}{I}{\mathcal{V}}$ and a weight functor $\func{W}{I}{C}$ where $\mathbf{C}$ is $\mathcal{V}$-enriched. If $\mathbf{C}$ is powered over $\mathcal{V}$, we define the $W$-weighted limit of $D$ by the same formula as above:
         \begin{gather}
-            \wlim{W}F:=\int_{i\in I}[Wi,Fi].
+            \wlim{W}D:=\int_{i\in I}[Wi,Di].
         \end{gather}
         In a similar way we can define weighted colimits in copowered $\mathcal{V}$-categories as coends:
         \begin{gather}
-            \colim^WF:=\int^{i\in I}Wi\cdot Fi.
+            \colim^WD:=\int^{i\in I}Wi\cdot Di.
         \end{gather}
         Here the weight functor $W$ is required to be contravariant since colimits (and cocones in general) are natural transformations between contravariant functors.
     }
+    \begin{property}[Weighted limits are Hom-objects]
+        If we take $\mathbf{C}=\mathcal{V}$, the powering functor becomes the internal Hom and therefore we obtain that weighted limits are given by (enriched) natural transformations (as was the case for ordinary conical limits).
+    \end{property}
 
     In the following example we compute the weighted colimit with respect to the Yoneda embedding:
     \begin{example}[Hom-functor]
-        Consider a diagram $\func{D}{I}{C}$. If we use the Yoneda embedding $\mathcal{Y}c = \mathbf{C}(-, c)$ as the weight functor, we obtain the following property by virtue of the Yoneda lemma:
+        Consider a diagram $\func{D}{I}{C}$. If we use the Yoneda embedding $\mathcal{Y}i = \mathbf{I}(-, i)$ as the weight functor, we obtain the following property by virtue of the Yoneda lemma:
         \begin{gather}
             \label{cat:weighted_hom_colimit}
-            \colim^{\mathcal{Y}c}D\cong Dc.
+            \colim^{\mathcal{Y}i}D\cong Di.
         \end{gather}
+        A similar statement for weighted limits can be obtained with the covariant Yoneda embedding.
     \end{example}
+    \newadef{Weighted (co)limits}{
+        The above property can be used to axiomatize small weighted (co)limits in bicomplete categories:
+        \begin{enumerate}
+            \item \textbf{Yoneda}: For every object $i\in\ob{I}$ we obtain isomorphisms
+            \begin{gather}
+                \text{lim}^{\mathbf{I}(i, -)}D\cong Di\qquad\text{and}\qquad\text{colim}^{\mathbf{I}(-, i)}D\cong Di.
+            \end{gather}
+            \item \textbf{Cocontinuity}: The weighted (co)limit functors are cocontinuous in the weights.
+        \end{enumerate}
+    }
 
     We can also express Kan extensions as weighted limits:
     \begin{property}[Kan extensions]\index{Kan!extension}
@@ -1771,7 +1786,7 @@
         An $\infty$-functor $\func{F}{C}{D}$ is said to be $n$-surjective if for any two parallel $(n-1)$-morphisms $e, e'$ in $\mathbf{C}$ and $n$-morphism $f: Fe\rightarrow Fe'$ in $\mathbf{D}$, there exists an $n$-morphism $\tilde{f}$ in $\mathbf{C}$ such that $F\tilde{f}\cong f$.
     }
 
-    \newdef{Indexed category}{\index{category!indexed}
+    \newdef{Indexed category}{\index{category!indexed}\label{cat:indexed_category}
         Consider a category $\mathbf{I}$. An $\mathbf{I}$-indexed category is a pseudofunctor $\mathbf{C}:\mathbf{I}^{op}\rightarrow\mathbf{Cat}$, i.e. it is a 2-presheaf on $\mathbf{I}$. Indexed functors and natural transformations are defined analogously.
     }
 

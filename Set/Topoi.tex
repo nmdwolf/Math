@@ -45,12 +45,12 @@
         The original definition by \textit{Lawvere} also required the existence of finite colimits. However, it can be proven that finite cocompleteness follows from the other axioms.
     \end{remark}
 
-    \begin{example}[Slice category]
+    \begin{theorem}[Fundamental theorem of topos theory]\index{fundamental theorem!of topos theory}
         Let $\mathcal{C}$ be a topos. For every object $c\in\ob{C}$ the slice category $\mathbf{C}/c$ is also a topos. The subobject classifier is given by $\pi_2:\Omega\times c\rightarrow c$.
-    \end{example}
+    \end{theorem}
 
     \begin{property}[Balanced]
-        All monos in a topos are regular. Hence every mono arises as an equalizer and every epic equalizer is necessarily an isomorphism. It follows that every topos is balanced (see definition \ref{category:balanced}).
+        All monos in a topos are regular. Hence, every mono arises as an equalizer and every epic equalizer is necessarily an isomorphism. It follows that every topos is balanced (see definition \ref{category:balanced}).
     \end{property}
 
     \begin{property}[Epi-mono factorization]\index{image}
@@ -87,8 +87,15 @@
     \end{property}
 
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
-        Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
+        Let $\mathcal{E}, \mathcal{F}$ be (elementary) topoi. A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint preserves finite limits, i.e. is left exact. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
     }
+
+    \newdef{Geometric embedding}{\index{embedding}
+        A geometric morphism for which the direct image part is fully faithful.
+    }
+    \begin{property}[Characterization of geometric embeddings]\label{topos:characterization_embedding}
+        Let $f:\mathcal{E}\rightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\text{hom}(\mathcal{E})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{F}$ is equivalent to the full subcategory of $\mathcal{E}$ on $W$-local objects. It is also equivalent to the localization\footnote{See definition \ref{cat:localization}.} $\mathcal{E}[W^{-1}]$ at $W$.
+    \end{property}
 
     \begin{property}[Base change]
         The base change functors on a topos are logical and admit a left adjoint (this is just the postcomposition functor). This implies that these functors can be refined to essential geometric morphisms.
@@ -202,6 +209,14 @@
 
         The category $\mathbf{Sh}(\mathbf{C}, J)$ of $J$-sheaves on the site $(\mathbf{C}, J)$ is the full subcategory of $\widehat{\mathbf{C}}$ on the presheaves which satisfy the above condition.
     }
+    We can also restate this definition in terms of local objects \ref{cat:local_object}:
+    \newadef{Sheaf}{\index{descent}\label{topoi:local_object_sheaf}
+        By definition every covering sieve admits a morphism into the Yoneda embedding: $\eta:U\hookrightarrow\mathcal{Y}c$. If we denote the collection of all these morphisms by $S$, then a presheaf is a sheaf if and only if it is $S$-local, i.e. if the following morphism is an isomorphism for all $\eta\in S$:
+        \begin{gather}
+            Fc\cong\mathbf{Psh}(\mathcal{Y}c, F)\xrightarrow{\mathbf{Psh}(\eta, F)}\mathbf{Psh}(U, F).
+        \end{gather}
+        This is also called the \textbf{descent condition} of ordinary sheafs.
+    }
 
     \begin{example}[Topological spaces]
         The usual category of sheaves $\mathbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\mathbf{Open}(X), J_{\text{open}(X)})$. Since the morphisms in the covering sieves are exactly the inclusion maps $U_i\hookrightarrow U$, the pullback of two such morphisms is given by the intersection $U_i\cap U_j$. Hence the condition for a matching family, as formulated in equation \ref{topoi:matching_family} above, gives the second part of definition \ref{sheaf:def}. The uniqueness of an amalgamation is equivalent to the first part of that definition.
@@ -234,6 +249,25 @@
         When $\mathcal{E}$ is the sheaf topos over a topological space, this is exactly the global sections functor \ref{sheaf:global_sections_functor}. The right adjoint assigns to every set $S$ the copower $S\cdot1\equiv\bigsqcup_{s\in S}1$. When $\mathcal{E}$ is a sheaf topos, this right adjoint is exactly the constant sheaf functor.
     }
 
+    A different approach for defining sheaf topoi is through an embedding of sheafs into presheafs.
+    \newdef{Local isomorphism}{\index{local!isomorphism}
+        A system of local isomorphisms in $\mathbf{Psh}(\mathbf{C})$ is a class of morphisms in $\mathbf{Psh}(\mathbf{C})$ forming a system of weak equivalences \ref{cat:weak_equivalence} closed under pullbacks along morphisms out of representable presheafs.
+    }
+    \begin{property}[Local isomorphisms and Grothendieck topologies]
+        A system of local isos induces a \textit{system of local epis} in the following way: $f:X\rightarrow Y$ is a local epi if $\im(f)\rightarrow Y$ is a local iso. A Grothendieck topology is defined by declaring a presheaf $F\in\mathbf{Psh}(\mathbf{C})$ to be a covering sieve at $X\in\ob{C}$ if $F\hookrightarrow\mathcal{Y}X$ is a local epi.
+    \end{property}
+
+    \newadef{Sheaf topos}{\index{topos}
+        A category $\mathbf{Sh}(\mathbf{C})$ equipped with a geometric embedding into $\mathbf{Psh}(\mathbf{C})$.
+
+        \begin{proof}[Proof of equivalence]
+            By property \ref{topos:characterization_embedding} such a category is equivalent to the full subcategory on $S$-local presheaves for some system of local isomorphisms $S$ and therefore also to a sheaf topos in the sense of Grothendieck by the property above.
+        \end{proof}
+    }
+    \begin{remark}[Descent condition]
+        This is essentially a restatement of the descent condition \ref{topoi:local_object_sheaf}: Covering sieves, regarded as subfunctors, are in particular local isomorphisms. Stability of sieves under pullback together with the co-Yoneda lemma \ref{cat:ninja_yoneda}, which says that every presheaf is a colimit of representables, then generate the full collection of local isomorphisms.
+    \end{remark}
+
 \subsection{Topological sheaves}
 
     See chapter \ref{chapter:sheaf} for the application of sheaves to topology.
@@ -246,15 +280,14 @@
     \end{property}
     \remark{In fact the presheaf category $\mathbf{Psh}(\mathbf{C})$ for any (small) category $\mathbf{C}$ is an elementary topos. See property \ref{topoi:presheaf_topos} below.}
 
-    \begin{construct}[Sheaves and \'etal\'e bundles]
+    \begin{construct}[Sheaves and \'etal\'e bundles]\label{topos:etale_adjunction}
         Let $X$ be a topological space. The functor \[I:\mathbf{Open}(X)\rightarrow\mathbf{Top}/X:U\mapsto(U\hookrightarrow X)\] induces the following adjunction:
         \begin{gather}
-            \label{category:etale_adjunction}
             \mathbf{Top}/X\adj{E}{\Gamma}\mathbf{Psh}(X).
         \end{gather}
         The slice category on the right-hand side is equivalently the category of (topological) bundles\footnote{See chapter \ref{chapter:bundles}.} over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of local sections. The left adjoint assigns to every presheaf its bundle of germs.
 
-        By restricting to the subcategories on which this adjunction becomes an adjoint equivalence we obtain the \textbf{\'etal\'e bundle} and \textbf{sheaf} categories respectively:
+        By restricting to the subcategories on which this adjunction becomes an adjoint equivalence we obtain the \textbf{\'etal\'e space} and \textbf{sheaf} categories respectively:
         \begin{gather}
             \mathbf{Et}(X)\cong\mathbf{Sh}(X).
         \end{gather}
@@ -264,11 +297,11 @@
     \begin{property}[Associated sheaf]
         The inclusion functor $\mathbf{Sh}(X)\hookrightarrow\mathbf{Psh}(X)$ admits a left adjoint. This is exactly the sheafification functor which assigns to every presheaf its associated sheaf. This functor is given by the composition $\Gamma\circ E$.\footnote{This amounts to construction \ref{sheaf:etale_construction}.}
 
-        The fact that the counit of adjunction \ref{category:etale_adjunction} restricts to an isomorphism on the full subcategory $\mathbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
+        The fact that the counit of adjunction \ref{topos:etale_adjunction} restricts to an isomorphism on the full subcategory $\mathbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
     \end{property}
 
     \newdef{Petit and gros topoi}{\index{topos!petit \& gros}
-        Consider a topological space $X$ together with its category of opens $\mathbf{Op}(X)$. The petit topos over $X$ is defined as the usual sheaf topos $\mathbf{Sh}(X)$. It represents $X$ as some kind of generalized space. However, we can also build a topos whose objects are generalized spaces. To this end we choose a site $S$ of ''probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. (See section \ref{section:smooth_spaces} for more information.)
+        Consider a topological space $X$ together with its category of opens $\mathbf{Op}(X)$. The petit topos over $X$ is defined as the usual sheaf topos $\mathbf{Sh}(X)$. It represents $X$ as some kind of generalized space. (By construction \ref{topos:etale_adjunction} the objects in a small topos are the \'etale spaces over a given base space.) However, we can also build a topos whose objects are generalized spaces. To this end we choose a site $S$ of ''probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. (See section \ref{section:smooth_spaces} for more information.)
     }
 
     \begin{property}[Localic reflection]\index{localic reflection}
@@ -309,28 +342,80 @@
     \end{property}
     \sremark{We can conclude that Lawvere-Tierney topologies generalize Grothendieck topologies from presheaf topoi to general topoi.}
 
+\section{Higher topoi}
+
+    In this section we generalize the notion of topos from ordinary category theory to higher category theory. In particular we will consider $\infty$-sheafs. This will requires us to use a suitable foundation for $\infty$-category theory. For this we will use the language of (simplicial) model categories as introduced in chapter \ref{chapter:model_theory}.
+
+    \newdef{\texorpdfstring{$\infty$-groupoid}{Infinity-groupoid}}{\index{groupoid}
+        Objects of the full simplicial subcategory of $\mathbf{sSet}_{Quillen}$ on Kan complexes. From property \ref{model:horn_filler} we immediately see how this generalizes the definition of ordinary groupoids: For groupoids we need unique horn fillers (composition in ordinary categories is unique), while for $\infty$-groupoids we allow this up to higher coherence.
+    }
+    \newdef{\texorpdfstring{$(\infty,1)$-category}{(Infinity,1)-category}}{\index{category}
+        An $\infty\mathbf{Grpd}$-enriched category, or equivalently, a simplicially enriched category for which all hom-objects are Kan complexes. The functor category between $(\infty,1)$-categories is defined through the (simplicial) nerve and realization functors \ref{model:nerve}:
+        \begin{gather}
+            \funccat{C}{D} := |\mathbf{sSet}(N\mathbf{C}, N\mathbf{D})|.
+        \end{gather}
+    }
+
+    The most straightforward definition of an $\infty$-sheaf generalizes definition \ref{topoi:local_object_sheaf}:
+    \newdef{\texorpdfstring{$\infty$-sheaf}{Infinity-sheaf}}{\index{sheaf}
+        Consider an $\infty$-site $(\mathbf{C},J)$ and let $S$ denote the collection of monomorphism in $\mathbf{Psh}_\infty(\mathbf{C})$ induced by the covering sieves. An $\infty$-presheaf on $\mathbf{C}$ is called a $J$-sheaf if it is $S$-local. A presheaf with values in an $\infty$-category $\mathbf{D}$ is called a sheaf if the representable $\mathbf{D}(d, F-)$ is a $J$-sheaf for all $d\in\ob{D}$.
+    }
+    \newdef{\texorpdfstring{$\infty$-stack}{Infinity-stack}}{\index{stack}
+        An $(\infty,1)$-sheaf taking values in $\infty\mathbf{Grpd}$.
+    }
+
+    ?? PERHAPS MOVE infinity-CATEGORY STUFF TO CHAPTER ''MODEL THEORY'' ??
+
 \section{Cohesion}
 
-    In this section we will often talk about topoi \textbf{over} some base topos $\mathcal{S}$. These are topoi equipped with a geometric morphism to $\mathcal{S}$.
+    In this section we will often talk about (Grothendieck) topoi \textbf{over} some base topos $\mathcal{S}$, i.e. topoi equipped with a geometric morphism to $\mathcal{S}$.
 
     \newdef{Local topos}{\index{local!topos}
-        Consider a topos $\mathcal{E}$ over a base topos $\mathcal{S}$. $\mathcal{E}$ is said to be ($\mathcal{S}$-)local if the geometric morphism $(f^*\dashv f_*):\mathcal{E}\leftrightarrows\mathcal{S}$ admits a fully faithful right adjoint $f^!$. This latter property can be replaced by either of the following (necessarily equivalent) statements:
+        Consider a topos $\mathcal{E}$ over a base topos $\mathcal{S}$. $\mathcal{E}$ is said to be ($\mathcal{S}$-)local if the geometric morphism $(f^*\dashv f_*):\mathcal{E}\leftrightarrows\mathcal{S}$ admits a right adjoint $f^!$ such that one of the following equivalent statements:
         \begin{itemize}
+            \item $f^!$ is fully faithful.
             \item $f^*$ is fully faithful.
-            \item $f^!$ is an $\mathcal{S}$-indexed functor.
-            \item $f^!$ is Cartesian closed.
+            \item $f^!$ is an $\mathcal{S}$-indexed functor \ref{cat:indexed_category}.
+            \item $f^!$ is Cartesian closed \ref{cat:cartesian_closed_functor}.
         \end{itemize}
-        If we take $\mathcal{S}=\mathbf{Set}$, the condition on $f^!$ is automatically satisfied since all functors are $\mathbf{Set}$-indexed.
-    }
+        If we take $\mathcal{S}=\mathbf{Set}$, the conditions are automatically satisfied since all functors are $\mathbf{Set}$-indexed.
 
-    \newdef{Connected topos}{\index{connected!topos}
-        An object in a topos is said to be \textbf{connected} if its representable functor preserves finite coproducts. A Grothendieck topos is said to be \textbf{locally connected} is all objects can be written as coproducts of connected objects. If the topos is a Grothendieck topos, we obtain a left adjoint to the constant sheaf functor. In particular, a Grothendieck topos is locally connected if and only if its global sections geometric morphism is esssential. More generally we say a topos over some base topos $\mathcal{S}$ is \textbf{locally connected} if its associated geometric morphism is essential and the left adjoint is $\mathcal{S}$-indexed.
-
-        A topos over a base topos is said to be \textbf{connected} if the inverse image part of the associated geometric morphism is fully faithful. For locally connected topoi this amounts to the property that the left adjoint in its adjoint triple preserves the terminal object. A locally connected Grothendieck topos is said to be \textbf{strongly connected} if the left adjoint in its adjoint triple preserves finite products.
+        The left and right adjoints are sometimes also called the \textbf{discrete} and \textbf{codiscrete object functors} $\text{Disc}$ and $\text{coDisc}$ (in fact this terminology is applied more generally when $\mathcal{E}$ is just a category). If these functors exist, we say $\mathcal{E}$ has \textbf{(co)discrete objects}. This terminology derives from the case of the forgetful functor $\func{\Gamma}{Top}{Set}$ where the (fully faithful) left and right adjoints equip a set with the (co)discrete topology.
     }
+    \begin{property}
+        A topos is local if and only if $1$ is tiny \ref{cat:tiny}.
+    \end{property}
+
+    \newdef{Locally-connected topos}{\index{locally-connected}
+        An object in a category is said to be \textbf{connected} if its representable functor preserves finite coproducts. A topos is said to be \textbf{locally connected} if all objects can be written as coproducts of connected objects. This defines a functor
+        \begin{gather}
+            \Pi_0:\mathcal{E}\rightarrow\mathbf{Set}:\bigsqcup_{i\in I}X_i\mapsto I
+        \end{gather}
+        left adjoint to the constant sheaf functor (which is itself left adjoint to the global section functor). This functor is suitably called the \textbf{connected component functor}.
+    }
+    \begin{property}[Locally connected geometric morphisms]
+        A topos is locally connected if and only if its global section geometric morphism is essential (and the left adjoint is an indexed functor, but this is again automatic over $\mathcal{S}=\mathbf{Set}$). More generally we say a topos over some base topos $\mathcal{S}$ is \textbf{locally connected} if its associated geometric morphism is essential and the left adjoint is $\mathcal{S}$-indexed.
+    \end{property}
+
+    \newdef{Connected topos}{\index{connected}
+        A topos over a base topos is said to be \textbf{connected} if the inverse image part of the associated geometric morphism is fully faithful. For sheaf topoi over a topological space $X$ this is exactly the requirement for $X$ being connected.
+
+        For locally connected topoi this amounts to the property that the left adjoint in its adjoint triple preserves the terminal object. Furthermore, a locally connected topos is said to be \textbf{strongly connected} if the left adjoint in its adjoint triple preserves finite products (in particular turning it into a connected topos).
+    }
+    \begin{property}
+        Every local topos is connected.
+    \end{property}
 
     \newdef{Cohesive topos}{\index{topos!cohesive}
-        A local strongly connected topos.
+        A local strongly connected topos. This implies the existence of an adjoint quadruple $(\Pi_0,\text{Disc},\Gamma,\text{coDisc})$ where both $\text{Disc}$ and $\text{coDisc}$ are fully faithful.
     }
+
+    \begin{property}[Cohesive modalities]
+        The adjoint quadruple on a cohesive topos induces an adjoint triple of modalities, i.e. idempotent (co)monads (see section \ref{section:modal_type_theory} for a formal introduction):
+        \begin{gather}
+            (\smallint\dashv\flat\dashv\sharp):=(\text{Disc}\circ\Pi_0\dashv\text{Disc}\circ\Gamma\dashv\text{coDisc}\circ\Gamma).
+        \end{gather}
+        These are respectively called the \textbf{shape}, \textbf{flat} and \textbf{sharp} modalities.
+    \end{property}
 
     ?? COMPLETE (e.g. work by Schreiber) ??

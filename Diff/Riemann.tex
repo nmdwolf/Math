@@ -6,77 +6,79 @@
 \subsection{Metric}
 
     \begin{definition}[Bundle metric]\index{metric}
-        Consider the bundle of second order covariant vectors. From definition \ref{tensor:tensor_product} we know that every section $g$ of this bundle gives a bilinear map \[g_p:T_pM\times T_pM\rightarrow\mathbb{R}\] for all $p\in M$. If this map is symmetric and nondegenerate it is called a \textbf{(Lorentzian}) metric.\footnote{See also the section about Hermitian forms and metric forms \ref{linalgebra:innerproduct}.}
-
-        The maps $\{g_p\}_{p\in M}$ can be glued together to form a global metric $g$, defined on the fibre product\footnote{See definition \ref{manifolds:fibre_product}.} $TM\diamond TM$. Defining this map on $TM\times TM$ is not possible as tangent vectors belonging to different points in $M$ cannot be `compared'. The collection $\{\langle\cdot|\cdot\rangle_p:p\in M\}$ is called a \textbf{bundle metric} or \textbf{fibre metric}.
+        Consider the bundle of $(0,2)$-tensors. From definition \ref{tensor:tensor_product} it follows that every section $g$ of this bundle defines a bilinear map \[g_p:T_pM\times T_pM\rightarrow\mathbb{R}\] for all $p\in M$. If this map is symmetric and nondegenerate it is called a \textbf{Lorentzian} or \textbf{pseudo-Riemannian metric}. If the map is also positive, it is called a \textbf{Riemannian metric}.\footnote{See also the section about Hermitian forms and metric forms \ref{linalgebra:innerproduct}.} The collection $\{\langle\cdot|\cdot\rangle_p:p\in M\}$ is called a \textbf{bundle metric} or \textbf{fibre metric}.
     \end{definition}
+    \newdef{Pseudo-Riemannian manifold}{\index{Riemann!manifold}\label{riemann:riemannian_manifold}
+        A smooth manifold equipped with a pseudo-Riemannian. A \textbf{Riemannian manifold} is defined similarly.
+    }
 
-    A Riemannian metric induces a duality between $TM$ and $T^*M$. This is given by the \textit{flat} and \textit{sharp} isomorphisms:
+    A Riemannian metric induces a duality between $TM$ and $T^*M$ (the Reisz representation theorem \ref{hilbert:riesz}). This is given by the \textit{flat} and \textit{sharp} isomorphisms:
     \newdef{Musical isomorphisms}{\index{musical isomorphism}\label{riemann:musical_isomorphisms}
-        Let $g:TM\times TM\rightarrow\mathbb{R}$ be a Riemannian metric on $M$. The \textbf{flat} isomorphism is defined as
+        Let $g:TM\diamond TM\rightarrow\mathbb{R}$ be a Riemannian metric on $M$. The \textbf{flat} isomorphism is defined as follows:
         \begin{gather}
-            \label{manifolds:flat_map}
-            \flat:v\mapsto g(v, \cdot).
+            \label{riemann:flat_map}
+            \flat:v\mapsto g(v,\cdot).
         \end{gather}
         The \textbf{sharp} isomorphism is defined as the inverse map. For an arbitrary covector field $\omega$ it is implicitly given by
         \begin{gather}
-            \label{manifolds:sharp_map}
-            g(\omega^\sharp, v) = \omega(v).
+            \label{riemann:sharp_map}
+            g(\omega^\sharp,v) = \omega(v).
         \end{gather}
-        These \textbf{musical isomorphisms} can be used to raise and lower tensor indices.
+        These \textbf{musical isomorphisms} can be used to raise and lower tensor indices. In index-notatio they are given by contraction with metric tensor:
+        \begin{align*}
+            \flat&:v^\mu\mapsto v_\lambda:=g_{\lambda\mu}v^\mu\\
+            \sharp&:\omega_\mu\mapsto \omega^\lambda:=g^{\lambda\mu}\omega_\mu.
+        \end{align*}
     }
 
     \newdef{Codifferential}{\index{codifferential}
-        Using the de Rham differential $d$ and the Hodge star operator \ref{tensor:hodge_star} (here extended to manifolds) we can define a boundary operator\footnote{This means that $\delta^2=0$ (see property \ref{topology:boundary_operator_relation}).} $\delta:\Omega^k(M)\rightarrow \Omega^{k-1}(M)$:
+        Using the de Rham differential $d$ and the Hodge star operator \ref{tensor:hodge_star} one can define a boundary operator $\delta:\Omega^k(M)\rightarrow \Omega^{k-1}(M)$:
         \begin{gather}
-            \label{manifolds:codifferential}
+            \label{riemann:codifferential}
             \delta := (-1)^k\ast^{-1} d \ast = (-1)^{n(k+1)+1}\ast d \ast.
         \end{gather}
+        It is not hard to check that this is indeed a boundary operator according to definition \ref{homalg:chain_complex}.
     }
     \newdef{Hodge Laplacian\footnotemark}{\index{Hodge!Laplacian}
         \footnotetext{Sometimes called the \textbf{Hodge-de Rham} or \textbf{Laplace-de Rham} operator.}
-        Using the de Rham differential and codifferential one can define the following derivation $\Delta:\Omega^k(M)\rightarrow\Omega^k(M)$:
+        Using the de Rham differential and codifferential one can define a derivation on $\Omega^k(M)$:
         \begin{gather}
-            \label{diff:hodge_laplacian}
+            \label{riemann:hodge_laplacian}
             \Delta := d\delta + \delta d.
         \end{gather}
-        It should be noted that, in contrast to the differential $d$, the Hodge Laplacian does depend on the metric through the definition of the codifferential.
+        It should be noted that, in contrast to the differential $d$, the Hodge Laplacian depends on the metric through the definition of the codifferential.
     }
 
     \newdef{Harmonic form}{\index{harmonic!form}
-        Element of the kernel of the Hodge Laplacian $\Delta$. The space of harmonic $k$-forms is denoted by $\mathcal{H}^k(M)$.
+        An element of the kernel of the Hodge Laplacian $\Delta$. The space of harmonic $k$-forms is often denoted by $\mathcal{H}^k(M)$.
     }
 
     \begin{theorem}[Hodge decomposition]\index{Hodge!decomposition}
-        Let $M$ be a compact manifold equipped with a Hodge Laplacian $\Delta$. Every differential $k$-form admits a decomposition of the form
+        Let $M$ be a closed Riemannian manifold. Every differential $k$-form admits a decomposition of the form
         \begin{gather}
             \omega = d\alpha+\delta\beta+h
         \end{gather}
         where $h\in\mathcal{H}^k(M)$.
     \end{theorem}
     \begin{result}
-        The $k^{th}$ de Rham cohomology group is isomorphic (as Abelian groups) to the space of harmonic $k$-forms:
+        The $k^{th}$ de Rham cohomology group is isomorphic (as an Abelian group) to the space of harmonic $k$-forms:
         \begin{gather}
             H^k(M;\mathbb{R})\cong\mathcal{H}^k(M).
         \end{gather}
     \end{result}
 
-\subsection{Riemannian manifold}
-
-    \newdef{Pseudo-Riemannian manifold}{\index{Riemann!manifold}\label{riemann:riemannian_manifold}
-        Let $M$ be a smooth manifold. This manifold is said to be pseudo-Riemannian if it is equipped with a pseudo-Riemannian metric. A \textbf{Riemannian manifold} is defined similarly.
-    }
+\subsection{Riemannian manifolds}
 
     \newdef{Riemannian isometry}{\index{isometry}
-        Let $(M, g_M)$ and $(N, g_N)$ be two Riemannian manifolds. An isometry \ref{diff:isometry_def} $f:M\rightarrow N$ is said to be Riemannian if $f^*g_N = g_M$.
+        Let $(M,g_M)$ and $(N,g_N)$ be two pseudo-Riemannian manifolds. A smooth map $f:M\rightarrow N$ is called an isometry if $f^*g_N = g_M$, i.e. if it preserves the metric tensor.
     }
 
     \begin{property}\index{index}
-        Let $M$ be a pseudo-Riemannian manifold. For every $p\in M$ there exists a splitting $T_pM = P\oplus N$ where $P$ is a subspace on which the pseudometric is positive definite and $N$ is a subspace on which the pseudometric is negative-definite. This splitting is however not unique, only the dimensions of the two subspaces are well-defined.
+        Let $M$ be a pseudo-Riemannian manifold. For every $p\in M$ there exists a splitting $T_pM = P\oplus N$ where $P$ is a subspace on which the metric is positive-definite and $N$ is a subspace on which the metric is negative-definite. This splitting is not unique, only the dimensions of the two subspaces are well-defined invariants.
     \end{property}
-    Due to the continuity of the pseudometric, the dimensions of this splitting will be the same for all points in a connected neighbourhood. For connected manifolds this amounts to a global invariant:
-    \newdef{Index}{
-        Let $M$ be a connected pseudo-Riemannian manifold. The dimension of the ''negative'' subspace $N$ in the above splitting $T_pP = P\oplus N$ is called the index of the pseudo-Riemannian manifold.
+    Due to the continuity of the metric, the dimensions of this splitting will be the same for all points in a connected neighbourhood. For connected manifolds this amounts to a global invariant:
+    \newdef{Index}{\index{index}
+        Let $M$ be a connected pseudo-Riemannian manifold. The dimension of the ''negative'' subspace $N$ in the above splitting $T_pP = P\oplus N$ is called the index of the manifold.
     }
 
     \begin{theorem}[Whitney's embedding theorem]\index{Whitney!embedding theorem}
@@ -91,99 +93,106 @@
     \end{theorem}
 
     \newdef{Riemannian cone}{\index{Riemann!cone}\label{riemann:riemannian_cone}
-        Let $(M, g)$ be a Riemannian manifold. Consider the product manifold $M\times\ ]0, +\infty[$. This manifold can also be turned into a Riemannian manifold by equipping it with the metric $t^2g+dt^2$. This manifold is called the Riemannian cone or \textbf{metric cone} of $(M, g)$.
+        Let $(M,g)$ be a Riemannian manifold. Consider the product manifold $M\times\ ]0, +\infty[$. This manifold can also be turned into a Riemannian manifold by equipping it with the metric $t^2g+dt^2$. This manifold is called the Riemannian cone or \textbf{metric cone} of $(M,g)$.
     }
 
 \subsection{Levi-Civita connection}
 
     \newdef{Riemannian connection}{\index{Riemann!connection}\index{Levi-Civita!connection|see{Riemann connection}}\label{riemann:levi_civita_connection}
-        An affine connection $\nabla$ on a Riemannian manifold $(M, g)$ is said to be Riemannian if it satisfies the following two conditions:
+        An affine connection $\nabla$ on a pseudo-Riemannian manifold $(M,g)$ is said to be Riemannian if it satisfies the following two conditions:
         \begin{enumerate}
-            \item $\nabla$ is \textbf{metric}:
+            \item $\nabla$ is \textbf{metric}(-\textbf{compatible}):
             \begin{gather}
-                X(g(Y, Z)) = g(\nabla_XY, Z) + g(Y, \nabla_XZ).
+                \nabla g = 0
             \end{gather}
+            or, equivalently,
+            \begin{gather}
+                X(g(Y,Z)) = g(\nabla_XY,Z) + g(Y,\nabla_XZ)
+            \end{gather}
+            for all vector fields $X,Y$ and $Z$.
             \item $\nabla$ is \textbf{torsion-free}:
             \begin{gather}
-                \nabla_XY - \nabla_YX = [X, Y].
+                \nabla_XY - \nabla_YX = [X,Y]
             \end{gather}
+            for all vector fields $X,Y$.
         \end{enumerate}
-        A Riemannian connection is often called a \textbf{Levi-Civita connection}.
+        A Riemannian connection is also often called a \textbf{Levi-Civita connection}.
     }
 
-    Because the existence of a metric is equivalent to the integrability of an $\text{O}(n)$-structure, properties \ref{diff:prin:reducible_holonomy}, \ref{diff:prin:connection_reducibility} and \ref{diff:prin:integrable_torsion_free} imply that there exists a torsion-free connection that preserves this structure. The following theorem gives an even sharper result:
-    \begin{theorem}[Fundamental theorem]
-        Every Riemannian manifold $(M, g)$ admits a unique Levi-Civita connection.
+    Because the existence of a metric is equivalent to the integrability of an $\text{O}(n)$-structure by example \ref{diff:riemannian_G_structure}, properties \ref{diff:integrable_torsion_free} and \ref{diff:connection_reducibility} imply that there exists a torsion-free connection that preserves this structure. The following theorem gives an even sharper result:
+    \begin{theorem}[Fundamental theorem]\index{fundamental theorem!of Riemannian geometry}
+        Every pseudo-Riemannian manifold $(M,g)$ admits a unique Levi-Civita connection.
     \end{theorem}
 
     \newformula{Koszul formula}{\index{Koszul!formula}
-        The Levi-Civita connection $\nabla$ on a Riemannian manifold $(M, g)$ is implicitly defined by the following formula:
+        The Levi-Civita connection $\nabla$ on a pseudo-Riemannian manifold $(M,g)$ is implicitly defined by the following formulae:
         \begin{align}
             2g(\nabla_XY, Z) &= \mathcal{L}_Xg(Y, Z) + d(\iota_Xg)(Y, Z)\\
             &= X(g(Y, Z)) + Y(g(Z, X)) - Z(g(X, Y))\nonumber\\
-            &\hspace{3cm}+ g([X, Y], Z) - g([Z, X], Y) - g([Y, Z], X).
+            &\hspace{3cm}+ g([X,Y], Z) - g([Z,X], Y) - g([Y,Z], X).
         \end{align}
     }
 
-    The following (local) formula can be useful (especially in general relativity):
-    \newformula{Divergence}{
-        Consider the Riemannian volume form $\text{Vol}=\sqrt{g}dx^1\wedge\cdots\wedge dx^n$. The divergence of a vector field $X$ is defined as follows:
+    The following (local) formula is often useful in calculations (especially in general relativity, chapter \ref{chapter:GR}):
+    \newformula{Divergence}{\index{divergence}
+        Consider the Riemannian volume form
+        \begin{gather}
+            \text{Vol}=\sqrt{\det(g)}dx^1\wedge\cdots\wedge dx^n.
+        \end{gather}
+        The divergence of a vector field $X$ is defined as follows:
         \begin{gather}
             \mathcal{L}_X\text{Vol} =: \text{div}(X)\text{Vol}.
         \end{gather}
-        In an orthonormal frame field on can also prove that this is equivalent to
+        With respect to an orthonormal frame field this is equivalent to
         \begin{gather}
             \text{div}(X) = \frac{1}{2}\sum_{i=1}^n(\mathcal{L}_Xg)(e_i,e_i).
         \end{gather}
-        Let $\nabla$ be the Levi-Civita connection on a given Riemannian manifold. Using the Koszul formula one can show that the above formula implies the following equality
+        Let $\nabla$ be the Levi-Civita connection. Using the Koszul formula one can show that the above formula implies the following equality
         \begin{gather}
             \text{div}(X) = \text{tr}(Y\mapsto \nabla_YX) \equiv \nabla_\mu X^\mu.
         \end{gather}
         where $\text{tr}$ denotes the contraction (or trace) induced by $g$. This makes it clear that the covariant divergence is indeed a good generalization of the divergence \ref{vectorcalculus:divergence} from vector calculus.
 
-        Using the metric determinant one can locally write the divergence in terms of the ordinary partial derivatives:
+        Using the metric determinant one can locally write the divergence in terms of ordinary partial derivatives:
         \begin{gather}
             \label{diff:divergence_partial}
-            \nabla_\mu V^\mu = \frac{1}{\sqrt{g}}\partial_\mu(\sqrt{g}V^\mu).
+            \nabla_\mu V^\mu = \frac{1}{\sqrt{\det(g)}}\partial_\mu(\sqrt{\det(g)}V^\mu).
         \end{gather}
     }
 
     The geodesic equation \ref{diff:geodesic_equation} can be generalized as follows:
-    \newdef{Geodesic}{\index{geodesic}\label{riemann:geodesic}
-        A curve $\gamma$ on a Riemannian manifold $(M, g)$ that is autoparallel with respect to the Levi-Civita connection:
+    \newdef{Geodesic}{\index{geodesic}\label{diff:geodesic}
+        A curve $\gamma$ on a Riemannian manifold $(M,g)$ that is autoparallel with respect to the Levi-Civita connection:
         \begin{gather}
             \nabla_{\dot{\gamma}}\dot{\gamma} = 0.
         \end{gather}
     }
 
-    ?? COMPLETE (DIVERGENCE, HESSIAN, ...) ??
+    ?? COMPLETE (HESSIAN, ...) ??
 
 \subsection{Killing vectors}
 
-    \newdef{Killing vector}{\index{Killing!vector}\label{diff:killing_vector}
-        Let $(M, g)$ be a Riemannian manifold. A vector field $X$ satisfying
+    \newdef{Killing vector}{\index{Killing!vector}\label{riemann:killing_vector}
+        Let $(M,g)$ be a pseudo-Riemannian manifold. A vector field $X$ satisfying
         \begin{gather}
             \mathcal{L}_Xg = 0
         \end{gather}
-        is called a Killing vector field. A straightforward calculation gives us the following coordinate expression:
-        \begin{gather}
-            (\mathcal{L}_Xg)_{\mu\nu} = X^\lambda\partial_\lambda g_{\mu\nu} + g_{\lambda\mu}\partial_\nu X^\lambda + g_{\lambda\nu}\partial_\mu X^\lambda.
-        \end{gather}
+        is called a Killing vector field.
     }
     \begin{formula}
-        Given a Levi-Civita connection $\nabla$ on $(M, g)$ we can rewrite the Killing condition as follows:
+        Given a Levi-Civita connection $\nabla$ on $(M,g)$ one can rewrite the Killing condition as follows:
         \begin{gather}
             \nabla_{(\mu}X_{\nu)} = 0.
         \end{gather}
     \end{formula}
 
     \newdef{Killing tensor}{\index{Killing!tensor}
-        Let $\nabla$ be the Levi-Civita connection on $(M, g)$. A tensor $T$ satisfying
+        Let $\nabla$ be the Levi-Civita connection on $(M,g)$. A tensor $T$ satisfying
         \begin{gather}
             \label{diff:killing_tensor}
             \nabla_{(\mu_N}T_{\mu_1\ldots\mu_{N-1})} = 0
         \end{gather}
-        is called a Killing tensor. It is obvious that this \textbf{generalized Killing condition} is a direct generalization of the Killing condition as given above.
+        is called a Killing tensor. It is obvious that this \textbf{generalized Killing condition} is a true generalization of the Killing condition as given above.
     }
 
 \section{Curvature}\label{diff:section:curvature}
@@ -191,11 +200,11 @@
     \newformula{Riemann curvature tensor}{\index{Riemann!curvature}
         The Riemann (curvature) tensor $R$ is defined as the following $(1,3)$-tensor:
         \begin{gather}
-            R(v, w)z := [\nabla_v, \nabla_w]z - \nabla_{[v, w]}z
+            R(v, w)z := [\nabla_v,\nabla_w]z - \nabla_{[v,w]}z
         \end{gather}
         where $\nabla$ is the Levi-Civita connection. In index notation it is given by
         \begin{gather}
-            R^i_{jkl}\nabla_i = R(e_k, e_l)e_j.
+            R^i_{jkl}e_i = R(e_k,e_l)e_j.
         \end{gather}
     }
 
@@ -223,33 +232,29 @@
         \end{gather}
         An important result states that the sectional curvature only depends on the span of $v, w$.
     }
-    \remark{For surfaces the sectional curvature coincides with the Gaussian curvature $K$ (see Gauss' Theorema Egregium \ref{diff:theorema_egregium}). Generally, the sectional curvature gives the Gaussian curvature of the plane spanned by the vectors $v, w$.}
+    \remark{For surfaces the sectional curvature coincides with the Gaussian curvature $K$ (see Gauss's Theorema Egregium \ref{diff:theorema_egregium}). Generally, the sectional curvature gives the Gaussian curvature of the plane spanned by the vectors $v, w$.}
 
     \newformula{Ricci tensor}{\index{Ricci!tensor}
-        In coordinate-free notation one defines the Ricci tensor as the following trace:
+        In coordinate-free notation the Ricci tensor is defined as the following trace:
         \begin{gather}
-            R(v, w) := \text{tr}\big(x\mapsto R(x, v)w\big)
+            \text{Ric}(v,w) := \text{tr}\big(x\mapsto R(x,v)w\big)
         \end{gather}
-        or equivalently
+        or, equivalently,
         \begin{gather}
-            R(v, w) = \sum_{i=1}^n g(R(e_i, v)w, e_i).
+            \text{Ric}(v,w) = \sum_{i=1}^n g(R(e_i,v)w, e_i).
         \end{gather}
         In index notation this becomes
         \begin{gather}
             \label{diff:manifolds:ricci_tensor}
-            R_{\mu\nu} := R^\lambda_{\ \mu\nu\lambda}.
-        \end{gather}
-        The Ricci tensor is also often denoted by $\text{Ric}$ (especially in Riemannian geometry). A $(1,1)$-tensor can be obtained by dropping the metric:
-        \begin{gather}
-            R(v) = \sum_{i=1}^n R(v, e_i)e_i.
+            R_{\mu\nu} \equiv \text{Ric}_{\mu\nu} := R^\lambda_{\ \mu\nu\lambda}.
         \end{gather}
     }
     \begin{property}
-        The $(0,2)$-Ricci tensor can also be rewritten in terms of the sectional curvature in the case where $||v||=1$. Let $\{e_2,\ldots,e_n\}$ be a set of orthonormal vectors such that $\{v, e_2, \ldots, e_n\}$ forms an orthonormal basis.
+        The Ricci tensor can also be rewritten in terms of the sectional curvature whenever $||v||=1$. Let $\{e_1,\ldots,e_{n-1}\}$ be a set of orthonormal vectors such that $\{e_1,\ldots,e_{n-1},v\}$ forms an orthonormal basis.
         \begin{gather}
-            R(v,v) = \sum_{i=2}^n \text{sec}(v, e_i).
+            \text{Ric}(v,v) = \sum_{i=1}^{n-1} \text{sec}(v, e_i).
         \end{gather}
-        The Ricci tensor can thus be interpreted as an averaged (sectional) curvature.
+        It follows that the Ricci tensor can be interpreted as an averaged (sectional) curvature.
     \end{property}
 
     \newformula{Ricci scalar}{\index{Ricci!scalar}\index{scalar!curvature}
@@ -267,100 +272,102 @@
         \end{gather}
     }
     \begin{property}
-        For 4-dimensional manifolds the Einstein tensor $G_{\mu\nu}$ is the only tensor containing at most second derivatives of the metric $g_{\mu\nu}$ and satisfying
+        For 4-manifolds the Einstein tensor $G_{\mu\nu}$ is the only tensor containing at most second derivatives of the metric that satisfies
         \begin{gather}
             \nabla_\mu G^{\mu\nu} = 0.
         \end{gather}
     \end{property}
 
     \newdef{Einstein manifold}{\index{Einstein!manifold}\label{diff:einstein_manifold}
-        A Riemannian manifold for which the Ricci tensor $R_{\mu\nu}$ is proportional to the metric $g_{\mu\nu}$.
+        A Riemannian manifold for which the Ricci tensor is proportional to the metric.
     }
-    \sremark{This name is justified by the fact that Einstein manifolds are exactly the solutions of the Einstein field equations \ref{rel:einstein_field_equations} with a cosmological constant.}
+    \sremark{This name is justified by the fact that Einstein manifolds are exactly the solutions of the Einstein field equations \ref{rel:einstein_field_equations} (with a cosmological constant).}
 
 \section{Spinor bundles}\label{section:spinor_bundles}
 
-    \sremark{In this section we only work with orientable (pseudo-)Riemannian manifolds because this assures that $M$ allows a reduction to a special orthogonal group and hence we can look at the associated $\text{Spin}$-group. For the more geenral definition of $\text{Pin}$-bundles we refer to \cite{AMP2}.}
+    \sremark{In this section all (pseudo)Riemannian manifolds are assumed to be orientable since this assures that the structure group of $TM$ can be reduced to the special orthogonal group. For the more general definition of $\text{Pin}$-bundles see \cite{AMP2}.}
 
 \subsection{Spin structures}
 
-    From definition \ref{linalgeba:vector_alternative} we know that one can define a vector $v\in V$ as an equivalence class of couples $(c, \mathfrak{b})$ where $\lambda\in\mathbb{C}^{\dim(V)}$ is a (coordinate) vector and $\psi$ is a (linear) frame of $V$. We will now extend this definition to Clifford algebras and spinors.\footnote{We haven't put this section in the chapter on Clifford algebras because the theory of spinors is in general always used in a manifold setting.}
+    From definition \ref{linalgeba:vector_alternative} it is known that one can define a (complex) vector $v\in V$ as an equivalence class of couples $(c, \mathfrak{b})$ where $\lambda\in\mathbb{C}^{\dim(V)}$ is a (coordinate) vector and $\psi$ is a (linear) frame of $V$. We will now extend this definition to Clifford algebras and spinors.\footnote{This section was not placed in the chapter on Clifford algebras because the theory of spinors is in general always used in a manifold setting.}
 
     \newdef{Spinor}{\index{spinor}
-        Let $V$ be a vector space equipped with a metric form $g$ of signature $(p,q)$. Consider the set $\mathbb{C}^{2^k}\times F_{SO}V\times\text{Spin}(p,q)$ where $k=\lfloor\frac{p+q}{2}\rfloor$ and $F_{SO}V$ is the set of orthonormal frames in $V$. One can define an equivalence relation on this set as follows: Two triples $(c_1, \mathfrak{b}_1, \Lambda_1)$, $(c_2, \mathfrak{b}_2, \Lambda_2)$ are said to be equivalent if and only if
+        Let $V$ be a vector space equipped with a metric form $g$ of signature $(p,q)$. Consider the set $\mathbb{C}^{2^k}\times F_{SO}V\times\text{Spin}(p,q)$ where $k=\lfloor\frac{p+q}{2}\rfloor$ and $F_{SO}V$ is the set of orthonormal frames in $V$. One can define an equivalence relation on this set as follows: Two triples $(c_1,\mathfrak{b}_1,\Lambda_1)$ and $(c_2,\mathfrak{b}_2,\Lambda_2)$ are said to be equivalent if and only if
         \begin{gather}
             c_2 = \Lambda c_1\qquad\qquad\mathfrak{b}_1=L\mathfrak{b}_2\qquad\qquad\Lambda=\Lambda_2\Lambda_1^{-1}\qquad\qquad\rho(\Lambda)=L
         \end{gather}
-        where $\rho$ is the (2-to-1) covering map $\text{Spin}(p, q)\rightarrow\text{SO}(p, q)$. such an equivalence class is called a \textbf{spinor}. The $2^k$ numbers in $c_1$ are the components of this spinor in the \textbf{spin frame} $(\mathfrak{b}_1, \Lambda_1)$.
+        where $\rho$ is the 2-to-1 covering map $\text{Spin}(p, q)\rightarrow\text{SO}(p,q)$. An equivalence class as defined above (or a representative thereof) is called a \textbf{spinor}. The $2^k$ numbers in $c_1$ are called the \textbf{components} of this spinor in the \textbf{spin frame} $(\mathfrak{b}_1,\Lambda_1)$.
 
-        It should be noted that the two components of a spin frame $(\mathfrak{b}, \Lambda)$ are not independent. Let us choose a \textbf{fiducial frame}\footnote{Different choices of fiducial frame give different, yet isomorphic, spinor spaces.} $(\mathfrak{b}_0, e)$ where $e$ is the identity element of $\text{Spin}(p, q)$. The couple $(\mathfrak{b}, \Lambda)$ is a well-defined spin frame if and only if $\rho(\Lambda)=L$ whenever $\mathfrak{b}=L\mathfrak{b}_0$.
+        It should be noted that the two elements of a spin frame $(\mathfrak{b},\Lambda)$ are not independent. Choose a ''fiducial frame''\footnote{Different choices of fiducial frame give different, yet isomorphic, spinor spaces.} $(\mathfrak{b}_0,e)$ where $e$ is the identity element of $\text{Spin}(p,q)$. The couple $(\mathfrak{b}, \Lambda)$ is a well-defined spin frame if and only if $\rho(\Lambda)=L$ whenever $\mathfrak{b}=L\mathfrak{b}_0$.
     }
 
     \newdef{Spinor field}{
-        Let $(M, g)$ be a (pesudo-)Riemannian manifold. Every tangent space $T_pM, p\in M$ is a vector space equipped with a nondegenerate bilinear form and hence we can use the above definition to construct a spinor space at $p$. If the orthonormal frame bundle $F_{SO}(M)$ is trivial then we can smoothly choose a section $p\mapsto\mathfrak{b}(p)$ and define the fiducial frame field to be $p\mapsto(\mathfrak{b}(p), e)$.
+        Let $(M,g)$ be a (pseudo)Riemannian manifold. Every tangent space $T_pM$ is a vector space equipped with a nondegenerate bilinear form and hence we can use the above definition to construct a spinor space at $p$. If the orthonormal frame bundle $F_{SO}M$ is trivial, one can choose a section $p\mapsto\mathfrak{b}(p)$ and define the fiducial frame field to be $p\mapsto(\mathfrak{b}(p),e)$.
 
-        However, if $F_{SO}(M)$ is not trivial, this construction only works on a local chart. To be able to extend it to the whole manifold, we need to patch the different frame fields together. The required compatibility conditions reads as follows:
+        However, if $F_{SO}M$ is not trivial, this construction only works locally. To be able to extend it to the whole manifold, one needs to patch the different frame fields together. The required compatibility conditions reads as follows:
         \begin{gather}
             \rho(\Lambda_i(x)\Lambda_j^{-1}(x))=L_{ij}(x)
         \end{gather}
-        if
+        whenever
         \begin{gather}
-            \mathfrak{b}_i(x) = L(x)\mathfrak{b}_j(x)
+            \mathfrak{b}_i(x) = L_{ij}(x)\mathfrak{b}_j(x)
         \end{gather}
         for all $x\in U_i\cap U_j$.
     }
 
-    One can show that a manifold admits the definition of a global spin frame field if and only if it admits a spin structure:
+    It can be shown that a manifold admits the definition of a global spin frame field if and only if it admits a spin structure:
     \newdef{Spin structure}{\index{spin!structure}\index{spin!frame}
-        Consider the (oriented) orthonormal frame bundle \[\pi_{SO}:F_{SO}(M)\rightarrow M\] which is obtained by reducing the structure group of the frame bundle $F(M)$ from GL$(n)$ to SO$(n)$. Furthermore, let $\pi_{spin}:P_{spin}\rightarrow M$ be a principal Spin$(n)$-bundle over $M$.
+        Consider the orthonormal frame bundle \[\pi_{SO}:F_{SO}M\rightarrow M\] which is obtained by reducing the structure group of the frame bundle $FM$ from $\text{GL}(n)$ to $\text{SO}(n)$. Furthermore, let $\pi_{spin}:P_{spin}\rightarrow M$ be a principal $\text{Spin}(n)$-bundle over $M$.
 
-        The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $P_{spin}$, i.e. a morphism $\xi:P_{spin}\rightarrow F_{SO}(M)$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy
+        The smooth manifold $M$ is said to have a spin structure if there exists an equivariant 2-fold lifting of $F_{SO}$ to $P_{spin}$, i.e. a morphism $\xi:P_{spin}\rightarrow F_{SO}M$ together with the 2-fold covering map $\rho:\text{Spin}(n)\rightarrow\text{SO}(n)$ that satisfy
         \begin{itemize}
             \item $\pi_{SO}\circ\xi = \pi_{spin}$, and
             \item $\xi(p\vartriangleleft g) = \xi(p)\cdot\rho(g)$
         \end{itemize}
-        for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold} and the principal Spin$(n)$-bundle $P_{spin}$ is called the \textbf{spin frame bundle}.
+        for all $g\in\text{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups. If $M$ admits a spin structure it is often called a \textbf{spin manifold} and the principal $\text{Spin}(n)$-bundle $P_{spin}$ is called the \textbf{spin frame bundle}.
     }
 
     \newdef{Spin bundle}{\index{spin!bundle}\index{spinor}
         A spin bundle is a vector bundle associated to a spin frame bundle. Sections of a spin bundle are called spinor fields.
     }
 
-    The classification of spin manifolds can be phrased in terms of characteristic classes. Instead of the usual $\mathbb{R}$- or $\mathbb{Z}$-valued cohomology classes, we will now introduce some classes in $\mathbb{Z}_2$-cohomology.
-    \begin{property}
+    The classification of spin manifolds can be stated in terms of characteristic classes. However, instead of the usual $\mathbb{R}$- or $\mathbb{Z}$-valued cohomology classes, one needs classes in $\mathbb{Z}_2$-cohomology.
+    \begin{property}[Orientability]
         A smooth manifold is orientable if and only if its first Stiefel-Whitney class vanishes.
     \end{property}
-    \begin{property}
+    \begin{property}[Spin manifold]
         A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes. Furthermore, the distinct spin structures form an affine space over $H^1(M, \mathbb{Z}_2)$.
     \end{property}
-    \begin{property}
-        A special case occurs when $\dim M = 3$. We then have that $M$ is spin if it is compact and orientable.
-    \end{property}
+    \begin{example}
+        A special case occurs when $\dim M = 3$. A 3-manifold is spin if it is compact and orientable.
+    \end{example}
+    \begin{example}
+        Any parallelizable or stably parallelizable manifold is spin.
+    \end{example}
 
 \subsection{Dirac operators}
 
-    In this section we will generalize the partial derivatives $\partial_i$ and gradient operator $\sum_{i=1}^ne_i\partial_i$ to Clifford algebras and Clifford modules.
+    In this section the partial derivatives $\partial_i$ and gradient operator $\sum_{i=1}^ne_i\partial_i$ are generalized to Clifford algebras and Clifford modules.
 
     \newdef{Clifford bundle}{\index{Clifford!bundle}
-        Consider a (pseudo-)Riemannian manifold $(M, g)$ of signature $(p, q)$. For every point $p\in M$ one can construct a Clifford algebra associated to the tangent space $(T_pM, g_p)$. Using these Clifford algebras one can construct an associated bundle to $TM$ which has $C\ell_{p,q}(\mathbb{R})$ as its typical fibre. In general one calls a vector bundle with a Clifford algebra as typical fibre, for which the local trivializations respect the algebra structure, a Clifford bundle.\footnote{Note that one can use this construction to turn any vector bundle that admits a fibre metric into a Clifford bundle.}
+        Consider a (pseudo-)Riemannian manifold $(M,g)$ of signature $(p,q)$. For every point $p\in M$ one can construct a Clifford algebra associated to the tangent space $(T_pM,g_p)$. Using these Clifford algebras one can construct an associated bundle to $TM$ which has $C\ell_{p,q}(\mathbb{R})$ as its typical fibre. A vector bundle with a Clifford algebra as typical fibre, for which the local trivializations respect the algebra structure, is called a Clifford bundle.\footnote{Note that one can use this construction to turn any vector bundle that admits a fibre metric into a Clifford bundle.}
     }
 
     \newdef{Clifford module bundle}{\index{Clifford!module}
         Consider a (pseudo-)Riemannian manifold $(M, g)$ with its associated Clifford bundle $C\ell(TM)$. Any vector bundle that admits a left $C\ell(TM)$-action is called a Clifford module (bundle) over $M$.
     }
 
-    Let us first define the Dirac operator on Euclidean space $\mathbb{R}^n$. The Dirac operator is obtained by composing the ordinary gradient
+    To be able to define a Dirac operator on spin bundles, one first needs to define the Dirac operator on $\mathbb{R}^n$. This Dirac operator is obtained by composing the ordinary gradient
     \begin{gather}
         \partial:=\sum_{i=1}^ne_i\partial_i
     \end{gather}
-    with the morphism $\iota_{C\ell}:e_i\mapsto\gamma_i$ that sends a basis for $\mathbb{R}^n$ to the corresponding generators of $C\ell_n(\mathbb{R})$:
+    with the linear map $\iota_{C\ell}:e_i\mapsto\gamma_i$ that sends a basis for $\mathbb{R}^n$ to the corresponding generators of $C\ell_n(\mathbb{R})$:
     \begin{gather}
         \underline{\partial} := \sum_{i=1}^n\gamma_i\partial_i.
     \end{gather}
-
-    We would now like to extend this definition to Clifford modules. As usual this will be done by replacing partial derivatives by covariant derivatives.
+    To extend this definition to Clifford modules one simply needs to replace partial derivatives by covariant derivatives as usual:
     \begin{property}
-        Let $(M, g)$ be a (pseudo-)Riemannian manifold and let $\nabla$ be the associated Levi-Civita connection. For every Clifford module $E$ over $M$ there exists a unique connection $\nabla^E:\Gamma(E)\rightarrow \Gamma(T^*M\otimes E)$ that respects the Clifford action:
+        Let $(M,g)$ be a (pseudo-)Riemannian manifold and let $\nabla$ be the associated Levi-Civita connection. For every Clifford module $E$ over $M$ there exists a unique connection $\nabla^E:\Gamma(E)\rightarrow \Gamma(T^*M\otimes E)$ that respects the Clifford action:
         \begin{gather}
             \nabla^E(\iota_{C\ell}(X)\cdot\sigma) = \iota_{C\ell}(\nabla X)\cdot\sigma + \iota_{C\ell}(X)\cdot\nabla^E\sigma
         \end{gather}
@@ -368,20 +375,20 @@
     \end{property}
 
     \newdef{Dirac operator}{\index{Dirac!operator}
-        Consider a (pseudo-)Riemannian manifold $(M, g)$ together with a Clifford module $E$. If $\nabla^E$ is the compatible connection from the previous property then we define the Dirac operator as follows:
+        Consider a (pseudo-)Riemannian manifold $(M, g)$ together with a Clifford module $E$. If $\nabla^E$ is the compatible connection from the previous property, then the Dirac operator on $E$ is defined as follows:
         \begin{gather}
             \underline{D} := \sum_{i=1}^n\iota_{C\ell}(e_i)\cdot\nabla^E_{e_i}\sigma.
         \end{gather}
         where $\{e_i\}_{i\leq n}$ is a local (orthonormal) frame field.
     }
-    \begin{property}
+    \begin{property}[Ellipticity]
         The Dirac operator is a self-adjoint elliptic differential operator.
     \end{property}
 
 \subsection{Index theorem}
 
     \begin{property}
-        The $\hat{A}$-genus \ref{diff:prin:a_roof_genus} of a spin manifold is an integer.
+        The $\hat{A}$-genus \ref{diff:a_roof_genus} of a spin manifold is an integer.
     \end{property}
 
     ?? COMPLETE ??
@@ -390,16 +397,16 @@
 \subsection{Conformal transformations}
 
     \newdef{Conformal transformation}{
-        Consider two (pseudo-)Riemannian manifolds $(M, g)$ and $(M', g')$. A smooth map $f:M\rightarrow M'$ is said to be conformal if it leaves the metric invariant up to a scale transformation:\footnote{Compare this to definition \ref{diff:conformal_map}.}
+        Consider two (pseudo-)Riemannian manifolds $(M,g)$ and $(M',g')$. A smooth map $f:M\rightarrow M'$ is said to be conformal if it leaves the metric invariant up to a scale transformation\footnote{Compare this to definition \ref{diff:conformal_map}.}, i.e. if
         \begin{gather}
             f^*g' = \Omega g
         \end{gather}
-        for some smooth positive function $\Omega:M\rightarrow\mathbb{R}^+$. If $f$ is a diffeomorphism then it is called a \textbf{conformal transformation}. These (restricted) diffeomorphisms are the morphisms in the category of smooth manifolds equipped with a conformal structure.
+        for some smooth positive function $\Omega:M\rightarrow\mathbb{R}^+$. If $f$ is a diffeomorphism, it is called a \textbf{conformal transformation}.
     }
 
-    Infinitesimally these maps are described by a specific type of vector field:
+    Infinitesimally these maps are characterized by a special type of vector field:
     \newdef{Conformal Killing vector}{\index{Killing!conformal vector}
-        Consider a pseudo-Riemannian manifold $(M, g)$. A vector field $X$ is called a conformal Killing vector field (with conformal factor $\kappa:M\rightarrow\mathbb{R}$) if it satisfies
+        Consider a pseudo-Riemannian manifold $(M,g)$. A vector field $X$ is called a conformal Killing vector field, with conformal factor $\kappa:M\rightarrow\mathbb{R}$, if it satisfies
         \begin{equation}
             \mathcal{L}_Xg = \kappa g.
         \end{equation}
@@ -407,24 +414,23 @@
         \begin{equation}
             \nabla_\mu X_\nu + \nabla_\nu X_\mu = \kappa g_{\mu\nu}
         \end{equation}
-        where $\nabla$ is the Levi-Civita connection associated to $(M, g)$. Equivalently, a vector field is a conformal Killing vector field if its flow determines a conformal transformation.
+        where $\nabla$ is the Levi-Civita connection associated to $(M,g)$. Equivalently, a vector field is a conformal Killing vector field if its flow determines a conformal transformation.
     }
 
-    By parametrizing an infinitesimal transformation as $x^\mu\rightarrow x^\mu+\varepsilon^\mu$ one obtains the following infinitesimal generators:
+    By parametrizing an infinitesimal transformation as $x^\mu\rightarrow x^\mu+\varepsilon^\mu$, one obtains the following infinitesimal generators:
     \begin{itemize}
         \item \textbf{Translations}: $a^\mu\partial_\mu$,
         \item \textbf{Rotations} (orthogonal transformations): $\omega^\mu_{\ \nu} x^\nu\partial_\mu$,
         \item \textbf{Dilations}: $\lambda x^\mu\partial_\mu$, and
         \item \textbf{Special conformal transformations}: $x^2b^\mu\partial_\mu - 2(b\cdot x)x^\mu\partial_\mu$.
     \end{itemize}
-    As usual, exponentiating these generators gives the finite transformations. One immediately notices that the Poincar\'e group is a subgroup of the conformal group.
-
+    As usual, exponentiating these generators gives the finite transformations. One immediately notices that the Poincar\'e group is a subgroup of the conformal group. However, the conformal group of a (pseudo-)Riemannian manifold $M$ is not just the group of conformal transformations of $M$:
     \newdef{Conformal group}{\index{conformal!group}
         \nomenclature[S_CONF]{$\text{Conf}(M)$}{conformal group of (pseudo-)Riemannian manifold $M$}
-        The conformal group of a pseudo-Riemannian manifold $M$ is not just the group of conformal transformations of $M$. The conformal group $\text{Conf}(M)$ is defined as the connected component of the identity element in the conformal diffeomorphism group of the conformal compactification of $M$.
+        The conformal group $\text{Conf}(M)$ is the connected component of the identity in the conformal diffeomorphism group of the conformal compactification of $M$.
     }
     \begin{property}
-        The conformal group of (pseudo-)Euclidean space in signature $(p, q)$ is isomorphic to $\text{SO}(p+1, q+1)$.
+        The conformal group of (pseudo-)Euclidean space in signature $(p,q)$ is isomorphic to $\text{SO}(p+1,q+1)$.
     \end{property}
 
 \section{\difficult{Hilbert bundles}}

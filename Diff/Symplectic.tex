@@ -42,7 +42,7 @@
             \end{array}
             \right).
         \end{gather}
-        Using the nondegeneracy condition one can define the ''dual'' $\omega^\sharp$ as
+        Using the nondegeneracy condition one can define the ''dual'' or inverse $\omega^\sharp$ as
         \begin{gather}
             (\omega^\sharp)^{ij} = \left(
             \begin{array}{c|c}
@@ -104,7 +104,7 @@
         \end{gather}
         These maps form a semigroup \ref{group:semigroup} called the \textbf{symplectomorphism group}. This should not be confused with the symplectic group $\text{Sp}(n)$.
     }
-    \newdef{Symplectic vector field}{
+    \newdef{Symplectic vector field}{\index{vector field!symplectic}\label{symplectic:symplectic_vector_field}
         A vector field is said to be symplectic if its flow preserves the symplectic form $\omega$:
         \begin{gather}
             \mathcal{L}_X\omega = 0.
@@ -125,27 +125,42 @@
         Hamiltonian vector fields form a Lie subalgebra of the Lie algebra of symplectic vector fields. The flow associated to a Hamiltonian vector field is sometimes called a \textbf{Hamiltonian symplectomorphism}.\footnote{The fact that the Hamiltonian flow indeed preserves the symplectic form follows from the closedness of $\omega$.}
     }
 
-    \newdef{Poisson bracket}{\index{Poisson!bracket}
+    \newdef{Poisson bracket}{\index{Poisson!bracket}\index{Lagrange!bracket}\label{symplectic:poisson}
         Let $(M,\omega)$ be a symplectic manifold. The Poisson bracket of two functions $f,g\in C^\infty(M)$ is defined as
         \begin{gather}
-            \{g, f\} := X_f(g)
+            \{f,g\} := X_f(g)
         \end{gather}
         or, equivalently, as
         \begin{gather}
-            X_{\{g, f\}} := [X_f,X_g]
+            X_{\{f,g\}} := [X_f,X_g]
         \end{gather}
-        where $X_f,X_g$ are the Hamiltonian vector fields associated to $f$ and $g$.
+        where $X_f,X_g$ are the Hamiltonian vector fields associated to $f$ and $g$. In darboux coordinates, the Poisson bracket of the coordinates is represented by the dual matrix $\omega^\sharp$. The bracket operation represented by the symplectic form itself is often called the \textbf{Lagrange bracket}.
     }
-    \begin{property}
-        The Poisson bracket induced by the symplectic form turns the structure $(C^\infty(M), \{\cdot,\cdot\})$ into a Lie algebra and the second equation in fact gives a (surjective\footnote{The kernel is given by the constant functions and hence it is not a bijection.}) Lie algebra morphism $(C^\infty(M), \{\cdot,\cdot\})\rightarrow(\{\text{X : X is a HVF on M}\}, [\cdot, \cdot])$. Furthermore, together with the pointwise multiplication the structure becomes a Poisson algebra \ref{lie:poisson_algebra}.
+    \begin{property}\label{symplectic:poisson_hamiltonian_surjection}
+        The Poisson bracket induced by the symplectic form turns the structure $(C^\infty(M), \{\cdot,\cdot\})$ into a Lie algebra and the second equation above gives a (surjective\footnote{The kernel is given by the constant functions and hence it is not a bijection.}) Lie algebra morphism $(C^\infty(M), \{\cdot,\cdot\})\rightarrow(\{\text{X : X is a HVF on M}\}, [\cdot, \cdot])$. Furthermore, together with the pointwise multiplication the structure becomes a Poisson algebra \ref{lie:poisson_algebra}.
     \end{property}
 
     \newdef{Poisson manifold}{\index{Poisson!manifold}\label{symplectic:poisson_manifold}
-        A smooth manifold on which the algebra of smooth functions can be equipped with a Poisson algebra structure.
+        A smooth manifold on which the algebra of smooth functions can be equipped with a Poisson algebra structure. This is equivalently encoded in a bivector field $\Pi\in\Gamma(\Lambda^2TM)$ such that
+        \begin{gather}
+            \{f,g\} = df\wedge dg(\Pi).
+        \end{gather}
     }
     \begin{property}
         Every symplectic manifold is a Poisson manifold. The converse, however, is not true.
     \end{property}
+
+    By generalizing this structure even more, one obtains Jacobi manifolds:
+    \newdef{Jacobi manifold}{\index{Jacobi!manifold}
+        A smooth manifold on which the algebra of smooth functions can be equipped with a Lie algebra structure $\{\cdot,\cdot\}$ such that
+        \begin{gather}
+        \text{supp}(\{f,g\})\subseteq\text{supp}(f)\cap\text{supp}(g).
+        \end{gather}
+        This is equivalent to the existence of a vector field $v\in\Gamma(TM)$ and a bivector field $\Pi\in\Gamma(\Lambda^2TM)$ such that
+        \begin{gather}
+            \{f,g\} = (fdg-gdf)(v) + df\wedge dg(\Pi).
+        \end{gather}
+    }
 
     \begin{remark}\label{symplectic:hamiltonian_forms}
         Most of this section can be generalized to multisymplectic manifolds. For example, the definitions of Hamiltonian vector fields and the induced Lie algebra structure remain virtually the same. However, given a $(n-1)$-form $f$ there might not exist a vector field $X_f$ that satisfies equation \ref{symplectic:hamilton_vectorfield1}. If one restricts to the subspace $\text{Ham}(M)$ of such \textbf{Hamiltonian forms} that do induce a Hamiltonian vector field, one can define a generalized Poisson structure as follows:
@@ -165,6 +180,10 @@
         The \textbf{semi-bracket} $\{\cdot,\cdot\}_s$ does satisfy antisymmetry, but instead it fails to satisfy the Jacobi identity. Although these brackets do not define a Lie algebra, they do define a Lie 2-algebra \ref{hda:2-algebra} where $L_1:=C^\infty(M)$ and $L_0:=\text{Ham}(M)$. They are isomorphic as Lie 2-algebras.
     \end{remark}
 
+    \begin{remark}[Presymplectic manifolds]
+        A presymplectic manifold is a manifold equipped with a closed two-form (sometimes required to satisfy certain conditions on its rank). In contrast to symplectic manifolds, which also satisfy a nondegeneracy condition, there is no surjective correspondence between smooth functions and Hamiltonian vector fields as given in property \ref{symplectic:poisson_hamiltonian_surjection}. In this setting a Hamiltonian vector field should really be viewed as a pair $(X,h)$ of a smooth function $h$ and a vector field $X$ such that $X = X_h$.
+    \end{remark}
+
 \section{Lagrangian submanifolds}
 
     \newdef{Symplectic complement}{
@@ -175,10 +194,10 @@
     }
 
     \newdef{Isotropic submanifold}{\index{isotropic}
-        Let $(M,\omega)$ be a symplectic manifold. An embedded submanifold $\iota:S\hookrightarrow M$ is said to be isotropic if $T_pS\subset T^\bot_pS$. It is said to be co-isotropic if $T^\bot_pS\subset T_pS$.
+        Let $(M,\omega)$ be a symplectic manifold. An embedded submanifold $\iota:S\hookrightarrow M$ is said to be isotropic if $\iota_*T_pS\subset T^\bot_pS$ or, equivalently, if $\omega|_S\equiv0$. It is said to be co-isotropic if $T^\bot_pS\subset\iota_*T_pS$.
     }
-    \newdef{Larangian submanifold}{\index{Lagrange!submanifold}
-        Let $(M,\omega)$ be a symplectic manifold. An embedded submanifold $\iota:S\hookrightarrow M$ is said to be Lagrangian if $T_pS = T^\bot_pS$. Therefore they are sometimes called maximal isotropic submanifolds.
+    \newdef{Lagrangian submanifold}{\index{Lagrange!submanifold}
+        Let $(M,\omega)$ be a symplectic manifold. An embedded submanifold $\iota:S\hookrightarrow M$ is said to be Lagrangian if $\iota_*T_pS = T^\bot_pS$. This is equivalent to $S$ being isotropic and satisfying $\dim(S)=\frac{1}{2}\dim(M)$. Therefore they are sometimes called maximal isotropic submanifolds.
     }
 
     \begin{example}[Closed sections]\label{symplectic:closed_section_submanifold}
@@ -201,18 +220,28 @@
             \item \textbf{Isotropy}: $\iota_X\omega = 0$ for all $X\in P$, and
             \item \textbf{Involutivity}: $[X,Y]=0$ for all $X,Y\in P$.
         \end{enumerate}
-        The last condition characterizes $P$ as an integrable subbundle by Frobenius's theorem.
+        The last condition characterizes $P$ as an integrable subbundle by Frobenius's theorem. In fact this implies that $TM$ is locally spanned by Hamiltonian vector fields.
     }
     More generally one can define a (complex) polarization:
     \newdef{Polarization}{
-        An involutive Lagrangian subbundle $\mathcal{P}$ of the complexified tangent bundle $T_{\mathbb{C}}M$ with the additional property that $\dim(\mathcal{P}\cap\overline{\mathcal{P}}\cap T_{\mathbb{C}}M)$ is constant throughout the entire manifold.
+        An integrable Lagrangian subbundle $\mathcal{P}$ of the complexified tangent bundle $T_{\mathbb{C}}M$ with the additional property that $\dim(\mathcal{P}\cap\overline{\mathcal{P}}\cap TM)$ is constant throughout the entire manifold.
 
         A real polarization is (after complexifying it) the same as a complex polarization for which $\mathcal{P}=\overline{\mathcal{P}}$.
     }
+    \begin{remark}
+        The constant rank condition implies that there exists a real subbundle $D\subset TM$ such that $D\otimes\mathbb{C}\cong\mathcal{P}\cap\overline{\mathcal{P}}$.
+    \end{remark}
 
     \begin{example}[Vertical polarization]\index{vertical!polarization}
-        Consider the cotangent bundle $T^*M$ of a smooth manifold $M$. Define the bundle $\mathcal{P}$ at every point $\alpha\in T^*M$ as the complexified tangent space \[T_\alpha T^*_{\pi(\alpha)}M\otimes\mathbb{C}=\text{span}\left\{\pderiv{}{p_i}:p_i\text{ is a Darboux coordinate on }T^*M\right\}\] where $\pi$ is the cotangent bundle projection. It can be shown that this polarization is real.
+        Consider the (complexified) cotangent bundle $T^*M$ of a smooth manifold $M$. Define the bundle $\mathcal{P}$ at every point $\alpha\in T^*_{\mathbb{C}}M$ as \[\ker(\pi_*)=T_\alpha T^*_{\pi(\alpha)}M\otimes\mathbb{C}=\text{span}_{\mathbb{C}}\left\{\pderiv{}{p_i}:p_i\text{ is a Darboux coordinate on }T^*M\right\}\] where $\pi:T^*_{\mathbb{C}}M\rightarrow M$ is the (complexified) cotangent bundle projection. It can be shown that this polarization is real.
     \end{example}
+
+    \newdef{Admissible polarization}{
+        Let $\mathcal{P}$ be a polarization of a manifold $M$. This defines two new subbundles $D:=\mathcal{P}\cap\overline{\mathcal{P}}\cap TM$ and $E:=(\mathcal{P}+\overline{\mathcal{P}})\cap TM$ which are each others symplectic complement. These are sometimes called the \textbf{isotropic} and \textbf{coisotropic} distributions respectively. Since $\mathcal{P}$ is integrable, $D$ is too. A polarization is said to be (strongly) admissible if $E$ is also integrable and the leaf sets $M/D$ and $M/E$ are smooth manifolds. (Sometimes the projection $M/D\rightarrow M/E$ is required to be a submersion.)
+    }
+    \newdef{K\"ahler polarization}{\index{K\"ahler!polarization}
+        A polarization $\mathcal{P}$ such that $\mathcal{P}\cap\overline{\mathcal{P}}=\emptyset$. In this case $\mathcal{P}$ is always admissible and $E=TM$. Every K\"ahler manifold (see chapter \ref{chapter:complex_geometry}) admits such a polarization, namely its (anti)holomorphic tangent bundle, and, conversely, the existence of a K\"ahler polarization implies that the manifold is (pseudo)K\"ahler. More generally, the (anti)holomorphic tangent bundles of any complex bundle are called the (anti)holomorphic polarization.
+    }
 
 \section{Hamiltonian dynamics}\label{section:hamiltonian_dynamics}
 \subsection{Dynamical systems}
@@ -291,7 +320,7 @@
 
 \subsection{Integrability}
 
-    \newdef{Completely integrable system}{\index{CIS}
+    \newdef{Completely integrable system}{\index{CIS}\index{integrable}\label{symplectic:CIS}
         \nomenclature[A_CIS]{CIS}{completely integrable system}
         Consider a smooth vector-valued function \[F\equiv(F_1,\ldots,F_n):M\rightarrow\mathbb{R}^n\] on a symplectic manifold $(M, \omega)$. This map defines a completely integrable system (CIS) if it satisfies the following conditions:
         \begin{enumerate}
@@ -300,6 +329,10 @@
             \item For all $i,j\leq n: \{F_i,F_j\} = 0$.
         \end{enumerate}
     }
+
+    \begin{property}
+        Because of the definition of the Poisson brackets \ref{symplectic:poisson} in terms of the commutator of Hamiltonian vector fields, a CIS gives rise to a maximal set of mutually commuting vector fields. Frobenius's theorem \ref{diff:frobenius} then says that a CIS also gives rise to a maximally integrable distribution and hence an $n$-dimensional regular foliation.
+    \end{property}
 
 \subsection{Hamiltonian actions}
 
@@ -369,7 +402,7 @@
     }
     \remark{In contrast to the $\text{Spin}$ groups that are the double covers of $\text{SO}(n)$ (see property \ref{clifford:pin_group}), the metaplectic groups are not matrix groups, i.e. they do not admit a faithful finite-dimensional representation.}
 
-    \newdef{Metaplectic structure}{\index{metaplectic!structure}
+    \newdef{Metaplectic structure}{\index{metaplectic!structure}\label{symplectic:metaplectic_structure}
         Consider a symplectic manifold $(M,\omega)$ of dimension $2n$. By property \ref{symplectic:symplectic_G_structure} the frame bundle $FM$ can be reduced to a $\text{Sp}(2n)$-bundle $\pi_{Sp}:F_{Sp}M\rightarrow M$. Now, let $\pi_{meta}:P_{meta}\rightarrow M$ be a principal $\text{Mp}(2n)$-bundle over $M$.
 
         The smooth manifold $M$ is said to have a metaplectic structure if there exists an equivariant 2-fold lifting of $F_{Sp}$ to $P_{meta}$, i.e. a morphism $\xi:P_{meta}\rightarrow F_{Sp}M$ together with a 2-fold covering map $\rho:\text{Mp}(2n)\rightarrow\text{Sp}(2n)$ that satisfies:

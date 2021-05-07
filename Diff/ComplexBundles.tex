@@ -45,6 +45,36 @@
         J_\rho^\nu\partial_\nu J_\sigma^\mu - J_\sigma^\nu\partial_\nu J_\rho^\mu - J_\nu^\mu\partial_\rho J_\sigma^\nu + J_\nu^\mu\partial_\sigma J_\rho^\mu = 0.
     \end{gather}
 
+    \newdef{Metalinear structure}{\index{meta!linear group}\label{complex:metalinear_structure}
+        Consider the complex linear group $\text{GL}(n,\mathbb{C})$ together with the morphism $\det:\text{GL}(n,\mathbb{C})\rightarrow\mathbb{C}^\times$. The metalinear group can be considered as the domain of the holomorphic square root of $\det$:
+        \begin{gather}
+            \text{ML}(n,\mathbb{C}) := \Big\{(A,z)\in\text{GL}(n,\mathbb{C})\times\mathbb{C}^\times:\det(A)=z^2\Big\}.
+        \end{gather}
+        An equivalent definition, which will be used in the remainder of the text, makes use of the special linear group:
+        \begin{gather}
+            \text{ML}(n,\mathbb{C}) = \frac{\text{SL}(n,\mathbb{C})\times\mathbb{C}}{2\mathbb{Z}}
+        \end{gather}
+        where $\mathbb{Z}$ acts on the product group as follows: $k:(A,z)\mapsto(e^{-2\pi ik/n})A, z + 2\pi ik/n)$. This group is the double cover of $\text{GL}(n,\mathbb{C})$.
+
+        Similar to the definition of spinor and metasymplectic structures (see definitions \ref{riemann:spin_structure} and \ref{symplectic:metaplectic_structure} respectively), one can also define metalinear structures on a manifold. The metalinear frame bundle is a lift of the (complex) frame bundle along the canonical morphism $\text{ML}(n,\mathbb{C})\rightarrow\text{GL}(n,\mathbb{C})$ such that it ''commutes'' with the bundle map $F_{\text{ML}}M\rightarrow FM$.
+    }
+    \begin{property}[Existence]
+        A manifold $M$ admits a metalinear structure if and only if its first Stiefel-Whitney class $w_1\in H^1(M;\mathbb{Z}_2)$ squares to 0. In particular, every orientable manifold admits a metalinear structure. The set of nonequivalent metalinear structures is parametrized by $H^1(M;\mathbb{Z}_2)$.
+    \end{property}
+    \begin{remark}
+        The above definitions can be restricted to real manifolds and real metalinear structures.
+    \end{remark}
+
+    \newdef{Half-form}{\index{half-form}
+        Consider a smooth manifold $M$ equipped with a metalinear frame bundle $F_{\text{ML}}M$. The bundle of half-forms $M^{1/2}$ is defined as the associated $\mathbb{C}$-line bundle defined by the action $(g,\lambda)\mapsto e^{nz/2}\lambda$ where $g\equiv(A,z)\in\text{ML}(n,\mathbb{C})$.
+
+        Now, consider the bundle of 1-densities $|\Omega^1|(M)$ from definition \ref{diff:honest_density}. There exists a map $\Gamma(M^{1/2})\times\Gamma(M^{1/2})\rightarrow\Gamma(|\Omega|^1(M))$ defined by sending the pair $(\mu,\nu)$ to the (tensor) product $\mu\overline{\nu}$ along the covering map $F_{\text{ML}}M\rightarrow FM$. If one does not perform the conjugation, a section of the ordinary $n$-form bundle $\Omega^n(M)$ is obtained. In this sense the existence of a metalinear structure is equivalent to the existence of a square root of the determinant line bundle.
+    }
+
+    \begin{property}[Metaplectic structure]\label{complex:metaplectic}
+        Let $(M,\omega)$ be a symplectic manifold and consider a Lagrangian subbundle $L\subset TM$. The tangent bundle $TM$ admits a metaplectic structure if and only if $L$ admits a metalinear structure.
+    \end{property}
+
 \section{Complex differential forms}
 
     \begin{property}
@@ -104,7 +134,12 @@
         \end{gather}
     \end{result}
 
-\section{K\"ahler manifolds}
+\section{K\"ahler manifolds}\label{section:kahler}
+
+    In analogy with the definition of Riemannian manifolds \ref{riemann:riemannian_manifold} one can also define metrics for complex vector bundles:
+    \newdef{Hermitian manifold}{\index{Hermitian|seealso{manifold}}\index{manifold!Hermitian}
+        A complex vector bundle equipped with a Hermitian bundle metric. A connection that is compatible with this metric is called a Hermitian connection.
+    }
 
     \newdef{K\"ahler manifold}{\index{K\"ahler!manifold}
         Consider a smooth manifold equipped with a Riemannian structure $(M,g)$, a symplectic structure $(M,\omega)$ and an almost complex structure $J$. This manifold is called a K\"ahler manifold if the structures satisfy any of the following (equivalent) sets of compatibility conditions:
@@ -121,16 +156,12 @@
         \end{enumerate}
         or
         \begin{enumerate}
-            \item $M$ is Hermitian:
-                \begin{gather}
-                    g_{\mathbb{C}}(v,w) = g_{\mathbb{C}}(Jv,Jw)
-                \end{gather}
-                where $g_{\mathbb{C}}$ is defined as the linear extension of $g$ from $TM$ to $T^{\mathbb{C}}M$, and
-            \item The fundamental two-form $\omega(v,w) = g_{\mathbb{C}}(v,Jw)$ is closed\footnote{The nondegeneracy condition is automatically satisfied because of the nondegeneracy of the metric.};
+            \item $M$ is Hermitian with metric $h(v,w) := g(v,w) + ig(v, Jw)$, and
+            \item The fundamental two-form $\omega(v,w) := g(v,Jw)$ is closed and hence symplectic\footnote{The nondegeneracy condition is automatically satisfied because of the nondegeneracy of the metric.};
         \end{enumerate}
         or\footnote{Here the symplectic structure can be recovered using the K\"ahler form defined below.}
         \begin{enumerate}
-            \item $M$ is Hermitian, and
+            \item $M$ is Hermitian with metric $h(v,w) := g(v,w) + ig(v, Jw)$, and
             \item $J$ is parallel with respect to the Levi-Civita connection on $(M,g)$:
             \begin{gather}
                 \nabla_XJ = 0.
@@ -142,9 +173,8 @@
     \newdef{K\"ahler form}{\index{Hermitian!form}\index{fundamental!form}
         The central object in all these definitions is the K\"ahler form\footnote{Sometimes called the \textbf{Hermitian form} or \textbf{fundamental form}.}:
         \begin{gather}
-            \omega(v,w) := g_{\mathbb{C}}(v,Jw).
+            \omega(v,w) := g(v,Jw).
         \end{gather}
-        The K\"ahler form and metric together define a Hermitian metric $h=g+i\omega$.
     }
 
     \begin{formula}

@@ -53,21 +53,6 @@
         Using the parity functor one can write the exterior algebra\footnote{See definition \ref{tensor:exterior_algebra}.} $\Lambda^\bullet(V)$ as the symmetric algebra $\text{Sym}^\bullet(\Pi V)$. In a similar way one can write the symmetric algebra on a super vector space $V=V_0\oplus V_1$ as \[\text{Sym}^n(V)=\bigoplus_{p+q=n}\text{Sym}^p(V_0)\otimes\Lambda^q(V_1).\]
     }
 
-    \newdef{Differential graded algebra}{\index{dg-algebra}\label{linalgebra:dg_algebra}
-        \nomenclature[A_DGA]{dga}{differential graded algebra}
-        A differential graded algebra (often denoted by \textbf{dg-algebra} or even \textbf{dga}) is a graded algebra equipped with a differential of degree 1 (see definition \ref{homalg:chain_complex}).\footnote{In the homological convention we use a morphism of degree $-1$.}
-    }
-    \newdef{Semifree dga}{\index{semifree}
-        A dga is said to be semifree if the underlying graded algebra is isomorphic (as a graded algebra) to the tensor algebra of a graded vector space.
-    }
-    \newdef{Differential graded-commutative algebra}{
-        \nomenclature[A_DGCA]{dgca}{differential graded-commutative algebra}
-        A graded-commutative differential graded algebra. This is often abbreviated as \textbf{dgca}.
-    }
-    \newdef{Semifree dgca}{
-        A dgca is said to be semifree if the underlying graded-commutative algebra is isomorphic (as a graded-commutative algebra) to the Grassmann algebra over some graded vector space.
-    }
-
 \subsection{Supermatrices}
 
     For this section we will relax the requirement that we are working over a field $K$, instead we will be working over a supercommutative ring. This means that we will be working with (graded) modules instead of true vector spaces.
@@ -82,7 +67,7 @@
         \end{itemize}
         If we represent these transformations as matrices, then the full transformation can be represented as a block matrix \[X=\begin{pmatrix}A&B\\C&D\end{pmatrix}\] where we used the same notation to denote the matrices associated to the linear transformations.
 
-        These matrices can be decomposed according to their \textbf{parity}. Not all supermatrices preserve the grading, or equivalently, not all linear transformations of super vector spaces are morphisms of super vector spaces. The ones that are, are said to have even parity and they are of the form \[X=\begin{pmatrix}\text{even}&\text{odd}\\\text{odd}&\text{even}\end{pmatrix}\] where by even/odd we mean that the entries in these blocks have even/odd parity as elements of the underlying (graded) ring. It should be clear that these matrices indeed preserve the grading, since acting with an odd scalar on an odd vector gives an even vector (and similar for the other combinations). The matrices that do not preserve the grading are said to have odd parity and are of the form \[X=\begin{pmatrix}\text{odd}&\text{even}\\\text{even}&\text{odd}\end{pmatrix}.\]
+        These matrices can be decomposed according to their \textbf{parity}. Not all supermatrices preserve the grading or, equivalently, not all linear transformations of super vector spaces are morphisms of super vector spaces. The ones that are, are said to have even parity and they are of the form \[X=\begin{pmatrix}\text{even}&\text{odd}\\\text{odd}&\text{even}\end{pmatrix}\] where even/odd means that the entries in these blocks have even/odd parity as elements of the underlying (graded) ring. It should be clear that these matrices indeed preserve the grading, since acting with an odd scalar on an odd vector gives an even vector (and similar for the other combinations). The matrices that do not preserve the grading are said to have odd parity and are of the form \[X=\begin{pmatrix}\text{odd}&\text{even}\\\text{even}&\text{odd}\end{pmatrix}.\]
     }
 
     \newdef{Supertrace}{\index{trace}
@@ -94,9 +79,8 @@
     \begin{property}
         As was the case for the ordinary trace, the supertrace is invariant under basis transformations. Furthermore, the cyclicity property also still holds if we modify it slightly as to be compatible with the grading:
         \begin{gather}
-            \text{str}(XY) = (-1)^{|X||Y|}\text{str}(YX)
+            \text{str}(XY) = (-1)^{\deg(X)\deg(Y)}\text{str}(YX).
         \end{gather}
-        where $|X|, |Y|$ denote the parities of the supermatrices.
     \end{property}
 
     \newdef{Berezinian}{\label{linalgebra:berezinian}
@@ -107,10 +91,91 @@
         \end{enumerate}
         An explicit formula is given by
         \begin{gather}
-            \text{Ber}(X) = \det(A - BD^{-1}C)\det(D)^{-1}.
+            \text{Ber}(X) = \det(A - BD^{-1}C)\det(D)^{-1} = \det(A)\det(D-CA^{-1}B)^{-1},
         \end{gather}
-        It should be noted that the Berezinian is only well-defined for invertible even matrices.
+        where the last expression involves the \textit{Schur complement} of $A$ relative to $X$. It should be noted that the Berezinian is only well-defined for invertible even matrices.
     }
+
+\subsection{Berezin calculus}\label{section:berezin}
+
+    This section is an application of the previous ones and, in particular, of the concept of exterior algebras \ref{tensor:exterior_algebra}. The concept of Grassmann numbers/variables is used in quantum field theory when performing calculations in e.g.\ the fermionic sector or Faddeev-Popov quantization. References for this section are \cite{losev_berezin, AMP2}.
+
+    \newdef{Grassmann numbers}{\index{Grassmann!number}\label{tensor:grassmann_number}
+        Let $V$ be a vector space spanned by a set of elements $\theta_i$. The Grassmann algebra with Grassmann variables $\theta_i$ is the exterior algebra over $V$. The wedge symbol of Grassmann variables is often ommitted when writing the product: \[\theta_i\wedge\theta_j \equiv \theta_i\theta_j.\]
+    }
+    \begin{remark}
+        From the (anti)commutativity it follows that we can regard the Grassmann variables as being nonzero square roots of zero.
+    \end{remark}
+
+    \begin{notation}[Parity]\index{parity}
+        In the case of superalgebras and, in particular, that of Grassmann numbers, the degree of an element is often called the (Grassmann) parity of the element. It is also often denoted by $\varepsilon(x)$ or $\varepsilon_x$ instead of $\deg(x)$. In this text this convention is only adopted for graded algebras where there is both a supergrading and a (co)homological $\mathbb{Z}$-grading.
+    \end{notation}
+
+    \begin{property}
+        Consider a one-dimensional Grassmann algebra (with generator $\theta$). When constructing the polynomial ring $\mathbb{C}[\theta]$ generated by $\theta$, we see that, due to the anticommutativity, $\mathbb{C}[\theta]$ is spanned only by $1$ and $\theta$. All higher degree terms vanish because $\theta^2 = 0$. This implies that the most general polynomial over a one-dimensional Grassmann algebra is of the form
+        \begin{gather}
+            p(\theta) = a + b\theta
+        \end{gather}
+    \end{property}
+
+    \begin{definition}\index{DeWitt!convention}
+        We can equip the exterior algebra $\Lambda$ with Grassmann variables $\theta_i$ with an involution:
+        \begin{gather}
+            (\theta_i\theta_j\ldots\theta_k)^* := \theta_k\ldots\theta_j\theta_i.
+        \end{gather}
+        Elements $z\in\Lambda$ such that $z^* = z$ are called \textbf{(super)real}, elements such that $z^* = -z$ are called \textbf{(super)imaginary}. This convention is called the \textbf{DeWitt convention}.
+    \end{definition}
+
+    To keep this discussion on Grassmann variables self-contained we will also introduce the calculus of Grassmann variables here:
+    \newdef{Derivative of Grassmann variables}{
+        Consider the polynomial algebra $\mathbb{C}[\theta_1,\ldots,\theta_n]$ on $n$ Grassmann variables (more general functions would be defined through a series expansion, but given that $\theta^2=0$, these always reduce to a simple polynomial). Differentiation on this ring is defined through the following relations:
+        \begin{gather}
+            \pderiv{}{\theta_j}\theta_i = \delta^i_j\qquad\qquad\qquad\theta_i\pderiv{}{\theta_j}+\pderiv{}{\theta_j}\theta_i = 0
+        \end{gather}
+        The second relation implies that the partial derivatives are also Grassmann-odd. The odd parity in fact allows to introduce two distinct differentiation operations. One is the left derivative, this is the one that was just introduced. The other is the right derivative which acts as
+        \begin{gather}
+            \theta_i\Rderiv{}{\theta^j} = \delta^i_j.
+        \end{gather}
+    }
+
+    After differentiation, one also needs some kind of integration theory. Instead of working with a definition \`a la Riemann, the integral will be defined purely axiomatically:
+    \newdef{Berezin integral: axiomatic}{\index{Berezin!integral}
+        Consider a function$f$ defined on $n$ Grassmann variables $\{\theta_i\}_{1\leq i\leq n}$. The Berezin integral is defined by the following axioms:
+        \begin{enumerate}
+            \item The map $f\mapsto\int_Bf(\theta)d\theta$ is linear.
+            \item The result $\int_Bf(\theta)d\theta$ is independent of the variable(s) $\theta$, i.e. it is a number.
+            \item The result is invariant under a translation of the integration variable.
+        \end{enumerate}
+    }
+
+    It can be shown that this definition is equivalent to the following one:
+    \newadef{Berezin integral: analytic}{
+        First consider functions on one Grassmann variable, i.e. $f(\theta) = a+b\theta$. The Berezin integral is then defined as follows:\footnote{Technically the axioms only imply this formula up to some multiplicative constant. We will follow the original paper by Berezin and choose this constant to be $1$.}
+        \begin{gather}
+            \int_B(a+b\theta)d\theta := b.
+        \end{gather}
+        This means that the integral is equal to the coefficient of the ''highest'' degree term. As a simple generalization we define
+        \begin{gather}
+            \int_Bf(\theta_1,\ldots,\theta_n)d\theta := \text{coefficient of }\theta_1\cdots\theta_n.
+        \end{gather}
+        Some authors reverse the order of the variables in the above definition. Depending on the number of variables, this might lead to a minus sign.
+    }
+    \remark{It is interesting to see that the (one-dimensional) Berezin integral is equal to the (Grassmann) derivative. This is completely different from the usual integral in calculus. It also gives some intuition for the distinct transformation behaviour of the Berezin integral as explained in the following property.}
+
+    \begin{formula}[Change of variables]
+        Consider a general Berezin integral $\int_Bf(\theta)d\theta$. Now suppose that we perform a transformation on the Grassmann variables $\theta\rightarrow\xi(\theta)$. If $J$ is the Jacobian matrix associated to this transformation then the transformation is given by the following formula:
+        \begin{gather}
+            \int_Bf(\xi)d\xi = \int_Bf(\theta)(\det J)^{-1}d\theta
+        \end{gather}
+    \end{formula}
+
+    The Berezin calculus above can easily be integrated in ordinary calculus by using the fact that ordinary coordinates (even parity) commute with Grassmann numbers (odd parity). A mixed derivative (resp. integral) can always be factorized as the composition of a Berezin derivative (resp. integral) and an ordinary one.\footnote{The order is merely a convention.} The transformation behaviour is then generalized to this case by introducing the so-called superdeterminant or Berezinian (see section \ref{section:graded_spaces} and in particular definition \ref{linalgebra:berezinian}):
+
+    \qquad Consider a set of ordinary coordinates $\{x_i\}_{1\leq i\leq m}$ and a set of Grassmann variables $\{\theta_i\}_{1\leq i\leq n}$. Now assume that we perform a general coordinate transformation that may possibly mix up the ordinary and Grassmann variables, i.e. we obtain new even coordinates $y(x, \theta)$ (these can thus contain even combinations of the Grassmann variables) and ordd variables $\xi(x, \theta)$. The Jacobian of this transformation can be written as a block matrix \[J=\begin{pmatrix}A&B\\C&D\end{pmatrix}\] where $A$ determines the mixing in the ordinary sector, $D$ determines the mixing in the Grassmann sector and $B, C$ determine the mixing between sectors. From the choice of transformation it should be clear that this is an even supermatrix. The Jacobian determinant in the transformation formula should now be replaced by the Berezian:
+    \begin{gather}
+        \text{Ber}(J) = \det(A - BD^{-1}C)\det(D)^{-1}
+    \end{gather}
+    We immediately see that if there is no mixing between the ordinary and Grassmann sector, i.e. $B=C=0$, then this reduces to the simple cases above.
 
 \subsection{Lie superalgebras}
 
@@ -122,7 +187,7 @@
         \end{enumerate}
         where $\tau = (\mathbbm{1}\otimes\sigma_{A, A})\circ(\sigma_{A, A}\otimes\mathbbm{1})$ denotes cyclic permutation.
     }
-    \begin{example}[Lie superalgebra]
+    \begin{example}[Lie superalgebra]\label{hda:lie_superalgebra}
         If we use the braiding $\sigma(a\otimes b) = (-1)^{\deg(a)\deg(b)}b\otimes a$ in the category \textbf{sVect}, we obtain the notion of a Lie superalgebra (also called a super Lie algebra).
     \end{example}
     \begin{example}[dg-Lie algebras]

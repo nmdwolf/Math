@@ -7,18 +7,18 @@ References for this chapter are \cite{weibel, hom_algebra}.
 	\newdef{Chain complex}{\index{chain!complex}\index{boundary}\index{differential}\index{cycle}\label{homalg:chain_complex}
 		\nomenclature[S_CH]{$C_\bullet$}{chain complex}
 		\nomenclature[S_CHCat]{$\textbf{Ch}_\bullet(\textbf{A})$}{category of chain complexes with objects in the additive category $\textbf{A}$}
-		Let $\mathbf{C}$ be an additive category (often an Abelian category). Consider a sequence $(A_k)_{k\in\mathbb{Z}}$ of objects and a sequence $\{\partial_k:A_k\rightarrow A_{k-1}\}_{k\in\mathbb{Z}}$ of morphisms in $\mathbf{C}$ (called the \textbf{boundary operators} or \textbf{differentials}) such that for all $k\in\mathbb{Z}$:
+		Let $\mathbf{A}$ be an additive category (often an Abelian category). Consider a sequence $(C_k)_{k\in\mathbb{Z}}$ of objects and a sequence $\{\partial_k:C_k\rightarrow C_{k-1}\}_{k\in\mathbb{Z}}$ of morphisms in $\mathbf{A}$ (called the \textbf{boundary operators} or \textbf{differentials}) such that for all $k\in\mathbb{Z}$:
 		\begin{gather}
 			\partial_k\circ\partial_{k+1} = 0.
 		\end{gather}
-		This structure is called a chain complex\footnote{A \textbf{cochain complex} is constructed similarly. For this structure we consider an ascending order, i.e. $\partial_k:A_k\rightarrow A_{k+1}$.}. Elements of $\text{im}(\partial_k)$ are called \textbf{boundaries} and elements of $\text{ker}(\partial_k)$ are called \textbf{cycles}. The chain complex $\{(A_k, \partial_k)\}_{k\in\mathbb{Z}}$ is often denoted by $(A_\bullet, \partial_\bullet)$ or simply by $A_\bullet$ if the choice of boundary operators is clear.
+		This structure is called a chain complex\footnote{A \textbf{cochain complex} is constructed similarly. For this structure we consider an ascending order, i.e. $\partial_k:C_k\rightarrow C_{k+1}$.}. Elements of $\text{im}(\partial_k)$ are called \textbf{boundaries} and elements of $\text{ker}(\partial_k)$ are called \textbf{cycles}. The chain complex $\{(C_k, \partial_k)\}_{k\in\mathbb{Z}}$ is often denoted by $(C_\bullet,\partial_\bullet)$ or simply by $C_\bullet$ if the choice of boundary operators is clear.
 	}
 
-	The morphisms of chain complexes are called \textbf{chain maps} and they are defined as a collection of morphisms $\{f_k:A_k\rightarrow B_k\}_{k\in\mathbb{Z}}$ such that for all $k\in\mathbb{Z}$ the following equation holds:
+	The morphisms of chain complexes are called \textbf{chain maps} and they are defined as a collection of morphisms $\{f_k:C_k\rightarrow D_k\}_{k\in\mathbb{Z}}$ such that for all $k\in\mathbb{Z}$ the following equation holds:
 	\begin{gather}
 		\partial'_k\circ f_k = f_{k-1}\circ\partial_k
 	\end{gather}
-	where $\partial_k, \partial_k'$ are the boundary operators of respectively $A_\bullet$ and $B_\bullet$. Given an additive category $\mathbf{C}$ one can define the category $\mathbf{Ch}_\bullet(\mathbf{C})$ of chain complexes and chain maps in $\mathbf{C}$.
+	where $\partial_k,\partial_k'$ are the boundary operators of respectively $C_\bullet$ and $D_\bullet$. Given an additive category $\mathbf{A}$ one can define the category $\mathbf{Ch}_\bullet(\mathbf{A})$ of chain complexes and chain maps in $\mathbf{A}$.
 
 	\remark{Given a chain (resp. cochain) complex $C$ one can easily construct a cochain (resp. chain) complex $\widetilde{C}$ by setting $\widetilde{C}_k := C_{-k}$.}
 
@@ -45,13 +45,42 @@ References for this chapter are \cite{weibel, hom_algebra}.
 	\begin{property}
 		Chain-homotopic maps induce the same maps in homology. In particular, every (chain-)homotopy equivalence is a quasi-isomorphism.
 	\end{property}
+    \begin{result}[Vanishing homology]\label{homalg:null_acyclic}
+        If a null-homotopic chain map $f:C_\bullet\rightarrow C_\bullet$ exists, then $H_\bullet(C_\bullet)$ vanishes.
+    \end{result}
+
+    \newdef{Differential modulo differential}{
+        Consider a chain complex $(C_\bullet,\partial)$ together with a morphism $d$. This morphism is said to be a differential modulo $\partial$ if it satisfies the following conditions:
+        \begin{enumerate}
+            \item $d\partial+\partial d=0$, and
+            \item $d^2 = [\partial,D]$ for some other morphism $D$.
+        \end{enumerate}
+        The first condition states that $d$ descends to a morphism on $H_\bullet(C_\bullet)$. The second condition, which says that $d$ is $\partial$-exact, states that $d^2$ is a differential on $H_\bullet(C_\bullet)$. The resulting homology theory is denoted by $H_\bullet(d|H_\bullet(C_\bullet))$.
+    }
+
+    \newdef{Differential graded algebra}{\index{dg-algebra}\label{homalg:dg_algebra}
+        \nomenclature[A_DGA]{dga}{differential graded algebra}
+        A differential graded algebra (often called a \textbf{dg-algebra} or even \textbf{dga}) is a (co)chain complex that carries the structure of an algebra where the differential acts as a derivation. Using the terminology of Chapter \ref{chapter:hda} this can equivalently be defined as a graded algebra equipped with a nilpotent derivation of degree $\pm1$.
+    }
+
+    The following three definitions use the language of Chapter \ref{chapter:hda}:
+    \newdef{Semifree dga}{\index{semifree}
+        A dga is said to be semifree if the underlying graded algebra is isomorphic (as a graded algebra) to the tensor algebra of a graded vector space.
+    }
+    \newdef{Differential graded-commutative algebra}{
+        \nomenclature[A_DGCA]{dgca}{differential graded-commutative algebra}
+        A graded-commutative differential graded algebra. This is often abbreviated as \textbf{dgca}.
+    }
+    \newdef{Semifree dgca}{
+        A dgca is said to be semifree if the underlying graded-commutative algebra is isomorphic (as a graded-commutative algebra) to the Grassmann algebra over some graded vector space.
+    }
 
 \section{Exact sequences}
 
 	\newdef{Exact sequence}{\index{exact!sequence}
-		Let $\mathbf{C}$ be an additive category (often an Abelian category). Consider a sequence (finite or infinite) of objects and morphisms in $\mathbf{C}$:
+		Let $\mathbf{A}$ be an additive category. Consider a sequence (finite or infinite) of objects and morphisms in $\mathbf{A}$:
 		\begin{gather}
-			A_0\xrightarrow{\Phi_1}A_1\xrightarrow{\Phi_2}\cdots\xrightarrow{\Phi_n}A_n.
+			C_0\overset{\Phi_1}{\longrightarrow}C_1\overset{\Phi_2}{\longrightarrow}\cdots\overset{\Phi_n}{\longrightarrow}C_n.
 		\end{gather}
 		This sequence is said to be exact if for every $k\in\mathbb{N}$:
         \begin{gather}
@@ -63,18 +92,18 @@ References for this chapter are \cite{weibel, hom_algebra}.
 	\newdef{Short exact sequence}{\label{homalg:short_exact_sequence}
 		A short exact sequence is an exact sequence of the form:
 		\begin{gather}
-			0\longrightarrow A_0\xrightarrow{\Phi_1}A_1\xrightarrow{\Phi_2} A_3\longrightarrow0.
+			0\longrightarrow C_0\overset{\Phi_1}{\longrightarrow}C_1\overset{\Phi_2}{\longrightarrow}C_3\longrightarrow0.
 		\end{gather}
 		A long exact sequence is an infinite exact sequence.
 	}
 
 	\begin{property}[Morphisms in exact sequences]
 		\index{epimorphism}\index{monomorphism}\index{bimorphism}
-		Looking at some small examples we can derive some important constraints for certain exact sequences and especially for short exact sequences. Consider the sequence \[0\rightarrow A\xrightarrow{\Phi} B.\] This sequence can only be exact if $\Phi$ is an injective homomorphism (\textbf{monomorphism}). This follows from the fact that the only element in the image of the map $0\rightarrow A$ is 0 because the map is a homomorphism. The kernel of $\Phi$ is thus trivial which implies that $\Phi$ is injective.
+		Looking at some small examples we can derive some important constraints for certain exact sequences and especially for short exact sequences. Consider the sequence \[0\longrightarrow C\overset{\Phi}{\longrightarrow}D.\] This sequence can only be exact if $\Phi$ is an injective homomorphism (\textbf{monomorphism}). This follows from the fact that the only element in the image of the map $0\rightarrow C$ is 0 because the map is a homomorphism. The kernel of $\Phi$ is thus trivial which implies that $\Phi$ is injective.
 
-		Analogously, the sequence \[A\xrightarrow{\Psi}B\rightarrow0\] is exact if $\Psi$ is a surjective homomorphism (\textbf{epimorphism}). This follows from the fact that the kernel of the map $B\rightarrow0$ and thus the image of $\Psi$ is all of $B$ which implies that $\Psi$ is surjective.
+		Analogously, the sequence \[C\overset{\Psi}{\longrightarrow}D\longrightarrow0\] is exact if $\Psi$ is a surjective homomorphism (\textbf{epimorphism}). This follows from the fact that the kernel of the map $D\rightarrow0$ and thus the image of $\Psi$ is all of $B$ which implies that $\Psi$ is surjective.
 
-		It follows that the sequence \[0\longrightarrow A\xrightarrow{\Sigma}B\longrightarrow0\] is exact if $\Sigma$ is a \textbf{bimorphism} (which is often an isomorphism).
+		It follows that the sequence \[0\longrightarrow C\overset{\Sigma}{\longrightarrow}D\longrightarrow0\] is exact if $\Sigma$ is a \textbf{bimorphism} (which is often an isomorphism).
 	\end{property}
 
 \section{Resolutions}
@@ -83,12 +112,9 @@ References for this chapter are \cite{weibel, hom_algebra}.
 
 	\newdef{Acyclic complex}{\index{acyclic}
 		A chain complex $C_\bullet\in\mathbf{Ch}(\mathbf{A})$ is said to be acyclic if the sequence \[\cdots\longrightarrow C_{k+1}\longrightarrow C_k\longrightarrow C_{k-1}\longrightarrow\cdots\]
-		is exact.
+		is exact or, equivalently, if the homology complex $H_\bullet(C_\bullet)$ vanishes.
 	}
 	\sremark{Some references, especially the older ones, use a slightly different definition of acyclicity. In their definition the sequence is exact except in degree 0, i.e. $H_0(C_\bullet)\neq0$.}
-    \begin{property}[Null-homotopy implies acyclicity]\label{homalg:null_acyclic}
-        If a null-homotopic chain map $f:C_\bullet\rightarrow C_\bullet$ exists, then $C_\bullet$ is acyclic.
-    \end{property}
 
 	\newdef{Resolution}{\index{resolution}\index{augmentation}\label{homalg:resolution}
 		Consider an object $X\in\ob{A}$. A resolution of $X$ is given by a chain complex $C_\bullet\in\mathbf{Ch}(\mathbf{A})$ which is acyclic except in degree 0 with the property that $H_0(C_\bullet)\cong X$. This definition is equivalent to stating that there exists an exact sequence of the form
@@ -97,10 +123,36 @@ References for this chapter are \cite{weibel, hom_algebra}.
 		\end{gather}
 		The morphism $\varepsilon:C_0\rightarrow X$ is often called the \textbf{augmentation map} and the complex $C_\bullet\rightarrow X\rightarrow 0$ is called the \textbf{augmentation} of the chain complex $C_\bullet$.
 	}
-
 	Often one can or should specialize the type of resolution. For example by considering chain complexes with only injective or projective objects (see figures \ref{fig:injective_object} and \ref{fig:projective_object}), one obtains injective or projective resolutions.
 
 	If every object $X\in\ob{A}$ admits a projective (resp. injective) resolution then $\mathbf{A}$ is said to \textbf{have enough projectives} (resp. \textbf{injectives}).
+
+    \begin{example}[Koszul-Tate resolution]\index{Koszul-Tate resolution}\index{Koszul!complex}\label{homalg:koszul_tate}
+        Consider a dga $(A,\partial)$ with an ideal $I$ over a field of characteristic 0. For any element $x\in I$ one can construct the polynomial algebra $A[t]$ where $t$ and extend the differential $\partial$ by taking $\partial t := x$. Because of this definition the homology class of $x$ in $A[t]$ vanishes. This procedure is said to ''kill'' the homology of $x$.
+
+        In a similar way one can kill the homology of $I$. If $I\equiv(x_1,\ldots,x_k)$ one can add a degree-1 generator $t_i$ for every $x_i$ and consider the chain complex $C_\bullet:=\Lambda^\bullet A^k$ with the differential defined on basis elements as follows:
+        \begin{gather}
+            \partial(t_{i_1}\wedge\ldots\wedge t_{i_n}) := \sum_{i=j}^n(-1)^{j+1}x_{i_j}t_{i_1}\wedge\ldots\wedge\widehat{t}_{i_j}\wedge\ldots\wedge t_{i_n},
+        \end{gather}
+        where $\widehat{t}_{i_j}$ denotes that this element is omitted. This complex is called the \textbf{Koszul complex}. Its homology is exactly the quotient $A/I$.
+
+        In case of a general ideal $I$, one should add a generator for every element of $I$ (possibly an infinite amount). The same then also needs to happen for higher-degree homology groups. The resulting complex is called the Koszul-Tate complex. Again its homology can be shown to be $A/I$.
+    \end{example}
+
+    \begin{theorem}[Homological perturbation]
+        Consider a resolution $(C_\bullet,\partial)$ and denote the grading in $C_\bullet$ by $r$. Furthermore, consider a differential $d$ modulo $\partial$ of degree 0 and denote the associated grading by $\deg$. There exists a differential $s$ satisfying the following properties:
+        \begin{itemize}
+            \item $\deg(s) - r(s) = 1$, and
+            \item $s = \delta + d + \sum_{i=1}^\infty s_{(i)}$ such that $r(s_{(i)})=i$ and $\deg(s_{(i)}) = i+1$.
+        \end{itemize}
+        Moreover, any differential that satisfies these properties has the same homology as $d$:
+        \begin{gather}
+            H_\bullet(s) \cong H_\bullet(d|H_\bullet(C_\bullet))\equiv H_\bullet(d|H_0(C_\bullet)).
+        \end{gather}
+    \end{theorem}
+    \begin{remark}[Ghost number]\index{ghost!number}
+        The total degree $\deg(x)-r(x)$ is sometimes called the \textbf{ghost number} (especially in quantum field theory).
+    \end{remark}
 
 \section{Derived functors}
 

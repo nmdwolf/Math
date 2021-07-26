@@ -1,0 +1,193 @@
+\chapter{Principal Bundles}\label{chapter:principal_bundles}
+
+    The main reference for this chapter is \cite{principal_bundles}. The theory of principal bundles uses the language of (Lie) group theory quite heavily. For all things related to group theory the reader is referred to sections \ref{section:groups} and \ref{section:group_actions}. For more information on Lie groups and their associated Lie algebras the reader is referred to chapter \ref{chapter:lie}.
+
+\section{Principal bundles}
+
+    \begin{definition}[Principal bundle]\index{principal!bundle}
+        A principal bundle is a (smooth) fibre bundle $\pi:P\rightarrow M$ equipped with a right action $\rho:P\times G\rightarrow P$ that satisfies two properties:
+        \begin{enumerate}
+            \item \textbf{Free action}: $\rho$ is free. This implies that the orbits are isomorphic to the structure group.
+            \item \textbf{Fibrewise transitivity}: The action preserves fibres, i.e. $y\cdot g\in F_b$ for all $y\in F_b, g\in G$. In turn this implies that the fibres over $M$ are exactly the orbits of $\rho$.
+        \end{enumerate}
+        Together these properties imply that the typical fibre $F$ and structure group $G$ can be identified. The right action of $G$ on $P$ will often be denoted by $R_g$ (unless this would give conflicts with the same notation for the action of $G$ on itself).
+    \end{definition}
+    \begin{remark}[$G$-torsor]\index{torsor}\label{diff:fibre_torsor}
+        Although the fibres are homeomorphic to $G$, they do not carry a group structure due to the lack of a distinct identity element. This turns them into $G$-torsors. However, it is possible to locally (i.e. in a neighbourhood of a point $p\in M$) endow the fibres with a group structure by choosing an element of every fibre to be the identity element.
+    \end{remark}
+    \begin{property}
+        A corollary of the definition is that the bundle $\pi:P\rightarrow M$ is isomorphic to the bundle $\xi:E\rightarrow E/G$ where $E/G$ denotes the orbit space of $E$ with respect to the $G$-action (which can be proven to be proper) and $\xi$ is the quotient projection.
+    \end{property}
+    In fact this property can be used to give an alternative characterization of principal bundles:
+    \begin{property}
+        Consider a smooth manifold $P$ equipped with a free and proper (right) action of a Lie group $G$. The following statements hold:
+        \begin{itemize}
+            \item The orbit space $P/G$ is a smooth manifold.
+            \item The projection $P\rightarrow P/G$ is a submersion.
+            \item $P$ is principal $G$-bundle over $P/G$.
+        \end{itemize}
+    \end{property}
+
+    \begin{property}[Dimension]\label{diff:principal_bundle_dimension}
+        The dimension of $P$ is given by
+        \begin{gather}
+            \dim P = \dim M + \dim G.
+        \end{gather}
+    \end{property}
+
+    \begin{property}
+        Every local trivialization $\varphi_i$ is $G$-equivariant:
+        \begin{gather}
+            \varphi_i(z\cdot g) = \varphi_i(z)\cdot g.
+        \end{gather}
+    \end{property}
+
+    \newdef{Principal bundle map}{\index{bundle!map}
+        A bundle map $F:P_1\rightarrow P_2$ between principal $G$-bundles is a pair of smooth maps $(f_B, f_P)$ such that:
+        \begin{enumerate}
+            \item $(f_B, f_P)$ is a bundle map in the sense of fibre bundles.
+            \item $f_P$ is $G$-equivariant.
+        \end{enumerate}
+        The map $f_P$ is said to \textbf{cover} $f_B$.
+    }
+
+    The following property proves that the equivariance condition on principal bundle maps is in fact a very strong condition:
+    \begin{property}
+        Every principal bundle map covering the identity is an isomorphism.
+    \end{property}
+
+    \newdef{Vertical automorphism}{\index{vertical!automorphism}\index{gauge!transformation}
+        Consider a principal $G$-bundle $\pi:P\rightarrow M$. An automorphism $f$ of this bundle is said to be vertical if it covers the identity, i.e. $\pi\circ f = \pi$. It is the subgroup $\text{Aut}_V(P)\subset\text{Aut}(P)$ of vertical automorphisms that is known as the \textbf{group of gauge transformations} or \textbf{gauge group}\footnote{This should not be confused with the structure group $G$, which is also sometimes called the gauge group in physics.} in physics.
+    }
+    \sremark{It should be clear that the above definition can easily be generalized to arbitrary fibre bundles}
+
+\subsection{Associated bundles}
+
+    \begin{construct}[Associated principal bundle]\label{diff:associated_bundle_construction}
+        For every fibre bundle one can construct an associated principal $G$-bundle by replacing the fibre $F$ by $G$ itself using the fibre bundle construction theorem \ref{diff:fibre_bundle_construction_theorem} where the left action of $G$ is given by left multiplication in $G$.
+    \end{construct}
+
+    \begin{property}
+        A fibre bundle $\xi$ is trivial if and only if its associated principal bundle is trivial. More generally, two fibre bundles are isomorphic if and only if their associated principal bundles are isomorphic.
+    \end{property}
+
+    \begin{example}[Frame bundle]\index{frame!bundle}\index{frame}\label{bundles:frame_bundle}
+        Let $V$ be an $n$-dimensional vector space and denote the set of ordered bases (or \textbf{frames}) of $V$ by $FV$. It follows from the fact that every basis transformation is given by the action of an element of the general linear group that $FV$ is isomorphic to $\text{GL}(V)\cong\text{GL}(\mathbb{R}^n)$.
+
+        Given an $n$-dimensional vector bundle $E$, one can thus construct an associated principal bundle by replacing every fibre $\pi^{-1}(b)$ by $F(\pi^{-1}(b))\cong\text{GL}(\mathbb{R}^n)$. The right action on this bundle by $g\in\text{GL}(\mathbb{R}^n)$ is given by the basis transformation $\widetilde{e}_j = g^i_je_i$.
+    \end{example}
+
+    \begin{construct}[Associated bundle to a principal bundle]\index{associated!bundle}\label{diff:prin:associated_bundle}
+        Consider a principal $G$-bundle $\pi:P\rightarrow M$ and let $F$ be a smooth manifold equipped with a left $G$-action $\vartriangleright$. One can then construct an associated bundle $P_F \equiv P \times_\vartriangleright F$ in the following way:
+        \begin{enumerate}
+            \item Define an equivalence relation $\sim_G$ on the product manifold $P\times F$ by
+                \begin{gather}
+                    \label{diff:associated_bundle_equivalence}
+                    (p, f)\sim_G (p', f')\iff \exists g\in G: (p',f') = (p\cdot g, g^{-1}\vartriangleright f).
+                \end{gather}
+            \item The total space of the associated bundle is given by the following quotient manifold:
+                \begin{gather}
+                    P_F := (P\times F)/\sim_G.
+                \end{gather}
+            \item The projection map $\pi_F:P_F\rightarrow M$ is defined as
+                \begin{gather}
+                    \pi_F:[p,f]\mapsto \pi(p)
+                \end{gather}
+            where $[p,f]$ is the equivalence class of $(p,f)\in P\times F$ in the quotient manifold $P_F$.
+        \end{enumerate}
+    \end{construct}
+
+    \begin{example}[Tangent bundle]
+        Starting from the frame bundle $FM$ over a manifold $M$ one can reconstruct (up to a bundle isomorphism) the tangent bundle $TM$ in the following way:
+
+        Consider the left $G$-action $\vartriangleright$ given by
+        \begin{gather}
+            \vartriangleright:G\times\mathbb{R}^n\rightarrow\mathbb{R}^n : (g\vartriangleright f)^i = g^i_{\ j}f^j.
+        \end{gather}
+        The tangent bundle is isomorphic to the associated bundle $FM\times_\vartriangleright\mathbb{R}^n$ where the bundle map is defined as $[e,v]\mapsto v^ie_i \in TM$.
+    \end{example}
+
+    \begin{construct}[Associated bundle map]\index{bundle!map}
+        Given a principal bundle map $(f_P,f_B)$ between two principal bundles one can construct an associated bundle map between any two of their associated bundles with the same typical fibre in the following way:
+        \begin{enumerate}
+            \item The total space map $\widetilde{f}_P:P\times_G F\rightarrow P\times_{G'} F$ is given by
+                \begin{gather}
+                    \widetilde{f}_P([p, f]) := [f_P(p), f].
+                \end{gather}
+            \item The base space map is simply given by $f_B$ itself:
+                \begin{gather}
+                    \widetilde{f}_B(b) = f_B(b).
+                \end{gather}
+        \end{enumerate}
+    \end{construct}
+
+\subsection{Sections}
+
+    Although every vector bundle has at least one global section, namely the zero section, a general principal bundle does not necessarily have a global section. This is made clear by the following property:
+    \begin{property}[Trivial bundles]
+        A principal $G$-bundle $P$ is trivial if and only if there exists a global section of $P$. Furthermore, there exists a bijection between the set of global sections $\Gamma(P)$ and the set of trivializations $\text{Triv}(P)$.
+    \end{property}
+    \begin{result}\label{diff:prin_section_triv}
+        Every local section $\sigma:U\rightarrow P$ induces a local trivialization $\varphi$ by
+        \begin{gather}
+            \varphi^{-1}:(m, g)\mapsto \sigma(m)\cdot g.
+        \end{gather}
+        The converse is also true: Consider a local trivialization $\psi^{-1}:U\times G\rightarrow \pi^{-1}(U)$. A local section can be obtained by taking $\sigma(u):=\psi^{-1}(u, e)$.
+    \end{result}
+
+    Property \ref{diff:trivial_vector_bundle} can now be reformulated as follows:
+    \begin{property}[Trivial vector bundles]
+        A vector bundle is trivial if and only if its associated frame bundle admits a global section. This can easily be interpreted as follows: If one can for every fibre choose a basis in a smooth way, then one can also express the restriction of any vector field to a fibre in terms of this basis in a smooth way.
+    \end{property}
+
+    \begin{property}[Higgs fields]\label{diff:section_bijection}\index{Higgs!field}
+        Let $\prb$ be a principal bundle and let $P_F$ be an associated bundle. There exists a bijection between the sections of $P_F$ and the $G$-equivariant maps $\phi:P\rightarrow F$, i.e. maps satisfying $\phi(p\cdot g) = g^{-1}\cdot\phi(p)$.
+
+        An explicit correspondence is given by
+        \begin{gather}
+            \sigma_\phi:M\rightarrow P_F:m\mapsto[p,\phi(p)]
+        \end{gather}
+        where $p$ is any point in $\pi^{-1}(\{m\})$. This is well-defined due to equation \eqref{diff:associated_bundle_equivalence}. In the other direction one finds
+        \begin{gather}
+            \label{diff:section_bijection_phi}
+            \phi_\sigma:P\rightarrow F: p\mapsto j_p^{-1}\circ\sigma(\pi(p))
+        \end{gather}
+        where $j_p:F\rightarrow P_F:f\mapsto[p, f]$ is a bijection. Either of these maps ($\phi_\sigma$ or $\sigma_\phi$) is sometimes called a \textbf{Higgs field} in the physics literature.
+    \end{property}
+
+\section{Universal bundle}
+
+    \newdef{Universal bundle}{\index{universal!bundle}\index{classifying!space}\label{diff:classifying_space}
+        Consider a topological group $G$. A universal bundle of $G$ is any principal bundle of the form \[G\hookrightarrow EG\rightarrow BG\] where $EG$ is weakly contractible. The space $BG$ is called the \textbf{classifying space} of $G$.
+    }
+    \begin{property}
+        A principal $G$-bundle $EG\rightarrow BG$ is universal if and only if $EG$ is weakly contractible.
+    \end{property}
+    \newdef{$n$-universal bundle}{
+        A principal bundle with an $(n-1)$-connected total space.
+    }
+    \begin{property}[Delooping]\index{delooping}\label{diff:delooping}
+        For every topological group one can prove that the loop space of $BG$ is (weakly) homotopy equivalent to $G$, i.e. $\Omega BG\cong G$. As such it also deserves the name of delooping.
+    \end{property}
+
+    \begin{property}[Classification]\label{diff:classification}
+        The collection of principal $G$-bundles over a paracompact space $X$ is in bijection with $[X, BG]$, the set of homotopy classes of continuous functions $f:X\rightarrow BG$. This bijection is given by the pullback-construction $f\mapsto f^*EG$.
+
+        Due to the homotopical nature of this classification one can also replace $G$ by any homotopy equivalent space. For Lie groups the natural choice is a \textit{maximal compact subgroup} since these are deformation retracts and hence homotopy equivalent.
+    \end{property}
+    \begin{result}[Vector bundles]\index{vector!bundle}\index{metric}
+        Since every vector bundle is uniquely related to its frame bundle, there exists a bijection between principal $\text{GL}$-bundles and vector bundles. This implies that rank-$k$ vector bundles are also classified by the homotopy mapping space $[X,B\text{GL}_k]$. Because $\text{O}(n)$ is the maximal compact subgroup of $\text{GL}(n)$, one also obtains the result that any real vector bundle over a paracompact space admits a bundle metric.
+
+        Property \ref{diff:vector_bundles_over_sphere} now follows from Eckmann-Hilton duality \ref{topology:eckmann_hilton} together with the above delooping property.
+    \end{result}
+
+    \remark{There also exists a slightly different notion of universal bundles and their associated classifying property. When one requires the total space of the universal bundle to be contractible instead of weakly contractible, the mapping space $[X,BG]$ only classifies numerable principal bundles \ref{diff:numerable_bundle}, but now over arbitrary base spaces $X$.}
+
+    An explicit construction of the numerable universal bundle for any topological group $G$ was given by Milnor:
+    \begin{construct}[\difficult{Milnor}]\index{Milnor!construction}
+        First, consider the infinite join $E_\infty$ equipped with the strong topology. This space is constructed as the direct limit of finite joins \[E_n=\underbrace{G\circ\cdots\circ G}_{n\text{ times}}\] where $E_n$ is embedded in $E_{n+1}$ using the identity element. Then, construct the quotient of $E_n$ (resp. $E_\infty$) by the canonical right action of $G$ on $E_n$ (resp. $E_\infty$). The bundle $p_n:E_n\rightarrow B_n$ (resp. $p:E_\infty\rightarrow B_\infty$) is an $n$-universal bundle (resp. $\infty$-universal bundle). It follows from the above property that $p:E_\infty\rightarrow B_\infty$ is a universal bundle for $G$.
+    \end{construct}
+
+    \begin{construct}[\difficult{Category theory}]
+        Let $G$ be a topological group and consider the delooping (groupoid) $\mathbf{B}G$ from Definition \ref{cat:group_delooping}. This groupoid can also be obtained as the \textit{action groupoid} associated to the trivial action of $G$ on $\{\ast\}$. The regular action of $G$ on itself also induces an action groupoid $\mathbf{E}G:=G/\!/G$. The map $G\rightarrow\{\ast\}$ in turn induces a map of groupoids $\mathbf{E}G\rightarrow\mathbf{B}G$ which under geometric realisation gives us a universal bundle map.
+    \end{construct}

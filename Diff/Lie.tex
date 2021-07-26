@@ -247,7 +247,7 @@
     \newdef{Derived algebra}{\index{derived!algebra}
         Let $\mathfrak{g}$ be a Lie algebra. The derived Lie algebra is defined as follows:
         \begin{gather}
-            [\mathfrak{g},\mathfrak{g}] := \Big\{[x,y]:x,y\in\mathfrak{g}\Big\}.
+            [\mathfrak{g},\mathfrak{g}] := \Big\{[x,y]\,\Big\vert\,x,y\in\mathfrak{g}\Big\}.
         \end{gather}
     }
     \newdef{Solvable Lie algebra}{\index{solvable}
@@ -304,12 +304,12 @@
     \newdef{Central extension}{\index{central extension!Lie algebra}
         A central extension of a Lie algebra $\mathfrak{g}$ by an Abelian Lie algebra $\mathfrak{a}$ is an exact sequence of Lie algebras of the form
         \begin{gather}
-            0\longrightarrow\mathfrak{a}\longrightarrow\mathfrak{h}\longrightarrow\mathfrak{g}\longrightarrow0
+            0\longrightarrow\mathfrak{a}\longrightarrow\mathfrak{h}\longrightarrow\mathfrak{g}\longrightarrow0,
         \end{gather}
         where the image of $\mathfrak{a}$ lies in the center of $\mathfrak{h}$.
     }
 
-    \begin{construct}[Extension by cocycles]\index{cocycle!Lie algebra}
+    \begin{construct}[Extension by cocycles]\index{cocycle!Lie algebra}\label{lie:cocycle}
         Consider a Lie algebra morphism $\Theta:\mathfrak{g}\times\mathfrak{g}\rightarrow\mathfrak{a}$ with the following properties:
         \begin{enumerate}
             \item $\Theta$ is bilinear,
@@ -354,7 +354,7 @@
         where $g=e^{tX}$. More explicitly, the adjoint map is given by
         \begin{gather}
             \label{lie:bracket_as_adjoint_rep}
-            \text{ad}_X(Y) = [X,Y]
+            \text{ad}_X(Y) = [X,Y],
         \end{gather}
         for all $X,Y\in\mathfrak{g}$.
     }
@@ -367,21 +367,20 @@
         Given the antisymmetry of the Lie bracket, the Jacobi identity is equivalent to ad$:\mathfrak{g}\rightarrow\text{End}(\mathfrak{g})$ being a Lie algebra morphism, i.e. $\text{ad}_{[X,Y]} = [\text{ad}_X,\text{ad}_Y]$.
     \end{property}
 
-    \begin{formula}[Structure constants]
+    \begin{formula}[Structure constants]\label{lie:ad_structure_constant}
         Let $\{e_i\}_{i\leq n}$ be a basis of the Lie algebra $\mathfrak{g}$. The structure constants are related to the adjoint representation as follows:
         \begin{gather}
-            \label{lie:ad_structure_constant}
-            (\text{ad}_{e_i})^j_k = C_{ik}^{\ \ j}
+            (\text{ad}_{e_i})^j_k = C_{ik}^j.
         \end{gather}
     \end{formula}
 
     \newformula{Induced morphism}{\index{morphism!induced}\label{lie:induced_homomorphism}
         Let $\phi:G\rightarrow H$ be a Lie group morphism\footnote{Continuity (inherent to the definition of a Lie group morphism) is needed to ensure that $\phi(e^{tX})$ is also a one-parameter subgroup (see \ref{group:OPS_composition}).} with $G$ connected and simply-connected. This morphism induces a
- a Lie algebra morphism\footnote{See also property \ref{lie:prop_hom}.} $\Phi:\mathfrak{g}\rightarrow\mathfrak{h}$ given by
+ a Lie algebra morphism\footnote{See also Property \ref{lie:prop_hom}.} $\Phi:\mathfrak{g}\rightarrow\mathfrak{h}$ given by
         \begin{gather}
             \Phi(X) := \left.\deriv{}{t}\phi\left(e^{tX}\right)\right|_{t=0}
         \end{gather}
-        or equivalently
+        or, equivalently,
         \begin{gather}
             \phi\left(e^{tX}\right) = e^{t\Phi(X)}.
         \end{gather}
@@ -393,21 +392,21 @@
         \begin{gather}
             [X,Y] := XY-YX.
         \end{gather}
-        This follows from definition \ref{lie:bracket_as_adjoint_rep}: $[X, Y] = \left.\deriv{}{t}\text{Ad}_{\gamma(t)}(Y)\right|_{t=0}$ with $\gamma(0) = e$ and $\gamma'(0) = X$.
+        This follows from \eqref{lie:bracket_as_adjoint_rep}: $[X,Y] = \left.\deriv{}{t}\text{Ad}_{\gamma(t)}(Y)\right|_{t=0}$ with $\gamma(0) = e$ and $\gamma'(0) = X$.
     \end{result}
 
 \subsection{Coadjoint orbits}\label{section:coadjoint_orbits}
 
     The main reference for this section is \cite{witten_coadjoint}.
 
-    \newdef{Coadjoint representation}{\index{coadjoint}
+    \newdef{Coadjoint representation}{\index{coadjoint}\label{lie:coadjoint_representation}
         The representation of a Lie group $G$ on the dual space $\mathfrak{g}^*$ defined by
         \begin{gather}
             \langle \text{Ad}_g^*(\omega),v \rangle := \langle \omega,\text{Ad}_g^{-1}(v) \rangle.
         \end{gather}
         Infinitesimally this induces a representation of $\mathfrak{g}$ on its linear dual. It is given by
         \begin{gather}
-            K_*(X):\omega\mapsto -\omega\circ\text{ad}_X.
+            \text{ad}^*_X:\omega\mapsto -\omega\circ\text{ad}_X.
         \end{gather}
     }
 
@@ -415,17 +414,12 @@
         Given an element $\omega\in\mathfrak{g}^*$, one defines the coadjoint orbit $\Omega_\omega$ as the orbit of $\omega$ under the action of $G$. This orbit can also be defined as the homogeneous space $G/G_\omega$.
     }
 
-    The following important construction shows that every coadjoint orbit is in fact canonically a symplectic manifold\footnote{See chapter \ref{chapter:symplectic}.}:
+    The following important construction shows that every coadjoint orbit is in fact canonically a symplectic manifold (Chapter \ref{chapter:symplectic}):
     \newdef{Kirillov-Kostant-Souriau form}{\index{Kirillov-Kostant-Souriau form}
-        First define the antisymmetric bilinear map $B_\alpha:\mathfrak{g}\times\mathfrak{g}\rightarrow\mathbb{C}$ by the following formula:
+        Consider a coadjoint orbit $\Omega_\alpha$. Because $\alpha$ is an element of the coadjoint representation of $G$, the tangent vectors to $\Omega_\alpha$ (at $\alpha$) are naturally elements of the induced representation of $\mathfrak{g}$, i.e. for any tangent vector $v$ one can write $v=\text{ad}^*_X(\alpha)$ for some $X\in\mathfrak{g}$. Now, a symplectic form on $\Omega_\alpha$ is defined as follows:
         \begin{gather}
-            B_\alpha(X,Y) := \langle \alpha,[X,Y] \rangle.
+            \omega_\alpha(\text{ad}^*_X(\alpha),\text{ad}^*_Y(\alpha)) = \langle\alpha,[X,Y]\rangle.
         \end{gather}
-        Now, consider a coadjoint orbit $\Omega_\alpha$. Since $\alpha$ is an element of the coadjoint representation of $G$, the tangent vectors to $\Omega_\alpha$ (at $\alpha$) are naturally elements of the induced representation of $\mathfrak{g}$. Hence for any tangent vector $v$ one can consider $v:=K_*(X)\alpha$ for some $X\in\mathfrak{g}$. Now, define a two-form on $\Omega_\alpha$ by the following formula:
-        \begin{gather}
-            \omega_\alpha(v,w) = B_\alpha(X,Y)
-        \end{gather}
-        where $X,Y$ are the adjoint vectors generating the tangent vectors $v,w$. That this actually defines a symplectic form is not hard to prove.
     }
 
 \section{Structure}
@@ -439,11 +433,11 @@
         \end{gather}
         The trace can be calculated by choosing a (finite-dimensional) representation of the Lie algebra using Ado's theorem \ref{lie:theorem:ado}.
 
-        From equation \ref{lie:ad_structure_constant} we can find out the value of the Killing form on the basis $\{e_i\}_{i\leq n}$:
+        From Formula \ref{lie:ad_structure_constant} one can find out the value of the Killing form on the basis $\{e_i\}_{i\leq n}$:
         \begin{gather}
-            K_{ij} = c_{ik}^{\ \ l}c_{jl}^{\ \ k}
+            K_{ij} = c_{ik}^lc_{jl}^k,
         \end{gather}
-        where $c_{ij}^{\ \ k}$ are the structure constants of the Lie algebra.
+        where $c_{ij}^k$ are the structure constants of the Lie algebra.
     }
 
     \begin{theorem}[Cartan's criterion]\index{Cartan!criterion}
@@ -456,7 +450,7 @@
     \begin{result}
         Let $G$ be a compact Lie group. If its Lie algebra is semisimple, the Killing form $K$ induces a metric
         \begin{gather}
-            g:(X,Y)\mapsto -\ \text{tr}(\text{ad}_X\circ\text{ad}_Y) = -K(X,Y)
+            g:(X,Y)\mapsto -\ \text{tr}(\text{ad}_X\circ\text{ad}_Y) = -K(X,Y),
         \end{gather}
         which turns the corresponding Lie group $G$ into a Riemannian manifold.
     \end{result}
@@ -466,7 +460,7 @@
         \begin{gather}
             K(\text{Ad}_g(X),\text{Ad}_g(Y)) = K(X,Y)
         \end{gather}
-        for all $g\in G$. From this it follows that $\text{Ad}$ is a morphism $G\rightarrow\text{Isom}(\mathfrak{g})$.
+        for all $g\in G$. From this it follows that $\text{Ad}$ is a morphism $G\rightarrow\text{Aut}(\mathfrak{g})$.
     \end{property}
     \begin{result}
         The adjoint map $\text{ad}_Z$ is antisymmetric with respect to the Killing form:
@@ -489,7 +483,7 @@
     \begin{property}[Antisymmetric structure constants]\index{structure!constants}
         When the Lie algebra $\mathfrak{g}$ is compact and semisimple, i.e. when the Killing form induces a metric, one can find a basis of $\mathfrak{g}$, constructed by orthonormalizing a given basis with respect to the Killing metric\footnote{The proof uses the ad-invariance of the Killing form.}, such that the structure constants are invariant under cyclic permutation of the indices:
         \begin{gather}
-            c_{ijk} = c_{jki}.
+            C_{ijk} = C_{jki}.
         \end{gather}
         A corollary of this property is also that the structure constants become totally antisymmetric.
     \end{property}
@@ -500,7 +494,7 @@
             \label{lie:rho_killing_form}
             K_\rho(X,Y) := \text{tr}\big(\rho(X)\circ\rho(Y)\big)
         \end{gather}
-        This definition is a generalization of \ref{lie:killing_form} which reduces to the Killing form $K$ when choosing $V$ to be $\mathfrak{g}$ the adjoint representation.
+        This definition is a generalization of \eqref{lie:killing_form} which reduces to the Killing form $K$ when choosing $V$ to be $\mathfrak{g}$ the adjoint representation.
     \end{construct}
 
 \subsection{Weights, roots and Dynkin diagrams}
@@ -596,7 +590,7 @@
     \end{property}
 
     \newdef{Weyl group}{\index{Weyl!group}
-        For every simple root $\lambda$ we construct a Householder transformation\footnote{See definition \ref{linalgebra:householder_transformation}.} $\sigma_\lambda$ as follows:
+        For every simple root $\lambda$ we construct a Householder transformation $\sigma_\lambda$ (Definition \ref{linalgebra:householder_transformation}) as follows:
         \begin{gather}
             \sigma_\lambda:\text{span}_{\mathbb{R}}(\Delta)\rightarrow\text{span}_{\mathbb{R}}(\Delta):\mu\mapsto \mu - 2\frac{\langle\lambda,\mu\rangle}{\langle\lambda,\lambda\rangle}\lambda.
         \end{gather}
@@ -655,13 +649,17 @@
         is an integer. The matrix formed by these numbers is called the Cartan matrix.
     }
     \begin{property}[Properties of Cartan matrix]\label{lie:cartan_prop}
-        The Cartan matrix $C_{ij}$ is an integer-valued matrix with the following properties:
+        The Cartan matrix $C_{ij}$ is a matrix satisfying the following properties:
         \begin{itemize}
             \item $C_{ii}=2$,
-            \item $C_{ij}\leq0$ if $i\neq j$, and
+            \item $C_{ij}\in\mathbb{Z}_{\leq0}$ if $i\neq j$, and
             \item $C_{ij}=0\iff C_{ji}=0$.
         \end{itemize}
-        This last property does not imply that the Cartan matrix is symmetric. The fact that it is not symmetric can immediately be seen from its definition. However, it is \textit{symmetrizable}, i.e. there exist a positive diagonal matrix $D$ and a symmetric matrix $S$ such that $C=DS$. Furthermore, the Cartan matrix is positive definite.
+        This last property does not imply that the Cartan matrix is symmetric. The fact that it is not symmetric can immediately be seen from its definition. However:
+        \begin{itemize}
+            \item it is \textit{symmetrizable}, i.e. there exist a positive diagonal matrix $D$ and a symmetric matrix $S$ such that $C=DS$.
+            \item it is positive definite.
+        \end{itemize}
     \end{property}
 
     \newdef{Bond number}{\index{bond number}
@@ -696,21 +694,21 @@
     \end{property}
 
     \begin{example}[Special linear group]
-        By looking at the Lie brackets in equation \ref{lie:sl2c_lie_brackets} we see that the one-element set $\{X_1\}$ forms a Cartan subalgebra of $\mathfrak{sl}(2, \mathbb{C})$. From the same equation it is also immediately clear that the simple root set $\Delta$ is given by the one-element set $\{\lambda\in\mathfrak{sl}^*(2, \mathbb{C}): \lambda(X_1)\mapsto 2\}$. Hence the Dynkin diagram for $\mathfrak{sl}(2, \mathbb{C})$ is $A_1$.
+        By looking at the Lie brackets in equation \ref{lie:sl2c_lie_brackets} we see that the one-element set $\{X_1\}$ forms a Cartan subalgebra of $\mathfrak{sl}(2,\mathbb{C})$. From the same equation it is also immediately clear that the simple root set $\Delta$ is given by the one-element set $\{\lambda\in\mathfrak{sl}^*(2, \mathbb{C}): \lambda(X_1)\mapsto 2\}$. Hence the Dynkin diagram for $\mathfrak{sl}(2, \mathbb{C})$ is $A_1$.
     \end{example}
 
     \begin{theorem}[Cartan \& Killing]\index{Cartan-Killing}
         Every finite-dimensional simple Lie algebra (over $\mathbb{C}$) can be reconstructed from its set of simple roots $\Delta$.
     \end{theorem}
     \begin{construct}[Chevalley-Serre]\index{Chevalley-Serre construction}\label{lie:reconstruction}
-        Given a Dynkin diagram of a simple Lie algebra we can reconstruct the original Lie algebra $\mathfrak{g}$ (over $\mathbb{C})$ up to isomorphism:
+        Given a Dynkin diagram of a simple Lie algebra, one can reconstruct the original Lie algebra $\mathfrak{g}$ (over $\mathbb{C})$ up to isomorphism:
 
-        \qquad The number of nodes is equal to the number of simple roots and hence gives us the rank of $\mathfrak{g}$. Let us denote this rank by $n$. We first construct the free Lie algebra on $3n$ generators $\{E_i,F_i,H_i\}_{i\leq n}$. The Cartan subalgebra $\mathfrak{h}\leq\mathfrak{g}$ is constructed from the generators $H_i$ by imposing the following relations:
+        \qquad The number of nodes is equal to the number of simple roots and hence gives determines the rank $n$ of $\mathfrak{g}$. First, construct the free Lie algebra on $3n$ generators $\{E_i,F_i,H_i\}_{i\leq n}$. The Cartan subalgebra $\mathfrak{h}\leq\mathfrak{g}$ is constructed from the generators $H_i$ by imposing the following relations:
         \begin{itemize}
             \item $[H_i,H_j] = 0$,
             \item $[H_i,E_j] = a_{ij}E_j$,
             \item $[H_i,F_j] = -a_{ij}F_j$, and
-            \item $[E_i,F_j] = \delta_{ij}H_j$
+            \item $[E_i,F_j] = \delta_{ij}H_j$,
         \end{itemize}
         where the numbers $a_{ij}$ form the Cartan matrix obtained by reversing construction \ref{lie:construct_dynkin}. To complete the reconstruction one imposes the following additional relations:
         \begin{itemize}
@@ -719,7 +717,11 @@
         \end{itemize}
         The first set of relations are called the \textbf{Chevalley relations} and the last two are called the \textbf{Serre relations}. The full construction is called the \textbf{Chevalley-Serre presentation}.
     \end{construct}
-    \remark{For composite diagrams, which correspond to semisimple Lie algebras, we first have to construct the Lie algebras corresponding to every simple diagram and then take the direct sum.}
+    \remark{For composite diagrams that correspond to semisimple Lie algebras, one first has to construct the Lie algebras corresponding to every simple diagram and then take the direct sum.}
+
+    \begin{property}[$\mathfrak{sl}_2$]
+        For every Cartan matrix $A$ of rank $n$, the triplets $\{E_i,F_i,H_i\}$ with $i\leq n$ generate $\mathfrak{sl}_2$-algebras. All (semi)simple Lie algebras are thus in some sense built up from $\mathfrak{sl}_2$-algebras, similar to how in algebraic topology simplicial complexes are constructed by gluing simplices together.
+    \end{property}
 
 \subsection{Highest weight theory}
 
@@ -756,54 +758,84 @@
 
 \subsection{\difficult{Kac-Moody algebras}}
 
-    \begin{construct}[Kac-Moody algebra]\index{Kac-Moody algebra}\index{Cartan!matrix}\label{lie:kac_moody}
-        Consider the Cartan matrix $A$ associated to a finite-dimensional (semi)simple Lie algebra. This matrix has the properties listed in \ref{lie:cartan_prop}. If we only retain the first three points from \ref{lie:cartan_prop}, we obtain a \textbf{generalized Cartan matrix}. For such a generalized Cartan matrix we can construct a (possibly infinite-dimensional) Lie algebra using an analogue of the Chevalley-Serre relations.
+    \begin{construct}[Kac-Moody algebra]\index{Kac-Moody algebra}\index{Cartan!matrix}\index{realization}\label{lie:kac_moody}
+        Consider the Cartan matrix $A$ associated to a finite-dimensional (semi)simple Lie algebra. This matrix has the properties listed in \ref{lie:cartan_prop}. If one drops the positivity condition, the definition of a \textbf{generalized Cartan matrix} is obtained. For such a matrix one can construct a (possibly infinite-dimensional) Lie algebra using an analogue of the Chevalley-Serre relations.
 
-        Since a generalized Cartan matrix might have $\det(A)=0$ we cannot use the Chevalley-Serre presentation as given in construction \ref{lie:reconstruction}, because the constructed roots might be linearly dependent. However, this problem can be easily solved:
+        Since a generalized Cartan matrix might have a vanishing determinant, one cannot use the Chevalley-Serre presentation as given in Construction \ref{lie:reconstruction}, because the constructed roots might be linearly dependent. However, this problem can easily be solved:
 
-        \qquad Let $A$ be an $n\times n$ (generalized) Cartan matrix. First we construct a complex vector space $\mathfrak{h}$ of dimension $2n-\rk(A)$ and choose for every $i\leq n$ a simple root $\alpha_i$ (resp. coroot $H^{\alpha_i}$) in $\mathfrak{h}^*$ (resp. $\mathfrak{h}$) such that these are linearly independent and satisfy the condition $\alpha_i(H^{\alpha_j})=A_{ij}$. (Such a choice is always possible and it is unique up to isomorphism.) Then we construct the free Lie algebra $\widetilde{\mathfrak{g}}$ on $4n-\rk(A)$ generators $\{E_i, F_i\}_{i\leq n}\cup\mathfrak{h}$ and quotient out the following relations:
+        \qquad Let $A$ be an $n\times n$ (generalized) Cartan matrix. First, choose a complex vector space $\mathfrak{h}$ equipped with for every $i\leq n$ a simple root $\alpha_i$ (resp. coroot $H^{\alpha_i}$) in $\mathfrak{h}^*$ (resp. $\mathfrak{h}$) such that these are linearly independent and satisfy the condition $\alpha_i(H^{\alpha_j})=A_{ij}$. (Such a choice, called a \textbf{realization}, always exists.) It can be shown that $\mathfrak{h}$ satisfies $\dim(\mathfrak{h})\geq2n-\rk(A)$. A minimal realization, i.e. one that satisfies $\dim(\mathfrak{h})=2n-\rk(A)$, is unique up to isomorphism.
+
+         Then, construct the direct sum $\mathfrak{g}$ of the free Lie algebra on $2n$ generators $\{E_i,F_i\}_{i\leq n}$ with $\mathfrak{h}$ and take the quotient by the following relations:
         \begin{itemize}
             \item $[E_i,F_j] = \delta_{ij}H^{\alpha_i}$,
             \item $[H,H']=0$ for $H,H'\in\mathfrak{h}$,
             \item $[H,E_i]=\alpha_i(H)E_i$ for $H\in\mathfrak{h}$, and
             \item $[H,F_i]=-\alpha_i(H)F_i$ for $H\in\mathfrak{h}$.
         \end{itemize}
-        Given this Lie algebra we can find the unique maximal ideal $\mathfrak{m}\leq\widetilde{\mathfrak{g}}$ for which $\mathfrak{m}\cap\mathfrak{h}=\{0\}$. The quotient algebra $\widetilde{\mathfrak{g}}/\mathfrak{m}$ is called the Kac-Moody algebra associated to $A$.\footnote{\textit{Kac} proved that for symmetrizable $A$ this construction is equivalent to the Chevalley-Serre presentation with the generators as given here.} Although we did not add an analogue of the Serre relations in the construction it can be shown that these still hold (see for example \cite{aminiinfinite}).
+        Given this Lie algebra one can find the unique maximal ideal $\mathfrak{m}\leq\mathfrak{g}$ for which $\mathfrak{m}\cap\mathfrak{h}=\{0\}$. The quotient algebra $\mathfrak{g}/\mathfrak{m}$ is called the Kac-Moody algebra associated to $A$.\footnote{\textit{Kac} proved that for symmetrizable $A$ this construction is equivalent to the Chevalley-Serre presentation with the generators as given here.} Although an analogue of the Serre relations is not included, it can be shown that these relations still hold (see for example \cite{aminiinfinite}). In fact when $A$ is symmetrizable, the ideal $\mathfrak{m}$ is exactly generated by the Serre relations.
     \end{construct}
-    \begin{remark}
-        Assume that the generalized Cartan matrix $A$ is still symmetrizable. Then there exist three distinct classes of Kac-Moody algebras (based on the definiteness of $A$):
+    \begin{remark}[Classification]
+        There exist three distinct classes of Kac-Moody algebras (based on the definiteness of $A$):
         \begin{itemize}
-            \item If $A$ is positive definite, then we obtain a finite-dimensional (semi)simple Lie algebra.
-            \item If $A$ is positive semi-definite, then we obtain a Kac-Moody algebra of \textbf{affine type}. In fact, it can be shown for generalized Cartan matrices $A$ that affinity is equivalent to the existence of a unique (up to scaling) real vector $v$ such that $Av=0$.
-            \item If $A$ is indefinite, then we obtain a Kac-Moody of \textbf{indefinite type}.
+            \item If $A$ is positive-definite, one obtains a finite-dimensional (semi)simple Lie algebra. $A$ is also said to be of \textbf{finite type}.
+            \item If $A$ is positive-semidefinite, one obtains a Kac-Moody algebra of \textbf{affine type}. In fact, it can be shown for generalized Cartan matrices $A$ that affinity is equivalent to the existence of a unique (up to scaling) real vector $v$ such that $Av=0$.
+            \item If $A$ is indefinite, one obtains a Kac-Moody of \textbf{indefinite type}.
         \end{itemize}
     \end{remark}
 
-    \begin{construct}[Loop algebra]\index{loop!algebra}
-        Consider a finite-dimensional Lie algebra $\mathfrak{g}$. From this Lie algebra we can construct the so-called \textbf{loop algebra} $L\mathfrak{g}$. The underlying vector space is given by $\mathfrak{g}\otimes\mathbb{C}[t,t^{-1}]$ and the Lie bracket is given by $[g\otimes t^k,g'\otimes t^l] = [g,g']_{\mathfrak{g}}\otimes t^{k+l}$ (extended by linearity to the full vector space). For this reason the loop algebra is sometimes denoted by $\mathfrak{g}[t,t^{-1}]$.
-
-        Equivalently, we can obtain the loop algebra as the space of polynomial maps from $S^1$ to $\mathfrak{g}$ (hence the name). Furthermore, if $G$ is the Lie group associated to $\mathfrak{g}$ and $LG$ denotes its (free) loop group \ref{topology:loop_group}, then $LG$ has the natural structure of a (infinite-dimensional) Lie group and its Lie algebra is precisely $L\mathfrak{g}$.
-    \end{construct}
-
-    \begin{construct}[Affine Lie algebra]\index{affine!algebra}
-        Given a simple Lie algebra $\mathfrak{g}$ we construct the affine Lie algebra $\widehat{\mathfrak{g}}$ as the central extension of the loop algebra $L\mathfrak{g}$ by $\mathbb{C}$ associated to the cocycle \[\Theta:(g\otimes t^k,g'\otimes t^l)\mapsto kK(g,g')\delta_{k+l,0}\] where $K(\cdot,\cdot)$ is the Killing form on $\mathfrak{g}$. The generator $c$ of the extending vector space is often called the \textbf{central element} (since it is mapped to an element in the center of $\widehat{\mathfrak{g}}$). This cocycle can also be defined using the residue \ref{complexcalculus:residue_def} of a Laurent polynomial:
+    \begin{definition}[Loop algebra]\index{loop!algebra}
+        Consider a finite-dimensional Lie algebra $\mathfrak{g}$. Its associated \textbf{loop algebra} $L\mathfrak{g}$ is defined as follows. The underlying vector space is given by $\mathfrak{g}\otimes\mathbb{C}[t,t^{-1}]$ and the Lie bracket is given by
         \begin{gather}
-            \Theta(f,g) := \text{Res}\left[K(f,g)\right]_t
+            [g\otimes t^k,g'\otimes t^l] := [g,g']_{\mathfrak{g}}\otimes t^{k+l}.
         \end{gather}
-        where we extended the Killing form on $\mathfrak{g}$ to $L\mathfrak{g}$ by $K(a\otimes t^k,b\otimes t^l)=K(a,b)t^{k+l}$.
+        Because this strongly resembles the definition of the ring of Laurent polynomials $K[t,t^{-1}]$ over a field $K$, the loop algebra is sometimes denoted by $\mathfrak{g}[t,t^{-1}]$.
 
-        However, to obtain a well-behaved affine Kac-Moody algebra we also need to extend this affine Lie algebra by a derivation. First we observe that the loop algebra, and accordingly, the affine Lie algebra is $\mathbb{Z}$-graded. A well-defined derivation is then obtained through multiplication by the grading. To this intent we add a formal generator $d$ together with the following relations (the central element from the previous step will be denoted by $c$):
+        Equivalently, one can obtain the loop algebra as the space of polynomial maps from $S^1$ to $\mathfrak{g}$ (hence the name). Furthermore, if $G$ is the Lie group associated to $\mathfrak{g}$ and $LG$ denotes its (free) loop group \ref{topology:loop_group}, then $LG$ has the natural structure of a (infinite-dimensional) Lie group and its Lie algebra is precisely $L\mathfrak{g}$.
+    \end{definition}
+
+    \begin{definition}[Affine Lie algebra]\index{affine!algebra}
+        Given a simple Lie algebra $\mathfrak{g}$, one can define the affine Lie algebra $\widehat{\mathfrak{g}}$ as the central extension of the loop algebra $L\mathfrak{g}$ by $\mathbb{C}$ associated to the cocycle \[\Theta:(g\otimes t^k,g'\otimes t^l)\mapsto kK(g,g')\delta_{k+l,0}\] where $K(\cdot,\cdot)$ is the Killing form on $\mathfrak{g}$. The generator $c$ of the extending vector space is often called the \textbf{central element} (since it is mapped to an element in the center of $\widehat{\mathfrak{g}}$\,). This cocycle can also be defined using the residue \ref{complexcalculus:residue_def} of a Laurent polynomial:
+        \begin{gather}
+            \Theta(f,g) := \text{Res}\left[K(f,g)\right]_t,
+        \end{gather}
+        where the Killing form is extended from $\mathfrak{g}$ to $L\mathfrak{g}$ by $K(a\otimes t^k,b\otimes t^l):=K(a,b)t^{k+l}$.
+
+        However, to obtain a well-behaved affine Kac-Moody algebra one also needs to extend this affine Lie algebra by a derivation. Observe that the loop algebra, and accordingly, the affine Lie algebra is $\mathbb{Z}$-graded. A well-defined derivation is then obtained through multiplication by the grading. To this intent, add a formal generator $d$ together with the following relations (the central element from the previous step will be denoted by $c$):
         \begin{align}
             [d,g\otimes P(t)] &= g\otimes t\deriv{}{t}P(t)\\
-            [d,c] &= 0
+            [d,c] &= 0,
         \end{align}
         where $P(t)\in\mathbb{C}[t,t^{-1}]$.
-    \end{construct}
+    \end{definition}
+
+    \newdef{Extended Cartan matrix}{\index{Cartan!matrix}
+        Consider a simple Lie algebra $\mathfrak{g}$ with Cartan matrix $A$. Denote the associated Chevalley generators by $\{E_i,F_i,H_i\}_{i\leq n}$. There exist unique (up to scaling) nonzero elements $E_0,F_0$ such that
+        \begin{gather}
+            [E_0,F_i] = 0\\
+            [F_0,E_i] = 0
+        \end{gather}
+        for all $1\leq i\leq n$. This also implies that $[E_0,F_0]=:H_0$ is a linear combination of $\{H_i\}_{i\leq n}$. The elements $E_0,F_0$ can be normalized by enforcing the following Chevalley-type relations:
+        \begin{gather}
+            [H_0,E_0] = 2E_0\\
+            [H_0,F_0] = -2F_0.
+        \end{gather}
+        The extended Cartan matrix $\widehat{A}$ is defined by adjoining a new row and column to $A$. These new entries are defined by
+        \begin{gather}
+            [H_0,E_i] =: a_{0i}E_i\\
+            [H_i,E_0] =: a_{i0}E_0.
+        \end{gather}
+    }
+
+
     \newdef{Twisted Kac-Moody algebra}{\index{Kac-Moody algebra}
-        Given a simple Lie algebra $\mathfrak{g}$ with associated Cartan matrix $A$ we can construct an affine Cartan matrix $\widehat{A}$, called the \textit{extended} Cartan matrix. It can then be shown that the affine Kac-Moody algebra associated to $\widehat{A}$, as defined in \ref{lie:kac_moody}, is isomorphic to the affine Kac-Moody algebra as constructed above starting from the simple Lie algebra $\mathfrak{g}$.
+        Consider an indecomposable generalized Cartan matrix. Such a matrix is of affine type if and only if all its proper principal minors are positive-definite. Hence by deleting the first row and column one obtains the Cartan matrix $B$ for a finite-dimenionsal simple Lie algebra $\mathfrak{g}(B)$. It can be shown that the affine Kac-Moody algebra $\mathfrak{g}(A)$, as defined in \ref{lie:kac_moody}, is isomorphic to the affine Kac-Moody algebra as constructed above starting from the simple Lie algebra $\mathfrak{g}(B)$ if and only if $A=\widehat{B}$.
 
         All affine Kac-Moody algebras that are isomorphic to Lie algebras defined in this way are said to be \textbf{untwisted}. All other affine Kac-Moody algebras are said to be \textbf{twisted}.
     }
+
+    \begin{property}
+        Let $\mathfrak{g}$ be a simple Lie algebra with Cartan matrix $A$. The affine Lie algebra $\widehat{\mathfrak{g}}$ is isomorphic to the derived subalgebra $[\mathfrak{g}(\widehat{A}),\mathfrak{g}(\widehat{A})]$ of the Kac-Moody algebra $\mathfrak{g}(\widehat{A})$.
+    \end{property}
 
 \subsection{Universal enveloping algebra}
 
@@ -829,14 +861,14 @@
         \begin{gather}
             \Omega_\rho := \sum_{i=0}^{\dim(\mathfrak{g})}\rho(X_i)\circ\rho(\xi_i)
         \end{gather}
-        where the set $\{\xi_i\}_{i\leq n}$ is defined by the relation $K_\rho(X_i,\xi_j)=\delta_{ij}$ using the Killing form \ref{lie:rho_killing_form}.
+        where the set $\{\xi_i\}_{i\leq n}$ is defined by the relation $K_\rho(X_i,\xi_j)=\delta_{ij}$ using the Killing form \eqref{lie:rho_killing_form}.
     }
     \begin{property}[Casimir invariants of irreducible representations]
         When the representation $\rho:\mathfrak{g}\rightarrow\text{End}(V)$ is irreducible, Schur's lemma \ref{rep:schurs_lemma} tells us that
         \begin{gather}
             \Omega_\rho = c_\rho\mathbbm{1}_V.
         \end{gather}
-        By taking the trace of this formula and using formula \ref{lie:rho_killing_form} we see that $c_\rho = \frac{\dim\mathfrak{g}}{\dim V}$.
+        By taking the trace of this formula and using formula \eqref{lie:rho_killing_form} we see that $c_\rho = \frac{\dim\mathfrak{g}}{\dim V}$.
     \end{property}
 
     \newdef{Verma module}{\index{Verma module}\label{lie:verma_module}
@@ -877,51 +909,74 @@
 
 \subsection{\difficult{Lie algebra cohomology}}\index{cohomology!Lie algebra}\label{section:lie_algebra_cohomology}
 
-    Although the following construction can be generalized almost identically to the infinite-dimensional case, we only state it for finite dimensions:
-    \newdef{Chevalley-Eilenberg algebra}{\index{Chevalley-Eilenberg algebra}
-        Let $\mathfrak{g}$ be a finite-dimensional Lie algebra. Consider a basis $\{t_a\}_{a\leq n}$ of $\mathfrak{g}$ and let $\{t^a\}_{a\leq n}$ be its linear dual. The Chevalley-Eilenberg algebra $\text{CE}(\mathfrak{g})$ is defined the Grassmann algebra $\Lambda^\bullet\mathfrak{g}^*$ with a dg-algebra structure induced by the differential\footnote{In section \ref{section:bv_formalism} we explain how this differential is obtained as the dual of the Lie bracket.}
+    Although the construction of Lie algbra-cohomology can be generalized almost unchaged to the infinite-dimensional case, it is only state for finite dimensions (the following definition is only valid for finite-dimensional algebras\footnote{In infinite dimensions the Chevally-Eilenberg complex is the complex of antisymmetric forms on $\mathfrak{g}$.}):
+    \newdef{Chevalley-Eilenberg algebra}{\index{Chevalley-Eilenberg algebra}\label{lie:chevalley_eilenberg_algebra}
+        Let $\mathfrak{g}$ be a finite-dimensional Lie algebra. Consider a basis $\{t_a\}_{a\leq\dim(\mathfrak{g})}$ of $\mathfrak{g}$ and let $\{t^a\}_{a\leq\dim(\mathfrak{g})}$ be its linear dual. The Chevalley-Eilenberg algebra $\text{CE}(\mathfrak{g})$ is defined as the Grassmann algebra $\Lambda^\bullet\mathfrak{g}^*$ with a dg-algebra structure induced by the differential\footnote{In Section \ref{section:bv_formalism} it is explained how this differential can be obtained as the dual of the Lie bracket.}
         \begin{gather}
-            dt^a:=-\frac{1}{2}c_{bc}^{\ \ a}t^b\wedge t^c
+            dt^a:=-\frac{1}{2}c_{bc}^at^b\wedge t^c,
         \end{gather}
-        where $c_{bc}^{\ \ a}$ are the structure constants of $\mathfrak{g}$.
+        where $c_{bc}^a$ are the structure constants of $\mathfrak{g}$.
     }
 
-    By analogy to the case of group (co)homology we define the (co)homology of a Lie algebra using the Tor en Ext functors associated to a certain category of rings and modules. The natural choice of ring in the case of Lie algebras is the universal enveloping algebra $U(\mathfrak{g})$. The tensor and Hom operations underlying the construction are defined with respect to the trivial $U(\mathfrak{g})$-module $k$ (the underlying field of the Lie algebra). This gives:
+    By analogy with the case of group (co)homology, one defines the (co)homology of a Lie algebra through the Tor- and Ext-functors. The natural choice of ring in the case of Lie algebras is the universal enveloping algebra $U(\mathfrak{g})$. The tensor and Hom operations underlying the construction are defined with respect to the trivial $U(\mathfrak{g})$-module $k$ (the underlying field of the Lie algebra). This gives:
     \begin{align}
-        H^i_{\text{Lie}}(k;M) &:= \text{Ext}^i_{U(\mathfrak{g})}(k,M)\\
-        H_i^{\text{Lie}}(k;M) &:= \text{Tor}_i^{U(\mathfrak{g})}(k,M)
+        H^i_{\text{Lie}}(\mathfrak{g};M) &:= \text{Ext}^i_{U(\mathfrak{g})}(k,M)\\
+        H_i^{\text{Lie}}(\mathfrak{g};M) &:= \text{Tor}_i^{U(\mathfrak{g})}(k,M),
     \end{align}
-    where $M$ is a $\mathfrak{g}$-module and, by extension, also a $U(\mathfrak{g})$-module.
+    where $M$ is a $\mathfrak{g}$-module and, by extension, a $U(\mathfrak{g})$-module.
 
-    For the remainder of this section we will focus on cohomology. The chapter on homological algebra (see section \ref{section:tor_ext}) tells us that we have to find a projective resolution of $k$ to determine the Ext-functor in terms of hom-sets $\text{Hom}(\mathcal{F}, M)$. It can be shown that the relevant object is given by the tensor product $U(\mathfrak{g})\otimes\Lambda^\bullet\mathfrak{g}$:
+    For simplicity only cohomology will be considered here. The chapter on homological algebra, in particular Section \ref{section:tor_ext}, says that one has to find a projective resolution of $k$ to determine the Ext-functor in terms of hom-sets $\text{Hom}(\cdot, M)$. It can be shown that such a resolution is given by the tensor product $U(\mathfrak{g})\otimes\Lambda^\bullet\mathfrak{g}$:
     \begin{gather}
-        \text{Ext}^i_{U(\mathfrak{g})}(k, M) = H^i(\text{Hom}_{\mathfrak{g}}(U(\mathfrak{g)}\otimes_k\Lambda^\bullet\mathfrak{g}, M)) \cong H^i(\text{Hom}_k(\Lambda^\bullet\mathfrak{g}, M))
+        \text{Ext}^i_{U(\mathfrak{g})}(k, M) = H^i(\text{Hom}_{\mathfrak{g}}(U(\mathfrak{g)}\otimes_k\Lambda^\bullet\mathfrak{g}, M)) \cong H^i(\text{Hom}_k(\Lambda^\bullet\mathfrak{g}, M)),
     \end{gather}
     where the differential of the (middle) complex is given by
     \begin{gather}
-        d(u\otimes g_1\wedge\cdots\wedge g_n) := \sum_i(-1)^{i+1}ug_i\otimes(g_1\wedge\cdots\wedge\hat{g}_i\wedge\cdots\wedge g_n)\\+ \sum_{i<j}(-1)^{i+j}u\otimes[g_i,g_j]\wedge\cdots\wedge\hat{g}_i\wedge\cdots\wedge\hat{g}_j\wedge\cdots\wedge g_n.\nonumber
+        d(u\otimes g_1\wedge\cdots\wedge g_n) := \sum_i(-1)^{i+1}ug_i\otimes(g_1\wedge\cdots\wedge\hat{g}_i\wedge\cdots\wedge g_n)\\+ \sum_{i<j}(-1)^{i+j}u\otimes[g_i,g_j]\wedge\cdots\wedge\hat{g}_i\wedge\cdots\wedge\hat{g}_j\wedge\cdots\wedge g_n.\nonumber,
     \end{gather}
-    In the case $M=k$ the Hom-complex can easily be seen to be the Chevalley-Eilenberg algebra $\text{CE}(\mathfrak{g})=\Lambda^\bullet\mathfrak{g}^*$ (this last equality is only valid for finite-dimensional algebras). Using a change of coefficients the general case is shown to be isomorphic to $M\otimes\Lambda^\bullet\mathfrak{g}^*$ where the differential on $\Lambda^\bullet\mathfrak{g}^*$ gets extended by the extra term $(-1)^n dm\otimes\omega$ with $dm(g):=g\cdot m$.
+    where as usual the caret $\hat\cdot$ indicates the omission of a factor. In the case $M=k$, the Hom-complex can easily be seen to be the Chevalley-Eilenberg algebra $\text{CE}(\mathfrak{g})\cong\Lambda^\bullet\mathfrak{g}^*$ (as stated above, this latter identification is only valid for finite-dimensional algebras). By a change of coefficients, the general case can be shown to be isomorphic to $\Lambda^\bullet\mathfrak{g}^*\otimes M$, where the usual differential on $\Lambda^\bullet\mathfrak{g}^*$ gets extended by an additional term $(-1)^n dm\otimes\omega$ with $dm(g):=g\cdot m$.
 
-    \newdef{Weil algebra}{\index{Weil!algebra}
-        Consider a Lie algebra $\mathfrak{g}$. Its Weil algebra is defined as the dg-algebra $\Lambda^\bullet(\mathfrak{g}^*\oplus\mathfrak{g}^*[1])$ with diferential $d_W:=d_{\text{CE}}+\mathbf{d}$ where $d_{\text{CE}}$ is the differential on the Chevalley-Eilenberg subalgebra $\text{CE}(\mathfrak{g})\subset W(\mathfrak{g})$ and $\mathbf{d}$ shifts the degree of $\mathfrak{g}^*$ by $1$ and acts as 0 on $\mathfrak{g}^*[1]$. The action of $d_{\text{CE}}$ on shifted generators is defined through the relation $[\mathbf{d},d_{\text{CE}}]=0$.
+    \begin{property}[$H^0$ and $H^1$]
+        The zeroth cohomology group $H^0(\mathfrak{g};M)$ is equal to the algebra of $\mathfrak{g}$-invariants in $M$:
+        \begin{gather}
+            \label{lie:zeroth_cohomology}
+            H^0(\mathfrak{g};M) = \{m\in M\mid\forall g\in\mathfrak{g}:g\cdot m = m\}.
+        \end{gather}
+        The first cohomology group with coefficients in $k$ is isomorphic to the quotient of $\mathfrak{g}$ by its first derived ideal:
+        \begin{gather}
+            H^1(\mathfrak{g})\cong\mathfrak{g}/[\mathfrak{g},\mathfrak{g}].
+        \end{gather}
+    \end{property}
+
+    \begin{property}[Whitehead lemma]\index{Whitehead!lemma}
+        If $\mathfrak{g}$ is semisimple, the cohomology groups $H^1(\mathfrak{g})$ and $H^2(\mathfrak{g})$ vanish. Conversely, a Lie algebra $\mathfrak{g}$ is semisimple if and only if $H^1(\mathfrak{g};M)$ vanishes for all finite-dimensional $\mathfrak{g}$-modules $M$.
+    \end{property}
+
+    \begin{property}[Classification of central extensions]
+        The 2-cocycles (with values in $k$) from Construction \ref{lie:cocycle} define classes in $H^2(\mathfrak{g})$. Furthermore, a central extension is trivial if and only if its associated cocycle is a coboundary. This says that the central extensions of $\mathfrak{g}$ by $k$ are classified by $H^2(\mathfrak{g})$.
+    \end{property}
+    \begin{result}
+        Semisimple Lie algebras do not admit nontrivial central extensions.
+    \end{result}
+
+    \newdef{Weil algebra}{\index{Weil!algebra}\label{lie:weil_algebra}
+        Consider a Lie algebra $\mathfrak{g}$. Its Weil algebra is defined as the dg-algebra $\Lambda^\bullet(\mathfrak{g}^*\oplus\mathfrak{g}^*[1])$ with diferential $d_W:=d_{\text{CE}}+\Pi$, where $d_{\text{CE}}$ is the differential on the Chevalley-Eilenberg subalgebra $\text{CE}(\mathfrak{g})\subset W(\mathfrak{g})$ and $\Pi$ shifts the degree by $1$. The action of $d_{\text{CE}}$ on shifted generators is defined through the relation $[\Pi,d_{\text{CE}}]=0$.
     }
     \newdef{Horizontal elements}{\index{horizontal!elements}
         The elements of the subalgebra $\Lambda^\bullet\mathfrak{g}^*[1]$ are sometimes called the horizontal elements.
     }
 
-    From here one we shall drop the subscript and denote the differential of the Weil algebra by $d$. It is clear that we have a short exact sequence
+    From here on the subscript will be dropped and the differential of the Weil algebra will be denoted by $d$. It is clear that the above constructions fit in a short exact sequence
     \begin{gather}
         \label{lie:weil_algebra_sequence}
-        0\rightarrow\ker(p)\rightarrow W(\mathfrak{g})\overset{p}{\twoheadrightarrow}\text{CE}(\mathfrak{g})\rightarrow0
+        0\rightarrow\ker(p)\rightarrow W(\mathfrak{g})\overset{p}{\twoheadrightarrow}\text{CE}(\mathfrak{g})\rightarrow0,
     \end{gather}
-    where $p$ is the obvious projection map. An important subset of $\mathfrak{h}$ is given by the algebra of invariant polynomials inv$(\mathfrak{g})$:
+    where $p$ is the obvious projection map. An important subpace of $\ker(p)$ is given by the algebra of invariant polynomials inv$(\mathfrak{g})$:
     \newdef{Invariant polynomial}{\index{invariant!polynomial}
-        A horizontal element $\omega$ for which $d\omega$ is also horizontal. (Sometimes one replaces the horizontality condition by $d\omega=0$.)
+        A horizontal element $\omega$ for which $d\omega$ is also horizontal. (Sometimes the horizontality condition is replaced by $d\omega=0$.)
     }
-    It should be noted that although this definition might seem complicated, it is (for ordinary Lie algebras\footnote{The above definition leads to an easy generalization in the context of $L_\infty$-algebras.}) equivalent to the ordinary definition in terms of $ad$-invariant polynomials:
+    It should be noted that although this definition might seem complicated, it is (for ordinary Lie algebras\footnote{The above definition leads to an easy generalization in the context of $L_\infty$-algebras.}) equivalent to the definition in terms of Ad-invariant polynomials:
     \newadef{Invariant polynomial}{\index{invariant!polynomial}
-        Let $G$ be a Lie group with Lie algebra $\mathfrak{g}$. A polynomial $P\in k[\mathfrak{g}]$, where $k$ is the base field, is said to be invariant (or sometimes $\text{Ad}$-invariant) if
+        Let $G$ be a Lie group with Lie algebra $\mathfrak{g}$. A polynomial $P\in k[\mathfrak{g}]$, where $k$ is the base field, is said to be invariant (or $\text{Ad}$-invariant) if
         \begin{gather}
             P(X) = P(gXg^{-1})
         \end{gather}
@@ -930,7 +985,7 @@
 
     A concept that will be important later on in the study of characteristic classes on fibre bundles is the transgression map:
     \newdef{Transgression}{\index{transgression}
-        The exact sequence \ref{lie:weil_algebra_sequence} induces a long exact sequence in cohomology. An invariant polynomial is said to be in transgression with a cocycle in $\text{CE}(\mathfrak{g})$ if their cohomology classes are related by the connecting morphism. More explicitly, by definition of invariant polynomials we have $d\omega = 0$ and since $W(\mathfrak{g})$ has vanishing cohomology, there exists an element $c_\omega$ such that $\omega=dc_\omega$. By restricting $c_\omega$ to $\text{CE}(\mathfrak{g})$ we obtain a $\mathfrak{g}$-cocycle since $d_{\text{CE}}c_\omega=0$.
+        The exact sequence \eqref{lie:weil_algebra_sequence} induces a long exact sequence in cohomology. An invariant polynomial is said to be in transgression with a cocycle in $\text{CE}(\mathfrak{g})$ if their cohomology classes are related by the connecting morphism. More explicitly, by definition of invariant polynomials one has $d\omega = 0$ and, since $W(\mathfrak{g})$ has vanishing cohomology, there exists an element $c_\omega$ such that $\omega=dc_\omega$. By restricting $c_\omega$ to $\text{CE}(\mathfrak{g})$, one obtains a $\mathfrak{g}$-cocycle, since $d_{\text{CE}}c_\omega=0$.
     }
     \begin{example}[Killing form]\label{lie:killing_transgression}
         Consider the invariant polynomial $\langle\cdot,\cdot\rangle$ induced by the Killing form on a semisimple Lie algebra. By transgression one obtains the canonical 3-cocycle $\langle\cdot, [\cdot,\cdot]\rangle$.

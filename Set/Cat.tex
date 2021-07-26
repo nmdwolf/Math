@@ -1,18 +1,18 @@
 \chapter{Category theory}\label{chapter:cat}
 
-    For the general theory of categories we refer to the classic work \cite{maclane}. The main reference for (co)end calculus is \cite{end}. A thorough introduction to the theory of enrichment is \cite{kelly}. For the theory of higher categories and its applications to topology and algebra we refer to the book by \textit{Baez et al.} \cite{towards_higher_cat}. A good starting point for bicategories (and more) is the paper by \textit{Leinster} \cite{basic_bicategories}.
+    For the general theory of categories the classic work is \cite{maclane}. The main reference for (co)end calculus is \cite{end}, while a thorough introduction to the theory of enrichment is given in \cite{kelly}. For the theory of higher categories and its applications to topology and algebra the reader is referred to the book by \textit{Baez et al.} \cite{towards_higher_cat}. A good starting point for bicategories (and more) is the paper by \textit{Leinster} \cite{basic_bicategories}.
 
 \section{Categories}
 
     \newnot{Identity morphism}{
-        In general we will denote the identity morphism of an object $X$ by $\mathbbm{1}_X$.
+        In general the identity morphism of an object $X$ is denoted by $\mathbbm{1}_X$.
     }
     \begin{remark}
-        In general we define a category by objects and morphisms between them. However, we technically do not need to consider objects as a separate notion since every object can be identified with its identity morphism (which exists by definition) and hence we can work solely with morphisms. It should be noted that for higher categories this remark can be omitted since we regard objects as 0-morphisms in that context.
+        In general a category is defined by objects and morphisms between them. However, one technically does not need to consider objects as a separate notion since every object can be identified with its identity morphism (which exists by definition) and, hence, one can work solely with morphisms. It should be noted that for higher categories this remark can be omitted since the objects are always regarded as 0-morphisms in that context.
     \end{remark}
 
     \newdef{Subcategory}{\index{full!subcategory}\index{wide!subcategory}\index{luff|see{wide subcategory}}
-        Let $\mathbf{C}$ be a category. A subcategory $\mathbf{S}$ of $\mathbf{C}$ consists of a subcollection of objects $\ob{S}$ and a subcollection of morphisms hom$(\mathbf{S})$ that satisfy the following conditions:
+        Let $\mathbf{C}$ be a category. A subcategory $\mathbf{S}$ of $\mathbf{C}$ consists of a subcollection of objects $\ob{S}$ and a subcollection of morphisms $\text{hom}(\mathbf{S})$ that satisfy the following conditions:
         \begin{enumerate}
             \item For every object in $\ob{S}$, the identity morphism is an element of $\text{hom}(\mathbf{S})$.
             \item For every morphism in $\text{hom}(\mathbf{S})$, both the source and target are elements of $\ob{S}$.
@@ -26,33 +26,11 @@
     }
 
     \newdef{Small category}{\index{small}
-        A category $\mathbf{C}$ for which both $\ob{C}$ and $\text{hom}(\mathbf{C})$ are sets. A category $\mathbf{C}$ is said to be locally small if for every two objects $x,y\in\ob{C}$ the collection of morphisms $\mathbf{C}(x, y)$ is a set. A category equivalent to a small category is said to be \textbf{essentially small}.
-    }
-
-    \newdef{Covariant functor}{\index{functor}
-        Let $\mathbf{A},\mathbf{B}$ be categories. A (covariant) functor $\func{F}{A}{B}$ is an assignment satisfying the following conditions:
-        \begin{enumerate}
-            \item $F$ maps every object $a\in\ob{A}$ to an object $Fa\in\ob{B}$.
-            \item $F$ maps every morphism $\phi\in\mathbf{A}(a, a')$ to a morphism $F\phi\in\mathbf{B}(Fa, Fa')$.
-            \item $F$ preserves identities, i.e. $F\mathbbm{1}_a = \mathbbm{1}_{Fa}$.
-            \item $F$ preserves composition, i.e. $F(\phi\circ\psi) = F\phi\circ F\psi$.
-        \end{enumerate}
-    }
-    \begin{notation}
-        Small categories, together with (covariant) functors between them, form a category denoted by $\mathbf{Cat}$. It is important that we restrict to small categories since otherwise we would obtain an inconsistency similar to Russell's paradox. In certain foundations one can also consider the ''category'' $\mathbf{CAT}$ of all large (and small) categories, but this would then not be a large category anymore. It would be something like a ''very large'' category.
-    \end{notation}
-    \newdef{Contravariant functor}{
-        Let $\mathbf{A}, \mathbf{B}$ be categories. A contravariant functor $\func{F}{A}{B}$ is an assignment satisfying the following conditions:
-        \begin{enumerate}
-            \item $F$ maps every object $a\in\ob{A}$ to an object $Fa\in\ob{B}$.
-            \item $F$ maps every morphism $\phi\in\mathbf{A}(a, a')$ to a morphism $F\phi\in\mathbf{B}(Fa', Fa)$.
-            \item $F$ preserves identities, i.e. $F\mathbbm{1}_a = \mathbbm{1}_{Fa}$.
-            \item $F$ reverses composition, i.e. $F(\phi\circ\psi) = F\psi\circ F\phi$.
-        \end{enumerate}
+        A category $\mathbf{C}$ for which both $\ob{C}$ and $\text{hom}(\mathbf{C})$ are sets. A category $\mathbf{C}$ is said to be locally small if for every two objects $x,y\in\ob{C}$ the collection of morphisms $\mathbf{C}(x,y)$ is a set. A category equivalent to a small category is said to be \textbf{essentially small}.
     }
 
     \newdef{Opposite category}{\index{opposite}
-        Let $\mathbf{C}$ be a category. The opposite category $\mathbf{C}^{op}$ is constructed by reversing all arrows in $\mathbf{C}$.
+        Let $\mathbf{C}$ be a category. The opposite category $\mathbf{C}^{op}$ is constructed by reversing all arrows in $\mathbf{C}$, i.e. a morphism in $\mathbf{C}^{op}(a,b)$ is a morphism in $\mathbf{C}(b,a)$.
     }
     \begin{property}[Involution]
         From the definition of the opposite category it readily follows that $op:\mathbf{Cat}\rightarrow\mathbf{Cat}$ is an involution:
@@ -63,29 +41,52 @@
 
 \section{Functors}
 
+    \newdef{Covariant functor}{\index{functor}
+        Let $\mathbf{A},\mathbf{B}$ be categories. A (covariant) functor is an assignment $\func{F}{A}{B}$ satisfying the following conditions:
+        \begin{enumerate}
+            \item $F$ maps every object $a\in\ob{A}$ to an object $Fa\in\ob{B}$.
+            \item $F$ maps every morphism $\phi\in\mathbf{A}(a, a')$ to a morphism $F\phi\in\mathbf{B}(Fa, Fa')$.
+            \item $F$ preserves identities, i.e. $F\mathbbm{1}_a = \mathbbm{1}_{Fa}$.
+            \item $F$ preserves compositions, i.e. $F(\phi\circ\psi) = F\phi\circ F\psi$.
+        \end{enumerate}
+    }
+    \begin{property}[Category of categories]
+        Small categories, together with (covariant) functors between them, form a category denoted by $\mathbf{Cat}$. The restriction to small categories is important since otherwise one would obtain an inconsistency similar to \textit{Russell's paradox}. In certain foundations one can also consider the ``category'' $\mathbf{CAT}$ of all (both small and large) categories, but this would not be a large category anymore. It would be something like a ``very large'' category.
+    \end{property}
+    \newdef{Contravariant functor}{
+        Let $\mathbf{A},\mathbf{B}$ be categories. A contravariant functor is an assignment $\func{F}{A}{B}$ satisfying the following conditions:
+        \begin{enumerate}
+            \item $F$ maps every object $a\in\ob{A}$ to an object $Fa\in\ob{B}$.
+            \item $F$ maps every morphism $\phi\in\mathbf{A}(a, a')$ to a morphism $F\phi\in\mathbf{B}(Fa', Fa)$.
+            \item $F$ preserves identities, i.e. $F\mathbbm{1}_a = \mathbbm{1}_{Fa}$.
+            \item $F$ reverses compositions, i.e. $F(\phi\circ\psi) = F\psi\circ F\phi$.
+        \end{enumerate}
+        A contravariant functor can also be defined as a covariant functor from the opposite category and accordingly, from now on, the word ``covariant'' will be dropped when talking about functors.
+    }
+
     \newdef{Endofunctor}{\index{endofunctor}
         A functor of the form $F:\mathbf{C}\rightarrow\mathbf{C}$.
     }
 
-    \newdef{Presheaves}{\index{presheaf}
+    \newdef{Presheaf}{\index{presheaf}
         \nomenclature[S_Psh]{$\mathbf{Psh}(\mathbf{C}),\widehat{\mathbf{C}}$}{category of presheaves on a (small) category $\mathbf{C}$}
-        A contravariant functor can also be defined as a covariant functor from the opposite category and accordingly, from now on, we will drop the word ''covariant'' when talking about functors. Furthermore, a contravariant functor $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$ is often called a \textbf{presheaf}. The collection of all presheaves on $\mathbf{C}$ forms a category $\mathbf{Psh}(\mathbf{C})$ (sometimes denoted by $\widehat{\mathbf{C}}$).
+        A contravariant functor $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$. The collection of all presheaves on $\mathbf{C}$ forms a category $\mathbf{Psh}(\mathbf{C})$ (also denoted by $\widehat{\mathbf{C}}$).
     }
 
     \begin{example}[Hom-functor]
         Let $\mathbf{C}$ be a locally small category. Every object $x\in\ob{C}$ induces a functor $\func{h^x}{C}{Set}$ defined as follows:
         \begin{itemize}
-            \item $h^x$ maps every object $y\in\ob{C}$ to the set $\mathbf{C}(x, y)$.
-            \item For all $y,z\in\ob{C}$, $h^x$ maps every morphism $f\in\mathbf{C}(y, z)$ to the morphism $f\circ-:\mathbf{C}(x, y)\rightarrow\mathbf{C}(x, z):g\mapsto f\circ g$.
+            \item $h^x$ maps every object $y\in\ob{C}$ to the set $\mathbf{C}(x,y)$.
+            \item For all $y,z\in\ob{C}$, $h^x$ maps every morphism $f\in\mathbf{C}(y,z)$ to the morphism \[f\circ-:\mathbf{C}(x, y)\rightarrow\mathbf{C}(x,z):g\mapsto f\circ g.\]
         \end{itemize}
     \end{example}
-    \remark{The contravariant hom-functor $h_x$ is defined by replacing $\mathbf{C}(x, -)$ with $\mathbf{C}(-, x)$ and replacing postcomposition with precomposition.}
+    \remark{The contravariant hom-functor $h_x$ is defined by replacing $\mathbf{C}(x,-)$ with $\mathbf{C}(-,x)$ and replacing postcomposition with precomposition.}
 
     \newdef{Faithful functor}{\index{faithful}
-        A functor $\func{F}{C}{D}$ is said to be faithful if the map \[\mathbf{C}(x, y)\rightarrow\mathbf{D}(Fx, Fy)\] is injective for all objects $x,y\in\ob{C}$.
+        A functor $\func{F}{C}{D}$ for which the map \[\mathbf{C}(x,y)\rightarrow\mathbf{D}(Fx,Fy)\] is injective for all objects $x,y\in\ob{C}$.
     }
     \newdef{Full functor}{\index{full}
-        A functor $\func{F}{C}{D}$ is said to be full if the map \[\mathbf{C}(x, y)\rightarrow\mathbf{D}(Fx, Fy)\] is surjective for all objects $x,y\in\ob{C}$.
+        A functor $\func{F}{C}{D}$ for which the map \[\mathbf{C}(x,y)\rightarrow\mathbf{D}(Fx,Fy)\] is surjective for all objects $x,y\in\ob{C}$.
     }
     \newdef{Embedding}{\index{embedding}
         A fully faithful functor.
@@ -97,7 +98,7 @@
 
     \newdef{Profunctor\footnotemark}{\index{pro!functor}\index{heteromorphism}\index{distributor}
         \footnotetext{Sometimes called a \textbf{distributor}.}
-        A functor of the form $F:\mathbf{D}^{op}\times\mathbf{C}\rightarrow\mathbf{Set}$. Such a functor is often denoted by $\profunc{F}{C}{D}$. (This is the convention by \textit{Borceux}. Some other authors, such as \cite{johnstone}, use the opposite convention.) Elements of the set $F(a,b)$ are sometimes called \textbf{heteromorphisms} between $a$ and $b$.
+        A functor of the form $F:\mathbf{D}^{op}\times\mathbf{C}\rightarrow\mathbf{Set}$. Such a functor is often denoted by $\profunc{F}{C}{D}$.\footnote{This is the convention by \textit{Borceux}. Some other authors, such as \cite{johnstone}, use the opposite convention.} Elements of the set $F(a,b)$ are sometimes called \textbf{heteromorphisms} (between $a$ and $b$).
 
         It should be noted that presheafs on $\mathbf{C}$ are profunctors of the form $1\slashedrightarrow\mathbf{C}$.
     }
@@ -108,7 +109,7 @@
         Let $\func{F,G}{C}{D}$ be two functors. A natural transformation $\psi$ from $F$ to $G$ consists of a collection of morphisms satisfying the following two conditions:
         \begin{enumerate}
             \item For every object $x\in\ob{C}$, there exists a morphism $\psi_x:Fx\rightarrow Gx$ in $\text{hom}(\mathbf{D})$. This morphism is called the \textbf{component} of $\psi$ at $x$.
-            \item For every morphism $f\in\mathbf{C}(x, y)$, we have $\psi_y\circ F(f) = G(f)\circ\psi_x$, i.e. the following diagram commutes:
+            \item For every morphism $f\in\mathbf{C}(x,y)$, the diagram below commutes, i.e. $\psi_y\circ Ff = Gf\circ\psi_x$.
             \begin{gather*}
                 \begin{tikzpicture}
                     \node (FX) at (0, 0) {$Fx$};
@@ -122,27 +123,24 @@
                 \end{tikzpicture}
             \end{gather*}
         \end{enumerate}
-        It is often said that $\psi_x$ or $\psi$ \textbf{is natural in $x$}.
+        It is often said that $\psi_x$ or $\psi$ \textbf{is natural in $x$}. A natural transformation $\psi$ from a functor $F$ to a functor $G$ is denoted by $\psi:F\Rightarrow G$. (This is in analogy with the general notation for 2-morphisms. See Section \ref{cat:higher_category_theory} for more information.)
     }
-    \begin{notation}
-        A natural transformation $\psi$ from a functor $F$ to a functor $G$ is denoted by $\psi:F\Rightarrow G$.\footnote{This is in analogy with the notation for general 2-morphisms. See section \ref{cat:higher_category_theory} for more information.}
-    \end{notation}
 
     \newdef{Dinatural transformation}{
-        Consider two profunctors $\profunc{F,G}{C}{C}$ (this can easily be generalized to functors of the form $F:\mathbf{D}^{op}\times\mathbf{C}\rightarrow\mathbf{E}$). A dinatural transformation is a family of morphisms \[\eta_x:F(x, x)\rightarrow G(x, x)\] that make diagram \ref{fig:dinatural} commute for every morphism $f:y\rightarrow x$.
+        Consider two profunctors $\profunc{F,G}{C}{C}$ or, more generally, two functors $F,G:\mathbf{C}^{op}\times\mathbf{C}\rightarrow\mathbf{D}$. A dinatural transformation is a family of morphisms \[\eta_x:F(x,x)\rightarrow G(x,x)\] that make diagram \ref{fig:dinatural} commute for every morphism $f:y\rightarrow x$.
 
         \begin{figure}[ht!]
             \centering
             \begin{tikzpicture}
-                \node (ab) at (0, 6) {$F(x, y)$};
-                \node (F1) at (-2, 4) {$F(x, x)$};
-                \node (F2) at (2, 4) {$F(y, y)$};
-                \node (G1) at (-2, 2) {$G(x, x)$};
-                \node (G2) at (2, 2) {$G(y, y)$};
-                \node (ba) at (0, 0) {$G(y, x)$};
+                \node (ab) at (0, 6) {$F(x,y)$};
+                \node (F1) at (-2, 4) {$F(x,x)$};
+                \node (F2) at (2, 4) {$F(y,y)$};
+                \node (G1) at (-2, 2) {$G(x,x)$};
+                \node (G2) at (2, 2) {$G(y,y)$};
+                \node (ba) at (0, 0) {$G(y,x)$};
 
-                \draw[->] (ab) edge node[above left]{\footnotesize$F(\mathbbm{1}_x, f)$} (F1) (F1) edge node[left]{$\eta_x$} (G1) (G1) edge node[below left]{\footnotesize$G(f, \mathbbm{1}_x)$} (ba);
-                \draw[->] (ab) edge node[above right]{\footnotesize$F(f, \mathbbm{1}_y)$} (F2) (F2) edge node[right]{$\eta_y$} (G2) (G2) edge node[below right]{\footnotesize$G(\mathbbm{1}_y, f)$} (ba);
+                \draw[->] (ab) edge node[above left]{\footnotesize$F(\mathbbm{1}_x,f)$} (F1) (F1) edge node[left]{$\eta_x$} (G1) (G1) edge node[below left]{\footnotesize$G(f,\mathbbm{1}_x)$} (ba);
+                \draw[->] (ab) edge node[above right]{\footnotesize$F(f,\mathbbm{1}_y)$} (F2) (F2) edge node[right]{$\eta_y$} (G2) (G2) edge node[below right]{\footnotesize$G(\mathbbm{1}_y,f)$} (ba);
             \end{tikzpicture}
             \caption{Dinatural transformation.}
             \label{fig:dinatural}
@@ -153,28 +151,28 @@
         Consider two categories $\mathbf{C,D}$ where $\mathbf{C}$ is small. The functors $\func{F}{C}{D}$ form the objects of a category with the natural transformations as morphisms. This category is denoted by $\funccat{C}{D}$ or $\mathbf{D}^{\mathbf{C}}$ (the latter is a generalization of \ref{set:function_set}).
     \end{definition}
 
-    \newdef{Representable functor}{\index{functor!representable}
+    \newdef{Representable functor}{\index{functor!representable}\index{representation}
         Let $\mathbf{C}$ be a locally small category. A functor $\func{F}{C}{Set}$ is said to be representable if there exists an object $x\in\ob{C}$ such that $F$ is naturally isomorphic to $h^x$. The pair $(x,\psi)$, where $\psi$ is the natural isomorphism, is called a \textbf{representation} of $F$.
     }
     \remark{A similar definition exists for contravariant functors $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$. In this case $h^x$ has to be replaced by $h_x$.}
 
-    \begin{theorem}[Yoneda's lemma]\index{Yoneda!lemma}
-        Let $\mathbf{C}$ be a locally small category and let $\func{F}{C}{Set}$ be a functor. For every object $x\in\ob{C}$ there exists a natural isomorphism\footnote{Here we use the fact that $\text{Nat}(h^-, -)$ can be seen as a functor $\mathbf{Set}^{\mathbf{C}}\times\mathbf{C}\rightarrow\mathbf{Set}$.} $\eta_x:\text{\emph{Nat}}(h^x, F)\rightarrow Fx$. The image of a natural transformation $\psi\in\text{\emph{Nat}}(h^x, F)$ is given by $\psi_x(\mathbbm{1}_x)$.
+    \begin{theorem}[Yoneda lemma]\index{Yoneda!lemma}
+        Let $\mathbf{C}$ be a locally small category and let $\func{F}{C}{Set}$ be a functor. For every object $x\in\ob{C}$, there exists a natural isomorphism\footnote{Here, the fact that $\text{Nat}(h^-,-)$ can be seen as a functor $\mathbf{Set}^{\mathbf{C}}\times\mathbf{C}\rightarrow\mathbf{Set}$ is used.} $\eta_x:\text{\emph{Nat}}(h^x,F)\rightarrow Fx$. The image of a natural transformation $\psi\in\text{\emph{Nat}}(h^x,F)$ is given by $\psi_x(\mathbbm{1}_x)$.
     \end{theorem}
-    \remark{For contravariant functors $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$ we obtain a similar statement after replacing $\mathbf{C}(x, -)$ by $\mathbf{C}(-, x)$.}
+    \remark{For contravariant functors $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}$, a similar statement is obtained after replacing $\mathbf{C}(x,-)$ by $\mathbf{C}(-,x)$.}
 
     \begin{result}[Yoneda embedding]
-        When $F$ is another hom-functor $h^y$ we obtain the following result:
+        When $F$ is another hom-functor $h^y$, the following result is obtained:
         \begin{gather}
-            \text{Nat}(h^x, h^y)\cong\mathbf{C}(y, x)
+            \text{Nat}(h^x,h^y)\cong\mathbf{C}(y,x).
         \end{gather}
         Note that $y$ appears in the first argument on the right-hand side.
 
-        Let $\mathbf{C}(f, -)$ denote the natural transformation corresponding to the morphism $f\in\mathbf{C}(y,x)$. The functor $h^-$ mapping an object $x\in\ob{C}$ to its hom-functor $\mathbf{C}(x, -)$ and a morphism $f\in\mathbf{C}(y, x)$ to the natural transformation $\mathbf{C}(f, -)$ can also be interpreted as a covariant functor $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}^{\mathbf{C}}$. This way we see that Yoneda's lemma gives us a fully faithful functor (i.e. an embedding) $h^-$ from the opposite category $\mathbf{C}^{op}$ to the functor category $\mathbf{Set}^{\mathbf{C}}$.
+        Let $\mathbf{C}(f,-)$ denote the natural transformation corresponding to the morphism $f\in\mathbf{C}(y,x)$. The functor $h^-$, mapping an object $x\in\ob{C}$ to its hom-functor $\mathbf{C}(x,-)$ and a morphism $f\in\mathbf{C}(y,x)$ to the natural transformation $\mathbf{C}(f,-)$, can also be interpreted as a covariant functor $G:\mathbf{C}^{op}\rightarrow\mathbf{Set}^{\mathbf{C}}$. This way the Yoneda lemma can be seen to give a fully faithful functor (embedding) $h^-$ from the opposite category $\mathbf{C}^{op}$ to the functor category $\mathbf{Set}^{\mathbf{C}}$.
 
-        As usual all of this can be done for contravariant functors. This gives us an embedding
+        As usual, all of this can be done for contravariant functors. This gives an embedding
         \begin{gather}
-            \mathcal{Y}:=h_-:\mathbf{C}\hookrightarrow\widehat{\mathbf{C}}
+            \mathcal{Y}:=h_-:\mathbf{C}\hookrightarrow\widehat{\mathbf{C}},
         \end{gather}
         called the Yoneda embedding.
     \end{result}
@@ -186,9 +184,9 @@
 \subsection{Equivalences}
 
     \newdef{Equivalence of categories}{\index{equivalence!of categories}
-        Two categories $\mathbf{C}, \mathbf{D}$ are said to be equivalent if there exist functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ such that $FG$ and $GF$ are naturally isomorphic to identity functors.
+        Two categories $\mathbf{C}, \mathbf{D}$ are said to be equivalent if there exist functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ such that $F\circ G$ and $G\circ F$ are naturally isomorphic to identity functors.
 
-        A weaker notion is that of a \textbf{weak equivalence}: Two categories $\mathbf{C},\mathbf{D}$ are said to be weakly equivalent if there exists functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ that are fully faithful and essentially surjective. Assuming the axiom of choice, every weak equivalence is also a strong equivalence (in fact this is equivalent to the axiom of choice).
+        A weaker notion is that of a \textbf{weak equivalence}. Two categories $\mathbf{C},\mathbf{D}$ are said to be weakly equivalent if there exist functors $\func{F}{C}{D}$ and $\func{G}{D}{C}$ that are fully faithful and essentially surjective. Assuming the axiom of choice, every weak equivalence is also a (strong) equivalence (in fact this statement is equivalent to the axiom of choice).
     }
 
     \newdef{Skeletal category}{\index{category!skeletal}
@@ -198,14 +196,14 @@
     }
 
     \newdef{Decategorification}{\index{decategorification}\label{cat:decategorification}
-        Let $\mathbf{C}$ be a (essentially) small category. The set of isomorphism classes of $\mathbf{C}$ is called the decategorification of $\mathbf{C}$. This amounts to a functor $\func{\text{Decat}}{Cat}{Set}$. This can also be generalized to higher category theory as a functor $n\mathbf{Cat}\rightarrow(n-1)\mathbf{Cat}$.
+        Let $\mathbf{C}$ be an (essentially) small category. The set of isomorphism classes of $\mathbf{C}$ is called the decategorification of $\mathbf{C}$. This amounts to a functor $\func{\text{Decat}}{Cat}{Set}$ which can also be generalized to higher category theory as a functor $n\mathbf{Cat}\rightarrow(n-1)\mathbf{Cat}$.
     }
 
 \subsection{Stuff, structure and property}\index{forgetful}
 
-    To classify properties of objects and the \textit{forgetfulness} of functors it is interesting to make a distinction between stuff, structure and properties. Consider for example a group: this is a set (\textit{stuff}) equipped with a number of operations (\textit{structure}) that obey some relations (\textit{properties}).
+    To classify properties of objects and the \textit{forgetfulness} of functors, it is interesting to make a distinction between stuff, structure and property. Consider for example a group. This is a set (\textit{stuff}) equipped with a number of operations (\textit{structure}) that obey some relations (\textit{properties}).
 
-    Using these notions we can classify forgetful functors in the following way:
+    Using these notions one can classify forgetful functors in the following way:
     \begin{itemize}
         \item A functor forgets nothing if it is an equivalence of categories.
         \item A functor forgets at most properties if it is fully faithful.
@@ -213,7 +211,7 @@
         \item A functor forgets at most stuff if it is just a functor.
     \end{itemize}
 
-    ?? COMPLETE (see e.g. nLab or the paper "Why surplus structure is not superfluous" by Nicholas Teh et al.) ??
+    ?? COMPLETE (see e.g. nLab or the paper ``Why surplus structure is not superfluous'' by Nicholas Teh et al.) ??
 
 \subsection{Adjunctions}\index{adjunction}\label{section:adjunction}
 
@@ -1620,17 +1618,17 @@
     \newdef{Exact functor}{\index{exact!functor}
         Let $\func{F}{A}{A'}$ be an additive functor between additive categories. We use the following definitions:
         \begin{itemize}
-            \item $F$ is said to be left exact if it preserves kernels.
-            \item $F$ is said to be right exact if it preserves cokernels.
-            \item $F$ is said to be exact if it is both left and right exact.
+            \item $F$ is said to be left-exact if it preserves kernels.
+            \item $F$ is said to be right-exact if it preserves cokernels.
+            \item $F$ is said to be exact if it is both left- and right-exact.
         \end{itemize}
     }
     \begin{result}
         The previous definition implies the following properties (which can in fact be used as an alternative definition):
         \begin{itemize}
-            \item If $F$ is left exact, it maps an exact sequence of the form \[0\longrightarrow a\longrightarrow b\longrightarrow c\]
+            \item If $F$ is left-exact, it maps an exact sequence of the form \[0\longrightarrow a\longrightarrow b\longrightarrow c\]
             to an exact sequence of the form \[0\longrightarrow Fa\longrightarrow Fb\longrightarrow Fc.\]
-            \item If $F$ is right exact, it maps an exact sequence of the form \[a\longrightarrow b\longrightarrow c\longrightarrow 0\]
+            \item If $F$ is right-exact, it maps an exact sequence of the form \[a\longrightarrow b\longrightarrow c\longrightarrow 0\]
             to an exact sequence of the form \[Fa\longrightarrow Fb\longrightarrow Fc\longrightarrow 0.\]
             \item If $F$ is exact, it maps short exact sequences to short exact sequences.
         \end{itemize}

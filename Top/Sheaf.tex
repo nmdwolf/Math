@@ -5,7 +5,7 @@
 \section{Presheaves}
 
     \newdef{Presheaf}{\index{presheaf}\index{section}
-        Let $(X, \tau)$ be a topological space. A presheaf over $X$ consists of an algebraic structure $\mathcal{F}(U)$ for every open set $U\in\tau$ and a morphism $\Phi^U_V:\mathcal{F}(U)\rightarrow \mathcal{F}(V)$ for every two open sets $U, V\in\tau$ with $V\subseteq U$ such that the following conditions are satisfied:
+        Let $(X,\tau)$ be a topological space. A presheaf over $X$ consists of an algebraic structure $\mathcal{F}(U)$ for every open set $U\in\tau$ and a morphism $\Phi^U_V:\mathcal{F}(U)\rightarrow \mathcal{F}(V)$ for every two open sets $U, V\in\tau$ with $V\subseteq U$ such that the following conditions are satisfied:
         \begin{enumerate}
             \item $\Phi^U_U = \mathbbm{1}_{\mathcal{F}(U)}$, and
             \item if $W\subseteq V\subseteq U$, then $\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
@@ -52,7 +52,7 @@
     \end{property}
 
     \newdef{Stalk}{\index{stalk}\index{germ}
-        Let $x\in X$ and consider the set of all neighbourhoods of $x$. This set can be turned into a directed set \ref{set:directed_set} by equipping it with the (partial) order relation \[U\subseteq V\implies U\geq V.\] This turns the sheaf $\mathcal{F}$ over $X$ into a directed system. The stalk over $x$ is then defined as the following direct limit \ref{set:direct_limit}:
+        Let $x\in X$ and consider the set of all neighbourhoods of $x$. This set can be turned into a directed set \ref{set:directed_set} by equipping it with the (partial) order relation \[U\subseteq V\implies U\geq V.\] This turns the sheaf $\mathcal{F}$ over $X$ into a directed system. The stalk over $x$ is then defined as the following direct limit \ref{algebra:direct_limit}:
         \begin{gather}
             \mathcal{F}_x := \varinjlim_{U\ni x} \mathcal{F}(U).
         \end{gather}
@@ -104,18 +104,35 @@
         \end{gather}
         Define for every local section $s\in\mathcal{F}(U)$ a function $\overline{s}:U\rightarrow\mathcal{F}^*:x\mapsto s_x\in\mathcal{F}_x$. The union $\mathcal{F}^*$ can be turned into an \'etal\'e space \ref{topology:etale_space} over $X$ by equipping it with the topology with basis
         \begin{gather}
-            \big\{\overline{s}(U):U\text{ open in }X, s\in\mathcal{F}(U)\big\}.
+            \big\{\overline{s}(U)\mid U\text{ open in }X, s\in\mathcal{F}(U)\big\}.
         \end{gather}
         The projection map $\pi$ is given by $\pi:s_x\in\mathcal{F}_x\mapsto x$. The sheafification $\overline{\mathcal{F}}$ is then given by the sheaf of sections of $\mathcal{F}^*$.
     \end{construct}
 
-    We can also construct the sheafification in a different way:
+    \begin{property}[Paracompact spaces]
+        Let $X$ be a paracompact space \ref{topology:paracompact} and consider a sheaf $F$ of Abelian group on $X$. For every closed subset $V\subset X$ there exists an isomorphism
+        \begin{gather}
+            \varinjlim_{U\supset K}F(U)\cong F(K),
+        \end{gather}
+        where $F(K)$ is defined as the set of sections of the restriction of the \'etal\'e space $F^*$ to $K$. This implies that every section over a closed subset can be extended to a local section over some open neighbourhood.
+    \end{property}
+
+    \newdef{Flabby sheaf}{\index{sheaf!flabby}\index{sheaf!flasque|see{flabby}}
+        A sheaf $F$ on a topological space $X$ such that for every two open subsets $U\subseteq V\subseteq X$ the restriction morphism $F(V)\rightarrow F(U)$ is onto.
+    }
+    \newdef{Soft sheaf}{\index{sheaf!soft}\label{sheaf:soft}
+        A sheaf on a topological space (often required to be paracompact Hausdorff) such that for every section over a closed subset can be extended to a global section.
+
+        From the previous property and definition it is clear that (on a paracompact Hausdorff space) every flabby sheaf is soft.
+    }
+
+    One can also construct the sheafification in a different way:
     \begin{construct}[Abstract nonsense]\label{sheaf:colimit_construction}
-        Consider the equalizer \ref{sheaf:equalizer}. To every presheaf $\mathcal{F}$ one can assign a separated presheaf $\mathcal{F}^\#$ by defining $\mathcal{F}^\#(U)$ as the colimit (direct limit \ref{set:direct_limit}) of the equalizers over all open covers of $U$ (which are ordered by refinement). A sheaf is obtained by repeating this construction a second time.
+        Consider the equalizer \ref{sheaf:equalizer}. To every presheaf $\mathcal{F}$ one can assign a separated presheaf $\mathcal{F}^\#$ by defining $\mathcal{F}^\#(U)$ as the colimit (direct limit \ref{algebra:direct_limit}) of the equalizers over all open covers of $U$ (which are ordered by refinement). A sheaf is obtained by repeating this construction a second time.
     \end{construct}
 
     \begin{example}[Constant sheaf]\label{sheaf:constant_sheaf}
-        Consider the constant presheaf over $X$ with target $S$ (see example \ref{sheaf:constant_presheaf}). The constant sheaf, denoted by $\underline{S}$, is defined as the associated sheaf of this presheaf. The stalks over every point $x\in X$ can be identified with $S$. The continuous sections $\underline{S}(U)$ are the locally constant functions $f:U\rightarrow S$.
+        Consider the constant presheaf over $X$ with target $S$ (Example \ref{sheaf:constant_presheaf}). The constant sheaf, denoted by $\underline{S}$ or $\flat S$, is defined as the associated sheaf of this presheaf. The stalks over every point $x\in X$ can be identified with $S$. The continuous sections $\underline{S}(U)$ are the locally constant functions $f:U\rightarrow S$.
     \end{example}
 
     \begin{notation}[Category of sheaves]
@@ -138,20 +155,26 @@
 
     In this section we will only consider Abelian sheaves, i.e. sheaves with values in $\mathbf{Ab}$ (unless stated otherwise).
 
+\subsection{Derived cohomology}
+
     \begin{property}[Injective resolutions]
         Every Abelian sheaf admits an injective resolution or, equivalently, the category $\mathcal{AB}(X)$ of Abelian sheaves has enough injectives.
     \end{property}
-    Because of property \ref{sheaf:left_exact_functor} above we know that we can construct (right) derived functors of $\Gamma(X,-)$:
+    Because of Property \ref{sheaf:left_exact_functor}, one can construct nontrivial (right) derived functors of $\Gamma(X,-)$:
     \newdef{Sheaf cohomology group}{\index{cohomology!sheaf}
-        Let $\mathcal{F}$ be a sheaf over $X$. Given an injective resolution (as usual the result will be independent of the chosen resolution) $I$ of $\mathcal{F}$ one defines the sheaf cohomology groups of $\mathcal{F}$ over $X$ as the cohomology groups of the complex
+        Let $\mathcal{F}$ be a sheaf over $X$. Given an injective resolution (as usual the result will be independent of the chosen resolution) $I$ of $\mathcal{F}$, the sheaf cohomology groups of $\mathcal{F}$ over $X$ are defined as the cohomology groups of the complex
         \begin{gather}
             \cdots\longrightarrow\Gamma(X,I^i)\longrightarrow\Gamma(X,I^{i+1})\longrightarrow\cdots.
         \end{gather}
         The cohomology group $H^0(X;\mathcal{F})$ is equal to $\Gamma(X,\mathcal{F})$.
     }
+
     \newdef{Acyclic sheaf}{\index{sheaf!acyclic}
-        A sheaf is called acyclic if its higher cohomology groups vanish (cf. definition \ref{homalg:acyclic_object}).
+        A sheaf is called acyclic if its higher cohomology groups vanish (cf. Definition \ref{homalg:acyclic_object}).
     }
+    \begin{example}[Soft sheaves]\label{sheaf:example_soft}
+        Soft sheaves \ref{sheaf:soft} are acylic. Let $(M,\mathcal{O}_M)$ be a smooth manifold with its sheaf of smoth functions (resp. complex manifold with its sheaf of holomorphic functions). All sheaves of $\mathcal{O}_M$-modules are soft and, hence, acyclic.
+    \end{example}
 
     The following theorem is a specific instance of property \ref{homalg:acyclic_derived_functors}:
     \begin{theorem}[de Rham \& Weil]\index{de Rham-Weil}
@@ -165,6 +188,52 @@
     \newdef{Cohomology sheaves}{
         Let $\mathcal{F}^\bullet$ be a cohain complex of sheaves over $X$. The cohomology sheaves $\underline{H}^i(X;\mathcal{F}^\bullet)$ are obtained by sheafifying the presheafs that assign to every open subset $U\subseteq X$ the quotient group $\ker(d^i_U)/\im(d^{i-1}_U)$.
     }
+
+\subsection{\v{C}ech cohomology}
+
+    Consider a chain complex $(A_\bullet,\partial)\in\mathbf{Ch}(\mathcal{AB}(X))$ of Abelian sheaves on a topological space $X$ (for simplicity concentrated in nonnegative degree).
+
+    \newdef{\v{C}ech cohomology}{\index{\v{C}ech!cohomology}\label{sheaf:cech}
+        For an open cover $\mathcal{U}=\{U_i\subseteq X\}_{i\in I}$, denote the intersection $U_{i_0}\cap\cdots\cap U_{i_k}$ by  $U_{i_0\ldots i_k}$. The cochain groups are defined for all $p\in\mathbb{N}$ as before:
+        \begin{gather}
+            C^p(\mathcal{U};A_\bullet) := \bigoplus_{\substack{p=n-k\\i_0<\cdots<i_k}}A_n(U_{i_0\ldots i_k}).
+        \end{gather}
+        Since the (pre)sheaf takes values in Abelian groups, one can define the subtraction of elements and hence the definition of the following differential makes sense:
+        \begin{align}
+            (d\omega)_{i_0\ldots i_{k+1}} :=&\ \left(\partial\omega + (-1)^k\sum_{i=0}^k(-1)^iA_\bullet(\iota_i)\omega\right)_{i_0\ldots i_{k+1}}\nonumber\\
+            =&\ \partial\omega_{i_0\ldots i_{k+1}}+(-1)^k\sum_{j=0}^{k+1}(-1)^j\left.\omega_{i_0\ldots i_{j-1}i_{j+1}\ldots i_{k+1}}\right|_{U_{i_0\ldots i_{k+1}}}\label{sheaf:total_cech_differential}
+        \end{align}
+        where $\iota_i$ are the inclusion maps as before. The cohomology $\check{H}^\bullet(\mathcal{U};A_\bullet)$ of this complex is called the \v{C}ech cohomology of $\mathcal{U}$ with values in $A_\bullet$.
+
+        By taking the direct limit over the direct system of open covers (the partial ordering is given by refinement of covers) one can define the \v{C}ech cohomology $\check{H}^\bullet(X;A_\bullet)$ of $X$ with values in $A_\bullet$.
+    }
+    \begin{remark}[Hypercohomology]\index{hypercohomology}
+        Two remarks should be made here. The above construction is essentially building a double complex and calculating the cohomology of the total complex. The definition \eqref{sheaf:total_cech_differential} of the total differential might differ from others in the literature by a factor $(-1)^k$ (as is often the case, since vertical and horizontal directions can be interchanged). Furthermore, sometimes the definition of \v{C}ech cohomology is only given with values in an Abelian group, such that the first term in \eqref{sheaf:total_cech_differential} also vanishes. This case can be recovered from the above construction by considering chain complexes concentrated in a single degree. The more general case is often called \textbf{hypercohomology}.
+    \end{remark}
+
+    The following two properties state when \v{C}ech cohomology calculates the (derived) cohomology of sheaves:
+    \begin{property}
+        For a paracompact Hausdorff space, the \v{C}ech cohomology and (derived) sheaf cohomology coincide for all sheaves. For $i=0,1$, one always has
+        \begin{gather}
+            \check{H}^{0,1}(X;\mathcal{F})\cong H^{0,1}(X;\mathcal{F}).
+        \end{gather}
+    \end{property}
+    \begin{property}[Leray]\index{Leray}\index{acyclic}
+        An open cover $\mathcal{U}=\{U_i\subset X\}_{i\in I}$ of a topological space is said to be \textbf{acyclic} with respect to a sheaf $\mathcal{F}$ if $\mathcal{F}$ is acyclic with respect to any finite subcover of $\mathcal{U}$:
+        \begin{gather}
+            H^{\bullet\geq1}(U_{i_1}\cap\ldots\cap U_{i_k};\mathcal{F})=0
+        \end{gather}
+        for all $i_1,\ldots,i_k\in I$. If $\mathcal{U}$ is acylic with respect to $\mathcal{F}$, then
+        \begin{gather}
+            \check{H}^\bullet(\mathcal{U};\mathcal{F})\cong H^\bullet(X;\mathcal{F}).
+        \end{gather}
+    \end{property}
+    \begin{example}[Good covers]
+        Consider a topological space admitting a good cover \ref{diff:good_cover}. The Leray theorem applies whenever the cohomology of a single point vanishes. This is for example the case for all locally constant sheaves.
+    \end{example}
+    \begin{result}
+        For all topological spaces admitting a good cover (e.g. finite CW complexes or Riemannian manifolds), the \v{C}ech and singular cohomologies coincide.
+    \end{result}
 
 \section{Ringed spaces}
 

@@ -232,7 +232,7 @@
 
         The spaces $X_i$ are also called \textbf{$i$-skeletons}.
     \end{construct}
-    \remark{Infinite-dimensional CW complexes can be obtained by taking the direct limit \ref{set:direct_limit} of the sequence above.}
+    \remark{Infinite-dimensional CW complexes can be obtained by taking the direct limit \ref{algebra:direct_limit} of the sequence above.}
 
     \begin{theorem}[Whitehead]\index{Whitehead}
         A continuous map between CW complexes is a homotopy equivalence if and only if it is a weak homotopy equivalence.
@@ -252,24 +252,22 @@
         \begin{figure}[ht!]
             \centering
             \begin{tikzpicture}
-                \matrix (m) [matrix of math nodes,row sep=7em,column sep=7em, minimum width=2em, ampersand replacement=\&]{
-                    X \& E\\
-                    X\times[0, 1]\& B\\
-                };
-                \draw[->] (m-1-1) -- (m-1-2) node[pos=0.5, above]{$\widetilde{f}_0$};
-                \draw[right hook ->] (m-1-1) -- (m-2-1) node[pos=0.5, left]{$X\times\{0\}$};
-                \draw[->] (m-2-1) -- (m-2-2) node[pos=0.5, below]{$f$};
-                \draw[->] (m-1-2) -- (m-2-2) node[pos=0.5, right]{$\pi$};
-                \draw[dashed, ->] (m-2-1) -- (m-1-2) node[pos=0.5, above]{$\widetilde{f}$};
+                \node (X) at (0,0) {$X$};
+                \node (E) at (4,0) {$E$};
+                \node (XI) at (0,-2) {$X\times [0,1]$};
+                \node (B) at (4,-2) {$B$};
+                \draw[->] (X) -- (E) node[pos=0.5, above]{$\widetilde{f}_0$};
+                \draw[right hook ->] (X) -- (XI) node[pos=0.5, left]{$X\times\{0\}$};
+                \draw[->] (XI) -- (B) node[pos=0.5, below]{$f$};
+                \draw[->] (E) -- (B) node[pos=0.5, right]{$\pi$};
+                \draw[dashed, ->] (XI) -- (E) node[pos=0.5, above left]{$\widetilde{f}$};
             \end{tikzpicture}
             \caption{Homotopy lifting property.}
             \label{fig:homotopy_lifting_property}
         \end{figure}
-
-        where $\widetilde{f}$ denotes the lifting of $f$, i.e. $f = \pi\circ\widetilde{f}$.
     }
 
-    \newdef{Fibration}{\index{fibration}
+    \newdef{Fibration}{\index{fibration}\label{topology:fibration}
         A map $\pi$ satisfying the homotopy lifting property with respect to every topological space $X$ is called a \textbf{Hurewicz fibration}. If the homotopy lifting property only holds with respect to CW complexes then it is called a \textbf{Serre fibration}.
     }
     \begin{property}[Model fibre]
@@ -303,7 +301,7 @@
 
 \subsection{\difficult{Rational homotopy theory}}
 
-    For the theory on differential graded algebras see chapter \ref{chapter:hda}.
+    For the theory on differential graded algebras see Chapter \ref{chapter:hda}.
 
     \newdef{Rational space}{\index{rational!space}
         A simply connected topological space $X$ such that the homotopy groups $\pi_n(X)$ are rational vector spaces.
@@ -322,15 +320,11 @@
     }
 
     \newdef{Polynomial differential forms}{
-        Consider the standard $n$-simplex $\Delta^n$ (as a simplicial set \ref{sheaf:standard_simplex}). On this set (and its geoemtric realisation as a manifold with corners) one can define differential forms analogous to those from section \ref{section:forms}: Let $\{t_i\}_{0\leq i\leq n}$ be $n+1$ generators in degree 0 (under geometric realisation these are identified with the barycentric coordinates of the topological $\Delta^n$). Together with $n+1$ associated generators $dt_i$ in degree 1, one can construct the free graded algebra (over $\mathbb{Q}$). To preserve the geometric structure of $\Delta^n$ (after geometric realisation) we have to quotient out the following relation:
-        \begin{gather*}
-            \sum_{i=0}^n t_i = 1.
-        \end{gather*}
-        To fully preserve the structure after geometric realisation one also has to quotient out the associated ''differential'' relation:
-        \begin{gather*}
-            \sum_{i=0}^n dt_i = 0.
-        \end{gather*}
-        The resulting graded algebra is denoted by $\Omega^\bullet_{\text{poly}}(\Delta^n)$. In degree 0 this complex can be identified with the space of polynomial functions on the topological $\Delta^n$. The ordinary differential forms can be obtained by taking the tensor product of $\Omega^\bullet_{\text{poly}}$ with the space of smooth functions on the topological $\Delta^n$. Under this isomorphism the generators $dt_i$ are identified with the de Rham differentials of the barycentric coordinates.
+        Consider the standard $n$-simplex $\Delta^n$. On this topological space one can define differential forms analogous to those from Section \ref{section:forms}. Let $\{t_i\}_{0\leq i\leq n}$ be $n+1$ generators in degree 0 (the barycentric coordinates). Together with $n+1$ associated generators $dt_i$ in degree 1, one can construct the free GCA over $\mathbb{Q}$. To preserve the geometric structure of $\Delta^n$ one has to quotient out the following relations:
+        \begin{gather}
+            \sum_{i=0}^n t_i = 1\qquad\text{and}\qquad\sum_{i=0}^n dt_i = 0.
+        \end{gather}
+        The resulting graded algebra is denoted by $\Omega^\bullet_{\text{poly}}(\Delta^n)$. In degree 0 this complex can be identified with the space of polynomial functions on $\Delta^n$. The ordinary differential forms can be obtained by taking the tensor product of $\Omega^\bullet_{\text{poly}}$ with the space of smooth functions on $\Delta^n$. Under this isomorphism the generators $dt_i$ are identified with the de Rham differentials of the barycentric coordinates.
 
         Morphisms $f:[m]\rightarrow[n]$ in the simplex category $\Delta$ induce morphisms of simplices and these in turn induce morphisms $F:\Omega^\bullet_{\text{poly}}(\Delta^n)\rightarrow\Omega^\bullet_{\text{poly}}(\Delta^m)$ by the following action on generators:
         \begin{gather}
@@ -339,33 +333,43 @@
         It can be seen that this turns the above construction into a functor $\func{\Omega^\bullet_{\text{poly}}}{\Delta^{op}}{dgcAlg}$. By going to the opposite functor and taking a left Kan extension along the Yoneda embedding $\Delta\hookrightarrow\mathbf{sSet}$ one obtains a functor $\func{\Omega^\bullet_{\text{poly}}}{sSet}{dgcAlg^{op}}$. Composition with the singular set functor $\func{\text{Sing}}{Top}{sSet}$ gives the \textbf{piecewise-polynomial differential forms} functor $\Omega^\bullet_{\text{pwpoly}}$.
     }
 
-    \newdef{Relative Sullivan algebra}{\index{Sullivan!algebra}
-        An inclusion of dgca's of the form \[(A, d)\hookrightarrow(A\otimes\wedge^\bullet V, d')\] where $A$ is any dgca and $V$ is a graded vector space such that
+    \newdef{Relative Sullivan algebra}{\index{Sullivan!algebra}\label{topology:sullivan_algebra}
+        An inclusion of DGCAs of the form \[(A,d)\hookrightarrow(A\otimes\Lambda^\bullet V,d'),\] where $A$ is any DGCA and $V$ is a $\mathbb{N}_0$-graded vector space such that:
         \begin{itemize}
-            \item there is a well-ordered set $J$ indexing a linear basis $\{e_i\}_{i\in J}$ of $V$.
-            \item for all $k\in J$, $V_{<k}:=\text{span}\{e_i:i<k\}$ and all $e_k$ we have that
+            \item there is a well-ordered set $I$ indexing a linear basis $\{e_i\}_{i\in I}$ of $V$.
+            \item for all $k\in I$ and all $e_k$ one has that
             \begin{gather}
-                d'e_k\in A\otimes\Lambda^\bullet V_{<k}.
+                d'e_k\in A\otimes\Lambda^\bullet V(<k),
             \end{gather}
+            where $V(<k):=\text{span}\{e_i\}_{i<k}$.
         \end{itemize}
         If in addition the implication
         \begin{gather}
-            i\leq j\implies \deg e_i\leq \deg e_j
+            i<j\implies\deg(e_i)\leq\deg(e_j)
         \end{gather}
-        holds for all $i,j\in J$ then the relative Sullivan algebra is said to be \textbf{minimal}.
+        holds for all $i,j\in I$, the relative Sullivan algebra is said to be \textbf{minimal}.
+
+        If the Sullivan algebra is defined relative to the tensor unit $(k,0)$, where $k$ is the underlying field, it is just called a \textbf{Sullivan algebra}.
     }
     \begin{remark}
-        If the Sullivan algebra is defined relative to the tensor unit $(k, 0)$ (where $k$ is the underlying field) then it is just called a \textbf{Sullivan algebra}.
+        The minimality condition admits an (equivalent) reformulation:
+        \begin{gather}
+            dV\subseteq A_{\geq1}\otimes\Lambda^\bullet V + A\otimes\Lambda^{\geq2}V.
+        \end{gather}
     \end{remark}
 
+    \begin{property}\label{topology:sullivan_algebras_specific}
+        Consider the free DGCA $\Lambda(V)$ on a graded vector space $V$ of finite type with $V_0=V_1=0$. Then $(\Lambda(V),d)$ is a Sullivan algebra.
+    \end{property}
+
     \newdef{Sullivan model}{\index{Sullivan!model}
-        Let $X$ be a simply-connected topological space. A (minimal) Sullivan model for $X$ is a (minimal) Sullivan algebra equipped with a quasi-isomorphism to the dga of piecewise-polynomial differential forms on $X$.
+        Let $X$ be a simply-connected topological space. A (minimal) Sullivan model for $X$ is a (minimal) Sullivan algebra equipped with a quasi-isomorphism to the DGA of piecewise-polynomial differential forms on $X$.
     }
     \begin{property}
         Minimal Sullivan models are unique up to isomorphism.
     \end{property}
 
-    There is also another approach due to Quillen. Instead of working with differential graded algebras, we will here work with differential graded Lie algebras, i.e. strict $L_\infty$-algebras (see section \ref{section:higher_lie_structures}). This are (graded) Lie algebras equipped with a differential $d$ that satisfies a (graded) Leibniz property with respect to the Lie bracket.
+    There is also another approach due to \textit{Quillen}. Instead of working with differential graded algebras, \textit{Quillen} used differential graded Lie algebras, i.e. strict $L_\infty$-algebras (Section \ref{section:higher_lie_structures}).
     \begin{construct}[Sketch, Quillen]
         To every simply-connected topological space $X$ one can associated a differential graded Lie algebra $L_\bullet(X)$ such that the homology of this complex is isomorphic to the (shifted) rational homotopy complex $\pi_{\bullet+1}(X)\otimes\mathbb{Q}$ of $X$.
     \end{construct}
@@ -815,16 +819,21 @@
         Brown's representability theorem shows that there exists a bijection between isomorphism classes of cohomology theories and homotopy-equivalence classes of spectra.
     \end{property}
 
-\section{Equivariant cohomology}
+\section{Equivariant cohomology}\index{equivariant!cohomology}
 
     In this section we will consider topological spaces equipped with a continuous action of a topological group $G$. These spaces will be called topological $G$-spaces or just $G$-spaces.
 
-    \newdef{Equivariant cohomology}{
+    \newdef{Equivariant cohomology}{\index{Borel!construction}\label{topology:equivariant_cohomology}
         Let $X$ be a topological $G$-space for which the $G$-action is free. The equivariant cohomology of $X$ is defined as
         \begin{gather}
-            H_G^*(X) := H^*(X/G)
+            H_G^\bullet(X) := H^\bullet(X/G)
         \end{gather}
         where the $X/G$ is the orbit space with respect to the action of $G$ on $X$.
+
+        In case the action is not free, a more general construction needs to be used. Consider the universal bundle $\pi:EG\rightarrow BG$ from Definition \ref{diff:classifying_space}. From this bundle one constructs the associated bundle $EG\times_G X$, this is also called the \textbf{Borel construction}. It gives a model for the homotopy quotient $X/\!\!/G$. The $G$-equivariant cohomology of $X$ is then defined as the singular cohomology of the Borel construction:
+        \begin{gather}
+            H_G^\bullet(X) := H^\bullet(EG\times_GX).
+        \end{gather}
     }
 
     ?? COMPLETE (E.G. LECTURES OF TU ON YOUTUBE) ??

@@ -1,54 +1,80 @@
 \chapter{Distributions}\label{chapter:distributions}
 
-	The main references for this chapter are \cite{AMP1, AMP2, georgiev}. Although this chapter is technically part of functional analysis and hence uses the language of normed spaces we chose to present it in the part on calculus. For important definitions or theorems we have added references to chapter \ref{chapter:normed_spaces}.
+	The main references for this chapter are \cite{AMP1, AMP2, georgiev}. Although this chapter is technically part of functional analysis and hence uses the language of normed spaces (Chapter \ref{chapter:normed_spaces}), it is presented in the part on calculus due to its strong relation to measure and integration theory.
 
-\section{Distributions as functionals}
+\section{Functionals}
 
 	\newdef{Distribution}{\index{distribution}\index{generalized!function}
-		The space of distributions or \textbf{generalized functions} on an open set $U\subset\mathbb{R}^n$ is defined as the set of continuous linear functionals on $\mathcal{D}(U)=C^\infty_0(U)$, the space of smooth functions with compact support. This space is also a $C^\infty(U)$-module.
+		The space of distributions or \textbf{generalized functions} on an open set $U\subset\mathbb{R}^n$ is defined as the set of continuous linear functionals on $\mathcal{D}(U):=C^\infty_c(U)$, the space of smooth functions with compact support. First $\mathcal{D}(U)$ has to be endowed with a topology. For every compact set $K\subset U$ and every $m\in\mathbb{N}$ a locally convex topology \ref{normed:locally_convex_seminorm} on $\mathcal{D}^m_K(U):=C^m_K(U)$ is constructed using the following family of seminorms:
+        \begin{gather}
+            \left\{\sup_{x\in K}\|f^{(i)}(x)\|\ \middle\vert\ |i|\leq m\right\}.
+        \end{gather}
+        A topology on all of $\mathcal{D}^m(U)$ is then defined as the inductive limit over all compact subsets $K\subset U$, i.e. a subset of $\mathcal{D}^m(U)$ is open if and only if its intersection with all $\mathcal{D}^m_K(U)$ is open. All of these topologies are Fr\'echet \ref{normed:frechet_space}. A topology on $\mathcal{D}(U)$ is then obtained by taking a further inductive limit of the $\mathcal{D}_K(U)$ over all compact subsets $K\subset U$.
 
-		In general we will equip this space with the weak-* topology \ref{hilbert:weak_star_topology}, i.e. a sequence of distributions $(\phi_k)_{k\in\mathbb{N}}$ converges to a distribution $\phi$ if and only if $\lim_{k\rightarrow\infty}\langle\phi_k, f\rangle = \langle\phi, f\rangle$ for all $f\in\mathcal{D}(U)$.
-
-		It follows from the definition that two distributions $\phi,\psi$ are equal if and only if $\langle \phi, f\rangle = \langle \psi, f\rangle$ for all $f\in\mathcal{D}(U)$.
+		The dual $\mathcal{D}'(U)$ is then equipped with the weak-* topology \ref{hilbert:weak_star_topology} and, accordingly, a sequence of distributions $\seq{\phi}$ converges to a distribution $\phi$ if and only if $\langle\phi_n,f\rangle\longrightarrow\langle\phi,f\rangle$ for all $f\in\mathcal{D}(U)$. This definition immediately implies that two distributions $\phi,\psi$ are equal if and only if $\langle \phi, f\rangle = \langle \psi, f\rangle$ for all $f\in\mathcal{D}(U)$.
 	}
 
-	\begin{example}[Ordinary function as generalized function]
-    	Every locally integrable function $f\in L^1_{loc}(\mathbb{R}^n)$ gives rise to a distribution:
-    	\begin{gather}
-	    	\langle f,g \rangle = \int f(x)g(x)d^nx.
-    	\end{gather}
-	\end{example}
+    \begin{property}[Equivalent seminorms]
+        The seminorms used in the definition of the locally convex topology on $\mathcal{D}(U)$ can be replaced by the following equivalent ones:
+        \begin{align}
+            p_{K,m}(f) := &\sup_{|i|\leq m}\sup_{x\in K}\|f^{(i)}(x)\|\label{distribution:D_seminorm}\\
+            &\sup_{x\in K}\sum_{|i|\leq m}\|f^{(i)}(x)\|\\
+            &\sum_{|i|\leq m}\sup_{x\in K}\|f^{(i)}(x)\|.
+        \end{align}
+    \end{property}
 
 	\begin{property}
 		A linear functional $\phi$ on $\mathcal{D}(U)$ is a distribution if and only if it satisfies one of the following equivalent statements:
 		\begin{itemize}
-			\item If $(f_k)_{k\in\mathbb{N}}$ is a sequence in $\mathcal{D}(U)$ converging to 0, then $\langle\phi,f_k\rangle$ converges to 0.
-			\item For every compact subset $K\subset U$ there exist a constant $C(K)$ and an integer $m_K$ such that
+            \item It is continuous when restricted to every $\mathcal{D}_K(U)$ for $K\subset U$ compact.
+			\item If the sequence $\seq{f}$ converges to 0 in $\mathcal{D}(U)$, then $\langle\phi,f_n\rangle\longrightarrow0$.
+			\item For every compact subset $K\subset U$ there exist a constant $C_K>0$ and an integer $m_K\geq0$ such that
 			\begin{gather}
-				|\langle\phi,f\rangle|\leq C(K)p_{K, m_K}(f)
+				|\langle\phi,f\rangle|\leq C_K\,p_{K, m_K}(f)
 			\end{gather}
-			for all $f\in\mathcal{D}(U)$, where $p_{K, m_K}$ is the (semi)norm\footnote{This is the family of semi(norms) defining the Fr\'echet topology on $\mathcal{D}_K(U)$ and the inductive limit topology on $\mathcal{D}(U)$.} defined by
-			\begin{gather}
-                \label{distribution:D_seminorm}
-				p_{K, m}(f) = \sup_{|i|\leq m}\sup_{x\in K}||f^{(i)}(x)||
-			\end{gather}
+			for all $f\in\mathcal{D}_K(U)$.
 		\end{itemize}
 	\end{property}
 
 	\newdef{Order}{\index{order}
 		The order of a distribution $\phi$ is the smallest integer $m$ such that
 		\begin{gather}
-			|\langle\phi,f\rangle| \leq C(K)p_{K, m}(f)
+			|\langle\phi,f\rangle| \leq C_K\,p_{K,m}(f)
 		\end{gather}
-		for all $f\in\mathcal{D}(U)$ and all compact subsets $K\subset U$. Note that the integer $m$ is independent of the compact set $K$.
+		for all $f\in\mathcal{D}_K(U)$ and all compact subsets $K\subset U$. Note that the integer $m$ is independent of the compact set $K$.
 	}
 
 	\begin{property}
-		A distribution of order $k$ can be (uniquely) extended to a continuous linear functional on $\mathcal{D}^k(U)$. For the case $k=0$ this implies that we can identify order-0 distributions with Radon measures \ref{lebesgue:radon_measure}.
+		A distribution is of order $k$ if and only if it can be (uniquely) extended to a continuous linear functional on $\mathcal{D}^k(U)$.
 	\end{property}
+
+    \begin{theorem}[Riesz-Markov-Kakutani]\index{Riesz-Markov-Kakutani}\label{distributions:riesz_markov}
+        The space of positive continuous functionals on $C_c(X)$, the space of continuous functions with compact support on a locally compact Hausdorff space X, is homeomorphic to the space of Radon measures \ref{lebesgue:radon_measure} on $X$. Every functional $\Lambda$ can be represented as
+        \begin{gather}
+            \Lambda(f) = \int_Xf\,d\mu
+        \end{gather}
+        for some Radon measure $\mu$.
+
+        The topological dual of $C(\widehat{X})$, the continuous functions on the one-point compactification \ref{topology:alexandrov_compactification} (i.e. those functions that vanish at infinity), is isometrically isomorphic to the space of finite signed Radon measures (equipped with the total variation norm).
+    \end{theorem}
+
+    \begin{example}[Ordinary function as generalized function]\label{distributions:ordinary_function}
+       	By property \ref{lebesgue:theorem:measure_by_integral}, every locally integrable function $f\in L^1_{\text{loc}}$ gives rise to a distribution:
+       	\begin{gather}
+   	    	\langle f,g \rangle = \int f(x)g(x)\,dx.
+       	\end{gather}
+       Distributions of this form are also said to be \textbf{regular}.
+   	\end{example}
 
     \begin{property}
         The space $\mathcal{D}$ is dense in $\mathcal{D}'$.\footnote{To prove this one can work with a sequence of \textit{regularizations}. (This uses the concept of convolutions defined further below.)}
+    \end{property}
+    \begin{property}[Product with smooth functions]
+        For every smooth function $f$ and every distribution $\phi$, the product $f\phi$ is defined as
+        \begin{gather}
+            \langle f\phi,g \rangle := \langle \phi,fg \rangle.
+        \end{gather}
+        This turns $\mathcal{D}'$ into a $C^\infty$-module.
     \end{property}
 
 \subsection{Support}
@@ -66,29 +92,39 @@
 	\end{property}
 
 	\begin{property}
-		A distribution which is supported only at $\{0\}$ can be written as a finite combination of derivatives of the Dirac delta measure.
+		A distribution that is supported only at 0 can be written as a finite combination of derivatives of the Dirac delta measure.
 	\end{property}
 
 \subsection{Derivatives}
 
-	\newdef{Derivative of a distribution}{\index{derivative!of distributions}\index{derivative!weak}\label{distributions:weak_derivative}
-		The derivative of a distribution $\phi$ is defined through the following formula:
+	\newdef{Derivative of a distribution}{\index{derivative!of distributions}\index{weak!derivative}\label{distributions:weak_derivative}
+		The derivative of a distribution $\phi$ is defined by duality:
 		\begin{gather}
-			\left\langle\pderiv{\phi}{x}, f\right\rangle := \left\langle\phi,\pderiv{f}{x}\right\rangle
+			\left\langle\pderiv{\phi}{x},f\right\rangle := -\left\langle\phi,\pderiv{f}{x}\right\rangle.
 		\end{gather}
-		This formula makes sense, since if $\phi$ is induced by a locally integrable function then the above formula is the one obtained through integration by parts.
+		This formula makes sense, since if $\phi$ is regular, the above formula is the one obtained through integration by parts.
 
-        In general an integrable function $g$ is said to be a \textbf{weak derivative} of an integrable function $f$ if it satisfies the following equation for all $\varphi\in\mathcal{D}$:
+        In general an function $g\in L^1_{\text{loc}}$ is said to be a \textbf{weak derivative} of a function $f\in L^1_{\text{loc}}$ if it satisfies the following equation for all $h\in\mathcal{D}$:
         \begin{gather}
-            \langle f, \varphi'\rangle = \langle g, \varphi\rangle.
+            \langle f,h' \rangle = -\langle g,h \rangle.
         \end{gather}
 	}
 
 	\begin{property}
-		Every distribution is smooth, i.e. it is infinitely differentiable. Furthermore, it satisfies the conclusion of Schwarz' theorem \ref{calculus:schwarz_theorem}.
+		Every distribution is smooth, i.e. it is infinitely differentiable. Furthermore, it satisfies the conclusion of Schwarz's theorem \ref{calculus:schwarz_theorem}.
 	\end{property}
+    \begin{property}
+        If a distribution $T$ satisfies $T'=0$, then $T$ is a regular distribution induced by a constant function.
+    \end{property}
 
-\section{Dirac Delta distribution}
+    \newdef{Fundamental solution}{\index{fundamental!solution}\label{distributions:fundamental_solution}
+        Let $D$ be a differential operator. A fundamental solution for $D$ is a distribution $\phi$ such that
+        \begin{gather}
+            D\phi = \delta.
+        \end{gather}
+    }
+
+\section{Examples}
 
 	\newdef{Heaviside distribution}{\index{Heaviside!function}\label{distribution:heaviside_function}
     	The Heaviside function is defined as follows:\footnote{The case $x=0$ is often left undefined, but since this function will always enter formulas inside an integral this does not matter.}
@@ -107,7 +143,7 @@
 	}
 
 	\newdef{Dirac delta distribution}{\index{Dirac!delta function}\label{distribution:dirac_delta}
-    	The Dirac delta distribution is defined as the derivative of the Heaviside function:
+    	The Dirac delta distribution is defined as the weak derivative of the Heaviside function:
         \begin{align*}
 			\langle \delta,f \rangle&:=\langle H',f \rangle\\
        		&=-\langle H,f' \rangle\\
@@ -127,7 +163,7 @@
 
 	\begin{definition}[Dirac comb]\index{Dirac!comb}\label{distribution:dirac_comb}
     	\begin{gather}
-			\uppercase\expandafter{\romannumeral 3}_b(x) = \sum_n\delta(x-nb)
+			\mathrm{III}_b(x) = \sum_n\delta(x-nb)
 		\end{gather}
 	\end{definition}
 
@@ -142,6 +178,14 @@
 	\newformula{Differentiation across discontinuities}{
     	Let $f(x)$ be a piecewise continuous function with discontinuities at $x_1,...,x_n$. Let $f$ satisfy the conditions to be a generalized function. Define $\sigma_i = f^+(x_i) - f^-(x_i)$, i.e. the jumps of $f$ at its discontinuities. Next, define the (continuous) function \[f_c(x) = f(x) - \sum_{i=1}^n\sigma_iH(x-x_i).\] Differentiation of this formula  gives \[f'(x) = f'_c(x) + \sum_{i=1}^n\sigma_i\delta(x-x_i).\] It follows that the derivative in the generalized sense of a piecewise continuous function equals the derivative in the classical sense plus a summation of delta functions at every jump discontinuity.
 	}
+
+    \begin{example}[Principal value]\index{principal!value}
+        The function $\frac{1}{x}$ is clearly not integrable on $\mathbb{R}$. However, its Cauchy principal value exists. This procedure also defines a distribution:
+        \begin{gather}
+            \left\langle \mathcal{P}\frac{1}{x},f \right\rangle := \lim_{\varepsilon\downarrow0}\int_\varepsilon^{+\infty}\frac{f(x)-f(x^-)}{x}dx.
+        \end{gather}
+        Moreover, this defines the distributional derivative of $\ln|x|$.
+    \end{example}
 
 \section{Convolutions and kernels}
 
@@ -171,16 +215,40 @@
 		\end{gather}
 	}
 
+    \begin{formula}[Convolution of functions]
+        The convolution of two (locally integrable) functions $f\ast g$ on $\mathbb{R}^n$ can be defined through Example \ref{distributions:ordinary_function}:
+        \begin{gather}
+            (f\ast g)(x) = \int f(y)g(x-y)dy.
+        \end{gather}
+    \end{formula}
+    \begin{property}[Young inequality]\index{Young!inequality}
+        If $f,g\in L^1$, then $f\ast g$ exists a.e. and
+        \begin{gather}
+            \|f\ast g\|_1\leq \|f\|_1\,\|g\|_1.
+        \end{gather}
+        This also implies that $f\ast g\in L^1$. Furthermore, consider $p,q$ and $r\in\ ]0,+\infty]$ such that
+        \begin{gather}
+            \frac{1}{p}+\frac{1}{q} = \frac{1}{r}+1.
+        \end{gather}
+        If $f\in L^p$ and $g\in L^q$, then
+        \begin{gather}
+            \|f\ast g\|_r\leq\|f\|_p\,\|g\|_q.
+        \end{gather}
+        This also implies that $f\ast g\in L^r$. A result similar to \ref{lebesgue:holders_inequality} holds for H\"older conjugates ($r=+\infty$), their convolution is an element of $L^\infty$. Furthermore, the convolution will also be uniformly continuous on all of $\mathbb{R}^n$ and if either $p$ or $q>1$, the convolution vanishes at $\infty$.
+    \end{property}
+
+    ?? COMPLETE (kernels, ...) ??
+
 \section{Fourier series}
 
 	\newdef{Dirichlet kernel}{\index{Dirichlet!kernel}\label{transforms:dirichlet_kernel}
    		The Dirichlet kernel is the collection of functions of the form:
         \begin{gather}
-            D_n(x) = \stylefrac{1}{2\pi}\sum_{k=-n}^ne^{ikx}.
+            D_n(x) := \stylefrac{1}{2\pi}\sum_{k=-n}^ne^{ikx}.
         \end{gather}
 	}
     \newformula{Sieve property}{
-    	If $f\in C^1[-\pi, \pi]$ then
+    	If $f\in C^1([-\pi,\pi])$, then
         \begin{gather}
         	\lim_{n\rightarrow+\infty}\int_{-\pi}^\pi f(x)D_n(x)dx = 0.
         \end{gather}
@@ -193,7 +261,10 @@
     \end{formula}
 
     \begin{property}[Convergence of the Fourier series]
-    	Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a $2\pi$-periodic function. If $f$ is piecewise $C^1$ on $[-\pi, \pi]$ the limit $\lim_{n\rightarrow+\infty}(D_n\ast f)(x)$ converges to $\frac{f(x+) + f(x-)}{2}$ for all $x\in\mathbb{R}$.
+    	Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a $2\pi$-periodic function. If $f$ is piecewise $C^1$ on $[-\pi,\pi]$, then
+        \begin{gather}
+            (D_n\ast f)(x)\xrightarrow{\ n\longrightarrow+\infty\ }\frac{f(x+)+f(x-)}{2}.
+        \end{gather}
     \end{property}
 
 	\newformula{Generalized Fourier series}{\index{Fourier!series}\label{transforms:fourier_series}
@@ -204,46 +275,40 @@
 	}
 
     \begin{formula}[Fourier coefficients]
-		As seen in the above formula, the Fourier coefficient $\widetilde{f}(n)$ can be calculated by taking the inner product \ref{hilbert:inner_product_L2} of $f$ and the $n^{th}$ eigenfunction $e_n$:
+		As seen in the above formula, the Fourier coefficient $\widetilde{f}(n)$ can be calculated by taking the inner product \eqref{hilbert:inner_product_L2} of $f$ with the $n^{th}$ eigenfunction $e_n$:
 		\begin{gather}
 			\label{transforms:fourier_coefficients}
-       		\widetilde{f}(n) = \int_{-l}^le_n^*(x)f(x)dx \qquad\text{with}\qquad e_n = \sqrt\frac{1}{2l}e^{i\frac{n\pi x}{l}}.
+       		\widetilde{f}(n) = \int_{-l}^le_n^*(x)f(x)\,dx \qquad\text{where}\qquad e_n := \sqrt\frac{1}{2l}e^{i\frac{n\pi x}{l}}.
 		\end{gather}
 	\end{formula}
 
 	\newdef{Periodic extension}{\index{periodic!extension}
-    	Let $f$ be piecewise $C^1$ on $[-L, L]$. The periodic extension $f^L$ is defined by gluing ''copies'' of $f$ together. The \textbf{normalized periodic extension} is defined as follows:
+    	Let $f$ be piecewise $C^1$ on $[-L,L]$. The periodic extension $f^L$ is defined by gluing ''copies'' of $f$ together. The \textbf{normalized periodic extension} is defined as follows:
         \begin{gather}
-        	f^{L, \nu}(x) = \stylefrac{f^L(x+) + f^L(x-)}{2}.
+        	f^{L, \nu}(x) := \stylefrac{f^L(x+) + f^L(x-)}{2}.
         \end{gather}
     }
     \begin{property}
-    	If $f:\mathbb{R}\rightarrow\mathbb{R}$ is piecewise $C^1$ on $[-L, L]$ then the Fourier series approximation of $f(x)$ converges to $f^{L, \nu}(x)$ for all $x\in\mathbb{R}$.
+    	If $f$ is piecewise $C^1$ on $[-L,L]$, the Fourier series approximation of $f$ converges to $f^{L,\nu}$ for all $x\in\mathbb{R}$.
     \end{property}
 
-\section{Laplace transformation}
+\section{Transformations and integral representations}
 
 	\newformula{Laplace transform}{\index{Laplace!transform}\label{transforms:laplace}
         \begin{gather}
-            \mathcal{L}\{F(t)\}_{(s)} = \int_{0}^{\infty}f(t)e^{-st}dt
+            \mathcal{L}\{f\}(s) := \int_{0}^{\infty}f(t)e^{-st}dt
         \end{gather}
 	}
 
 	\newformula{Bromwich integral}{\index{Bromwich!integral}\label{transforms:inverse_laplace}
         \begin{gather}
-            f(t) = \frac{1}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty}\mathcal{L}\{F(t)\}_{(s)}e^{st}ds
+            f(t) = \frac{1}{2\pi i} \int_{\gamma - i\infty}^{\gamma + i\infty}\mathcal{L}\{f\}(s)e^{st}ds
         \end{gather}
 	}
 
-	\begin{notation}
-		The Laplace transform as defined in equation \ref{transforms:laplace} is often denoted by $f(s)$.
-	\end{notation}
-
-\section{Mellin transformation}
-
 	\newformula{Mellin transform}{\index{Mellin}\label{transforms:mellin}
     	\begin{gather}
-    		\mathcal{M}\{f(x)\}(s) = \int_0^{+\infty}x^{s-1}f(x)dx
+    		\mathcal{M}\{f(x)\}(s) := \int_0^{+\infty}x^{s-1}f(x)dx
     	\end{gather}
 	}
 	\newformula{Inverse Mellin transform}{
@@ -253,73 +318,67 @@
 		\end{gather}
 	}
 
-\section{Integral representations}
-
 	\newformula{Heaviside step function}{\index{Heaviside!step function}
 		\begin{gather}
-			\theta(x) = \frac{1}{2\pi i}\int_{-\infty}^\infty\frac{e^{ikx}}{x - i\varepsilon}dk
+			\theta(x) = \frac{1}{2\pi i}\int_{-\infty}^\infty\frac{e^{ikx}}{k - i\varepsilon}\,dk
 		\end{gather}
 	}
 	\newformula{Dirac delta distribution}{\index{Dirac!delta function}
 		\begin{gather}
-			\delta^{(n)}(\vector{x}) = \frac{1}{(2\pi)^n}\int_{-\infty}^\infty e^{i\vector{k}\cdot\vector{x}}d^nk
+			\delta(x) = \frac{1}{2\pi}\int_{-\infty}^{+\infty}e^{ikx}\,dk
 		\end{gather}
 	}
 
 \section{Tempered distributions}
 
 	\newdef{Schwartz space}{\index{Schwartz!space}\label{distribution:schwartz_space}
-		The Schwartz space of \textbf{rapidly decreasing functions}\footnote{These functions are said to be rapidly decreasing because every derivative $f^{(j)}(x)$ decays faster than any inverse power $x^i$ for $x\rightarrow+\infty$.} $\mathscr{S}(\mathbb{R})$ is defined as follows:
+		The Schwartz space of \textbf{rapidly decreasing functions}\footnote{These functions are said to be rapidly decreasing because every derivative $f^{(j)}(x)$ decays faster than any inverse power $x^i$ for $x\rightarrow+\infty$.} $\mathscr{S}(\mathbb{R}^n)$ is defined as follows:
 		\begin{gather}
-		\mathscr{S}(\mathbb{R}) = \left\{f\in C^\infty(\mathbb{R}):\forall i,j\in\mathbb{N},\forall x\in\mathbb{R}:|x^if^{(j)}(x)|<+\infty\right\}.
+    		\mathscr{S}(\mathbb{R}^n) := \left\{f\in C^\infty(\mathbb{R}^n)\,\middle\vert\,\forall i,j\in\mathbb{N}^n,\forall x\in\mathbb{R}^n:\left|x^if^{(j)}(x)\right|<+\infty\right\},
 		\end{gather}
-        An equivalent condition is the following: For every two integer $p, j\in\mathbb{N}$ there exists a constant $M_{p, j}(f)$ such that
+        where for a multi-index $i$ the symbol $x^i$ denotes the monomial $x_1^{i_1}x_2^{i_2}\cdots$. An equivalent condition is the following: for every $p\in\mathbb{N}$ and $j\in\mathbb{N}^n$, there exists a constant $M_{p, j}(f)$ such that
         \begin{gather}
-            \sup_{x\in\mathbb{R}}(1+|x|^2)^p|f^{(j)}|\leq M_{p, j}(f).
+            \sup_{x\in\mathbb{R}^n}(1+\|x\|^2)^p\|f^{(j)}\|\leq M_{p,j}(f).
         \end{gather}
 	}
 
-	\remark{This definition can be generalized to functions in $C^\infty(\mathbb{R}^n)$ or functions $f:\mathbb{R}^n\rightarrow\mathbb{C}$. The Schwartz space is then denoted by $\mathscr{S}(\mathbb{R}^n,\mathbb{C})$.}
-
 	\newdef{Functions of slow growth}{
-		The set of functions of slow growth $N(\mathbb{R})$ is defined as follows:
+		The set of functions of slow growth $N(\mathbb{R}^n)$ is defined as follows:
 		\begin{gather}
-            N(\mathbb{R}) = \left\{f\in C^\infty(\mathbb{R}) : \forall i\in\mathbb{N},\exists M_i > 0: |f^{(i)}(x)| = O(|x|^i) \text{ for } |x|\rightarrow+\infty\right\}.
+            N(\mathbb{R}^n): = \left\{f\in C^\infty(\mathbb{R}^n)\,\middle\vert\,\forall i\in\mathbb{N},\exists M_i>0:\left|f^{(i)}(x)\right| = O(\|x\|^i) \text{ for } \|x\|\rightarrow+\infty\right\}.
 		\end{gather}
 	}
-	\sremark{It is clear that all polynomials belong to $N(\mathbb{R})$ but not to $\mathscr{S}(\mathbb{R})$.}
 
 	\begin{property}
-		If $f\in\mathscr{S}(\mathbb{R})$ and $f\in N(\mathbb{R})$ then $fg\in\mathscr{S}(\mathbb{R})$.
+		If $f\in\mathscr{S}(\mathbb{R})$ and $f\in N(\mathbb{R})$, then $fg\in\mathscr{S}(\mathbb{R})$.
 	\end{property}
 
-\subsection{Fourier transformation}\index{Fourier!transformation}
+\subsection{Fourier transform}\index{Fourier!transform}
 
-    The Fourier series can be used to expand a $2l$-periodic function as an infinite series of exponentials. For expanding a nonperiodic function $f\in L^1(\mathbb{R})$ we need the integral Fourier transform:\footnote{We require $f$ to be (absolutely) integrable to make the integral converge. Weaker conditions are possible (see the literature).}
+    The Fourier series can be used to expand a $2l$-periodic function as an infinite series of exponentials. However, to expand a nonperiodic function $f\in L^1(\mathbb{R})$ one needs the integral Fourier transform:\footnote{All functions are required to be Lebesgue integrable to make the integral converge. Weaker conditions are possible (see the literature).}
     \begin{gather}
         \label{transforms:fourier}
-        \mathcal{F}(\omega) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty}f(t)e^{-i\omega t}dt.
+        \mathcal{F}f(\omega) := \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{\infty}f(t)e^{-i\omega t}dt.
     \end{gather}
-    The inverse Fourier transform (if it exists) is given by
+    The inverse Fourier transform, if it exists, is given by
     \begin{gather}
         \label{transforms:inverse_fourier}
-        f(t) = \mathcal{F}^{-1}(t) = \frac{1}{\sqrt{2\pi}} \Xint-_{-\infty}^{\infty}\mathcal{F}(\omega)e^{i\omega t}d\omega.
+        f(t) = \mathcal{F}^{-1}(\mathcal{F}f)(t) = \frac{1}{\sqrt{2\pi}}\  \mathcal{P}\int_{-\infty}^{\infty}\mathcal{F}f(\omega)e^{i\omega t}d\omega.
     \end{gather}
-    Equation \ref{transforms:fourier} is called the (forward) Fourier transform of $f(t)$ and equation \ref{transforms:inverse_fourier} is called the inverse Fourier transform. The pair $(f, mathcal{F})$ is called a \textbf{Fourier transform pair}.
-
+    Equation \eqref{transforms:fourier} is called the (forward) Fourier transform of $f$ and equation \eqref{transforms:inverse_fourier} is called the inverse Fourier transform. The pair $(f,\mathcal{F}f)$ is called a \textbf{Fourier transform pair}.
     \begin{notation}
-        The Fourier transform of a function $f$, as seen in equation \ref{transforms:fourier}, is often denoted by $\widetilde{f}$ or $\widehat{f}$.
+        The Fourier transform of a function $f$ is often denoted by $\widetilde{f}$ or $\widehat{f}$.
     \end{notation}
 
     \begin{property}
         From the Riemann-Lebesgue lemma \ref{lebesgue:riemann_lebesue_lemma} it follows that
         \begin{gather}
-            \mathcal{F}(\omega)\rightarrow0 \qquad\text{if}\qquad |\omega|\rightarrow0.
+            \mathcal{F}f(\omega)\longrightarrow0 \qquad\text{if}\qquad |\omega|\longrightarrow0.
         \end{gather}
     \end{property}
 
     \begin{theorem}[Parceval]\index{Parceval}\label{transforms:parcevals_theorem}
-        Let $(f, \widetilde{f})$ and $(g,\widetilde{g})$ be two Fourier transform pairs.
+        Let $(f,\widetilde{f})$ and $(g,\widetilde{g})$ be two Fourier transform pairs.
         \begin{gather}
             \int_{-\infty}^{+\infty}f(x)g(x)dx = \int_{-\infty}^{+\infty}\widetilde{f}(k)\widetilde{g}(k)dk
         \end{gather}
@@ -329,67 +388,74 @@
         \begin{gather}
             \int_{-\infty}^{+\infty}|f(x)|^2dx = \int_{-\infty}^{+\infty}|\widetilde{f}(k)|^2dk.
         \end{gather}
-        This implies that the Fourier transform defines an isometry on $L^2$.
+        This implies that the Fourier transform defines an isometry on $L^2$. In this case it is often called the \textbf{Fourier-Plancherel transform}.
     \end{result}
 
-    Now one can wonder why we introduced the Fourier transform in this chapter? The reason is that Fourier transforms can be generalized to distributions in a convenient way. We could try to extend the definition to distributions by duality, but for an arbitrary $\phi\in\mathcal{D}'$ we are not guaranteed that $\widehat{\phi}\in\mathcal{D}'$. This is where the Schwartz spaces come up:
+    Now one can wonder why the Fourier transform is introduced in this chapter. The reason is that Fourier transforms can be generalized to distributions in a convenient way. One could try to extend the definition through duality, but for an arbitrary $\phi\in\mathcal{D}'$ it is not guaranteed that $\mathcal{F}\phi\in\mathcal{D}'$. This is where the Schwartz spaces come up:
     \begin{property}
         The Fourier transform defines an isomorphism on $\mathscr{S}$.
     \end{property}
+
     One can also show that every Schwartz space has the structure of a Fr\'echet space under the family of seminorms
     \begin{gather}
-        s_{p,N}(\phi) := \sup_{x\in\mathbb{R}^n}\sup_{|j|\leq N}\left|(1+|x|^2)^p\phi^{(j)}(x)\right|.
+        s_{p,N}(\phi) := \sup_{x\in\mathbb{R}^n}\sup_{|j|\leq N}\left|(1+\|x\|^2)^p\phi^{(j)}(x)\right|.
     \end{gather}
-    The space of \textbf{tempered distributions} is then defined as the continuous dual of $\mathscr{S}$ (often with the weak-* topology). These spaces have the following important property:
+    The space of \textbf{tempered distributions} is then defined as the continuous dual of $\mathscr{S}$ (equipped with the weak-* topology). These spaces have the following important property:
     \begin{property}
-        The Schwartz space $\mathscr{S}$ contains the space of smooth compactly supported functions $\mathcal{D}$ as a dense subspace. This implies that tempered distributions are determined by their values on $\mathcal{D}$.
+        $\mathcal{D}$ is dense in $\mathscr{S}$. This implies that tempered distributions are determined by their values on $\mathcal{D}$.
     \end{property}
 
     \begin{property}
         The Fourier transform of tempered distributions has some nice additional properties:
         \begin{itemize}
-            \item The Fourier transform also defines an isomorphism on $\mathscr{S}$.
+            \item The Fourier transform also defines an isomorphism on $\mathscr{S}^*$.
             \item The Fourier transform of a compactly supported function is of slow growth.
             \item The Fourier transform of a convolution is equal to the product of the individual Fourier transforms. (Here one should restrict to the case of a compactly supported and a tempered distribution such that the convolution is also tempered.)
         \end{itemize}
     \end{property}
-    As a last item we mention an important relation with the theory of complex analysis:
+
     \begin{theorem}[Paley-Wiener]\index{Paley-Wiener}
         The Fourier transform of a compactly supported distribution can be extended to an analytic function on $\mathbb{C}^n$.
     \end{theorem}
 
 \section{\difficult{Analysis on groups}}
 
-    \newdef{Pontryagin dual}{\index{Pontryagin!dual}
-        Let $G$ be a locally compact Abelian group. Its (Pontryagin) dual is defined as the group of continuous homomorphisms from $G$ to the circle:
+    \newdef{Haar measure}{\index{Haar measure}
+        A left (resp. right) Haar measure on a topological group is a regular Borel measure \ref{lebesgue:regular_measure} that is finite on compact subsets and invariant under the left (resp. right) group action. For locally compact groups this is a Radon measure \ref{lebesgue:radon_measure}.
+    }
+    \begin{example}[Lebesgue measure]
+        Consider $\mathbb{R}^n$ as an additive group. Property \ref{lebesgue:translation_invariant} implies that the Lebesgue measure is a left (and right) Haar measure.
+    \end{example}
+
+    \begin{theorem}[Haar\footnotemark]
+        \footnotetext{A similar theorem holds for right Haar measures.}
+        If $G$ is locally compact, there exists a left Haar measure that is unique up to a scalar factor. Moreover, if $G$ is compact, this constant can be fixed by requiring the normalization condition $\mu(G) = 1$.
+    \end{theorem}
+
+    \newdef{Pontryagin dual}{\index{Pontryagin!dual}\index{character}
+        Let $G$ be a locally compact Abelian group. Its (Pontryagin) dual is defined as the group of continuous homomorphisms from $G$ to the circle group:
         \begin{gather}
          G^\vee := \hom(G, S^1).
         \end{gather}
-        In general this group is endowed with the compact-open topology.
+        In general this group is endowed with the compact-open topology. Elements of this group are called \textbf{group characters} of $G$.
     }
     \begin{theorem}[Pontryagin duality]
         There exists a natural isomorphism $G\mapsto G^{\vee\vee}$.
     \end{theorem}
 
-    \newdef{$L^p$-space}{
-        Consider a locally compact group $G$ together with its canonical Haar measure $\mu$. For all $p>0$ one can define the function space $L^p(G)$ as follows:
-        \begin{gather}
-            L^p(G) := \left\{(f:G\rightarrow\mathbb{C}):\int_G|f(g)|^pd\mu(g)<\infty\right\}.
-        \end{gather}
-    }
     \begin{construct}[Fourier transform]
-        Consider a locally compact Abelian group $G$ together with its canonical Haar measure $\mu$. For every $f\in L^1(G)$ one defines its Fourier transform as follows:
+        Consider a locally compact Abelian group $G$ together with its canonical Haar measure $\mu$. For every $f\in L^1(G,\mu)$ one defines the Fourier transform as follows for all $\chi\in G^\vee$:
         \begin{gather}
-            \widehat{f}(\chi) := \int_G f(g)\overline{\chi(g)}d\mu(g)
+            \widehat{f}(\chi) := \int_G f(g)\overline{\chi(g)}d\mu(g),
         \end{gather}
-        for all $\chi\in G^\vee$.
+        where the identification $S^1\cong\text{U}(1)$ is used.
     \end{construct}
 
     \begin{theorem}[Bochner]\index{Bochner}
-        Consider a locally compact Abelian group $G$. There is a bijective correspondence between normalized positive-definite continuous function on $G$ and probability measures on $G^\vee$:
+        Consider a locally compact Abelian group $G$. There is a bijective correspondence between normalized positive-definite continuous function on $G$ and probability measures on $G^\vee$ such that
         \begin{gather}
             f(g) = \int_{G^\vee}\chi(g)d\nu(\chi).
         \end{gather}
     \end{theorem}
 
-    ?? COMPLETE (HAAR MEASURE, ...) ??
+    ?? COMPLETE ??

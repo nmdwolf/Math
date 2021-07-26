@@ -1,10 +1,8 @@
 \section{Lebesgue integral}
 \subsection{Simple functions}
 
-    \newdef{Indicator function}{\index{indicator function}
-        An important function when working with sets is the following one:
+    \newdef{Indicator function}{\index{indicator function}\label{lebesgue:indicator_function}
         \begin{gather}
-            \label{lebesgue:indicator_function}
     	    \mathbbm{1}_A(x) :=
             \begin{cases}
 	            1&x\in A\\
@@ -13,138 +11,125 @@
 	    \end{gather}
     }
     \newdef{Simple function}{\index{simple!function}\label{lebesgue:simple_function}
-            Let $f$ be a function that takes on a finite number of non-negative values $\{a_i\}$ with for every $i\neq j: f^{-1}(a_i)\cap f^{-1}(a_j) = \emptyset$. $f$ is called a simple function if it can be expressed in the following way:
+            A function $f:X\rightarrow\mathbb{R}$ on a measurable space $(X,\Sigma)$ that can be expressed in the following way:
             \begin{gather}
                 f(x) = \sum_{i=1}^n a_i\mathbbm{1}_{A_i}(x)
             \end{gather}
-            with $A_i = f^{-1}(a_i)\in\mathcal{M}$.
+            for some $\{a_i\geq0\}_{i\leq n}, \{A_i\in\Sigma\}_{i\leq n}$ and $n\in\mathbb{N}$.
     }
     \begin{definition}[Step function]\index{step function}\label{lebesgue:step_function}
-        If the sets $A_i$ are intervals, the above function is often called a step function.
+        If $(X,\Sigma)\equiv(\mathbb{R},\mathcal{M})$ and the sets $A_i$ are intervals, the above function is often called a step function.
     \end{definition}
 
-    \newformula{Lebesgue integral of simple functions}{\index{Lebesgue!integral}\label{lebesgue:integral_simple_function}
-        Consider a simple function $\varphi$. Furthermore, let $\mu:\mathcal{M}\rightarrow\mathbb{R}$ be the Lebesgue measure and let $E$ be a measurable set. The Lebesgue integral of $\varphi$ over a $E$ with respect to $\mu$ is given by
+    \newdef{Lebesgue integral of simple functions}{\index{Lebesgue!integral}\label{lebesgue:integral_simple_function}
+        Consider a simple function $\varphi$ on a measure space $(X,\Sigma,\mu)$. The Lebesgue integral of $\varphi$ over a measurable set $A\in\Sigma$ with respect to $\mu$ is given by
         \begin{gather}
-            \int_E\varphi\ d\mu = \sum_{i=1}^na_i\mu(E\cap A_i).
+            \int_A\varphi\,d\mu = \sum_{i=1}^na_i\mu(A\cap A_i).
         \end{gather}
+        As usual, if the domain of integration is not mentioned explicitly, an integral over the whole space $X$ is implied.
     }
     \begin{example}
         Let $\mathbbm{1}_\mathbb{Q}$ be the indicator function of the set of rational numbers. This function is clearly a simple function. Previous formula makes it possible to integrate the rational indicator function over the real line (which is not possible in the sense of Riemann):
         \begin{gather}
-            \int_\mathbb{R}\mathbbm{1}_\mathbb{Q}\ d\mu = 1\times m(\mathbb{Q}) + 0\times m(\mathbb{R}\backslash\mathbb{Q}) = 0
+            \int_\mathbb{R}\mathbbm{1}_\mathbb{Q}\,d\lambda = 1\times\lambda(\mathbb{Q}) + 0\times\lambda(\mathbb{R}\backslash\mathbb{Q}) = 0
         \end{gather}
-        where the measure of the rational numbers is 0 because it is a countable set (see corollary \ref{lebesgue:theorem:countable_set_is_null}).
+        where the measure of the rational numbers is 0 because it is a countable set (Corollary \ref{lebesgue:theorem:countable_set_is_null}).
     \end{example}
 
 \subsection{Measurable functions}
 
-    \newformula{Lebesgue integral for non-negative functions}{\index{Lebesgue!integral}\label{lebesgue:integral}
-        The definition for simple functions can be geenralized to non-negative measurable functions $f$ as follows:
+    \newdef{Integral for non-negative functions}{\index{Lebesgue!integral}\label{lebesgue:integral}
+        The definition for simple functions can be generalized to non-negative measurable functions $f$ as follows:
         \begin{gather}
-            \int_Ef\ d\mu ;= \sup\left\{\int_E\varphi\ d\mu:\varphi \text{ a simple function such that } \varphi\leq f\right\}.
+            \int_Af\,d\mu := \sup\left\{\int_A\varphi\,d\mu:\varphi\text{ a simple function such that }\varphi\leq f\right\}.
         \end{gather}
         This integral is always non-negative.
     }
 
     \begin{formula}
-        The following equality follows directly from $A\subseteq\mathbb{R}:A\cup A^c = \mathbb{R}$:
-            \begin{gather}
-                \label{lebesgue:interchanging_domains_with_indicator_function}
-                \int_Af\ d\mu = \int f\mathbbm{1}_A\ d\mu.
-            \end{gather}
+        The following equality allows to change the domain of integrals:
+        \begin{gather}
+            \label{lebesgue:interchanging_domains_with_indicator_function}
+            \int_Af\,d\mu = \int_Xf\mathbbm{1}_A\,d\mu.
+        \end{gather}
     \end{formula}
-
-    \begin{property}
-        Let $f$ be a non-negative measurable function. Then $f=0$ a.e. if and only if $\int_\mathbb{R}f\ d\mu = 0$.
-    \end{property}
 
     \begin{property}
         The Lebesgue integral over a null set is 0.
     \end{property}
-    \begin{property}\label{lebesgue:general_properties}
-        Let $f,g$ be measurable functions. The Lebesgue integral has the following properties:
-        \begin{itemize}
-            \item $f\leq g$ a.e. implies $\int f d\mu\leq\int g\ d\mu$.
-            \item Let $A$ be a measurable set and consider a subset $B\subset A$. Then $\int_Bf\ d\mu\leq\int_Af\ d\mu$.
-            \item The Lebesgue integral is linear.
-            \item For every two disjoint measurable sets $A$ and $B$ we have that $\int_{A\cup B}f\ d\mu = \int_Af\ d\mu + \int_Bf\ d\mu$.
-        \end{itemize}
-    \end{property}
 
     \begin{theorem}[Mean value theorem]\index{mean!value theorem}
-        If $a\leq f(x)\leq b$, then $am(A)\leq\int_Af\ d\mu\leq bm(A)$.
+        If $a\leq f(x)\leq b$, then $a\lambda(A)\leq\int_Af\,d\lambda\leq b\lambda(A)$.
     \end{theorem}
 
     \begin{property}
-        Let $f$ be a non-negative measurable function. There exists an increasing sequence $(\varphi_i)_{i\in\mathbb{N}}$ of simple functions such that $\varphi_i\nearrow f$.
-    \end{property}
-    \begin{property}
-        Let $f$ be a bounded measurable function defined on the interval $[a,b]$. For every $\varepsilon>0$ there exists a step function $h$ such that $\int_a^b|f-h|\ d\mu<\varepsilon$.
+        Let $f$ be a non-negative measurable function. There exists an increasing sequence $\seq{\varphi}$ of simple functions such that $\varphi_n\nearrow f$. Moreover, if $f$ is bounded on $A\in\Sigma$, the sequence can be chosen to be uniformly convergent on $A$.
     \end{property}
 
 \subsection{Integrable functions}
 
     \newdef{Integrable function}{\index{integrable}\label{lebesgue:integrable_function}
-        Let $E\in\mathcal{M}$. A measurable function $f$ is said to be integrable over $E$ if both $\int_Ef^+\ d\mu$ and $\int_Ef^-\ d\mu$ are finite. The Lebesgue integral of $f$ over $E$ is then defined as
+        Let $A$ be a measurable subset of a measure space $(X,\Sigma,\mu)$. A measurable function $f$ is said to be integrable over $A$ if both $\int_Af^+\,d\mu$ and $\int_Af^-\,d\mu$ are finite. The Lebesgue integral of $f$ over $A$ is then defined as
         \begin{gather}
-            \int_E f\ d\mu = \int_E f^+\ d\mu - \int_E f^-\ d\mu.
+            \int_Af\,d\mu = \int_Af^+\,d\mu - \int_Af^-\,d\mu.
         \end{gather}
-        If only one of the functions $f^+, f^-$ is integrable, we call $f$ \textbf{quasi-integrable}.
+        If only one of the functions $f^+,f^-$ is finite, $f$ is called \textbf{quasi-integrable}.
     }
-    \sremark{The difference between the integral in definition \ref{lebesgue:integral} and the integral of an integrable function is that with the latter $f$ does not have to be non-negative.}
 
-    \begin{property}
-        $f$ is integrable if and only if $|f|$ is integrable. Furthermore, $\int_E|f|\ d\mu = \int_E f^+\ d\mu + \int_E f^-\ d\mu$.
+    \begin{property}[Absolute integrability]\label{lebesgue:absolute_integrability}
+        $f$ is integrable if and only if $|f|$ is integrable. Furthermore, $\int_A|f|\,d\mu = \int_Af^+\,d\mu + \int_Af^-\,d\mu$.
     \end{property}
     \begin{property}
-        Let $f,g$ be integrable functions. The following important properties apply:
+        Let $f,g$ be integrable functions on a measure space $(X,\Sigma,\mu)$. The following important properties apply:
         \begin{itemize}
-            \item $f+g$ is also integrable.,
-            \item $\forall E\in\mathcal{M}, \int_Ef\ d\mu\leq\int_Eg\ d\mu\implies f\leq g$ a.e.,
-            \item $\forall c\in\mathbb{R}:\int_E(cf)\ d\mu = c(\int_Ef\ d\mu)$,
-            \item $f$ is finite a.e.,
-            \item $|\int f\ d\mu|\leq\int|f|\ d\mu$, and
-            \item $f\geq0\land\int f\ d\mu=0\implies f=0$ a.e.
+            \item The Lebesgue integral is linear.
+            \item $f\leq g$ a.e. implies $\int_Af\,d\mu\leq\int_Ag\,d\mu$.
+            \item $\forall A\in\Sigma,\int_Af\,d\mu\leq\int_Ag\,d\mu\implies f\leq g$ a.e.
+            \item $f$ is finite a.e.
+            \item $|\int_Af\,d\mu|\leq\int_A|f|\,d\mu$.
+            \item $f\geq0\land\int_Af\,d\mu=0\implies f=0$ a.e. and, more generally for all integrable $f$:
+            \begin{gather}
+                \int_Af\,d\mu=0,\forall A\in\Sigma\implies f=0\text{ a.e.}
+            \end{gather}
         \end{itemize}
     \end{property}
 
     \begin{definition}[Lebesgue integrable functions]
-        The set of functions integrable over a set $E\in\mathcal{M}$ forms the vector space $\mathcal{L}^1(E)$.
+        The set of functions integrable over a set $A\in\mathcal{M}$ forms the vector space $\mathcal{L}^1(A)$.
     \end{definition}
 
     \begin{property}
-        Let $f\in\mathcal{L}^1$ and $\varepsilon>0$. There exists a continuous function $g$, vanishing outside some finite interval, such that $\int|f-g|\ d\mu<\varepsilon$.
+        Let $f\in\mathcal{L}^1$ and $\varepsilon>0$. There exists a continuous (or step or even simple) function $g$, vanishing outside a finite (or even compact) set, such that $\int|f-g|\,d\mu<\varepsilon$.
     \end{property}
 
-    \begin{property}\index{continuity!absolute continuity}\label{lebesgue:theorem:measure_by_integral}
-        Let $f\geq0$. The mapping $E\mapsto\int_Ef\ d\mu$ is a measure on $\mathcal{M}$ (if it exists, i.e. if $f$ is integrable). Furthermore, this measure is said to be \textbf{absolutely continuous}. (See section \ref{lebesgue:section:Radon-Nikodym} for further information.)
-    \end{property}
-
-    \newdef{Locally integrable function}{\index{locally!integrable}
-        A measurable function is said to be locally integrable if it is integrable on every compact subset of its domain. The space of locally integrable functions is denoted by $\mathcal{L}^1_{loc}$.
+    \newdef{Locally integrable function}{\index{locally!integrable}\label{lebesgue:locally_integrable}
+        A measurable function is said to be locally integrable if it is integrable on every compact subset of its domain. The space of locally integrable functions is denoted by $\mathcal{L}^1_{\text{loc}}$.
     }
     \begin{example}
         All continuous functions are locally integrable.
     \end{example}
 
+    \begin{property}[Absolute continuity]\index{continuity!absolute continuity}\label{lebesgue:theorem:measure_by_integral}
+        Let $f\geq0$ be measurable. The mapping $A\mapsto\int_Af\,d\mu$ defines a measure (it is $\sigma$-finite if $f$ is locally integrable and finite if $f$ is integrable). Furthermore, this measure is said to be \textbf{absolutely continuous} (with respect to $\mu$). See Section \ref{lebesgue:section:Radon-Nikodym} for a generalization to arbitrary measures.
+    \end{property}
+
 \subsection{Convergence theorems}
 
     \begin{theorem}[Fatou's lemma]\index{Fatou}\label{lebesgue:theorem:fatous_lemma}
-        Let $(f_n)_{n\in\mathbb{N}}$ be a sequence of non-negative measurable functions.
+        Let $\seq{f}$ be a sequence of non-negative measurable functions.
         \begin{gather}
-            \int_E\left(\liminf_{n\rightarrow\infty}f_n\right)\ d\mu \leq \liminf_{n\rightarrow\infty}\int_Ef_n\ d\mu
+            \int_A\left(\liminf_{n\rightarrow\infty}f_n\right)\,d\mu \leq \liminf_{n\rightarrow\infty}\int_Af_n\,d\mu
         \end{gather}
     \end{theorem}
-    \begin{theorem}[Monotone convergence theorem]\index{monotone!convergence theorem}\label{lebesgue:theorem:monotone_convergence_theorem}
-        Let $E\in\mathcal{M}$ and let $(f_n)_{n\in\mathbb{N}}$ be an increasing sequence of non-negative measurable functions such that $f_n\nearrow f$ pointwise a.e. We have the following powerful equality:
+    \begin{theorem}[Monotone convergence]\index{monotone!convergence theorem}\label{lebesgue:theorem:monotone_convergence_theorem}
+        Let $A$ be measurable and let $\seq{f}$ be an increasing sequence of non-negative measurable functions such that $f_n\nearrow f$ pointwise a.e.
         \begin{gather}
-            \int_E f\ d\mu = \lim_{n\rightarrow\infty}\int_E f_n(x)\ d\mu.
+            \int_Af\,d\mu = \lim_{n\rightarrow\infty}\int_Af_n(x)\,d\mu.
         \end{gather}
     \end{theorem}
 
     \begin{method}\label{lebesgue:method:linear_proofs}
-        To prove results concerning integrable functions in spaces such as $\mathcal{L}^1(E)$ it is often useful to proceed as follows:
+        To prove results concerning integrable functions in spaces such as $\mathcal{L}^1$ it is often useful to proceed as follows:
         \begin{enumerate}
             \item Verify that the property holds for indicator functions. (This often follows by definition.)
             \item Use the linearity to extend the property to simple functions.
@@ -153,26 +138,26 @@
         \end{enumerate}
     \end{method}
 
-    \begin{theorem}[Dominated convergence theorem]\index{dominated convergence theorem}\label{lebesgue:theorem:dominated_convergence_theorem}
-        Let $E\in\mathcal{M}$ and let $(f_n)_{n\in\mathbb{N}}$ be a sequence of measurable functions with $\forall n:|f_n|\leq g$ a.e. for some function $g\in\mathcal{L}^1(E)$. If $f_n\rightarrow f$ pointwise a.e. then $f$ is integrable over $E$ and
+    \begin{theorem}[Dominated convergence]\index{dominated convergence theorem}\label{lebesgue:theorem:dominated_convergence_theorem}
+        Let $A$ be measurable and consider a sequence of measurable functions $\seq{f}$ such that $\forall n\in\mathbb{N}:|f_n|\leq g$ a.e. for some function $g\in\mathcal{L}^1(A)$. If $f_n\rightarrow f$ pointwise a.e. then $f$ is integrable over $A$ and
         \begin{gather}
-            \int_E f\ d\mu = \lim_{n\rightarrow\infty}\int_E f_n(x)\ d\mu.
+            \int_Af\,d\mu = \lim_{n\rightarrow\infty}\int_Af_n(x)\,d\mu.
         \end{gather}
     \end{theorem}
 
     \begin{property}
-        Let $(f_n)_{n\in\mathbb{N}}$ be a sequence of non-negative measurable functions. The following equality applies:
+        Let $\seq{f}$ be a sequence of nonnegative measurable functions. The following equality applies:
         \begin{gather}
-            \int\sum_{n=1}^{+\infty}f_n(x)\ d\mu = \sum_{n=1}^{+\infty}\int f_n(x)\ d\mu.
+            \int_A\sum_{n=1}^{+\infty}f_n(x)\,d\mu = \sum_{n=1}^{+\infty}\int_Af_n(x)\,d\mu.
         \end{gather}
-        We cannot conclude that the right-hand side is finite a.e., so the series on the left-hand side need not be integrable.
+        One cannot conclude that the right-hand side is finite a.e., so the series on the left-hand side need not be integrable.
     \end{property}
 
     \begin{theorem}[Beppo Levi\footnotemark]\index{Beppo Levi}\label{lebesgue:theorem:beppo_levi}
         \footnotetext{Note that various other theorems and variants of this theorem can be found in the literature under the same name.}
-        Suppose that \[\sum_{i=1}^\infty\int|f_n|(x)\ d\mu\text{ is finite.}\] The series $\sum_{i=1}^\infty f_n(x)$ converges a.e. Furthermore, the series is integrable and
+        Suppose that \[\sum_{i=1}^\infty\int_A|f_n|(x)\,d\mu\text{ is finite.}\] The series $\sum_{i=1}^\infty f_n(x)$ converges a.e. Furthermore, the series is integrable and
         \begin{gather}
-            \int\sum_{i=1}^\infty f_n(x)\ d\mu = \sum_{i=1}^\infty\int f_n(x)\ d\mu.
+            \int_A\sum_{i=1}^\infty f_n(x)\,d\mu = \sum_{i=1}^\infty\int_Af_n(x)\,d\mu.
         \end{gather}
     \end{theorem}
 
@@ -181,9 +166,9 @@
     \end{theorem}
 
     \begin{theorem}[Birkhoff ergodicity]\index{ergodic}\index{Birkhoff|seealso{ergodic}}\label{lebesgue:ergodic}
-        Let $(X, \Sigma, \mu)$ be a measure space and let $T$ be a $\mu$-ergodic map. For every measurable function $f$ and for $\mu$-almost every element $x\in X$ the integral of $f$ can be computed as an average over the orbit of $x$:
+        Let $(X,\Sigma,\mu)$ be a measure space and let $T$ be a $\mu$-ergodic map. For every measurable function $f$ and for $\mu$-almost every element $x\in X$ the integral of $f$ can be computed as an average over the orbit of $x$:
         \begin{gather}
-            \lim_{n\rightarrow+\infty}\frac{1}{n+1}\sum_{t=0}^nf(T^n(x)) = \int_Xfd\mu.
+            \lim_{n\rightarrow+\infty}\frac{1}{n+1}\sum_{t=0}^nf(T^n(x)) = \int f\,d\mu.
         \end{gather}
     \end{theorem}
 
@@ -198,5 +183,21 @@
     \end{property}
 
     \begin{property}
-        If $f\geq0$ and the improper Riemann integral \ref{calculus:improper_integral} exists, then the Lebesgue integral $\int f\ d\mu$ exists and the two integrals coincide.
+        If $f\geq0$ and the improper Riemann integral \ref{calculus:improper_integral} exists, the Lebesgue integral $\int_{\mathbb{R}}f\,d\mu$ exists and the two integrals coincide. Note that positivity of $f$ is required here. Because the Lbesgue integral is absolute \ref{lebesgue:absolute_integrability}, positive and negative parts cannot cancel, i.e. Lebesgue integrals can never be conditionally convergent.
     \end{property}
+
+    The following definition should be compared to \ref{distribution:dirac_delta}.
+    \newdef{Dirac measure}{\index{Dirac}\label{lebesgue:dirac_measure}
+        Define the Dirac measure as follows:
+        \begin{gather}
+            \delta_a(A) =
+            \begin{cases}
+                1&a\in A\\
+                0&a\not\in A.
+            \end{cases}
+        \end{gather}
+        Integration with respect to the Dirac measure has the following nice property:
+        \begin{gather}
+            \int f\,d\delta_a = f(a).
+        \end{gather}
+    }

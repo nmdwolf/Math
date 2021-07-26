@@ -1,67 +1,69 @@
-\chapter{Normed Spaces}\label{chapter:normed_spaces}
+\chapter{Functional Analysis}\label{chapter:normed_spaces}
 
-    In this chapter the term ''linear operator'', which was previously reserved for vector space automorphisms, is now used instead of ''linear map''. This is to keep the terminology in sync with that of the standard literature on Banach spaces and operator spaces. In this chapter ''dual space'' will mean the (linear) topological/continuous dual and not just the linear dual (unless stated otherwise).
+    In this chapter the term ''linear operator'', which was previously reserved for vector space automorphisms, is now used instead of ''linear map''. This is to keep the terminology in sync with that of the standard literature on Banach spaces and operator spaces. In this chapter ''dual space'' will mean the topological/continuous dual and not just the algebraic/linear dual (unless stated otherwise).
 
-    The main references for this chapter are \cite{AMP1, AMP2}. For a revision of topological spaces and inner product spaces, see chapter \ref{chapter:topology} and section \ref{linalgebra:innerproduct} respectively.
+    The main references for this chapter are \cite{AMP1, AMP2}. For a revision of topological spaces and inner product spaces, see Chapter \ref{chapter:topology} and Section \ref{linalgebra:innerproduct} respectively.
 
 \section{Banach spaces}
 
     \newdef{Topological vector space}{\index{vector!space}
         \nomenclature[A]{TVS}{Topological vector space}
-        A topological vector space (TVS) over a field $K$ is a vector space for which the addition and scalar multiplication over $K$ are continuous.
+        A topological vector space (TVS) over a field $K$ is a $K$-vector space for which the addition and scalar multiplication are continuous.
     }
 
     \newdef{Weak topology}{\index{topology!weak}\label{hilbert:weak_topology}
-        The initial topology \ref{topology:initial_topology} on a TVS with respect to its dual, i.e. a sequence $\seq{x}$ in $X$ converges to $x$ if and only if $\lambda(x_n)\longrightarrow\lambda(x)$ for all $\lambda\in X^*$.
+        The initial topology \ref{topology:initial_topology} on a TVS with respect to its dual, i.e. a net $\net{x}$ in $X$ converges to $x$ if and only if $\lambda(x_\alpha)\longrightarrow\lambda(x)$ for all $\lambda\in X^*$.
     }
     \newdef{Weak-* topology}{\index{topology!weak-*}\label{hilbert:weak_star_topology}
-        Every Banach space (in fact every TVS) admits a canonical embedding into its double dual:
+        Every TVS admits a canonical embedding into its double dual:
         \begin{gather}
-            \iota: X\rightarrow X^{**}: x\mapsto\text{ev}_x
+            \iota: X\rightarrow X^{**}:x\mapsto\text{ev}_x,
         \end{gather}
-        where the evaluation map ev$_x$ is defined as
+        where the evaluation map $\text{ev}_x$ is defined as
         \begin{gather}
-            \text{ev}_x:X^*\rightarrow K: \lambda\mapsto\lambda(x).
+            \text{ev}_x:X^*\rightarrow K:\lambda\mapsto\lambda(x).
         \end{gather}
-        The weak-* topology on the dual space $X^*$ is defined as the weak topology with respect to the image $\iota(X)\subseteq X^{**}$.
+        The weak-* topology on the dual space $X^*$ is defined as the weak topology with respect to the image $\iota(X)\subseteq X^{**}$. Equivalently, it is the topology defined by pointwise convergence of nets.
     }
 
     \newdef{Norm}{\index{norm}
-        Let $V$ be a TVS over a field $K$. A function $||v||:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
+        Let $V$ be a TVS over a field $K$. A function $\|\cdot\|:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions:
         \begin{enumerate}
-            \item \textbf{Nondegeneracy:} $||v|| = 0 \iff v = 0$,
-            \item \textbf{Homogeneity:} for all scalars $\lambda\in K: ||\lambda v|| = |\lambda|||v||$, and
-            \item \textbf{Triangle equality (subadditivity):} $||v+w|| \leq ||v|| + ||w||$.
+            \item \textbf{Nondegeneracy:} $\|v\| = 0 \iff v = 0$,
+            \item \textbf{Homogeneity:} for all scalars $\lambda\in K: \|\lambda v\| = |\lambda|\,\|v\|$, and
+            \item \textbf{Triangle equality (subadditivity):} $\|v+w\| \leq \|v\| + \|w\|$.
         \end{enumerate}
     }
-    \remark{A norm $||\cdot||$ induces a metric \ref{topology:metric} by defining $d(x,y) := ||x-y||$.}
+    \begin{remark}[Metric]
+        A norm $\|\cdot\|$ induces a metric \ref{topology:metric} by defining $d(x,y):=\|x-y\|$. The metric topology induced in this way is called the \textbf{norm topology} or \textbf{strong topology}.
+    \end{remark}
 
     \newdef{Normed vector space}{
-        A TVS equipped with a norm $||\cdot||$.
+        A TVS equipped with a norm $\|\cdot\|$.
     }
     \newdef{Banach space}{\index{Banach!space}\label{linalgebra:banach_space}
-        A normed vector space that is complete (see definition \ref{topology:cauchy_sequence}) in the norm-topology, i.e. the topology induced by the metric $||x-y||$.
+        A normed vector space that is complete \ref{topology:complete_space} in the norm-topology.
     }
 
     \begin{property}
         The dual of a Banach space is also a Banach space.
     \end{property}
+
     \newdef{Reflexive space}{
-        A Banach space $V$ for which the canonical inclusion $V\hookrightarrow V^{**}$ is an (isometric) isomorphism.
+            A Banach space $V$ for which the canonical inclusion $V\hookrightarrow V^{**}$ is an (isometric) isomorphism.
     }
     \begin{property}
         Every finite-dimensional Banach spaces is reflexive.
     \end{property}
-
     \begin{property}
-        Let $\seq{x}$ be a Cauchy sequence in a normed space $V$. Then $(||x_n||)_{n\in\mathbb{N}}$ is a convergent sequence in $\mathbb{R}$. This implies that every Cauchy sequence in a normed space is bounded.
+        On a reflexive space, the weak and weak-* topologies coincide.
+    \end{property}
+    \begin{property}[Weak duals]
+        Consider a Banach space $V$. The dual of $(V^*,\text{weak}^*)$ is isomorphic to $V$.
     \end{property}
 
-    \begin{property}
-        Let $X$ be a TVS. Every linear map $\varphi:\mathbb{K}^n\rightarrow X$ is continuous.
-    \end{property}
-    \begin{property}
-        Let $X$ be a finite-dimensional normed vector space. Every linear bijection $\varphi:\mathbb{K}^n\rightarrow X$ is a homeomorphism.
+    \begin{property}[Continuity]
+        Let $X,Y$ be topological vector spaces and assume $X$ to be finite-dimensional. Every linear map $\varphi:X\rightarrow Y$ is continuous. Moreover, if $X$ is a normed vector space, every vector space isomorphism $\varphi:X\rightarrow Y$ is a homeomorphism.
     \end{property}
     \begin{result}
         Two finite-dimensional normed vector spaces with the same dimension are homeomorphic. It follows that all metrics on a finite-dimensional normed vector space are equivalent.
@@ -69,69 +71,73 @@
 
     \begin{theorem}[Open mapping theorem\footnotemark]\index{open mapping theorem}\index{Banach-Schauder}
         \footnotetext{Sometimes called the \textbf{Banach-Schauder} theorem.}
-        Let $f:V\rightarrow W$ be a continuous linear operator between two Banach spaces. If $f$ is surjective then it is also open.
+        Let $f:V\rightarrow W$ be a continuous linear operator between two Banach spaces. If $f$ is surjective, it is also open.
     \end{theorem}
 
-\section{Hilbert space}
+    \begin{theorem}[Banach-Alaoglu\footnotemark]\index{Banach-Alaoglu}
+        \footnotetext{Apparently at least 12 different mathematicians should be named in this theorem.}
+        The closed unit ball in the dual of a normed space is compact in the weak-* topology.
+    \end{theorem}
+
+\section{Hilbert spaces}
 
     \begin{remark}\index{parallelogram law}\index{polarization!identity}
         Let $V$ be an inner product space. A norm on $V$ can be induced by the inner product in the following way:
         \begin{gather}
         \label{linalgebra:inner_product:norm}
-        ||v||^2 = \langle v|v \rangle.
+        \|v\|^2 = \langle v|v \rangle.
         \end{gather}
         However, the converse is not true: not every norm induces an inner product. Only norms that satisfy the \textbf{parallelogram law}
         \begin{gather}
             \label{linalgebra:parallellogram_law}
-            ||v+w||^2 + ||v-w||^2 = 2(||v||^2 + ||w||^2)
+            \|v+w\|^2 + \|v-w\|^2 = 2(\|v\|^2 + \|w\|^2)
         \end{gather}
         can be used to define an inner product. This inner product can be recovered through the \textbf{polarization identity}:
         \begin{gather}
             \label{linalgebra:polarization_identity}
-            4 \langle v|w \rangle = ||v+w||^2 - ||v-w||^2 + i\left(||v+iw||^2 - ||v-iw||^2\right).
+            4 \langle v|w \rangle = \|v+w\|^2 - \|v-w\|^2 + i\left(\|v+iw\|^2 - \|v-iw\|^2\right).
         \end{gather}
     \end{remark}
 
+    \begin{property}[Cauchy-Schwarz inequality]\index{Cauchy-Schwarz}\label{linalgebra:theorem:cauchy_schwarz}
+        \begin{gather}
+            |\langle v|w\rangle| \leq \|v\|\,\|w\|
+        \end{gather}
+        The equality holds if and only if $v$ and $w$ are linearly dependent.
+    \end{property}
+    \begin{result}[Triangle inequality]
+        The Cauchy-Schwarz inequality can be used to prove the triangle inequality. Together with the properties of an inner product, this implies that an inner product space is indeed a normed space as mentioned in the beginning of this section.
+    \end{result}
+
     \newdef{Hilbert space}{\index{Hilbert!space}\label{hilbert:hilbert_space}
-        A Banach space where the norm is induced by an inner product structure.
+        A Banach space where the norm is induced by an inner product.
     }
 
     \begin{example}
-        Consider two square-integrable functions $f,g\in L^2([a,b], \mathbb{C})$. The inner product of $f$ and $g$ is defined as follows:
+        Consider two square-integrable functions $f,g\in L^2([a,b], \mathbb{C})$. As shown in Section \ref{lebesgue:section:hilbert_space}, the inner product of $f$ and $g$ is defined as follows:
         \begin{gather}
             \label{hilbert:inner_product_L2}
-            \langle f|g\rangle = \int_a^bf^*(x)\overline{g(x)}dx.
+            \langle f|g\rangle = \int_a^b\overline{f(x)}g(x)\,dx.
         \end{gather}
     \end{example}
-    \remark{See section \ref{lebesgue:section:hilbert_space} for a more formal treatment of this subject in the context of Lebesgue integration.}
 
     \begin{formula}
         It is also possible to define an inner product with respect to a weight function $\phi(x)$:
         \begin{gather}
             \label{hilbert:weighted_inner_product}
-            \int_a^bf^*(x)g(x)\phi(x)dx.
+            \int_a^b\overline{f(x)}g(x)\phi(x)\,dx.
         \end{gather}
         Using this formula it is possible to define orthogonality with respect to the given weight function.
     \end{formula}
 
-    \begin{property}[Cauchy-Schwarz inequality]\index{Cauchy-Schwarz}\label{linalgebra:theorem:cauchy_schwarz}
-        \begin{gather}
-            |\langle v|w\rangle| \leq ||v||\ ||w||
-        \end{gather}
-        The equality holds if and only if $v$ and $w$ are linearly dependent.
-    \end{property}
-    \begin{result}
-        The Cauchy-Schwarz inequality can be used to prove the triangle inequality. Together with the properties of an inner product this implies that an inner product space is indeed a normed space as mentioned in the beginning of this section.
-    \end{result}
-
     \begin{formula}[Pythagorean theorem]\index{Pythagorean theorem}\label{linalgebra:pythagorean_theorem}
-        In an inner product space the triangle equality reduces to the well-known Pythagorean theorem for orthogonal vectors $v, w$:
+        In an inner product space the triangle equality reduces to the well-known Pythagorean theorem for orthogonal vectors $v,w$:
         \begin{gather}
-            ||v+w||^2 = ||v||^2 + ||w||^2.
+            \|v+w\|^2 = \|v\|^2 + \|w\|^2.
         \end{gather}
-        This formula can be extended to any set of orthogonal vectors $x_1, ..., x_n$ as follows:
+        This formula can be extended to any set of orthogonal vectors $x_1,\ldots,x_n$ as follows:
         \begin{gather}
-            \left\lVert\sum_{i=1}^nx_i\right\rVert^2 = \sum_{i=1}^n||x_i||^2.
+            \left\|\sum_{i=1}^nx_i\right\|^2 = \sum_{i=1}^n\|x_i\|^2.
         \end{gather}
     \end{formula}
 
@@ -140,10 +146,14 @@
         \begin{gather}
             \rho(h) = \langle h,x_0 \rangle
         \end{gather}
-        for all $h\in\mathcal{H}$. This implies that $\mathcal{H}$ and $\mathcal{H}^*$ are isometrically isomorphic. Furthermore, the operator norm of $\rho$ is equal to the norm of $x_0$.
+        for all $h\in\mathcal{H}$. This implies that $\mathcal{H}$ and $\mathcal{H}^*$ are isometrically (anti)isomorphic. Furthermore, the operator norm of $\rho$ is equal to the norm of $x_0$.
     \end{theorem}
     \begin{remark}
         This theorem justifies the bra-ket notation used in quantum mechanics where one associates to every ket $|\psi\rangle\in\mathcal{H}$ a bra $\langle\psi|\in\mathcal{H}^*$.
+    \end{remark}
+
+    \begin{remark}[Relation to Riesz-Markov theorem]
+        Recall the Riesz-Markov theorem \ref{distributions:riesz_markov}. Every continuous functional on $C(\widehat{X})$ can be written as the integration againt some Radon measure. By using the theorem that every Hilbert space is isomorphic to some function space $L^2(X,\mu_{\text{count}})$, together with equation \eqref{hilbert:inner_product_L2}, one can obtain the representation theorem above.
     \end{remark}
 
     \newdef{$H^*$-algebra}{\index{H!$\ast$-algebra}
@@ -154,40 +164,40 @@
         \end{enumerate}
     }
     \begin{example}[Linear operators]\index{Hilbert-Schmidt!norm}\label{hilbert:hilbert_schmidt_inner_product}
-        The canonical example of $H^*$-algebras is given by the algebra of linear operators on a Hilbert space $\mathcal{H}$ where the involution is given by taking adjoints and the inner product is the Hilbert-Schmidt inner product induced by the norm \ref{linalgebra:hilbert_schmidt_norm} (up to a factor $k>0$):
+        The canonical example of $H^*$-algebras is given by the algebra of linear operators on a Hilbert space $\mathcal{H}$, where the involution is given by taking adjoints and the inner product is the Hilbert-Schmidt inner product induced by the norm \ref{linalgebra:hilbert_schmidt_norm} (up to a factor $k>0$):
         \begin{gather}
-            \langle f,g \rangle_{HS} := \text{tr}(f^*g).
+            \langle f,g \rangle_{\text{HS}} := k\,\text{tr}(f^*g).
         \end{gather}
-        The resulting space is denoted by $L^2(\mathcal{H}, k)$. A result analogous to the Artin-Wedderburn theorem \ref{algebra:artin_wedderburn} states that every $H^*$-algebra can be decomposed as an orthogonal direct sum of finitely many algebras of the form $L^2(\mathcal{H}_i, k_i)$.
+        The resulting space is denoted by $L^2(\mathcal{H},k)$. A result analogous to the Artin-Wedderburn theorem \ref{algebra:artin_wedderburn} states that every $H^*$-algebra can be decomposed as an orthogonal direct sum of finitely many algebras of the form $L^2(\mathcal{H}_i, k_i)$.
     \end{example}
 
 \subsection{Generalized Fourier series}
 
     \begin{property}[Bessel's inequality]\index{Bessel!inequality}
-        The following general equality holds for all orthonormal vectors $x_1, ..., x_n$ and complex scalars $a_1, ..., a_n$:
+        The following general equality holds for all orthonormal vectors $x_1,\ldots,x_n$ and scalars $a_1,\ldots,a_n$:
         \begin{gather}
-            \left\lVert x - \sum_{i=1}^n a_ix_i\right\rVert^2 = ||x||^2 - \sum_{i=1}^n|\langle x, x_i\rangle|^2 + \sum_{i=1}^n|\langle x, x_i\rangle - a_i|^2.
+            \left\| x - \sum_{i=1}^n a_ix_i\right\|^2 = \|x\|^2 - \sum_{i=1}^n|\langle x,x_i \rangle|^2 + \sum_{i=1}^n|\langle x,x_i \rangle - a_i|^2.
         \end{gather}
-        This expression is minimized for $a_i = \langle x, x_i\rangle$, i.e. when the last term vanishes. This leads to Bessel's inequality:
+        This expression is minimized when the last term vanishes. This leads to Bessel's inequality
         \begin{gather}
             \label{norm:bessels_inequality}
-            \sum_{i=1}^n|\langle x, x_i\rangle|^2 \leq ||x||^2.
+            \sum_{i=1}^n|\langle x,x_i \rangle|^2\leq\|x\|^2,
         \end{gather}
+        together with the property that the optimal choice in the generalized Fourier series for $x$ is obtained by taking the coefficients to be the projections $a_i:=\langle x,x_i \rangle$.
     \end{property}
     \begin{result}\index{Fourier!generalized series}
-        The sum in \ref{norm:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^{+\infty}|\langle x,x_i\rangle|^2$ converges for all $x$. This implies that the sequences $(\langle x, x_n\rangle)_{n\in\mathbb{N}}$ belongs to the space $l^2$ of square-summable sequences.
+        The sum in \eqref{norm:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^{+\infty}|\langle x,x_i\rangle|^2$ converges for all $x$. This implies that the sequence $(\langle x, x_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$.
     \end{result}
 
-    This result does however not imply that the generalized Fourier series $\sum_{i=1}^{+\infty}\langle x, x_i\rangle x_i$ converges to $x$. The following theorem gives a necessary and sufficient condition for the convergence:
     \begin{theorem}
-        Let $\mathcal{H}$ be a Hilbert space. Let $\seq{x}$ be an orthonormal sequence in $\mathcal{H}$ and let $\seq{a}$ be a sequence in $\mathbb{C}$. The expansion $\sum_{i=1}^{+\infty}a_ix_i$ converges in $\mathcal{H}$ if and only if $\seq{a}\in l^2$. Furthermore, the expansion satisfies the following equality:
+        Consider a Hilbert space $\mathcal{H}$. Let $\seq{x}$ be an orthonormal sequence in $\mathcal{H}$ and let $\seq{a}$ be a sequence in $\mathbb{C}$. The expansion $\sum_{i=1}^{+\infty}a_ix_i$ converges in $\mathcal{H}$ if and only if $\seq{a}\in l^2$. Furthermore, the expansion satisfies the following equality:
         \begin{gather}
-            \left\lVert\sum_{i=1}^{+\infty}a_ix_i\right\rVert^2 = \sum_{i=1}^{+\infty}|a_i|^2.
+            \left\|\sum_{i=1}^{+\infty}a_ix_i\right\|^2 = \sum_{i=1}^{+\infty}|a_i|^2.
         \end{gather}
-        As we noted Bessel's inequality implies that the sequence $(\langle x, x_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$, so the generalized Fourier series of $x\in\mathcal{H}$ converges in $\mathcal{H}$.
+        Bessel's inequality implies that the sequence $(\langle x, x_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$, so the generalized Fourier series of $x\in\mathcal{H}$ converges in $\mathcal{H}$.
     \end{theorem}
     \begin{remark}
-        Although the convergence of the generalized Fourier series of $x\in\mathcal{H}$ can be established using the previous theorem, it does not follow that the expansion converges to $x$ itself. We can merely say that the Fourier expansion is the best approximation of $x$ with respect to the norm on $\mathcal{H}$.
+        Although the convergence of the generalized Fourier series of $x\in\mathcal{H}$ can be established using the previous theorem, it does not follow that the expansion converges to $x$ itself. One can merely say that the Fourier expansion is the best approximation of $x$ with respect to the norm on $\mathcal{H}$.
     \end{remark}
 
     \newdef{Complete set}{\index{complete!set}
@@ -197,28 +207,20 @@
         \end{gather}
         This in particular implies that a complete set contains a basis for the vector space.
     }
-    Another characterization is the following one:
     \begin{adefinition}
-        A complete set of orthonormal vectors is a set $S\subset V$ such that we cannot add another vector $w$ to it satisfying
+        A complete set of orthonormal vectors in a Hilbert space $\mathcal{H}$ is a set $S\subset\mathcal{H}$ such that we cannot add another vector $w$ to it satisfying
         \begin{gather}
-            \forall v_i\in S: \langle v_i, w\rangle = 0\qquad\text{and}\qquad  w\neq0.
+            \forall v_i\in S:\langle v_i,w \rangle = 0\qquad\text{and}\qquad w\neq0.
         \end{gather}
     \end{adefinition}
 
-    \begin{property}
-        For complete sequences $\seq{x}$ Bessel's inequality \ref{norm:bessels_inequality} becomes an equality. Furthermore, the generalized Fourier series with respect to the complete sequence is unique.
-    \end{property}
-
-    Using previous property we can prove the following theorem due to Parceval.
     \begin{theorem}[Parceval]\index{Parceval}
-        Let $\seq{x}$ be a complete sequence in a Hilbert space $\mathcal{H}$. Every vector $x\in\mathcal{H}$ has a unique Fourier series representation $\sum_{i=1}^{+\infty}a_ix_i$ where the Fourier coefficients $\seq{a}$ belong to $l^2$.
-
-        Conversely if Bessel's inequality becomes an equality for every $x\in\mathcal{H}$ then the sequence $\seq{x}$ is complete.
+        Let $\seq{x}$ be a complete sequence in a Hilbert space $\mathcal{H}$. Every vector $x\in\mathcal{H}$ has a unique Fourier series representation $\sum_{i=1}^{+\infty}a_ix_i$, where the Fourier coefficients $\seq{a}$ belong to $l^2$. Conversely, if Bessel's inequality becomes an equality for every $x\in\mathcal{H}$, the sequence $\seq{x}$ is complete.
     \end{theorem}
 
 \subsection{Orthogonality and projections}
 
-    The basic notions on orthogonality in inner product space can be found in section \ref{linalgebra:section:orthogonality}.
+    The basic notions on orthogonality in inner product space can be found in Section \ref{linalgebra:section:orthogonality}.
 
     \begin{property}
         Let $S$ be a subset (not necessarily a subspace) of a Hilbert space $\mathcal{H}$. The orthogonal complement $S^\perp$ is closed in $\mathcal{H}$.
@@ -229,25 +231,23 @@
 
     \begin{theorem}[Projection theorem]
         \label{linalgebra:theorem:projection_theorem}
-        Let $H$ be a Hilbert space and $K\leq H$ a complete subspace. For every $h\in H$ there exists a unique $h'\in K$ such that $h-h'$ is orthogonal to every $k\in K$, i.e $h-h'\in K^\perp$.
+        Let $H$ be a Hilbert space and $S\leq H$ a complete subspace. For every $h\in H$ there exists a unique $h'\in S$ such that $h-h'$ is orthogonal to every $s\in S$, i.e $h-h'\in S^\perp$.
     \end{theorem}
-    \remark{
-        An equivalent definition for the unique $h'\in K$ is the vector $h'$ satisfying $||h-h'|| = \inf\{||h-k||:k\in K\}$.
-    }
+    \remark{An equivalent definition for the unique $h'\in S$ is the vector $h'$ satisfying $\|h-h'\| = \inf\{\|h-s\|:s\in S\}$.}
     \begin{result}
-        It follows that given a complete (or closed) subspace $S$ the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H} = S\oplus S^\perp$.
+        It follows that given a complete (or closed) subspace $S$, the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H} = S\oplus S^\perp$.
     \end{result}
 
     \newdef{Trace}{\index{trace}\label{hilbert:trace}
-        Let $\mathcal{H}$ be a Hilbert space wih orthogonal basis ${e_k}$. Given a bounded linear operator $S\in\mathcal{B}(\mathcal{H})$ we define its trace by the following formula:
+        Let $\mathcal{H}$ be a Hilbert space wih orthogonal basis ${e_k}$. Given a bounded linear operator $S\in\mathcal{B}(\mathcal{H})$, one defines its trace as follows:
         \begin{gather}
-            \text{tr}(S) = \sum_k\langle Se_k, e_k\rangle.
+            \text{tr}(S) := \sum_k\langle Se_k, e_k\rangle.
         \end{gather}
     }
 
 \subsection{Separable Hilbert spaces}
 
-    The definition of separable spaces in the sense of point-set topology is given in \ref{topology:separable}. An equivalent definition for Hilbert spaces is the following one:\footnote{Provided that we accept Zorn's lemma.}
+    The definition of separable spaces in the sense of point-set topology is given in \ref{topology:separable}. An equivalent definition for Hilbert spaces is the following one:\footnote{Provided that one accepts Zorn's lemma.}
     \newadef{Separable Hilbert space}{
         A Hilbert space is separable if it contains a complete sequence (of orthonormal vectors).
     }
@@ -257,253 +257,11 @@
 
     The following theorem shows that (up to an isomorphism) there are only 2 distinct types of separable Hilbert spaces:
     \begin{theorem}
-        Let $\mathcal{H}$ be separable. If $\mathcal{H}$ is finite-dimensional with dimension $n$ then it is isometrically isomorphic to $\mathbb{C}^n$. If $\mathcal{H}$ is infinite-dimensional then it is isometrically isomorphic to $l^2$.
+        Let $\mathcal{H}$ be separable. If $\mathcal{H}$ is $n$-dimensional, it is isometrically isomorphic to $\mathbb{C}^n$. If $\mathcal{H}$ is infinite-dimensional, it is isometrically isomorphic to $l^2$.
     \end{theorem}
+
     \begin{property}
         Every orthogonal subset of a separable Hilbert space is countable.
-    \end{property}
-
-\section{Operators}
-\subsection{Operator topologies}\index{operator!topology}
-
-    \newdef{Weak operator topology}{
-        A sequence of operators $\seq{T}$ on a space $V$ converges to an operator $T$ in the weak (operator) topology (WOT) if the sequence $(T_nx)_{n\in\mathbb{N}}$ converges to $Tx$ weakly\footnote{This is with respect to the weak topology \ref{hilbert:weak_topology}.} for all $x$. Equivalently, it is the topology generated by the seminorms $\left\{T\rightarrow |\lambda(Tx)|: x\in V, \lambda\in V^*\right\}$.
-
-        In the case of Hilbert spaces one can simplify th above definition using Riesz' representation theorem \ref{hilbert:riesz}. The weak operator toplogy on a Hilbert space is generated by the seminorms $\left\{T\mapsto |\langle Tx|y \rangle|: x, y\in\mathcal{H}\right\}$.
-    }
-
-    \newdef{Strong operator topology}{
-        A sequence of operators $\seq{T}$ on a space $V$ converges to an operator $T$ in the strong (operator) topology (SOT) if the sequence $(T_nx)_{n\in\mathbb{N}}$ converges to $Tx$ for all $x$, i.e. the SOT is the topology of pointwise convergence. Equivalently, it is the topology generated by the seminorms $\left\{T\rightarrow ||Tx||:x\in V\right\}$.
-    }
-
-    \newdef{Operator norm}{\index{operator!norm}
-        The operator norm of $L$ is defined as follows:
-        \begin{gather}
-            ||L||_{op} = \inf\big\{M\in\mathbb{C}:\forall v\in V:||Lv||_W \leq M||v||_V\big\}.
-        \end{gather}
-        Equivalent definitions of the operator norm are:
-        \begin{gather}
-            ||L||_{op} = \sup_{||x||\leq1}||L(x)|| = \sup_{||x||=1}||L(x)|| = \sup_{x\neq0}\stylefrac{||L(x)||}{||x||}.
-        \end{gather}
-    }
-
-    \newdef{Norm topology\footnotemark}{
-        \footnotetext{Also called the \textbf{uniform (operator) topology}.}
-        A sequence of operators $\seq{T}$ on a space $V$ converges to an operator $T$ in the norm topology if the sequence $(||T_n-T||)_{n\in\mathbb{N}}$ converges to 0.
-    }
-
-\subsection{Bounded operators}
-
-    \newdef{Bounded operator}{\index{bounded!operator}\label{operator:bounded_operator}
-        Let $L:V\rightarrow W$ be a linear operator between two normed spaces. The operator is said to be bounded if it satisfies the following condition:
-        \begin{gather}
-            ||L||_{op}<\infty.
-        \end{gather}
-    }
-    \begin{notation}
-        \nomenclature[S_BVW]{$\mathcal{B}(V, W)$}{Space of bounded linear maps from the space $X$ to the space $Y$.}
-        The space of bounded linear operators from $V$ to $W$ is denoted by $\mathcal{B}(V, W)$.
-    \end{notation}
-    \begin{property}
-        If $V$ is a Banach space, then $\mathcal{B}(V)$ is also a Banach space.
-    \end{property}
-
-    The following property reduces the problem of continuity to that of boundedness (or vice versa):
-    \begin{property}\label{operator:bounded_continuous}
-        Consider an operator $f\in\mathcal{L}(V, W)$. The following statements are equivalent:
-        \begin{itemize}
-            \item $f$ is bounded.
-            \item $f$ is continuous at 0.
-            \item $f$ is continuous on $V$.
-            \item $f$ is uniformly continuous.
-            \item $f$ maps bounded sets to bounded sets.
-        \end{itemize}
-    \end{property}
-
-    \begin{property}
-        Let $A$ be a bounded linear operator with eigenvalue $\lambda$. The eigenvalues of $A$ are bounded by its operator norm:
-        \begin{gather}
-            |\lambda|\leq||A||_{op}.
-        \end{gather}
-        Furthermore, every bounded linear operator on a Banach space has at least one eigenvalue.
-    \end{property}
-    \begin{property}
-        Let $A$ be a bounded linear operator and let $A^\dag$ denote its adjoint \ref{linalgebra:adjoint_operator}. Then $A^\dag$ is also bounded and $||A||_{op} = ||A^\dag||_{op}$.
-    \end{property}
-
-    \newdef{Schatten class operator}{\index{Schatten class}
-        Consider the space of bounded operators on a Hilbert space $\mathcal{H}$. The \textbf{Schatten p-norm} is defined as
-        \begin{gather}
-            ||T||_p = \text{tr}\left(\sqrt{T^\dag T}^{\ p}\right)^{1/p}.
-        \end{gather}
-        Operators for which this norm is finite are elements of the $p^{th}$ Schatten class $\mathcal{I}_p$.
-    }
-    \begin{property}
-        The Schatten classes are Banach spaces with respect to the associated Schatten norms.
-    \end{property}
-
-    We now consider the two most prominent Schatten classes:
-    \begin{example}[Trace class operator]\index{trace}
-        The space of trace class operators on a Hilbert space $\mathcal{H}$ is defined as follows:
-        \begin{gather}
-            \mathcal{B}_1(\mathcal{H}) = \{S\in\mathcal{B}(\mathcal{H}):\text{tr}(|S|)<\infty\}
-        \end{gather}
-        where the trace functional was defined in definition \ref{hilbert:trace} and $|S|:=\sqrt{S^\dag S}$.
-    \end{example}
-    The following theorem can be seen as the analogue of Riesz's theorem for trace class operators:
-    \begin{theorem}
-        For every bounded linear functional $\rho$ on the space of trace class operators $\mathcal{B}_1(\mathcal{H})$ there exists a unique bounded linear operator $T\in\mathcal{B}(\mathcal{H})$ such that
-        \begin{gather}
-            \rho(S) = \text{\emph{tr}}(ST)
-        \end{gather}
-        for all $S\in\mathcal{B}_1(\mathcal{H})$. This implies that $\mathcal{B}_1(\mathcal{H})$ and $\mathcal{B}(\mathcal{H})$ are isometrically equivalent.
-    \end{theorem}
-
-    \begin{example}[Hilbert-Schmidt operator]\index{Hilbert-Schmidt!operator}\label{hilbert:hilbert_schmidt}
-        Consider the Hilbert-Schmidt norm $||\cdot||_2$ from equation \ref{linalgebra:hilbert_schmidt_norm}. An operator $T\in\mathcal{B}(\mathcal{H})$ is said to be a Hilbert-Schmidt operator if it satisfies
-        \begin{gather}
-            ||T||_2<\infty.
-        \end{gather}
-        This space is closed under taking adjoints.
-    \end{example}
-
-    A more general, but still well-behaved, class of operators is the space of closed operators:
-    \newdef{Closed operator}{\index{closed!operator}
-        A linear operator $f:V\rightarrow W$ is said to be closed if for every sequence $\seq{x}$ in $\dom(f)$ converging to a point $x\in V$ such that $f(x_n)$ converges to a point $y\in W$ one finds that $x\in\dom(f)$ and $f(x)=y$.
-
-        Equivalently one can define a closed linear operator as a linear operator for which its graph is a closed subset in the direct sum $V\oplus W$.
-    }
-    \newdef{Closure}{\index{closure}\label{operator:closure}
-        Let $:V\rightarrow Wf$ be a linear operator. Its closure (if it exists) is the closed linear operator $\overline{f}$ such that the graph of $\overline{f}$ is the closure of the graph of $f$ in $V\oplus W$.
-    }
-
-    \begin{theorem}[Closed graph theorem]\index{closed!graph theorem}
-        An operator on a Banach space is closed if and only if it is continuous (and hence bounded).
-    \end{theorem}
-
-\subsection{Self-adjoint operators}
-
-    There is a multitude of different notions available in the literature that try to indicate in what sense an operator is related to its adjoint (not everyone agrees on the definitions). Here we give an overview in the case of Hilbert spaces where all operators are allowed to be unbounded.
-    \newdef{Adjoint}{\index{adjoint}
-        Let $A$ be a operator on a Hilbert space $\mathcal{H}$. An operator $A^*$ is said to be the adjoint of $A$ if the following conditions are satisfied:
-        \begin{enumerate}
-            \item $\langle x|Ay \rangle = \langle A^*x|y \rangle$ for all $x\in\dom(A^*)$ and $y\in\dom(A)$.
-            \item Every other operator $B$ satisfying this property is a restriction of $A^*$ (i.e. the domain of $A^*$ is maximal with respect to the above property).
-        \end{enumerate}
-    }
-    \newdef{Symmetric operator}{\index{symmetric!operator}
-        An operator $A$ on a Hilbert space $\mathcal{H}$ is said to be symmetric if $\dom(A)\subseteq\dom(A^*)$ and $Ax=A^*x$ for all $x\in\dom(A)$.
-    }
-    \newdef{Self-adjoint operator}{\index{self-adjoint}
-        An operator $A$ on a Hilbert space $\mathcal{H}$ is said to be self-adjoint if $\dom(A)$ is dense in $\mathcal{H}$ and if $A=A^*$.
-    }
-
-    The notion of Hermitian operator is the one where almost nobody agrees upon its definition. Here we choose the definition from \cite{nlab}:
-    \newdef{Hermitian operator}{\index{Hermitian!operator}
-        A bounded symmetric operator.
-    }
-
-    \begin{theorem}[Hellinger-Toeplitz]\index{Hellinger-Toeplitz}
-        A self-adjoint operator on a Hilbert space $\mathcal{H}$ is bounded if and only if its domain is all of $\mathcal{H}$.
-    \end{theorem}
-
-    \begin{theorem}[Stone]\index{Stone}\label{operator:stone}
-        Consider a strongly continuous unitary one-parameter group, i.e. a family of unitary operators $U:\mathbb{R}\rightarrow\text{\emph{U}}(\mathcal{H})$ such that
-        \begin{itemize}
-            \item $U$ is continuous in the strong operator topology: \[\lim_{t\rightarrow t_0}U(t)x=U(t_0)x\] for all $t_0\in\mathbb{R}, x\in\mathcal{H}$; and
-            \item $U$ forms a one-parameter group in the sense of definition \ref{group:one_parameter_subgroup}.
-        \end{itemize}
-            There exists a self-adjoint operator $A$ such that $U(t) = e^{itA}$. Furthermore, the operator $A$ is bounded if and only if $U$ is continuous in the norm topology.
-    \end{theorem}
-    \newdef{Generator}{\index{generator}
-        The operator $A$ is called the (infinitesimal) generator of the family $U$. It can be obtained through a formal derivative.
-    }
-
-\subsection{Compact operators}
-
-    \newdef{Compact operator}{\index{compact!operator}\label{banach:compact_operator}
-        Let $V, W$ be Banach spaces. A linear operator $A:V\rightarrow W$ is compact if the image of any bounded set in $V$ is relatively compact \ref{topology:relatively_compact}.
-    }
-
-    \newadef{Compact operator}{
-        Let $V, W$ be Banach spaces. A linear operator $A:V\rightarrow W$ is compact if for every bounded sequence $\seq{x}$ in $V$ the sequence $(Ax_n)_{n\in\mathbb{N}}\subset W$ has a convergent subsequence.
-    }
-
-    \begin{notation}
-        \nomenclature[S_boundcompact]{$\mathcal{B}_0(X, Y)$}{Space of compact bounded oeprators between Banach spaces.}
-        The space of compact bounded linear operators between Banach spaces $V, W$ is denoted by $\mathcal{B}_0(V, W)$. If $V=W$ then this is abbreviated to $\mathcal{B}_0(V)$ as usual.
-    \end{notation}
-    \begin{property}
-        $\mathcal{B}_0(V)$ is a two-sided ideal in the (Banach) algebra $\mathcal{B}(V)$.
-    \end{property}
-
-\subsection{Fredholm operators}
-
-    \begin{property}
-        Every compact operator is bounded and hence continuous according to property \ref{operator:bounded_continuous}.
-    \end{property}
-    \begin{result}
-        Every linear map between finite-dimensional Banach spaces is bounded.
-    \end{result}
-
-    \newdef{Calkin algebra}{\index{Calkin algebra}
-        Consider the algebra $\mathcal{B}(V)$ of bounded linear operators on $V$ together with its two-sided ideal $\mathcal{B}_0(V)$ of compact operators. The quotient algebra $\mathcal{Q}(V) = \mathcal{B}(V)/\mathcal{B}_0(V)$ is called the Calkin algebra of $V$.
-    }
-
-    \newdef{Fredholm operator}{\index{Fredholm!operator}\label{banach:fredholm}
-        Let $V, W$ be Banach spaces. A Fredholm operator $F:V\rightarrow W$ is a bounded linear operator $F\in\mathcal{B}(V, W)$ for which the kernel and cokernel are finite-dimensional.
-    }
-
-    By a theorem of Atkinson one can characterize Fredholm operators using the Calkin algebra:
-    \begin{property}[Atkinson]\index{Atkinson}
-        An operator $F:V\rightarrow W$ is a Fredholm operator if and only if it is invertible when projected onto the Calkin algebra, i.e. there exists a bounded linear operator $G:W\rightarrow V$ and compact operators $C_1, C_2$ such that $\mathbbm{1}_V - FG = C_1$ and $\mathbbm{1}_W - GF = C_2$.
-    \end{property}
-
-    \newdef{Fredholm index}{\index{index!Fredholm}
-        The index of a Fredholm operator $T$ is defined as follows:
-        \begin{gather}
-            \text{ind}(T) = \dim\ker(T) - \dim\text{coker}(T).
-        \end{gather}
-    }
-
-\subsection{Spectrum}
-
-    \newdef{Resolvent operator}{\index{resolvent}
-        Let $A$ be a bounded linear operator on a normed space $V$. The resolvent operator of $A_\lambda$ for some $\lambda\in\mathbb{C}$ is defined as the operator $(A - \lambda\mathbbm{1}_V)^{-1}$.
-    }
-
-    \newdef{Resolvent set}{
-        \nomenclature[S_zsymrho]{$\rho(A)$}{Resolvent set of a bounded linear operator $A$.}
-        The resolvent set $\rho(A)$ consists of all scalars $\lambda\in\mathbb{C}$ for which the resolvent operator of A is a bounded linear operator on a dense subset of $V$. These scalars $\lambda$ are called \textbf{regular values} of $A$.
-    }
-    \newdef{Spectrum}{\index{spectrum}
-        The set of scalars $\mu\in\mathbb{C}\setminus \rho(A)$ is called the spectrum $\sigma(A)$.
-    }
-
-    \begin{remark}
-        By remark \ref{linalgebra:eigenvalue_remark} it is clear that every eigenvalue of $A$ belongs to the spectrum of $A$. The converse, however, is not true. This is remedied by introducing the following concepts:
-    \end{remark}
-
-    \newdef{Point spectrum}{
-        The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ fails to be injective is called the point spectrum $\sigma_p(A)$. This set coincides with the set of eigenvalues of $A$.
-    }
-    \newdef{Continuous spectrum}{
-        The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ is injective with dense image but fails to be surjective is called the continuous spectrum of $A$.
-    }
-    \newdef{Residual spectrum}{
-        The set of scalars $\mu\in\mathbb{C}$ for which $A - \mu\mathbbm{1}_V$ is injective but fails to have a dense image is called the residual spectrum $\sigma(A)$.
-    }
-
-    \newdef{Essential spectrum}{\index{essential!spectrum}
-        The set of scalars $\mu\in\mathbb{C}$ for which $A-\mu\mathbbm{1}_V$ is not a Fredholm operator is called the essential spectrum $\sigma_{\text{ess}}(A)$.
-    }
-    From Atkinson's theorem\footnote{In fact one could (equivalently) define the essential spectrum in terms of the Calkin algebra using Atkinson's theorem. Then this property would be an obvious consequence.} one can derive the following result:
-    \begin{property}
-        Let $A$ be a bounded linear operator and let $T$ be a compact operator. The essential spectra of $A$ and $A+T$ coincide.
-    \end{property}
-
-    \begin{property}
-        A self-adjoint operator is bounded if and only if its spectrum is bounded. Furthermore, it is positive if and only if its spectrum lies in $\mathbb{R}^+$.
     \end{property}
 
 \section{Seminorms}
@@ -511,7 +269,7 @@
     \newdef{Seminorm}{\index{seminorm}
         Let $V$ be a $K$-vector space. A function $p:V\rightarrow[0,+\infty[$ is called a seminorm if it satisfies the following conditions:
         \begin{enumerate}
-            \item \textbf{Homogeneity:} $p(\lambda v) = |\lambda|\ p(v)$ for all scalars $\lambda\in K$, and
+            \item \textbf{Homogeneity:} $p(\lambda v) = |\lambda|\,p(v)$ for all scalars $\lambda\in K$, and
             \item \textbf{Triangle equality (subadditivity):} $p(v+w) \leq p(v) + p(w)$.
         \end{enumerate}
     }
@@ -554,59 +312,340 @@
         Let $X$ be a TVS with a $\mathscr{P}$-topology and let $Y$ be a dense subspace. If $f$ is a linear form on $Y$, continuous under the subspace topology, then there exists a unique linear extension to $X$.
     \end{result}
 
-\section{Locally convex spaces}
+\subsection{Locally convex spaces}
 
     \newdef{Locally convex space}{\index{convex}\index{cone}
-        We first give some preliminary definitions:
+        Let $V$ be a TVS. First some preliminary definitions:
         \begin{itemize}
-            \item A subset $U$ is \textbf{convex} if for any two vectors $v, w\in U$ the line segment connecting them lies in $U$.
-            \item A \textbf{cone} is a subset $U$ such that for every vector $v\in U$ the line segment connecting it to the origin lies in $U$.
-            \item A subset $U$ is said to be balanced\footnote{A balanced subset is also called a \textbf{circled cone}.} if for every vector $v\in U$ the scalar multiples $\lambda v$, with $|\lambda|\leq 1$, also lie in $U$.
-            \item An \textbf{absolutely convex} set is a balanced convex set. This is equivalent to the statement that the set is closed under linear combinations where the absolute values of the coefficients sum at most to 1.
-            \item A subset $U$ is said to be \textbf{absorbent} if the union of all sets $\lambda U$, where $\lambda$ ranges over the base field, equals the total space.
-
-            A locally convex space is the defined as a topological vector space such that the origin admits a local base of absorbent absolutely convex sets.
+            \item A \textbf{cone} is a subset $U\subseteq V$ such that for every vector $v\in U$ the line segment connecting it to the origin lies in $U$.
+            \item A subset $U\subseteq V$ is said to be \textbf{balanced} if for every vector $v\in U$ the scalar multiples $\lambda v$, with $|\lambda|\leq 1$, also lie in $U$. Such a subset is sometimes also called a \textbf{circled cone}.
+            \item An \textbf{absolutely convex} set is a balanced convex set. Equivalently, this is a subset closed under linear combinations where the absolute values of the coefficients sum at most to 1.
+            \item A subset $U\subseteq V$ is said to be \textbf{absorbent} if the union of all sets $\lambda U$, where $\lambda$ ranges over the base field, equals the total space.
         \end{itemize}
+        A locally convex space is a topological vector space where the origin admits a local base of absorbent absolutely convex sets.
     }
     Using the notion of seminorms one can restate this definition as follows:
-    \newadef{Locally convex space}{
+    \newadef{Locally convex space}{\label{normed:locally_convex_seminorm}
         A topological vector space is locally convex if its topology is generated by a family of seminorms.
     }
 
     The following instance of locally convex spaces is important in functional analysis:
-    \newdef{Fr\'echet space}{\index{Fr\'echet!space}
+    \newdef{Fr\'echet space}{\index{Fr\'echet!space}\label{normed:frechet_space}
         A locally convex topological vector space that admits a complete translation-invariant metric.
     }
-    By property \ref{hilbert:separated_metric} there exists an equivalent formulation:
-    \begin{adefinition}
+    By Property \ref{hilbert:separated_metric} there exists an equivalent formulation:
+    \begin{adefinition}[Fr\'echet space]
         A topological vector space that admits a topology induced by a separated countable family of seminorms such that it is also complete with respect to the induced metric.
     \end{adefinition}
 
-    Locally convex topological vector spaces are important in functional analysis because they are one of the most general types of spaces that lend themselves to the definition of differentiability. A first step in this process is the following generalization of a derivative:
+    Locally convex topological vector spaces are important in functional analysis because they are one of the most general types of spaces that lend themselves to the definition of differentiation. A first step in this process is the following generalization of the (directional) derivative:
     \newdef{G\^ateaux derivative}{\index{smooth!function}\index{G\^ateaux derivative}
         The G\^ateaux differential of a continuous map of locally convex spaces $f:X\rightarrow Y$ is defined as follows:
         \begin{gather}
-            df(x;h) = \lim_{t\rightarrow0}\frac{f(x+th) - f(x)}{t}.
+            df(x;h) := \lim_{t\rightarrow0}\frac{f(x+th) - f(x)}{t}.
         \end{gather}
-        If this limit exists for all $h\in X$ then the function is said to be \textbf{G\^ateaux differentiable} (at $x\in X$). Moreover, if it is also continuous in both arguments then it is said to be of class $C^1$. By iterating this construction one can define $C^k$- and even smooth maps.
+        If this limit exists for all $h\in X$, the function is said to be \textbf{G\^ateaux differentiable} at $x\in X$. Moreover, if it is also continuous in both arguments, it is said to be of class $C^1$. By iterating this construction one can define $C^k$- and even $C^\infty$-maps.
     }
-    Now, it should be noted that the map $df(x;-)$ is not necessarily additive (and hence linear). If it is linear then the function $\delta_xf:X\rightarrow Y:v\mapsto df(x; v)$ is called the \textbf{G\^ateaux derivative} of $f$ at $x$. It can be shown that the G\^ateaux differential of $C^1$-functions is always linear and hence defines a G\^ateaux derivative.
+    Now, it should be noted that the map $df(x;-)$ is not necessarily additive (and hence linear). If it is linear, the function $\delta_xf:X\rightarrow Y:v\mapsto df(x;v)$ is called the \textbf{G\^ateaux derivative} of $f$ at $x$. It can be shown that the G\^ateaux differential of $C^1$-functions is always linear and hence defines a G\^ateaux derivative.
 
     One can also introduce an alternative notion of differentiability:
     \newdef{Fr\'echet derivative}{\index{Fr\'echet!derivative}
-        Let $f:V\rightarrow W$ be a function between normed spaces. $f$ is said to be \textbf{Fr\'echet differentiable} at $x\in V$ if there exists a linear bounded operator $Df_x$ such that
+        Let $f:V\rightarrow W$ be a function of normed spaces. It is said to be \textbf{Fr\'echet differentiable} at $x\in V$ if there exists a bounded linear operator $Df_x$ such that
         \begin{gather}
-            \lim_{||v||\rightarrow0}\frac{||f(x+v)-f(x)+Df_x(v)||}{||v||} = 0.
+            \lim_{\|v\|\rightarrow0}\frac{\|f(x+v)-f(x)+Df_x(v)\|}{\|v\|} = 0.
         \end{gather}
-        If the linear operator $Df$ exists, it is called the Fr\'echet derivative of $f$ (at $x$). If $f$ is (Fr\'echet) differentiable at any point in $V$ and if the map $V\rightarrow\mathcal{B}(V, W):x\mapsto Df_x$ is continuous, then $f$ is said to be of class $C^1$.
+        If the linear operator $Df$ exists, it is called the Fr\'echet derivative of $f$ at $x$. If $f$ is (Fr\'echet) differentiable at any point in $V$ and if the map $V\rightarrow\mathcal{B}(V, W):x\mapsto Df_x$ is continuous, then $f$ is said to be of class $C^1$.
     }
 
     The relation between G\^ateaux and Fr\'echet derivatives is clarified by the following property:
     \begin{property}
-        If a function $f:V\rightarrow W$ between normed spaces has a continuous and linear G\^ateaux differential (i.e. if it has a G\^ateaux derivative) such that the map $V\rightarrow\mathcal{L}(V, W):x\mapsto df(x, \cdot)$ is continuous at $x_0\in V$ then it is also Fr\'echet differentiable at $x_0$. Furthermore, the G\^ateaux derivative $df$ and Fr\'echet derivative $Df$ coincide in $x_0$.
+        If a function $f:V\rightarrow W$ between normed spaces has a continuous and linear G\^ateaux differential (i.e. if it has a G\^ateaux derivative), it is also Fr\'echet differentiable. Furthermore, the G\^ateaux derivative $df$ and Fr\'echet derivative $Df$ coincide.
     \end{property}
 
-    Although we can extend calculus to Fr\'echet spaces (and even locally convex spaces), they are less well-behaved than Banach spaces:
+    Although one can extend functional analysis to Fr\'echet spaces (or even locally convex spaces), they are less well-behaved than Banach spaces:
     \begin{property}
         The dual of a Fr\'echet space $F$ is Fr\'echet if and only if $F$ is Banach (and hence $F^*$ will also be Banach). Furthermore, the space of linear maps between Fr\'echet spaces $\mathcal{L}(E, F)$ is Fr\'echet if and only if $F$ is Banach.
+    \end{property}
+
+\subsection{Tensor products}\index{tensor!product}
+
+    When moving from finite-dimensional vector spaces to general topological vector spaces, the algebraic tensor product from Section \ref{section:tensors} do not behave in the way one would expect them to. For example the (algebraic) tensor product of the smooth algebras $C^\infty(\mathbb{R}^m)$ and $C^\infty(\mathbb{R}^n)$ only injects into $C^\infty(\mathbb{R}^{m+n})$, i.e. not all bivariate smooth functions can be written as a finite sum of products of univariate smooth functions. In this section this will be remedied in different settings.
+
+    \newdef{Tensor product of Hilbert spaces}{
+        The algebraic tensor product of two Hilbert spaces $V,W$ can be equipped with an inner product defined on outer products as
+        \begin{gather}
+            \langle v_1\otimes w_1|v_2\otimes w_2 \rangle_{V\otimes W} := \langle v_1|v_2 \rangle_V\,\langle w_1|w_2 \rangle_W
+        \end{gather}
+        and extended to all of $V\otimes W$ by linearity. The Hilbert space tensor product $V\mathop{\widehat{\otimes}}W$ (often denoted by $V\otimes_\sigma W$) is then defined as the completion of $V\otimes W$ with respect to this inner product.
+    }
+
+    \newdef{Tensor product of Banach spaces}{
+        Contrary to the case of Hilbert spaces, the norms on two Banach spaces $V$ and $W$ do not induce a unique natural norm on $V\otimes W$. Two common choices are the following ones:
+        \begin{gather}
+            \|x\|_{\text{proj}} := \inf\left\{\sum_{i=1}^n\|a_i\|\|b_i\|\,\middle\vert\,x=\sum_{i=1}^na_i\otimes b_i\right\}
+        \end{gather}
+        and
+        \begin{gather}
+            \|x\|_{\text{inj}} := \sup\Big\{|(\mu\otimes\nu)(x)|\,\Big\vert\,\mu\in V^*,\nu\in W^*,\|\mu\|=\|\nu\|=1\Big\}.
+        \end{gather}
+        These two norms are called the \textbf{projective} and \textbf{injective} norm respectively. Accordingly, the completions $V\otimes_\pi W$ and $V\otimes_\varepsilon W$ of the algebraic tensor product $V\otimes W$ with respect to these norms are called the \textbf{projective} and \textbf{injective} tensor products.
+    }
+
+    \newdef{Tensor product of locally convex spaces}{
+        Let $V,W$ be locally convex spaces. Definition \ref{normed:locally_convex_seminorm} gives rise to both a family of projective and injective (semi)norms as in the definition above. These define the projective and injective tensor products $V\otimes_\pi W$ and $V\otimes_\varepsilon W$. Note that in general these spaces are not complete, even when both $V$ and $W$ are.\footnote{In fact, if both $V$ and $W$ are infinite-dimensional Banach spaces, their tensor product (in this sense) will never be complete.}
+    }
+
+    \begin{property}[Alternative characterizations]
+        Let $V,W$ be locally convex TVSs. The projective tensor product $V\otimes_\pi W$ carries the finest locally convex topology with respect to the canonical injection $V\times W\rightarrow V\otimes W:(v,w)\mapsto v\otimes w$.
+    \end{property}
+
+\section{Linear operators}
+\subsection{Operator topologies}\index{operator!topology}
+
+    \newdef{Weak operator topology}{
+        The topology generated by the seminorms $\big\{T\rightarrow |\lambda(Tx)|\ \big\vert\ x\in V,\lambda\in V^*\big\}$. A net of linear operators $\net{T}$ on a space $V$ converges to a linear operator $T$ in the weak (operator) topology if $T_\alpha x\longrightarrow Tx$ for all $x$ in the weak topology.
+
+        In the case of Hilbert spaces one can simplify the above definition using Riesz's representation theorem \ref{hilbert:riesz}. The weak operator topology on a Hilbert space is generated by the seminorms $\big\{T\mapsto|\langle Tx|y \rangle|\ \big\vert\ x,y\in\mathcal{H}\big\}$.
+    }
+
+    \newdef{Strong operator topology}{
+        The topology generated by the seminorms $\big\{T\rightarrow\|Tx\|\ \big\vert\ x\in V\big\}$. A net of linear operators $\seq{T}$ on a space $V$ converges to a linear operator $T$ in the strong (operator) topology if $T_\alpha x\longrightarrow Tx$ for all $x$ in the norm (strong) topology.
+    }
+
+    \newdef{Operator norm}{\index{operator!norm}
+        The operator norm of $L$ is defined as follows:
+        \begin{gather}
+            \|L\|_{op} = \inf\big\{M\in\mathbb{R}:\forall v\in V:\|Lv\|_W \leq M\|v\|_V\big\}.
+        \end{gather}
+        Equivalent definitions of the operator norm are:
+        \begin{gather}
+            \|L\|_{op} = \sup_{\|x\|\leq1}\|L(x)\| = \sup_{\|x\|=1}\|L(x)\| = \sup_{x\neq0}\stylefrac{\|L(x)\|}{\|x\|}.
+        \end{gather}
+    }
+
+    \newdef{Norm topology\footnotemark}{
+        \footnotetext{Also called the \textbf{uniform (operator) topology}.}
+        A sequence of linear operators $\seq{T}$ on a space $V$ converges to a linear operator $T$ in the norm topology if the sequence $(\|T_n-T\|)_{n\in\mathbb{N}}$ converges to 0. (Sequences suffice since the norm topology is metrizable and, therefore, sequential by Property \ref{topology:first_countable_sequential}.)
+    }
+
+\subsection{Bounded operators}
+
+    \newdef{Bounded operator}{\index{bounded!operator}\label{operator:bounded_operator}
+        Let $L:V\rightarrow W$ be a linear operator between two normed spaces. The linear operator is said to be bounded if it satisfies
+        \begin{gather}
+            \|L\|_{op}<\infty.
+        \end{gather}
+    }
+    \begin{notation}
+        \nomenclature[S_BVW]{$\mathcal{B}(V, W)$}{Space of bounded linear maps from the space $X$ to the space $Y$.}
+        The space of bounded linear operators from $V$ to $W$ is denoted by $\mathcal{B}(V, W)$.
+    \end{notation}
+    \begin{property}
+        If $V$ is a Banach space, $\mathcal{B}(V)$ is also a Banach space.
+    \end{property}
+
+    The following property reduces the problem of continuity to that of boundedness (or vice versa):
+    \begin{property}\label{operator:bounded_continuous}
+        Consider a linear operator $f\in\mathcal{L}(V, W)$. The following statements are equivalent:
+        \begin{itemize}
+            \item $f$ is bounded.
+            \item $f$ is continuous at 0.
+            \item $f$ is continuous on $V$.
+            \item $f$ is uniformly continuous.
+            \item $f$ maps bounded sets to bounded sets.
+        \end{itemize}
+    \end{property}
+
+    \begin{property}[Eigenvalue bound]
+        Let $A$ be a bounded linear operator. The eigenvalues of $A$ are bounded by its operator norm. Furthermore, every bounded linear operator on a Banach space has at least one eigenvalue.
+    \end{property}
+
+    \begin{property}[BLT theorem\footnotemark]
+        \footnotetext{'BLT' stands for ''bounded linear transformation''.}
+        Consider a bounded linear operator $f:X\rightarrow W$, where $X$ is a dense subset of a normed space $V$ and $W$ is a Banach space. There exists a unique extension $F:V\rightarrow W$ such that $\|f\|_{op} = \|F\|_{op}$.
+    \end{property}
+
+    \newdef{Schatten class operator}{\index{Schatten class}
+        Consider the space of bounded linear operators on a Hilbert space $\mathcal{H}$. The \textbf{Schatten p-norm} is defined as
+        \begin{gather}
+            \|T\|_p = \text{tr}\left(\sqrt{T^*T}^{\ p}\right)^{1/p}.
+        \end{gather}
+        Linear operators for which this norm is finite form the $p^{th}$ Schatten class $\mathcal{I}_p$.
+    }
+    \begin{property}
+        The Schatten classes are Banach spaces with respect to the associated Schatten norms.
+    \end{property}
+
+    \begin{example}[Trace class operator]\index{trace}
+        The space of trace class operators on a Hilbert space $\mathcal{H}$ is defined as follows:
+        \begin{gather}
+            \mathcal{B}_1(\mathcal{H}) := \{S\in\mathcal{B}(\mathcal{H})\mid\text{tr}(|S|)<\infty\},
+        \end{gather}
+        where the trace functional was defined in \ref{hilbert:trace} and $|S|:=\sqrt{S^*S}$.
+    \end{example}
+    The following theorem can be seen as the analogue of Riesz's theorem for trace class operators:
+    \begin{theorem}
+        For every bounded linear functional $\rho$ on the space of trace class operators $\mathcal{B}_1(\mathcal{H})$, there exists a unique bounded linear operator $T\in\mathcal{B}(\mathcal{H})$ such that
+        \begin{gather}
+            \rho(S) = \text{\emph{tr}}(ST)
+        \end{gather}
+        for all $S\in\mathcal{B}_1(\mathcal{H})$. This implies that $\mathcal{B}_1(\mathcal{H})$ and $\mathcal{B}(\mathcal{H})$ are isometrically equivalent.
+    \end{theorem}
+
+    \begin{example}[Hilbert-Schmidt operator]\index{Hilbert-Schmidt!operator}\label{hilbert:hilbert_schmidt}
+        Consider the Hilbert-Schmidt norm $\|\cdot\|_2$ from equation \ref{linalgebra:hilbert_schmidt_norm}. A linear operator $T\in\mathcal{B}(\mathcal{H})$ is said to be a Hilbert-Schmidt operator if it satisfies
+        \begin{gather}
+            \|T\|_2<\infty.
+        \end{gather}
+        This space is closed under taking adjoints.
+    \end{example}
+
+    A more general, but still well-behaved, class of linear operators is the space of closed operators:
+    \newdef{Closed operator}{\index{closed!operator}
+        A linear operator $f:V\rightarrow W$ such that for every sequence $\seq{x}$ in $\dom(f)$ converging to $x\in V$, where $f(x_n)$ converges to $y\in W$, one finds that $x\in\dom(f)$ and $f(x)=y$.
+
+        Equivalently, one can define a closed linear operator as a linear operator for which its graph is a closed subset in the direct sum $V\oplus W$.
+    }
+    \newdef{Closure}{\index{closure}\label{operator:closure}
+        Let $f:V\rightarrow W$ be a linear operator. Its closure (if it exists) is the closed linear operator $\overline{f}$ such that the graph of $\overline{f}$ is the closure of the graph of $f$ in $V\oplus W$.
+    }
+
+    \begin{theorem}[Closed graph theorem]\index{closed!graph theorem}
+        A linear operator on a Banach space is closed if and only if it is bounded.
+    \end{theorem}
+
+\subsection{Self-adjoint operators}
+
+    There is a multitude of different notions available in the literature that try to indicate in what sense a linear operator is related to its adjoint (not everyone agrees on the definitions). Here, an overview is given in the case of Hilbert spaces where all linear operators are allowed to be unbounded.
+
+    Definition \ref{linalgebra:adjoint_operator} for finite-dimensional spaces can be generalized as follows:
+    \newdef{Adjoint}{\index{adjoint}
+        Let $A$ be a linear operator on a Hilbert space $\mathcal{H}$. A linear operator $A^*$ is said to be the adjoint of $A$ if the following conditions are satisfied:
+        \begin{enumerate}
+            \item $\langle x|Ay \rangle = \langle A^*x|y \rangle$ for all $x\in\dom(A^*)$ and $y\in\dom(A)$.
+            \item Every other linear operator $B$ satisfying this property is a restriction of $A^*$ (i.e. the domain of $A^*$ is maximal with respect to the above property).
+        \end{enumerate}
+    }
+    \begin{property}
+        Let $A$ be a bounded linear operator. Its adjoint $A^*$ is also bounded and $\|A\|_{op} = \|A^*\|_{op}$.
+    \end{property}
+
+    \newdef{Symmetric operator}{\index{symmetric!operator}
+        A linear operator $A$ on a Hilbert space $\mathcal{H}$ such that $\dom(A)\subseteq\dom(A^*)$ and $Ax=A^*x$ for all $x\in\dom(A)$.
+    }
+    \newdef{Self-adjoint operator}{\index{self-adjoint}
+        A linear operator $A$ on a Hilbert space $\mathcal{H}$ such that $\dom(A)$ is dense in $\mathcal{H}$ and $A=A^*$.
+    }
+
+    The notion of Hermitian operator is the one where almost nobody agrees upon its definition. Here the definition from \cite{nlab} is chosen:
+    \newdef{Hermitian operator}{\index{Hermitian!operator}
+        A bounded symmetric operator.
+    }
+
+    \begin{theorem}[Hellinger-Toeplitz]\index{Hellinger-Toeplitz}
+        A self-adjoint operator on a Hilbert space $\mathcal{H}$ is bounded if and only if its domain is all of $\mathcal{H}$.
+    \end{theorem}
+
+    \begin{theorem}[Stone]\index{Stone}\label{operator:stone}
+        Consider a strongly continuous unitary one-parameter group, i.e. a family of unitary operators $U:\mathbb{R}\rightarrow\text{\emph{U}}(\mathcal{H})$ such that
+        \begin{itemize}
+            \item $U$ is continuous in the strong operator topology: \[\lim_{t\rightarrow t_0}U(t)x=U(t_0)x\] for all $t_0\in\mathbb{R}, x\in\mathcal{H}$; and
+            \item $U$ forms a one-parameter group in the sense of Definition \ref{group:one_parameter_subgroup}.
+        \end{itemize}
+        There exists a self-adjoint operator $A$ such that $U(t)=e^{itA}$. Furthermore, the linear operator $A$ is bounded if and only if $U$ is continuous in the norm topology.
+    \end{theorem}
+    \newdef{Generator}{\index{generator}
+        The linear operator $A$ is called the (infinitesimal) generator of the family $U$. It can be obtained through a formal derivative:
+        \begin{gather}
+            A = \left.\deriv{U(t)}{t}\right|_{t=0}.
+        \end{gather}
+    }
+
+\subsection{Compact operators}
+
+    \newdef{Compact operator}{\index{compact!operator}\label{banach:compact_operator}
+        Let $V,W$ be Banach spaces. A linear operator $A:V\rightarrow W$ is compact if the image of any bounded set in $V$ is relatively compact \ref{topology:relatively_compact}.
+    }
+
+    \newadef{Compact operator}{
+        Let $V,W$ be Banach spaces. A linear operator $A:V\rightarrow W$ is compact if for every bounded sequence $\seq{x}$ in $V$ the sequence $\seq{Ax}\subset W$ has a convergent subsequence.
+    }
+
+    \begin{notation}
+        \nomenclature[S_boundcompact]{$\mathcal{B}_0(X, Y)$}{Space of compact bounded oeprators between Banach spaces.}
+        The space of compact bounded linear operators between Banach spaces $V, W$ is denoted by $\mathcal{B}_0(V, W)$. If $V=W$, this is abbreviated to $\mathcal{B}_0(V)$ as usual.
+    \end{notation}
+    \begin{property}
+        $\mathcal{B}_0(V)$ is a two-sided ideal in the (Banach) algebra $\mathcal{B}(V)$.
+    \end{property}
+
+    \begin{property}
+        Every compact operator is bounded.
+    \end{property}
+    \begin{result}
+        Every linear map between finite-dimensional Banach spaces is bounded.
+    \end{result}
+
+    \begin{property}
+        If $A$ is a compact self-adjoint operator on a Hilbert space, then $-\|A\|$ or $\|A\|$ are an eigenvalue of $A$. Furthermore, the set of nonzero eigenvalues is either finite or converges to 0.
+    \end{property}
+
+    \newdef{Calkin algebra}{\index{Calkin algebra}
+        Consider the algebra $\mathcal{B}(V)$ of bounded linear operators on $V$ together with its two-sided ideal $\mathcal{B}_0(V)$ of compact operators. The quotient algebra $\mathcal{Q}(V) = \mathcal{B}(V)/\mathcal{B}_0(V)$ is called the Calkin algebra of $V$.
+    }
+
+    \newdef{Fredholm operator}{\index{Fredholm!operator}\label{banach:fredholm}
+        A bounded linear operator $F\in\mathcal{B}(V, W)$ for which the kernel and cokernel are finite-dimensional.
+    }
+
+    By a theorem of Atkinson one can characterize Fredholm operators using the Calkin algebra:
+    \begin{property}[Atkinson]\index{Atkinson}
+        A linear operator $F:V\rightarrow W$ is a Fredholm operator if and only if it is invertible modulo the Calkin algebra, i.e. there exists a bounded linear operator $G:W\rightarrow V$ and compact operators $C_1,C_2$ such that $\mathbbm{1}_V-FG=C_1$ and $\mathbbm{1}_W-GF=C_2$.
+    \end{property}
+
+    \newdef{Fredholm index}{\index{index!Fredholm}
+        The index of a Fredholm operator $T$ is defined as follows:
+        \begin{gather}
+            \text{ind}(T) := \dim\ker(T)-\dim\text{coker}(T).
+        \end{gather}
+    }
+
+\subsection{Spectrum}\label{section:spectrum}
+
+    \newdef{Resolvent operator}{\index{resolvent}
+        Let $A$ be a bounded linear operator on a normed space $V$. The resolvent operator of $A_\lambda$ for some $\lambda\in\mathbb{C}$ is defined as the linear operator $(A-\lambda\mathbbm{1}_V)^{-1}$.
+    }
+
+    \newdef{Resolvent set}{
+        \nomenclature[S_zsymrho]{$\rho(A)$}{Resolvent set of a bounded linear operator $A$.}
+        The resolvent set $\rho(A)$ consists of all scalars $\lambda\in\mathbb{C}$ for which the resolvent operator of A is a bounded linear operator on a dense subset of $V$. These scalars $\lambda$ are called \textbf{regular values} of $A$.
+    }
+    \newdef{Spectrum}{\index{spectrum}
+        The set of scalars $\mu\in\mathbb{C}\setminus\rho(A)$ is called the spectrum $\sigma(A)$.
+    }
+
+    \begin{remark}
+        From Remark \ref{linalgebra:eigenvalue_remark} it is clear that every eigenvalue of $A$ belongs to the spectrum of $A$. The converse, however, is not true. This is remedied by introducing the following concepts:
+    \end{remark}
+
+    \newdef{Point spectrum}{
+        The set of scalars $\mu\in\mathbb{C}$ for which $A-\mu\mathbbm{1}_V$ fails to be injective is called the point spectrum $\sigma_p(A)$. This set coincides with the set of eigenvalues of $A$.
+    }
+    \newdef{Continuous spectrum}{
+        The set of scalars $\mu\in\mathbb{C}$ for which $A-\mu\mathbbm{1}_V$ is injective with dense image but fails to be surjective is called the continuous spectrum of $A$.
+    }
+    \newdef{Residual spectrum}{
+        The set of scalars $\mu\in\mathbb{C}$ for which $A-\mu\mathbbm{1}_V$ is injective but fails to have a dense image is called the residual spectrum $\sigma(A)$.
+    }
+
+    \newdef{Essential spectrum}{\index{essential!spectrum}
+        The set of scalars $\mu\in\mathbb{C}$ for which $A-\mu\mathbbm{1}_V$ is not a Fredholm operator is called the essential spectrum $\sigma_{\text{ess}}(A)$.
+    }
+    From Atkinson's theorem\footnote{In fact one could (equivalently) define the essential spectrum in terms of the Calkin algebra using Atkinson's theorem. Then this property would be an obvious consequence.} one can derive the following result:
+    \begin{property}
+        Let $A$ be a bounded linear operator and let $T$ be a compact operator. The essential spectra of $A$ and $A+T$ coincide.
+    \end{property}
+
+    \begin{property}
+        A self-adjoint operator is bounded if and only if its spectrum is bounded. Furthermore, it is positive if and only if its spectrum lies in $\mathbb{R}^+$.
     \end{property}

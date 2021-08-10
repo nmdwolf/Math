@@ -1,28 +1,26 @@
 \chapter{Sheaf Theory}\label{chapter:sheaf}
 
-    A reference for this chapter is \cite{brylinski}. For a background on topological spaces: see chapters \ref{chapter:topology} and onwards. For the concept of sheaf in category theory, see section \ref{section:grothendieck_topos}.
+    A reference aimed towards the study of differential geometry is \cite{brylinski}. For the concept of a sheaf in category theory, see Section \ref{section:grothendieck_topos}.
 
 \section{Presheaves}
 
     \newdef{Presheaf}{\index{presheaf}\index{section}
-        Let $(X,\tau)$ be a topological space. A presheaf over $X$ consists of an algebraic structure $\mathcal{F}(U)$ for every open set $U\in\tau$ and a morphism $\Phi^U_V:\mathcal{F}(U)\rightarrow \mathcal{F}(V)$ for every two open sets $U, V\in\tau$ with $V\subseteq U$ such that the following conditions are satisfied:
+        Let $(X,\tau)$ be a topological space. A presheaf on $X$ consists of a choice of algebraic structure $\mathcal{F}(U)$ for every open set $U\in\tau$ and a morphism $\Phi^U_V:\mathcal{F}(U)\rightarrow \mathcal{F}(V)$ for every two open sets $U,V\in\tau$ with $V\subseteq U$ such that the following conditions are satisfied:
         \begin{enumerate}
             \item $\Phi^U_U = \mathbbm{1}_{\mathcal{F}(U)}$, and
-            \item if $W\subseteq V\subseteq U$, then $\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
+            \item $W\subseteq V\subseteq U\implies\Phi^U_W = \Phi^V_W\circ\Phi^U_V$.
         \end{enumerate}
         The set $\mathcal{F}(U)$ is called the set of \textbf{sections} over $U$ and the morphisms $\Phi^U_V$ are called the \textbf{restriction maps}.
     }
-
     \newdef{Morphism of presheaves}{\index{morphism!of presheaves}\index{germ}
-        Let $\mathcal{F}, \mathcal{F}'$ be two presheaves over a space $X$. A morphism $\mathcal{F}\rightarrow \mathcal{F}'$ is a set of morphisms $\Psi_U:\mathcal{F}(U)\rightarrow \mathcal{F}'(U)$ that commute with the restriction maps $\Phi^U_V$.
+        Let $\mathcal{F},\mathcal{F}'$ be two presheaves on a topological space $X$. A morphism $\mathcal{F}\rightarrow\mathcal{F}'$ is a set of morphisms $\Psi_U:\mathcal{F}(U)\rightarrow\mathcal{F}'(U)$ that commute with the restriction maps $\Phi^U_V$.
     }
-
     \begin{adefinition}[Categorical definition]
-        Using the language of category theory one can more easily introduce presheaves: Let $\mathbf{C}$ be a category and let $X$ be a topological space. A $\mathbf{C}$-valued presheaf on $X$ is a contravariant functor $\mathcal{F}:\mathbf{Open}(X)\rightarrow\mathbf{C}$. A morphism of presheaves is accordingly a natural transformation between such functors. As such the category of presheaves on a topological space $X$ is in fact $\mathbf{Set}^{\mathbf{Open}(X)^{op}}$, the presheaf topos on $\mathbf{Open}(X)$.
+        Using the language of category theory one can give a more concise definition. Let $\mathbf{C}$ be a category and let $X$ be a topological space. A $\mathbf{C}$-valued presheaf on $X$ is a contravariant functor $\mathcal{F}:\mathbf{Open}(X)\rightarrow\mathbf{C}$. A morphism of presheaves is a natural transformation between such functors. As such the category of presheaves on a topological space $X$ is in fact the presheaf topos on $\mathbf{Open}(X)$.
     \end{adefinition}
 
     \begin{example}[Constant presheaf]\label{sheaf:constant_presheaf}
-        Let $S$ be any set. The constant presheaf over $X$ with target $S$ is defined by
+        Let $S$ be any set. The constant presheaf on $X$ with target $S$ is defined by
         \begin{gather}
             \mathcal{F}(U) := S
         \end{gather}
@@ -32,73 +30,85 @@
 \section{Sheaves}
 
     \newdef{Sheaf}{\index{sheaf}\label{sheaf:def}
-        Let $(X,\tau)$ be a topological space. A sheaf over $X$ is a presheaf $\mathcal{F}$ satisfying the following conditions:
+        Let $(X,\tau)$ be a topological space. A sheaf on $X$ is a presheaf $\mathcal{F}$ satisfying the following conditions:
         \begin{enumerate}
-            \item \textbf{Locality (or separation)}: Let $\{U_i\}_{i\in I}\subset\tau$ be an open cover of $U\subseteq X$ and consider sections $s, t\in\mathcal{F}(U)$. If $\forall i\in I: s|_{U_i}=t|_{U_i}$, then $s=t$. This is equivalent to saying that that $\mathcal{F}(U)$ injects into $\prod_i\mathcal{F}(U_i)$ for all open covers of $U$.
-            \item \textbf{Gluing}: Let $\{U_i\}_{i\in I}\subset\tau$ be an open cover of $U\subseteq X$ and let $\{s_i\in\mathcal{F}(U_i)\}$ be a collection of sections. If $\forall i, j\in I: s_i|_{U_i\cap U_j} = s_j|_{U_i\cap U_j}$, then there exists a section $s\in\mathcal{F}(U)$ such that $\forall i\in I: s|_{U_i} = s_i$.
+            \item\textbf{Locality (or separation)}: Let $\{U_i\}_{i\in I}\subset\tau$ be an open cover of $U\subseteq X$ and consider sections $s,t\in\mathcal{F}(U)$. If $\forall i\in I:s|_{U_i}=t|_{U_i}$, then $s=t$. This is equivalent to saying that that $\mathcal{F}(U)$ injects into $\prod_i\mathcal{F}(U_i)$ for all open covers of $U$.
+            \item\textbf{Gluing}: Let $\{U_i\}_{i\in I}\subset\tau$ be an open cover of $U\subseteq X$ and let $\{s_i\in\mathcal{F}(U_i)\}_{i\in I}$ be a collection of local sections. If $\forall i,j\in I:s_i|_{U_i\cap U_j} = s_j|_{U_i\cap U_j}$, there exists a section $s\in\mathcal{F}(U)$ such that $\forall i\in I:s|_{U_i} = s_i$.
         \end{enumerate}
     }
-    \begin{remark}[Separated presheafs]
-        If a global section exists by the gluing condition, then it is automatically unique by the separation axiom. In some texts these two conditions are combined in a single gluing condition that requires a unique global section. Presheafs satisfying only the first condition are said to be \textbf{separated}. (See also the footnote in definition \ref{topoi:sheaf}.)
+    \begin{remark}[Separated presheaves]
+        If a global section exists by the gluing condition, it is automatically unique by the separation axiom. In some texts these two conditions are combined in a single gluing condition that requires a unique global section. Presheaves satisfying only the first condition are said to be \textbf{separated}. (See also the footnote in Definition \ref{topoi:sheaf}.)
     \end{remark}
 
+    \begin{notation}[Category of sheaves]
+        \nomenclature[S_Sheaf]{$\mathbf{Sh}(X)$}{category of sheaves on a topological space $X$}
+        Similar to the case of presheaves, one can define a morphism of sheaves as a collection of morphisms that commute with the restriction maps. The sheaves and sheaf morphisms on a space $X$ form a full subcategory of the category of presheaves, denoted by $\mathbf{Sh}(X)$.
+    \end{notation}
+    \begin{property}[\difficult{Sheaf topos}]
+        The category of sheaves $\mathbf{Sh}(X)$ is in fact an elementary topos, called the sheaf topos on $X$. See Property \ref{topoi:sheaf_topos}.
+    \end{property}
+
     \begin{property}
-        Let $X$ be a topological space and let $\mathcal{F}$ be a presheaf over $X$. $\mathcal{F}$ is a sheaf over $X$ if for any open $U\subseteq X$ and every open cover $\{U_i\}_{i\in I}$ of $U$ the following diagram is an equalizer diagram:
+        Let $X$ be a topological space and let $\mathcal{F}$ be a presheaf on $X$. $\mathcal{F}$ is a sheaf on $X$ if for any open $U\subseteq X$ and every open cover $\{U_i\}_{i\in I}$ of $U$ the following diagram is an equalizer diagram:
         \begin{gather}
             \label{sheaf:equalizer}
             \mathcal{F}(U)\rightarrow\prod_{i\in I}\mathcal{F}(U_i)\rightrightarrows\prod_{i, j\in I}\mathcal{F}(U_i\cap U_j).
         \end{gather}
-        The two morphisms on the right are obtained by combining the projection morphisms of the direct product and the restriction morphisms $\Phi^{U_i}_{U_i\cap U_j}$ and $\Phi^{U_j}_{U_i\cap U_j}$.
+        The two morphisms on the right are induced by the restriction morphisms $\Phi^{U_i}_{U_i\cap U_j}$ and $\Phi^{U_j}_{U_i\cap U_j}$.
     \end{property}
 
     \newdef{Stalk}{\index{stalk}\index{germ}
-        Let $x\in X$ and consider the set of all neighbourhoods of $x$. This set can be turned into a directed set \ref{set:directed_set} by equipping it with the (partial) order relation \[U\subseteq V\implies U\geq V.\] This turns the sheaf $\mathcal{F}$ over $X$ into a directed system. The stalk over $x$ is then defined as the following direct limit \ref{algebra:direct_limit}:
+        Consider a point $x\in X$ together with the set of all neighbourhoods of $x$. This set can be turned into a directed set \ref{set:directed_set} by equipping it with the (partial) order relation \[U\geq V\implies U\subseteq V.\] This turns the sheaf $\mathcal{F}$ on $X$ into a directed system. The stalk at $x$ is defined as the following direct limit \ref{algebra:direct_limit}:
         \begin{gather}
             \mathcal{F}_x := \varinjlim_{U\ni x} \mathcal{F}(U).
         \end{gather}
         The equivalence class of a section $s\in\mathcal{F}(U)$ in $\mathcal{F}_x$ is called the \textbf{germ} of $s$ at $x$. Two sections belong to the same germ at $x$ if there exists a neighbourhood of $x$ on which they coincide.
     }
     \begin{notation}
-        Similar to the notation of the restriction morphisms we denote the morphism that maps every section to its germ at $x$ by $\Phi^U_x$.
+        Similar to the notation of the restriction morphisms, the morphism that maps every section to its germ at $x$ is denoted by $\Phi^U_x$.
     \end{notation}
 
     \begin{property}
-        Two subsheaves of a sheaf $\mathcal{G}$ over $X$ are equal if and only if their stalks are equal as subsets of $\mathcal{G}_x$ for all points $x\in X$.
+        Two subsheaves of a sheaf $\mathcal{F}$ on $X$ are equal if and only if their stalks are equal as subsets of $\mathcal{F}_x$ for all points $x\in X$. However, this does not imply that two sheaves with isomorphic stalks are equal (or even isomorphic)!
     \end{property}
 
-    \begin{construct}[Associated sheaf]\index{sheafification}
-        Consider a presheaf $\mathcal{F}$ over a topological space $X$. From this presheaf one can construct a sheaf $\overline{\mathcal{F}}$, called the \textbf{sheafification} or associated sheaf of $\mathcal{F}$, in the following way:
-
-        First we define a presheaf $\mathcal{G}$ such that\footnote{Sections in this sheaf are said to be \textit{continuous}. This statement can be made formal using the concept of an \'etal\'e space. (See construction \ref{sheaf:etale_construction}.)}
+    \begin{example}[Sheaf of sections]\index{sheaf!of sections}
+        Consider a continuous function $f:X\rightarrow Y$. This function induces a sheaf on $Y$ in the following way:
         \begin{gather}
-            \mathcal{G}(U) := \left\{(s_x)_{x\in U}\in\prod_{x\in U}\mathcal{F}_x:\left(\forall x\in U: \exists\text{ open }V\ni x, t\in\mathcal{F}(V): \forall v\in V: s_v = \Phi^V_v(t)\right)\right\}.
+            \mathcal{F}(U) := \{s:U\rightarrow X\mid f\circ s=\mathbbm{1}_U\}.
         \end{gather}
-        The restriction maps $\rho^U_V$ are defined by
+        It is the sheaf that assigns to every open set the local sections of $f$ in the sense of Definition \ref{cat:retract}.
+    \end{example}
+
+    \begin{construct}[Associated sheaf]\index{sheafification}\index{section!continuous}
+        Consider a presheaf $\mathcal{F}$ on a topological space $X$. From this presheaf one can construct a sheaf $\overline{\mathcal{F}}$, called the \textbf{sheafification} or associated sheaf of $\mathcal{F}$, in the following way. First, define $\overline{\mathcal{F}}$ as the a presheaf
+        \begin{gather}
+            \overline{\mathcal{F}}(U) := \left\{(s_x)_{x\in U}\in\prod_{x\in U}\mathcal{F}_x\,\middle\vert\,\forall x\in U:\exists\text{ open }V\ni x,t\in\mathcal{F}(V):\forall v\in V:s_v = \Phi^V_v(t)\right\}.
+        \end{gather}
+        Sections of this sheaf are said to be \textbf{continuous}. This statement can be made formal using the concept of an \'etal\'e space (see Construction \ref{sheaf:etale_construction} further on). The restriction maps $\rho^U_V$ are defined as follows:
         \begin{gather}
             \rho^U_V:(s_x)_{x\in U}\mapsto(s_x)_{x\in V}.
         \end{gather}
-        It is easily proven that this presheaf is in fact a sheaf and hence we obtain the sheafification of $\mathcal{F}$ by setting $\overline{\mathcal{F}} = \mathcal{G}$. This construction also gives a canonical morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ defined by
+        It is easily proven that this presheaf is in fact a sheaf, the sheafification of $\mathcal{F}$. This construction also gives a canonical morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ since the canonical injection
         \begin{gather}
-            \varphi(s):U\rightarrow\prod_{x\in U}\mathcal{F}_x:x \mapsto s_x = \Phi^U_x(s)
+            \varphi(s):U\rightarrow\prod_{x\in U}\mathcal{F}_x:x \mapsto s_x = \Phi^U_x(s),
         \end{gather}
-        where $s\in\mathcal{F}(U)$ and $x\in U$.
+        where $s\in\mathcal{F}(U)$ and $x\in U$, takes image in $\overline{\mathcal{F}}(U)$.
     \end{construct}
-    \sremark{We see that the sections of $\overline{\mathcal{F}}$ arise from (locally) resticting sections of $\mathcal{F}$ to the stalks $\mathcal{F}_x$.}
-
     \begin{uproperty}
-        Let $\mathcal{F}$ be a presheaf over $X$ with associated sheaf $\overline{\mathcal{F}}$. For any sheaf $\mathcal{G}$ over $X$ and any morphism $\rho:\mathcal{F}\rightarrow\mathcal{G}$ there exists a unique morphism $\sigma:\overline{\mathcal{F}}\rightarrow\mathcal{G}$ such that $\rho = \sigma\circ\varphi$ where $\varphi$ is the canonical morphism $\mathcal{F}\rightarrow\overline{\mathcal{F}}$.
+        Let $\mathcal{F}$ be a presheaf on $X$ with associated sheaf $\overline{\mathcal{F}}$. Every sheaf morphism $\mathcal{F}\rightarrow \mathcal{G}$ factors uniquely through the canonical morphism $\mathcal{F}\rightarrow\overline{\mathcal{F}}$.
     \end{uproperty}
 
-    \begin{property}
-        Let $\mathcal{F}$ be a presheaf over $X$ with associated sheaf $\overline{\mathcal{F}}$. The morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ induces an isomorphism $\varphi_x:\mathcal{F}_x\rightarrow\overline{\mathcal{F}}_x$ for all $x\in X$.
+    \begin{property}[Stalks]
+        Let $\mathcal{F}$ be a presheaf on $X$ with associated sheaf $\overline{\mathcal{F}}$. The morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ induces an isomorphism $\varphi_x:\mathcal{F}_x\rightarrow\overline{\mathcal{F}}_x$ for all $x\in X$.
     \end{property}
     \begin{property}
-        Let $\mathcal{F}$ be a sheaf over $X$ with associated sheaf $\overline{\mathcal{F}}$. The morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ is an isomorphism.
+        Let $\mathcal{F}$ be a sheaf on $X$ with associated sheaf $\overline{\mathcal{F}}$ (obtained by regarding $\mathcal{F}$ as a presheaf). The morphism $\varphi:\mathcal{F}\rightarrow\overline{\mathcal{F}}$ is an isomorphism.
     \end{property}
 
     There exists another, more topological, construction of the associated sheaf:
     \begin{construct}[\'Etal\'e spaces]\label{sheaf:etale_construction}
-        Let $\mathcal{F}$ be a presheaf over $X$. Consider the disjoint union
+        Let $\mathcal{F}$ be a presheaf on $X$ and consider the disjoint union
         \begin{gather}
             \mathcal{F}^* := \bigsqcup_{x\in X}\mathcal{F}_x.
         \end{gather}
@@ -106,63 +116,56 @@
         \begin{gather}
             \big\{\overline{s}(U)\mid U\text{ open in }X, s\in\mathcal{F}(U)\big\}.
         \end{gather}
-        The projection map $\pi$ is given by $\pi:s_x\in\mathcal{F}_x\mapsto x$. The sheafification $\overline{\mathcal{F}}$ is then given by the sheaf of sections of $\mathcal{F}^*$.
+        The projection map $\pi$ is given by $\pi:s_x\mapsto x$. The sheafification $\overline{\mathcal{F}}$ is isomorphic to the sheaf of sections of $\mathcal{F}^*$.
     \end{construct}
 
     \begin{property}[Paracompact spaces]
-        Let $X$ be a paracompact space \ref{topology:paracompact} and consider a sheaf $F$ of Abelian group on $X$. For every closed subset $V\subset X$ there exists an isomorphism
+        Let $X$ be a paracompact space \ref{topology:paracompact} and consider a sheaf $F$ of Abelian groups on $X$. For every closed subset $V\subset X$ there exists an isomorphism
         \begin{gather}
             \varinjlim_{U\supset K}F(U)\cong F(K),
         \end{gather}
-        where $F(K)$ is defined as the set of sections of the restriction of the \'etal\'e space $F^*$ to $K$. This implies that every section over a closed subset can be extended to a local section over some open neighbourhood.
+        where $F(K)$ is defined as the set of sections of the restriction of the \'etal\'e space $F^*$ to $K$. By definition this means that every section over a closed subset can be extended to a local section over some open neighbourhood.
     \end{property}
 
     \newdef{Flabby sheaf}{\index{sheaf!flabby}\index{sheaf!flasque|see{flabby}}
-        A sheaf $F$ on a topological space $X$ such that for every two open subsets $U\subseteq V\subseteq X$ the restriction morphism $F(V)\rightarrow F(U)$ is onto.
+        A sheaf $F$ on a topological space $X$ such that for every two open subsets $U\subseteq V\subseteq X$ the restriction morphism $F(V)\rightarrow F(U)$ is surjective.
     }
     \newdef{Soft sheaf}{\index{sheaf!soft}\label{sheaf:soft}
-        A sheaf on a topological space (often required to be paracompact Hausdorff) such that for every section over a closed subset can be extended to a global section.
+        A sheaf on a topological space (often required to be paracompact Hausdorff) such that every section over a closed subset can be extended to a global section.
 
         From the previous property and definition it is clear that (on a paracompact Hausdorff space) every flabby sheaf is soft.
     }
 
-    One can also construct the sheafification in a different way:
+    The sheafification can even be constructed in a third way:
     \begin{construct}[Abstract nonsense]\label{sheaf:colimit_construction}
-        Consider the equalizer \ref{sheaf:equalizer}. To every presheaf $\mathcal{F}$ one can assign a separated presheaf $\mathcal{F}^\#$ by defining $\mathcal{F}^\#(U)$ as the colimit (direct limit \ref{algebra:direct_limit}) of the equalizers over all open covers of $U$ (which are ordered by refinement). A sheaf is obtained by repeating this construction a second time.
+        Consider the equalizer \eqref{sheaf:equalizer}. To every presheaf $\mathcal{F}$ one can assign a separated presheaf $\mathcal{F}^\#$ by defining $\mathcal{F}^\#(U)$ as the direct limit \ref{algebra:direct_limit} of the equalizers over all open covers of $U$ ordered by refinement. A sheaf is obtained by applying this construction a second time.
     \end{construct}
 
     \begin{example}[Constant sheaf]\label{sheaf:constant_sheaf}
-        Consider the constant presheaf over $X$ with target $S$ (Example \ref{sheaf:constant_presheaf}). The constant sheaf, denoted by $\underline{S}$ or $\flat S$, is defined as the associated sheaf of this presheaf. The stalks over every point $x\in X$ can be identified with $S$. The continuous sections $\underline{S}(U)$ are the locally constant functions $f:U\rightarrow S$.
+        Consider the constant presheaf on $X$ with target $S$ (Example \ref{sheaf:constant_presheaf}). The constant sheaf, denoted by $\underline{S}$ or $\flat S$, is defined as the associated sheaf of this presheaf. The stalks at every point $x\in X$ can be identified with $S$. The continuous sections $\underline{S}(U)$ are the locally constant functions $f:U\rightarrow S$.
     \end{example}
 
-    \begin{notation}[Category of sheaves]
-        \nomenclature[S_Sheaf]{$\mathbf{Sh}(X)$}{Category of sheaves over a topological space $X$.}
-        Similar to the case of presheaves one can define a morphism of sheaves as a morphism commuting with the restriction maps.\footnote{When viewing a (pre)sheaf as a functor, the (pre)sheaf morphism is a natural transformation.} The sheaves and sheaf morphisms over a space $X$ form a full subcategory of the category of presheaves, denoted by $\mathbf{Sh}(X)$.
-    \end{notation}
+\section{Abelian sheaf cohomology}
 
-    \begin{property}[\difficult{Sheaf topos}]
-        The category of sheaves $\mathbf{Sh}(X)$ is in fact an elementary topos, called the sheaf topos over $X$. (See property \ref{topoi:sheaf_topos}.)
-    \end{property}
+    In this section only Abelian sheaves will be considered, i.e. sheaves with values in $\mathbf{Ab}$ (unless stated otherwise).
 
     \newdef{Global sections functor}{\index{global!sections}\label{sheaf:global_sections_functor}
-        Let $X$ be a topological space. The global sections functor $\Gamma(X,-)$ is defined as the functor $\Gamma(X, -):\mathbf{Sh}(X)\rightarrow\mathbf{Set}:\mathcal{F}\rightarrow\mathcal{F}(X)$.
+        Let $X$ be a topological space. The global sections functor $\Gamma(X,-)$ is defined as the functor $\Gamma(X,-):\mathbf{Sh}(X)\rightarrow\mathbf{Set}:\mathcal{F}\rightarrow\mathcal{F}(X)$.
     }
     \begin{property}\label{sheaf:left_exact_functor}
         The global sections functor is only left exact.
     \end{property}
-
-\section{Abelian sheaf cohomology}
-
-    In this section we will only consider Abelian sheaves, i.e. sheaves with values in $\mathbf{Ab}$ (unless stated otherwise).
+    Because of Chapter \ref{chapter:hom_alg} one can now construct derived functors. These give rise to a new cohomology theory. Although it will appear a lot more abstract than the (co)homology theories from Chapter \ref{chapter:algtop}, these theories are in fact specific instances.
 
 \subsection{Derived cohomology}
 
     \begin{property}[Injective resolutions]
         Every Abelian sheaf admits an injective resolution or, equivalently, the category $\mathcal{AB}(X)$ of Abelian sheaves has enough injectives.
     \end{property}
+
     Because of Property \ref{sheaf:left_exact_functor}, one can construct nontrivial (right) derived functors of $\Gamma(X,-)$:
     \newdef{Sheaf cohomology group}{\index{cohomology!sheaf}
-        Let $\mathcal{F}$ be a sheaf over $X$. Given an injective resolution (as usual the result will be independent of the chosen resolution) $I$ of $\mathcal{F}$, the sheaf cohomology groups of $\mathcal{F}$ over $X$ are defined as the cohomology groups of the complex
+        Let $\mathcal{F}$ be a sheaf on $X$. Given an injective resolution $I$ of $\mathcal{F}$ (as usual the result will be independent of the chosen resolution), the sheaf cohomology groups of $\mathcal{F}$ on $X$ are defined as the cohomology groups of the complex
         \begin{gather}
             \cdots\longrightarrow\Gamma(X,I^i)\longrightarrow\Gamma(X,I^{i+1})\longrightarrow\cdots.
         \end{gather}
@@ -170,53 +173,56 @@
     }
 
     \newdef{Acyclic sheaf}{\index{sheaf!acyclic}
-        A sheaf is called acyclic if its higher cohomology groups vanish (cf. Definition \ref{homalg:acyclic_object}).
+        A sheaf is said to be acyclic if its higher cohomology groups vanish (cf. Definition \ref{homalg:acyclic_object}).
     }
     \begin{example}[Soft sheaves]\label{sheaf:example_soft}
-        Soft sheaves \ref{sheaf:soft} are acylic. Let $(M,\mathcal{O}_M)$ be a smooth manifold with its sheaf of smoth functions (resp. complex manifold with its sheaf of holomorphic functions). All sheaves of $\mathcal{O}_M$-modules are soft and, hence, acyclic.
+        Soft sheaves \ref{sheaf:soft} are acylic. Let $(M,\mathcal{O}_M)$ be a smooth manifold with its sheaf of smooth functions (resp. complex manifold with its sheaf of holomorphic functions). All sheaves of $\mathcal{O}_M$-modules are soft and, hence, acyclic.
     \end{example}
 
-    The following theorem is a specific instance of property \ref{homalg:acyclic_derived_functors}:
+    The following theorem is a specific instance of Property \ref{homalg:acyclic_derived_functors}:
     \begin{theorem}[de Rham \& Weil]\index{de Rham-Weil}
-        Let $\mathcal{F}$ be a sheaf. There exists an isomorphism between the sheaf cohomology groups defined above and the ones obtained by using an acyclic resolution of $\mathcal{F}$.
+        There exists an isomorphism between the sheaf cohomology groups obtained using injective resolutions and the ones obtained using an acyclic resolution.
     \end{theorem}
 
     \newdef{Image and kernel}{
-        Given a morphism of sheaves $\phi:\mathcal{F}\rightarrow\mathcal{G}$ over a space $X$ one can define the kernel/image presheaves which assign to every open subset $U\subseteq X$ the image/kernel of $\phi_U$. The kernel presheaf is already a sheaf and will be denoted by $\ker(\phi)$. The sheafification of the image presheaf will be denoted by $\im(\phi)$. (Smilarly one can also define cokernels and any other notion that makes sense in Abelian categories.)
+        Given a morphism of sheaves $\phi:\mathcal{F}\rightarrow\mathcal{G}$ on a space $X$ one can define the kernel/image presheaves that assign to every open subset $U\subseteq X$ the image/kernel of $\phi_U$.
+
+        The kernel presheaf is already a sheaf and will be denoted by $\ker(\phi)$. The sheafification of the image presheaf will be denoted by $\im(\phi)$. In a similar way one can also define cokernels or any other notion that makes sense in Abelian categories.
     }
 
     \newdef{Cohomology sheaves}{
-        Let $\mathcal{F}^\bullet$ be a cohain complex of sheaves over $X$. The cohomology sheaves $\underline{H}^i(X;\mathcal{F}^\bullet)$ are obtained by sheafifying the presheafs that assign to every open subset $U\subseteq X$ the quotient group $\ker(d^i_U)/\im(d^{i-1}_U)$.
+        Let $\mathcal{F}^\bullet$ be a cochain complex of sheaves on $X$. The cohomology sheaves $\underline{H}^i(X;\mathcal{F}^\bullet)$ are obtained by sheafifying the presheaves that assign to every open subset $U\subseteq X$ the quotient group $\ker(d^i_U)/\im(d^{i-1}_U)$.
     }
 
 \subsection{\v{C}ech cohomology}\label{section:cech}
 
-    Consider a chain complex $(A_\bullet,\partial)\in\mathbf{Ch}(\mathcal{AB}(X))$ of Abelian sheaves on a topological space $X$ (for simplicity concentrated in nonnegative degree).
+    Consider a chain complex $(A_\bullet,\partial_\bullet)\in\mathbf{Ch}(\mathcal{AB}(X))$ of Abelian sheaves on a topological space $X$ (for simplicity assume that the complex is connective).
 
     \newdef{\v{C}ech cohomology}{\index{\v{C}ech!cohomology}\label{sheaf:cech}
-        For an open cover $\mathcal{U}=\{U_i\subseteq X\}_{i\in I}$, denote the intersection $U_{i_0}\cap\cdots\cap U_{i_k}$ by  $U_{i_0\ldots i_k}$. The cochain groups are defined for all $p\in\mathbb{N}$ as before:
+        For an open cover $\mathcal{U}=\{U_i\subseteq X\}_{i\in I}$, denote the intersection $U_{i_0}\cap\cdots\cap U_{i_k}$ by  $U_{i_0\ldots i_k}$. The cochain groups are defined for all $p\in\mathbb{N}$ as:
         \begin{gather}
-            C^p(\mathcal{U};A_\bullet) := \bigoplus_{\substack{p=n-k\\i_0<\cdots<i_k}}A_n(U_{i_0\ldots i_k}).
+            C^p(\mathcal{U};A_\bullet) := \bigoplus_{\substack{p=k-n\\i_0<\cdots<i_k}}A_n(U_{i_0\ldots i_k}).
         \end{gather}
-        Since the (pre)sheaf takes values in Abelian groups, one can define the subtraction of elements and hence the definition of the following differential makes sense:
+        Since the (pre)sheaf takes values in Abelian groups, one can define the subtraction of elements and, hence, the following definition of the differential makes sense:
         \begin{align}
             (d\omega)_{i_0\ldots i_{k+1}} :=&\ \left(\partial\omega + (-1)^k\sum_{i=0}^k(-1)^iA_\bullet(\iota_i)\omega\right)_{i_0\ldots i_{k+1}}\nonumber\\
-            =&\ \partial\omega_{i_0\ldots i_{k+1}}+(-1)^k\sum_{j=0}^{k+1}(-1)^j\left.\omega_{i_0\ldots i_{j-1}i_{j+1}\ldots i_{k+1}}\right|_{U_{i_0\ldots i_{k+1}}}\label{sheaf:total_cech_differential}
+            =&\ \partial\omega_{i_0\ldots i_{k+1}}+(-1)^k\sum_{j=0}^{k+1}(-1)^j\left.\omega_{i_0\ldots i_{j-1}i_{j+1}\ldots i_{k+1}}\right|_{U_{i_0\ldots i_{k+1}}},\label{sheaf:total_cech_differential}
         \end{align}
-        where $\iota_i$ are the inclusion maps as before. The cohomology $\check{H}^\bullet(\mathcal{U};A_\bullet)$ of this complex is called the \v{C}ech cohomology of $\mathcal{U}$ with values in $A_\bullet$.
+        where $\iota_i$ are the inclusion maps of the cover. The cohomology $\check{H}^\bullet(\mathcal{U};A_\bullet)$ of this complex is called the \v{C}ech cohomology of $\mathcal{U}$ with values in $A_\bullet$.
 
         By taking the direct limit over the direct system of open covers (the partial ordering is given by refinement of covers) one can define the \v{C}ech cohomology $\check{H}^\bullet(X;A_\bullet)$ of $X$ with values in $A_\bullet$.
     }
     \begin{remark}[Hypercohomology]\index{hypercohomology}
-        Two remarks should be made here. The above construction is essentially building a double complex and calculating the cohomology of the total complex. The definition \eqref{sheaf:total_cech_differential} of the total differential might differ from others in the literature by a factor $(-1)^k$ (as is often the case, since vertical and horizontal directions can be interchanged). Furthermore, sometimes the definition of \v{C}ech cohomology is only given with values in an Abelian group, such that the first term in \eqref{sheaf:total_cech_differential} also vanishes. This case can be recovered from the above construction by considering chain complexes concentrated in a single degree. The more general case is often called \textbf{hypercohomology}.
+        Two remarks should be made here. The above construction is essentially building a double complex and calculating the cohomology of the total complex. The definition \eqref{sheaf:total_cech_differential} of the total differential might differ from others in the literature by a factor $(-1)^k$ as is often the case, since vertical and horizontal directions can be interchanged. Furthermore, sometimes the definition of \v{C}ech cohomology is only given with values in an Abelian group, such that the first term in \eqref{sheaf:total_cech_differential} also vanishes. This case can be recovered from the above construction by considering chain complexes concentrated in a single degree. The more general case is sometimes called \textbf{hypercohomology}.
     \end{remark}
 
-    The following two properties state when \v{C}ech cohomology calculates the (derived) cohomology of sheaves:
+    The following two properties characterize when \v{C}ech cohomology calculates the (derived) cohomology of sheaves:
     \begin{property}
-        For a paracompact Hausdorff space, the \v{C}ech cohomology and (derived) sheaf cohomology coincide for all sheaves. For $i=0,1$, one always has
+        In degrees 0 and 1 one always has
         \begin{gather}
             \check{H}^{0,1}(X;\mathcal{F})\cong H^{0,1}(X;\mathcal{F}).
         \end{gather}
+        For a paracompact Hausdorff space, the \v{C}ech cohomology and (derived) sheaf cohomology coincide in all degrees.
     \end{property}
     \begin{property}[Leray]\index{Leray}\index{acyclic}
         An open cover $\mathcal{U}=\{U_i\subset X\}_{i\in I}$ of a topological space is said to be \textbf{acyclic} with respect to a sheaf $\mathcal{F}$ if $\mathcal{F}$ is acyclic with respect to any finite subcover of $\mathcal{U}$:
@@ -229,40 +235,37 @@
         \end{gather}
     \end{property}
     \begin{example}[Good covers]
-        Consider a topological space admitting a good cover \ref{diff:good_cover}. The Leray theorem applies since all intersections are contractible and higher \v{C}ech cohomology vanishes on contractible spaces.
+        Consider a topological space admitting a good cover \ref{diff:good_cover}. The Leray theorem applies since all intersections are contractible and higher \v{C}ech cohomology vanishes on contractible spaces. Accordingly, for all topological spaces admitting a good cover (e.g. finite CW complexes or Riemannian manifolds), the \v{C}ech and singular cohomologies coincide.
     \end{example}
-    \begin{result}
-        For all topological spaces admitting a good cover (e.g. finite CW complexes or Riemannian manifolds), the \v{C}ech and singular cohomologies coincide.
-    \end{result}
 
 \section{Non-Abelian sheaf cohomology}
 \subsection{\v{C}ech cohomology}
 
-    The issue with extending \v{Cech} cohomology to the non-Abelian context, is that the whole definition made heavy use of operation that only exist in Abelian categories, e.g. images, kernels and addition.
+    The issue with extending \v{Cech} cohomology to the non-Abelian context is that the whole definition made heavy use of operations that only exist in Abelian categories, e.g. images, kernels and addition. However, this problem can solved.
 
-    As a first step, the case of a single group $G$ will be considered. As before the (would-be) differential $d$ is defined as follows (now with a multiplicative notation):
+    As a first step, the case of a single group $G$ will be considered. The (would-be) differential $d$ is defined as before (now with a multiplicative convention):
     \begin{enumerate}
         \item For every 0-cochain $\{\phi_i:U_i\rightarrow G\}_{i\in I}$: $(d\phi)_{ij}:=\phi_j\phi^{-1}_i$.
         \item For every 1-cochain $\{\psi_{ij}:U_i\cap U_j\rightarrow G\}_{i,j\in I}$: $(d\psi)_{ijk} := \psi_{ij}\psi^{-1}_{ik}\psi_{jk}$.
         \item ...
     \end{enumerate}
-    However, there is a major issue here. With this definition, the maps $d_k$ are not group morphisms and the sets $\ker d_k,\im d_k$ are not groups. To make it even worse, from $k=2$ onwards, $d$ stops being a differential altogether.
+    But now a major issue ariseq. With this definition, the maps $d_k$ are not group morphisms and the sets $\ker d_k,\im d_k$ are not groups. To make matters worse, from $k=2$ onwards, $d$ stops being a differential altogether.
 
-    For $k=0,1$ the situation can be saved. If $d\phi=e$, $e$ being the identity element in $G$, for some 0-cochain, then $\phi_i=\phi_j$ on $U_i\cap U_j$. So by the sheaf condition one obtains a genuine function $\phi:X\rightarrow G$ and $\check{H}^0(X;G)\cong C(X,G)$. For $k=1$ neither the cocycles nor coboundaries form a group, so forming a quotient is out of the question, but the 0-cochains do act on the 1-cocycles by conjugation
+    For $k=0,1$ the situation can be saved. If $d\phi=e$ for some 0-cochain, $e$ being the identity element in $G$, then $\phi_i=\phi_j$ on $U_i\cap U_j$. So by the sheaf condition one obtains a genuine function $\phi:X\rightarrow G$, i.e. $\check{H}^0(X;G)\cong C(X,G)$. For $k=1$ neither the cocycles nor coboundaries form a group, so forming a quotient is out of the question, but the 0-cochains do act on the 1-cocycles by conjugation
     \begin{gather}
-        (\phi\cdot\psi)_{ij} := \phi_j\psi_{ij}\phi^{-1}_i,
+        (\phi\cdot\psi)_{ij} := \phi_j\psi_{ij}\phi^{-1}_i.
     \end{gather}
-    so one can take the quotient $\check{H}^1(X;G)$, as a set, of the 1-cocycles by this action. In the Abelian case, this recovers the usual construction of $\check{H}^1(X;G)$.
+    So one can take the quotient $\check{H}^1(X;G)$, as a set, of the 1-cocycles by this action and define this to be the first cohomology set. In the Abelian case, this recovers the usual construction of $\check{H}^1(X;G)$.
 
     \begin{remark*}
-        The reason why higher cohomology $\check{H}^{\geq2}(X;G)$ can only be defined for Abelian groups, is not completely obvious. However, when reformulating cohomology in terms of mapping spaces with values in deloopings (see the next section), it becomes clear why this is the case.
+        The reason why higher cohomology $\check{H}^{\geq2}(X;G)$ can only be defined for Abelian groups, is not completely obvious. However, when reformulating cohomology in terms of mapping spaces with values in deloopings (see Chapter \ref{chapter:topos}), it becomes clear why this is the case.
     \end{remark*}
 
 \section{Ringed spaces}
 
     \newdef{Ringed space}{\index{ringed space}\label{sheaf:ringed_space}
-        A ringed space is a topological space $X$ equipped with a sheaf of rings $\mathcal{O}_X$.
+        A topological space equipped with a sheaf of rings.
     }
     \newdef{Locally ringed space}{\label{sheaf:locally_ringed_space}
-        A ringed space $(X,\mathcal{O}_X)$ is said to be locally ringed if the stalk over every point $x\in X$ is a local ring \ref{algebra:local_ring}.
+        A ringed space for which the stalk at every point is a local ring \ref{algebra:local_ring}.
     }

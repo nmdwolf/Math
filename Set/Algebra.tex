@@ -1,24 +1,28 @@
 \chapter{Algebra}
 \section{Algebraic structures}
 
-    \newdef{Semigroup}{\index{semigroup}\label{group:semigroup}
-        Let $G$ be a set equipped with a binary operation $\star$. $(G,\star)$ is a semigroup if it satisfies the following axioms:
+    \newdef{Semigroup}{\index{semigroup}\index{magma}\label{algebra:semigroup}
+        A set $G$ equipped with a binary operation $\star$ such that the following axioms are satisfied:
         \begin{enumerate}
-            \item $G$ is closed under $\star$.
-            \item $\star$ is asssociative.
+            \item\textbf{Closure}: $G$ is closed under $\star$.
+            \item\textbf{Associativity}: $\star$ is asssociative.
         \end{enumerate}
+        If the associativity axiom is dropped, a \textbf{magma} is obtained.
     }
 
-    \newdef{Monoid}{\index{monoid}\label{set:monoid}
-        Let $M$ be a set equipped with a binary operation $\star$. $(M,\star)$ is a monoid if it satisfies the following axioms:
+    \newdef{Monoid}{\index{monoid}\label{algebra:monoid}
+        A set $M$ equipped with a binary operation $\star$ such that the following axioms are satisfied:
         \begin{enumerate}
-            \item $M$ is closed under $\star$.
-            \item $\star$ is associative.
-            \item $M$ contains an identity element with respect to $\star$.
+            \item\textbf{Closure}: $M$ is closed under $\star$.
+            \item\textbf{Associativity}: $\star$ is associative.
+            \item\textbf{Unitality}: $M$ contains an identity element with respect to $\star$.
         \end{enumerate}
     }
+    \newdef{Nilpotent}{\index{nilpotent}\label{algebra:nilpotent}
+        An element $x$ of a monoid for which there exists an integer $k\in\mathbb{N}$ such that $x^k=e$, where $e$ is the identity element.
+    }
     \begin{property}[Eckmann-Hilton argument]\index{Eckmann-Hilton argument}\label{algebra:eckmann_hilton}
-        Let $(M,\circ),(M,\otimes)$ be two monoid structures\footnote{In fact one can relax this to two unital \textit{magma} structures.} on a set $M$ such that
+        Let $(M,\circ),(M,\otimes)$ be two monoid structures (or even unital magma structures) on a set $M$ such that
         \begin{gather}
             (a\circ b)\otimes(c\circ d) = (a\otimes c)\circ(b\otimes d)
         \end{gather}
@@ -27,39 +31,57 @@
 
     \newdef{Group}{\index{group}
         \nomenclature[S_Grp]{$\textbf{Grp}$}{category of groups and group homomorphisms}
-        Let $G$ be a set equipped with a binary operation $\star$. $(G,\star)$ is a group if it satisfies the following axioms:
+        A set $G$ equipped with a binary operation $\star$ such that the following axioms are satisfied:
         \begin{enumerate}
-            \item $G$ is closed under $\star$.
-            \item $\star$ is asssociative.
-            \item $G$ has an identity element with respect to $\star$.
-            \item Every element in $G$ has an inverse with respect to $\star$.
+            \item\textbf{Closure}: $G$ is closed under $\star$.
+            \item\textbf{Associativity}: $\star$ is asssociative.
+            \item\textbf{Unitality}: $G$ has an identity element with respect to $\star$.
+            \item\textbf{Inverses}: Every element in $G$ has an inverse with respect to $\star$.
         \end{enumerate}
-        A group \textbf{(homo)morphism} $f:(G,\star)\rightarrow(H,\cdot)$ is a function $f:G\rightarrow H$ such that
-        \begin{gather}
-            f(g\star g') = f(g)\cdot f(g')
-        \end{gather}
-        for all $g,g'\in G$.
+    }
+    \newnot{Identity element}{
+        The identity element of a general group will be denoted by $e$. In certain cases, where this makes sense, the identity element will be denoted by 0 or 1 (additive and multiplicative conventions).
     }
     \newdef{Abelian group}{\index{commutativity}\index{Abel!Abelian group}
         \nomenclature[S_Ab]{$\text{Ab}$}{category of Abelian groups}
         Let $(G,\star)$ be a group. If $\star$ is commutative, then $G$ is said to be an Abelian or \textbf{commutative} group.
     }
 
+    \newdef{Morphism}{\index{morphism!of groups}
+        A group \textbf{(homo)morphism} $\Phi:(G,\star)\rightarrow(H,\cdot)$ is a function $f:G\rightarrow H$ such that
+        \begin{gather}
+            \Phi(g\star g') = \Phi(g)\cdot\Phi(g')
+        \end{gather}
+        for all $g,g'\in G$.
+    }
+
+    \newdef{Kernel}{\index{kernel}\label{group:kernel}
+        The kernel of a group morphism $\Phi:G\rightarrow H$ is defined as the set
+        \begin{gather}
+            \ker(\Phi) := \{g\in G\mid\Phi(g)=e_H\}.
+        \end{gather}
+        This set carries a group structure induced by that on $G$.
+    }
+
+    \begin{theorem}[First isomorphism theorem]\index{isomorphism!theorem}\label{group:first_isomorphism_theorem}
+        Consider a group morphism $\Phi:G\rightarrow H$. If $\Phi$ is surjective, then $G/\ker(\Phi)\cong H$.
+    \end{theorem}
+
 \section{Group theory}\label{section:groups}
 
     \newdef{Order of a group}{\index{order}
-        The number of elements in the group. It is denoted by $|G|$ or $\text{ord}(G)$.
+        The number of elements in the group. It is denoted by $|G|$ or $\mathrm{ord}(G)$.
     }
     \newdef{Order of an element}{
         The order of an element $a\in G$ is the smallest integer $n\in\mathbb{N}$ such that
         \begin{gather}
-         a^n = e,
+            a^n = e,
         \end{gather}
         where $e$ is the identity element of $G$.
     }
 
     \newdef{Torsion group}{\index{torsion}\label{group:torsion_group}
-        A group in which all elements have finite order. The torsion set $\text{Tor}(G)$ of a group $G$ is the set of all elements $a\in G$ that have finite order. If $G$ is Abelian, $\text{Tor}(G)$ is a subgroup.
+        A group in which all elements have finite order. The torsion set $\mathrm{Tor}(G)$ of a group $G$ is the set of all elements $a\in G$ that have finite order. If $G$ is Abelian, $\mathrm{Tor}(G)$ is a subgroup.
     }
 
     \begin{theorem}[Lagrange]\index{Lagrange!theorem for finite groups}
@@ -69,28 +91,19 @@
         The order of any element $g\in G$ is a divisor of $|G|$.
     \end{result}
 
-    \newdef{Totally ordered group}{\index{order!group}\label{group:total_order}
-        A totally ordered group (or \textbf{linearly ordered group}) is a group $G$ together with a total order \ref{set:total_order} such that
-        \begin{enumerate}
-            \item $a\leq b\implies ac\leq bc$, and
-            \item $a\leq b\implies ca\leq cb$
-        \end{enumerate}
-        for all $a,b,c\in G$. If only the first (resp. second) property holds then the group is said to be left- (resp. right-) ordered.
-    }
-
     \begin{construct}[Grothendieck completion]\index{Grothendieck!completion}\label{group:grothendieck_completion}
-        Let the couple $(A,\boxplus)$ be a commutative monoid. From this monoid one can construct an Abelian group $G(A)$, called the Grothendieck completion of $A$, as the quotient of $A\times A$ by the equivalence relation
+        Let $(A,\boxplus)$ be a commutative monoid. From this monoid one can construct an Abelian group $G(A)$, called the Grothendieck completion of $A$, as the quotient of $A\times A$ by the equivalence relation
         \begin{gather}
-            (a_1,a'_1)\sim (a_2,a'_2) \iff \exists c\in A: a_1 \boxplus a'_2 \boxplus c = a'_1 \boxplus a_2 \boxplus c.
+            (a_1,a'_1)\sim (a_2,a'_2) \iff\exists c\in A: a_1 \boxplus a'_2 \boxplus c = a'_1 \boxplus a_2 \boxplus c.
         \end{gather}
-        The identity element, denoted by 0, is given by the equivalence class of $(0,0)$. By the definition of $G(A)$, this class contains all elements $\alpha\in\Delta_A$. From this last remark it follows that $[(a,b)] + [(b,a)] = 0$, which in turn implies that the additive inverse of $[(a,b)]$ is given by $[(b,a)]$.
+        The identity element, denoted by 0, is given by the equivalence class of $(0,0)$. By the definition of $G(A)$, this class contains all elements $\alpha\in\Delta_A$. In particular, $[(a,b)]$ is the additive inverse of $[(b,a)]$: $[(a,b)] + [(b,a)] = 0$.
     \end{construct}
     \begin{uproperty}
-        Let $G(A)$ be the Grothendieck completion of $A$. Every monoid morphism $m:A\rightarrow B$, between a commutative monoid and an Abelian group, factors uniquely through a group morphism $\varphi:G(A)\rightarrow B$.
+        Let $G(A)$ be the Grothendieck completion of $A$. Every monoid morphism $m:A\rightarrow B$, between an Abelian monoid and an Abelian group, factors uniquely through a group morphism $\varphi:G(A)\rightarrow B$.
     \end{uproperty}
 
     \begin{example}[Integers]
-        The Grothendieck completion of the natural numbers is the additive group of integers $\mathbb{Z}$. The positive integers are given by the equivalence classes $[(n,0)]$ and the negative integers are given by the classes $[(0,n)]$.
+        The Grothendieck completion of the natural numbers is the additive group of integers $\mathbb{Z}$.
     \end{example}
 
 \subsection{Cosets}
@@ -109,13 +122,12 @@
     \newadef{Normal subgroup}{\index{normal!subgroup}\index{conjugacy class}\label{group:normal_subgroup}
         Let $G$ be a group and let $H$ be a subgroup. Consider the \textbf{conjugacy classes} $gHg^{-1}$ for all $g\in G$. If all classes coincide with $H$ itself, then $H$ is said to be a normal subgroup.
     }
-
     \begin{notation}
-        Let $N$ be a normal subgroup of $G$. This is often denoted by $N\vartriangleleft G$.
+        If $N$ is a normal subgroup of $G$, this is often denoted by $N\vartriangleleft G$.
     \end{notation}
 
     \newdef{Quotient group}{\index{quotient!group}\label{group:quotient_group}
-        Let $G$ be a group and let $N$ be a normal subgroup. The coset space $G/N$ can be turned into a group by equipping it with the product induced by that on $G$.
+        Let $G$ be a group and let $N\vartriangleleft$ be a normal subgroup. The coset space $G/N$ can be turned into a group by equipping it with the product induced by that on $G$.
     }
 
     \newdef{Center}{\index{center}\label{group:center}
@@ -123,18 +135,18 @@
         \begin{gather}
             Z(G) := \{z\in G\mid\forall g\in G:zg = gz\}.
         \end{gather}
-        This set is a group and in particular it is a normal subgroup of $G$.
+        This is a normal subgroup of $G$.
     }
 
 \subsection{Abelian groups}
 
     \newdef{Commutator subgroup\footnotemark}{\index{commutator}\index{derived!subgroup}
         \footnotetext{Also called the \textbf{derived subgroup}.}
-        The commutator subgroup $[G,G]$ of $G$ is defined as the group generated by the elements \[[g,h] := g^{-1}h^{-1}gh,\] where $g,h\in G$. This group is a normal subgroup of $G$.
+        The commutator subgroup $[G,G]$ of $G$ is defined as the group generated by the \textbf{commutators} \[[g,h] := g^{-1}h^{-1}gh,\] where $g,h\in G$. This group is a normal subgroup of $G$.
     }
 
     \begin{property}[Abelianization]\index{Abelianization}
-        The Abelianization $G/[G,G]$ is an Abelian group. It follows that a group $G$ is Abelian if and only if $[G,G]$ is trivial.
+        The Abelianization $G/[G,G]$ is an Abelian group. A group $G$ is Abelian if and only if $[G,G]$ is trivial.
     \end{property}
 
     \begin{property}[Abelian quotients]
@@ -145,15 +157,15 @@
 \subsection{Symmetric group}
 
     \newdef{Symmetric group}{\index{symmetric!group}\index{degree!of symmetric group}
-        \nomenclature[S_symgr]{$S_n$}{Symmetric group of degree $n$.}
-        \nomenclature[S_symgrX]{$\text{Sym}(X)$}{Symmetric group on the set $X$.}
-        The symmetric group $S_n$ (on $n$ elements) is defined as the set of all permutations of $\{1,\ldots,n\}$. The number $n$ is called the \textbf{degree} of the symmetric group. The symmetric group $\text{Sym}(X)$ on a finite set $X$ is defined similarly (by first numbering the elements and then acting by $S_n$).
+        \nomenclature[S_symgr]{$S_n$}{symmetric group of degree $n$}
+        \nomenclature[S_symgrX]{$\text{Sym}(X)$}{symmetric group on the set $X$}
+        The symmetric group $S_n$ (on $n$ elements) is defined as the set of all permutations of $\{1,\ldots,n\}$. The number $n$ is called the \textbf{degree} of the symmetric group. The symmetric group $\text{Sym}(X)$ on a finite set $X$ is defined similarly (by first numbering the elements and then acting by $S_n$)\footnote{Two such choices are related through conjugation by a unique permutation. The resulting groups are isomorphic.}.
 
-        In general (i.e. when including infinite sets) one defines the symmetric group $\text{Sym}(Y)$ as the group of all bijections from $Y$ to itself (the multiplication is given by function composition).
+        When including infinite sets the symmetric group $\text{Sym}(X)$ is defined as the group of all bijections from $X$ to itself (the multiplication is given by function composition).
     }
 
     \begin{theorem}[Cayley]\index{Cayley}
-        Every group is isomorphic to a subgroup of the permutation group $\text{Sym}(G)$.
+        Every group is isomorphic to a subgroup of the permutation group $\mathrm{Sym}(G)$.
     \end{theorem}
 
     \newdef{Cycle}{\index{cycle}
@@ -166,14 +178,14 @@
         \end{gather}
     \end{property}
     \begin{example}
-        Consider the set $\{1,2,3,4,5,6\}$. The permutation $\sigma:x\mapsto x+2\ (\text{mod }6)$ can be decomposed as $\sigma = (1\ 3\ 5)(2\ 4\ 6)$.
+        Consider the set $\{1,2,3,4,5,6\}$. The permutation $\sigma:x\mapsto x+2\bmod6$ can be decomposed as $\sigma = (1\ 3\ 5)(2\ 4\ 6)$.
     \end{example}
 
     \newdef{Transposition}{\index{transposition}
-        A permutation which exchanges two elements but leaves the other ones unchanged.
+        A permutation that exchanges two elements but leaves the other ones unchanged.
     }
     \begin{property}[Decomposition]
-        Any permutation can be decomposed as a product of transpositions. The permutations is said to be even (resp. odd) if the number of transpositions in its decomposition is even (resp. odd).\footnote{One can prove that the parity of a permutation is well-defined, i.e. it is independent of the choice of decomposition.}
+        Any permutation can be decomposed as a product of transpositions. A permutation is said to be \textbf{even} (resp. \textbf{odd}) if the number of transpositions in its decomposition is even (resp. odd). One can prove that the parity of a permutation is well-defined, i.e. it is independent of the choice of decomposition.
     \end{property}
 
     \newdef{Alternating group}{\index{group!alternating}
@@ -204,20 +216,20 @@
 \subsection{Group presentations}
 
     \newdef{Generator}{\index{generator}
-        A set of elements $\{g_i\}_{i\in I}\subset G$ (where $I$ can be finite or infinite) is said to generate $G$ if every element in $G$ can be written as a product of the elements $g_i$. These elements are then said to be generators of $G$.
+        A set of elements $\{g_i\}_{i\in I}\subset G$ (where $I$ can be infinite) is said to generate $G$ if every element in $G$ can be written as a product of the elements $g_i$. These elements are then called generators of $G$.
     }
 
     \newdef{Relations}{\index{relation}
-        Let $G$ be a group. If the product of a number of elements $g\in G$ is equal to the identity $e$ then this product is said to be a relation on $G$.
+        Let $G$ be a group. If the product of a number of elements $g\in G$ is equal to the identity $e$, this product is said to be a relation on $G$.
     }
     \newdef{Complete set of relations}{
-        Let $G$ be a group generated by a set of elements $S$ (note that this set cannot be a group itself) and let $R$ be a set of relations on $S$. If $G$ is uniquely (up to an isomorphism) determined by $S$ and $R$ then the set of relations is said to be complete.
+        Let $G$ be a group generated by a set of elements $S$ (note that this set does not have be a group itself) and let $R$ be a set of relations on $S$. If $G$ is uniquely (up to an isomorphism) determined by $S$ and $R$, the set of relations is said to be complete.
     }
 
     \newdef{Presentation}{\index{presentation}\label{group:presentation}
-        Let $G$ be a group with generators $S$ and let $R$ be a complete set of relations. The pair $(S, R)$ is called a presentation of $G$.
+        Let $G$ be a group with generators $S$ and let $R$ be a complete set of relations. The pair $(S,R)$ is called a presentation of $G$.
 
-        If $R$ is finite then $G$ is said to be \textbf{finitely related}, while if $S$ is finite then $G$ is said to be \textbf{finitely generated}. If both $S$ and $R$ are finite then $G$ is said to be \textbf{finitely presented}.
+        If $R$ is finite, $G$ is said to be \textbf{finitely related}, while if $S$ is finite, $G$ is said to be \textbf{finitely generated}. If both $S$ and $R$ are finite, $G$ is said to be \textbf{finitely presented}.
 
         It is clear that every group can have many different presentations and that it is (very) difficult to tell if two groups are isomorphic by just looking at their presentations.
     }
@@ -228,53 +240,52 @@
 \subsection{Direct products}
 
     \newdef{Direct product}{\index{direct product! of groups}\label{group:direct_product}
-        Let $G, H$ be two groups. The direct product $G\times H$ is defined as the set-theoretic Cartesian product $G\times H$ equipped with a binary operation $\cdot$ such that
+        Let $G,H$ be two groups. The direct product $G\times H$ is defined as the set-theoretic Cartesian product $G\times H$ equipped with a group operation $\cdot$ defined as
         \begin{gather}
-            (g_1, h_1)\cdot(g_2, h_2) = (g_1g_2, h_1h_2)
+            (g_1,h_1)\cdot(g_2,h_2) = (g_1g_2,h_1h_2),
         \end{gather}
-        where the operations on the right-hand side are the group operations in $G$ and $H$. The tuple $(G\times H, \cdot)$ defines a group.
+        where the operations on the right-hand side are the group operations in $G$ and $H$. This definition can be generalized to any number of groups, even an infinite number of them if one the $n$-tuples are replaced by elements of the infinite Cartesian product
 
-        If $g\in G_1\times\cdots\times G_n$ can be written as $(g_1, \ldots, g_n)$ for $g_i\in G_i$, then the $g_i$ are called the \textbf{components} of $g$.
+        If $g\in G_1\times\cdots\times G_n$ can be written as $(g_1,\ldots,g_n)$ for $g_i\in G_i$, the $g_i$ are called the \textbf{components} of $g$.
     }
-    \remark{This definition can be generalized to any number of groups, even an infinite number of them (if one replaces the $n$-tuples by infinite Cartesian products).}
 
     \newdef{Weak direct product}{\index{direct sum!of groups}
-        Consider the direct product of any number of groups. The subgroup consisting of all elements for which all components, except finitely many of them, are the identity, is called the weak direct product or. In the case of Abelian groups this is often called the \textbf{direct sum}. For a finite number of groups, the direct product and direct sum clearly coincide.
+        Consider the direct product of groups. The subgroup consisting of all elements for which all components, except finitely many of them, are the identity, is called the weak direct product. In the case of Abelian groups this is often called the \textbf{direct sum}. For a finite number of groups, the direct product and direct sum coincide.
     }
     \begin{notation}
-        The direct sum is often denoted by $\oplus$, in accordance with the notation for vector spaces (and other algebraic structures).
+        The direct sum is often denoted by $\oplus$ (in accordance with the notation for vector spaces and other algebraic structures that will be introduced further on).
     \end{notation}
 
     \newdef{Inner semidirect product}{\index{semidirect product}\index{split}
-        Let $G$ be a group, $H$ a subgroup of $G$ and $N$ a normal subgroup of $G$. $G$ is said to be the inner semidirect product of $H$ and $N$, denoted by $N\rtimes H$, if it satifies the following equivalent statements:
+        Let $G$ be a group, $H\leq G$ a subgroup and $N\vartriangleleft G$ a normal subgroup. $G$ is said to be the inner semidirect product of $H$ and $N$, denoted by $N\rtimes H$, if it satifies the following equivalent statements:
         \begin{itemize}
-            \item $G = NH$ where $N\cap H = \{e\}$.
-            \item For every $g\in G$ there exist unique $n\in N, h\in H$ such that $g=nh$.
-            \item For every $g\in G$ there exist unique $h\in H, n\in N$ such that $g=hn$.
+            \item $G = NH := \{nh\mid n\in N,h\in H\}$, where $N\cap H = \{e\}$.
+            \item For every $g\in G$ there exist a unique $n\in N,h\in H$ such that $g=nh$.
+            \item For every $g\in G$ there exist a unique $n\in N,h\in H$ such that $g=hn$.
             \item There exists a group morphism $\rho:G\rightarrow H$ that satisfies $\rho|_H = e$ and $\ker(\rho)=N$.
             \item The composition of the natural embedding $i:H\rightarrow G$ and the projection $\pi:G\rightarrow G/N$ gives an isomorphism between $H$ and $G/N$.
         \end{itemize}
-        Whenever $G$ is isomorphic to $N\rtimes H$ it is said to \textbf{split} over $N$.
+        Whenever $G$ is isomorphic to $N\rtimes H$, it is said to \textbf{split} over $N$.
     }
     \begin{property}[Normal subgroups]
-        If both $H$ and $N$ are normal in the above definition, the inner semidirect product coincides with the direct product. In particular this includes the case of direct products. For a finite number of groups $\{G_i\}$ we see that the direct product is generated by the elements of the groups $G_i$.
+        If both $H$ and $N$ in the above definition are normal, the inner semidirect product coincides with the direct product. In particular this includes the case of direct products. For a finite number of groups the direct product is generated by the elements of the groups.
 
-        If the subgroups $H$ and $N$ have presentations $\langle S_H|R_H \rangle$ and $\langle S_N|R_N \rangle$ then the direct product is given by
+        If the subgroups $H$ and $N$ have presentations $\langle S_H|R_H \rangle$ and $\langle S_N|R_N \rangle$, the direct product is given by
         \begin{gather}
             \label{group:direct_product_presentation}
-            H\times N = \langle S_H\cup S_N|R_H\cup R_N \cup R_C \rangle
+            H\times N = \langle S_H\cup S_N|R_H\cup R_N \cup R_C \rangle,
         \end{gather}
-        where $R_C$ is the set of relations that assure the commutativity of $H$ and $N$.
+        where $R_C$ is the set of relations that enforce the commutativity of $H$ and $N$.
     \end{property}
 
     \newdef{Outer semidirect product}{
-        Let $G, H$ be two groups and let $\varphi:H\rightarrow\text{Aut}(G)$ be a group morphism. The outer semidirect product $G\rtimes_\varphi H$ is defined as the set-theoretic Cartesian product $G\times H$ equipped with a binary relation $\cdot$ such that
+        Let $G,H$ be two groups and let $\varphi:H\rightarrow\text{Aut}(G)$ be a group morphism. The outer semidirect product $G\rtimes_\varphi H$ is defined as the set-theoretic Cartesian product $G\times H$ equipped with a binary relation $\cdot$ such that
         \begin{gather}
-            (g_1, h_1)\cdot(g_2, h_2) = (g_1\varphi(h_1)(g_2), h_1h_2).
+            (g_1,h_1)\cdot(g_2,h_2) = (g_1\varphi(h_1)(g_2),h_1h_2).
         \end{gather}
-        The structure $(G\rtimes_\varphi H, \cdot)$ forms a group.
+        The structure $(G\rtimes_\varphi H,\cdot)$ forms a group.
 
-        By noting that the set $N = \{(g, e_H)|g\in G\}$ is a normal subgroup, isomorphic to $G$, and that the set $B = \{(e_G, h)|h\in H\}$ is a subgroup, isomorphic to $H$, we can also construct the outer semidirect product $G\rtimes_\varphi H$ as the inner semidirect product $N\rtimes B$.
+        By noting that the set $N=\{(g,e_H)\mid g\in G\}$ is a normal subgroup isomorphic to $G$, and that the set $B=\{(e_G,h)\mid h\in H\}$ is a subgroup isomorphic to $H$, one can also construct the outer semidirect product $G\rtimes_\varphi H$ as the inner semidirect product $N\rtimes B$.
     }
 
     \begin{remark}[Direct products]
@@ -283,46 +294,48 @@
 
     Semidirect products can even be generalized further:
     \newdef{Bicrossed product of groups}{\index{bicrossed product}\index{matched pair}\label{group:bicrossed_product}
-        Consider a group $G$ with two subgroups $H, K\leq G$ such that every element $g\in G$ can be uniquely decomposed as a product of an element in $H$ and an element in $K$. This implies that for $h\in H, k\in K$ there exists a unique decomposition of $kh$ of the form \[kh = (k\cdot h)k^h\] where $k\cdot h\in H$ and $k^h\in K$.
+        Consider a group $G$ with two subgroups $K,H\leq G$ such that every element $g\in G$ can be uniquely decomposed as a product of an element in $K$ and an element in $H$. This implies that for $k\in K,h\in H$ there exists a unique decomposition of $kh$ of the form \[kh = (k\cdot h)k^h\] where $k\cdot h\in H$ and $k^h\in K$.
 
-        It can be checked that the associativity of the product implies that $-\cdot-$ defines a left action of $K$ on $H$ and that $-^-$ defines a right action of $H$ on $K$. Some other properties are obtained in the same way:
+        It can be checked that the associativity of the product implies that $-\cdot-:K\times H\rightarrow H$ defines a left action of $K$ on $H$ and that $-^-:K\times H\rightarrow K$ defines a right action of $H$ on $K$. Some other properties are obtained in the same way:
         \begin{itemize}
             \item $e^h = e$,
             \item $k\cdot e = e$,
             \item $(kk')^h = k^{k'\cdot h}k'^h$, and
             \item $k\cdot(hh') = (k\cdot h)(k^h\cdot h')$.
         \end{itemize}
-        Any two groups having this structure are said to form a \textbf{matched pair} (of groups). Given such a matched pair of groups one can define the bicrossed product $H \bowtie K$ as follows:
+        Any two groups having this structure are said to form a \textbf{matched pair} (of groups). Given a matched pair of groups, one can define the bicrossed product $H \bowtie K$ as follows:
         \begin{gather}
-            (h,k)(h',k') = \big(h(k\cdot h), k^{h'}k'\big).
+            (h,k)(h',k') = \big(h(k\cdot h),k^{h'}k'\big).
         \end{gather}
     }
 
-\subsection{Free products}
+\subsection{Free groups}
 
-    \newdef{Free group}{\index{free!group}
-        Consider two groups $G, H$. The free group $G\ast H$ is defined as the set consisting of all words composed of elements in $G$ and $H$ together with the concatenation (and reduction\footnote{Two elements of the same group, written next to each other, are replaced by their product.}) as multiplication. Due to the reduction, every element in $G\ast H$ is of the form $g_1h_1g_2h_2\cdots$
+    \newdef{Free group}{\index{free!group}\index{word}\label{group:free_group}
+        Consider a set $S$. The free group on $S$ is the group generated by \textbf{words} in $S$, i.e. finite sequences of elements in $S$.
     }
-    \begin{property}[Cardinality]
-        For nontrivial groups the free product is always infinite.
-    \end{property}
-
-    Using this new concept one can restate the definition of a group presentation \ref{group:presentation}:
+    The definition of a group presentation \ref{group:presentation} can now be restated:
     \newadef{Presentation}{\index{presentation}
         A group $G$ is said to have a presentation $\langle S|R \rangle$ if it is isomorphic to the quotient of the free group on $S$ by the normal subgroup generated by $R$.
     }
 
-    \newdef{Free product}{\index{free!product}
-        If the groups $G$ and $H$ have presentations $\langle S_G|R_G \rangle$ and $\langle S_H|R_H \rangle$ respectively, then the free product is given by
+    \newdef{Free product}{
+        Consider two groups $G,H$. The free product $G\ast H$ is defined as the set consisting of all words composed of elements in $G$ and $H$ together with the concatenation (and reduction\footnote{Two elements of the same group, written next to each other, are replaced by their product.}) as multiplication. Due to the reduction, every element in $G\ast H$ has a unique expression of the form $g_1h_1g_2h_2\cdots g_nh_n$.
+    }
+    \begin{remark}[Cardinality]
+        For nontrivial groups the free product is always infinite.
+    \end{remark}
+    \newadef{Free product}{\index{free!product}
+        The free product of two groups $G$ and $H$ can equivalently be defined as the free group on the set $G\cup H$. It follows that if $G,H$ have presentations $\langle S_G\mid R_G \rangle$ and $\langle S_H|R_H \rangle$ respectively, the free product is given by
         \begin{gather}
             G\ast H = \langle S_G\cup S_H|R_G\cup R_H \rangle.
         \end{gather}
-        From expression \ref{group:direct_product_presentation} we see that the free product is a generalization of the direct product.
+        By comparing to \eqref{group:direct_product_presentation} it can be seen that the free product is a generalization of the direct product.
     }
     \newdef{Free product with amalgamation}{\index{amalgamation}
-        Consider groups $F, G, H$ and two group morphisms $\phi:F\rightarrow G$ and $\psi:F\rightarrow H$. The free product with amalgamation $G\ast_F H$ is defined by adding the following set of relations to the presentation of the free product $G\ast H$:
+        Consider three groups $F,G,H$ together with two group morphisms $\phi:F\rightarrow G$ and $\psi:F\rightarrow H$. The free product with amalgamation $G\ast_F H$ is defined by adding the following set of relations to the presentation of the free product $G\ast H$:
         \begin{gather}
-            \big\{\phi(f)\psi(f)^{-1} = e:f\in F\big\}.
+            \big\{\phi(f)\psi(f)^{-1} = e\,\big\vert\,f\in F\big\}.
         \end{gather}
         This is the same as saying that the free product with amalgamation can be constructed as
         \begin{gather}
@@ -331,29 +344,27 @@
         where $N_F$ is the normal subgroup generated by elements of the form $\phi(f)\psi(f)^{-1}$.
     }
 
-\subsection{Free groups}
-
-    \newdef{Free Abelian group}{\index{free!group}\index{basis}\index{rank!of a group}
-        An Abelian group $G$ with generators $\{g_i\}_{i\in I}$ is said to be freely generated if every element $g\in G$ can be uniquely written as a formal linear combination of the generators:\footnote{This means that $G$ admits a presentation without any relations.}
+    \newdef{Free Abelian group}{\index{basis}\index{rank!of a group}
+        An Abelian group $G$ is said to be freely generated on the generators $\{g_i\}_{i\in I}$ if every element $g\in G$ can be uniquely written as a formal linear combination of the generators:
         \begin{gather}
-            G = \left\{\sum_ia_ig_i:a_i\in\mathbb{Z}\right\}.
+            G = \left\{\sum_{i\in J}a_ig_i\,\middle\vert\,a_i\in\mathbb{Z}, J\subseteq I\text{ is finite}\right\}.
         \end{gather}
-        The set of generators $\{g_i\}_{i\in I}$ is then called a \textbf{basis}\footnote{In analogy with the basis of a vector space.} of $G$. The number of elements in the basis is called the \textbf{rank} of $G$.
+        The set of generators is called a \textbf{basis}\footnote{In analogy with the basis of a vector space.} of $G$. The number of elements in the basis is called the \textbf{rank} of $G$.
     }
-    \begin{property}[Subgroups]
-        Consider a free group $G$. Let $H\subset G$ be a subgroup. Then $H$ is also free.
+    \begin{property}[Nielsen-Schreier]\index{Nielsen-Schreier}
+        Every subgroup of a free group is free.
     \end{property}
 
     \begin{theorem}[Fundamental theorem of finitely generated groups]\index{fundamental theorem!of finitely generated groups}\index{torsion}\label{group:theorem:free_group}
-        Every finitely generated Abelian group $G$ of rank $n$ can either be decomposed as a quotient of two free and finitely generated groups:
+        Every finitely generated Abelian group $G$ of rank $n$ can either be decomposed as a quotient of two free, finitely generated, Abelian groups
         \begin{gather}
-            G = F/H
+            G = F/F'
         \end{gather}
-        or as a direct sum of a free and finitely generated group and a torsion group\footnote{See definition \ref{group:torsion_group}.}:
+        or as a direct sum of a free, finitely generated, Abelian group and a torsion group \ref{group:torsion_group}:
         \begin{gather}
-            G = A\oplus T\qquad\text{where}\qquad T = Z_{h_1}\oplus\cdots\oplus Z_{h_m}.
+            G = A\oplus T\qquad\text{where}\qquad T\equiv Z_{h_1}\oplus\cdots\oplus Z_{h_m}.
         \end{gather}
-        In the second decomposition $A$ has rank $n-m$ and all $Z_{h_i}$ are cyclic groups of order $h_i$ where $h_i$ is the power a prime. The group $T$ is called the \textbf{torsion subgroup}.
+        In the second decomposition $A$ has rank $n-m$ and all $Z_{h_i}$ are cyclic groups of order $h_i$, where $h_i$ is the power a prime. The group $T$ is called the \textbf{torsion subgroup}.
     \end{theorem}
     \begin{property}[Uniqueness]
         The rank $n-m$ and the numbers $h_i$ from previous theorem are unique.
@@ -361,52 +372,44 @@
 
 \section{Group actions}\label{section:group_actions}
 
-    \newdef{Group morphism}{\index{morphism!of groups}
-        A group morphism $\Phi:G\rightarrow H$ is a map satisfying $\forall g, h \in G$:
-        \begin{gather}
-            \Phi(gh) = \Phi(g)\Phi(h).
-        \end{gather}
-        Group morphisms are often simply called homomorphisms. However, this is rather ambiguous since the term homomorphism refers to any morphism that preserves the natural structure on an algebraic object and hence we will refrain from using it.
-    }
-
-    \newdef{Kernel}{\index{kernel}\label{group:kernel}
-        The kernel of a group morphism $\Phi:G\rightarrow H$ is defined as the set
-        \begin{gather}
-            \ker(\Phi) := \{g\in G: \Phi(g) = e_H\}.
-        \end{gather}
-    }
-
-    \begin{theorem}[First isomorphism theorem]\index{isomorphism!theorem}\label{group:theorem:first_isomorphism_theorem}
-        Let $G, H$ be a groups and let $\varphi:G\rightarrow H$ be a group morphism. If $\varphi$ is surjective then $G/\ker\varphi\cong H$.
-    \end{theorem}
-
     \newdef{Group action}{\index{group!action}\label{group:group_action}
-        Let $G$ be a group and let $V$ be a set. A map $\rho: G\times V \rightarrow V$ is called an action of $G$ on $V$ if it satisfies the following conditions for all $g,h \in G$ and $v\in V$:
+        Let $G$ be a group and let $X$ be a set. A map $\rho:G\times X \rightarrow X$ is called an action of $G$ on $X$ if it satisfies the following conditions for all $g,h\in G$ and $x\in X$:
         \begin{enumerate}
-            \item \textbf{Identity}: $\rho(e, v) = v$ (where $e$ is the identity element in $G$).
-            \item \textbf{Compatibility}: $\rho(gh, v) = \rho(g, \rho(h, v))$.
+            \item \textbf{Identity}: $\rho(e,x) = x$.
+            \item \textbf{Compatibility}: $\rho(gh,x) = \rho(g,\rho(h,x))$.
         \end{enumerate}
-        The set $V$ is called a (left) \textbf{$G$-space}. Right $G$-saces are of course defined a similar way.
+        The set $X$ is called a (left) \textbf{$G$-space} or \textbf{$G$-set}. Right $G$-spaces are defined a similar way.
     }
     \begin{adefinition}\label{group:permutation_remark}
-        A group action can equivalently be defined as a group morphism $\rho:G\rightarrow\text{Sym}(V)$. It assigns a permutation of $V$ to every element $g\in G$. If the set $V$ is equipped with some extra algebraic structure, one should replace $\text{Sym}(V)$ by $\text{Aut}(V)$, i.e. the action of $G$ should respect this extra structure.
+        A group action can equivalently be defined as a group morphism $\rho:G\rightarrow\mathrm{Sym}(X)$. It assigns a permutation of $X$ to every element $g\in G$. If the set $X$ is equipped with some extra algebraic structure, one should replace $\mathrm{Sym}(X)$ by $\mathrm{Aut}(X)$, i.e. the action of $G$ should respect the structure.
     \end{adefinition}
-
     \begin{notation}
-        The action $\rho(g, v)$ is often denoted by $g\cdot v$ or even $gv$ if no confusion can arise.
+        The action $\rho(g,x)$ is often denoted by $g\cdot x$ or even $gx$ if no confusion can arise.
     \end{notation}
 
-    \newdef{Orbit}{\index{orbit}\label{group:orbit}
-        The orbit of an element $x\in X$ with respect to a group $G$ is defined as the set
+    \newdef{Equivariant map}{\index{equivariant!map}\index{morphism!of $G$-sets}\label{group:equivariant}
+        Let $X,Y$ be two $G$-spaces. An equivariant map between these sets is a function $f:X\rightarrow Y$ satisfying
         \begin{gather}
-            G\cdot x \equiv \{g\cdot x:g\in G\}.
+            g\cdot f(x) = f(g\cdot x),
         \end{gather}
-        The relation \[p\sim q \iff \exists g\in G: p = g\cdot q\] induces an equivalence relation for which the equivalence classes coincide with the orbits of the $G$-action. The set of equivalence classes $X/\sim$, often denoted by $X/G$, is called the \textbf{orbit space}.
+        where, by abuse of notation, the symbol $\cdot$ represents the group actions on both $X$ and $Y$. An equivariant map is sometimes called a \textbf{$G$-map}.\footnote{$G$-spaces together with the $G$-maps constitute a category.}
+    }
+
+    \begin{example}[$G$-module]\index{module!over a group}\index{intertwiner}\label{group:module}
+        An Abelian group $M$ equipped with a left group action $\varphi:G\rightarrow\mathrm{Aut}(M)$, i.e. an action that acts by group morphisms. Equivariant maps of $G$-modules are also called \textbf{intertwining maps} or \textbf{intertwiners}.
+    \end{example}
+
+    \newdef{Orbit}{\index{orbit}\label{group:orbit}
+        The orbit of an element $x\in X$ with respect to the action a group $G$ is defined as the set
+        \begin{gather}
+            G\cdot x\equiv\{g\cdot x\mid g\in G\}.
+        \end{gather}
+        The relation \[p\sim q\iff\exists g\in G:p = g\cdot q\] induces an equivalence relation for which the equivalence classes coincide with the orbits of the $G$-action. The set of equivalence classes $X/\!\sim$, often denoted by $X/G$, is called the \textbf{orbit space}.
     }
     \newdef{Stabilizer}{\index{stabilizer}\index{isotropy group}\index{little!group}
-        The stabilizer group or \textbf{isotropy group}\footnote{Sometimes it is also called the \textbf{little group}. In particular in physics (see \textit{Wigner's little group}).} of an element $x\in X$ with respect to a group $G$ is defined as the set
+        The stabilizer group (also called \textbf{isotropy group} or \textbf{little group}) of an element $x\in X$ with respect to the action of a group $G$ is defined as the set
         \begin{gather}
-            G_x := \{g\in G:g \cdot x = x\}.
+            G_x := \{g\in G\mid g\cdot x = x\}.
         \end{gather}
         This is a subgroup of $G$ for all $x\in X$.
     }
@@ -418,23 +421,22 @@
     \end{theorem}
 
     \newdef{Free action}{\index{free}\label{group:free_action}
-        A group action is said to be free if $g\cdot x = x$ implies $g = e$ for all $x\in X$. Equivalently, a group action is free if the stabilizer group of all elements is trivial.
+        A group action is said to be free if $g\cdot x=x$ implies $g=e$ for any $x\in X$. Equivalently, a group action is free if the stabilizer groups of all elements is trivial.
     }
     \newdef{Faithful action}{\index{faithful!action}\index{effective!action|see{faithful}}\label{group:faithful_action}
-        A group action is said to be faithful or \textbf{effective} if the morphism $G\rightarrow\text{Aut}(X)$ is injective. Alternatively, a group action is faithful if for every two group elements $g, h\in G$ there exists an element $x\in X$ such that $g\cdot x\neq h\cdot x$.
+        A group action is said to be faithful or \textbf{effective} if the morphism $G\rightarrow\mathrm{Aut}(X)$ is injective. Alternatively, a group action is faithful if for every two group elements $g,h\in G$ there exists an element $x\in X$ such that $g\cdot x\neq h\cdot x$.
     }
 
     \newdef{Transitive action}{\index{transitive!action}\label{group:transitive}
-        A group action is said to be transitive if for every two elements $x, y\in X$ there exists a group element $g\in G$ such that $g\cdot x = y$. Equivalently we can say that a group action is transitive if there is only one orbit.
+        A group action is said to be transitive if for every two elements $x, y\in X$ there exists a group element $g\in G$ such that $g\cdot x = y$. Equivalently, a group action is transitive if there is only one orbit.
     }
-    \newdef{Homogeneous space}{\index{homogeneous!space}
-        If the action of a group $G$ on a set $X$ is transitive, then $X$ is said to be a homogeneous space.
-    }
-
     \begin{property}[$\dag$]\label{group:transitive_action_property}
-        Let $X$ be a set and let $G$ be a group such that the action of $G$ on $X$ is transitive. There exists a bijection $X\cong G/G_x$ where $G_x$ is the stabilizer of any element $x\in X$.
+        Let $X$ be a set equipped with a transitive action of a group $G$. There exists a bijection $X\cong G/G_x$, where $G_x$ is the stabilizer of any element $x\in X$.
     \end{property}
 
+    \newdef{Homogeneous space}{\index{homogeneous!space}
+        A set equipped with a transitive group action.
+    }
     \newdef{Principal homogenous space}{\index{torsor}\label{group:torsor}
         If the action of a group $G$ on a homogeneous space $X$ is also free, then $X$ is said to be a principal homogeneous space or \textbf{$G$-torsor}.
     }
@@ -447,49 +449,36 @@
         \begin{itemize}
             \item $G,H$ are two groups,
             \item $t$ is a group morphism $H\rightarrow G$, and
-            \item and $\alpha$ is a group morphism $G\rightarrow\text{Aut}(H)$, i.e. $G$ acts by automorphisms on $H$.
+            \item $\alpha$ is a group morphism $G\rightarrow\mathrm{Aut}(H)$.
         \end{itemize}
         These data are required to satisfy two compatibility conditions:
         \begin{enumerate}
-            \item \textbf{$G$-equivariance}:
+            \item\textbf{$G$-equivariance}:
             \begin{gather}
                 t(\alpha(g)h) = gt(h)g^{-1}.
             \end{gather}
-            \item \textbf{Peiffer identity}:
+            \item\textbf{Peiffer identity}:
             \begin{gather}
                 \alpha(t(h))h' = hh'h^{-1}.
             \end{gather}
         \end{enumerate}
     }
 
-    \newdef{$G$-module}{\index{module!over a group}\label{group:g_module}
-        Let $G$ be a group and let $M$ be a commutative group. $M$, equipped with a left group action $\varphi:G\times M\rightarrow M$, is said to be a (left) $G$-module if $\varphi$ satisfies the following equation (''distributivity''):
-        \begin{gather}
-            g\cdot(a+b) = g\cdot a + g\cdot b
-        \end{gather}
-        where $a, b\in M$ and $g\in G$.
-    }
-    \newdef{$G$-module morphism}{\index{morphism!of $G$-modules}\index{equivariant!map}\index{intertwiner}\label{group:equivariant}
-        A $G$-module morphism between two (left) $G$-modules $V,W$ is a map $f:V\rightarrow W$ satisfying
-        \begin{gather}
-            g\cdot f(v) = f(g\cdot v)
-        \end{gather}
-        where the symbol $\cdot$ represents the group actions in $W$ and $V$ respectively. It is sometimes called a \textbf{$G$-map}, a \textbf{$G$-equivariant map}, an \textbf{intertwining map} or just an \textbf{intertwiner}.
-    }
-
 \section{Group cohomology}\index{cohomology!of groups}
 
     \newdef{Group cohomology}{\label{group:cohomology}
-        Consider a group $G$ together with a $G$-module $A$. First we define the chain group as
+        Consider a group $G$ together with a $G$-module $A$. Define the $k^{th}$ \textbf{chain group} as
         \begin{gather}
-            C^k(G; A) := \big\{\text{all set-theoretic functions from }G^k\text{ to }A\big\}.
+            C^k(G;A) := \big\{\text{all set-theoretic functions from }G^k\text{ to }A\big\}.
         \end{gather}
-        The coboundary map $d^k:C^k(G; A)\rightarrow C^{k+1}(G; A)$ is then defined as follows:
+        The coboundary map $d^k:C^k(G;A)\rightarrow C^{k+1}(G;A)$ is defined as follows:
         \begin{align}
-            d^kf(g_1, \ldots, g_k, g_{k+1}) = g_1\cdot f(g_2, \ldots, &g_k, g_{k+1}) + (-1)^{k+1}f(g_1, \ldots, g_k)\nonumber\\ &+ \sum_{i=1}^k(-1)^{i+1}f(g_1, \ldots, g_ig_{i+1}, \ldots, g_k, g_{k+1}).
+            d^kf(g_1,\ldots,g_k,g_{k+1}) = g_1\cdot f(g_2,\ldots,&g_k,g_{k+1}) + (-1)^{k+1}f(g_1,\ldots,g_k)\nonumber\\ &+\sum_{i=1}^k(-1)^{i+1} f(g_1,\ldots,g_ig_{i+1},\ldots,g_k,g_{k+1}).
         \end{align}
         The cohomology groups are defined as the following quotient groups:
         \begin{gather}
-            H^k(G; A) := \frac{\text{ker}(d^k)}{\text{im}(d^k)}.
+            H^k(G;A) := \frac{\text{ker}(d^k)}{\text{im}(d^k)}.
         \end{gather}
     }
+
+    ?? COMPLETE (ADD e.g. classification of extensions) ??

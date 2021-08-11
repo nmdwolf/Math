@@ -5,7 +5,7 @@
 \section{Categories}
 
     \newdef{Category}{
-        A category $\mathbf{C}$ consists of two collections, the objects $\ob{C}$ and the morphisms $\mathrm{hom}(\mathbf{C})$, that satisfy the following conditions:
+        A category $\mathbf{C}$ consists of two collections, the objects $\ob{C}$ and the morphisms $\mathrm{hom}(\mathbf{C})$ or $\mathrm{mor}(\mathbf{C})$, that satisfy the following conditions:
         \begin{enumerate}
             \item\textbf{Source and target}: For every morphism $f\in\mathrm{hom}(\mathbf{C})$ there exist two objects $s(f),t(f)\in\ob{C}$, the source and target. The collection of all morphisms with source $x$ and target $y$ is denoted by $\hom_{\mathbf{C}}(x,y)$ or $\mathbf{C}(x,y)$.
             \item\textbf{Existence of composition}: For every two morphisms $f\in\mathbf{C}(y,z)$ and $g\in\mathbf{C}(x,y)$, the composite $f\circ g$ is an element of $\mathbf{C}(x,z)$. Moreover, composition is required to be associative.
@@ -266,8 +266,8 @@
     \newdef{Comma category}{\index{category!comma}
         Let $\mathbf{A},\mathbf{B}$ and $\mathbf{C}$ be three categories and let $\func{F}{A}{C}$ and $\func{G}{B}{C}$ be two functors. The comma category $F\downarrow G$ is defined as follows:
         \begin{itemize}
-            \item Objects are triples $(x,y,\gamma)$ where $x\in\ob{A},y\in\ob{B}$ and $\gamma:Fx\rightarrow Gy$.
-            \item Morphisms $(x,y,\gamma)\rightarrow(k,l,\sigma)$ are pairs $(f,g)$ with $f:x\rightarrow k\in\text{hom}(\mathbf{A})$ and $g:y\rightarrow l\in\text{hom}(\mathbf{B})$ such that $\sigma\circ Ff = Gg\circ\gamma$.
+            \item\textbf{Objects}: The triples $(x,y,\gamma)$ where $x\in\ob{A},y\in\ob{B}$ and $\gamma:Fx\rightarrow Gy$.
+            \item\textbf{Morphisms}: The morphisms $(x,y,\gamma)\rightarrow(k,l,\sigma)$ are pairs $(f,g)$ with $f:x\rightarrow k\in\text{hom}(\mathbf{A})$ and $g:y\rightarrow l\in\text{hom}(\mathbf{B})$ such that $\sigma\circ Ff = Gg\circ\gamma$.
             \item Composition of morphisms is defined componentwise.
         \end{itemize}
     }
@@ -281,8 +281,8 @@
     \newdef{Slice category}{\index{category!slice}
         Let $\mathbf{C}$ be a category and consider an object $x\in\ob{C}$. The slice category $\mathbf{C}/x$ of $\mathbf{C}$ over $x$ is defined as follows:
         \begin{itemize}
-            \item The objects are morphisms in $\mathbf{C}$ with codomain $x$.
-            \item The morphisms $f\rightarrow g$ are morphisms $h$ in $\mathbf{C}$ such that $g\circ h = f$.
+            \item\textbf{Objects}: The morphisms in $\mathbf{C}$ with codomain $x$.
+            \item\textbf{Morphisms}: The morphisms $f\rightarrow g$ are morphisms $h$ in $\mathbf{C}$ such that $g\circ h = f$.
         \end{itemize}
         This category is also called the \textbf{over-category} of $x$. By dualizing one obtains the \textbf{under-category} of $x$.
     }
@@ -779,20 +779,44 @@
         The pullback or \textbf{fibre product} of two morphisms $f:x\rightarrow z$ and $g:y\rightarrow z$ is defined as the limit of cospan \ref{fig:pullback}. The full diagram characterizing the pullback, which has the form of a square, is sometimes called a \textbf{Cartesian square}.
     }
     \begin{notation}[Pullback]
-        The pullback of two morphisms $f:x\rightarrow z$ and $g:y\rightarrow z$ is often denoted by $x\times_zy$. The associated pullback square is sometimes written as
-        \begin{gather*}
-            \begin{tikzpicture}
-                \node (X) at (0, -2) {$x$};
-                \node (Y) at (2, 0) {$y$};
-                \node (Z) at (2, -2) {$z$};
-                \node (pull) at (0, 0) {$x\times_zy$};
-                \node at (1, -1) {pb};
-                \draw[<-] (Z) -- node[below]{$f$} (X);
-                \draw[<-] (Z) -- node[right]{$g$} (Y);
-                \draw[->] (pull) -- (X);
-                \draw[->] (pull) -- (Y);
-            \end{tikzpicture}
-        \end{gather*}
+        The pullback of two morphisms $f:x\rightarrow z$ and $g:y\rightarrow z$ is often denoted by $x\times_zy$. The associated pullback square is sometimes written as in figure \ref{fig:pullback_square}.
+
+        \begin{figure}[ht!]
+            \centering
+            \begin{subfigure}[b]{0.49\textwidth}
+                \centering
+                \begin{tikzpicture}
+                    \node (X) at (0, -2) {$x$};
+                    \node (Y) at (2, 0) {$y$};
+                    \node (Z) at (2, -2) {$z$};
+                    \node (pull) at (0, 0) {$x\times_zy$};
+                    \node at (1, -1) {pb};
+                    \draw[<-] (Z) -- node[below]{$f$} (X);
+                    \draw[<-] (Z) -- node[right]{$g$} (Y);
+                    \draw[->] (pull) -- (X);
+                    \draw[->] (pull) -- (Y);
+                \end{tikzpicture}
+                \caption{Pullback square.}
+                \label{fig:pullback_square}
+            \end{subfigure}
+            \begin{subfigure}[b]{0.49\textwidth}
+                \centering
+                \begin{tikzpicture}
+                    \node (X) at (0, -2) {$x$};
+                    \node (Y) at (2, 0) {$y$};
+                    \node (Z) at (0, 0) {$z$};
+                    \node (push) at (2, -2) {$x\sqcup_zy$};
+                    \node at (1, -1) {po};
+                    \draw[->] (Z) -- node[left]{$f$} (X);
+                    \draw[->] (Z) -- node[above]{$g$} (Y);
+                    \draw[<-] (push) -- (X);
+                    \draw[<-] (push) -- (Y);
+                \end{tikzpicture}
+                \caption{Pushout square.}
+                \label{fig:pushout_square}
+            \end{subfigure}
+            \caption{Pullback and pushout diagrams.}
+        \end{figure}
     \end{notation}
 
     \begin{property}[Product]\index{product}
@@ -802,8 +826,8 @@
         Consider a morphism $f:x\rightarrow y$. Its kernel pair is defined as the pullback of $f$ along itself.
     }
 
-    \newdef{Pushout}{\index{pushout}
-        The dual notion of a pullback, i.e. the colimit of a span.
+    \newdef{Pushout}{\index{pushout}\label{cat:pushout}
+        The dual notion of a pullback, i.e. the colimit of a span. See figure \ref{fig:pushout_square}.
     }
 
     \begin{property}
@@ -938,11 +962,11 @@
 
     \newdef{Monoidal category}{\index{monoidal!category}\index{tensor!product}\label{cat:monoidal_category}
         A category $\mathbf{C}$ equipped with a bifunctor \[-\otimes -:\mathbf{C}\times\mathbf{C}\rightarrow\mathbf{C}\] called the \textbf{tensor product} or \textbf{monoidal product}, a distinct object $\mathbf{1}$ called the \textbf{unit object}, and the following three natural isomorphisms called the \textbf{coherence maps}:
-        \begin{enumerate}
+        \begin{itemize}
             \item\textbf{Associator}: $\alpha_{x,y,z}:(x\otimes y)\otimes z\cong x\otimes(y\otimes z)$;
             \item\textbf{Left unitor}: $\lambda_x:\mathbf{1}\otimes x\cong x$; and
             \item\textbf{Right unitor}: $\rho_x:x\otimes\mathbf{1}\cong x$.
-        \end{enumerate}
+        \end{itemize}
         These natural transformations are required make the \textbf{triangle} and \textbf{pentagon} diagrams \ref{fig:triangle_diagram} and \ref{fig:pentagon_diagram} commute.
 
         \begin{figure}[ht!]
@@ -1204,7 +1228,7 @@
 
     \newdef{Internal category}{\label{cat:internal_category}
         Let $\mathcal{E}$ be a category with pullbacks. A category $\mathbf{C}$ internal to $\mathcal{E}$ consists of the following data:
-        \begin{enumerate}
+        \begin{itemize}
             \item an object $C_0\in\ob{\mathcal{E}}$ of objects;
             \item an object $C_1\in\ob{\mathcal{E}}$ of morphisms;
             \item source and target morphisms $s, t\in\mathcal{E}(C_1,C_0)$;
@@ -1216,7 +1240,7 @@
                 c\circ(c\times_{C_0}\mathbbm{1}) &= c\circ(\mathbbm{1}\times_{C_0}c),
             \end{align*}
             where $\pi_1,\pi_2$ are the canonical projections associated with the pullback $C_1\times_{C_0}C_1$ of $(s,t)$.
-        \end{enumerate}
+        \end{itemize}
 
         Morphisms between these categories, suitably called \textbf{internal functors}, are given by a pair of morphisms (in $\mathcal{E}$) between internal objects and morphisms, that preserve composition and identities. Internal natural transformations are defined in a similar way.
     }
@@ -1347,28 +1371,28 @@
 
 \section{Enriched category theory}\label{section:enriched_category_theory}
 
-    The following definition is due to \textit{B\'enabou}. It should represent the ``ideal place in which to do category theory'':
+    The following definition is due to \textit{B\'enabou}. It should represent the ``ideal place in which to do category theory''.
     \newdef{Cosmos}{\index{cosmos}\label{cat:cosmos}
         A complete and cocomplete closed symmetric monoidal category.
     }
 
     \newdef{Enriched category}{\index{category!enriched}
         Let $(\mathcal{V},\otimes,\mathbf{1})$ be a monoidal category. A $\mathcal{V}$-enriched category, also called a $\mathcal{V}$-category\footnote{Not to be confused with the notation for fibre categories \ref{cat:fibre_category}.}, consists of the following elements:
-        \begin{enumerate}
+        \begin{itemize}
             \item a collection of objects $\ob{C}$, and
             \item for every pair of objects $x,y\in\ob{C}$, an object $\mathbf{C}(x,y)\in\ob{\mathcal{V}}$ for which the following morphisms exist:
-            \begin{itemize}
+            \begin{enumerate}
                 \item $\text{id}_x:\mathbf{1}\rightarrow\mathbf{C}(x,x)$ giving the (enriched) identity morphism, and
                 \item $\circ_{xyz}:\mathbf{C}(y,z)\otimes\mathbf{C}(x,y)\rightarrow\mathbf{C}(x,z)$ replacing the usual composition.
-            \end{itemize}
-        \end{enumerate}
-        The associativity and unity properties are given by commutative diagrams for the $\text{id}$ and $\circ$ morphisms together with the associators and unitors in $\mathcal{V}$.
+            \end{enumerate}
+        \end{itemize}
+        The associativity and unity properties are given by commutative diagrams for the $\mathrm{id}$ and $\circ$ morphisms together with the associators and unitors in $\mathcal{V}$.
     }
     \newdef{Underlying category}{
         Given a $\mathcal{V}$-enriched category $\mathbf{C}$, the underlying category $\mathbf{C}_0$ is defined as follows:
         \begin{itemize}
-            \item $\text{ob}(\mathbf{C}_0):=\ob{C}$, and
-            \item $\mathbf{C}_0(x,y):=\mathcal{V}(\mathbf{1},\mathbf{C}(x,y))$,
+            \item\textbf{Objects}: $\ob{C}$
+            \item\textbf{Morphisms}: $\mathcal{V}(\mathbf{1},\mathbf{C}(x,y))$,
         \end{itemize}
         where $\mathbf{1}$ is the monoidal unit in $\mathcal{V}$. This construction can be obtained as the functor $\mathcal{V}\mathbf{Cat}(\mathcal{I},-)$ where $\mathcal{I}$ is the one-object $\mathcal{V}$-category with $\mathcal{I}(\ast,\ast)\equiv\mathbf{1}$.
     }
@@ -1379,10 +1403,10 @@
     Given two $\mathcal{V}$-enriched categories, one can define suitable functors between them:
     \newdef{Enriched functor}{\index{functor}
         A $\mathcal{V}$-enriched functor $\func{F}{A}{B}$ consists of the following data:
-        \begin{enumerate}
+        \begin{itemize}
             \item a function $F_0:\ob{A}\rightarrow\ob{B}$ (as for ordinary functors), and
             \item for every two objects $x,y\in\ob{A}$, a morphism $F_{x,y}:\mathbf{A}(x,y)\rightarrow\mathbf{B}(Fx,Fy)$ in $\mathcal{V}$.
-        \end{enumerate}
+        \end{itemize}
         These have to satisfy the ``usual'' composition and unit conditions.
 
         By extending Property \ref{cat:natural_end} using enriched ends, one obtains a definition of enriched natural transformations and, therefore, also a definition of enriched functor categories.:
@@ -1461,14 +1485,14 @@
     The definition and properties of internal hom-functors and (co)powers can be formalized as follows:
     \newdef{Two-variable adjunction}{\index{adjunction}\label{cat:two_variable_adjunction}
         Consider three categories $\mathbf{A,B}$ and $\mathbf{C}$. A two-variable adjunction $\mathbf{A}\times\mathbf{B}\rightarrow\mathbf{C}$ consists of three bifunctors:
-        \begin{enumerate}
+        \begin{itemize}
             \item $\func{-\otimes-}{A\times B}{C}$,
-            \item $\text{hom}_L:\mathbf{A}^{op}\times\mathbf{C}\rightarrow\mathbf{B}$, and
-            \item $\text{hom}_R:\mathbf{B}^{op}\times\mathbf{C}\rightarrow\mathbf{A}$
-        \end{enumerate}
+            \item $\mathrm{hom}_L:\mathbf{A}^{op}\times\mathbf{C}\rightarrow\mathbf{B}$, and
+            \item $\mathrm{hom}_R:\mathbf{B}^{op}\times\mathbf{C}\rightarrow\mathbf{A}$
+        \end{itemize}
         admitting the following natural isomorphisms:
         \begin{gather}
-            \mathbf{C}(x\otimes y,z)\cong\mathbf{A}(x,\text{hom}_R(y,z))\cong\mathbf{B}(y,\text{hom}_L(x,z)).
+            \mathbf{C}(x\otimes y,z)\cong\mathbf{A}(x,\mathrm{hom}_R(y,z))\cong\mathbf{B}(y,\mathrm{hom}_L(x,z)).
         \end{gather}
         It should be noted that fixing any of the variables gives rise to ordinary adjunctions in the sense of Section \ref{section:adjunction}.
     }
@@ -1480,7 +1504,7 @@
     \newadef{Kan extension}{\index{Kan!extension}\label{cat:enriched_kan_extension}
         Let $\mathbf{A,B}$ and $\mathbf{C}$ be categories enriched over a monoidal category $\mathcal{V}$. If $\mathbf{B}$ is assumed to be copowered over $\mathcal{V}$, one can define the left Kan extension of $\func{F}{A}{B}$ along $\func{G}{A}{C}$ as a coend:
         \begin{gather}
-            \text{Lan}_GF := \int^{x\in\mathbf{A}}\mathbf{C}(Gx,-)\otimes Fx.
+            \text{Lan}_GF := \int^{x\in\mathbf{A}}\mathbf{C}(Gx,-)\cdot Fx.
         \end{gather}
         If $\mathbf{B}$ is assumed to be powered over $\mathcal{V}$, one can define the right Kan extension as an end:
         \begin{gather}
@@ -1831,10 +1855,10 @@
     }
     \newdef{Lax natural transformation}{
         Consider two 2-functors $\func{F,G}{A}{B}$ between bicategories. A lax natural transformation $\eta:F\Rightarrow G$ consists of the following data:
-        \begin{itemize}
+        \begin{enumerate}
             \item for every object $x\in\ob{A}$, a 1-morphism $\eta_x:Fx\rightarrow Gx$, and
             \item for every 1-morphism $f:x\rightarrow y$ in $\mathrm{hom}(\mathbf{A})$, a 2-morphism $\eta_f:Gf\circ\eta_x\Rightarrow\eta_y\circ Ff$ such that the $\eta_f$ are the components of a natural transformation $(\eta_x)^*\circ G\Rightarrow(\eta_y)_*\circ F$ and such that the assignment $f\mapsto\eta_f$ satisfies the ``obvious'' identity and composition axioms.
-        \end{itemize}
+        \end{enumerate}
     }
     \begin{remark}\index{pseudo!natural transformation}
         As usual in the context of higher category theory one can speak of lax 2-functors if the associator and unitors are merely required to be 2-morphisms and of strict 2-functors if these morphisms are required to be identities. If the natural transformations between morphism categories in the definition of a lax natural transformation are all isomorphisms, this is called a \textbf{pseudonatural transformation}. If the 1-morphisms $\eta$ are equivalences, they are called lax natural equivalences.

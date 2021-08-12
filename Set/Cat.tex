@@ -958,6 +958,88 @@
         Consider a general functor $\func{F}{A}{B}$. If the right Kan extension $\text{Ran}_FF$ exists, it defines a monad. Functors for which this monad is the identity are said to be \textbf{codense}.\footnote{Codense functors are usually defined in a different way, but one can show that this is an equivalent definition (hence the name).} Left Kan extensions give, by duality, rise to \textit{density comonads}.
     }
 
+\section{Internal structures}\index{internal}
+
+    \begin{property}[Eckmann-Hilton argument]\index{Eckmann-Hilton!argument}\label{cat:eckmann_hilton}
+        A monoid internal to the category of monoids is the same as a commutative monoid. (See also Property \ref{algebra:eckmann_hilton}.)
+    \end{property}
+
+    \newdef{Internal category}{\label{cat:internal_category}
+        Let $\mathcal{E}$ be a category with pullbacks. A category $\mathbf{C}$ internal to $\mathcal{E}$ consists of the following data:
+        \begin{itemize}
+            \item an object $C_0\in\ob{\mathcal{E}}$ of objects;
+            \item an object $C_1\in\ob{\mathcal{E}}$ of morphisms;
+            \item source and target morphisms $s, t\in\mathcal{E}(C_1,C_0)$;
+            \item an ``identity-assigning'' morphism $e\in\mathcal{E}(C_0, C_1)$ such that \[s\circ e = \mathbbm{1}_{C_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{C_0};\] and
+            \item a composition morphism $c:C_1\times_{C_0}C_1\rightarrow C_1$ such that the following equations hold:
+            \begin{align*}
+                s\circ c = s\circ\pi_1\qquad\qquad&\qquad\qquad t\circ c = t\circ\pi_2\\
+                \pi_1 = c\circ(e\times_{C_0}\mathbbm{1})\qquad\qquad&\qquad\qquad c\circ(\mathbbm{1}\times_{C_0}e)=\pi_2\\
+                c\circ(c\times_{C_0}\mathbbm{1}) &= c\circ(\mathbbm{1}\times_{C_0}c),
+            \end{align*}
+            where $\pi_1,\pi_2$ are the canonical projections associated with the pullback $C_1\times_{C_0}C_1$ of $(s,t)$.
+        \end{itemize}
+
+        Morphisms between these categories, suitably called \textbf{internal functors}, are given by a pair of morphisms (in $\mathcal{E}$) between internal objects and morphisms, that preserve composition and identities. Internal natural transformations are defined in a similar way.
+    }
+    \begin{notation}
+        The \textit{(bi)category} of internal categories in $\mathcal{E}$ is denoted by $\mathbf{Cat}(\mathcal{E})$. It should be noted that for $\mathcal{E}=\mathbf{Set}$, the ordinary category of small categories $\mathbf{Cat}(\mathbf{Set})=\mathbf{Cat}$ is obtained.
+    \end{notation}
+    \begin{adefinition}
+        The above definition can be reformulated in a very elegant way. An internal category in $\mathcal{E}$ is a monad in the bicategory $\mathbf{Span}(\mathcal{E})$ of spans in $\mathcal{E}$ as shown in figure \ref{fig:internal_cat_monad}.
+
+        \begin{figure}[ht!]
+            \centering
+            \begin{tikzpicture}
+                \node[label={[align=left]right:Span gives source and target maps}] at (-10, -0.5) {};
+                \node[label={[align=left]right:Multiplication gives composition}] at (-10, -3) {};
+                \node[label={[align=left]right:Unit gives identity}] at (-10, -6) {};
+                \node (mor) at (0, 0) {$C_1$};
+                \node (ob1) at (-2, -1) {$C_0$};
+                \node (ob2) at (2, -1) {$C_0$};
+                \draw[->] (mor) -- node[above left]{\footnotesize$s$} (ob1);
+                \draw[->] (mor) -- node[above right]{\footnotesize$t$} (ob2);
+                \node (MM) at (0, -2) {$C_1\times_{C_0}C_1$};
+                \node (M1) at (0, -4) {$C_1$};
+                \node (O1) at (-2, -3) {$C_0$};
+                \node (O2) at (2, -3) {$C_0$};
+                \draw[->] (MM) -- node[above left]{\footnotesize$s\circ\pi_0$} (O1);
+                \draw[->] (MM) -- node[above right]{\footnotesize$t\circ\pi_1$} (O2);
+                \draw[->] (MM) -- node[right]{$c$} (M1);
+                \draw[->] (M1) -- node[below left]{\footnotesize$s$} (O1);
+                \draw[->] (M1) -- node[below right]{\footnotesize$t$} (O2);
+                \node (O3) at (0, -5) {$C_0$};
+                \node (M2) at (0, -7) {$C_1$};
+                \node (O4) at (-2, -6) {$C_0$};
+                \node (O5) at (2, -6) {$C_0$};
+                \draw[->] (O3) -- node[above left]{\footnotesize$\mathbbm{1}_a$} (O4);
+                \draw[->] (O3) -- node[above right]{\footnotesize$\mathbbm{1}_a$} (O5);
+                \draw[->] (O3) -- node[right]{$e$} (M2);
+                \draw[->] (M2) -- node[below left]{\footnotesize$s$} (O4);
+                \draw[->] (M2) -- node[below right]{\footnotesize$t$} (O5);
+            \end{tikzpicture}
+            \caption{Internal category as a monad in $\mathbf{Span}(\mathcal{E})$.}
+            \label{fig:internal_cat_monad}
+        \end{figure}
+    \end{adefinition}
+
+    Functors between internal categories are not the only relevant morphisms. However, when defining (co)presheafs such as the hom-functor, a problem occurs. In $\mathbf{Cat}$ there exist, by definition, maps to the ambient category $\mathbf{Set}$ (ordinary category theory has a set-theoretic foundation). However, for internal categories there does not necessarily exist a morphism $\mathbf{C}\rightarrow\mathcal{E}$. To solve this problem one can consider a more general structure:
+    \newdef{Internal diagram}{\index{diagram}
+        A left module over a monad in $\mathbf{Span}(\mathcal{E})$. The dual notion is better known as an \textbf{internal presheaf}.
+    }
+    In fact, this is a specific instance of an even more general concept (for more information on the definitions and applications see \cite{maclane, johnstone}):
+    \newdef{Internal profunctor}{\index{pro!functor}
+        A bimodule between monads in $\mathbf{Span}(\mathcal{E})$. Together with the above definitions this gives rise to an equivalence $\mathbf{Mod}(\mathbf{Span}(\mathcal{E}))\cong\mathbf{Prof}(\mathcal{E})$.
+    }
+
+    \begin{construct}[Internal Yoneda profunctor]
+        Consider an internal functor $\func{F}{A}{B}$. This functor induces two internal profunctors $\profunc{F_*}{B}{A}$ and $\profunc{F^*}{A}{B}$:
+        \begin{quote}
+            For $F_*$ the object span is defined as (the profunctor $F^*$ is defined similarly) \[A_0\overset{\pi_0}{\longleftarrow}A_0\times_{B_0} B_1\overset{t\circ\pi_1}{\longrightarrow}B_0.\] The action of $f\in B_1$ is given by postcomposition with $f$ in the second factor, while the action of $g\in A_1$ is given by precomposition with $Fg$ in the second factor and changing to the domain of $g$ in the first factor.
+        \end{quote}
+        It can easily be shown that the profunctors induced by an identity functor $\mathbbm{1}_{\mathbf{C}}$ have an object span that corresponds to the internal category $\mathbf{C}$ with the actions given by (internal) composition. In the case of $\mathcal{E}=\mathbf{Set}$ this boils down to the hom-functor. The fact that the object span is equivalent to the category $\mathbf{C}$ is essentially the Yoneda embedding. For this reason this profunctor is in general called the (internal) Yoneda profunctor $\mathcal{Y}(\mathbf{C})$.
+    \end{construct}
+
 \section{Monoidal categories}
 
     \newdef{Monoidal category}{\index{monoidal!category}\index{tensor!product}\label{cat:monoidal_category}
@@ -1220,92 +1302,10 @@
         Every monoidal category is monoidally equivalent to a strict monoidal category.
     \end{theorem}
 
-\section{Internal structures}\index{internal}
-
-    \begin{property}[Eckmann-Hilton argument]\index{Eckmann-Hilton!argument}\label{cat:eckmann_hilton}
-        A monoid internal to the category of monoids is the same as a commutative monoid. (See also Property \ref{algebra:eckmann_hilton}.)
-    \end{property}
-
-    \newdef{Internal category}{\label{cat:internal_category}
-        Let $\mathcal{E}$ be a category with pullbacks. A category $\mathbf{C}$ internal to $\mathcal{E}$ consists of the following data:
-        \begin{itemize}
-            \item an object $C_0\in\ob{\mathcal{E}}$ of objects;
-            \item an object $C_1\in\ob{\mathcal{E}}$ of morphisms;
-            \item source and target morphisms $s, t\in\mathcal{E}(C_1,C_0)$;
-            \item an ``identity-assigning'' morphism $e\in\mathcal{E}(C_0, C_1)$ such that \[s\circ e = \mathbbm{1}_{C_0}\qquad\qquad\qquad t\circ e = \mathbbm{1}_{C_0};\] and
-            \item a composition morphism $c:C_1\times_{C_0}C_1\rightarrow C_1$ such that the following equations hold:
-            \begin{align*}
-                s\circ c = s\circ\pi_1\qquad\qquad&\qquad\qquad t\circ c = t\circ\pi_2\\
-                \pi_1 = c\circ(e\times_{C_0}\mathbbm{1})\qquad\qquad&\qquad\qquad c\circ(\mathbbm{1}\times_{C_0}e)=\pi_2\\
-                c\circ(c\times_{C_0}\mathbbm{1}) &= c\circ(\mathbbm{1}\times_{C_0}c),
-            \end{align*}
-            where $\pi_1,\pi_2$ are the canonical projections associated with the pullback $C_1\times_{C_0}C_1$ of $(s,t)$.
-        \end{itemize}
-
-        Morphisms between these categories, suitably called \textbf{internal functors}, are given by a pair of morphisms (in $\mathcal{E}$) between internal objects and morphisms, that preserve composition and identities. Internal natural transformations are defined in a similar way.
-    }
-    \begin{notation}
-        The \textit{(bi)category} of internal categories in $\mathcal{E}$ is denoted by $\mathbf{Cat}(\mathcal{E})$. It should be noted that for $\mathcal{E}=\mathbf{Set}$, the ordinary category of small categories $\mathbf{Cat}(\mathbf{Set})=\mathbf{Cat}$ is obtained.
-    \end{notation}
-    \begin{adefinition}
-        The above definition can be reformulated in a very elegant way. An internal category in $\mathcal{E}$ is a monad in the bicategory $\mathbf{Span}(\mathcal{E})$ of spans in $\mathcal{E}$ as shown in figure \ref{fig:internal_cat_monad}.
-
-        \begin{figure}[ht!]
-            \centering
-            \begin{tikzpicture}
-                \node[label={[align=left]right:Span gives source and target maps}] at (-10, -0.5) {};
-                \node[label={[align=left]right:Multiplication gives composition}] at (-10, -3) {};
-                \node[label={[align=left]right:Unit gives identity}] at (-10, -6) {};
-                \node (mor) at (0, 0) {$C_1$};
-                \node (ob1) at (-2, -1) {$C_0$};
-                \node (ob2) at (2, -1) {$C_0$};
-                \draw[->] (mor) -- node[above left]{\footnotesize$s$} (ob1);
-                \draw[->] (mor) -- node[above right]{\footnotesize$t$} (ob2);
-                \node (MM) at (0, -2) {$C_1\times_{C_0}C_1$};
-                \node (M1) at (0, -4) {$C_1$};
-                \node (O1) at (-2, -3) {$C_0$};
-                \node (O2) at (2, -3) {$C_0$};
-                \draw[->] (MM) -- node[above left]{\footnotesize$s\circ\pi_0$} (O1);
-                \draw[->] (MM) -- node[above right]{\footnotesize$t\circ\pi_1$} (O2);
-                \draw[->] (MM) -- node[right]{$c$} (M1);
-                \draw[->] (M1) -- node[below left]{\footnotesize$s$} (O1);
-                \draw[->] (M1) -- node[below right]{\footnotesize$t$} (O2);
-                \node (O3) at (0, -5) {$C_0$};
-                \node (M2) at (0, -7) {$C_1$};
-                \node (O4) at (-2, -6) {$C_0$};
-                \node (O5) at (2, -6) {$C_0$};
-                \draw[->] (O3) -- node[above left]{\footnotesize$\mathbbm{1}_a$} (O4);
-                \draw[->] (O3) -- node[above right]{\footnotesize$\mathbbm{1}_a$} (O5);
-                \draw[->] (O3) -- node[right]{$e$} (M2);
-                \draw[->] (M2) -- node[below left]{\footnotesize$s$} (O4);
-                \draw[->] (M2) -- node[below right]{\footnotesize$t$} (O5);
-            \end{tikzpicture}
-            \caption{Internal category as a monad in $\mathbf{Span}(\mathcal{E})$.}
-            \label{fig:internal_cat_monad}
-        \end{figure}
-    \end{adefinition}
-
-    Functors between internal categories are not the only relevant morphisms. However, when defining (co)presheafs such as the hom-functor, a problem occurs. In $\mathbf{Cat}$ there exist, by definition, maps to the ambient category $\mathbf{Set}$ (ordinary category theory has a set-theoretic foundation). However, for internal categories there does not necessarily exist a morphism $\mathbf{C}\rightarrow\mathcal{E}$. To solve this problem one can consider a more general structure:
-    \newdef{Internal diagram}{\index{diagram}
-        A left module over a monad in $\mathbf{Span}(\mathcal{E})$. The dual notion is better known as an \textbf{internal presheaf}.
-    }
-    In fact, this is a specific instance of an even more general concept (for more information on the definitions and applications see \cite{maclane, johnstone}):
-    \newdef{Internal profunctor}{\index{pro!functor}
-        A bimodule between monads in $\mathbf{Span}(\mathcal{E})$. Together with the above definitions this gives rise to an equivalence $\mathbf{Mod}(\mathbf{Span}(\mathcal{E}))\cong\mathbf{Prof}(\mathcal{E})$.
-    }
-
-    \begin{construct}[Internal Yoneda profunctor]
-        Consider an internal functor $\func{F}{A}{B}$. This functor induces two internal profunctors $\profunc{F_*}{B}{A}$ and $\profunc{F^*}{A}{B}$.
-        \begin{quote}
-            For $F_*$ the object span is defined as (the profunctor $F^*$ is defined similarly) \[A_0\overset{\pi_0}{\longleftarrow}A_0\times_{B_0} B_1\overset{t\circ\pi_1}{\longrightarrow}B_0.\] The action of $f\in B_1$ is given by postcomposition with $f$ in the second factor, while the action of $g\in A_1$ is given by precomposition with $Fg$ in the second factor and changing to the domain of $g$ in the first factor.
-        \end{quote}
-        It can easily be shown that the profunctors induced by an identity functor $\mathbbm{1}_{\mathbf{C}}$ have an object span that corresponds to the internal category $\mathbf{C}$ with the actions given by (internal) composition. In the case of $\mathcal{E}=\mathbf{Set}$ this boils down to the hom-functor. The fact that the object span is equivalent to the category $\mathbf{C}$ is essentially the Yoneda embedding. For this reason this profunctor is in general called the (internal) Yoneda profunctor $\mathcal{Y}(\mathbf{C})$.
-    \end{construct}
-
 \subsection{Closed categories}
 
     \newdef{Internal hom}{\index{internal!hom}\label{cat:internal_hom}
-        Let $(\mathbf{M},\otimes,\mathbf{1})$ be a monoidal category. In this setting one can generalize the \textit{currying} procedure, i.e. the identification of maps $x\times y\rightarrow z$ with maps $x\rightarrow(y\rightarrow z)$. The ``internal'' hom-functor $\underline{\hom}$ is defined by the following natural isomorphism:
+        Let $(\mathbf{M},\otimes,\mathbf{1})$ be a monoidal category. In this setting one can generalize the \textit{currying} procedure, i.e. the identification of maps $x\times y\rightarrow z$ with maps $x\rightarrow(y\rightarrow z)$. The internal hom-functor $\underline{\hom}$ is defined by the following natural isomorphism:
         \begin{gather}
             \hom(x\otimes y,z)\cong\hom(x,\underline{\hom}(y,z)).
         \end{gather}
@@ -1589,6 +1589,7 @@
     \end{property}
 
 \section{Abelian categories}\label{section:abelian_categories}
+\subsection{Additive and Abelian categories}
 
     \newdef{Pre-additive category}{
         A (locally small) category enriched over $\mathbf{Ab}$, i.e. a category in which every hom-set is an Abelian group and composition is bilinear.
@@ -1677,6 +1678,8 @@
     \begin{example}[$k$-linear category]\index{category!linear}
         Let $\mathbf{Vect}_k$ denote the category of vector spaces over the base field $k$. A $k$-linear category is a category enriched over $\mathbf{Vect}_k$. (If the base field is clear, the subscript is often left implicit.)
     \end{example}
+
+\subsection{Exact functors}
 
     \newdef{Exact functor}{\index{exact!functor}
         Let $\func{F}{A}{A'}$ be an additive functor between additive categories.

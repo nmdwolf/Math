@@ -4,71 +4,203 @@
     \newdef{Measure}{\index{measure}\index{outer!measure}\index{$\sigma$!additivity}\label{lebesgue:measure}
         Let $X$ be a set and let $\Sigma$ be a $\sigma$-algebra over $X$. A function $\mu:\Sigma\rightarrow\overline{\mathbb{R}}$ is called a measure if it satisfies the following conditions:
         \begin{enumerate}
-            \item \textbf{Non-negativity}: $\forall E\in\Sigma:\mu(E) \geq0$,
-            \item \textbf{Measure zero}: $\mu(\emptyset) = 0$, and
-            \item \textbf{$\sigma$-additivity}: $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{i=1}^\infty E_i\right) = \sum_{i=1}^\infty \mu(E_i)$.
+            \item\textbf{Nonnegativity}: $\forall E\in\Sigma:\mu(E) \geq0$,
+            \item\textbf{Empty set is null}: $\mu(\emptyset) = 0$, and
+            \item\textbf{$\sigma$-additivity}: $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
         \end{enumerate}
-        When $\mu$ only satisfies countable subadditivity, i.e. the equality in the last condition becomes an inequality $\leq$, for any collection of sets (disjoint or not) it is called an \textbf{outer measure}.
+        When $\mu$ only satisfies countable subadditivity, i.e. the equality in the last condition becomes an inequality $\leq$, it is called an \textbf{outer measure}.
     }
     \begin{remark}
-        To show that two measures coincide on a $\sigma$-algebra, it suffices to show that they coincide on the generating sets and apply the monotone class theorem \ref{set:theorem:monotone_class}.
+        To show that two measures coincide on a $\sigma$-algebra, it suffices to show that they coincide on the generating sets and apply the monotone class theorem \ref{set:monotone_class}.
     \end{remark}
 
     \newdef{Measure space}{\label{lebesgue:measure_space}\index{measurable!set}
-        The pair $(X,\Sigma)$ is called a measurable space. The elements $E\in\Sigma$ are called \textbf{measurable sets}. The triplet $(X,\Sigma,\mu)$ is called a measure space.
+        The pair $(X,\Sigma)$ is called a measurable space and the triple $(X,\Sigma,\mu)$ is called a measure space. The elements $E\in\Sigma$ are called \textbf{measurable sets}.
     }
 
     \newdef{Null set}{\index{null!set}
         A set $A\subset\mathbb{R}$ is said to be null if $\mu(A)=0$.
     }
 
-    \newdef{Almost everywhere\footnotemark}{\label{lebesgue:almost_everywhere}\index{almost everywhere}
+    \newdef{Almost everywhere\footnotemark}{\index{almost everywhere}\label{lebesgue:almost_everywhere}
         \footnotetext{In probability theory this is often called \textbf{almost surely}.}
-        Let $(X,\Sigma,\mu)$ be a measure space. A property $P$ is said to hold on X almost everywhere (a.e.) if it satisfies the following equation:
+        Let $(X,\Sigma,\mu)$ be a measure space. A property $P$ is said to hold on $X$ almost everywhere (abbreviated as \textbf{a.e.}) if it satisfies the following equation:
         \begin{gather}
-            \mu\big(\{x\in X:\neg P(x)\}\big) = 0,
+            \mu\big(\{x\in X\,\big\vert\,\neg P(x)\}\big) = 0,
         \end{gather}
         i.e. it holds everywhere except for a null set.
     }
 
     \newdef{Complete measure space}{\index{complete!measure space}
-        The measure space $(X,\Sigma,\mu)$ is said to be complete if for every $E\in\Sigma$ with $\mu(E) = 0$ the implication $A\subset E\implies A\in\Sigma$ holds. Additivity then necessarily implies that $\mu(A) = 0$.
+        A measure space $(X,\Sigma,\mu)$ is said to be complete if for every $E\in\Sigma$ with $\mu(E)=0$ the implication $A\subset E\implies A\in\Sigma$ holds. Additivity then necessarily implies that $\mu(A)=0$.
     }
     \newdef{Completion}{
-        Let $\mathcal{F},\mathcal{G}$ be $\sigma$-algebras over a set $X$. $\mathcal{G}$ is said to be the completion of $\mathcal{F}$ if it is the smallest $\sigma$-algebra such that the measure space $(X,\mathcal{G},\mu)$ is complete.
+        Let $\mathcal{F}\subseteq\mathcal{G}$ be $\sigma$-algebras over a set $X$. $(X,\mathcal{G},\overline{\mu})$ is called the completion of $(X,\mathcal{F},\mu)$ if:
+        \begin{enumerate}
+            \item $\forall A\in\mathcal{F}:\overline{\mu}(A)=\mu(A)$,
+            \item $(X,\mathcal{G},\overline{\mu})$ is complete, and
+            \item $\mathcal{G}$ is the smallest $\sigma$-algebra for which the foregoing conditions hold.
+        \end{enumerate}
     }
 
     \newdef{Borel measure}{\index{Borel!measure}
         Consider a topological space together with its Borel $\sigma$-algebra \ref{topology:borel_set}. Any measure defined on this measurable space is called a Borel measure.
     }
     \newdef{Regular measure}{\label{lebesgue:regular_measure}
-        Let $\mu$ be a measure on a measurable space $(X,\Sigma)$. $\mu$ is called a regular measure if it satisfies the following equations for every measurable set $B$:
+        Let $\mu$ be a measure on a measurable space $(X,\Sigma)$. It is called a regular measure if it satisfies the following equations for every measurable set $B$:
         \begin{align}
-            \mu(B) =& \inf\big\{\mu(O):O \text{ open and measurable}, O\supset B\big\}\\
-            \mu(B) =& \sup\big\{\mu(F):F \text{ compact and measurable}, F\subset B\big\}.
+            \mu(B) =& \inf\big\{\mu(O)\,\big\vert\,O\text{ open and measurable},O\supset B\big\}\\
+            \mu(B) =& \sup\big\{\mu(F)\,\big\vert\,F\text{ compact and measurable},F\subset B\big\}.
         \end{align}
-        A Borel regular measure can also be chracterized as a Borel measure such that for every subset $A\subseteq X$ there exists a Borel set $B$ such that $A\subseteq B$ and $\inf\big\{\mu(E):A\subseteq E\in\Sigma\big\}=\mu(B)$.
+        A Borel regular measure can also be characterized as a Borel measure such that for every subset $A\subseteq X$ there exists a Borel set $B$ with $A\subseteq B$ and $\inf\big\{\mu(E)\,\big\vert\,A\subseteq E\in\Sigma\big\}=\mu(B)$.
     }
     \newdef{Radon measure}{\index{Radon!measure}\index{locally!finite}\label{lebesgue:radon_measure}
         A Borel measure on a Hausdorff space that is outer regular, inner regular on open sets and \textbf{locally finite}, i.e. every point has a neighbourhood of finite measure. When restricted to locally-compact Hausdorff spaces, this is equivalent to requiring that every compact subset has finite measure.
     }
 
     \newdef{\texorpdfstring{$\sigma$-}{sigma-}finite measure}{\index{$\sigma$!finite}\label{lebesgue:sigma_finite_measure}
-        Let $(X,\Sigma,\mu)$ be a measure space. The measure $\mu$ is said to be $\sigma$-finite if there exists a sequence $\seq{A}$ of measurable sets such that $\bigcup_{n=1}^{+\infty}A_n = X$ with $\forall n\in\mathbb{N}:\mu(A_n) < +\infty$.
+        Let $(X,\Sigma,\mu)$ be a measure space. The measure $\mu$ is said to be $\sigma$-finite if there exists a sequence $\seq{A}$ of measurable sets such that $\bigcup_{n=1}^\infty A_n = X$ with $\forall n\in\mathbb{N}:\mu(A_n)<\infty$.
     }
 
-    \newdef{Measure-preserving map}{
-        Let $(X,\Sigma,\mu)$ be a measure space and consider a map $T:X\rightarrow X$. $T$ is said to be measure-preserving if it satisfies the following equation:
+\subsection{Lebesgue measure}
+
+    \newdef{Lebesgue outer measure}{\index{Lebesgue!outer measure}\label{lebesgue:outer_measure}
+        Let $X\subseteq\mathbb{R}$ be a set. The (Lebesgue) outer measure of $X$ is defined as follows:
+        \begin{gather}
+            \lambda^*(X) := \inf\left\{\sum_{n=1}^\infty l(I_n)\,\middle\vert\,\seq{I}\text{ a sequence of open intervals that covers }X\right\}.
+        \end{gather}
+    }
+
+    \begin{property}[Intervals]
+        The outer measure of an interval $I$ equals its length: $\lambda^*(I) = l(I)$.
+    \end{property}
+    \begin{property}[Translation]\label{lebesgue:translation_invariant}
+        The outer measure is translation-invariant: $\lambda^*(A+t) = \lambda^*(A)$ for all $A\subset\mathbb{R}$ and $t\in\mathbb{R}$.
+    \end{property}
+    \begin{property}
+        The Lebesgue outer measure is an outer measure in the sense of Definition \ref{lebesgue:measure}.
+    \end{property}
+
+    \begin{theorem}[Carath\'eodory's criterion]\index{Carath\'eodory!criterion}\index{Lebesgue!measure}\index{measurable!set}\label{lebesgue:lebesgue_measure}
+        Let $X$ be a subset of $\mathbb{R}$. If $X$ satisfies the following equation, it is said to be \textbf{Lebesgue measurable}:
+        \begin{gather}
+            \forall A\subseteq\mathbb{R}:\lambda^*(A) = \lambda^*(A\cap X) + \lambda^*(A\cap X^c).
+        \end{gather}
+        The collection of all Lebesgue-measurable sets is denoted by $\mathcal{M}$ and the outer measure $\lambda^*(X)$, now denoted by $\lambda$, is called the \textbf{Lebesgue measure} of $X$.
+    \end{theorem}
+    \begin{construct}[Carath\'eodory's extension theorem]\index{premeasure}\label{lebesgue:caratheodory}
+        In fact, the above construction can be generalized to arbitrary sets. Every outer measure $\mu^*$ gives rise to a $\sigma$-algebra consisting of those sets that satisfy Carath\'eodory's criterion \ref{lebesgue:lebesgue_measure} with respect to $\mu^*$. Furthermore, consider a \textbf{premeasure} $\mu_0$, i.e. a $\sigma$-additive function defined on an algebra of sets \ref{set:algebra_of_sets} such that $\mu_0(\emptyset) = 0$. Definition \ref{lebesgue:outer_measure} can be used to define an outer measure $\mu^*$ in terms of the premeasure $\mu_0$ by replacing intervals with elements from the given algebra of sets. The $\sigma$-algebra generated by this outer measure contains the given algebra of sets and $\mu^*$ restricts to $\mu_0$. This shows that any premeasure can be extended to a genuine measure. Moreover, it can be shown that this measure is complete.
+    \end{construct}
+    \begin{result}\label{lebesgue:completion_remark}
+        The Lebesgue $\sigma$-algebra $\mathcal{M}$ is the completion of the Borel $\sigma$-algebra $\mathcal{B}$. (This is how the Lebesgue $\sigma$-algebra was introduced historically.)
+    \end{result}
+
+    \begin{property}\label{lebesgue:countable_set_is_null}
+        Any countable set is null with respect to the Lebesgue outer measure.
+    \end{property}
+
+    \begin{property}
+        The Lebesgue measure is a regular Borel measure. For every $A\subset\mathbb{R}$ there exists a sequence $\seq{O}$ of open sets such that
+        \begin{gather}
+            \label{lebesgue:open_cover_existence}
+            A\subset\bigcap_{n=1}^\infty O_n\qquad\text{and}\qquad\lambda\left(\bigcap_{n=1}^\infty O_n\right) = \lambda^*(A),
+        \end{gather}
+        and for every $E\in\mathcal{M}$ there exists a sequence $\seq{F}$ of closed sets such that
+        \begin{gather}
+            \label{lebesgue:closed_cover_existence}
+            \bigcup_{n=1}^\infty F_n\subset E\qquad\text{and}\qquad\lambda\left(\bigcup_{n=1}^\infty F_n\right) = \lambda(E).
+        \end{gather}
+    \end{property}
+
+    \begin{property}
+        Consider a set $A\subset\mathbb{R}$. $A\in\mathcal{M}$ if and only if for every $\varepsilon>0$ there exist an open set $O\supset A$ and a closed set $F\subset A$ such that $\lambda^*(O\backslash A) < \varepsilon$ and $\lambda^*(A\backslash F)<\varepsilon$.
+    \end{property}
+
+    \begin{property}
+        Let $\seq{A}$ be a sequence of sets in $\mathcal{M}$. The following two properties apply:
+        \begin{align}
+            \forall i\in\mathbb{N}:A_i\subseteq A_{i+1} &\implies \lambda\left(\bigcup_{n=1}^\infty A_n\right) = \lim_{n\rightarrow+\infty}\lambda(A_n)\\
+            \forall i\in\mathbb{N}:A_i\supseteq A_{i+1}\land\lambda(A_1)<+\infty &\implies \lambda\left(\bigcap_{i=n}^\infty A_n\right) = \lim_{n\rightarrow+\infty}\lambda(A_n).
+        \end{align}
+    \end{property}
+    \remark{This property is valid for every $\sigma$-additive set function.}
+
+    \begin{construct}[Restriction]\index{Lebesgue!restricted measure}\label{lebesgue:restricted_lebesgue_measure}
+        Let $A\in\mathcal{M}$ have nonzero measure. The restriction of the Lebesgue measure to the set $B$ is defined as follows:
+        \begin{gather}
+            \mathcal{M}_A := \{A\cap B\mid B\in\mathcal{M}\} \qquad\text{and}\qquad \forall E\in\mathcal{M}_A:\lambda_A(E) := \lambda(E).
+        \end{gather}
+        It can be shown that the measure space $(A,\mathcal{M}_A,\lambda_A)$ is complete.
+    \end{construct}
+
+\subsection{Measurable functions}
+
+    \newdef{Measurable function}{\index{measurable!function}
+        Consider two measurable spaces $(X,\Sigma_X)$ and $(Y,\Sigma_Y)$. A function $f:X\rightarrow Y$ is said to be measurable if for every measurable set $A\in\Sigma_Y$ the preimage $f^{-1}(A)$ is also measurable. Equivalently, the $\sigma$-algebra generated by the preimages of measurable sets in $\Sigma_Y$ should be a sub-$\sigma$-algebra of $\Sigma_X$.
+    }
+
+    Two important examples are given below:
+    \begin{example}[Borel-measurable function]\label{lebesgue:borel_measurable_function}
+        A continuous function $f:X\rightarrow Y$ such that for every open set $O\in\mathcal{B}_Y:f^{-1}(O)\in\mathcal{B}_X$.
+    \end{example}
+    \begin{example}[Lebesgue-measurable function]\label{lebesgue:measurable_function}
+        A function $f:\mathbb{R}\rightarrow\mathbb{R}$ such that for every interval $I\subset\mathbb{R}:f^{-1}(I)\in\mathcal{M}$.
+    \end{example}
+    \remark{The inclusion $\mathcal{B}\subset\mathcal{M}$ implies that every Borel-measurable function is also Lebesgue-measurable.}
+
+    \begin{property}
+        The class of Borel/Lebesgue-measurable functions defined on $E\in\mathcal{M}$ forms an algebra.
+    \end{property}
+
+    \begin{example}
+        The following types of functions are Lebesgue-measurable:
+        \begin{itemize}
+            \item monotonic functions,
+            \item continuous functions,
+            \item indicator functions, and
+            \item compositions of measurable functions.
+        \end{itemize}
+    \end{example}
+    \begin{result}
+        Let $f,g$ be (Lebesgue-)measurable functions and let $F:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ be a continuous function. The composition $F(f(x),g(x))$ is also measurable.
+    \end{result}
+
+    \begin{property}
+        Let $f$ be a Lebesgue-measurable function. The level set $\{x\mid f(x) = a\}$ is measurable for all $a\in\mathbb{R}$.
+    \end{property}
+
+    \begin{property}
+        Define the following functions (which are measurable if $f$ is measurable as a result of the previous properties):
+        \begin{align}
+            \label{lebesgue:positive_part}
+            f^+(x) &:= \max(f,0) =
+            \begin{cases}
+                f(x)&f(x)>0\\
+                0&f(x)\leq0,
+            \end{cases}\\\nonumber\\
+            \label{lebesgue:negative_part}
+            f^-(x) &:= \max(-f,0) =
+            \begin{cases}
+                0&f(x)>0\\
+                -f(x)&f(x)\leq0.
+            \end{cases}
+        \end{align}
+        The function $f:\mathbb{R}\rightarrow\mathbb{R}$ is measurable if and only if both $f^+$ and $f^-$ are measurable. Furthermore, $f$ is measurable if $|f|$ is measurable (the converse is false in general).
+    \end{property}
+
+    \newdef{Measure-preserving function}{
+        \nomenclature[S_Meas]{$\mathbf{Meas}$}{category of measure spaces and measure-preserving functions}
+        Let $(X,\Sigma,\mu)$ be a measure space and consider a measurable function $T:X\rightarrow X$. $T$ is said to be measure-preserving if it satisfies
         \begin{gather}
             \mu\left(T^{-1}(A)\right) = \mu(A)
         \end{gather}
-        for all $A\in\Omega$. This equation can also be written using a pushforward notation: $T_\ast\mu=\mu$. These form the morphisms in the category of measure spaces.
+        for all $A\in\Sigma$. This equation can also be written using a pushforward notation: $T_\ast\mu=\mu$. These functions form the morphisms in the category $\mathbf{Meas}$ of measure spaces.\footnote{The notation $\mathbf{Meas}$ is also sometimes used to denote the larger category of measurable spaces and measurable functions.}
     }
 
-    \newdef{Ergodic map}{\index{ergodic}
-        Let $(X,\Omega)$ be a measure space. Consider a measure-preserving map $T:X\rightarrow X$. $T$ is said to be ergodic if the following conditions is satisfied:
+    \newdef{Ergodic function}{\index{ergodicity}
+        Let $(X,\Sigma,\mu)$ be a measure space and consider a measure-preserving function $T:X\rightarrow X$. It is said to be ergodic if the following condition is satisfied:
         \begin{gather}
-            T(A) = A\implies \mu(A) = 0 \lor \mu(X\backslash A) = 0.
+            T(A) = A\implies\mu(A) = 0\lor\mu(X\backslash A) = 0.
         \end{gather}
         This is equivalent to stating that for every set $A\in\Sigma$ with positive measure the following condition holds:
         \begin{gather}
@@ -77,7 +209,7 @@
     }
 
     \begin{property}
-        Consider a topological space $X$ with Borel $\sigma$-algebra $\mathcal{B}$. Almost every $T$-orbit is dense in the support of $\mu$.
+        Consider a topological space $X$ with Borel $\sigma$-algebra $\mathcal{B}$ and let $T$ be an ergodic function. Almost every $T$-orbit is dense in the support of $\mu$.
     \end{property}
 
     \newdef{Mixing}{\index{mixing}
@@ -90,141 +222,14 @@
         All mixing transformations are ergodic.
     \end{property}
 
-\subsection{Lebesgue measure}
-
-    \newdef{Lebesgue outer measure}{\index{Lebesgue!outer measure}\label{lebesgue:outer_measure}
-        Let $X\subseteq\mathbb{R}$ be a set. The (Lebesgue) outer measure of $X$ is defined as follows:
-        \begin{gather}
-            \label{lebesgue:outer_measure_formula}
-            \lambda^*(X) := \inf\left\{\sum_{i=1}^{+\infty} l(I_i)\text{ with }(I_i)_{i\in\mathbb{N}} \text{ a sequence of open intervals that covers }X\right\}.
-        \end{gather}
-    }
-
-    \begin{property}
-        Let $I$ be an interval. The outer measure equals the length: $\lambda^*(I) = l(I)$.
-    \end{property}
-    \begin{property}\label{lebesgue:translation_invariant}
-        The outer measure is translation-invariant: $\lambda^*(A + t) = \lambda^*(A)$ for all $A,t$.
-    \end{property}
-    \begin{property}
-        The Lebesgue outer measure is an outer measure in the sense of Definition \ref{lebesgue:measure}.
-    \end{property}
-
-    \begin{theorem}[Carath\'eodory's criterion]\index{Carath\'eodory!criterion}\index{Lebesgue!measure}\index{measurable!set}\label{lebesgue:lebesgue_measure}
-        Let $X$ be a subset of $\mathbb{R}$. If $X$ satisfies the following equation, it is said to be \textbf{Lebesgue measurable}:
-        \begin{gather}
-            \label{lebesgue:caratheodory}
-            \forall E\subseteq\mathbb{R}:\lambda^*(E) = \lambda^*(E\cap X) + \lambda^*(E\cap X^c).
-        \end{gather}
-        This is denoted by $X\in\mathcal{M}$ and the outer measure $\lambda^*(X)$ is called the Lebesgue measure of $X$. It is denoted by $\lambda(X)$.
-    \end{theorem}
-    \begin{construct}[Carath\'eodory's extension theorem]\index{premeasure}\label{lebesgue:extension_theorem}
-        In fact Carath\'eodory's criterion holds in a general setting. Every outer measure $\mu^*$ gives rise to a $\sigma$-algebra consisting of those sets that satisfy \eqref{lebesgue:caratheodory} with respect to $\mu^*$. Furthermore, consider a \textbf{premeasure} $\mu_0$, i.e. a $\sigma$-additive function defined on an algebra of sets \ref{set:algebra_of_sets} such that $\mu_0(\emptyset) = 0$. Equation \eqref{lebesgue:outer_measure_formula} can be used to define an outer measure $\mu^*$ in terms of the premeasure $\mu_0$ (by taking covers in the algebra of sets). The $\sigma$-algebra generated by this outer measure contains the given algebra of sets and $\mu^*$ restricts to $\mu_0$. This shows that any premeasure can be extended to a genuine measure. Moreover, it can be shown that this measure is complete.
-    \end{construct}
-    \begin{result}\label{lebesgue:completion_remark}
-        The Lebesgue $\sigma$-algebra $\mathcal{M}$ is the completion of the Borel $\sigma$-algebra $\mathcal{B}$. (This is in fact how the Lebesgue $\sigma$-algebra was introduced historically.)
-    \end{result}
-
-    \begin{property}\label{lebesgue:theorem:countable_set_is_null}
-        Any countable set is null with respect to the Lebesgue outer measure.
-    \end{property}
-
-    \begin{property}
-        The Lebesgue measure is a regular Borel measure \ref{lebesgue:regular_measure}. For every $A\subset\mathbb{R}$ there exists a sequence $\seq{O}$ of open sets such that
-        \begin{gather}
-            \label{lebesgue:theorem:open_cover_existence}
-            A\subset\bigcap_iO_i\qquad\text{and}\qquad\lambda\left(\bigcap_iO_i\right) = \lambda^*(A),
-        \end{gather}
-        and for every $E\in\mathcal{M}$ there exists a sequence $\seq{F}$ of closed sets such that
-        \begin{gather}
-            \label{lebesgue:theorem:closed_cover_existence}
-            \bigcup_iF_i\subset E\qquad\text{and}\qquad\lambda\left(\bigcup_iF_i\right) = \lambda(E).
-        \end{gather}
-    \end{property}
-
-    \begin{property}
-        Let $E\subset\mathbb{R}$. $E\in\mathcal{M}$ if and only if for every $\varepsilon>0$ there exist an open set $O\supset E$ and a closed set $F\subset E$ such that $\lambda^*(O\backslash E) < \varepsilon$ and $\lambda^*(E\backslash F)<\varepsilon$.
-    \end{property}
-
-    \begin{property}
-        Let $\seq{A}$ be a sequence of sets with $\forall i:A_i\in\mathcal{M}$. The following two properties apply:
-        \begin{align}
-            \forall i: A_i\subseteq A_{i+1} &\implies \lambda\left(\bigcup_{i=1}^{+\infty}A_i\right) = \lim_{i\rightarrow+\infty}\lambda(A_i)\\
-            \forall i: A_i\supseteq A_{i+1} \land \lambda(A_1)<+\infty &\implies \lambda\left(\bigcap_{i=1}^{+\infty}A_i\right) = \lim_{i\rightarrow+\infty}\lambda(A_i).
-        \end{align}
-    \end{property}
-    \remark{This property is not only valid for the Lebesgue measure but for every $\sigma$-additive set function.}
-
-    \begin{construct}[Restriction]\index{Lebesgue!restricted measure}\label{lebesgue:restricted_lebesgue_measure}
-        Let $B\in\mathcal{M}$ be a Lebesgue-measurable set with measure $\lambda(B)>0$. The restriction of the Lebesgue measure to the set $B$ is defined as follows:
-        \begin{gather}
-            \mathcal{M}_B := \left\{A\cap B:A\in\mathcal{M}\right\}\qquad\text{and}\qquad\forall E\in\mathcal{M}_B:\lambda_B(E) := \lambda(E).
-        \end{gather}
-        Furthermore, the measure space $(B,\mathcal{M}_B,\lambda_B)$ is complete.
-    \end{construct}
-
-\subsection{Measurable functions}
-
-    \newdef{Measurable function}{\index{measurable!function}
-        Consider two measurable spaces $(X,\Sigma_X)$ and $(Y,\Sigma_Y)$. A function $f:X\rightarrow Y$ is said to be measurable if for every measurable set $A\in\Sigma_Y$ the inverse image $f^{-1}(A)$ is also measurable. Equivalently, the $\sigma$-algebra generated by the inverse images of measurable sets in $\Sigma_Y$ should be a sub-$\sigma$-algebra of $\Sigma_X$.
-    }
-
-    Two important examples are given below:
-    \begin{example}[Borel-measurable function]\label{lebesgue:borel_measurable_function}
-        A continuous function $f:X\rightarrow Y$ is called Borel(-measurable) if for every open set $O\in\mathcal{B}_Y:f^{-1}(O)\in\mathcal{B}_X$.
-    \end{example}
-    \begin{example}[Lebesgue-measurable function]\label{lebesgue:measurable_function}
-        A function $f:\mathbb{R}\rightarrow\mathbb{R}$ such that for every interval $I\subset\mathbb{R}:f^{-1}(I)\in\mathcal{M}$.
-    \end{example}
-    \remark{The inclusion $\mathcal{B}\subset\mathcal{M}$ implies that every Borel-measurable function is also Lebesgue-measurable.}
-
-    \begin{property}
-        The class of Borel/Lebesgue-measurable functions defined on $E\in\mathcal{M}$ forms an algebra.
-    \end{property}
-
-    \begin{example}
-        Following types of functions are Lebesgue-measurable:
-        \begin{itemize}
-            \item monotonic functions,
-            \item continuous functions, and
-            \item indicator functions.
-        \end{itemize}
-    \end{example}
-    \begin{result}
-        Let $f,g$ be Lebesgue-measurable functions and let $F:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ be a continuous function. The composition $F(f(x),g(x))$ is also measurable.
-    \end{result}
-
-    \begin{property}
-        Let $f$ be a Lebesgue-measurable function. The level set $\{x:f(x) = a\}$ is measurable for all $a\in\mathbb{R}$.
-    \end{property}
-
-    \begin{property}
-        Define the following functions (which are measurable if $f$ is measurable as a result of previous properties):
-        \begin{align}
-            \label{lebesgue:positive_part}
-            f^+(x) &:= \max(f,0) =
-            \begin{cases}
-                f(x)&f(x)>0\\
-                0&f(x)\leq0
-            \end{cases}\\\nonumber\\
-            \label{lebesgue:negative_part}
-            f^-(x) &:= \max(-f,0) =
-            \begin{cases}
-                0&f(x)>0\\
-                -f(x)&f(x)\leq0.
-            \end{cases}
-        \end{align}
-        The function $f:\mathbb{R}\rightarrow\mathbb{R}$ is measurable if and only if both $f^+$ and $f^-$ are measurable. Furthermore, $f$ is measurable if $|f|$ is measurable (the converse is false).
-    \end{property}
-
 \subsection{Limit operations}
 
     \begin{property}
-        Let $\seq{f}$ be a sequence of Borel/Lebesgue-measurable functions. The following functions are also measurable:
+        Let $\seq{f}$ be a sequence of measurable functions. The following functions are also measurable:
         \begin{itemize}
-            \item $\ds\min_{i\leq k}(f_i)$ and $\ds\max_{i\leq k}(f_i)$,
-            \item $\ds\inf_{i\in\mathbb{N}}(f_i)$ and $\ds\sup_{i\in\mathbb{N}}(f_i)$, and
-            \item $\ds\liminf_{i\rightarrow+\infty}(f_i)$ and $\ds\limsup_{i\rightarrow+\infty}(f_i)$.
+            \item $\ds\min_{i\leq k}(f_i)$ and $\ds\max_{i\leq k}(f_i)$
+            \item $\ds\inf_{n\in\mathbb{N}}(f_n)$ and $\ds\sup_{n\in\mathbb{N}}(f_n)$
+            \item $\ds\liminf_{n\rightarrow+\infty}(f_n)$ and $\ds\limsup_{n\rightarrow+\infty}(f_n)$
         \end{itemize}
     \end{property}
 
@@ -235,12 +240,12 @@
 
     \newdef{Essential supremum}{\index{essential!supremum}\label{lebesgue:essential_supremum}
         \begin{gather}
-            \esssup(f) := \inf\{z:f\leq z\text{ a.e.}\}
+            \esssup(f) := \inf\{z\in\mathbb{R}\mid f\leq z\text{ a.e.}\}
         \end{gather}
     }
     \newdef{Essential infimum}{\index{essential!infimum}\label{lebesgue:essential_infimum}
         \begin{gather}
-            \essinf(f) := \sup\{z:f\geq z\text{ a.e.}\}
+            \essinf(f) := \sup\{z\in\mathbb{R}\mid f\geq z\text{ a.e.}\}
         \end{gather}
     }
     \begin{property}

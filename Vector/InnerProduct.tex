@@ -5,57 +5,47 @@
 \subsection{Inner product space}
 
     \newdef{Inner product}{\index{inner!product}
-        A map $\langle\cdot|\cdot\rangle:V\times V\rightarrow\mathbb{C}$ is called an inner product on $V$ if it satisfies the following properties for all $v,w\in V$ and $\lambda\in\mathbb{C}$:
+        A function $\langle\cdot|\cdot\rangle:V\times V\rightarrow\mathbb{C}$ is called an inner product on $V$ if it satisfies the following properties for all $u,v,w\in V$ and $\lambda\in\mathbb{C}$:
         \begin{enumerate}
-            \item \textbf{Conjugate symmetry}: $\langle v|w \rangle = \langle w|v \rangle^*$,
-            \item \textbf{Linearity in the first argument}: $\langle \lambda u+v|w \rangle = \lambda\langle u|w \rangle + \langle v|w \rangle$,
-            \item \textbf{Nondegeneracy}: $\langle v|v \rangle = 0 \iff v = 0$, and
-            \item \textbf{Positive-definiteness}: $\langle v|v \rangle \geq 0$.
+            \item\textbf{Conjugate symmetry}: $\langle v|w \rangle = \langle w|v \rangle^*$,
+            \item\textbf{Linearity in the first argument}: $\langle \lambda u+v|w \rangle = \lambda\langle u|w \rangle + \langle v|w \rangle$,
+            \item\textbf{Nondegeneracy}: $\langle v|v \rangle = 0 \iff v = 0$, and
+            \item\textbf{Positive-definiteness}: $\langle v|v \rangle \geq 0$.
         \end{enumerate}
     }
     \begin{remark}\index{Hermitian!form}\label{linalgebra:NDH_form}
-        Inner products are special cases of \textbf{nondegenerate Hermitian forms} which do not satisfy the positive-definiteness property (these often occur when working over $\mathbb{C}$).
+        Inner products are special cases of \textbf{nondegenerate Hermitian forms} which do not satisfy the positive-definiteness property.
     \end{remark}
-
     \begin{result}\index{sesquilinear}
         The first two properties have the result of conjugate linearity in the second argument:
         \begin{gather}
             \langle f|\lambda g + \mu h \rangle = \overline{\lambda}\langle f|g \rangle + \overline{\mu}\langle f|h \rangle
         \end{gather}
-        Therefore these two properties together are often combined into a \textbf{sesquilinearity} property. When the underlying field is restricted to $\mathbb{R}$, such that the conjugate symmetry property is replaced by symmetry, the inner product becomes a bilinear form.
+        Therefore, these two properties together are often combined into a \textbf{sesquilinearity} axiom. When the underlying field is restricted to $\mathbb{R}$, such that the conjugate symmetry property is replaced by proper symmetry, the inner product becomes a bilinear form.
     \end{result}
 
-    \newdef{Inner product space\footnotemark}{
-        \footnotetext{Sometimes called a \textbf{pre-Hilbert space}.}
-        A vector space equipped with an inner product $\langle\cdot|\cdot\rangle$.
+    \newdef{Inner product space}{\index{Hilbert!space}
+        A vector space equipped with an inner product $\langle\cdot|\cdot\rangle$. This is sometimes called a \textbf{pre-Hilbert space}.
     }
 
-    \newdef{Metric dual\footnotemark}{
-        \footnotetext{See also Definition \ref{riemann:flat_map}.}
-        Using the inner product (or any other nondegenerate Hermitian form) one can define the metric dual of a vector $v$ by the following map:
+    \newdef{Metric dual}{\label{linalgebra:metric_dual}
+        Using the inner product (or any other nondegenerate Hermitian form) one can define the metric dual of a vector by the following map:
         \begin{gather}
-            \label{linalgebra:metric_dual}
-            L:V\rightarrow V^*:v\mapsto \langle v|\cdot \rangle.
+            L:V\rightarrow V^*:v\mapsto\langle v|\cdot \rangle.
         \end{gather}
+        (See Definition \ref{riemann:flat_map} for a generalization.)
     }
     \newdef{Adjoint operator}{\index{adjoint}\index{Hermitian}\index{self-adjoint}\label{linalgebra:adjoint_operator}
-        Let $A$ be a linear operator on $V$. The (\textbf{Hermitian}) adjoint of $A$ is defined as the linear operator $A^\dag$ that satisfies
+        Let $A$ be a linear map on $V$. The (\textbf{Hermitian}) adjoint of $A$ is defined as the linear map $A^\dag$ that satisfies
         \begin{gather}
             \langle A^\dag v|w\rangle = \langle v|Aw\rangle
         \end{gather}
         for all $v,w\in V$. Alternatively, one can define the adjoint using the transpose and metric dual as follows:
         \begin{gather}
-            A^\dag = L^{-1} \circ A^T \circ L.
+            A^\dag = L^{-1}\circ A^*\circ L.
         \end{gather}
-        If $A=A^\dag$, then A is said to be \textbf{Hermitian} or \textbf{self-adjoint}. (In Chapter \ref{chapter:normed_spaces} a distinction will be made between these two notions.)
+        If $A=A^\dag$, $A$ is said to be \textbf{Hermitian} or \textbf{self-adjoint}. (In Chapter \ref{chapter:normed_spaces} a distinction will be made between these two notions.)
     }
-    \begin{result}
-        The Hermitian adjoint of a complex matrix $A\in\mathbb{C}^{m\times n}$ is given by
-        \begin{gather}
-            A^\dag = \overline{A}^T,
-        \end{gather}
-        where $\overline{A}$ denotes the complex conjugate of $A$ and $A^T$ the transpose of $A$.
-    \end{result}
 
 \subsection{Orthogonality}\label{linalgebra:section:orthogonality}
 
@@ -71,7 +61,7 @@
     \end{property}
 
     \newdef{Orthonormal}{\index{orthonormal}\label{linalgebra:orthonormal}
-        A collection of vectors $S$ is said to be orthonormal if it forms an orthogonal system and if all the elements $v\in S$ obey the following relation:
+        A set of vectors $S$ is said to be orthonormal if it forms an orthogonal system and if all the elements $v\in S$ obey the following relation:
         \begin{gather}
             \langle v|v \rangle = 1.
         \end{gather}
@@ -82,59 +72,58 @@
             W^\perp := \{v\in V\mid\forall w\in W:\langle v|w\rangle = 0\}.
         \end{gather}
     }
-    \sremark{$W^\perp$ is pronounced as 'W-perp'.}
+    \sremark{$W^\perp$ is pronounced as ``W-perp''.}
 
     \begin{property}[Complements]
         Let $V$ be a finite-dimensional inner product space. The orthogonal complement $W^\perp$ is a complementary subspace to $W$, i.e. $W\oplus W^\perp=V$.
     \end{property}
     \begin{result}\label{linalgebra:perp_of_perp}
-        Let $W\leq V$ where $V$ is a finite-dimensional inner product vector space. Taking orthogonal complements defines an involution:
+        Let $W\leq V$ with $V$ a finite-dimensional inner product vector space. Forming orthogonal complements defines an involution:
         \begin{gather}
             (W^\perp)^\perp = W.
         \end{gather}
     \end{result}
 
     \newdef{Orthogonal projection}{\index{projection}\label{linalgebra:orthogonal_projection}
-        Let $V$ be a finite-dimensional inner product vector space and consider a subspace $W\leq V$. Consider a vector $w\in W$ and let $\{w_1, \ldots, w_k\}$ be an orthonormal basis of $W$. The projections of $v\in V$ on $W$ and $w\in W$ are defined as follows:
+        Let $V$ be a finite-dimensional inner product vector space and consider a subspace $W\leq V$. Consider a vector $w\in W$ and let $\{w_1,\ldots,w_k\}$ be an orthonormal basis of $W$. The projections of $v\in V$ on $W$ and $w\in W$ are defined as follows:
         \begin{align}
-            \text{proj}_W(v) &:= \sum_{i=1}^k\langle v|w_i \rangle w_i\\
-            \text{proj}_w(v) &:= \stylefrac{\langle v|w \rangle}{\langle w|w \rangle}w.
+            \mathrm{proj}_W(v) &:= \sum_{i=1}^k\langle v|w_i \rangle w_i\\
+            \mathrm{proj}_w(v) &:= \frac{\langle v|w \rangle}{\langle w|w \rangle}w.
         \end{align}
     }
     \begin{property}
         Orthogonal projections satisfy the following conditions:
-        \begin{itemize}
-            \item $\forall w\in W:\text{proj}_W(w) = w$, and
-            \item $\forall u\in W^\perp:\text{proj}_W(u) = 0$.
-        \end{itemize}
+        \begin{gather}
+            \forall w\in W:\mathrm{proj}_W(w) = w \qquad\text{and}\qquad \forall u\in W^\perp:\mathrm{proj}_W(u) = 0.
+        \end{gather}
     \end{property}
 
-    \newmethod{Gram-Schmidt orthonormalization}{\label{linalgebra:inner_product:gram_schmidt}
+    \newmethod{Gram-Schmidt orthonormalization}{\label{linalgebra:gram_schmidt}
         Let $\{u_i\}_{i\leq n}$ be a set of linearly independent vectors. An orthonormal set $\{e_i\}_{i\leq n}$ can be constructed out of $\{u_i\}_{i\leq n}$ using the following procedure:
         \begin{enumerate}
             \item Orthogonalization:
                 \begin{gather}
                     \begin{aligned}
                         w_1& = u_1&\\
-                        w_2& = u_2 - \stylefrac{\langle u_2|w_1\rangle}{||u_2||^2}w_1&\\
+                        w_2& = u_2 - \frac{\langle u_2|w_1\rangle}{\|u_2\|^2}w_1&\\
                         &\vdots&\\
-                        w_n& = u_n - \sum_{i=1}^{n-1}\stylefrac{\langle u_n|w_i\rangle}{||u_n||^2}w_i&
+                        w_n& = u_n - \sum_{i=1}^{n-1}\frac{\langle u_n|w_i\rangle}{\|u_n\|^2}w_i&
                     \end{aligned}
                 \end{gather}
             \item Normalization:
                 \begin{gather}
                     \begin{aligned}
-                        e_1& = \stylefrac{w_1}{||w_1||}&\\
-                        e_2& = \stylefrac{w_2}{||w_2||}&\\
+                        e_1& = \frac{w_1}{\|w_1\|}&\\
+                        e_2& = \frac{w_2}{\|w_2\|}&\\
                         &\vdots&\\
-                        e_n& = \stylefrac{w_n}{||w_n||}&
+                        e_n& = \frac{w_n}{\|w_n\|}&
                     \end{aligned}
                 \end{gather}
         \end{enumerate}
     }
 
     \newdef{Householder transformation}{\index{Householder transformation}\label{linalgebra:householder_transformation}
-        Let $v$ be an element of an inner product space $V$. The Householder transformation generated by $v$ is given by the linear map
+        Let $v$ be an element of an inner product space $V$. The Householder transformation generated by $v$ is defined as the linear map
         \begin{gather}
             \sigma_v:V\rightarrow V:w\mapsto w - 2\frac{\langle w|v \rangle}{\langle v|v \rangle}v.
         \end{gather}
@@ -142,8 +131,10 @@
     }
 
     \newdef{Angle}{\index{angle}\label{linalgebra:angle}
+        \nomenclature[O_zsymangle]{$\sphericalangle(\cdot,\cdot)$}{angle between two vectors}
         Let $v,w$ be elements of an inner product space $V$. The angle $\theta$ between $v$ and $w$ is defined by the following formula:
         \begin{gather}
-            \cos\theta := \stylefrac{\langle v|w \rangle}{||v||||w||}.
+            \cos\theta := \stylefrac{\langle v|w \rangle}{\|v\|\|w\|}.
         \end{gather}
+        The angle between two vectors $v,w$ is sometimes denoted by $\sphericalangle(v,w)$.
     }

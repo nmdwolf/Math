@@ -8,12 +8,12 @@
     \begin{example}[Monad]\index{monad}
         Let $M$ be a set. Given a neighbourhood relation $\sim$ on $M$, the (first order) monad around $x\in M$ is defined as
         \begin{gather}
-            \underline{\mathfrak{M}}(x) := \{y\in M:y\sim x\}.
+            \underline{\mathfrak{M}}(x) := \{y\in M\mid y\sim x\}.
         \end{gather}
     \end{example}
 
     \newdef{Infinitesimal simplex}{\index{simplex!infinitesimal}
-        An infinitesimal $k$-simplex with respect to a neighbour relation $\sim$ is a collection of $k+1$ points $\{x_i\}_{i\leq k}$ such that $x_i\sim x_j$ for every $i, j\leq k$.
+        An infinitesimal $k$-simplex with respect to a neighbour relation $\sim$ is a collection of $k+1$ points $\{x_i\}_{i\leq k}$ such that $x_i\sim x_j$ for every $i,j\leq k$.
     }
 
     \newdef{Geometric distribution}{\index{distribution!involutive}
@@ -21,63 +21,45 @@
         \begin{gather}
             (x\approx y)\land(y\approx z)\land(x\sim z)\implies x\approx z
         \end{gather}
-        for all $x, y, z\in M$.
+        for all $x,y,z\in M$.
     }
     \newdef{Integral subset}{\index{integral!subset}
         Let $M$ be a set equipped with a neighbourhood relation $\sim$ and an associated distribution $\approx$. A subset $N\subseteq M$ is said to be integral with respect to $\approx$ if $\approx$ and $\sim$ coincide on $N$.
     }
     \begin{theorem}[Frobenius' theorem]\index{Frobenius!integrability theorem}\index{leaf}
-        An involutive distribution admits maximal connected integral subsets, these are called \textbf{leaves}.
+        An involutive distribution admits maximal connected integral subsets. These subsets are called the \textbf{leaves} of the distribution.
     \end{theorem}
 
 \section{Affine connections}
     \newdef{Affine connection}{\index{connection!affine}
-        An affine connection is a map $\lambda(x, y, z)$ which for every three points $x, y, z\in M$ such that $y\sim x$ and $z\sim x$ gives a point $w\in M$ such that $w\sim z$ and $w\sim y$. Graphically this is given by a completion of diagram \ref{fig:synth_connection} to diagram \ref{fig:synth_connection_complete}.
+        An affine connection is a map $\lambda(x,y,z)$ that for every three points $x,y,z\in M$ such that $y\sim x$ and $z\sim x$ gives a point $w\in M$ such that $w\sim z$ and $w\sim y$. Graphically this is given by the completion of a span as shown in Diagram \ref{fig:synth_connection_complete}.
         \begin{figure}[ht!]
             \centering
-            \begin{subfigure}{0.49\textwidth}
-                \centering
-                \begin{tikzpicture}
-                    \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=2em, ampersand replacement=\&]{
-                        \&\&\phantom{w}\\
-                        z\&\&y\\
-                        x\&\&\\
-                    };
-                    \draw (m-2-1) -- (m-3-1);
-                    \draw[->] (m-3-1) -- (m-2-3);
-                \end{tikzpicture}
-                \caption{Neighbouring points.}
-                \label{fig:synth_connection}
-            \end{subfigure}
-            \begin{subfigure}{0.49\textwidth}
-                \centering
-                \begin{tikzpicture}
-                    \matrix (m) [matrix of math nodes,row sep=4em,column sep=4em, minimum width=2em, ampersand replacement=\&]{
-                        \&\&w\\
-                        z\&\&y\\
-                        x\&\&\\
-                    };
-                    \draw (m-2-1) -- (m-3-1);
-                    \draw[->] (m-3-1) -- (m-2-3);
-                    \draw[dashed, ->] (m-2-1) -- (m-1-3);
-                    \draw[dashed] (m-2-3) -- (m-1-3);
-                \end{tikzpicture}
-                \caption{Connection in synthetic theories.}
-                \label{fig:synth_connection_complete}
-            \end{subfigure}
+            \begin{tikzpicture}
+                \node (X) at (0, 0) {$x$};
+                \node (Y) at (4, 1) {$y$};
+                \node (Z) at (0, 1) {$z$};
+                \node (W) at (4, 2) {$w$};
+                \draw[->] (X) -- (Y);
+                \draw[->] (X) -- (Z);
+                \draw[dashed, ->] (Y) -- (W);
+                \draw[dashed, ->] (Z) -- (W);
+            \end{tikzpicture}
+            \caption{Connection in synthetic theories.}
+            \label{fig:synth_connection_complete}
         \end{figure}
     }
-    \sremark{By looking at these diagrams the concept of parallel transport can be made a lot more intuitive than in classic differential geometry, e.g. diagram \ref{fig:synth_connection_complete} shows the parallel transport of the point $z$ along $xy$.}
+    \sremark{By looking at these diagrams the concept of parallel transport can be made a lot more intuitive than in classic differential geometry, e.g. Diagram \ref{fig:synth_connection_complete} shows the parallel transport of the point $z$ along $xy$.}
 
     \newdef{Symmetric connection}{\index{torsion}
-        An affine connection $\lambda$ is said to be symmetric or \textbf{torsion-free} if $\lambda(x, y, z) = \lambda(x, z, y)$.
+        An affine connection $\lambda$ is said to be symmetric or \textbf{torsion-free} if $\lambda(x,y,z) = \lambda(x,z,y)$.
     }
 
     \newdef{Flat connection}{\index{connection!flat}
-        An affine connection $\lambda$ is said to be flat or \textbf{curvature-free} if parallel transporting a point around an infinitesimal 2-simplex gives that same point again.
+        An affine connection $\lambda$ is said to be flat or \textbf{curvature-free} if parallel transporting a point around an infinitesimal 2-simplex leaves the point invariant.
     }
     \newdef{Curvature}{\index{curvature}
-        Let $\lambda$ be an affine connection on $M$. The curvature of $\lambda$ is the map $\mathcal{R}$ which assigns to every infinitesimal 2-simplex $\{x_0, x_1, x_2\}$ the following automorphism: \[\underline{\mathfrak{M}}(x_0)\rightarrow\underline{\mathfrak{M}}(x_0):z\mapsto\text{result of parallel transporting z around }\{x_0, x_1, x_2\}.\]
+        Let $\lambda$ be an affine connection on $M$. The curvature of $\lambda$ is the map $\mathcal{R}$ that assigns to every infinitesimal 2-simplex $\{x_0,x_1,x_2\}$ the automorphism \[\underline{\mathfrak{M}}(x_0)\rightarrow\underline{\mathfrak{M}}(x_0):z\mapsto\text{result of parallel transporting z around }\{x_0,x_1,x_2\}.\]
     }
 
     \newdef{Geodesic}{\index{geodesic}
@@ -88,56 +70,58 @@
 \subsection{Infinitesimal elements}
 
     \newdef{Infinitesimal line}{\index{infinitesimal}\label{synth:infinitesimal_line}
-        Let $R$ be the line. By picking two distinct points, labelled $0$ and $1$, we can turn the real line into a commutative ring\footnote{In fact an algebra over the rationals $\mathbb{Q}$.} $(R,+,\cdot)$. The infinitesimal line is then defined as the following set:
+        Consider the real line $\mathbb{R}$ as a commutative ring. The infinitesimal line is defined as the following set:
         \begin{gather}
-            \Delta := \{x\in R: x^2 = 0\}.
+            \Delta := \{x\in\mathbb{R}\mid x^2 = 0\}.
         \end{gather}
-        A neighbourhood relation on $R$ is induced by setting $\underline{\mathfrak{M}}(0)=\Delta$.
+        A neighbourhood relation on $\mathbb{R}$ is induced by setting $\underline{\mathfrak{M}}(0)=\Delta$.
     }
-    \remark{If we would follow the Euclidean doctrine, this set would be $\{0\}$. However, by not requiring $R$ to be a field, we obtain a larger set.}
+    \remark{If the Euclidean doctrine would be followed, this set would be $\{0\}$. However, by not requiring $\mathbb{R}$ to be a field, a larger set is obtained.}
 
     \begin{axiom}[Kock-Lawvere]\index{Kock-Lawvere axiom}\index{slope}\label{synth:kock_lawvere_axiom}
-        For every map $f:\Delta\rightarrow R$ there exists a unique element $b\in R$, called the \textbf{slope} of $f$, such that
+        For every map $f:\Delta\rightarrow\mathbb{R}$ there exists a unique element $b\in\mathbb{R}$, called the \textbf{slope} of $f$, such that
         \begin{gather}
             f(d) = f(0) + d\cdot b
         \end{gather}
         for all $d\in\Delta$.
     \end{axiom}
-    \result{The map $\alpha:R\times R\rightarrow R^\Delta:(a,b)\mapsto(f:d\mapsto a+d\cdot b)$ is invertible and hence an isomorphism\footnote{If one equips the set $R\times R$ with the multiplication rule $(a,b)\cdot(a',b') = (a\cdot a',a\cdot b' + a'\cdot b)$, this becomes an $R$-algebra isomorphism.}.}
-    \result{Let $a,b\in R$. If $d\cdot a = d\cdot b$ for all $d\in\Delta$, then $a=b$.}
+    \begin{result}
+        The function $\alpha:\mathbb{R}\times\mathbb{R}\rightarrow \mathbb{R}^\Delta:(a,b)\mapsto(f:d\mapsto a+d\cdot b)$ is invertible and, hence, is an isomorphism\footnote{If one equips the set $\mathbb{R}\times\mathbb{R}$ with the multiplication rule $(a,b)\cdot(a',b') = (a\cdot a',a\cdot b' + a'\cdot b)$, this becomes an $\mathbb{R}$-algebra isomorphism.}.
+    \end{result}
+    \result{Let $a,b\in\mathbb{R}$. If $d\cdot a = d\cdot b$ for all $d\in\Delta$, then $a=b$.}
 
     \begin{notation}
-        Analogous to the infinitesimal line we define the subsets $\mathbb{D}^k$ in the following way:
+        Analogous to the infinitesimal line one can define the sets $\mathbb{D}^k$ in the following way:
         \begin{gather}
-            \mathbb{D}^k := \{x\in R: x^{k+1} = 0\}.
+            \mathbb{D}^k := \{x\in \mathbb{R}\mid x^{k+1} = 0\}.
         \end{gather}
-        With this notation we also have $\Delta\equiv\mathbb{D}^1$.
+        With this notation one has $\Delta\equiv\mathbb{D}^1$.
     \end{notation}
 
 \subsection{Calculus}
 
     \begin{formula}[Taylor expansion]\index{Taylor!expansion}\index{Leibniz!rule}
-        From axiom \ref{synth:kock_lawvere_axiom} we derive the following exact Taylor expansion:
+        From Axiom \ref{synth:kock_lawvere_axiom} the following exact Taylor expansion is derived:
         \begin{gather}
-            f(x+d) = f(x) + d\cdot f'(x)
+            f(x+d) = f(x) + d\cdot f'(x),
         \end{gather}
-        where $f'(x)$ can be interpreted as the derivative of $f$ at the point $x\in R$.
+        where $f'(x)$ can be interpreted as the derivative of $f$ at the point $x\in\mathbb{R}$.
     \end{formula}
-    \sremark{If $f$ also depends on additional parameters in $R$, then we can define the partial derivatives in a similar fashion.}
+    \sremark{If $f$ also depends on additional parameters in $\mathbb{R}$, one can define the partial derivatives in a similar fashion.}
     \begin{property}
-        Using axiom \ref{synth:kock_lawvere_axiom} it can be easily proven that the derivative is linear and satisfies Leibniz's rule.
+        Using Axiom \ref{synth:kock_lawvere_axiom} it can easily be proven that the derivative is linear and satisfies Leibniz's rule.
     \end{property}
 
-    Using the sets $\mathbb{D}^k$ we can derive higher-order expansions. First we generalize axiom \ref{synth:kock_lawvere_axiom}:
+    Using the sets $\mathbb{D}^k$ one can derive higher-order expansions. First Axiom \ref{synth:kock_lawvere_axiom} is generalized:
     \begin{axiom}\label{synth:axiom1b}
-        For every $g:\mathbb{D}^k\rightarrow R$ there exist unique elements $\{b_1,\ldots,b_k\}$ in $R$ such that
+        For every $g:\mathbb{D}^k\rightarrow\mathbb{R}$ there exist unique elements $\{b_1,\ldots,b_k\}$ in $\mathbb{R}$ such that
         \begin{gather}
             f(d) = f(0) + \sum_jd^j\cdot b_j
         \end{gather}
         for all $d\in\mathbb{D}^k$.
     \end{axiom}
     \begin{result}
-        Let $f:R\rightarrow R$ and $d\in D_k$.
+        Let $f:\mathbb{R}\rightarrow\mathbb{R}$ and $d\in D_k$.
         \begin{gather}
             f(x+d) = f(x) + d\cdot f'(x) + \cdots + \frac{d^k}{k!}\cdot f^{(k)}(x)
         \end{gather}

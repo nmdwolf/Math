@@ -1,9 +1,11 @@
 \chapter{Lagrangian and Hamiltonian Mechanics}\label{chapter:lagrange}
 
+    The section about the geometric framework is mainly based on \cite{arnold, palais_solitons}. For an introduction to differential geometry, see Chapter \ref{chapter:manifolds} and onwards.
+
 \section{Action}
 
     \begin{definition}[Generalized coordinates]\index{generalized!coordinate}
-        The generalized coordinates $q_k$ are independent coordinates that completely describe the current configuration of a system (relative to a reference configuration).
+        The generalized coordinates $q_k$ are mutually independent coordinates that completely characterize the configuration of a system (relative to a reference configuration).
 
         When a system is characterized by $N$ parameters and $n_c$ constraints, there are $(N-n_c)$ generalized coordinates. Furthermore, every set of generalized coordinates describing the same system contains exactly $(N-n_c)$ coordinates. (Chapter \ref{chapter:constrained_dynamics} explains how one can extract the relevant degrees of freedom.)
     \end{definition}
@@ -23,7 +25,7 @@
         \end{gather}
     \end{notation}
     \begin{definition}[Action]\index{action}\label{lagrange:action}
-        The action is a functional on the space of paths in configuration space:
+        Given a Lagrangian function $L$, the action is a functional on the space of paths in configuration space defined by integrating $L$:
         \begin{gather}
             S[q] := \int_{t_1}^{t_2}L\left(q(t),\dot{q}(t),t\right)dt.
         \end{gather}
@@ -49,67 +51,40 @@
         \end{gather}
     \end{formula}
 
-    \begin{definition}[Cyclic coordinate]
+    \begin{definition}[Cyclic coordinate]\index{cyclic}
         If the Lagrangian $L$ does not explicitly depend on a coordinate $q_k$, the coordinate is said to be cyclic.
     \end{definition}
 
-    \begin{property}[Noether's theorem]\index{Noether}\label{lagrange:noether_cyclic}
+    \begin{theorem}[Noether]\index{Noether}\label{lagrange:noether_cyclic}
         The conjugate momentum of a cyclic coordinate is a conserved quantity:
         \begin{gather}
             \dot{p}_k \overset{\ref{lagrange:conjugate_momentum}}{=} \deriv{}{t}\left(\pderiv{L}{\dot{q}^k}\right) \overset{{\eqref{lagrange:second_kind}}}{=}\pderiv{L}{q^k}=0.
         \end{gather}
-    \end{property}
+    \end{theorem}
 
 \section{Hamilton's equations}
 
     \newdef{Canonical coordinates}{\index{canonical!coordinates}
-        Consider the Lagrangian coordinates $(q,\dot{q},t)$. From these one can define a new set of coordinates, called canonical coordinates, by exchanging the time-derivatives $\dot{q}^i$ in favour of the conjugate momenta $p_i$. (To be able to do this one would need some regularity conditions, i.e. the transformation $(q,\dot{q})\leftrightarrow(q,p)$ should be invertible.)
+        Consider the Lagrangian coordinates $(q,\dot{q},t)$. From these one can derive a new set of coordinates, called canonical coordinates, by exchanging the time-derivatives $\dot{q}^i$ in favour of the conjugate momenta $p_i$.
+
+        This is only equivalent if the transformation $(q,\dot{q})\leftrightarrow(q,p)$ is invertible. A sufficient condition is that the Hessian of $L$ with respect to the generalized velocities is invertible.
     }
 
-    \newdef{Hamiltonian function}{\index{Hamilton!function}\label{hamilton:hamiltonian}
-        Given a Lagrangian $L$, one defines the Hamiltonian function as follows:
+    \newdef{Hamiltonian function}{\index{Hamilton!function}\label{lagrange:hamiltonian}
+        Given a Lagrangian $L$, the Hamiltonian function is defined by the following Legendre transformation \ref{calculus:legendre}:
         \begin{gather}
             H(q,p,t) := \sum_ip_i\dot{q}^i - L(q,p,t).
         \end{gather}
     }
 
-    \newformula{Hamilton's equations\footnotemark}{\index{Hamilton!equations}\label{lagrange:hamilton_equations}
-        \footnotetext{Also known as the \textbf{canonical equations of Hamilton}.}
-        Using the above definition in the action \ref{lagrange:action} and applying the variational principle results in the following equations:
+    \newformula{Hamilton's equations}{\index{Hamilton!equations}\label{lagrange:hamilton_equations}
+        Inserting the above definition in the action \ref{lagrange:action} and applying the variational principle results in the following equations:
         \begin{align}
-            \dot{q}^i &= \pderiv{H}{p_i}\\
+            \dot{q}^i &= \pderiv{H}{p_i},\\
             \dot{p_i} &= -\pderiv{H}{q^i}.
         \end{align}
         Systems obeying these equations are called \textbf{Hamiltonian systems}. (See Section \ref{section:hamiltonian_dynamics} for a formal introduction).
     }
-
-    The formula to obtain the Hamiltonian from the Lagrangian is an application of the following more general \textbf{Legendre transformation}:
-    \newdef{Legendre transformation}{\index{Legendre!transformation}
-        Consider an equation of the following form:
-        \begin{gather}
-            \label{lagrange:legendre1}
-            df = udx + vdy,
-        \end{gather}
-        where $u = \pderiv{f}{x}$ and $v = \pderiv{f}{y}$.
-
-        Suppose one wants to perform a coordinate transformation $(x,y)\rightarrow(u,y)$ that preserves the general form of \eqref{lagrange:legendre1}. To this end, consider the function ($x$ is taken to be a fixed parameter):
-        \begin{gather}
-            \label{lagrange:legendre}
-            g(u,y) := f(x,y)-ux.
-        \end{gather}
-        Differentiation gives
-        \begin{gather*}
-            dg = vdy - xdu,
-        \end{gather*}
-        which has the form of \eqref{lagrange:legendre1} as desired. The quantities $v$ and $x$ are now given by
-        \begin{gather}
-            x = -\pderiv{g}{u}\qquad\text{and}\qquad v=\pderiv{g}{y}.
-        \end{gather}
-        The transformation $f\rightarrow g$ defined by equations \eqref{lagrange:legendre1} and \eqref{lagrange:legendre} is called a Legendre transformation.
-    }
-    \begin{remark}
-        Although the previous derivation used only 2 coordinates, the definition of Legendre transformations can easily be generalized to more coordinates.
-    \end{remark}
 
 \section{Poisson brackets}
 
@@ -119,15 +94,15 @@
         \begin{gather}
             \{A,B\} = \pderiv{A}{p}\pderiv{B}{q} - \pderiv{A}{q}\pderiv{B}{p},
         \end{gather}
-        where $q,p$ are the generalized coordinates in the Hamiltonian formalism.
+        where $q,p$ are the canonical coordinates in the Hamiltonian formalism.
     }
     \sremark{As noted before, some authors define the Poisson bracket with the opposite sign. One should always pay attention to which convention is used.}
     \newformula{Total time derivative}{
         Hamilton's equations imply the following expression for the total time-derivative:
         \begin{gather}
-            \deriv{F}{t} = \pderiv{F}{t} + \{H, F\},
+            \deriv{F}{t} = \pderiv{F}{t} + \{H,F\},
         \end{gather}
-        where $\{\cdot,\cdot\}$ is the Poisson bracket as defined above and $H$ is the Hamiltonian \ref{hamilton:hamiltonian}.
+        where $H$ is the Hamiltonian \ref{lagrange:hamiltonian}.
     }
 
 \section{Hamilton-Jacobi equation}
@@ -137,22 +112,22 @@
     \newdef{Canonical transformations}{\index{canonical!transformation}
         A canonical transformation is a transformation that leaves the Hamiltonian equations of motion unchanged. Mathematically this means that the transformations leave the action invariant up to a constant or, equivalently, they leave the Lagrangian invariant up to a complete time-derivative:
         \begin{gather}
-            \sum_ip_i\dot{q}^i - H(q,p,t) = \sum_iP_i\dot{Q}^i - K(Q,P,t) - \deriv{G}{t}(Q,P,t).
+            \sum_ip_i\dot{q}^i - H(q,p,t) = \sum_iP_i\dot{Q}^i - K(Q,P,t) - \deriv{S}{t}(Q,P,t).
         \end{gather}
-        The function $G$ is called the \textbf{generating function} of the canonical transformation. The choice of $G$ uniquely determines the transformation (the converse is not true).
+        The function $S$ is called the \textbf{generating function} of the canonical transformation. The choice of generating function uniquely determines the transformation (the converse is, however, not true).
     }
 
-    \newformula{Hamilton-Jacobi equation}{\index{Hamilton-Jacobi}\index{Hamilton!principal function}
+    \newformula{Hamilton-Jacobi equation}{\index{Hamilton-Jacobi equation}\index{Hamilton!principal function}
         Sufficient conditions for a function $S$ to be a generating function of canonical transformations are:
         \begin{align*}
-            p_i &=\ds\pderiv{S}{q^i},\\
-            Q^i &=\ds\pderiv{S}{P_i}
+            p_i &=\pderiv{S}{q^i},\\
+            Q^i &=\pderiv{S}{P_i}
         \end{align*}
         and \[K = H + \pderiv{S}{t}.\]
-        Choosing the new Hamiltonian function $K$ to be 0 gives the Hamilton-Jacobi equation:
+        Choosing the new Hamiltonian function $K$ to be 0 (this function is sometimes called the \textbf{Kamiltonian}) gives the Hamilton-Jacobi equation:
         \begin{gather}
             \label{lagrange:hamilton_jacobi_equation}
-            H\left(q, \pderiv{S}{q}, t\right)+\pderiv{S}{t} = 0.
+            H\left(q,\pderiv{S}{q},t\right)+\pderiv{S}{t} = 0.
         \end{gather}
         The function $S$ is called \textbf{Hamilton's principal function}.
     }
@@ -165,9 +140,9 @@
         For time-independent systems the HJE can be rewritten as follows:
         \begin{gather}
             \label{lagrange:time_independent_hje}
-            H\left(q, \pderiv{S}{q}\right) = -\pderiv{S}{t} := E.
+            H\left(q,\pderiv{S}{q}\right) = -\pderiv{S}{t} =: E.
         \end{gather}
-        After a redefinition of $H$ this is the same as equation \ref{symplectic:hamilton_jacobi}. One thus obtains the classical result that for time-independent systems the Hamiltonian function is a constant of motion (the \textbf{energy}). Integration with respect to time then gives the following form of the principal function:\footnote{Note that often $E$ will be the energy, however, this is not a general fact.}
+        After a redefinition of $H$ this is the same as Equation \eqref{symplectic:hamilton_jacobi}. One thus obtains the classical result that for time-independent systems the Hamiltonian function is a constant of motion (often called the \textbf{energy}\footnote{Note that this is not a general fact.}). Integration with respect to time gives the following form of the principal function:
         \begin{gather}
             S(q,p,t) = W(q,p) - Et.
         \end{gather}
@@ -178,11 +153,11 @@
         The Hamilton-Jacobi equation is separable if and only if the potential is of the form
         \begin{gather}
             \label{lagrange:stackel_condition}
-            V(q) = \sum_{i=1}^n\ds\frac{W_i(q^i)}{G_i^2(q)},
+            V(q) = \sum_{i=1}^n\ds\frac{W_i(q^i)}{G_i^2(q)}
         \end{gather}
         whenever the Hamiltonian function can be written as
         \begin{gather}
-            H(q, p) = \frac{1}{2}\sum_i\stylefrac{p_i^2}{G^2_i(q)} + V(q).
+            H(q,p) = \frac{1}{2}\sum_i\frac{p_i^2}{G^2_i(q)} + V(q).
         \end{gather}
         Potentials of this form are called \textbf{St\"ackel potentials}.
     \end{property}
@@ -191,7 +166,7 @@
 \subsection{Phase space}
 
     \newdef{Phase space}{\index{phase space}
-        The set of all possible $n$-tuples\footnote{Not only those as given by the equations of motion.} $(q^i,p_i)$ of generalized coordinates and associated momenta is called the phase space of the system.
+        The set of all possible $n$-tuples $(q^i,p_i)$ of generalized coordinates and associated momenta is called the phase space of the system. Note that this also includes the tuples that are not solutions of the equations of motion.
     }
 
     \newdef{Libration}{\index{libration}
@@ -205,24 +180,22 @@
         When plotting different (closed) trajectories in the phase space of a system, the curve that separates regions of librations and rotations is called the separatrix.\footnote{In general the separatrix of a dynamical system is a curve that separates regions with different behaviour.}
     }
 
-\subsection{Material derivative}
-
-    \newdef{Lagrangian derivative\footnotemark}{\index{Lagrange!derivative|see{material derivative}}\index{material!derivative}\label{phasespace:lagrangian_derivative}
+    \newdef{Lagrangian derivative\footnotemark}{\index{Lagrange!derivative|see{material derivative}}\index{material!derivative}\index{advective}\label{lagrange:lagrangian_derivative}
         \footnotetext{Also known as the \textbf{material derivative}, especially when applied to fluid mechanics.}
-        The $a(q,\dot{q},t)$ be a quantity defined on phase space. Its Lagrangian derivative along a path $(q(t),\dot{q}(t))$ in phase space is given by
+        Let $a(q,\dot{q},t)$ be a phase space quantity. Its Lagrangian derivative along a path $(q(t),\dot{q}(t))$ in phase space is given by
         \begin{align}
-            \ds\Deriv{a}{t} &= \lim_{\Delta t\rightarrow0}\ds\frac{a(q+\Delta q,\dot{q}+\Delta\dot{q},t+\Delta t) - a(q,\dot{q},t)}{\Delta t}\nonumber\\
-            &= \pderiv{a}{t} + \deriv{\vector{q}}{t}\cdot\pderiv{a}{\vector{q}} + \deriv{\dot{\vector{q}}}{t}\cdot\pderiv{a}{\dot{\vector{q}}}\nonumber\\
-            &= \pderiv{a}{t} + \dot{\vector{q}}\cdot\nabla a + \deriv{\dot{\vector{q}}}{t}\cdot\pderiv{a}{\dot{\vector{q}}}\,.
+            \Deriv{a}{t} &:= \lim_{\Delta t\rightarrow0}\frac{a(q+\Delta q,\dot{q}+\Delta\dot{q},t+\Delta t) - a(q,\dot{q},t)}{\Delta t}\nonumber\\
+            &= \pderiv{a}{t} + \deriv{q^i}{t}\pderiv{a}{q^i} + \deriv{\dot{q}^i}{t}\pderiv{a}{\dot{q}^i}\\
+            &= \pderiv{a}{t} + \dot{q}^i\pderiv{a}{q^i} + \deriv{q^i}{t}\pderiv{a}{\dot{q}^i}\,.\nonumber
         \end{align}
         The second term $\dot{\vector{q}}\cdot\nabla a$ in this equation is called the \textbf{advective} term.
     }
-    \begin{remark}
+    \begin{remark}\index{convective}
         In the case that $a(q,\dot{q},t)$ is a tensor field, the gradient $\nabla$ has to be replaced by the covariant derivative. The advective term is then sometimes called the \textbf{convective} term.
     \end{remark}
 
     \begin{result}
-        If one takes $a(q,\dot{q},t)=\vector{q}$, one obtains
+        For $a(q,\dot{q},t)=\vector{q}$ one obtains
         \begin{gather}
             \Deriv{\vector{q}}{t} = \dot{\vector{q}}.
         \end{gather}
@@ -231,62 +204,62 @@
 \subsection{Liouville's theorem}
 
     \begin{formula}[Liouville's lemma]
-        Consider a phase space volume element $dV_0$ moving along a path $(\vector{q}(t),\dot{\vector{q}}(t))\equiv\vector{x}(t)$. The Jacobian $J(\vector{x},t)$ associated with this motion is given by
+        Consider a phase space volume element $dV_0$ moving along a path $(q(t),\dot{q}(t))\equiv x(t)$. The Jacobian $J(x(t))$ associated with this motion is given by
         \begin{gather}
-            J(\vector{x}(t)) = \deriv{V}{V_0} = \det\left(\pderiv{\vector{x}}{\vector{x}_0}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}.
+            J(x(t)) = \deriv{V}{V_0} = \det\left(\pderiv{\vector{x}}{\vector{x}_0}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}.
         \end{gather}
-        The Lagrangian derivative of this Jacobian then becomes
+        The Lagrangian derivative of this Jacobian is
         \begin{gather}
-            \label{fluidum:jacobian_derivative}
+            \label{lagrange:jacobian_derivative}
             \Deriv{J}{t} = (\nabla\cdot\vector{x})J.
         \end{gather}
-        Furthermore, using Hamilton's equations \ref{lagrange:hamilton_equations} it is easy to prove that
+        Furthermore, using Hamilton's equations \ref{lagrange:hamilton_equations}, it is easy to prove that
         \begin{gather}
             \nabla\cdot\vector{x} = 0,
         \end{gather}
-        and hence that the material derivative of $J$ vanishes.
+        and, hence, that the material derivative of $J$ vanishes.
     \end{formula}
 
-    \begin{theorem}[Liouville]\index{Liouville!theorem on phase spaces}\label{fluidum:liouvilles_theorem}
+    \begin{theorem}[Liouville]\index{Liouville!theorem on phase spaces}\label{lagrange:liouvilles_theorem}
         Let $V(t)$ be a moving phase space volume containing a fixed set of particles. Applying Liouville's lemma gives
         \begin{gather}
-            \Deriv{V}{t} = \Deriv{}{t}\int_{\Omega(t)}d^6x = \Deriv{}{t}\int_{\Omega_0}J(\vector{x}, t)d^6x_0 = 0.
+            \Deriv{V}{t} = \Deriv{}{t}\int_{\Omega(t)}d^6x = \Deriv{}{t}\int_{\Omega_0}J(\vector{x},t)d^6x_0 = 0.
         \end{gather}
         This implies that the phase space volume of a Hamiltonian system is invariant with respect to time-evolution.
     \end{theorem}
-    \begin{remark}[$\dagger$]
-        Any phase space admits a symplectic form $\omega$ such that the Hamiltonian equations of motion are encoded in a vector field $X_H$. By noting that the volume in phase space is calculated through the symplectic volume form $\text{Vol}_\omega\sim\omega^n$, this theorem easily follows from the fact that time evolution is the flow of the Hamiltonian vector field, which preserves the symplectic form.
+    \begin{remark}[$\clubsuit$]
+        Any phase space admits a symplectic form $\omega$ such that the Hamiltonian equations of motion are encoded in a vector field $X_H$. By noting that the volume in phase space is calculated through the symplectic volume form $\mathrm{Vol}_\omega\sim\omega^n$, this theorem easily follows from the fact that time evolution is the flow of the Hamiltonian vector field, which preserves the symplectic form.
     \end{remark}
 
     \newformula{Boltzmann's transport equation}{\index{Boltzmann!transport equation}\index{Vlasov equation}
-        Let $F(\vector{q},\dot{\vector{q}},t)$ be the mass distribution function
+        Let $F(q,\dot{q},t)$ be the mass distribution function
         \begin{gather}
-            M_{\text{tot}} = \int_{\Omega(t)}F(\vector{q},\dot{\vector{q}},t)d^6x.
+            M_\mathrm{tot} = \int_{\Omega(t)}F(q,\dot{q},t)d^6x.
         \end{gather}
-        From the conservation of mass we can derive the following formula:
+        From the conservation of mass one can derive the following formula:
         \begin{gather}
-            \label{fluidum:boltzmann_transport_gather}
-            \Deriv{F}{t} = \pderiv{F}{t} + \deriv{\vector{q}}{t}\cdot\pderiv{F}{\vector{q}} - \nabla V\cdot\pderiv{F}{\dot{\vector{q}}} = \left[\pderiv{F}{t}\right]_{\text{col}}
+            \label{lagrange:boltzmann_transport_gather}
+            \Deriv{F}{t} = \pderiv{F}{t} + \deriv{q^i}{t}\cdot\pderiv{F}{q^i} - \nabla V^i\pderiv{F}{\dot{q}^i} = \left[\pderiv{F}{t}\right]_\mathrm{col},
         \end{gather}
         where the right-hand side gives the change of $F$ due to collisions.\footnote{The collisionless form of this equation is sometimes called the \textbf{Vlasov equation}.} This partial differential equation in 7 variables can be solved to obtain $F$.
     }
 
-    Consider a Hamiltonian system with a phase space $\mathcal{V}$. By Liouville's theorem, the phase flow generated by the equations of motion is a volume- or measure-preserving map $g:\mathcal{V}\rightarrow\mathcal{V}$. This gives rise to the following theorem:
+    Consider a Hamiltonian system with a phase space $\mathcal{V}$. By Liouville's theorem, the phase flow generated by the equations of motion is a volume- or measure-preserving map $g:\mathcal{V}\rightarrow\mathcal{V}$ (Definition \ref{lebesgue:measure_preserving}). This gives rise to the following theorem:
     \begin{theorem}[Poincar\'e recurrence theorem]\index{Poincar\'e!recurrence theorem}
         Let $\mathcal{V}_0$ be the initial phase space volume of the system. For every point $x_0\in\mathcal{V}_0$ and for every neighbourhood $U$ of $x_0$, there exists a point $y\in U$ such that $g^n(y)\in U$ for every $n\in\mathbb{N}$.
     \end{theorem}
 
     \begin{theorem}[Strong Jeans's theorem\footnotemark]\index{Jeans}\index{isolating integrals}
         \footnotetext{Actually due to \textit{Donald Lynden-Bell}.}
-        The distribution function $F(\vector{q},\dot{\vector{q}})$ of a time-independent system, for which almost all orbits are regular, can be expressed in terms of 3 integrals of motion.
+        The distribution function of a time-independent system, for which almost all orbits are regular, can be expressed in terms of three integrals of motion.
     \end{theorem}
     The constants in Jeans's theorem are called the \textup{\textbf{isolating integrals}} of the system.
 
 \subsection{Continuity equation}
 
-    \newformula{Reynolds transport theorem\footnotemark}{\index{Reynolds!transport theorem}\index{Leibniz!integral rule}\label{fluidum:reynolds_transport_theorem}
+    \newformula{Reynolds transport theorem\footnotemark}{\index{Reynolds!transport theorem}\index{Leibniz!integral rule}\label{lagrange:reynolds_transport_theorem}
         \footnotetext{This is a 3D extension of the \textit{Leibniz integral rule}.}
-        Consider a quantity \[F = \int_{V(t)}f(\vector{q},\dot{\vector{q}},t)dV.\] Combining equation \eqref{fluidum:jacobian_derivative} with the divergence theorem \ref{vector:divergence_theorem} gives
+        Consider a quantity \[F = \int_{V(t)}f(q,\dot{q},t)dV.\] Combining equation \eqref{lagrange:jacobian_derivative} with the divergence theorem \ref{vector:divergence_theorem} gives
         \begin{gather}
             \Deriv{F}{t} = \int_V\pderiv{f}{t}dV + \oint_{\partial V}f\dot{\vector{q}}\cdot d\vector{S}.
         \end{gather}
@@ -294,33 +267,33 @@
     \newformula{Continuity equations}{\index{continuity!equation}
         For a conserved quantity the equation above becomes:
         \begin{gather}
-            \label{fluidum:lagrangian_continuity_gather}
+            \label{lagrange:lagrangian_continuity_gather}
             \Deriv{f}{t} + (\nabla\cdot\dot{\vector{q}})f = 0
         \end{gather}
         \begin{gather}
-            \label{fluidum:eulerian_continuity_gather}
+            \label{lagrange:eulerian_continuity_gather}
             \pderiv{f}{t} + \nabla\cdot(f\dot{\vector{q}}) = 0.
         \end{gather}
-        If one sets $f=\rho$ (the mass density), the first equation is called the \textbf{Lagrangian continuity equation} and the second equation is called the \textbf{Eulerian continuity equation}. Both equations can be found by pulling the Lagrangian derivative inside the integral on the left-hand side of \ref{fluidum:reynolds_transport_theorem}.
+        If one sets $f=\rho$ (the mass density), the first equation is called the \textbf{Lagrangian continuity equation} and the second equation is called the \textbf{Eulerian continuity equation}. Both equations can be found by pulling the Lagrangian derivative inside the integral on the left-hand side of \ref{lagrange:reynolds_transport_theorem}.
 
-        The difference between these two equations corresponds to the way we observe the system. In the Eulerian approach one observes a fixed point in space and measures how a given quantity at that point evolves. In the Lagrangian approach one observes a given point (or particle) in the system and measures how a given quantity evolves around the chosen point as it moves throughout space.
+        The difference between these two equations corresponds to the way the system is observed. In the Eulerian approach one observes a fixed point in space and measures how a given quantity at that point evolves. In the Lagrangian approach one observes a given point (or particle) in the system and measures how a given quantity evolves around the chosen point as it moves throughout space.
     }
     \begin{result}
         Combining the Reynolds transport theorem with the Lagrangian continuity equation gives the following identity for an arbitrary function $f$:
         \begin{gather}
-            \label{fluidum:result1}
+            \label{lagrange:result1}
             \Deriv{}{t}\int_V\rho fdV = \int_V\rho\Deriv{f}{t}dV.
         \end{gather}
     \end{result}
 
 \section{Dynamical systems}
 
-    The following property, although seemingly innocuous, is rather important:
+    The following property, although seemingly innocuous, is very important for the study of mechanical systems:
     \begin{property}
-        For dynamical systems governed by ODEs satisfying the Picard-Lindel\"of conditions \ref{diffeq:picard_lindelof}, different trajectories never intersect (this follows from their uniqueness).
+        For dynamical systems governed by ODEs satisfying the Picard-Lindel\"of conditions \ref{diffeq:picard_lindelof}, different trajectories never intersect.
     \end{property}
 
-    The above property has an important consequence\footnote{The proof is a bit more involved than that.}
+    The above property has an important (but nontrivial) consequence
     \begin{theorem}[Poincar\'e-Bendixson]\index{Poincar\'e-Bendixson}
         In a phase plane, i.e. a two-dimensional phase space, the only trajectories inside of a closed bounded subregion without fixed points are either closed orbits or trajectories spiralling into closed orbits.
     \end{theorem}
@@ -328,40 +301,38 @@
         In two-dimensional (Cartesian) phase spaces there cannot exist chaos, i.e. no strange attractors can exist.
     \end{result}
 
-    \newdef{Lypanuov exponents}{
-        Consider two trajectories of a system throughout phase space. Let $s_0:=s(t_0)$ be the distance between these trajectories at a time $t_0$ (one can take this time to be 0 without loss of generality). If after some time $t$ one can write
+    \newdef{Lypanuov exponents}{\index{Lyapunov exponent}
+        Consider two trajectories of a system denote the distance between them at a time $t_0$ by $s_0:=s(t_0)$ (the initial time can be taken to be 0 without loss of generality). If after some time $t$ these trajectories satisfy
         \begin{gather}
-            s(t) \approx e^{\lambda t}s_0,
+            s(t)\approx e^{\lambda t}s_0,
         \end{gather}
         $\lambda$ is called the Lyapunov exponent of the system.
     }
 
     \newdef{Limit cycle}{\index{cycle|seealso{limit}}\index{limit!cycle}
-        Consider a closed trajectory $C$. If there exist curves that asymptotically $(t\rightarrow\pm\infty$) converge to $C$, i.e. their \textbf{limit set} is $C$, one calls $C$ a limit cycle.
+        Consider a closed trajectory $C$. If there exist curves that asymptotically $(t\longrightarrow\pm\infty$) converge to $C$, i.e. their \textbf{limit set} is $C$, one calls $C$ a limit cycle.
     }
 
     \newdef{Poincar\'e map}{\index{Poincar\'e!map}
-        Consider a dynamical system determined by a phase flow $\phi$. Let $S$ be a codimension-1 hypersurface in the phase space $Q$ that is transversal to $\phi$, i.e. all trajectories intersect $S$ at isolated points.
-
-        Intuitively, the Poincar\'e map $P:S\rightarrow S$ is defined as the ''first return map'', i.e. for every point $x\in S$ the image $P(x)$, if it exists, is given by $\phi_T(x)$ with $T=:\min\{t\in\mathbb{R}^+\mid\phi_t(x)\in S\}$.
+        Consider a dynamical system determined by a phase flow $\phi$ and let $S$ be a codimension-1 hypersurface in the phase space $Q$ that is transversal to $\phi$, i.e. all trajectories intersect $S$ at isolated points. Intuitively, the Poincar\'e map $P:S\rightarrow S$ is defined as the ``map of first return'', i.e. the image of every point $x\in S$, if it exists, is given by $\phi_T(x)$ with $T=:\min\{t\in\mathbb{R}^+\mid\phi_t(x)\in S\}$.
 
         One can give a more formal definition (one that also avoids the fact that $P$ would only be partially defined). The Poincar\'e map $P$ is defined as follows:
-        \begin{enumerate}
+        \begin{itemize}
             \item $P:U\rightarrow S$ is a differentiable map, where $U\subset S$ is open and connected.
             \item $P|_{P(U)}$ is a diffeomorphism.
             \item For every point $u\in U$, the positive semi-orbit of $u$ intersect $S$ for the first time at $P(u)$.
-        \end{enumerate}
-        The usefulness of this map lies in the fact that it preserves (quasi)periodicity whilst reducing the dimensionality of the space. It is especially useful for the study of 3-dimensional spaces, where the section $S$ is 2-dimensional and hence easily visualized.
+        \end{itemize}
+        The usefulness of this map lies in the fact that it preserves (quasi)periodicity whilst reducing the dimensionality of the space. It is especially useful for the study of 3-dimensional spaces, where the section $S$ is 2-dimensional and, hence, easily visualized.
     }
-    \begin{property}
+    \begin{property}[Fixed points]
         Fixed points of the Poincar\'e map correspond to closed orbits.
     \end{property}
 
 \section{Fluid mechanics}
 
-    \begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!fundamental theorem}
+    \begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!fundamental theorem}\index{stress}
         \footnotetext{Also known as \textbf{Cauchy's fundamental theorem}.}
-        Knowing the stress vectors acting on the coordinate planes through a point $A$ is sufficient to calculate the stress vector acting on an arbitrary plane passing through $A$.
+        Knowing the stress vectors acting on the coordinate planes through a point is sufficient to calculate the stress vector acting on an arbitrary plane passing through that point.
     \end{theorem}
     Cauchy's stress theorem is equivalent to the existence of the following tensor:
     \newdef{Cauchy stress tensor}{\index{Cauchy!stress tensor}
@@ -373,7 +344,7 @@
     \begin{example}
         For identical particles the stress tensor is given by
         \begin{gather}
-            \mathbf{T} = -\rho \langle\vector{w}\otimes\vector{w}\rangle,
+            \mathbf{T} = -\rho\langle\vector{w}\otimes\vector{w}\rangle,
         \end{gather}
         where $\vector{w}$ is the random component of the velocity vector and $\langle\cdot\rangle$ denotes the expectation value \ref{prob:expectation_value}.
     \end{example}
@@ -386,62 +357,66 @@
     \end{theorem}
 
     \newformula{Cauchy momentum equation}{\index{Cauchy!momentum equation}
-        From Newton's second law \ref{forces:force} it follows that
+        From Newton's second law \ref{classic:force} it follows that
         \begin{gather}
-            \Deriv{\vector{P}}{t} = \int_V\vector{f}(\vector{x},t)dV + \oint_{\partial V}\vector{t}(\vector{x},t)dS,
+            \Deriv{\vector{P}}{t} = \int_V\vector{f}(x,t)dV + \oint_{\partial V}\vector{t}(x,t)dS,
         \end{gather}
         where $\vector{P}$ is the momentum density, $\vector{f}$ are the ``body'' forces and $\vector{t}$ are the surface forces (such as \textit{shear stress}). Using Cauchy's stress theorem and the divergence theorem \ref{vector:divergence_theorem} one obtains
         \begin{gather}
-            \Deriv{\vector{P}}{t} = \int_V\left[\vector{f}(\vector{x},t) + \nabla\cdot\mathbf{T}(\vector{x},t)\right]dV.
+            \Deriv{\vector{P}}{t} = \int_V\left[\vector{f}(x,t) + \nabla\cdot\mathbf{T}(x,t)\right]dV.
         \end{gather}
-        The left-hand side can be rewritten using \ref{fluidum:result1} as
+        The left-hand side can be rewritten using \eqref{lagrange:result1} as
         \begin{gather}
-            \int_V\rho\Deriv{\vector{v}}{t}dV = \int_V\left[\vector{f}(\vector{x},t) + \nabla\cdot\mathbf{T}(\vector{x},t)\right]dV.
+            \int_V\rho\Deriv{\vector{v}}{t}dV = \int_V\left[\vector{f}(x,t) + \nabla\cdot\mathbf{T}(x,t)\right]dV.
         \end{gather}
     }
 
 \section{Geometric description}
 
-    In this section we reformulate the current chapter in a differential geometric framework (for an introduction to differential geometry see chapter \ref{chapter:manifolds} and onwards). This section is based on \cite{palais_solitons}.
+    In this section the current chapter is reformulated in a differential geometric framework. The first step is to reformulate ordinary Newtonian mechanics. The general setting here is a Riemannian manifold $(M,g)$, where the metric is mainly used for defining the kinetic energy $\frac{1}{2}g(v,v)$, together with a second-order ODE in the form of a vector field on $TM$ such that $\pi_*(X_v) = v$, where $\pi$ denotes the tangent bundle projection.
 
-    We first begin by reformulating ordinary Newtonian mechanics. The general setting here is a Riemannian manifold\footnote{The metric is mainly for defining the kinetic term $\frac{1}{2}g(v, v)$.} $(M, g)$ together with a second-order ODE in the form of a vector field on $TM$ such that $\pi_*(X_v) = v$ (where $\pi$ denotes the tangent bundle projection). For integral curves $\gamma$ of second-order ODEs it is easy to show that they are the tangent vector fields of their projections. If $q_i(t)$ are the local coordinates of the base curve $\sigma:=\pi(\gamma)$, then it can be shown that the tangent coordinates $\dot{q}^i$ of $\gamma$ are exactly the derivatives of the coordinates $q_i$:
+    For integral curves $\gamma$ of second-order ODEs it is easy to show that they are the tangent vector fields of their projections. In particular, if $q_i(t)$ are the local coordinates of a curve $\sigma:=\pi(\gamma)$ on $M$, it can be shown that the tangent coordinates $\dot{q}^i$ of $\gamma$ are exactly the derivatives of the coordinates $q_i$:
     \begin{gather}
-        \dot{q}^i(t) = \deriv{q^i}{t}(t)
+        \dot{q}^i(t) = \deriv{q^i}{t}(t).
     \end{gather}
-    As such the abuse of notation $\dot{q}^i$ is justified. Furthermore, it can be shown that a vector field on $TM$ is second-order if and only if this is true for any local chart, i.e. if the vector field $X\in\mathfrak{X}(TM)$ can be expressed as follows:
+    As such the abuse of notation $\dot{q}^i$ is justified. Conversely, it can be shown that a vector field on $TM$ is second-order if and only if this is true for any local chart, i.e. if the vector field $X\in\mathfrak{X}(TM)$ can be expressed as follows:
     \begin{gather}
         X = \dot{q}^i\pderiv{}{q^i} + F^i(q,\dot{q})\pderiv{}{\dot{q}^i}.
     \end{gather}
-    By writing this vector field as a system of differential equations we get the second-order ODE (hence the terminology)
+    By writing this vector field as a system of differential equations, a second-order ODE is obtained (hence the terminology):
     \begin{gather}
         \mderiv{2}{q^i}{t} = F^i(q,\dot{q}).
     \end{gather}
-    The prime example of such a second-order ODE is the vector field generating the geodesic flow on $TM$, i.e. the integral curves are the tangent curves of geodesics on $M$. The similarity between the above equation and equation \ref{diff:geodesic_equation} is therefore striking. By adopting the notation of equation \ref{diff:geodesic} one can generalize the geodesic equation to obtain Newton's equation for an arbitrary smooth ''potential'' $U:M\rightarrow\mathbb{R}$:
+    The primary example of such a second-order ODE is the vector field generating the geodesic flow on $TM$, i.e. the integral curves are the tangent curves of geodesics on $M$. Therefore it should not be surprising that the above equation is similar to Formula \ref{diff:geodesic_equation}. By adopting the notation of Equation \ref{diff:autoparallel_equation} one can generalize the geodesic equation to obtain Newton's equations of motion for an arbitrary smooth ``potential'' $U:M\rightarrow\mathbb{R}$:
     \begin{formula}[Newton's equation]\index{Newton!equation}
-        Let $(M, g)$ be a Riemannian manifold and let $U:M\rightarrow\mathbb{R}$ be a smooth function. Newton's equation for a curve $\sigma:[a,b]\rightarrow M$ reads
+        Let $(M,g)$ be a Riemannian manifold and let $U:M\rightarrow\mathbb{R}$ be a smooth function. Newton's equations for a curve $\sigma:[a,b]\rightarrow M$ read
         \begin{gather}
-            \nabla_{\dot{\sigma}}\dot{\sigma} = -\text{grad}(U)
+            \nabla_{\dot{\sigma}}\dot{\sigma} = -\mathrm{grad}(U)
         \end{gather}
-        where $\nabla$ indicates the Levi-Civita connection and $\text{grad}$ denotes the gradient operator.
+        where $\nabla$ indicates the Levi-Civita connection and $\mathrm{grad}$ denotes the gradient operator \ref{vector:gradient} (here not denoted by $\nabla$ to avoid confusion with the covariant derivative).
     \end{formula}
 
 \subsection{Lagrangian formalism}
 
-    We now turn to Noether's theorem and in particular the version concerning cyclic coordinates \ref{lagrange:noether_cyclic}. Any diffeomorphism of $M$ induces a diffeomorphism on $TM$ by pushforward. A symmetry of the Lagrangian function $L:TM\rightarrow\mathbb{R}$ is a diffeomorphism $\phi$ of $M$ such that $\phi^*L = L$. Infinitesimal symmetries (or infinitesimal symmetry generators) are then the vector fields for which the flow is a symmetry. Given a complete vector field $X$, one can define the conjugate momentum $\widehat{X}:TM\rightarrow\mathbb{R}$ as follows:
+    Now it is time to turn to Noether's theorem and, in particular, the version concerning cyclic coordinates \ref{lagrange:noether_cyclic}. Any diffeomorphism of $M$ induces a diffeomorphism on $TM$ by pushforward.
+    \newdef{Lagrangian symmetry}{\index{symmetry}
+        A symmetry of a Lagrangian function $L:TM\rightarrow\mathbb{R}$ is a diffeomorphism $\phi$ of $M$ such that $\phi^*L = L$. Infinitesimal symmetries, i.e. the generators of symmetries, are vector fields for which the associated flow is a symmetry.
+    }
+    Given a complete vector field $X$, one can define the conjugate momentum $\widehat{X}:TM\rightarrow\mathbb{R}$ as follows:
     \begin{gather}
         \label{lagrange:metric_conjugate_momentum}
-        \widehat{X}(v) := g(X_{\pi(v)}, v).
+        \widehat{X}(v) := g(X_{\pi(v)},v).
     \end{gather}
-    Using this definition we can reformulate Noether's theorem \ref{lagrange:noether_cyclic} as follows:
+    Using this definition Noether's theorem \ref{lagrange:noether_cyclic} can be reformulated as follows:
     \begin{theorem}[Noether's theorem]\index{Noether!theorem}
         The conjugate momentum of an infinitesimal symmetry is a constant of motion.
     \end{theorem}
 
-    If one denotes the conjugate momenta of the coordinate-induced vector fields $\partial_i$ by $P_i$, the nondegeneracy of $g$ implies that the set $\{q^i, P_i\}_{i\leq n}$ gives well-defined coordinate functions on $T^*M$. The equivalence of the Lagrangian action principle and the Newtonian equations of motion imply that the second-order ODE associated to the potential $U$ takes the following form:
+    If the conjugate momenta of the coordinate-induced vector fields $\partial_i$ are denoted by $P_i$, the nondegeneracy of $g$ implies that the set $\{q^i,P_i\}_{i\leq n}$ gives well-defined coordinate functions on $T^*M$. The equivalence of the Lagrangian action principle and the Newtonian equations of motion imply that the second-order ODE associated to the potential $U$ takes the following form:
     \begin{gather}
         X^U := \dot{q}^i\pderiv{}{q^i} + \pderiv{L}{q^i}\pderiv{}{P_i}.
     \end{gather}
-    After performing the Legendre transformation $E:=P_i\dot{q}^i-L$ to obtain the (Hamiltonian) energy function\footnote{We refrain from calling the Hamiltonian function, as we reserve this terminology for objects on the cotangent bundle.}, we can rewrite Newton's equations in the Hamiltonian form:
+    After performing the Legendre transformation $E:=P_i\dot{q}^i-L$ to obtain the (Hamiltonian) energy function\footnote{This function will not be called a Hamiltonian function, because this will be reserved for functions on the cotangent bundle.}, Newton's equations can be rewritten in Hamiltonian form:
     \begin{gather}
         X^E = \pderiv{E}{P_i}\pderiv{}{q^i}-\pderiv{E}{q^i}\pderiv{}{P_i}.
     \end{gather}
@@ -450,30 +425,32 @@
 
     The procedure of mapping a (complete) vector field to its conjugate momentum can be generalized to an isomorphism $TM\rightarrow T^*M$ as follows:
     \newdef{Fibre derivative}{\index{fibre!derivative}
-        Let $L:TM\rightarrow\mathbb{R}$ be a smooth Lagrangian. The fiber derivative of $L$ is defined as the Fr\'echet derivative
+        Let $L:TM\rightarrow\mathbb{R}$ be a smooth Lagrangian. The fibre derivative of $L$ is defined as the directional (G\^ateaux) derivative \ref{functional:gateaux} of $L$:
         \begin{gather}
-            \langle FL(v), w\rangle := \left.\deriv{}{t}\right|_{t=0}L(v + tw).
+            \langle\mathbb{F}L(v),w\rangle := \left.\deriv{}{t}\right|_{t=0}L(v+tw).
         \end{gather}
-        Because $FL(v)\in\mathcal{L}(TM, \mathbb{R})\equiv T^*M$ by definition of the derivative, we see that $FL$ defines a map $TM\rightarrow T^*M$. In local coordinates $(q^i, \dot{q}^i)$ the fiber derivative is given by
+        Because $\mathbb{F}L(v)\in\mathcal{L}(TM,\mathbb{R})=T^*M$ by definition of the derivative, one can see that $\mathbb{F}L$ defines a map $TM\rightarrow T^*M$. In local coordinates $(q^i,\dot{q}^i)$ the fiber derivative is given by
         \begin{gather}
-            FL:(q^i, \dot{q}^i)\mapsto\left(q^i, \pderiv{L}{\dot{q}^i}\right)\equiv(q^i, p_i).
+            \mathbb{F}L:(q^i,\dot{q}^i)\mapsto\left(q^i,\pderiv{L}{\dot{q}^i}\right)\equiv(q^i,p_i).
         \end{gather}
-        As such we obtain the classical definition \ref{lagrange:conjugate_momentum} for conjugate momenta. In the case of kinetic Lagrangians defined by a metric $g$, it is not hard to see that this boils down to equation \ref{lagrange:metric_conjugate_momentum} of conjugate momenta given in the previous paragraph.
+        As such the classical definition \ref{lagrange:conjugate_momentum} for conjugate momenta is obtained. In the case of kinetic Lagrangians defined by a metric $g$, it is not hard to see that this boils down to Equation \eqref{lagrange:metric_conjugate_momentum} of conjugate momenta given in the previous paragraph.
     }
     \begin{remark}[Legendre transform]\index{Legendre!transformation}
-        The fibre derivative $FL$ is often called the Legendre transformation of $L$. Although this does not exactly coincide with definitions \ref{info:legendre} or \ref{lagrange:legendre}, the relation is simple enough. The Legendre transformation $L\mapsto E$ (on the tangent bundle) is implemented as $E(X) = \langle FL(X), X\rangle - L(X)$.
+        The fibre derivative $\mathbb{F}L$ is often called the Legendre transform of $L$. Although this does not exactly coincide with \ref{calculus:legendre} or \eqref{info:legendre}, the relation is simple enough. The Legendre transformation $L\mapsto L^*$ (on the tangent bundle) is implemented as $L^*(x) = \langle\mathbb{F}L(x),x\rangle - L(x)$.
     \end{remark}
-    Lagrangians for which the Legendre transformation is invertible, i.e. for which $FL$ is a diffeomorphism, give rise to mechanics on the cotangent bundle: Given such a Lagrangian one constructs the associated energy function $E$ by a Legendre transformation and maps it to a Hamiltonian $H$ on the cotangent bundle as $H:=E\circ FL^{-1}$. (By abuse of notation we set $L\equiv L\circ FL^{-1}$.) The transformation also induces a Hamiltonian vector field on $T^*M$ by $X^H:=FL_*X^E$ or alternatively by $X^E=FL^*X^H$. If we choose cotangent coordinates $p_i(\alpha) := \alpha(\partial_i)$, then we easily see that $p_i\circ FL=P_i$. This way the Hamiltonian equations remain virtually unchanged when transporting them to the cotangent bundle.
-
-    For any choice of coordinates such that the symplectic form on $T^*M$ takes the standard Darboux form $\omega=dp_i\wedge dq^i$, the Newtonian equations of motion take on a Hamiltonian form. If there exists a coordinate chart in which the Hamiltonian function $H$ does not depend on any of the base coordinates $q^i$, then we call the coordinates \textbf{action-angle} variables and the system is said to be \textbf{completely integrable}.\index{action-angle coordinates}
+    Lagrangians for which the Legendre transformation is invertible, i.e. for which $\mathbb{F}L$ is a diffeomorphism, give rise to equivalent mechanics encoded in the cotangent bundle:
+    \begin{quote}
+        Given such a Lagrangian, construct the associated energy function $E$ by a Legendre transformation and map it to a Hamiltonian $H$ on the cotangent bundle as $H:=E\circ\mathbb{F}L^{-1}$. By abuse of notation, write $L\equiv L\circ\mathbb{F}L^{-1}$.) This transformation also induces a Hamiltonian vector field $X^H:=\mathbb{F}L_*X^E$ on $T^*M$ that can alternatively be encoded as $X^E=\mathbb{F}L^*X^H$. If the cotangent coordinates $p_i(\alpha) := \alpha(\partial_i)$ are chosen, it can easily be seen that $p_i\circ\mathbb{F}L=P_i$. This way the Hamiltonian equations remain virtually unchanged when transporting them to the cotangent bundle.
+    \end{quote}
+    For any choice of coordinates such that the symplectic form on $T^*M$ takes the standard Darboux form $\omega=dp_i\wedge dq^i$, the Newtonian equations of motion take on a Hamiltonian form. If there exists a coordinate chart in which the Hamiltonian function $H$ does not depend on any of the base coordinates $q^i$, the coordinates are called \textbf{action-angle variables} and the system is said to be \textbf{completely integrable}.\index{action-angle coordinates}\index{integrable}
 
 \subsection{Symplectic structure on infinite-dimensional systems}
 
-    Although we could have put this section in chapter \ref{chapter:symplectic}, we thought it better fit here, since the study of these manifolds is almost always related to the study of physical phenomena such as \textit{solitons}.
+    Although this section could have been included in Chapter \ref{chapter:symplectic}, it better fits in here since the study of these manifolds is almost always related to the study of physical phenomena such as \textit{solitons}.
 
-    The general definition of a symplectic manifold $(M, \omega)$ remains the same, i.e. it is a smooth manifold $M$ equipped with a closed, nondegenerate $2$-form $\omega$. Even though we remain in the 2-plectic setting, the content of remark \ref{symplectic:hamiltonian_forms} applies also to infinite-dimensional systems. If we restrict to the space of Hamiltonian functions (and vector fields) we can define a Poisson structure as follows:
+    The general definition of a symplectic manifold $(M,\omega)$ remains the same, i.e. it is a smooth manifold $M$ equipped with a closed, nondegenerate $2$-form $\omega$. Even though the 2-plectic nature is preserved, the content of Remark \ref{symplectic:hamiltonian_forms} applies also to infinite-dimensional systems, i.e. Hamiltonian functions do not necessarily exist. On the space of Hamiltonian functions (and vector fields) one can define a Poisson structure as follows:
     \begin{gather}
-        \{F, G\} := \omega(X^G, X^F).
+        \{F,G\} := \omega(X^F,X^G).
     \end{gather}
 
-    ?? COMPLETE (e.g. Palais, cursus Antwerpen)??
+    ?? COMPLETE (e.g. Palais, cursus Antwerpen) ??

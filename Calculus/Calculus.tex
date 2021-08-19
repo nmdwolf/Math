@@ -398,3 +398,62 @@
         \end{align}
         where the analytic continuation $I(iA,iJ)$ of Equation \eqref{calculus:gaussian_integral} was used. One should pay attention to the normalization factor $C$ which is infinite in general.
     \end{result}
+
+\section{Convexity}
+
+    \newdef{Convex set}{\index{convex}\index{hull}\label{calculus:convex}
+        A subset of $X$ of a vector space $V$ (Definition \ref{linalgebra:vector_space}) is said to be convex if $x,y\in X$ implies that $\{\lambda x+(1-\lambda)y\mid\lambda\in[0,1]\}\subset X$. The \textbf{convex hull} of a subset $X$ is defined as the smallest convex subset containing $X$.
+    }
+
+    \newdef{Convex function}{
+        Let $X$ be a convex set. A function $f:X\rightarrow \mathbb{R}$ is said to be convex if for all $x,y\in X$ and $\lambda\in[0,1]$:
+        \begin{gather}
+            f\big(\lambda x + (1-\lambda)y\big)\leq t\lambda(x) + (1-\lambda)f(y).
+        \end{gather}
+        For the definition of a \textbf{concave} function the inequality has to be turned around.
+    }
+    \begin{property}[Linear map]
+        A function $f:X\rightarrow\mathbb{R}$ is linear if and only if it is both convex and concave.
+    \end{property}
+
+    \begin{theorem}[Karamata's inequality]\index{Karamata}
+        Consider an interval $I\subset\mathbb{R}$ and let $f:I\rightarrow\mathbb{R}$ be a convex function. If $(x_1,\ldots,x_n)$ is a tuple that majorizes $(y_1,\ldots,y_n)$, i.e.
+        \begin{gather}
+            \sum_{i=1}^nx_i = \sum_{i=1}^ny_i
+        \end{gather}
+        and
+        \begin{gather}
+            x_{(1)} + \cdots + x_{(k)}\geq y_{(1)} + \cdots + y_{(k)}
+        \end{gather}
+        for all $k\leq n$, where $x_{(i)}$ denotes the $i^{th}$ largest element of $(x_1,\ldots,x_n)$, then
+        \begin{gather}
+            \sum_{i=1}^nf(x_i)\geq\sum_{i=1}^nf(y_i).
+        \end{gather}
+    \end{theorem}
+    The following inequality can be derived directly from the definition of convexity by induction:
+    \begin{theorem}[Jensen's inequality]\index{Jensen's inequality}\label{calculus:jensen_inequality}
+        Let $f$ be a convex function and consider a point $\{a_i\}_{i\leq n}$ in the probability simplex $\Delta^n$ (Definition \ref{topology:standard_simplex}). Jensen's equality states that
+        \begin{gather}
+            f\left(\sum_ia_ix_i\right)\leq\sum_ia_if(x_i).
+        \end{gather}
+    \end{theorem}
+
+    \newdef{Legendre transformation}{\index{Legendre!transformation}\label{calculus:legendre}
+        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. In certain cases (especially in physics) it is sometimes useful to replace the argument $x$ by the slope of $f$ at $x$, i.e. perform the transformation
+        \begin{gather}
+            x\longrightarrow\deriv{f}{x}\equiv f'(x).
+        \end{gather}
+        However, it should be clear that this transformation is not always well-defined and even if it is, it does not always preserve all the information in $f$.
+
+        These conditions are satisfied exactly if $f$ is convex (or concave). In this case the Legendre transform of $f$ is defined as
+        \begin{gather}
+            f^*(x^*) := \sup_x\big(x^*x - f(x)\big).
+        \end{gather}
+        Consider the case where $f$ is differentiable. The above supremum can then be obtained by differentiating the right-hand side and equating it to zero. This results in $x^* = f'(x)$, which is exactly the transformation that was required. By expressing everything in terms of the Legendre tranformed quantity $x^*$, one can also find the derivative of $f^*$:
+        \begin{gather}
+            \deriv{f^*}{x^*}(x^*) = x(x^*).
+        \end{gather}
+    }
+    \begin{remark}
+        Although the previous derivation used only 2 coordinates, the definition of Legendre transformations can easily be generalized to more coordinates.
+    \end{remark}

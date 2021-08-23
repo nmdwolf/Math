@@ -1,0 +1,298 @@
+\chapter{Complex Analysis}
+
+\section{Complex algebra}
+
+    The set of complex numbers $\mathbb{C}$ forms a 2-dimensional vector space over the field of real numbers \ref{chapter:linear_algebra}. At the same time, the operations of complex addition and complex multiplication also turn the complex numbers into a field.
+
+    \newdef{Complex conjugate}{\index{complex conjugate}
+        Complex conjugation
+        \begin{gather}
+            \overline{\,\cdot\,}:a+bi\mapsto a-bi
+        \end{gather}
+        is an involution \ref{set:involution}. It is sometimes denoted by $z^*$ instead of $\overline{z}$, but unless this would cause confusion the former notation will be used.
+    }
+
+    \newformula{Real/imaginary part}{
+        \nomenclature[O_Re]{$\mathrm{Re}$}{real part of a complex number}
+        \nomenclature[O_Im]{$\mathrm{Im}$}{imaginary part of a complex number}
+        A complex number $z$ can also be written as $\mathrm{Re}(z) + i\ \mathrm{Im}(z)$, where
+        \begin{align}
+            \mathrm{Re}(z) &:= \frac{z + \overline{z}}{2}\\
+            \mathrm{Im}(z) &:= \frac{z - \overline{z}}{2i}.
+        \end{align}
+    }
+    \newdef{Argument}{\index{argument}\index{polar!form}
+        \nomenclature[O_arg]{$\arg$}{argument of a complex number}
+        Let $z$ be a complex number expressed in \textit{polar form}: $z = re^{i\theta}$. The number $\theta$ is called the argument of $z$ and it is denoted by $\arg(z)$.
+    }
+
+    \newdef{Riemann sphere}{\index{Riemann!sphere}
+        Consider the one-point compactification $\overline{\mathbb{C}} = \mathbb{C}\cup\{\infty\}$ (Definition \ref{topology:alexandrov_compactification}). This set is called the Riemann sphere or \textbf{extended complex plane}. The standard operations on $\mathbb{C}$ can be generalized to $\overline{\mathbb{C}}$ for all nonzero $z\in\mathbb{C}$ in the following way:
+        \begin{align}
+            z + \infty &:= \infty\nonumber\\
+            z * \infty &:= \infty\\
+            \frac{z}{\infty} &:= 0.\nonumber
+        \end{align}
+        Since there exists no multiplicative inverse for $\infty$, the Riemann sphere is not a field.
+    }
+
+\section{Complex functions}
+\subsection{Holomorphic functions}
+
+    \newdef{Holomorphic function}{\index{holomorphic}
+        A function $f$ is said to be holomorphic on an open set $U\subseteq\mathbb{C}$ if it is complex differentiable at every point $z_0\in U$, i.e. for every point $z_0\in U$ the following limit exists:
+        \begin{gather}
+            f'(z_0) := \lim_{z\rightarrow z_0}\frac{f(z) - f(z_0)}{z-z_0}.
+        \end{gather}
+    }
+    \newdef{Biholomorphic function}{
+        A holomorphic function $f$ for which $f^{-1}$ is also holomorphic.
+    }
+    \newdef{Entire}{\index{entire}
+        A function that is holomorphic at every point $z\in\mathbb{C}$.
+    }
+
+    \begin{property}[Cauchy-Riemann conditions]\index{Cauchy-Riemann conditions}\label{complex:cauchy_riemann}\index{Wirtinger derivative}
+        \nomenclature[A_CR]{CR}{Cauchy-Riemann}
+        A holomorphic function $f$ satisfies the following conditions:
+        \begin{gather}
+            \pderiv{u}{x} = \pderiv{v}{y} \text{\qquad and\qquad} \pderiv{u}{y} = -\pderiv{v}{x}.
+        \end{gather}
+        These conditions can be combined into one equation using the so-called \textbf{Wirtinger derivative}:
+        \begin{gather}
+            \label{complex:holomorphic_alternative_condition}
+            \pderiv{f}{\overline{z}} = 0.
+        \end{gather}
+    \end{property}
+
+    \begin{theorem}[Looman-Menchoff\footnotemark]\index{Looman-Menchoff}
+        \footnotetext{This is the most general theorem on the holomorphy of continuous functions. It generalizes the original results by \textit{Riemann} and \textit{Cauchy-Goursat}.}
+        Let $f$ be a continuous function defined on a subset $U\in\mathbb{C}$. If the partial derivatives of the real and imaginary part exist and if $f$ satisfies the Cauchy-Riemann conditions, then $f$ is holomorphic on $U$.
+    \end{theorem}
+
+    \begin{property}[Laplace equation]
+        The functions $u,v$ satisfying the CR conditions are harmonic functions, i.e. they satisfy the Laplace equation.
+    \end{property}
+    \begin{property}[Level sets]
+        The functions $u,v$ satisfying the CR conditions have orthogonal level curves \ref{set:level_set}.
+    \end{property}
+
+    \begin{property}[Real functions]
+        Consider a real-valued function $f$ defined on the complex plane. If it is holomorphic, the CR conditions imply that $f$ is a constant.
+    \end{property}
+
+    \begin{theorem}[Identity theorem]\index{identity!theorem}
+        If two holomorphic functions on a domain $D$ coincide on a set containing an accumulation point of $D$, they coincide on all of $D$.
+    \end{theorem}
+
+\section{Contour integrals}
+
+    \sremark{Whenever contours are considered for integration purposes, they have been chosen to be evaluated counter-clockwise (by convention). To obtain results concerning clockwise evaluation, most of the time adding a minus sign is sufficient.}
+
+    \newdef{Contour integral}{\index{integral!contour}\label{complex:contour_integral}
+        The contour integral of a function $f(z)=u(z)+iv(z)$ is defined as the following line integral:
+        \begin{gather}
+            \int_{z_1}^{z_2}f(z)dz = \int_{(x_1,y_1)}^{(x_2,y_2)}\big[u(x,y) + iv(x,y)\big](dx+idy).
+        \end{gather}
+    }
+
+    \begin{theorem}[Cauchy's integral theorem\footnotemark]\index{Cauchy!integral theorem}\index{rectifiable curve}\label{complex:cauchy_integral_theorem}
+        \footnotetext{Also called the \textbf{Cauchy-Goursat theorem}.}
+        Let $\Omega$ be a simply-connected subset of $\mathbb{C}$ and let $f$ be a holomorphic function on $\Omega$. For every closed, rectifiable (i.e. of finite length) contour $C$ in $\Omega$:
+        \begin{gather}
+            \oint_Cf(z)dz = 0.
+        \end{gather}
+    \end{theorem}
+    \begin{result}[Freedom of contour]
+        The contour integral of a holomorphic function depends only on the limits of integration and not on the contour connecting them.
+    \end{result}
+
+    \begin{formula}[Cauchy's integral formula]\index{Cauchy!integral formula}\label{complex:cauchy_integral_formula}
+        Let $\Omega$ be a connected subset of $\mathbb{C}$ and let $f$ be a holomorphic function on $\Omega$. Consider a contour $C$ in $\Omega$. For every point $z_0$ inside $C$ one can express the function $f$ as follows:
+        \begin{gather}
+            f(z_0) = \frac{1}{2\pi i}\oint_C\frac{f(z)}{z-z_0} dz.
+        \end{gather}
+    \end{formula}
+
+    \begin{result}[Analytic function]\index{analytic}
+        Let $\Omega$ be a connected subset of $\mathbb{C}$ and let $C$ be a closed contour in $\Omega$. If $f$ is holomorphic on $\Omega$, then $f$ is analytic \ref{calculus:analytic} on $\Omega$ and
+        \begin{gather}
+            \label{complex:cauchy_integral_formula_derivative}
+            f^{(n)}(z_0) = \frac{1}{2\pi i}\oint_Cf(z)\frac{n!}{(z-z_0)^{n+1}} dz.
+        \end{gather}
+        Furthermore, the derivatives are also holomorphic on $\Omega$.
+    \end{result}
+
+    \begin{theorem}[Morera]\index{Morera}
+        If $f$ is continuous on a connected open set $\Omega$ and $\oint_Cf(z)dz = 0$ for every closed contour $C$ in $\Omega$, then $f$ is holomorphic on $\Omega$.
+    \end{theorem}
+
+    \begin{theorem}[Liouville]\index{Liouville!theorem on entire functions}
+        Every bounded entire function is constant.
+    \end{theorem}
+
+    \begin{theorem}[Sokhotski-Plemelj]\index{Sokhotski-Plemelj}\label{complex:sokhotski_plemelj}
+        Let $f$ be a continuous complex-valued function defined on the real line and let $a<0<b$, then
+        \begin{gather}
+            \lim_{\varepsilon\rightarrow0^+}\int_a^b\frac{f(x)}{x\pm i\varepsilon}dx = \mp i\pi f(0) + \mathcal{P}\int_a^b\frac{f(x)}{x}dx,
+        \end{gather}
+        where $\mathcal{P}$ denotes the Cauchy principal value.
+    \end{theorem}
+
+\section{Laurent series}
+
+    \begin{definition}[Laurent series]\index{Laurent!series}\index{annulus}\index{principal!part}\label{complex:laurent_series}
+        If $f$ is a analytic function defined on an \textbf{annulus}, i.e. a ring-shaped region, then $f$ can be expanded as the following series:
+        \begin{gather}
+            f(z) = \sum^\infty_{n=-\infty}a_n(z - z_0)^n \qquad\text{with}\qquad a_n = \frac{1}{2\pi i}\oint\frac{f(z')}{(z'-z_0)^{n+1}} dz'.
+        \end{gather}
+        The subseries containing all negative degree terms is called the \textbf{principal part} of the Laurent series.
+    \end{definition}
+
+    \begin{property}[Convergence of Lauren series]
+        The Laurent series of an analytic function $f$ converges uniformly to $f$ on the annulus $R_1 < |z-z_0| < R_2$, with $R_1$ and $R_2$ the distances from $z_0$ to the two closest \textit{poles}.
+    \end{property}
+
+\subsection{Analytic continuation}
+
+    \newdef{Analytic continuation}{\index{analytic continuation}
+        Consider an analytic function $f$ defined on an open subset $U\subset\mathbb{C}$. If $V\subset\mathbb{C}$ is an open subset containing $U$ and if there exists an analytic function $F$ on $V$ such that $F(z)=f(z)$ for all $z\in U$, then $F$ is called the analytic continuation of $f$ to $V$. Using the identity theorem for holomorphic functions one can prove that analytic continuations are unique (on connected domains).
+    }
+
+    \begin{theorem}[Schwarz's reflection principle]\index{Schwarz!reflection principle}
+        Let $f$ be analytic on the upper half plane. If $z\in\mathbb{R}\implies f(z)\in\mathbb{R}$, then
+        \begin{gather}
+            f(\overline{z}) = \overline{f(z)}.
+        \end{gather}
+    \end{theorem}
+
+\section{Singularities}
+\subsection{Poles}
+
+    \newdef{Pole}{\index{pole}\label{complex:pole}
+        A function $f$ has a pole of order $m>0$ at a point $z_0$ if its Laurent series at $z_0$ satisfies $\forall n<-m:a_n = 0$ and $a_{-m}\neq0$.
+    }
+
+    \newdef{Meromorphic}{\index{meromorphic}
+        A function $f$ is said to be meromorphic if it is analytic on the whole complex plane with exception of isolated poles and removable singularities. Every meromorphic function can be written as a fraction of two holomorphic functions, where the poles coincide with the zeros of the denominator.
+    }
+
+    \newdef{Essential singularity}{\index{essential!singularity}
+        A function $f$ has an essential singularity at a point $z_0$ if its Laurent series at $z_0$ satisfies $\forall n\in\mathbb{N}:a_{-n}\neq0$, i.e. if its Laurent series has infinitely many negative degree terms.
+    }
+
+    \newmethod{Frobenius transformation}{\index{Frobenius!transformation}
+        To study the behaviour of a function $f$ at $z\rightarrow\infty$, one can apply the Frobenius transformation $h = 1/z$ and study the limit $\lim_{h\rightarrow0}f(h)$. For example, a singularity at $\infty$ is defined as a singularity of $f(1/z)$ at 0.
+    }
+    \begin{property}[Polynomials]\index{polynomial}
+        An entire function $f$ is polynomial if and only if it has a pole at $\infty$.
+    \end{property}
+
+    \begin{theorem}[Casorati-Weierstrass]\index{Casorati-Weierstrass}
+        Let $f$ be holomorphic on the punctured open set $U\backslash\{z_0\}$ with an essential singularity at $z_0$. For every neighbourhood $V$ of $z_0$ contained in $U$, the image $f(V\backslash\{z_0\})$ is dense in $\mathbb{C}$.
+    \end{theorem}
+    \begin{result}
+        If $f$ is an entire nonpolynomial function, then for every $c\in\mathbb{C}$ there exists a sequence $z_n\longrightarrow\infty$ such that $f(z_n)\longrightarrow c$.\footnote{Polynomials are excluded due to the property above.}
+    \end{result}
+
+    \begin{theorem}[Picard's little theorem]\index{Picard}
+        The range of a nonconstant entire function is the complex plane with at most a single exception.
+    \end{theorem}
+    \begin{theorem}[Picard's great theorem]
+        Let $f$ be an analytic function with an essential singularity at $z_0$. On every punctured neighbourhood of $z_0$, $f$ takes on all possible values, with at most a single exception, infinitely many times.
+    \end{theorem}
+
+\subsection{Branch cuts}
+
+    \newformula{Roots}{\index{root}
+        Let $z\in\mathbb{C}$. The $n^{th}$ roots\footnote{Also see the fundamental theorem of algebra \ref{alggeom:fundamental_theorem_of_algebra}.} of $z = re^{i\theta}$ are given by
+        \begin{gather}
+            \left\{\sqrt[n]{r}\exp\left(i\frac{\theta + 2\pi k}{n}\right)\,\middle\vert\,k\in\{0,1,\ldots,n\}\right\}.
+        \end{gather}
+    }
+    \newformula{Complex logarithm}{\index{logarithm}
+        The natural logarithm can be continued to the complex plane (as a multi-valued function) as follows:
+        \begin{gather}
+            \mathrm{LN}(z) := \{\ln(r) + i(\theta + 2\pi k)\mid k\in\mathbb{Z}\}.
+        \end{gather}
+    }
+
+    \newdef{Branch}{\index{branch}
+        The problem with the previous two formulas is that they represent multi-valued functions. To get an unambiguous image it is necessary to fix a value of the parameter $k$. By doing so there will arise curves, called \textbf{branch cuts}, in the complex plane where the function becomes discontinuous. A \textbf{branch} is defined as a particular choice of the parameter $k$.
+
+        For the logarithm the choice for $\arg(\mathrm{LN})\in\ ]\alpha, \alpha + 2\pi]$ is often denoted by $\mathrm{LN}_\alpha$ or $\log_\alpha$.
+    }
+    \newdef{Principal value}{\index{principal!value}
+        The principal value of a multi-valued complex function is defined as the value associated with a choice of branch for which $\arg(f)\in\ ]-\pi,\pi]$.
+    }
+
+    \newdef{Branch point}{
+        Let $f$ be a complex-valued function. A point $z_0$ for which there exists no neighbourhood on which $f$ is single-valued is called a branch point.
+    }
+    \newdef{Branch cut}{
+        A line connecting exactly two branch points, one possibly being $\infty$, is called a branch cut. In case there exist multiple branch cuts, they are required to never cross.
+    }
+
+    \begin{example}
+        Consider the complex function \[f(z) = \frac{1}{\sqrt{(z-z_1)\cdots(z-z_n)}}.\] This function has singularities at $z_1,\ldots,z_n$. If $n$ is even, this function will have $n$ (finite) branch points. This implies that the points can be grouped in pairs connected by non-intersecting branch cuts. If $n$ is odd, this function will have $n$ (finite) branch points and one branch point at infinity. The finite branch points will be grouped in pairs connected by non-intersecting branch cuts and the remaining branch point will be joined to infinity by a branch cut that does not intersect the others.
+    \end{example}
+
+\subsection{Residue theorem}
+
+    \newdef{Residue}{\index{residue}\label{complex:residue_def}
+        \nomenclature[O_Res]{$\mathrm{Res}$}{residue of a complex function}
+        By applying Formula \ref{complex:contour_integral} to a polynomial function, one finds
+        \begin{gather}
+            \int_C(z-z_0)^ndz = 2\pi i\delta_{n,-1},
+        \end{gather}
+        where $C$ is a contour around the pole $z=z_0$. This means that integrating a Laurent series around a pole isolates the coefficient $a_{-1}$. This coefficient is, therefore, called the residue of the function at the given pole.
+    }
+    \begin{notation}
+        The residue of a complex function $f$ at a pole $z_0$ is denoted by \[\mathrm{Res}[f(z)]_{z=z_0}.\]
+    \end{notation}
+
+    \begin{formula}
+        For a pole of order $m$, the residue is calculated as follows:
+        \begin{gather}
+            \label{complex:residue}
+            \mathrm{Res}\left[f(z)\right]_{z=z_j} = \lim_{z\rightarrow z_0}\frac{1}{(m - 1)!} \left(\pderiv{}{z}\right)^{m-1}\left(f(z)(z-z_0)\right).
+        \end{gather}
+        For essential singularities the residue can be found by writing out the Laurent series explicitly.
+    \end{formula}
+
+    \begin{theorem}[Residue theorem]\index{residue!theorem}\label{complex:residue_theorem}
+        If $f$ is a meromorphic function on $\Omega$ and if $C$ is a closed contour in $\Omega$ that contains the poles $z_j$ of $f$, then
+        \begin{gather}
+            \oint_Cf(z)dz = 2\pi i\sum_j\mathrm{Res}\left[f(z)\right]_{z=z_j}.
+        \end{gather}
+        For poles on the contour $C$, only half of the residue contributes to the integral.
+    \end{theorem}
+
+    \begin{formula}[Argument principle]\index{argument!principle}
+        Let $f$ be a meromorphic function and denote the number of zeros and poles of $f$ inside the contour $C$ by $Z_f(C)$ and $P_f(C)$, respectively. From the residue theorem one can derive the following formula:
+        \begin{gather}
+            \frac{1}{2\pi i}\oint_C\frac{f(z)}{f'(z)}dz = Z_f(C) - P_f(C).
+        \end{gather}
+    \end{formula}
+    \begin{definition}[Winding number]\index{winding number}\index{index!of map}
+        \nomenclature[O_Ind]{$\mathrm{Ind}_f(z)$}{index of a point $z\in\mathbb{C}$ with respect to a function $f$}
+        Let $f$ be a meromorphic function and let $C$ be a simple closed contour. For all $a\not\in f(C)$ the winding number, also called the \textbf{index}, of $a$ with respect to the function $f$ is defined as follows:
+        \begin{gather}
+            \mathrm{Ind}_f(a) := \frac{1}{2\pi i}\oint_C\frac{f'(z)}{f(z) - a}dz.
+        \end{gather}
+        This number is always an integer.
+    \end{definition}
+
+\section{Limit theorems}
+
+    \begin{theorem}[Small limit theorem]\index{limit!theorem}\label{complex:small_limit}
+        Let $f$ be a function that is holomorphic almost everywhere on $\mathbb{C}$ and let the contour $C$ be a circular segment with radius $\varepsilon$ and central angle $\alpha$. If $z$ is parametrized as $z = \varepsilon e^{i\theta}$, then\[\int_Cf(z)dz = i\alpha A\] with \[A = \lim_{\varepsilon\rightarrow0}f(z).\]
+    \end{theorem}
+
+    \begin{theorem}[Great limit theorem]\label{complex:great_limit}
+        Let $f$ be a function that is holomorphic almost everywhere on $\mathbb{C}$ and let the contour $C$ be a circular segment with radius $R$ and central angle $\alpha$. If $z$ is parametrized as $z = Re^{i\theta}$, then \[\int_Cf(z)dz = i\alpha B\] with \[B = \lim_{R\rightarrow\infty}f(z).\]
+    \end{theorem}
+
+    \begin{theorem}[Jordan's lemma]\index{Jordan}\label{complex:jordan}
+        Let $g$ be a continuous function that can be written as $g(z) = f(z)e^{bz}$ and let the contour $C$ be a semicircle lying in the half-plane bounded by the real axis and oriented away of the point $i\overline{b}$. If $z$ is parametrized as $z=Re^{i\theta}$ and \[\lim_{R\rightarrow\infty}f(z) = 0,\] then \[\int_Cg(z)dz = 0.\]
+    \end{theorem}

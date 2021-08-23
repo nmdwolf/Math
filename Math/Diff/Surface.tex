@@ -1,0 +1,457 @@
+\chapter{Curves and Surfaces}\label{chapter:curves_surfaces}
+\section{Curves}
+
+    \newdef{Regular curve}{\index{regular!curve}
+        Let $c:I\rightarrow\mathbb{R}^n$ be a curve defined on an interval $I$. It is said to be regular\footnote{This is generalized in property \ref{manifold:regular_point}.} if $\deriv{c}{t}\neq0$.
+    }
+
+    \newdef{Geometric property}{
+        A geometric property is a property that is invariant under:
+        \begin{enumerate}
+            \item parameter transformations, and
+            \item orientation-preserving (orthonormal) basis transformations.
+        \end{enumerate}
+    }
+
+    \begin{property}
+        Let $c,d:I\rightarrow\mathbb{R}^n$ be two curves with the same image. The following relation holds for all $t\in I$:
+        \begin{gather}
+            c(t)\text{ is regular}\iff d(t)\text{ is regular}.
+        \end{gather}
+    \end{property}
+
+\subsection{Arc length}
+
+    \newdef{Natural parameter}{\index{natural!parameter}\label{diff:natural_parameter}
+        Let $c(t):I\rightarrow\mathbb{R}^n$ be a curve. The parameter $t$ is said to be a natural parameter if
+        \begin{gather}
+            \left\|\deriv{c}{t}\right\|=1
+        \end{gather}
+        for all values of $t\in I$.
+    }
+
+    \begin{formula}[Arc length]\index{arc!length}\label{diff:arc_length_integral}
+        The following function is a bijective map and a natural parameter for the curve $c$:
+        \begin{gather}
+            \phi(t) := \int_{t_0}^t\|\dot{c}(t)\|dt.
+        \end{gather}
+    \end{formula}
+    \sremark{The arc length as defined above is often denoted by the letter $s$.}
+    \begin{property}
+        Let $c$ be a curve and let $u$ be a parametrization of $c$. It is a natural parameter if and only if there exists a constant $\alpha$ such that \[u = \pm s + \alpha,\] where $s$ is the integral as defined above.
+    \end{property}
+    \begin{remark}
+        This property implies that there does not exist a unique natural parameter for any curve.
+    \end{remark}
+
+\subsection{Frenet-Serret frame}
+
+    \newdef{Tangent vector}{\index{tangent!vector}\label{diff:tangent_vector}
+        Let $c(s)$ be a curve parametrized by arc length. The tangent vector (field) $t(s)$ is defined as follows:
+        \begin{gather}
+            t(s) := c'(s).
+        \end{gather}
+        A different notation for the derivative is used whenever the differentiation is performed with respect to a natural parameter.
+    }
+    \begin{property}\label{diff:unit_tangent_vector}
+        From the definition of the natural parametrization \ref{diff:natural_parameter} and the previous definition it follows that the tangent vector is automatically a unit vector.
+    \end{property}
+
+    \newdef{Principal normal vector}{\index{normal!vector}\label{diff:principal_normal_vector}
+        Let $c(s)$ be a curve parametrized by arc length. The principal normal vector (field) is defined as follows:
+        \begin{gather}
+            n(s) := \frac{t'(s)}{\|t'(s)\|}.
+        \end{gather}
+    }
+    \begin{property}
+        From Property \ref{diff:unit_tangent_vector} and the definition of the principal normal vector it follows that the tangent vector and principal normal vector are always orthogonal.
+    \end{property}
+
+    \newdef{Binormal vector}{\label{diff:binormal_vector}
+        Let $c(s)$ be a curve parametrized by arc length. The binormal vector (field) is defined as follows:
+        \begin{gather}
+            b(s) := t(s)\times n(s).
+        \end{gather}
+    }
+
+    \newdef{Frenet-Serret frame}{\index{Frenet-Serret}\label{diff:frenet_serret_frame}
+        Because the vectors $t(s),n(s)$ and $b(s)$ are mutually orthonormal and linearly independent, they can be used to construct an oriented orthonormal basis. The ordered basis $\big\{t(s),n(s),b(s)\big\}$ is called the Frenet-Serret frame.
+    }
+    \sremark{This basis does not have to be the same for every value of the parameter $s$.}
+
+    \newdef{Curvature}{\index{curvature}\label{diff:curvature}
+        Let $c(s)$ be a curve parametrized by arc length. The curvature of $c(s)$ is defined as follows:
+        \begin{gather}
+            \frac{1}{\rho(s)} := \|t'(s)\|.
+        \end{gather}
+    }
+    \newdef{Torsion}{\index{torsion}\index{triple product}\label{diff:torsion}
+        Let $c(s)$ be a curve parametrized by arc length. The torsion of $c(s)$ is defined as follows:
+        \begin{gather}
+            \tau(s) := \rho(s)^2(t\,t'\,t''),
+        \end{gather}
+        where $(a b c)$ denotes the \textbf{triple product} $a\cdot(b\times c)$.
+    }
+
+    \newformula{Frenet formulas}{\index{Frenet formulas}\label{diff:frenet_formulas}
+        The derivatives of the tangent, principal normal and binormal vector fields can be written as a linear combination of those vectors themselves:
+        \begin{gather}
+            \left\{
+            \begin{array}{ccccc}
+                t'(s) &=&& \frac{1}{\rho(s)}n(s)&\\
+                n'(s) &=& -\frac{1}{\rho(s)}t(s) &+& \tau(s)b(s).\\
+                b'(s) &=& &-\tau(s)n(s)&
+            \end{array}
+            \right.
+        \end{gather}
+    }
+
+    \begin{theorem}[Fundamental theorem for curves]\index{fundamental theorem!for curves}\label{diff:fundamental_theorem_of_curves}
+        Let $k,w:I\rightarrow\mathbb{R}$ be two $C^1$-functions with $\forall s\in I:k(s)\geq 0$. There exists an interval $]-\varepsilon, \varepsilon[\ \subset I$ and a curve $c:\ ]-\varepsilon,\varepsilon[\ \rightarrow\mathbb{R}^3$ with natural parameter $s$ such that $c$ has $k$ as its curvature and $w$ as its torsion.
+    \end{theorem}
+
+\section{Surfaces}
+
+    \begin{notation}
+        Let $\sigma(q^1,q^2)$ be the parametrization of a surface\footnote{The symbol $\sigma$ denotes the surface as a vector field while $\Sigma$ denotes the geometric image of $\sigma$.}. The derivative of $\sigma$ with respect to the coordinate $q^i$ is written as follows:
+        \begin{gather}
+            \label{diff:derivative_of_surface}
+            \sigma_i:=\pderiv{\sigma}{q^i}.
+        \end{gather}
+    \end{notation}
+
+    \newdef{Tangent plane}{\index{tangent!plane}\label{diff:tangent_space}
+        Let $p(q_0^1,q_0^2)$ be a point on the surface $\Sigma$. The tangent space $T_p\Sigma$ to $\Sigma$ at $p$ is defined as follows:
+        \begin{gather}
+            T_p\Sigma:=\left\{v\in\mathbb{R}^3\,\middle\vert\,\left[v - \sigma(q_0^1,q_0^2)\right]\cdot\left[\sigma_1(q_0^1,q_0^2)\times\sigma_2(q_0^1,q_0^2)\right] = 0\right\}.
+        \end{gather}
+    }
+
+    \newdef{Normal vector}{\index{normal!vector}
+        The cross product in Equation \ref{diff:tangent_space} is closely related to the normal vector to $\Sigma$ at the point $p(q_0^1,q_0^2)$. The normal vector at the point $p$ is defined as
+        \begin{gather}
+            \label{diff:surface_normal_vector}
+            N := \frac{\sigma_1\times\sigma_2}{\|\sigma_1\times\sigma_2\|}.
+        \end{gather}
+        This way the tangent plane $T_p\Sigma$ can be seen to be exactly the set of vectors that are orthogonal to the normal vector $N(q^1_0,q^2_0)$.
+    }
+
+\subsection{First fundamental form}
+
+    \newdef{Metric coefficients}{\index{metric!coefficients}
+        Let $\sigma$ be the parametrization of a surface. The metric coefficients $g_{ij}$ are defined as follows:
+        \begin{gather}
+            \label{diff:metric_coefficient}
+            g_{ij} := \sigma_i\cdot\sigma_j.
+        \end{gather}
+    }
+    \newdef{Scale factor}{\index{scale!factor}\label{diff:scale_factor}
+        The following factors are often used in vector calculus:
+        \begin{gather}
+            g_{ii} =: h_i^2.
+        \end{gather}
+    }
+
+    \newdef{First fundamental form}{\index{fundamental!form}\label{diff:first_fundamental_form}\index{metric}
+        Let $\sigma$ be the parametrization of a surface. One can define a bilinear form $\mathrm{I}_p:T_p\Sigma\times T_p\Sigma\rightarrow\mathbb{R}$ that restricts the inner product on $\mathbb{R}^n$ to $T_p\Sigma$:
+        \begin{gather}
+           \mathrm{I}_p(v,w) := v\cdot w.
+       \end{gather}
+        This bilinear form is called the first fundamental form or \textbf{metric}.
+    }
+    \begin{result}
+        All vectors $v,w\in T_p\Sigma$ are linear combinations of the tangent vectors $\sigma_1,\sigma_2$. This allows to relate the first fundamental form and the metric coefficients \ref{diff:metric_coefficient}:
+        \begin{gather}
+            \mathrm{I}_p(v,w) = v^i\sigma_i\cdot w^j\sigma_j = g_{ij}v^iw^j.
+        \end{gather}
+    \end{result}
+
+    \begin{notation}
+        The (arc) length \ref{diff:arc_length_integral} of a curve $c:I\rightarrow\mathbb{R}^n$ can be written as follows:
+        \begin{gather}
+            s = \int\|\dot{c}(t)\|dt \equiv \int\sqrt{ds^2},
+        \end{gather}
+        where the second equality is formally defined. The two equalities together can be combined into the following notation for the metric (which is often used in physics):
+        \begin{gather}
+            ds^2 \equiv g_{ij}dq^idq^j.
+        \end{gather}
+    \end{notation}
+
+    \begin{formula}[Inverse metric]\label{diff:inverse_metric_matrix}
+        Let $(g_{ij})$ denote the metric tensor. The matrix $(g^{ij})$ is defined as its inverse:
+        \begin{gather}
+            (g^{ij}) := \frac{1}{\det(g_{ij})}
+            \begin{pmatrix}g_{22}&-g_{12}\\-g_{12}&g_{11}\end{pmatrix}.
+        \end{gather}
+    \end{formula}
+
+\subsection{Isometries}
+
+    \newdef{Isometry}{\index{isometry}\label{diff:isometry_def}
+        An isometry is a distance-preserving function, i.e. a smooth function $\Phi:\Sigma\rightarrow\Sigma'$ that maps arc segments in $\Sigma$ to arc segments with the same length in $\Sigma'$. This function is usually assumed to be diffeomorphic.
+    }
+    \begin{property}\label{diff:isometry}
+        A diffeomorphism $\Phi$ is an isometry if and only if the metric coefficients of $\sigma$ and $\sigma'$ are the same.
+    \end{property}
+
+    \newdef{Conformal map}{\index{conformal}\label{diff:conformal_map}
+        A diffeomorphism $\Phi:\Sigma\rightarrow\Sigma'$ is said to be conformal or \textbf{isogonal} if it maps two intersecting curves in $\Sigma$ to intersecting curves in $\Sigma'$ with the same intersection angle.
+    }
+    \begin{property}
+        A diffeomorphism $\Phi$ is conformal if and only if the metric coefficients of $\sigma$ and $\sigma'$ are proportional.
+    \end{property}
+
+    \newdef{Area-preserving map}{
+        A diffeomorphism $\Phi:\Sigma\rightarrow\Sigma'$ is said to be area-preserving if it maps a subset of $\Sigma$ to a subset of $\Sigma'$ with the same area.
+    }
+    \begin{property}
+        A diffeomorphism $\Phi$ is area-preserving if and only if the metric coefficients of $\sigma$ and $\sigma'$ satisfy
+        \begin{gather}
+            g_{11}g_{22} - g_{12}^2 = g_{11}'g_{22}' - (g_{12}')^2
+        \end{gather}
+        for all points $(q^1,q^2)$, i.e. if it preserves the determinant of the metric.
+    \end{property}
+    \begin{result}
+        A map that is area-preserving and conformal is also isometric.
+    \end{result}
+
+\subsection{Second fundamental form}
+
+    \newdef{Second fundamental form}{\index{fundamental!form}\label{diff:second_fundamental_form}
+        Let $\sigma$ be the parametrization of a surface. The second fundamental form is the bilinear form $\mathrm{II}_p:T_p\Sigma\times T_p\Sigma\rightarrow\mathbb{R}$ defined as follows:
+        \begin{gather}
+            \mathrm{II}_p(v,w) := L_{ij}(p)v^iw^j,
+        \end{gather}
+        where $L_{ij} := N\cdot\sigma_{ij}$.
+    }
+
+    \newdef{Normal curvature}{\index{normal!curvature}\index{curvature!normal}\label{diff:normal_curvature}
+        Let $c$ be a curve embedded as \[c(s) := \sigma\left(q^1(s), q^2(s)\right).\] The normal curvature of $c$ at the point $\left(q^1(s),q^2(s)\right)$ is defined as
+        \begin{gather}
+            \frac{1}{\rho_n(s)} := c''(s)\cdot N(s).
+        \end{gather}
+        From the definition of the second fundamental form it follows that the normal curvature can be written as follows:
+        \begin{gather}
+            \frac{1}{\rho_n(s)} = \mathrm{II}(t,t) = \frac{\mathrm{II}\left(\dot{c}(\lambda), \dot{c}(\lambda)\right)}{\mathrm{I}\left(\dot{c}(\lambda), \dot{c}(\lambda)\right)},
+        \end{gather}
+        where the last equality holds for any given parameter $\lambda$.
+    }
+
+    \begin{theorem}[Meusnier]\index{Meusnier}\index{osculating circle}
+        Let $c,d$ be two curves defined on a surface $\sigma$. The curves have the same normal curvature at the point $\left(q^1(t_0),q^2(t_0)\right)$ if the following two conditions are satisfied:
+        \begin{itemize}
+            \item $c(t_0) = d(t_0)$, and
+            \item $\dot{c}(t_0)\ \|\ \dot{d}(t_0)$.
+        \end{itemize}
+        Furthermore, the osculating circles of all curves with the same normal curvature at a given point form a sphere.
+    \end{theorem}
+
+    \begin{property}\index{normal!section}
+        The normal curvature of a \textbf{normal section}, i.e. the intersection of the surface with a normal plane, at a given point is equal to the curvature of the section at that point.
+    \end{property}
+
+    \newdef{Geodesic curvature}{\index{curvature!geodesic}\label{diff:geodesic_curvature}
+        Let $c$ be a curve embedded as \[c(s) := \sigma\left(q^1(s), q^2(s)\right).\] The geodesic curvature of $c$ at the point $\left(q^1(s),q^2(s)\right)$ is defined as follows:
+        \begin{gather}
+            \frac{1}{\rho_g(s)} := \left(N(s)\ t(s)\ t'(s)\right).
+        \end{gather}
+    }
+
+    \begin{formula}
+        Let $c$ be a curve defined on a surface $\sigma$. From the definitions of the normal and geodesic curvature it follows that
+        \begin{gather}
+            \frac{1}{\rho^2} = \frac{1}{\rho^2_n} + \frac{1}{\rho^2_g}.
+        \end{gather}
+    \end{formula}
+
+\subsection{Curvature of a surface}
+
+    \newdef{Weingarten map\footnotemark}{\index{Weingarten!map}\index{shape!operator|see{Weingarten map}}
+        \footnotetext{Sometimes called the \textbf{shape operator}.}
+        Let $p$ be a point on the surface $\Sigma$. The Weingarten map $L_p:T_p\Sigma\rightarrow T_p\Sigma$ is the linear map defined as follows:
+        \begin{gather}
+            \label{diff:weingarten_map}
+            L_p(\sigma_1) := -N_1 \qquad\text{and}\qquad L_p(\sigma_2) := -N_2.
+        \end{gather}
+    }
+    \begin{formula}
+        Let $v,w\in T_p\Sigma$. The following equalities relate the second fundamental form and the Weingarten map:
+        \begin{gather}
+            L_p(v)\cdot w = L_p(w)\cdot v = \mathrm{II}_p(v,w).
+        \end{gather}
+    \end{formula}
+
+    \begin{formula}
+        Let $\left(g^{ij}\right)$ be the inverse of the metric. The matrix elements of $L_p$ can be expressed as follows:
+        \begin{gather}
+            L^k_j = g^{ki}L_{ij}.
+        \end{gather}
+    \end{formula}
+    \begin{formula}[Weingarten formulas]\index{Weingarten!formulas}
+        \begin{gather}
+            N_j = -L^k_j\sigma_k
+        \end{gather}
+    \end{formula}
+
+    \newdef{Principal curvatures}{\index{curvature!principal}\label{diff:principal_directions}
+        The eigenvalues of the Weingarten map are called the principal curvatures of the surface and they are denoted by \[\frac{1}{R_1} \quad\text{and}\quad \frac{1}{R_2}.\] Let $h_1,h_2$ denote the eigenvectors of $L_p$. By the formulas above, the principal curvatures are given by $\mathrm{II}_p(h_i,h_i)$ and they are the extreme values of the normal curvature. The associated tangent vectors are called the \textbf{principal directions}. Furthermore, they form a basis for the tangent plane.
+    }
+    \begin{property}\index{umbilical point}
+        If the principal curvatures at a point are not equal, the principal directions are orthogonal. If they are equal, the point is said to be an \textbf{umbilical point} or \textbf{umbilic}.
+    \end{property}
+
+    \newdef{Line of curvature}{\index{curvature!line}
+        A curve is said to be a line of curvature if the tangent vector at every point is a principal direction of the surface at that point.
+    }
+
+    \newformula{Rodrigues's formula}{\index{Rodrigues's formula}\label{diff:rodrigues_formula}
+        A curve is a line of curvature if and only if it is a solution of the following differential equation:
+        \begin{gather}
+            \deriv{N}{t}(t) = -\frac{1}{R(t)}\deriv{c}{t}(t).
+        \end{gather}
+        If the curve satisfies this formula, the scalar function $1/R(t)$ coincides with the principal curvature along the curve.
+    }
+    \newformula{Differential equation for curvature lines}{
+        \begin{gather}
+            \left|
+            \begin{array}{ccc}
+                (\dot{q}^2)^2&-\dot{q}^1\dot{q}^2&(\dot{q}^1)^2\\
+                g_{11}&g_{12}&g_{22}\\
+                L_{11}&L_{12}&L_{22}
+            \end{array}
+            \right| = 0
+        \end{gather}
+    }
+    \begin{property}
+        From Definition \ref{diff:principal_directions} it follows that the principal directions are determined by orthogonal vectors. This implies that on a surface containing no umbilics, the curvature lines form an orthogonal web.
+    \end{property}
+
+    \newdef{Gaussian curvature}{\index{curvature!Gaussian}\label{diff:gaussian_curvature}
+        The Gaussian curvature of a surface is defined as the determinant of the Weingarten map:
+       \begin{gather}
+            K := \frac{1}{R_1R_2}.
+        \end{gather}
+    }
+    \newdef{Mean curvature}{\index{curvature!mean}\label{diff:mean_curvature}
+        The mean curvature of a surface is defined as the trace of the Weingarten map:
+        \begin{gather}
+            H := \frac{1}{2}\left(\frac{1}{R_1} + \frac{1}{R_2}\right).
+        \end{gather}
+    }
+    \begin{property}
+        The principal curvatures are the solutions of the following equation:
+        \begin{gather}
+            x^2 - 2Hx + K = 0.
+        \end{gather}
+        This is the characteristic equation \ref{linalgebra:characteristic_equation} of the Weingarten map.
+    \end{property}
+
+    \begin{definition}
+        Let $p$ be a point on the surface $\Sigma$.
+        \begin{itemize}
+            \item $p$ is said to be \textbf{elliptic} if $K>0$ in $p$.
+            \item $p$ is said to be \textbf{hyperbolic} if $K<0$ in $p$.
+            \item $p$ is said to be \textbf{parabolic} if $K=0$ and $\stylefrac{1}{R_1}$ or $\stylefrac{1}{R_2}\neq0$ in $p$.
+            \item $p$ is said to be \textbf{flat} if $\stylefrac{1}{R_1} = \stylefrac{1}{R_2} = 0$ in $p$.
+            \item $p$ is said to be \textbf{umbilical} if $\stylefrac{1}{R_1} = \stylefrac{1}{R_2}$ in $p$.
+        \end{itemize}
+    \end{definition}
+
+    \begin{property}
+        A surface $\Sigma$ containing only umbilics is either part of a sphere or part of a plane.
+    \end{property}
+    \begin{formula}
+        In the neighbourhood of a point of a surface with principal curvatures $1/R_1$ and $1/R_2$, the surface is locally given by the quadric
+        \begin{gather}
+            x_3 = \frac{1}{2}\left(\frac{x_1^2}{R_1} + \frac{x_2^2}{R_2}\right)
+        \end{gather}
+        up to order $O(x^2)$.
+    \end{formula}
+
+    \begin{formula}[Euler's formula]\index{Euler!formula for normal curvature}\label{diff:euler_formula}
+        Let $h_1,h_2$ be the eigenvectors of the Weingarten map. The normal curvature of a couple $(p,v)$ where $v = h_1\cos\theta + h_2\sin\theta \in T_p\Sigma$ is given by
+        \begin{gather}
+            \frac{1}{\rho_n} = \frac{\cos^2\theta}{R_1} + \frac{\sin^2\theta}{R_2}.
+        \end{gather}
+    \end{formula}
+
+    \newdef{Asymptotic curve}{\index{asymptotic!curve}
+        A curve that is at every point tangent to a direction with zero normal curvature.
+    }
+    \newformula{Differential equation for asymptotic curves}{
+        \begin{gather}
+            L_{11}\left(\dot{q}^1(t)\right)^2 + 2L_{12}\dot{q}^1(t)\dot{q}^2(t) + L_{22}\left(\dot{q}^2(t)\right)^2 = 0
+        \end{gather}
+    }
+    \begin{property}
+        A curve on a surface is an asymptotic curve if and only if the tangent plane and the \textit{osculation plane} coincide at every point on the curve.
+    \end{property}
+
+\subsection{Christoffel symbols and geodesics}
+
+    \newformula{Gauss's formulas}{\index{Gauss!formula for surfaces}\index{Christoffel symbols}
+        The second derivatives of the surface $\sigma$ are given by
+        \begin{gather}
+            \label{diff:gauss_formulas}
+            \sigma_{ij} = L_{ij}N + \Gamma^k_{\ ij}\sigma_k,
+        \end{gather}
+        where the \textbf{Christoffel symbols} $\Gamma^k_{\ ij}$ are defined as
+        \begin{gather}
+            \label{diff:christoffel_symbol_surface}
+            \Gamma^k_{\ ij} := g^{kl}\sigma_l\cdot\sigma_{ij}.
+        \end{gather}
+    }
+    \begin{result}
+        From the expression of the Christoffel symbols one can derive an alternative expression only in terms of the metric $g_{ij}$:
+        \begin{gather}
+            \Gamma^k_{\ ij} = \frac{1}{2}g^{kl}\left(\pderiv{g_{il}}{q^j} - \pderiv{g_{ij}}{q^l} + \pderiv{g_{jl}}{q^i}\right).
+        \end{gather}
+    \end{result}
+
+    \newdef{Geodesic}{\index{geodesic}
+        A curve with zero geodesic curvature.
+    }
+    \begin{property}
+        A curve on a surface is a geodesic if and only if the tangent plane and the \textit{osculation plane} are orthogonal at every point of the surface.
+    \end{property}
+    \newformula{Differential equation for geodesic}{\index{geodesic!equation}\label{diff:geodesic_equation}
+        If the curve is parametrized by arc length, it is a geodesic if the functions $q^1(s)$ and $q^2(s)$ satisfy the following differential equation:
+        \begin{gather}
+            q''^k + \Gamma^k_{\ ij}q'^iq'^j = 0.
+        \end{gather}
+    }
+
+\subsection{Theorema Egregium}
+
+    \newformula{Codazzi-Mainardi equations}{\index{Codazzi-Mainardi}\label{diff:codazzi_mainardi}
+        \begin{gather}
+            \pderiv{L_{ij}}{q^k} - \pderiv{L_{ik}}{q^j} = \Gamma^l_{\ ik}L_{lj} - \Gamma^l_{\ ij}L_{lk}
+        \end{gather}
+    }
+
+    \newdef{Riemann curvature tensor}{\index{Riemann!curvature tensor}\label{diff:riemann_curvature}
+        \begin{gather}
+            R^l_{\ ijk} := \pderiv{\Gamma^l_{\ ik}}{q^j} - \pderiv{\Gamma^l_{\ ij}}{q^k} + \Gamma^s_{\ ik}\Gamma^l_{\ sj} - \Gamma^s_{\ ij}\Gamma^l_{\ ks}
+        \end{gather}
+    }
+
+    \newformula{Gauss's equations}{\index{Gauss!equation for Riemann curvature}\label{diff:gauss_equations}
+        \begin{gather}
+            R^l_{\ ijk} = L_{ik}L^l_j - L_{ij}L^l_k
+        \end{gather}
+    }
+
+    \begin{theorem}[Theorema Egregium]\index{Theorema Egregium}\label{diff:theorema_egregium}
+        The Gaussian curvature is completely determined by the metric tensor $g_{ij}$ and its derivatives:
+        \begin{gather}
+            K = \frac{R^l_{\ 121}g_{l2}}{g_{11}g_{22} - g_{12}^2}.
+        \end{gather}
+    \end{theorem}
+    \sremark{This theorem is remarkable due to the fact that the coefficients $L_{ij}$, which appear in the general formula of the Gaussian curvature, cannot be expressed in terms of the metric.}
+
+    \begin{property}
+        From the condition of isometries \ref{diff:isometry} and the previous theorem it follows that if two surfaces are connected by an isometric map, the corresponding points have the same Gaussian curvature.
+    \end{property}
+    \begin{result}
+        There exists no isometric projection from the sphere to the plane. This also implies that a perfect (i.e. isometric) map of the Earth cannot be created.
+    \end{result}

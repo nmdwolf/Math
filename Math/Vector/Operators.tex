@@ -33,13 +33,21 @@
     \end{theorem}
     This implies that every $C^*$-algebra can be represented using block matrices.
 
+    \begin{example}[Bounded operators]
+        Let $\mathcal{H}$ be a finite-dimensional Hilbert space. The space of bounded operators $\mathcal{B}(\mathcal{H})$ is a $C^*$-algebra.
+    \end{example}
+
+    \begin{property}
+        Every norm-closed $\ast$-subalgebra of a $C^*$-algebra is a $C^*$-algebra.
+    \end{property}
+
 \subsection{Positive maps}
 
     \newdef{Positive element}{\index{positive}
-        An element of a $C^*$-algebra is called positive if its spectrum is contained in $[0,\infty[$.
+        A self-adjoint element of a $C^*$-algebra $A$ for which its spectrum is contained in $[0,\infty[$. The cone of all positive elements in $A$ is often denoted by $A^+$.
     }
-    \begin{property}
-        Every positive element $a$ can be written as $a=b^*b$ for some element $b$. Hence, every positive element is self-adjoint.
+    \begin{property}[Positive decomposition]
+        Every positive element $a$ can be written as $a=b^*b$ for some element $b$. Moreover, every positive element admits a positive square-root.
     \end{property}
 
     \newdef{Cuntz algebra}{\index{Cuntz algebra}
@@ -50,10 +58,10 @@
         where 1 is the unit element.
     }
 
-    \newdef{Positive map}{
+    \newdef{Positive map}{\label{operators:positive_map}
         A morphism of $C^*$-algebras is called positive if every positive element is mapped to a positive element.
     }
-    \newdef{Completely positive map}{\index{positive!completely}\index{CP map|see{positive, completely}}\label{operators:cp_map}
+    \newdef{Completely positive map}{\index{positive!completely}\label{operators:cp_map}
         \nomenclature[A_CP]{CP}{completely positive}
         A morphism of $C^*$-algebras $T:A\rightarrow B$ is called completely positive if for all $k\in\mathbb{N}$ the following map is positive:
         \begin{gather}
@@ -63,67 +71,93 @@
     }
 
     \newdef{State}{\index{state}
-        Let $A$ be a $C^*$-algebra. A state $\psi$ on $A$ is a positive linear functional of unit norm.
+        A positive linear functional of unit norm on a $C^*$-algebra.
     }
 
-    \newdef{Adjoint map}{\index{adjoint}
-        Consider a continuous linear map $\phi$ defined on the Schatten class $\mathcal{I}_p$. Given a trace functional $\mathrm{tr}$ on the $C^*$-algebra one can define the adjoint map $\phi^*$ defined on $\mathcal{I}_q$ whenever $p,q$ are H\"older conjugate. This adjoint is given by the following equation:
+    \newdef{Positivity-improving map}{
+        A positive map $\phi$ that satisfies
         \begin{gather}
-            \mathrm{tr}\Big((\phi^*(A))^*B\Big) = \mathrm{tr}\Big(A^*\phi(B)\Big),
+            a\geq0,a\neq0\implies\phi(a)>0.
         \end{gather}
-        where $A\in\mathcal{I}_q, B\in\mathcal{I}_p$.
     }
-    \newdef{Trace-preserving map}{
+    \newdef{Ergodic map}{\index{ergodic}
+        A positive map $\phi$ that satisfies
+        \begin{gather}
+            \forall a>0:\exists t\in\mathbb{R}_0:\exp(t_a\phi)a>0.
+        \end{gather}
+    }
+
+    \begin{property}[Convexity]\index{state!pure}
+        The set of states is a convex set. The extreme points of this set are called \textbf{pure states}, all other elements are called \textbf{mixed states}.
+    \end{property}
+
+\subsection{Traces}
+
+    \newdef{Trace}{\index{trace}
+        Let $A$ be a $C^*$-algebra. A trace on $A$ is a linear functional $\tr:A\rightarrow[0,\infty]$ that satisfies the following conditions:
+        \begin{enumerate}
+            \item\textbf{Positivity}: $\tr(A^+)\subseteq A^+$, and
+            \item\textbf{Tracial}: $\tr(ab)=\tr(ba)$ for all $a,b\in A$.
+        \end{enumerate}
+    }
+    \remark{The tracial property could have been replaced by the following equivalent, but seemingly weaker, condition: $\tr(a^*a)=\tr(aa^*)$ for all $a\in A$.}
+
+    \newdef{Adjoint map}{\index{adjoint!operator}
+        Assume that a trace functional $\tr$ is given on the $C^*$-algebra and consider a continuous linear map $\phi$ defined on the Schatten class $\mathcal{I}_p$. One can define the adjoint map $\phi^*$ on $\mathcal{I}_q$ whenever $p,q$ are H\"older conjugate. This adjoint is given by the following equation:
+        \begin{gather}
+            \tr\Big((\phi^*(A))^*B\Big) = \tr\Big(A^*\phi(B)\Big),
+        \end{gather}
+        where $A\in\mathcal{I}_q,B\in\mathcal{I}_p$.
+    }
+    \newdef{Trace-preserving map}{\label{operators:trace_preserving}
         A map $\phi$ is said to be trace-preserving if it satisfies
         \begin{gather}
-            \mathrm{tr}(\phi(A)) = \mathrm{tr}(A)
+            \tr(\phi(A)) = \tr(A)
         \end{gather}
-        for all trace class elements $A$. Using the above definition it is easily seen that on a unital $C^*$-algebra this is equivalent to
+        for all trace-class elements $A$. Using the above definition it is easily seen that on a unital $C^*$-algebra this is equivalent to
         \begin{gather}
             \phi^*(1) = 1.
         \end{gather}
     }
 
     \begin{property}
-        \nomenclature[A_CPTP]{CPTP}{completely positive trace-preserving}
-        A completely positive, trace preserving map $\phi$ satisfies:
+        A completely positive, trace-preserving map $\phi$ satisfies:
         \begin{gather}
             \|\phi\|_1 = 1,
         \end{gather}
-        where the subscript $1$ indicates that this operator is defined on trace class elements.
+        where the subscript $1$ indicates that this operator is defined on trace-class elements.
     \end{property}
 
-    \newdef{Positivity-improving map}{
-        A positive map $\phi$ that satisfies
-        \begin{gather}
-            A\geq0,A\neq0\implies\phi(A)>0.
-        \end{gather}
-    }
-    \newdef{Ergodic map}{\index{ergodic}
-        A positive map $\phi$ that satisfies
-        \begin{gather}
-            \forall A>0:\exists t_A>0:\exp(t_A\phi)A>0.
-        \end{gather}
-    }
+    \begin{property}[States]\index{state}
+        Whenever a $C^*$-algebra is commutative, every state defines a trace and, possibly after a suitable normalization, every trace defines a state. However, for noncommutative $C^*$-algebras only the latter implication holds.
+    \end{property}
 
-\subsection{Representations}\index{representation}
+\subsection{Representations}\index{representation!algebra}
 
     \newdef{$C^*$-algebra representation}{
         A representation of a $C^*$-algebra $\mathcal{C}$ is a unital $\ast$-morphism $\mathcal{C}\rightarrow\mathcal{B}(\mathcal{H})$.
     }
+
+    \newdef{Normal state}{\index{state!normal}\label{operators:normal_state}
+        Consider a Hilbert space $\mathcal{H}$ and a $C^*$-representation $\pi:A\rightarrow\mathcal{B}(\mathcal{H})$. A normal state $\omega$ is a state such that there exists a trace-class operator $\rho\in\mathcal{B}_1(\mathcal{H})$ with the following property:
+        \begin{gather}
+            \omega(a) = \frac{\tr(\rho\pi(a))}{\tr(\rho)}.
+        \end{gather}
+        In case where $A=\mathcal{B}(\mathcal{H})$, the normal states are exactly the $\sigma$-weakly continuous states \ref{functional:sigma_weak_topology}.
+    }
+
     \newdef{Cyclic vector}{\index{cyclic!vector}
         A cyclic vector for a $C^*$-algebra representation $\rho:\mathcal{C}\rightarrow\mathcal{B}(\mathcal{H})$ is a vector $\xi\in\mathcal{H}$ such that $\{\rho(c)\xi\mid c\in\mathcal{C}\}$ is (norm) dense in $\mathcal{H}$.
     }
 
-    \begin{construct}[GNS\footnotemark\ construction]\index{GNS construction}\index{Gel'fand|seealso{GNS}}\label{operators:gns}
-        \footnotetext{Gel'fand-Naimark-Segal}
+    \begin{construct}[Gel'fand-Naimark-Segal]\index{Gel'fand-Naimark-Segal construction}\label{operators:gns}
         \nomenclature[A_GNS]{GNS}{Gel'fand-Naimark-Segal}
-        Let $\mathcal{C}$ be a $C^*$-algebra. Given a state $\omega$ on $\mathcal{C}$ there exists a $C^*$-representation $\rho:\mathcal{C}\rightarrow\mathcal{B}(D)$ where $D\subset\mathcal{H}$ is a dense subspace of a Hilbert space $\mathcal{H}$ such that the following conditions are satisfied:
+        Let $\mathcal{C}$ be a $C^*$-algebra. Given a state $\omega$ on $\mathcal{C}$ there exists a $C^*$-representation $\rho:\mathcal{C}\rightarrow\mathcal{B}(D)$, where $D\subset\mathcal{H}$ is a dense subspace of a Hilbert space $\mathcal{H}$, such that the following conditions are satisfied:
         \begin{itemize}
             \item There exists a distinguished cyclic unit vector $\xi$ such that $D = \{\rho(c)\xi\mid c\in\mathcal{C}\}$.
             \item For all elements $c\in\mathcal{C}$ the following equality holds:
                 \begin{gather}
-                    \omega(c) = \langle\rho(c)\xi,\xi\rangle.
+                    \omega(c) = \langle\rho(c)\xi|\xi\rangle.
                 \end{gather}
         \end{itemize}
 
@@ -132,6 +166,13 @@
 
     \begin{theorem}[Gel'fand-Naimark]\index{Gel'fand-Naimark}
         Every $C^*$-algebra is isometrically $\ast$-isomorphic to a norm closed ($C^*$-)algebra of bounded operators on a Hilbert space $\mathcal{H}$.
+    \end{theorem}
+
+    \begin{theorem}[Stinespring]\index{Stinespring}\label{operators:stinespring}
+        Consider a linear operator $\Phi:\mathcal{B}(\mathcal{H})\rightarrow\mathcal{B}(\mathcal{H})$. It is completely positive if and only if there exists a $C^*$-representation $\pi:\mathcal{B}(\mathcal{H})\rightarrow\mathcal{B}(\mathcal{K})$ and a bounded linear operator $V:\mathcal{H}\rightarrow\mathcal{K}$ such that
+        \begin{gather}
+            \Phi(A) = V^\dag\pi(A)V.
+        \end{gather}
     \end{theorem}
 
 \subsection{Gel'fand duality}\index{Gel'fand!duality}
@@ -154,7 +195,7 @@
 \section{von Neumann algebras}
 
     \newdef{von Neumann algebra}{\index{von Neumann!algebra}
-        A $*$-subalgebra of a $C^*$-algebra equal to its double commutant: $M'' = M$.
+        A $*$-subalgebra of a $C^*$-algebra equal to its double commutant: $M = M''$.
     }
     \newdef{Concrete von Neumann algebra}{
         A weakly closed unital $*$-algebra of bounded operators on some Hilbert space.
@@ -216,7 +257,7 @@
         There exists a bijection between the set of closed subspaces of $\mathcal{H}$ and the set of projections in $\mathcal{B}(\mathcal{H})$. Furthermore, if the projection $p$ corresponds to a subspace $\mathcal{H}_p$, the projection $\mathbbm{1}_{\mathcal{H}}-p$ corresponds to the orthogonal complement $\mathcal{H}_p^\perp$.
     \end{property}
 
-    \newdef{Projection-valued measure\footnotemark}{\index{measure!projection-valued}\index{spectral measure}
+    \newdef{Projection-valued measure\footnotemark}{\index{measure!projection-valued}\index{spectral!measure}
         \footnotetext{Also called a \textbf{spectral measure}.}
         \nomenclature[A_PVM]{PVM}{projection-valued measure}
         Consider a topological space $X$ and let $\Sigma$ be a $\sigma$-algebra \ref{set:sigma_algebra} on $X$. A projection-valued measure (PVM) on $X$ is a map $P_-:\Sigma\rightarrow\mathcal{B}(\mathcal{H})$ satisfying the following conditions:
@@ -243,11 +284,11 @@
         is closed and normal. Furthermore, it satisfies the following two equalities:
         \begin{align}
             \left(\int_Xf(\lambda)dP(\lambda)\right)^* &= \int_X\overline{f(\lambda)}dP(\lambda)\\
-            \left|\left|\int_Xf(\lambda)dP(\lambda)v\right|\right|^2 &= \int_X|f(\lambda)|^2d\mu^P_{v,v}(\lambda).
+            \left\|\int_Xf(\lambda)dP(\lambda)v\right\|^2 &= \int_X|f(\lambda)|^2d\mu^P_{v,v}(\lambda).
         \end{align}
         If $f$ is bounded, the above operator is bounded by the supremum norm of $f$:
         \begin{gather}
-            \left|\left|\int_Xf(\lambda)dP(\lambda)\right|\right|\leq\|f\|_\infty.
+            \left\|\int_Xf(\lambda)dP(\lambda)\right\|\leq\|f\|_\infty.
         \end{gather}
     \end{property}
 

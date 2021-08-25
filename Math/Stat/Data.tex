@@ -19,7 +19,7 @@
     \end{method}
     \remark{It is easy to see that the above linear problem is obtained when trying to extremize the quadratic form associated to a symmetric matrix.}
 
-    \begin{method}[Tikhonov regularization]{\index{Tikhonov!regularization}\index{ill-conditioned}
+    \begin{method}[Tikhonov regularization]{\index{Tikhonov regularization}\index{ill-conditioned}
         Consider a linear (regression) problem \[Ax = b.\] The most straightforward way to solve for $x$ is the least squares method introduced in Chapter~\ref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case a regularization term can be added to the minimization problem:
         \begin{gather}
             \|Ax-b\|^2+\|\Gamma x\|^2,
@@ -42,7 +42,8 @@
         \end{gather}
         The same concept can be applied to data samples. The data is said to be (multi)collinear if the above equation holds for all entries of the data set. However, in this case one also define ``near multicollinearity'' if the variables $X_i$ are related as above up to some error term $\varepsilon$. If the variance of $\varepsilon$ is small, the matrix $X^TX$ might have an ill-conditioned inverse which might render the algorithms unstable.
     }
-    \newdef{Variance inflation factor}{\index{VIF}
+    \newdef{Variance inflation factor}{\index{variance!inflation factor}
+        \nomenclature[A_VIF]{VIF}{variance inflation factor}
         The VIF is an estimate for how much the variance of a coefficient is inflated by multicollinearity. The VIF of a coefficient $\beta_i$ is defined as follows:
         \begin{gather}
             \mathrm{VIF}_i := \frac{1}{1-R_i^2},
@@ -80,7 +81,7 @@
             \label{data:A_inner_product}
             \langle v|w \rangle_A := v^TAw.
         \end{gather}
-        Two vectors $v,w$ are said to be ($A$-)conjugate if they are orthogonal with respect to $\langle\cdot|\cdot\rangle_A$. The general approach to obtain a basis of $A$-conjugate vectors is a modified version of the Gram-Schmidt procedure \eqref{linalgebra:gram_schmidt} where the ordinary Euclidean inner product is replaced by \eqref{data:A_inner_product}. This modification is called the \textbf{Arnoldi method}.
+        Two vectors $v,w$ are said to be ($A$-)conjugate if they are orthogonal with respect to $\langle\cdot|\cdot\rangle_A$. The general approach to obtain a basis of $A$-conjugate vectors is a modified version of the Gram-Schmidt procedure \ref{linalgebra:gram_schmidt} where the ordinary Euclidean inner product is replaced by \eqref{data:A_inner_product}. This modification is called the \textbf{Arnoldi method}.
     }
 
     By taking the input vectors of the Arnoldi method to be the residuals $r_i$, one obtains the \textbf{conjugate gradient} (CG) algorithm. It is interesting to note that the residuals themselves satisfy a recursion relation:
@@ -118,9 +119,9 @@
         \end{align}
     \end{method}
 
-    \remark{In exact arithmetic the above optimization scheme would result in an exact solution after $n$ iterations (in fact the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, in real life one is not working in exact arithmetic and one has to take into account the occurrence of floating-point errors. These not only ruin the accuracy of the residual recursion relation \ref{data:residual_recurrence}, but more importantly\footnote{The residual problem can be solved by computing the residual ``exactly'', i.e. by the formula $r_i=b-Ax_i$, every $k$ iterations.} it might result in the search directions not being $A$-conjugate.}
+    \remark{In exact arithmetic the above optimization scheme would result in an exact solution after $n$ iterations (in fact the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, in real life one is not working in exact arithmetic and one has to take into account the occurrence of floating-point errors. These not only ruin the accuracy of the residual recursion relation \eqref{data:residual_recurrence}, but more importantly\footnote{The residual problem can be solved by computing the residual ``exactly'', i.e. by the formula $r_i=b-Ax_i$, every $k$ iterations.} it might result in the search directions not being $A$-conjugate.}
 
-    Now, what about general coefficient matrices $A$, for example those resulting in under- or overdetermined systems? For nonsymmetric or nondefinite square matrices one can still solve the normal equation \ref{data:normal_equation} using the same methods, since $A^TA$ is both symmetric and positive-definite. For underdetermined systems an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems $A^TA$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^TA$ is the square of that of $A$ and, hence, the algorithms will convergence much slower.
+    Now, what about general coefficient matrices $A$, for example those resulting in under- or overdetermined systems? For nonsymmetric or nondefinite square matrices one can still solve the normal equation \eqref{data:normal_equation} using the same methods, since $A^TA$ is both symmetric and positive-definite. For underdetermined systems an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems $A^TA$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^TA$ is the square of that of $A$ and, hence, the algorithms will convergence much slower.
 
     A different approach exists where the CG algorithm is not applied to the matrix $A^TA$, but the individual matrices are used $A,A^T$ directly. This way not one Krylov space is generated, but two dual ``copies'' are constructed:
     \begin{align*}
@@ -140,7 +141,7 @@
 
     Of course, many real-world applications are determined by nonlinear equations and, hence, it would be pleasant if one could salvage some of the above ideas even when linear algebra is not the natural language. The main requirement would be that one can calculate the gradient of the function to be minimized.
 
-    On the level of the implementation, the structure of the algorithm remains more or less the same. What does change is the form of the Arnoldi method, in particular, the prefactor in Equation \ref{data:beta}. For linear CG there are multiple equivalent formulas, but for nonlinear CG these do not lead to the same algorithm. The two most common choices are given below.
+    On the level of the implementation, the structure of the algorithm remains more or less the same. What does change is the form of the Arnoldi method, in particular, the prefactor in Equation \eqref{data:beta}. For linear CG there are multiple equivalent formulas, but for nonlinear CG these do not lead to the same algorithm. The two most common choices are given below.
     \begin{method}[Nonlinear CG]\index{Fletcher-Reeves formula}\index{Polak-Ribi\`ere formula}
         Since there is no linear equation related to the minimization problem, the residuals are always defined as $r_i:=-f'(x_i)$. The algorithm consists of the following iterations:
         \begin{align}
@@ -165,10 +166,10 @@
 
     Some general remarks have to be made concerning the nonlinear CG algorithm:
     \begin{remark}
-        As was already mentioned for the linear version, floating-point errors might lead to a loss of conjugacy. For the nonlinear extension this becomes worse. The more $f$ deviates from a quadratic function, the quicker conjugacy is lost (for quadratic formulas the Hessian is exactly the matrix $A$, but for higher-degree functions the Hessian varies from point to point). Another problem, one that did not occur for quadratic functions, is that nonlinear functions might have multiple local minima. The CG method does not care about local vs. global and, hence, it will not necessarily converge to the global minimum. A last remark concerns the fact that there is no theoretical guarantee that the method will converge in $n$ steps. Since the Gram-Schmidt procedure can only construct $n$ conjugate vectors, the simplest solution is to perform a restart of the algorithm every $n$ iterations.\footnote{The $\max$ operation in \eqref{data:polak_ribiere} is already a form of restarting, due to the fact that the Polak-Ribi\`ere version of nonlinear CG sometimes results in cyclic behaviour.}
+        As was already mentioned for the linear version, floating-point errors might lead to a loss of conjugacy. For the nonlinear extension this becomes worse. The more $f$ deviates from a quadratic function, the quicker conjugacy is lost (for quadratic formulas the Hessian is exactly the matrix $A$, but for higher-degree functions the Hessian varies from point to point). Another problem, one that did not occur for quadratic functions, is that nonlinear functions might have multiple local minima. The CG method does not care about local vs. global and, hence, it will not necessarily converge to the global minimum. A last remark concerns the fact that there is no theoretical guarantee that the method will converge in $n$ steps. Since the Gram-Schmidt procedure can only construct $n$ conjugate vectors, the simplest solution is to perform a restart of the algorithm every $n$ iterations.\footnote{The $\max$ operation in Equation \eqref{data:polak_ribiere} is already a form of restarting, due to the fact that the Polak-Ribi\`ere version of nonlinear CG sometimes results in cyclic behaviour.}
     \end{remark}
 
-    For linear CG a simple formula for finding the optimal value of $\alpha_i$ was obtained. However, for nonlinear CG one cannot solve Equation \eqref{data:argmin} as easily. The main idea, i.e. that $f'$ should be orthogonal to the previous search direction remains, is still valid. Here, only the \textbf{Newton-Raphson approach} is considered:\footnote{Another common method is the \textit{secant method}.}\index{Netwon-Raphson alogrithm}
+    For linear CG a simple formula for finding the optimal value of $\alpha_i$ was obtained. However, for nonlinear CG one cannot solve Equation \eqref{data:argmin} as easily. The main idea, i.e. that $f'$ should be orthogonal to the previous search direction remains, is still valid. Here, only the \textbf{Newton-Raphson approach} is considered:\footnote{Another common method is the \textit{secant method}.}\index{Newton-Raphson alogrithm}
     \begin{gather}
         \alpha_i = \frac{f'(x_i)^Td_i}{d_i^Tf''(x_i)d_i}.
     \end{gather}
@@ -448,7 +449,7 @@
     \begin{gather}
         y \equiv w^Tx + b = \sum_{i=1}^n\beta_iy_i\langle x_i|x \rangle + b.
     \end{gather}
-    Two observations can be made at this point. First of all, complementary slackness \ref{data:slackness} implies that the only relevant vectors $x_i$ in this calculation are the ones that satisfy $\gamma(x_i)=0$. These are called the \textbf{support vectors} and they give their name to a class of models called \textbf{support-vector machines} (SVMs)\index{support-vector machine}\nomenclature[A_SVM]{SVM}{support-vector machine}. These are the models that are trained using the above optimization problem. Furthermore, $y$ can be written in terms of an inner product. It is exactly this last observation that allows for the generalization of the above model to nonlinear decision boundaries. The previous section showed that inner products are equivalent to (Mercer) kernels. Hence, by choosing a nonlinear kernel function, one can implicitly work with nonlinear feature maps. This is often called the \textbf{kernel trick}\index{kernel trick}. As an example, polynomial kernels represent feature maps from $x$ to monomials in the coefficients of $x$.
+    Two observations can be made at this point. First of all, complementary slackness \ref{data:slackness} implies that the only relevant vectors $x_i$ in this calculation are the ones that satisfy $\gamma(x_i)=0$. These are called the \textbf{support vectors} and they give their name to a class of models called \textbf{support-vector machines} (SVMs)\index{support-vector machine}\nomenclature[A_SVM]{SVM}{support-vector machine}. These are the models that are trained using the above optimization problem. Furthermore, $y$ can be written in terms of an inner product. It is exactly this last observation that allows for the generalization of the above model to nonlinear decision boundaries. The previous section showed that inner products are equivalent to (Mercer) kernels. Hence, by choosing a nonlinear kernel function, one can implicitly work with nonlinear feature maps. This is often called the \textbf{kernel trick}\index{kernel!trick}. As an example, polynomial kernels represent feature maps from $x$ to monomials in the coefficients of $x$.
 
     However, as often happens with data analysis algorithms, this procedure is sensitive to outliers. This is especially the case for kernels that are based on feature maps to infinite-dimensional spaces (e.g. the \textit{RBF kernel}). To solve this problem one can introduce a regularization term in the cost function. The simplest such term for support-vector machines is a simple $\ell^1$-penalty:
     \begin{gather}
@@ -489,17 +490,17 @@
     \newdef{Weak stationarity}{
         A time series $\seq{X}$ is said to be weakly (or \textbf{covariance}) stationary if it satisfies the following conditions:
         \begin{enumerate}
-            \item\textbf{Mean-stationary}: $E[X_n] = E[X_0]$ for all $n\in\mathbb{N}$.
+            \item\textbf{Mean-stationary}: $\expect{X_n} = \expect{X_0}$ for all $n\in\mathbb{N}$.
             \item\textbf{Finite covariance}: $\mathrm{cov}(X_i,X_j)<\infty$ for all $i,j\in\mathbb{N}$.
             \item\textbf{Covariance-stationary}: $\mathrm{cov}(X_i,X_{i+j}) = \mathrm{cov}(X_0,X_j)$ for all $i,j\in\mathbb{N}$.
         \end{enumerate}
     }
 
     The following definition is a reformulation of Birkhoff ergodicity \ref{lebesgue:ergodic}:
-    \newdef{Ergodicity}{\index{ergodic}
+    \newdef{Ergodicity}{\index{ergodic!series}
         A time series $\{X_t\}_{t\in\mathbb{Z}}$ is ergodic if for every measurable function $f$ the following equation holds for all $t\in\mathbb{Z}$:
         \begin{gather}
-            \lim_{T\rightarrow\infty}\frac{1}{2T+1}\sum_{k=-T}^Tf(X_k) = E[f(X_t)].
+            \lim_{T\rightarrow\infty}\frac{1}{2T+1}\sum_{k=-T}^Tf(X_k) = \expect{f(X_t)}.
         \end{gather}
         Intuitively this means that state space averages can be evaluated as time averages.
     }
@@ -587,7 +588,7 @@
     \remark{The optimal order $p$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
 
     \newdef{Invertibility}{\index{invertibility}\index{stationarity}
-        An $\mathrm{MA}(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e. $1/\theta(B)$ can be written as a convergent series in the operator $B$. This in turn implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the $\mathrm{MA}(q)$-model as an $\mathrm{AR}(p)$-model, where possibly $p=\infty$. The analogous property for $\mathrm{AR}(p)$-models leads to a definition of \textit{stationarity}.
+        An $\mathrm{MA}(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e. $1/\theta(B)$ can be written as a convergent series in the operator $B$. This in turn implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the $\mathrm{MA}(q)$-model as an $\mathrm{AR}(p)$-model, where possibly $p=\infty$. The analogous property for $\mathrm{AR}(p)$-models leads to a definition of \textbf{stationarity}.
     }
 
     In practice it is not always possible to describe a data set using either an autoregressive or a moving average model. However, these two types of models can be combined:

@@ -1,6 +1,6 @@
 \chapter{Statistics}\label{chapter:statistics}
 
-    In this chapter, most definitions and formulas will be based on either a standard calculus approach or a data-driven approach. For a measure-theoretic approach, see Chapter \ref{chapter:probability}. For some sections the language of information geometry will be used as introduced in the previous chapter \ref{chapter:info}.
+    In this chapter, most definitions and formulas will be based on either a standard calculus approach or a data-driven approach. For a measure-theoretic approach, see Chapter \ref{chapter:probability}. For some sections the language of information geometry will be used as introduced in the previous chapter.
 
 \section{Data samples}
 \subsection{Moment estimators}
@@ -199,7 +199,7 @@
         \end{gather}
     \end{definition}
 
-    \newdef{Parametric family}{\index{parametric family}
+    \newdef{Parametric family}{\index{para-!metric family}
         A family of probability densities indexed by one or more parameters $\theta$.
     }
 
@@ -220,7 +220,7 @@
         \end{gather}
     }
 
-    \begin{theorem}[Borel's law of large numbers]\index{law of large numbers}\label{statistics:large_numbers}
+    \begin{theorem}[Borel's law of large numbers]\index{law!of large numbers}\label{statistics:large_numbers}
         If the sample size approaches infinity, the observed frequencies approach the theoretical propabilities.
     \end{theorem}
     \begin{result}[Frequentist probability\footnotemark]
@@ -281,7 +281,7 @@
 
     \begin{formula}[Gaussian distribution]\index{distribution!normal}\index{Gauss!distribution}\label{statistics:normal_distr}
         \begin{gather}
-            \mathcal{G}(x;\mu, \sigma) := \stylefrac{1}{\sqrt{2\pi}\sigma}e^{-\stylefrac{(x-\mu)^2}{2\sigma^2}}
+            \mathcal{G}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
         \end{gather}
         This distribution is also called a (univariate) \textbf{normal distribution}.
     \end{formula}
@@ -296,7 +296,7 @@
         Every Gaussian distribution can be transformed into a standard normal distribution by passing to the random variable $Z = \frac{X-\mu}{\sigma}$. This transformation is often called \textbf{standardization}.
     \end{remark}
 
-    \begin{theorem}[Central limit theorem]\index{central limit theorem}\label{statistics:CLT}
+    \begin{theorem}[Central limit theorem]\index{central!limit theorem}\label{statistics:CLT}
         A sum of $n$ i.i.d. random variables $X_i$ distributed according to a distribution with mean $\mu$ and variance $\sigma^2$ satisfies the following property:
         \begin{gather}
             \sqrt{n}\left(\sum_{i=1}^nX_i - \mu\right)\overset{d}{\longrightarrow}\mathcal{N}(0,\sigma^2).
@@ -428,7 +428,7 @@
         \end{gather}
     \end{formula}
     \begin{result}
-        The correlation coefficient $\rho$ (\ref{statistics:correlation_coefficient}) of a random variable $X$ and a \textbf{linear} function of $X$ is independent of $\sigma_x$ and is always equal to $\pm1$.
+        The correlation coefficient \ref{statistics:correlation_coefficient} of a random variable $X$ and a \textbf{linear} function of $X$ is independent of $\sigma_x$ and is always equal to $\pm1$.
     \end{result}
 
     \newformula{Law of error propagation}{\index{propagation}
@@ -596,7 +596,7 @@
 
 \subsection{Maximum likelihood estimation}
 
-    From definition \ref{statistics:likelihood} it follows that the estimator $\hat{a}_\mathrm{MLE}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is therefore not the most probable estimator.
+    From Definition \ref{statistics:likelihood} it follows that the estimator $\hat{a}_\mathrm{MLE}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is therefore not the most probable estimator.
 
     Using Bayes's theorem one finds $f(a|x) = f(x|a)\frac{f(a)}{f(x)}$. The prior density $f(x)$ is fixed since the values $x_i$ are given by the measurement and, hence, does not vary. The density $f(a)$ is generally assumed to be uniform if there is no prior knowledge about $a$. It follows that $f(a|x)$ and $f(x|a)$ are proportional and, hence, the logarithms of these functions differ only by an additive constant. This leads to following method for finding an estimator $\hat{a}$:
     \newmethod{Maximum likelihood estimator}{\index{likelihood!estimator}
@@ -685,11 +685,22 @@
 
 \subsection{Geometric approach}
 
-    Consider a sample $\mathbf{x}:=\{x_1,\ldots,x_n\}$ drawn from a distribution $P(\mathbf{x};\theta)$ in an exponential family. The likelihood \eqref{statistics:likelihood} is given by \[p(\mathbf{x};\theta) = \prod_{i=1}^nP(x_i;\theta).\] The $m$-coordinates of the observed point are
+    Consider a sample $\mathbf{x}:=\{x_1,\ldots,x_n\}$ drawn from a distribution $P(\mathbf{x};\theta)$ in an exponential family. The likelihood \ref{statistics:likelihood} is given by \[p(\mathbf{x};\theta) = \prod_{i=1}^nP(x_i;\theta).\] The $m$-coordinates of the observed point are
     \begin{gather}
         \eta = \frac{1}{n}\sum_{i=1}^nx_i = \overline{x}.
     \end{gather}
     The optimal value for $\theta$ can be found by maximizing the log-likelihood $\log p(\mathbf{x};\theta)$ or, equivalently according to Property \ref{statistics:minimizing_KL}, by minimizing the Kullback-Leibler divergence between the observed point and the ``true'' distribution $P(x;\xi)$. The latter is found by $m$-projecting the observed point $\eta$ on the submanifold $S$ of ``admissible'' distributions.
+
+    \begin{theorem}[Sanov]\index{Sanov}
+        Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d. samples. Let $P_n$ be the empirical distribution function of the samples \eqref{statistics:empirical_distribution}. Further, let $\Gamma$ be a collection of probability distributions such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
+        \begin{gather}
+            q^n(P_n\in\Gamma) \leq (n+1)^{|S|}2^{-n D_\mathrm{KL}(p^*\|q)},
+        \end{gather}
+        where $p^*$ is the information projection of $q$ on $\Gamma$. If $\Gamma=\overline{\Gamma^\circ}$, this can be restated as
+        \begin{gather}
+            \lim_{n\rightarrow\infty}\frac{1}{n}q^n(P_n\in\Gamma) = - D_\mathrm{KL}(p^*\|q).
+        \end{gather}
+    \end{theorem}
 
 \section{Bayesian modelling}
 
@@ -763,7 +774,7 @@
     \remark{If the sample size is not sufficiently large, the measured quantity must follow a normal distribution.}
 
     \newformula{Interval with unknown variance}{
-        To account for the uncertainty of the estimated standard deviation $\hat{\sigma}$, the student-t distribution \ref{statistics:student_t_distr} is used instead of a Gaussian distribution to describe the sample mean $\overline{X}$. The $\alpha$-level confidence interval is given by
+        To account for the uncertainty of the estimated standard deviation $\hat{\sigma}$, the student-$t$ distribution \ref{statistics:student_t_distr} is used instead of a Gaussian distribution to describe the sample mean $\overline{X}$. The $\alpha$-level confidence interval is given by
         \begin{gather}
             \left[\overline{X} - t_{\alpha/2;(n-1)}\frac{s}{\sqrt{N}},\overline{X} + t_{\alpha/2;(n-1)}\frac{s}{\sqrt{N}}\right],
         \end{gather}
@@ -799,7 +810,7 @@
     \newdef{Significance}{\index{significance}\label{statistics:significance}
         The probability of making a type I error:
         \begin{gather}
-            \alpha := \int P_I(x)dx.
+            \alpha := \int P_\mathrm{I}(x)dx.
         \end{gather}
     }
     \begin{property}
@@ -811,11 +822,11 @@
     \newdef{Power}{\index{power}
         The probability of not making a type II error:
         \begin{gather}
-            \beta := \int P_{II}(x)dx \quad\longrightarrow\quad \text{power: }1-\beta.
+            \beta := \int P_\mathrm{II}(x)dx \quad\longrightarrow\quad \text{power: }1-\beta.
         \end{gather}
     }
     \begin{remark}
-        A good test is a test with a small significance and a large power. The probabilities $P_I(x)$ and $P_{II}(x)$ should be as different as possible.
+        A good test is a test with a small significance and a large power. The probabilities $P_\mathrm{I}$ and $P_\mathrm{II}$ should be as different as possible.
     \end{remark}
 
     \begin{definition}[Likelihood ratio test]\index{likelihood!ratio}\label{statistics:likelihood_ratio}
@@ -825,7 +836,7 @@
         \end{gather}
         where $P(\Lambda(x)\leq\eta|H_0) = \alpha $.
     \end{definition}
-    \sremark{In some references the reciprocal of $\Lambda(x)$ is used as the definition of the likelihood ratio.}
+    \sremark{In some references the reciprocal of $\Lambda$ is used as the definition of the likelihood ratio.}
     \begin{theorem}[Neyman-Pearson lemma]\index{Neyman-Pearson}
         The likelihood ratio test is the most powerful test at significance level $\alpha$.
     \end{theorem}
@@ -878,7 +889,7 @@
     \newdef{Wilcoxon signed-rank test}{\index{test!Wilcoxon}
         Consider a paired data sample, i.e. two dependent data samples for which the $i^{th}$ entries are paired together. This test checks if the population means are different. The test statistic is defined as follows:
         \begin{quote}
-            First one calculates the differences $d_i$ and ranks their absolute values (ties are assigned an average rank). Then one calculates the sums of the ranks $R_+,R_-$ for positive and negative differences and takes smallest of these:
+            First, calculate the differences $d_i$ and rank their absolute values (ties are assigned an average rank). Then, calculate the sums of the ranks $R_+,R_-$ for positive and negative differences and take smallest of these:
             \begin{gather}
                 T:=\min(R_+,R_-).
             \end{gather}

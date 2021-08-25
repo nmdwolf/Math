@@ -7,7 +7,7 @@
     \begin{definition}[Generalized coordinates]\index{generalized!coordinate}
         The generalized coordinates $q_k$ are mutually independent coordinates that completely characterize the configuration of a system (relative to a reference configuration).
 
-        When a system is characterized by $N$ parameters and $n_c$ constraints, there are $(N-n_c)$ generalized coordinates. Furthermore, every set of generalized coordinates describing the same system contains exactly $(N-n_c)$ coordinates. (Chapter \ref{chapter:constrained_dynamics} explains how one can extract the relevant degrees of freedom.)
+        When a system is characterized by $N$ parameters and $n_c$ constraints, there are $(N-n_c)$ generalized coordinates. Furthermore, every set of generalized coordinates describing the same system contains exactly $(N-n_c)$ coordinates. (In Chapter \ref{chapter:constrained_dynamics} it is explained how the relevant degrees of freedom can be extracted.)
     \end{definition}
     \begin{definition}[Generalized velocities]
         The generalized velocities $\dot{q}_k$ are the derivatives of the generalized coordinates with respect to time.
@@ -21,17 +21,27 @@
     \begin{notation}\label{lagrange:notational_convention_1}
         Given a Lagrangian function, depending on $n$ generalized coordinates and their associated velocities, the following shorthand notation is often used:
         \begin{gather}
-            L\left(q(t),\dot{q}(t),t\right) \equiv L\left(q_1(t),\ldots,q_n(t),\dot{q}_1(t),\ldots,\dot{q}_n(t),t\right)
+            L\left(q,\dot{q},t\right)\equiv L\left(q_1(t),\ldots,q_n(t),\dot{q}_1(t),\ldots,\dot{q}_n(t),t\right)
         \end{gather}
     \end{notation}
     \begin{definition}[Action]\index{action}\label{lagrange:action}
         Given a Lagrangian function $L$, the action is a functional on the space of paths in configuration space defined by integrating $L$:
         \begin{gather}
-            S[q] := \int_{t_1}^{t_2}L\left(q(t),\dot{q}(t),t\right)dt.
+            S[q] := \int_{t_1}^{t_2}L\left(q,\dot{q},t\right)dt.
         \end{gather}
     \end{definition}
 
-\section{Euler-Lagrange equations\texorpdfstring{$^\dag$}\ }\index{Lagrange!equations of motion}\index{Euler-Lagrange|see{Lagrange}}
+\section{Euler-Lagrange equations\texorpdfstring{$^\dag$}{}}\index{Lagrange!equations of motion}\index{Euler-Lagrange|see{Lagrange}}
+
+    \begin{axiom}[d'Alembert's principle]\index{d'Alembert!principle}\index{virtual!displacement}\label{lagrange:dalembert_principle}
+        \begin{gather}
+            \sum_i(\vector{F}_i - \dot{\vector{p}}_i)\cdot\delta\vector{q}_i = 0,
+        \end{gather}
+        where the $\delta q^i$ denote the \textbf{virtual displacement} vectors, i.e. the infinitesimal variations consistent with the contraints. In the spirit of calculus of variations (Section \ref{section:variational_calculus}) these are defined as follows. Consider a trajectory $\vector{q}:[0,1]\rightarrow\mathbb{R}^n$ and a variation $\vector{\gamma}$ of $\vector{q}$, i.e. a smooth function $\vector{\gamma}:[0,1]\times[-\varepsilon,\varepsilon]\rightarrow\mathbb{R}^n$ such that $\vector{\gamma}(t,0)=\vector{q}(t)$. This function encodes how $\vector{q}$ can vary given the constraints of the system. The virtual displacement vector is then defined as the tangent vector
+        \begin{gather}
+            \delta\vector{q} := \left.\deriv{\vector{\gamma}}{\varepsilon}\right|_{\varepsilon=0}.
+        \end{gather}
+    \end{axiom}
 
     \begin{formula}[Euler-Lagrange equation of the first kind]\index{generalized!force}
         \begin{gather}
@@ -107,7 +117,7 @@
 
 \section{Hamilton-Jacobi equation}
 
-    For a formal introduction see Section \ref{section:hamilton_jacobi}.
+    For a geometrical interpretation see Section \ref{section:hamilton_jacobi}.
 
     \newdef{Canonical transformations}{\index{canonical!transformation}
         A canonical transformation is a transformation that leaves the Hamiltonian equations of motion unchanged. Mathematically this means that the transformations leave the action invariant up to a constant or, equivalently, they leave the Lagrangian invariant up to a complete time-derivative:
@@ -121,7 +131,7 @@
         Sufficient conditions for a function $S$ to be a generating function of canonical transformations are:
         \begin{align*}
             p_i &=\pderiv{S}{q^i},\\
-            Q^i &=\pderiv{S}{P_i}
+            Q^i &=\pderiv{S}{P_i},
         \end{align*}
         and \[K = H + \pderiv{S}{t}.\]
         Choosing the new Hamiltonian function $K$ to be 0 (this function is sometimes called the \textbf{Kamiltonian}) gives the Hamilton-Jacobi equation:
@@ -228,7 +238,7 @@
         This implies that the phase space volume of a Hamiltonian system is invariant with respect to time-evolution.
     \end{theorem}
     \begin{remark}[$\clubsuit$]
-        Any phase space admits a symplectic form $\omega$ such that the Hamiltonian equations of motion are encoded in a vector field $X_H$. By noting that the volume in phase space is calculated through the symplectic volume form $\mathrm{Vol}_\omega\sim\omega^n$, this theorem easily follows from the fact that time evolution is the flow of the Hamiltonian vector field, which preserves the symplectic form.
+        Any phase space admits a symplectic form $\omega$ such that the Hamiltonian equations of motion are encoded in a vector field $X_H$. By noting that the volume in phase space is calculated through the symplectic volume form $\vol_\omega\sim\omega^n$, this theorem easily follows from the fact that time evolution is the flow of the Hamiltonian vector field, which preserves the symplectic form.
     \end{remark}
 
     \newformula{Boltzmann's transport equation}{\index{Boltzmann!transport equation}\index{Vlasov equation}
@@ -257,12 +267,12 @@
 
 \subsection{Continuity equation}
 
-    \newformula{Reynolds transport theorem\footnotemark}{\index{Reynolds!transport theorem}\index{Leibniz!integral rule}\label{lagrange:reynolds_transport_theorem}
-        \footnotetext{This is a 3D extension of the \textit{Leibniz integral rule}.}
-        Consider a quantity \[F = \int_{V(t)}f(q,\dot{q},t)dV.\] Combining equation \eqref{lagrange:jacobian_derivative} with the divergence theorem \ref{vector:divergence_theorem} gives
+    \newformula{Reynolds transport theorem}{\index{Reynolds transport theorem}\index{Leibniz!integral rule}\label{lagrange:reynolds_transport_theorem}
+        Consider a quantity \[F = \int_{V(t)}f(q,\dot{q},t)dV.\] Combining Equation \eqref{lagrange:jacobian_derivative} with the divergence theorem \ref{vector:divergence_theorem} gives
         \begin{gather}
             \Deriv{F}{t} = \int_V\pderiv{f}{t}dV + \oint_{\partial V}f\dot{\vector{q}}\cdot d\vector{S}.
         \end{gather}
+        This formula can be interpreted as a three-dimensional generalization of the \textit{Leibniz integral rule}.
     }
     \newformula{Continuity equations}{\index{continuity!equation}
         For a conserved quantity the equation above becomes:
@@ -290,7 +300,7 @@
 
     The following property, although seemingly innocuous, is very important for the study of mechanical systems:
     \begin{property}
-        For dynamical systems governed by ODEs satisfying the Picard-Lindel\"of conditions \ref{diffeq:picard_lindelof}, different trajectories never intersect.
+        For dynamical systems governed by ODEs satisfying the Picard-Lindel\"of conditions \ref{ode:picard_lindelof}, different trajectories never intersect.
     \end{property}
 
     The above property has an important (but nontrivial) consequence
@@ -365,7 +375,7 @@
         \begin{gather}
             \Deriv{\vector{P}}{t} = \int_V\left[\vector{f}(x,t) + \nabla\cdot\mathbf{T}(x,t)\right]dV.
         \end{gather}
-        The left-hand side can be rewritten using \eqref{lagrange:result1} as
+        The left-hand side can be rewritten using Equation \eqref{lagrange:result1} as
         \begin{gather}
             \int_V\rho\Deriv{\vector{v}}{t}dV = \int_V\left[\vector{f}(x,t) + \nabla\cdot\mathbf{T}(x,t)\right]dV.
         \end{gather}
@@ -387,7 +397,7 @@
     \begin{gather}
         \mderiv{2}{q^i}{t} = F^i(q,\dot{q}).
     \end{gather}
-    The primary example of such a second-order ODE is the vector field generating the geodesic flow on $TM$, i.e. the integral curves are the tangent curves of geodesics on $M$. Therefore it should not be surprising that the above equation is similar to Formula \ref{diff:geodesic_equation}. By adopting the notation of Equation \ref{riemann:autoparallel_equation} one can generalize the geodesic equation to obtain Newton's equations of motion for an arbitrary smooth ``potential'' $U:M\rightarrow\mathbb{R}$:
+    The primary example of such a second-order ODE is the vector field generating the geodesic flow on $TM$, i.e. the integral curves are the tangent curves of geodesics on $M$. Therefore it should not be surprising that the above equation is similar to Formula \ref{diff:geodesic_equation}. By adopting the notation of Equation \eqref{riemann:autoparallel_equation} one can generalize the geodesic equation to obtain Newton's equations of motion for an arbitrary smooth ``potential'' $U:M\rightarrow\mathbb{R}$:
     \begin{formula}[Newton's equation]\index{Newton!equation}
         Let $(M,g)$ be a Riemannian manifold and let $U:M\rightarrow\mathbb{R}$ be a smooth function. Newton's equations for a curve $\sigma:[a,b]\rightarrow M$ read
         \begin{gather}
@@ -442,7 +452,7 @@
     \begin{quote}
         Given such a Lagrangian, construct the associated energy function $E$ by a Legendre transformation and map it to a Hamiltonian $H$ on the cotangent bundle as $H:=E\circ\mathbb{F}L^{-1}$. By abuse of notation, write $L\equiv L\circ\mathbb{F}L^{-1}$.) This transformation also induces a Hamiltonian vector field $X^H:=\mathbb{F}L_*X^E$ on $T^*M$ that can alternatively be encoded as $X^E=\mathbb{F}L^*X^H$. If the cotangent coordinates $p_i(\alpha) := \alpha(\partial_i)$ are chosen, it can easily be seen that $p_i\circ\mathbb{F}L=P_i$. This way the Hamiltonian equations remain virtually unchanged when transporting them to the cotangent bundle.
     \end{quote}
-    For any choice of coordinates such that the symplectic form on $T^*M$ takes the standard Darboux form $\omega=dp_i\wedge dq^i$, the Newtonian equations of motion take on a Hamiltonian form. If there exists a coordinate chart in which the Hamiltonian function $H$ does not depend on any of the base coordinates $q^i$, the coordinates are called \textbf{action-angle variables} and the system is said to be \textbf{completely integrable}.\index{action-angle coordinates}\index{integrable}
+    For any choice of coordinates such that the symplectic form on $T^*M$ takes the standard Darboux form $\omega=dp_i\wedge dq^i$, the Newtonian equations of motion take on a Hamiltonian form. If there exists a coordinate chart in which the Hamiltonian function $H$ does not depend on any of the base coordinates $q^i$, the coordinates are called \textbf{action-angle variables} and the system is said to be \textbf{completely integrable}.\index{action-angle coordinates}\index{integrability}
 
 \subsection{Symplectic structure on infinite-dimensional systems}
 

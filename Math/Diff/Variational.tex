@@ -3,30 +3,31 @@
     The standard references for global variational calculus are \cite{var_bicomplex, takens}.
 
 \section{Constrained systems}\label{section:variational_calculus}
-\subsection{Holonomic constraints}
 
     \newdef{Holonomic constraint}{\index{holonomic!constraint}
         A constraint $f(q,t) = 0$ is said to be holonomic if it only depends on the coordinates $q^i$ and $t$ and not on the derivatives.
     }
     \begin{method}[Holonomic constraints]\index{Lagrange!multiplier}
-        The Euler-Lagrange equations of a system with $k$ holonomic constraints $f_k(q,t) = 0$ can be obtained from the generalized action functional
+        The Euler-Lagrange equations of a system with $k$ holonomic constraints $f_k(q,t)=0$ can be obtained from the generalized action functional
         \begin{gather}
-            \int_a^b\Big[L(q(t),\dot{q}(t),t) + \sum_{j=1}^k\lambda_j(t)f_j(q(t),t)\Big]dt,
+            I_\mathrm{ext}[q,\lambda]:=\int_a^b\Big[L(q,\dot{q},t) + \sum_{i=1}^k\lambda_i(t)f_i(q,t)\Big]dt,
         \end{gather}
-        where $\lambda_j(t)$ are undetermined \textbf{Lagrange multipliers}.
+        where the $\lambda_i$ are are called \textbf{Lagrange multipliers}. Extrimizing with respect to these multipliers induce the constraints:
+        \begin{gather}
+            \frac{\delta I_\mathrm{ext}}{\delta\lambda_i}=0.
+        \end{gather}
     \end{method}
 
-\section{Noether symmetries}
-\subsection{Classical systems}
+\section{Introduction}
 
     \newdef{Variational symmetry}{\index{symmetry!varaitional}
         Consider an integral quantity $I$ defined by a Lagrangian function:
         \begin{gather}
-            I_M = \int_ML(q,u,\partial u)dq,
+            I_M = \int_ML(q,u,u_I)dq,
         \end{gather}
         where $u$ are (analytic) functions of the variables $q$. A transformation $(x,u)\longrightarrow(x',u')$ of the variables\footnote{The transformations of the derivatives $\partial u$ are induced by the ones for $u$.} is called a variational (or Noether) symmetry if it satisfies
         \begin{gather}
-            \int_{M'}L(q',u',\partial u')dq' = \int_ML(q,u,\partial u)dq
+            \int_{M'}L(q',u',u'_I)dq' = \int_ML(q,u,u_I)dq
         \end{gather}
         for arbitrary $M$.
     }
@@ -64,28 +65,28 @@
     \end{theorem}
 
     For Lagrangians describing ``point particles'', where $M\subseteq\mathbb{R}$, the following result is obtained:
-    \begin{example}[One dimension]
-        Infinitesimal transformations
-        \begin{align*}
-            q^i\longrightarrow q^i& + \varepsilon\xi^i(q^k,t)\\
-            t\longrightarrow t& + \varepsilon\tau(q^k,t)\\
-            \dot{q}^i\longrightarrow\dot{q}^i& + \varepsilon(\dot{\xi}^i - \dot{q}^i\dot{\tau})
-        \end{align*}
-        generate Noether symmetries if they leave the Lagrangian invariant up to a total derivative (in first order) for every subinterval $[t_0,t_1]\subseteq[a,b]$ and for some function $f(q,t)$:
+    \begin{example}[One dimension]\index{prolongation}\index{Rund-Trautman identity}
+        Consider the following infinitesimal transformations
+        \begin{align}
+            q^i\longrightarrow q^i& + \varepsilon\xi^i(q^k,t)\nonumber\\
+            t\longrightarrow t& + \varepsilon\tau(q^k,t)\label{var:transformations}\\
+            \dot{q}^i\longrightarrow\dot{q}^i& + \varepsilon(\dot{\xi}^i - \dot{q}^i\dot{\tau}),\nonumber
+        \end{align}
+        where the transformation of the ``velocities'' on the last line, induced by the coordinate transformations, is called a \textbf{prolongation} (see also Definition \ref{var:prolongation} further below). These transformations generate Noether symmetries if they leave the Lagrangian invariant up to a total derivative (in first order) for every subinterval $[t_0,t_1]\subseteq[a,b]$ and for some function $f(q,t)$:
         \begin{gather}
             \int_{\tilde{t}_0}^{\tilde{t}_1}L(\tilde{q},\dot{\tilde{q}}, \tilde{t})d\tilde{t} = \int_{t_0}^{t_1}L(q,\dot{q},t)dt + \varepsilon\int_{t_0}^{t_1}\deriv{f}{t}dt + O(\varepsilon^2).
         \end{gather}
-        This is equivalent to requiring that the transformation is a solution of the following differential equation:
+        This is equivalent to requiring that the transformation is a solution of the following differential equation (sometimes called the \textbf{Rund-Trautman identity}):
         \begin{gather}
-            \pderiv{L}{\tau} + \pderiv{L}{q^i}\xi^i + \pderiv{L}{\dot{q}^i}(\dot{\xi}^i - \dot{q}^i\dot{\tau}) + L\dot{\tau} = \dot{f}.
+            \label{var:transformed_lagrangian}
+            \pderiv{L}{t}\tau + \pderiv{L}{q^i}\xi^i + \pderiv{L}{\dot{q}^i}(\dot{\xi}^i - \dot{q}^i\dot{\tau}) + L\dot{\tau} = \dot{f}.
         \end{gather}
         By Noether's (first) theorem one obtains for every such symmetry a conserved quantity of the following form
         \begin{gather}
             F := f - \left[L\tau + \pderiv{L}{\dot{q}^i}(\xi^i - \dot{q}^i\tau)\right].
         \end{gather}
+        It is important to note that the left-hand side of Equation \eqref{var:transformed_lagrangian} is simply the Lie derivative of the Lagrangian form $Ldt$ with respect to the vector field that generates the transformations \eqref{var:transformations}. (This will turn out to be an important concept in the calculus of variations. See Definition \ref{var:bessel_hagen}.)
     \end{example}
-
-    ?? IS THIS A GENUINE GENERALIZATION OR NOT ??
 
 \section{Jet bundles}\index{jet}\label{section:jet_bundles}
 \subsection{Topology}
@@ -168,9 +169,9 @@
 
         Locally, the differential ideal is generated by the following contact forms:
         \begin{gather}
-            \theta_I^\alpha := \mathbf{d}u^\alpha_I - \sum_iu^\alpha_{I,i}\mathbf{d}x^i,
+            \theta^\alpha_I := \mathbf{d}u^\alpha_I - \sum_\mu u^\alpha_{I,\mu}\mathbf{d}x^\mu,
         \end{gather}
-        where the $x^i$ and $u^\alpha_I$ are the independent and dependent variables, respectively.
+        where the $x^\mu$ and $u^\alpha_I$ are the independent and dependent variables, respectively.
     }
     \begin{property}[Cartan connection]\index{Cartan!connection}
          There exists a connection on the infinity-jet bundle $J^\infty(E)$ where the horizontal subbundle is exactly given by the Cartan distribution. Furthermore, this connection is flat.
@@ -198,11 +199,17 @@
 
     In this section the language of jet bundles as introduced in the previous section wil be heavily used to rephrase the classical theory of variations in more general geometric terms. A smooth function on the infinite jet bundle will be denoted by $f[u]$, i.e. the arguments will be written inside square brackets.
 
+\subsection{Differential structure}
+
     A smooth fibre bundle $\pi:E\rightarrow M$ over a base manifold $M$ will be considered.\footnote{In fact, the fibre bundle can be replaced with any fibred manifold.} First, the de Rham operator $\mathbf{d}$ on the infinite jet bundle $J^\infty(E)$ is decomposed in a horizontal and a vertical part: \[\mathbf{d} = d+\delta.\] The \textbf{horizontal derivative} $d$ lifts the de Rham differential on $M$ to $E$ (hence the name). On smooth functions $C^\infty(J^\infty(E))$ it acts as follows:
     \begin{gather}
-        df := D_\mu f\mathbf{d}x^\mu.
+        df := D_\mu fdx^\mu,
     \end{gather}
-    The horizontal de Rham operator can be extended to all of $\Omega^\bullet(J^\infty(E))$ through the Leibniz property and the condition
+    where the \textbf{total derivative}\footnote{In fact this formula is virtually the same as the one for the true total derivative. However, partial derivatives are replaced by jet coordinates.}\index{total!derivative}
+    \begin{gather}
+        D_\mu f := \pderiv{f}{x^\mu} + \pderiv{f}{u^\alpha}u^\alpha_{,\mu} + \pderiv{f}{u^\alpha_{,\nu}}u^\alpha_{,\nu\mu} + \cdots
+    \end{gather}
+    is introduced. The horizontal de Rham operator can be extended to all of $\Omega^\bullet(J^\infty(E))$ through the Leibniz property and the condition
     \begin{gather}
         d\circ\delta = -\delta\circ d
     \end{gather}
@@ -220,7 +227,7 @@
     }
 
     Now, consider a (generalized) vector field $X$ on the total space $E$. This vector field can be lifted to $J^k(E)$ in a canonical way:
-    \newdef{Prolongation of vector fields}{\index{prolongation}\index{total!derivative}\label{var:prolongation}
+    \newdef{Prolongation of vector fields}{\index{prolongation}\label{var:prolongation}
         Given a generalized vector field $X$ on a fibre bundle $\pi:E\rightarrow M$, there exists a unique vector field $j^kE$ on the jet bundle $J^k(E)$ defined by the following conditions:
         \begin{enumerate}
             \item $X$ and $j^kX$ coincide on $C^\infty(E)$.
@@ -234,11 +241,7 @@
         \begin{gather}
             (j^k X)^\alpha_I = D_I(X^\alpha - u^\alpha_\mu X^\mu) + u^\alpha_{\mu I}X^\mu,
         \end{gather}
-        for all $|I|\leq k$, where the \textbf{total derivative}\footnote{In fact this formula is virtually the same as the one for the true total derivative. However, partial derivatives are replaced by jet coordinates.}
-        \begin{gather}
-            D_\mu f := \pderiv{f}{x^\mu} + \pderiv{f}{u^\alpha}u^\alpha_{,\mu} + \pderiv{f}{u^\alpha_{,\nu}}u^\alpha_{,\nu\mu} + \cdots
-        \end{gather}
-        is introduced.
+        for all $|I|\leq k$.
     }
     A similar definitions exists for vector fields on the base manifold:
     \newdef{Total vector field}{\index{total!vector field}
@@ -255,7 +258,7 @@
     }
 
     \newdef{Evolutionary vector field}{\index{evolutionary vector field}
-        A generalized vector field that projects to 0 on the base manifold. The space of evolutionary vector fields on $E$ is denoted by $\mathrm{Ev}(J^\infty(E))$.
+        A generalized vector field that projects to 0 on the base manifold, i.e. a $\pi$-vertical (generalized) vector field. The space of evolutionary vector fields on $E$ is denoted by $\mathrm{Ev}(J^\infty(E))$.
 
         The prolongation of an evolutionary vector field to $J^\infty(E)$ still projects to 0 on $M$. By extension, all vector fields on $J^\infty(E)$ that preserve the contact ideal and project to 0 on $M$ are called evolutionary vector fields. Such vector fields are of the form
         \begin{gather}
@@ -289,6 +292,31 @@
         The evolutionary part is sometimes also called the \textbf{characteristic} of $X$.
     \end{property}
 
+    To close this section, the Cartan calculus of the variational bicomplex is summarized:
+    \begin{formula}[Cartan calculus]
+        Let $X,Y$ denote a generalized vector field and an evolutionary vector field, respectively.
+        \begin{enumerate}
+            \item Exterior derivatives:
+                \begin{align}
+                    dx^\mu &= \mathbf{d}x^\mu,\\
+                    \delta u^\alpha_I &= \mathbf{d}u^\alpha_I - u^\alpha_{I\mu}dx^\mu,\\
+                    du^\alpha_I &= dx^\mu\wedge\delta^\alpha_{I\mu}.
+                \end{align}
+            \item Interior product:
+                \begin{gather}
+                    [d,\iota_{j^\infty Y}] = 0.
+                \end{gather}
+            \item Lie derivatives:
+                \begin{align}
+                    \mathcal{L}_{j^\infty X} &= \mathbf{d}\iota_{j^\infty X} + \iota_{j^\infty X}\mathbf{d},\\
+                    \mathcal{L}_{j^\infty Y} &= \delta\iota_{j^\infty Y} + \iota_{j^\infty Y}\delta,\\
+                    [d,\mathcal{L}_{j^\infty Y}] &= [\delta,\mathcal{L}_{j^\infty Y}] = 0.
+                \end{align}
+        \end{enumerate}
+    \end{formula}
+
+\subsection{Euler operators}
+
     \begin{property}[Total differential operators]\index{differential!operator}\index{Euler!operator}
         A differential operator $P:\mathrm{Ev}(J^\infty(E))\rightarrow\Omega^\bullet(J^\infty(E))$ that can locally be written as
         \begin{gather}
@@ -309,15 +337,17 @@
         \end{gather}
         This operator is called the \textbf{Euler operator} (associated to $P$).
     \end{property}
+    The following property shows that the Euler-operator through a formal ``integration-by-parts'' formula:
     \begin{property}[Decomposition of total differential operators]\label{var:differential_operator_decomposition}
-        Consider a total differential operator $P:\mathrm{Ev}(J^\infty(E))\rightarrow\Omega^{\dim(M),n}(J^\infty(E))$. On each chart $U$ one can find a total differential operator $R_U$ that satisfies the following equation:
+        Consider a total differential operator $P:\mathrm{Ev}(J^\infty(E))\rightarrow\Omega^{\dim(M),k}(J^\infty(E))$. The Euler operator $E_P$ is th unique globally defined (zeroth order) operator such that on each chart $U$ one can find a total differential operator $R_U$ that satisfies the following equation:
         \begin{gather}
-            P(X) = E_P(X) + dR_U(X),
+            P(X) = E_P(X) + dR_U(X).
         \end{gather}
-        where the Euler operator $E_P$ is the unique globally defined total differential operator satisfying this equation. The operator $R_U$ can locally be expressed as follows:
+        The operator $R_U$ can locally be expressed as follows:
         \begin{gather}
             R_U(X) = \sum_{|I|=0}^{k-1}D_I\left(X^\alpha D_\mu\intmul Q^{\mu I}_\alpha\right).
         \end{gather}
+        The decomposition above can in fact be shown to hold globally. However, in that case the expression of $R$ cannot be expressed easily in terms of the coefficients of $P$ (only for $P$ of order 2 does a canonical expression exist).
     \end{property}
 
     \begin{example}[Euler-Lagrange operator]\index{Euler-Lagrange!operator}\index{Lie-Euler operator}\index{on-shell}
@@ -344,10 +374,33 @@
         The set of functions that satisfy $\delta_\mathrm{EL}L=0$ is called the \textbf{shell}. The functions for which also all higher-order derivatives vanish, i.e. the elements of $\{x\in J^\infty(E)\mid\forall I:D_I\delta_\mathrm{EL}L(x) = 0\}$, are said to be \textbf{on-shell}.
     \end{example}
 
+    \begin{property}[Naturality]
+        The Euler-Lagrange operators are natural operators in the following sense:
+        \begin{itemize}
+            \item $\delta_\mathrm{EL}|_p$ only depends on the germ at $p\in J^\infty(E)$.
+            \item If $\phi:E\rightarrow E'$ is fibre-preserving, then
+                \begin{gather}
+                    \label{var:naturality}
+                    \delta_\mathrm{EL}((j^\infty\phi)^*\mathbf{L}) = (j^\infty\phi)^*(\delta_\mathrm{EL}(\mathbf{L})).
+                \end{gather}
+        \end{itemize}
+        It can be shown that $\delta_\mathrm{EL}$ is the unique (up to scaling) linear, natural differential operator from $\Omega^{\dim(M),0}(J^\infty(E))$ to $\Omega^{\dim(M),1}(J^\infty(E))$.
+    \end{property}
+
     The following property generalizes the property that the Euler-Lagrange equations remain invariant under addition of a divergence to the Lagrangian:
     \begin{property}[Divergences]\label{var:EL_operator_divergences}
         If a smooth function is locally an order-$k$ divergence, i.e. $f=D_IA^I$ for smooth functions $A^I$ and $|I|=k$, the Lie-Euler operators $E^J_\alpha$ vanish on $f$ for all $|J|<k$.
     \end{property}
+
+    \begin{property}[Local variational formula]\index{variational!formula}\label{var:local_variational_formula}
+        Decomposition \ref{var:differential_operator_decomposition} shows that the Euler-Lagrange operator is the unique operator such that locally, for all local Lagrangians $\mathbf{L}$ and all evolutionary vector fields $X$, the following equation holds
+        \begin{gather}
+            \mathcal{L}_{j^\infty X}\mathbf{L} = j^\infty X\intmul\delta_\mathrm{EL}(\mathbf{L}) + d(j^\infty X\intmul\gamma)
+        \end{gather}
+        for some $\gamma\in\Omega^{\dim(M)-1,1}(J^\infty(E))$.
+    \end{property}
+
+\subsection{Functional complex}
 
     \begin{example}[Interior Euler operator]\index{Euler!operator}\index{functional!form}
         For every smooth form $\omega\in\Omega^{p,q}(J^\infty(E))$ one can define a total differential operator as follows:
@@ -366,15 +419,15 @@
         The interior Euler operator defines a sequence of spaces, the so-called spaces of \textbf{functional forms}, as follows:
         \begin{gather}
             \label{var:functional_complex}
-            \mathcal{F}^q(J^\infty(E)) := \left\{\omega\in\Omega^{\dim(M),q}(J^\infty(E))\,\middle\vert\, I(\omega)=\omega\right\}.
+            \mathcal{F}^q(J^\infty(E)) := \left\{\omega\in\Omega^{\dim(M),q}(J^\infty(E))\,\middle\vert\,I(\omega)=\omega\right\}.
         \end{gather}
     \end{example}
-    \begin{property}\label{var:I_properties}
+    \begin{property}\label{var:I_properties}\index{Helmholtz!operator}
         The interior Euler operator has the following important properties:
         \begin{itemize}
             \item $I$ is a projector $I^2=I$.
             \item $I$ vanishes on (locally) $d$-exact forms.
-            \item $\delta_V := I\circ\delta$ endows $\mathcal{F}^\bullet(J^\infty(E))$ with the structure of a cochain complex.
+            \item $\delta_V := I\circ\delta$ endows $\mathcal{F}^\bullet(J^\infty(E))$ with the structure of a cochain complex. It is sometimes called the \textbf{Helmholtz operator}.
             \item $\delta_\mathrm{EL}\mathbf{L} = \delta_V\mathbf{L}$ for all local Lagrangians $\mathbf{L}$.
         \end{itemize}
     \end{property}
@@ -382,12 +435,34 @@
         The Euler-Lagrange operator $\delta_\mathrm{EL}$ vanishes on locally $d$-exact forms and commutes with the Lie derivative of projectable vector fields.
     \end{result}
 
-    \begin{property}[Functional decomposition]\label{var:functional_decomposition}
-        The de Rham spaces on $J^\infty(E)$ admit the following decomposition:
+    The degree-$2$ functional forms also admit a local characterization:
+    \begin{property}[Local expression for $\mathcal{F}^2$]
+        Consider a collection of smooth functions $A^I_{\alpha\beta}\in C^\infty(J^\infty(U))$ on some chart $U\subset E$ that satisfy
         \begin{gather}
-            \Omega^{p,q}(J^\infty(E)) = \mathcal{F}^q(J^\infty(E))\oplus d\Omega^{p-1,q}(J^\infty(E)),
+            A^I_{\alpha\beta} = (-1)^{|I|+1}A^I_{\beta\alpha}.
         \end{gather}
-        where the functional part is obtained by applying $I$ to a form.
+        The local $(\dim(M),2)$-form
+        \begin{gather}
+            w^{|I|} := \delta u^\alpha\wedge\left(A^I_{\alpha\beta}\delta u^\beta_I + D_I(A^I_{\beta\alpha}\delta u^\beta)\right)\wedge\vol
+        \end{gather}
+        is an element of $\mathcal{F}^2(J^\infty(U))$. Furthermore, every degree-$2$ functional form can locally be expressed as a sum of the form
+        \begin{gather}
+            \omega = w^0 + w^1 + w^2 + \cdots.
+        \end{gather}
+    \end{property}
+
+    Although local characterizations for functional forms $\omega\in\mathcal{F}^q(J^\infty(E))$ with $q\geq2$ are still not well-understood, there exists a more high-level characterization:
+    \begin{property}[General characterization]
+        A form $\omega\in\Omega^{\dim(M),q}(J^\infty(E))$ is functional if and only if there exists a linear, \textbf{formally skew-adjoint}\footnotemark\ differential operator \[P:\mathrm{Ev}(J^\infty(E))\rightarrow\Omega^{\dim(M),q-1}(J^\infty(E))\] such that
+        \begin{gather}
+            \omega = \delta u^\alpha\wedge P_\alpha.
+        \end{gather}
+        This representation is unique if it exists.
+        \footnotetext{This is a generalization of \ref{var:formal_adjoint}: $P$ is said to be formally skew-adjoint if there exists an $(m-1,q-1)$-form $K$ such that
+        \begin{gather}
+            j^\infty X\intmul P(Y) + j^\infty Y\intmul P(X) = dK
+        \end{gather}
+        for all $X,Y\in\mathrm{Ev}(J^\infty(E))$.}
     \end{property}
 
     The forms in $\mathcal{F}^q$ are said to be functional due to the following property:
@@ -409,118 +484,6 @@
             X(W_\omega[\sigma]) := \int_V(j^\infty\sigma)^*(\mathcal{L}_{j^\infty X}\omega).
         \end{gather}
     \end{construct}
-
-    The forms in $\mathcal{F}^1$ admit the following characterization:
-    \newdef{Source form}{\index{source!form}
-        A differential form $\omega\in\Omega^{\dim(M),1}(J^\infty(E))$ such that the evaluation on a vector field only depends on the projection $(\pi_{\infty,0})_*X\in TE$. After pulling back along the prolongation map $j^\infty$ this can be written as follows:
-        \begin{gather}
-            \Omega^{\dim(M),1}_\mathrm{source}(E) := \delta C^\infty(E)\wedge\Omega^{\dim(M),0}(E).
-        \end{gather}
-        Locally it can be written as
-        \begin{gather}
-            \omega = \omega_\alpha(x,u,u_I)\delta u^\alpha\wedge\vol.
-        \end{gather}
-        The PDEs associated to the source form $\omega$ are called \textbf{source equations}.
-    }
-    \begin{remark*}
-        In fact one can extend the above definition to all of $\Omega^{\bullet,1}(J^\infty(E))$. So in general $\mathcal{F}^1$ is only a subspace of the space of source forms.
-    \end{remark*}
-
-    The degree-$2$ functional forms also admit a local characterization:
-    \begin{property}
-        Consider a collection of smooth functions $A^I_{\alpha\beta}\in C^\infty(J^\infty(U))$ on some chart $U\subset E$ that satisfy
-        \begin{gather}
-            A^I_{\alpha\beta} = (-1)^{|I|+1}A^I_{\beta\alpha}.
-        \end{gather}
-        The (local) $(\dim(M),2)$-form
-        \begin{gather}
-            w^{|I|} := \delta u^\alpha\wedge\left(A^I_{\alpha\beta}\delta u^\beta_I + D_I(A^I_{\beta\alpha}\delta u^\beta)\right)\wedge\vol
-        \end{gather}
-        is an element of $\mathcal{F}^2(J^\infty(U))$. Furthermore, every degree-$2$ functional form can locally be expressed as a sum of the form
-        \begin{gather}
-            \omega = w^0 + w^1 + w^2 + \cdots.
-        \end{gather}
-    \end{property}
-
-    Although local characterizations for functional forms $\omega\in\mathcal{F}^q(J^\infty(E))$ with $q\geq2$ are still not well-understood, there exists a more high-level characterization:
-    \begin{property}[Characterization]
-        A form $\omega\in\Omega^{\dim(M),q}(J^\infty(E))$ is functional if and only if there exists a linear, \textbf{formally skew-adjoint}\footnotemark\ differential operator $P:\mathrm{Ev}(J^\infty(E))\rightarrow\Omega^{\dim(M),q-1}(J^\infty(E))$ such that
-        \begin{gather}
-            \omega = \delta u^\alpha\wedge P_\alpha.
-        \end{gather}
-        This representation is unique if it exists.
-        \footnotetext{This is a generalization of \ref{var:formal_adjoint}: $P$ is said to be formally skew-adjoint if there exists an $(m-1,q-1)$-form $K$ such that
-        \begin{gather}
-            j^\infty X\intmul P(Y) + j^\infty Y\intmul P(X) = dK
-        \end{gather}
-        for all $X,Y\in\mathrm{Ev}(J^\infty(E))$.}
-    \end{property}
-
-    ?? COMPLETE ALL BELOW ??
-    \begin{property}[First variational formula]
-        Given a local Lagrangian $\mathbf{L}$ one can look at solutions of the associated variational principle obtained by extremizing over perturbations of a field configuration $[u_0]$. Such perturbations are generated by evolutionary vector fields and, hence, one can write the extremality condition as
-        \begin{gather}
-            \mathcal{L}_{j^\infty X}\mathbf{L} = 0 \qquad \forall X\in\mathrm{Ev}(J^\infty(E)).
-        \end{gather}
-        Because of Property \ref{var:differential_operator_decomposition} one can decompose the above operator as follows:
-        \begin{gather}
-            \mathcal{L}_{j^\infty X}\mathbf{L} = j^\infty X\intmul\delta_\mathrm{EL}\mathbf{L} + j^\infty X\intmul d\gamma.
-        \end{gather}
-        Using Cartan's magic formula, the fact that $\mathbf{L}$ is horizontal and that the above formula holds for all evolutionary vector fields, the following decomposition (often called the first variational formula) is obtained:
-        \begin{gather}
-            \label{var:first_variational_formula}
-            \delta\mathbf{L} = \delta_\mathrm{EL}\mathbf{L} + d\gamma.
-        \end{gather}
-        Such decompositions follow more generally from Property \ref{var:functional_decomposition}.
-    \end{property}
-
-    \newdef{Lepage form}{\index{Lepage equivalent}
-        A $\dim(M)$-form $\rho\in\Omega^\bullet(J^\infty(E))$ such that
-        \begin{gather}
-            \pi^{\dim(M),0}(X\intmul\mathbf{d}\rho)=0
-        \end{gather}
-        for all $\pi_{\infty,0}$-vertical vector fields $X$. Given a local Lagrangian $\mathbf{L}\in\Omega^{\dim(M),0}(J^\infty(E))$, $\mathbf{L}$ and $\rho$ are said to be Lepage equivalent if $\pi^{\dim(M),0}\rho = \mathbf{L}$.
-    }
-    \begin{property}[Lepage equivalent]
-        Consider the first variational formula for a local Lagrangian $\mathbf{L}$. A Lepage equivalent is given by the form $\mathbf{L}+\gamma$.
-    \end{property}
-
-\subsection{Inverse problem}
-
-    The inverse problem in the calculus of variations consists of determining when a given system of PDEs can be obtained from a variational problem, i.e. when a source form $\Delta$ can be written in the form $\delta_\mathrm{EL}\mathbf{L}$.
-
-    \textit{Helmholtz} was the first to study the inverse problem, so the following sufficient conditions are named after him:
-    \begin{property}[Helmholtz conditions]\index{Helmholtz!conditions}\index{variational!form}
-        A source form $\Delta$ can be obtained from a local Lagrangian if
-        \begin{gather}
-            \mathcal{L}_{j^\infty X}\Delta = \delta_\mathrm{EL}(X\intmul\Delta)
-        \end{gather}
-        for all evolutionary vector fields $X$. This can also be rewritten in terms of the variational differential $\delta_V$:
-        \begin{gather}
-            \delta_V\Delta = 0.
-        \end{gather}
-        Source forms satisfying this condition are said to be \textbf{locally variational}.
-    \end{property}
-    \begin{formula}[Local expression]
-        Consider a source form that admits the local expression \[\Delta=P_\alpha\delta u^\alpha\wedge\vol.\] The Helmholtz conditions can locally be expressed as follows:
-        \begin{gather}
-            (-1)^{|I|}\partial^I_\alpha P_\beta = E^I_\beta(P_\alpha),
-        \end{gather}
-        where the $E^I_\beta$ are the Lie-Euler operators \eqref{var:lie_euler_operator}.
-    \end{formula}
-
-    \begin{example}[Volterra-Vainberg formula]\index{Volterra-Vainberg formula}
-        If $E$ is trivial and $\Delta=F_\alpha\delta u^\alpha\wedge\vol$ satisfies the Helmholtz conditions, then
-        \begin{gather}
-            \label{var:trivial_helmholtz}
-            L := \int_0^1 u^\alpha F_\alpha[tu]dt
-        \end{gather}
-        satisfies $\Delta=\delta_\mathrm{EL}\mathbf{L}$. If $\Delta$ is homogeneous of degree $k$ in $u$, this can be expressed as
-        \begin{gather}
-            \mathbf{L} = \frac{1}{k+1}\iota_R\Delta,
-        \end{gather}
-        with $R:=u^\alpha\partial_\alpha$ the (vertically) radial vector field on $E$.
-    \end{example}
 
 \subsection{Structure of the bicomplex}
 
@@ -614,42 +577,6 @@
         For projectable vector fields one can replace the left-hand side by the ordinary Lie derivative $\mathcal{L}_{j^\infty X}\omega$.
     \end{formula}
 
-    \newdef{Distinguished symmetry}{\index{symmetry!distinguished}
-        A distinguished (generalized) symmetry of a source form $\Delta\in\mathcal{F}^1(J^\infty(E))$ is a (generalized) vector field $X$ on $E$ such that
-        \begin{gather}
-            \mathcal{L}^\natural_{j^\infty X}\Delta = 0.
-        \end{gather}
-        As with the formula above, one can replace the projected Lie derivative by an ordinary Lie derivative when $X$ is projectable.
-    }
-    If the source form comes from a local Lagrangian, the above definition admits a specific case by Property \ref{var:projected_derivative_EL_operator} and the fact that $\delta_\mathrm{EL}$ annihilates $d$-exact forms \ref{var:EL_operator_properties}:
-    \newdef{Bessel-Hagen symmetry}{\index{symmetry!Bessel-Hagen}\index{divergence!symmetry}
-        A Bessel-Hagen or \textbf{divergence} symmetry of a Euler-Lagrange form $\Delta=\delta_\mathrm{EL}(\mathbf{L})$ is a generalized vector field $X$ such that
-        \begin{gather}
-            \mathcal{L}^\sharp_{j^\infty X}\mathbf{L} = d\eta
-        \end{gather}
-        for some $(m-1,1)$-form $\eta$.
-
-        If this condition holds locally, distinguished symmetries and Bessel-Hagen symmetries coincide. However, if the Bessel-Hagen condition is required to hold globally, the Bessel-Hagen symmetries form only a subset of the distinguished symmetries.
-    }
-
-    \newdef{Local conservation law}{\index{conservation law}
-        A generator of a local conservation law of a source form $\Delta\in\mathcal{F}^1(J^\infty(E))$ is an evolutionary vector field $X$ such that
-        \begin{gather}
-            \delta_\mathrm{EL}(j^\infty X\intmul\Delta) = 0.
-        \end{gather}
-    }
-
-    \begin{property}[Lie algebra of symmetries]
-        Given a source form $\Delta\in\mathcal{F}^1(J^\infty(E))$, one can equip the vector space of generalized vector fields satisfying the following two conditions with the structure of a Lie algebra:
-        \begin{itemize}
-            \item They are distinguished symmetries.
-            \item Their evolutionary part is a generator of local conservation laws.
-        \end{itemize}
-    \end{property}
-    \begin{theorem}[Noether]\index{Noether}
-        If $\Delta\in\mathcal{F}^1(J^\infty(E))$ is locally variational, a generalized vector field on $E$ is a distinguished symmetry if and only if its evolutionary part is a generator of local conservation laws.
-    \end{theorem}
-
     In the remainder of this section the homological properties of the variational bicomplex over a local chart (or equivalently, over a trivial bundle) will be studied. To prove the acyclicity of the various subcomplexes the usual approach of finding a null-homotopy (Property \ref{homalg:null_acyclic}) will be followed, i.e. a cochain map will be found $h:C_\bullet\rightarrow C_\bullet$ such that
     \begin{gather}
         \mathbbm{1} = d\circ h + h\circ d.
@@ -670,7 +597,7 @@
     \begin{property}[Augmented horizontal complex is exact]
         The homotopy operators $h^{p,q}_H:\Omega^{p,q}\rightarrow\Omega^{p-1,q}$ for the augmented horizontal complex
         \begin{gather}
-            0\longrightarrow\Omega^{0,q}\overset{d}{\longrightarrow}\Omega^{1,q}\longrightarrow\cdots\longrightarrow\Omega^{m,q}\overset{I}{\longrightarrow}\mathcal{F}^q\overset{I}{\longrightarrow}0
+            0\longrightarrow\Omega^{0,q}\overset{d}{\longrightarrow}\Omega^{1,q}\overset{d}{\longrightarrow}\cdots\overset{d}{\longrightarrow}\Omega^{\dim(M),q}\overset{I}{\longrightarrow}\mathcal{F}^q\overset{I}{\longrightarrow}0
         \end{gather}
         are given by the following formula
         \begin{gather}
@@ -678,16 +605,163 @@
         \end{gather}
         where the $F^I_\alpha$ are the interior Euler operators \eqref{var:interior_euler_operators}.
     \end{property}
+    \begin{result}[Functional decomposition]\label{var:functional_decomposition}
+        The de Rham spaces on $J^\infty(E)$ admit the following decomposition:
+        \begin{gather}
+            \Omega^{p,q}(J^\infty(E)) = d\Omega^{p-1,q}(J^\infty(E))\oplus\mathcal{F}^q(J^\infty(E)),
+        \end{gather}
+        where the functional part is obtained by applying $I$ to a form.
+    \end{result}
 
     Using the above properties one can prove the acyclicity of the \textbf{Euler-Lagrange complex} $\mathcal{E}$ (again over a local chart):
     \begin{gather}
-        0\longrightarrow\mathbb{R}\longrightarrow\Omega^{0,0}\overset{d}{\longrightarrow}\Omega^{1,0}\longrightarrow\cdots\longrightarrow\Omega^{m,0}\overset{\delta_\mathrm{EL}}{\longrightarrow}\mathcal{F}^1\overset{\delta_V}{\longrightarrow}\mathcal{F}^2\overset{\delta_V}{\longrightarrow}\cdots.
+        0\longrightarrow\mathbb{R}\longrightarrow\Omega^{0,0}\overset{d}{\longrightarrow}\Omega^{1,0}\overset{d}{\longrightarrow}\cdots\overset{d}{\longrightarrow}\Omega^{\dim(M),0}\overset{\delta_\mathrm{EL}}{\longrightarrow}\mathcal{F}^1\overset{\delta_V}{\longrightarrow}\mathcal{F}^2\overset{\delta_V}{\longrightarrow}\cdots.
     \end{gather}
     Explicit formulas are not shown since these are too complicated for the current objective. See \cite{var_bicomplex} for a full account.
 
     \begin{remark}[Minimal solutions]
         Although the (local) exactness of the variational bicomplex is stated, it should be noted that this is not an optimal solution. Consider the example of locally variational source forms. From the form of the homotopy operator $\mathcal{F}^1\rightarrow\Omega^{m,0}$ it should be clear that an order-$k$ source form is mapped to an order-$k$ Lagrangian. However, the Euler-Lagrange operator $\delta_\mathrm{EL}$ will in general map order-$l$ Lagrangians to order-$2l$ source forms. Hence, it can be seen that the homotopy operator will in general not result in a Lagrangians of minimal order.
     \end{remark}
+
+\subsection{Variational problems}
+
+    The forms in $\mathcal{F}^1$ admit the following characterization:
+    \newdef{Source form}{\index{source!form}
+        A differential form $\omega\in\Omega^{\dim(M),1}(J^\infty(E))$ such that the evaluation on a vector field only depends on the projection $(\pi_{\infty,0})_*X\in TE$. After pulling back along the prolongation map $j^\infty$ this can be written as follows:
+        \begin{gather}
+            \Omega^{\dim(M),1}_\mathrm{source}(E) := \delta C^\infty(E)\wedge\Omega^{\dim(M),0}(E).
+        \end{gather}
+        Locally it can be written as
+        \begin{gather}
+            \omega = \omega_\alpha(x,u,u_I)\delta u^\alpha\wedge\vol.
+        \end{gather}
+        The PDEs associated to the source form $\omega$ are called \textbf{source equations}.
+    }
+    \begin{remark*}
+        In fact one can extend the above definition to all of $\Omega^{\bullet,1}(J^\infty(E))$. So in general $\mathcal{F}^1$ is only a subspace of the space of source forms.
+    \end{remark*}
+
+    \begin{property}[First variational formula]\index{variational!formula}
+        In Property \ref{var:local_variational_formula} it was shown that the Euler-Lagrange operator locally satisfies
+        \begin{gather}
+            \mathcal{L}_{j^\infty X}\mathbf{L} = j^\infty X\intmul\delta_\mathrm{EL}\mathbf{L} + d(j^\infty X\intmul\gamma)
+        \end{gather}
+        for some locally defined form $\gamma$ that can be constructed from the Lie-Euler operators of $\mathbf{L}$. Using Cartan's magic formula and the fact that $\mathbf{L}$ is horizontal, this can be rewritten in terms of differentials. Moreover, using Corollary \ref{var:functional_decomposition}, one can find a globally defined form that still satisfies the same formula (with the disadvantage that it does not admit a canonical expression):
+        \begin{gather}
+            \label{var:first_variational_formula}
+            \delta\mathbf{L} = \delta_\mathrm{EL}\mathbf{L} + d\sigma.
+        \end{gather}
+        This formula is often called the first variational formula for the following reason. Given a local Lagrangian $\mathbf{L}$ one can look at solutions of the associated variational principle obtained by extremizing over perturbations of a field configuration. Such perturbations are generated by evolutionary vector fields and, hence, one can write the extremality condition as
+        \begin{gather}
+            \forall X\in\mathrm{Ev}(J^\infty(E)):\mathcal{L}_{j^\infty X}\mathbf{L} = 0.
+        \end{gather}
+        Equation \eqref{var:first_variational_formula} then becomes:
+        \begin{gather}
+            \delta_\mathrm{EL}\mathbf{L} + d\sigma = 0.
+        \end{gather}
+        So, up to boundary contributions, the first variational formula says that extremality of the local Lagrangian (globally) corresponds to the vanishing of the Euler-Lagrange operator.
+    \end{property}
+    \begin{result}[Global variational formula]\label{var:general_variational_formula}
+        The variational formula can also be extended to all generalized vector fields:
+        \begin{gather}
+            \mathcal{L}^\sharp_{j^\infty X}\mathbf{L} = X_\mathrm{ev}\intmul\delta_\mathrm{EL}(\mathbf{L}) + d\sigma
+        \end{gather}
+        for some $\sigma\in\Omega^{\dim(M),0}(J^\infty(E))$.
+    \end{result}
+
+    \newdef{Lepage form}{\index{Lepage equivalent}
+        A $\dim(M)$-form $\rho\in\Omega^\bullet(J^\infty(E))$ such that
+        \begin{gather}
+            \pi^{\dim(M),0}(X\intmul\mathbf{d}\rho)=0
+        \end{gather}
+        for all $\pi_{\infty,0}$-vertical vector fields $X$. Given a local Lagrangian $\mathbf{L}\in\Omega^{\dim(M),0}(J^\infty(E))$, $\mathbf{L}$ and $\rho$ are said to be Lepage equivalent if $\pi^{\dim(M),0}\rho = \mathbf{L}$.
+    }
+    \begin{property}[Lepage equivalent]
+        Consider the first variational formula for a local Lagrangian $\mathbf{L}$. A Lepage equivalent is given by the form $\mathbf{L}+\gamma$.
+    \end{property}
+
+    \newdef{Distinguished symmetry}{\index{symmetry!distinguished}
+        A distinguished (generalized) symmetry of a source form $\Delta\in\mathcal{F}^1(J^\infty(E))$ is a generalized vector field $X$ on $E$ such that
+        \begin{gather}
+            \mathcal{L}^\natural_{j^\infty X}\Delta = 0.
+        \end{gather}
+        As with the formula above, one can replace the projected Lie derivative by an ordinary Lie derivative when $X$ is projectable.
+    }
+    If the source form comes from a local Lagrangian, the above definition admits a specific case by Property \ref{var:projected_derivative_EL_operator} and the fact that $\delta_\mathrm{EL}$ annihilates $d$-exact forms \ref{var:EL_operator_properties}:
+    \newdef{Bessel-Hagen symmetry}{\index{symmetry!Bessel-Hagen}\index{divergence!symmetry}\label{var:bessel_hagen}
+        A Bessel-Hagen or \textbf{divergence} symmetry of a Euler-Lagrange form $\delta_\mathrm{EL}(\mathbf{L})$ is a generalized vector field $X$ such that
+        \begin{gather}
+            \mathcal{L}^\sharp_{j^\infty X}\mathbf{L} = d\eta
+        \end{gather}
+        for some $\eta\in\Omega^{\dim(M),0}(J^\infty(E))$.
+
+        If this condition holds locally, distinguished symmetries and Bessel-Hagen symmetries coincide. However, if the Bessel-Hagen condition is required to hold globally, the Bessel-Hagen symmetries form only a subset of the distinguished symmetries.
+    }
+
+    \newdef{Local conservation law}{\index{conservation law}
+        A generator of a local conservation law of a source form $\Delta\in\mathcal{F}^1(J^\infty(E))$ is an evolutionary vector field $X$ such that
+        \begin{gather}
+            \delta_\mathrm{EL}(j^\infty X\intmul\Delta) = 0
+        \end{gather}
+        or, again by \ref{var:EL_operator_properties},
+        \begin{gather}
+            X\intmul\Delta = d\eta
+        \end{gather}
+        for some local $\eta\in\Omega^{\dim(M),0}(J^\infty(E))$. Corollary \ref{var:general_variational_formula} shows that to every \underline{global} (generalized) symmetry, there corresponds a \underline{global} conservation law.
+    }
+    \begin{remark}
+        Note that the Bessel-Hagen/divergence symmetries are symmetries of the source form, while the local symmetries coming from the first variational formula exist on the level of local Lagrangians.
+    \end{remark}
+
+    \begin{property}[Lie algebra of symmetries]
+        Given a source form $\Delta\in\mathcal{F}^1(J^\infty(E))$, one can equip the vector space of generalized vector fields satisfying the following two conditions with the structure of a Lie algebra:
+        \begin{itemize}
+            \item They are distinguished symmetries.
+            \item Their evolutionary part is a generator of local conservation laws.
+        \end{itemize}
+    \end{property}
+    \begin{theorem}[Noether]\index{Noether}
+        If $\Delta\in\mathcal{F}^1(J^\infty(E))$ is locally variational, a generalized vector field on $E$ is a distinguished symmetry if and only if its evolutionary part is a generator of local conservation laws.
+    \end{theorem}
+
+\subsection{Inverse problem}
+
+    The inverse problem in the calculus of variations consists of determining when a given system of PDEs can be obtained from a variational problem, i.e. when a source form $\Delta$ can be written in the form $\delta_\mathrm{EL}\mathbf{L}$.
+
+    \textit{Helmholtz} was the first to study the inverse problem, so the following sufficient conditions are named after him:
+    \begin{property}[Helmholtz conditions]\index{Helmholtz!conditions}\index{variational!form}
+        By applying the Euler-Lagrange operator $\delta_\mathrm{EL}$ to its defining variational formula \ref{var:local_variational_formula} and using the (infinitesimal) naturality condition \eqref{var:naturality} and the fact that it annihilates $d$-exact forms \ref{var:EL_operator_properties}, it can be seen that a source form $\Delta$ can be obtained from a local Lagrangian if
+        \begin{gather}
+            \mathcal{L}_{j^\infty X}\Delta = \delta_\mathrm{EL}(X\intmul\Delta)
+        \end{gather}
+        is satisfied for all evolutionary vector fields $X$. This can also be rewritten in terms of the Helmholtz operator $\delta_V$ (hence its name):\footnote{This expression also immediately follows from Property \ref{var:I_properties}.}
+        \begin{gather}
+            \delta_V\Delta = 0.
+        \end{gather}
+        Source forms satisfying this condition are said to be \textbf{locally variational}.
+    \end{property}
+    \begin{formula}[Local expression]
+        Consider a source form that admits the local expression \[\Delta=P_\alpha\delta u^\alpha\wedge\vol.\] The Helmholtz conditions can locally be expressed as follows:
+        \begin{gather}
+            (-1)^{|I|}\partial^I_\alpha P_\beta = E^I_\beta(P_\alpha),
+        \end{gather}
+        where the $E^I_\beta$ are the Lie-Euler operators \eqref{var:lie_euler_operator}.
+    \end{formula}
+
+    \begin{example}[Volterra-Vainberg formula]\index{Volterra-Vainberg formula}
+        If $E$ is trivial and $\Delta=F_\alpha\delta u^\alpha\wedge\vol$ satisfies the Helmholtz conditions, then
+        \begin{gather}
+            \label{var:trivial_helmholtz}
+            L := \int_0^1 u^\alpha F_\alpha[tu]dt
+        \end{gather}
+        satisfies $\Delta=\delta_\mathrm{EL}\mathbf{L}$. If $\Delta$ is homogeneous of degree $k$ in $u$, this can be expressed as
+        \begin{gather}
+            \mathbf{L} = \frac{1}{k+1}\iota_R\Delta,
+        \end{gather}
+        where $R:=u^\alpha\partial_\alpha$ is the (vertically) radial vector field on $E$.
+    \end{example}
+
+\subsection{Finite jet bundles}
 
     A last subject that will be considered in this section is the restriction of the variational bicomplex to finite jet bundles. However, as is clear from the definition of the horizontal differential, forms of order $k$ are mapped to forms of order $k+1$. Therefore, attention will have to be restricted to a specific subcomplex of $\Omega^\bullet(J^\infty(E))$:
     \begin{gather}

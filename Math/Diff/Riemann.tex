@@ -77,8 +77,8 @@
         Let $M$ be a pseudo-Riemannian manifold. For every $p\in M$ there exists a splitting $T_pM = P\oplus N$ where $P$ is a subspace on which the metric is positive-definite and $N$ is a subspace on which the metric is negative-definite. This splitting is not unique, only the dimensions of the two subspaces are well-defined invariants.
     \end{property}
     Due to the continuity of the metric, the dimensions of this splitting will be the same for all points in a connected neighbourhood. For connected manifolds this amounts to a global invariant:
-    \newdef{Index}{\index{index}
-        Let $M$ be a connected pseudo-Riemannian manifold. The dimension of the ``negative'' subspace $N$ in the above splitting $T_pP = P\oplus N$ is called the index of the manifold.
+    \newdef{Index and signature}{\index{index}\index{signature}
+        Let $M$ be a connected pseudo-Riemannian manifold. The dimension of the ``negative'' subspace $N$ in the above splitting $T_pP = P\oplus N$ is called the index of the manifold. The \textbf{signature} is defined as the pair $(\dim(P),\dim(N))$.
     }
 
     \begin{theorem}[Whitney's embedding theorem]\index{Whitney!embedding theorem}
@@ -322,7 +322,7 @@
     \newdef{Spin structure}{\label{riemann:spin_structure}
         Consider the orthonormal frame bundle \[\pi_\mathrm{SO}:F_\mathrm{SO}M\rightarrow M\] that is obtained by reducing the structure group of the frame bundle $FM$ from $\GL(n)$ to $\mathrm{SO}(n)$.
 
-        The smooth manifold $M$ is said to have a spin structure if there exists a principal $\mathrm{Spin}(n)$-bundle $\pi_\mathrm{Spin}:P_\mathrm{Spin}\rightarrow M$ and an equivariant 2-fold lifting of $F_\mathrm{SO}$ to $P_\mathrm{Spin}$, i.e. a morphism $\xi:P_\mathrm{Spin}\rightarrow F_\mathrm{SO}M$ together with the 2-fold covering map $\rho:\mathrm{Spin}(n)\rightarrow\mathrm{SO}(n)$ that satisfy
+        The smooth manifold $M$ is said to have a spin structure (cf. Definition \ref{bundle:G_structure}) if there exists a principal $\mathrm{Spin}(n)$-bundle $\pi_\mathrm{Spin}:P_\mathrm{Spin}\rightarrow M$ and an equivariant 2-fold lifting of $F_\mathrm{SO}$ to $P_\mathrm{Spin}$, i.e. a morphism $\xi:P_\mathrm{Spin}\rightarrow F_\mathrm{SO}M$ together with the 2-fold covering map $\rho:\mathrm{Spin}(n)\rightarrow\mathrm{SO}(n)$ that satisfy
         \begin{itemize}
             \item $\pi_\mathrm{SO}\circ\xi = \pi_\mathrm{Spin}$, and
             \item $\xi(p\vartriangleleft g) = \xi(p)\cdot\rho(g)$
@@ -342,24 +342,42 @@
 
 \subsection{Stiefel-Whitney classes}\index{Stiefel-Whitney class}
 
-    ?? ADD STIEFEL-WHITNEY (axiomatic) ??
+    \newdef{Stiefel-Whitney classes}{
+        The characteristic classes $w_n(E)\in H^\bullet(M;\mathbb{Z}_2)$ of a rank-$n$ vector bundle over a paracompact space $M$ (hence admitting an $\mathrm{O}(n)$-reduction) are defined by the following conditions:
+        \begin{enumerate}
+            \item\textbf{Normalization}: The tautological line bundle over the circle, i.e. the M\"obius strip, has a nontrivial $w_1$.
+            \item\textbf{Rank}: $w_0(E)=1$ and $w_i(E)=0$ for all $i>n$.
+            \item\textbf{Whitney product formula}: $w_k(E\oplus E')=\bigoplus_{i=1}^k w_i(E)\smile w_{k-i}(E')$ for all finite-rank vector bundles $E'\rightarrow M$.
+            \item\textbf{Naturality}: Every morphism $f:M\rightarrow M'$ of base manifolds induces a pullback-isomorphism $w(f^*E)=f^*w(E)$.
+        \end{enumerate}
+    }
 
     Consider a principal $\mathrm{O}(n)$-bundle $\pbundle$ together with an open cover $\{U_i\}_{i\in I}$ of $M$. This bundle is locally defined by a \v{C}ech 2-cocycle $g_{ij}:U_i\cap U_j\rightarrow\mathrm{O}(n)$. Using the two-fold covering map $\rho:\mathrm{Pin}(n)\rightarrow\mathrm{O}(n)$, this cocycle can be used to define a function
     \begin{gather}
-        p_{ijk}:U_i\cap U_j\cap U_k\rightarrow\mathrm{Spin}(n):x\mapsto\gamma_{jk}(x)\gamma^{-1}_{ik}(x)\gamma_{ij}(x).
+        p_{ijk}:U_i\cap U_j\cap U_k\rightarrow\mathrm{Spin}(n):x\mapsto\gamma_{jk}(x)\gamma^{-1}_{ik}(x)\gamma_{ij}(x),
     \end{gather}
-    It can be shown that this defines a 2-cocycle with values in $\mathbb{Z}_2$, i.e. $[p_{ijk}]\in\check{H}^2(M;\mathbb{Z}_2)$.
+    where $\gamma_{ij}$ is a lift of the cocycle $g_{ij}$ to $\mathrm{Pin}(n)$. It can be shown that this defines a 2-cocycle with values in $\mathbb{Z}_2$, i.e. $[p_{ijk}]\in\check{H}^2(M;\mathbb{Z}_2)$. If this cocycle vanishes, the $\mathrm{O}$-bundle admits a well-defined $\mathrm{Pin}$-lift in the sense of Definition \ref{bundle:reduction}.
 
     \begin{property}[Stiefel-Whitney classes]
-        For a $\mathrm{Pin}_+(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2$. However, for a $\mathrm{Pin}_-(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2+w_1\smile w_1$. So, in general $[p]$ is not a Stiefel-Whitney class.
+        For a $\mathrm{Pin}^+(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2$. However, for a $\mathrm{Pin}^-(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2+w_1\smile w_1$. So, in general $[p]$ is not a Stiefel-Whitney class.
     \end{property}
 
     The classification of spin manifolds can be stated in terms of characteristic classes. However, instead of the usual $\mathbb{R}$- or $\mathbb{Z}$-valued cohomology classes, one needs classes in $\mathbb{Z}_2$-cohomology.
-    \begin{property}[Orientability]
-        A smooth manifold is orientable if and only if its first Stiefel-Whitney class vanishes.
+    \begin{property}
+        Consider the orientation line bundle \ref{bundle:orientation_bundle} of an $\mathrm{O}(n)$-bundle. The cocycles of this bundle define a cohomology class $w_1\in H^1(M;\mathbb{Z}_2)$. It can be shown that this class is the first Stiefel-Whitney class.
     \end{property}
+    \begin{result}[Orientability]\index{orientable!manifold}
+        A smooth manifold is orientable if and only if its first Stiefel-Whitney class vanishes.
+    \end{result}
     \begin{property}[Spin manifold]
         A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes. Furthermore, the distinct spin structures form an affine space over $H^1(M;\mathbb{Z}_2)$.
+    \end{property}
+
+    \newdef{Integral classes}{
+        Consider the Bockstein morphism $\beta:H^i(M;\mathbb{Z}_2)\rightarrow H^{i+1}(M;\mathbb{Z})$ associated to the reduction $\mathbb{Z}\rightarrow\mathbb{Z}_2$. The integral Stiefel-Whitney classes are defined as the images $\beta w_i\in H^{i+1}(M;\mathbb{Z})$.
+    }
+    \begin{property}[$\mathrm{Spin}^\mathbb{C}$-structures]
+        An orientable vector bundle admits a $\mathrm{Spin}^\mathbb{C}$-structure if and only if its third integral Stiefel-Whitney class vanishes.
     \end{property}
 
 \subsection{Dirac operators}
@@ -378,7 +396,7 @@
     \begin{gather}
         \partial:=\sum_{i=1}^ne_i\partial_i
     \end{gather}
-    with the linear map $\iota_{C\ell}:e_i\mapsto\gamma_i$ that sends a basis for $\mathbb{R}^n$ to the corresponding generators of $C\ell_n(\mathbb{R})$:
+    with the linear map $\iota_{C\ell}:e_i\mapsto\gamma_i$ that sends a basis of $\mathbb{R}^n$ to the corresponding generators of $C\ell_n(\mathbb{R})$:
     \begin{gather}
         \label{riemann:dirac_operator_R}
         \underline{\partial} := \sum_{i=1}^n\gamma_i\partial_i.
@@ -395,7 +413,7 @@
     \newdef{Dirac operator}{\index{Dirac!operator}
         Consider a (pseudo-)Riemannian manifold $(M,g)$ together with a Clifford module $E$. If $\nabla^E$ is the compatible connection from the previous property, the Dirac operator on $E$ is defined as follows:
         \begin{gather}
-            \underline{D} := \sum_{i=1}^n\iota_{C\ell}(e_i)\cdot\nabla^E_{e_i}\sigma,
+            \underline{D} := \sum_{i=1}^n\gamma_i\cdot\nabla^E_{e_i}\sigma,
         \end{gather}
         where $\{e_i\}_{i\leq n}$ is a local (orthonormal) frame field.
     }

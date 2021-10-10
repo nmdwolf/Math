@@ -119,7 +119,7 @@
 
     For a geometrical interpretation see Section \ref{section:hamilton_jacobi}.
 
-    \newdef{Canonical transformations}{\index{canonical!transformation}
+    \newdef{Canonical transformations}{\index{canonical!transformation}\label{lagrange:canonical_transformation}
         A canonical transformation is a transformation that leaves the Hamiltonian equations of motion unchanged. Mathematically this means that the transformations leave the action invariant up to a constant or, equivalently, they leave the Lagrangian invariant up to a complete time-derivative:
         \begin{gather}
             \sum_ip_i\dot{q}^i - H(q,p,t) = \sum_iP_i\dot{Q}^i - K(Q,P,t) - \deriv{S}{t}(Q,P,t).
@@ -422,13 +422,13 @@
         The conjugate momentum of an infinitesimal symmetry is a constant of motion.
     \end{theorem}
 
-    If the conjugate momenta of the coordinate-induced vector fields $\partial_i$ are denoted by $P_i$, the nondegeneracy of $g$ implies that the set $\{q^i,P_i\}_{i\leq n}$ gives well-defined coordinate functions on $T^*M$. The equivalence of the Lagrangian action principle and the Newtonian equations of motion imply that the second-order ODE associated to the potential $U$ takes the following form:
+    If the conjugate momenta of the coordinate-induced vector fields $\partial_i$ are denoted by $p_i$, the nondegeneracy of $g$ implies that the set $\{q^i,p_i\}_{i\leq n}$ gives well-defined coordinate functions on $T^*M$. The equivalence of the Lagrangian action principle and the Newtonian equations of motion imply that the second-order ODE associated to the potential $U$ takes the following form:
     \begin{gather}
-        X^U := \dot{q}^i\pderiv{}{q^i} + \pderiv{L}{q^i}\pderiv{}{P_i}.
+        X_U := \dot{q}^i\pderiv{}{q^i} + \pderiv{L}{q^i}\pderiv{}{p_i}.
     \end{gather}
-    After performing the Legendre transformation $E:=P_i\dot{q}^i-L$ to obtain the (Hamiltonian) energy function\footnote{This function will not be called a Hamiltonian function, because this will be reserved for functions on the cotangent bundle.}, Newton's equations can be rewritten in Hamiltonian form:
+    After performing the Legendre transformation $E:=p_i\dot{q}^i-L$ to obtain the (Hamiltonian) energy function\footnote{This function will not be called a Hamiltonian function, because this will be reserved for functions on the cotangent bundle.}, Newton's equations can be rewritten in Hamiltonian form:
     \begin{gather}
-        X^E = \pderiv{E}{P_i}\pderiv{}{q^i}-\pderiv{E}{q^i}\pderiv{}{P_i}.
+        X_E = \pderiv{E}{p_i}\pderiv{}{q^i}-\pderiv{E}{q^i}\pderiv{}{p_i}.
     \end{gather}
 
 \subsection{Hamiltonian formalism}
@@ -450,9 +450,30 @@
     \end{remark}
     Lagrangians for which the Legendre transformation is invertible, i.e. for which $\mathbb{F}L$ is a diffeomorphism, give rise to equivalent mechanics encoded in the cotangent bundle:
     \begin{quote}
-        Given such a Lagrangian, construct the associated energy function $E$ by a Legendre transformation and map it to a Hamiltonian $H$ on the cotangent bundle as $H:=E\circ\mathbb{F}L^{-1}$. By abuse of notation, write $L\equiv L\circ\mathbb{F}L^{-1}$.) This transformation also induces a Hamiltonian vector field $X^H:=\mathbb{F}L_*X^E$ on $T^*M$ that can alternatively be encoded as $X^E=\mathbb{F}L^*X^H$. If the cotangent coordinates $p_i(\alpha) := \alpha(\partial_i)$ are chosen, it can easily be seen that $p_i\circ\mathbb{F}L=P_i$. This way the Hamiltonian equations remain virtually unchanged when transporting them to the cotangent bundle.
+        Given such a Lagrangian, construct the associated energy function $E$ by a Legendre transformation and map it to a Hamiltonian $H$ on the cotangent bundle as $H:=E\circ\mathbb{F}L^{-1}$. By abuse of notation, write $L\equiv L\circ\mathbb{F}L^{-1}$.) This transformation also induces a Hamiltonian vector field $X_H:=\mathbb{F}L_*X_E$ on $T^*M$ that can alternatively be encoded as $X_E=\mathbb{F}L^*X_H$. If the cotangent coordinates $p_i(\alpha) := \alpha(\partial_i)$ are chosen, it can easily be seen that $p_i\circ\mathbb{F}L\equiv p_i$. This way the Hamiltonian equations remain virtually unchanged when transporting them to the cotangent bundle.
     \end{quote}
     For any choice of coordinates such that the symplectic form on $T^*M$ takes the standard Darboux form $\omega=dp_i\wedge dq^i$, the Newtonian equations of motion take on a Hamiltonian form. If there exists a coordinate chart in which the Hamiltonian function $H$ does not depend on any of the base coordinates $q^i$, the coordinates are called \textbf{action-angle variables} and the system is said to be \textbf{completely integrable}.\index{action-angle coordinates}\index{integrability}
+
+\subsection{Contact structure}
+
+    By extending the cotangent bundle of the configuration space with a time variable, one can also (re)obtain some interesting features. Consider the following one-form on the trivial line bundle $T^*M\times\mathbb{R}$:
+    \begin{gather}
+        \alpha := p_idq^i - Hdt = \omega - Hdt.
+    \end{gather}
+    First of all, this endows the extended cotangent bundle with a contact structure \ref{contact:contact_structure}. Moreover, it can be shown to be a relative integral invariant \ref{bundle:integral_invariant} of the following Pfaffian system:
+    \begin{gather}
+        \frac{dq^i}{\smallpderiv{H}{p_i}} = dt = \frac{-dp_i}{\smallpderiv{H}{q^i}}.
+    \end{gather}
+    The vector fields that leave the contact form invariant are exactly those generated by the Hamiltonian vector field $X_H$. Liouville's theorem \ref{lagrange:liouvilles_theorem} is then simply a consequence of the absolute invariance of $d\alpha$.
+
+    A canonical transformation \ref{lagrange:canonical_transformation} was originally defined as a transformation that leaves the Hamiltonian equations of motion invariant. In the contact setting it can be defined as follows:
+    \newdef{Canonical transformation}{\index{canonical!transformation}\index{symplectization}
+        A transformation of the trivial line bundle $T^*M\times\mathbb{R}$ that leaves both the fibres and the \textbf{symplectization}\footnote{This form turns $T^M\times\mathbb{R}$ into a symplectic manifold.}
+        \begin{gather}
+            \Omega := d(e^t\alpha)
+        \end{gather}
+        invariant.
+    }
 
 \subsection{Symplectic structure on infinite-dimensional systems}
 

@@ -1,4 +1,4 @@
-\chapter{Optimization Problems and Data Analysis}
+\chapter{Data Analysis}
 
     The main reference for the sections on optimization problems is \cite{conjugategradient}. For the geometry of clustering methods, see \cite{clustering_bregman}. The main references for the section on \textit{conformal prediction} are \cite{cp, cp_all}. Although a part of this chapter is a continuation of the previous one, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason the chapter starts with some sections on applied linear algebra (for a refresher see Chapter \ref{chapter:linear_algebra}).
 
@@ -652,23 +652,23 @@
 
     \remark{Assume that two uncorrelated models giving predictions of a time series are given. One way to check if they have the same accuracy is the \textit{Diebold-Mariano test}. However, when testing for Granger-causality one should pay attention. This test is not valid for nested models and, hence, is not applicable to two models that only differ by a set of extra predictors (in this case an external time series).\index{test!Diebold-Mariano}}
 
-\section{Prediction regions}
+\section{Uncertainty modelling}
+\subsection{Prediction regions}
 
-    To characterize the quality of prediction regions one can use different measures. One of the truly probabilistic notions is that of validity:
-    \newdef{Validity}{\index{validity}
-        Consider a region predictor $C^\alpha$ at confidence level $\alpha\in[0,1]$. Two types of (marginal) validity can be defined:
-        \begin{itemize}
-            \item Conservative validity:
-                \begin{gather}
-                    P(y_\mathrm{true}\in C^\alpha)\geq 1-\alpha.
-                \end{gather}
-            \item Exact validity:
-                \begin{gather}
-                    P(y_\mathrm{true}\in C^\alpha) = 1-\alpha.
-                \end{gather}
-        \end{itemize}
+    One of the simplest ways to express uncertainty about predictions or parameter estimates is to give a set of possible values instead of a single value. However, to be meaningful, these sets should satisfy some conditions.
+
+    \newdef{Validity}{\index{validity}\index{significance}
+        Consider a region predictor $\Gamma$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance/confidence level} $\alpha\in[0,1]$) if satisfies
+        \begin{gather}
+            P(y\in\Gamma^\alpha(x))\geq 1-\alpha.
+        \end{gather}
+        One sometimes also distinguishes between exact validity and \textbf{conservative} validity, where the former is a subcase of the latter for which the inequality becomes an equality.
     }
     In practice one will always prefer models that are as exact as possible.
+
+    \begin{remark}[Confidence regions]
+        The definition of valid confidence predictors above is similar to the definition of confidence regions (Section \ref{section:confidence}). However, in contrast to confidence regions of population parameters, the size of confidence regions for predictive distributions does not go towards to zero in the infinite data limit. This follows from the fact that in general all observations are subject to noise and, hence, even with perfect knowledge about the data generating distribution, an exact prediction is impossible.\footnote{Note that when observations are not sampled according to a distribution, but are perfectly predictable, this is of course not true.}
+    \end{remark}
 
 \subsection{Conformal prediction}
 
@@ -676,83 +676,169 @@
 
     The first step will be studying the behaviour under randomization of the existing data (be it measurements or past predictions). To ensure that the procedure satisfies the required confidence (or probability) bounds, one has to make some assumptions. One of the main benefits of this framework is that one can relax the condition of the data being i.i.d. to it being exchangeable:
     \newdef{Exchangeability}{\index{exchangeability}\index{bag}
-        Consider an ordered data sample $(z_i)_{1\leq i\leq N}$. The joint distribution $P(z_1,\ldots,z_N)$ is said to be exchangeable if it is invariant under any permutation of the data points. A generalization for infinite data sets is obtained by requiring exchangeability of any finite subset.
+        Consider an ordered data sample $\{z_i\}_{1\leq i\leq N}$. The joint distribution $P(z_1,\ldots,z_N)$ is said to be exchangeable if it is invariant under any permutation of the data points. A distribution $Q$ is said to be exchangeable if $Q^n$ is exchangeable for all $n\in\mathbb{N}$.
 
-        This definition can be restated in a purely combinatorial way. First, define the notion of a the \textbf{bag} obtained from the (ordered) data sample $(z_i)_{1\leq i\leq N}$ as the (unordered) set $\mathcal{B}$ containing these elements. The joint distribution $P$ is then said to be exchangeable if the probability of finding any sequence of data points is equal to the probability of drawing this same sequence from the bag of these elements. Since this probability is purely combinatorial and, hence, completely independent of the ordering, it should be clear that this coincides with the first definition.
+        This definition can be restated in a purely combinatorial way. First, define the notion of a \textbf{bag} obtained from a (possibly ordered) data sample $\{z_i\}_{1\leq i\leq N}$ as the (unordered) set $\mathcal{B}$ containing these elements. The joint distribution $P$ is then said to be exchangeable if the probability of finding any sequence of data points is equal to the probability of drawing this same sequence from the bag of these elements. Since this probability is purely combinatorial and, hence, completely independent of the ordering, it should be clear that this coincides with the first definition. The set of bags in a space $X$ is sometimes denoted by $X^\infty$.
     }
 
     \newdef{Nonconformity measure}{\index{measure!conformity}
-        Consider a bag of elements $\mathcal{B}$ together with a new element $z^*$. A noncomformity measure is a function that gives a number indicating how different $z^*$ is from the content of $\mathcal{B}$. Although this definition does not state specific requirements for the functions, it should be obvious that the better the function detects dissimilarities, the better the resulting prediction regions will be.
+        Consider a bag $\mathcal{B}$ together with a new element $z^*$ in a probability space $(Z,\Sigma,P)$. A noncomformity measure $f:Z^\infty\times Z\rightarrow\mathbb{R}$ is a measurable function that gives a number indicating how different $z^*$ is from the content of $\mathcal{B}$.
     }
-    \sremark{One could restate everyhting in terms of ``conformity measures'' and, hence, look at similarities instead of dissimilarities. It will become clear that the procedure is invariant under monotone transformations and, hence, everything can be multiplied by $-1$.}
+    \sremark{One could restate all statements in this section in terms of ``conformity measures'' and, hence, look at similarities instead of dissimilarities. It will become clear that the procedure is invariant under monotone transformations and, hence, everything can be multiplied by $-1$.}
     \begin{example}[Point predictors]
-        A general class of nonconformity measures is obtained from point predictors. Given a point predictor $\rho$ that takes a bag $\mathcal{B}$ as input, one can define a nonconformity measure as follows:
+        A general class of nonconformity measures is obtained from point predictors for a metric space $(Y,d)$ . Given a point predictor $\rho:X\rightarrow Y$ trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_\rho(\mathcal{B},z^*) := d(\rho(\mathcal{B}),z^*),
+            A_\rho(\mathcal{B},(x,y)) := d(\rho(x),y).
         \end{gather}
-        where $d:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ is any distance function (often chosen to be the Euclidean distance).
+    \end{example}
+    \begin{example}[Interval predictors]
+        For every model $C\equiv(l,u):X\rightarrow\mathbb{R}^2$ that predicts intervals, i.e. $\forall x\in X: l(x)\leq u(x)$, that is trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
+        \begin{gather}
+            A_C(\mathcal{B},(x,y)) := \max\Big(l(x)-y,y-u(x)\Big).
+        \end{gather}
+    \end{example}
+    \begin{example}[Nested interval predictors]
+        Let $T$ be a totally ordered set \ref{set:total_order}. For every model $\tseq{C}\equiv(l_t,u_t)_{t\in T}:X\rightarrow\mathbb{R}^2$ that predicts a sequence of nested intervals, i.e. $s\leq t\implies l_s(x)\geq l_t(x)\land u_s(x)\leq u_t(x)$, that is trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
+        \begin{gather}
+            A_T(\mathcal{B},(x,y)) := \inf\{t\in T\mid y\in C_t(x)\}.
+        \end{gather}
     \end{example}
 
-    ?? FORMALIZE MATHEMATICS ??
-
     \begin{construct}[Conformal predictor]\label{data:cp}
-        Consider a data sample given as a bag $\mathcal{B}$ together with a nonconformity measure $A$. Let $\alpha$ denote the confidence level of the prediction region to be constructed. For any new element $z^*$ the algorithm proceeds as follows:
+        Consider a data sample given as a bag $\mathcal{B}\in P(Z)$ together with a nonconformity measure $A$ and let $\alpha$ denote the confidence level of the prediction region to be constructed. For any new element $z^*\in Z$ the algorithm proceeds as follows:
         \begin{enumerate}
-            \item Denote the nonconformity $A(\mathcal{B},z^*)$ by $\mu^*$.
-            \item For every element $z$ in $\mathcal{B}$, define $\mu_z$ by replacing $z$ by $z^*$ in the bag and calculating the nonconformity.
-            \item Denote the fraction of elements $z$ of $\mathcal{B}$ for which $\mu_z\geq\mu^*$ by $p^*$.
-            \item Include an element $z^*$ in the prediction region $C^\alpha$ if $p^*>\alpha$.
+            \item Denote the nonconformity score $A(\mathcal{B},z^*)$ by $\mu_{z^*}$.
+            \item For every element $z$ in $\mathcal{B}$, define $\mu_z$ by replacing $z$ by $z^*$ in the bag and calculating the nonconformity score as in the previous step.
+            \item Calculate the conformal $p$-value as the fraction of elements $z\in\mathcal{B}\cup\{z^*\}$ for which $\mu_z\geq\mu_{z^*}$:
+                \begin{gather}
+                    \label{data:tcp}
+                    p^* := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z\geq\mu_{z^*}\}|}{|\mathcal{B}|+1}.
+                \end{gather}
+            \item Include an element $z^*$ in the prediction region $C^\alpha$ if and only if $p^*>\alpha$.
         \end{enumerate}
-        It should be noted that in general the construction of these regions can be quite time-consuming. For low-dimensional regions it can often be achieved by solving inequalities derived from the specific form of the nonconformity measure.
+        It should be noted that, in general, the construction of these regions can be quite time-consuming because if the nonconformity measure $A$ depends on model that has to be trained on $\mathcal{B}$, this training has to be reperformed for every element $z\in\mathcal{B}$ in step 2. For low-dimensional regions it can often be achieved by solving inequalities derived from the specific form of the nonconformity measure.
     \end{construct}
 
     \begin{property}[Optimality]
-        Given any confidence predictor satisfying the three properties below\footnote{Conformal predictors always satisfy these conditions.}, there exists a conformal predictor that is more efficient, i.e. produces smaller prediction regions:
+        A conformal predictor satisfies the following conditions:
         \begin{itemize}
-            \item Ordering is irrelevant, i.e. the procedure only depends on the bag of prior elements.
-            \item Regions are (conservatively) valid, i.e. $P(z^*\in C^\alpha)\geq1-\alpha$ and $P(p^*\leq\alpha)\leq\alpha$.
-            \item Regions are nested, i.e. $\alpha\leq\alpha'\implies C^\alpha\subseteq C^{\alpha'}$.
+            \item Regions are (conservatively) valid, i.e. $P(p^*\leq\alpha)\leq\alpha$ and thus also $P(y^*\in\Gamma^\alpha(x))\geq1-\alpha$.
+            \item Regions are nested, i.e. $\alpha\leq\beta\implies\forall x\in X:\Gamma^\alpha(x)\subseteq\Gamma^\beta(x)$.
         \end{itemize}
+        Given any region predictor satisfying these three properties below, there exists a conformal predictor that is more efficient, i.e. produces smaller prediction regions.
     \end{property}
 
-    Now, one could wonder if the assumption of exchangeability is a realistic assumption. Obviously if one applies the procedure to independent observations, everything is fine (i.i.d. sequences are clearly exchangeable). However, some important sequences of data are clearly not exchangeable. The main example being time series. This kind of data often has intrinsic autocorrelation and, hence, the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
+    \begin{property}[Smooth conformal predictors]\label{data:smooth_cp}
+        One can modify the above construction in such a way that the resulting conformal predictors are not only conservatively valid but are also exactly valid. To this end one replaces the conformal $p$-value \eqref{data:tcp} by
+        \begin{gather}
+            p^*(\theta) := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z>\mu_{z^*}\}| + \theta\,|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z=\mu_{z^*}\}|}{|\mathcal{B}|+1},
+        \end{gather}
+        where $\theta$ is uniformly sampled from the unit interval $[0,1]$. Exact validity is then obtained by also marginalizing over the random variable $\theta$.
+    \end{property}
+
+    Now, one could wonder if the assumption of exchangeability is a realistic assumption. Obviously if one applies the procedure to independent observations, everything is fine since i.i.d. sequences are clearly exchangeable. However, some important classes of data sequences are clearly not exchangeable, e.g. time series. This kind of data often contains intrinsic correlation and, hence, the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There, one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
     \begin{gather}
         p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}(A(\sigma\cdot\vector{z})\geq A(\vector{z})),
     \end{gather}
-    where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using this language of explicit permutations one can generalize the construction to arbitrary randomization schemes, i.e. to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
+    where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using these explicit permutations, one can generalize the construction of conformal predictors to arbitrary randomization schemes, i.e. to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
 
     ?? FINISH ??
 
-    At last a computationally efficient modification of the original CP algorithm is introduced. If the distance with respect to a point predictor is chosen as the nonconformity measure in Construction \ref{data:cp}, one has to retrain the predictor for every bag in step 2. For most applications, especially those in machine learning and big data, this leads to considerable computational overhead. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification:
+    At last a computationally efficient modification of the original CP algorithm is introduced. For most applications, especially those in machine learning and big data, the computational inefficiency of conformal predictors would make them hard to use. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification:
     \begin{construct}[Inductive CP]
-        First, split the full dataset $\mathcal{D}$ into a training set $\mathcal{T}$ and a calibration set $\mathcal{C}$. Using $\mathcal{T}$ train the point predictor $\rho\equiv\rho(\mathcal{T})$. Then, for every point $z$ in $\mathcal{C}$, construct the nonconformity measure $\mu_z = d\big(\rho(z),z^*\big)$. For a new observation $z^*$ denote the fraction of points in $\mathcal{C}$ for which the nonconformity measure is larger than the one for $z^*$ by $p^*$. As in the original CP algorithm a new observation $z^*$ is included in the prediction region if $p^*>\alpha$.
+        Consider a data set $\mathcal{D}\subset Z$ and a nonconformity measure $A$ based on an underlying predictor. First, split $\mathcal{D}$ into a training set $\mathcal{T}$ and a calibration set $\mathcal{C}$. Using $\mathcal{T}$, train the underlying predictor of $A$. Then, for every point $z\equiv(x,y)\in\mathcal{C}$, construct the nonconformity score $\mu_z := A(z)$. As before, for every new element $z^*\in Z$ the conformal $p$-value is defined as the fraction of elements in $\mathcal{C}$ for which the nonconformity measure is larger than the one for $z^*$:
+        \begin{gather}
+            \label{data:icp}
+            p^* := \frac{|\{z\in\mathcal{C}\cap\{z^*\}\mid\mu_z\geq\mu_{z^*}\}|}{|\mathcal{C}|+1}.
+       \end{gather}
+        As in the original CP algorithm, a new observation $z^*$ is included in the prediction region if and only if $p^*>\alpha$:
+        \begin{gather}
+            \Gamma^\alpha(x) := \{y\in Y\mid p(x,y)>\alpha\}.
+        \end{gather}
+        It should be clear that the underlying predictor only needs to be trained once using this scheme.
     \end{construct}
-    It is clear that the underlying point predictor only needs to be trained once. An easy way to proceed is to order all the nonconformity measures for $\mathcal{C}$ and look at the $\alpha$-quantile. This will be the critical value determining the prediction region $C^\alpha$.
-
-    \begin{remark}
+    \begin{remark}[Terminology]
         The name ``inductive CP'' stems from the fact that the general behaviour is deduced from a small subset of all observations. For this reason one sometimes calls the original algorithm a ``transductive'' method.
     \end{remark}
 
-    The above off-line ICP algorithm can be generalized to an on-line algorithm:
-    \begin{construct}[On-line ICP]
-        Consider an increasing sequence of positive integers $\seq{m}$ such that for every ``update threshold'' $m_k$ a calibration set \[\mathcal{C}_k:=\{(x_1,y_1),\ldots,(x_{m_k},y_{m_k})\}\] is given. The confidence region $C^\alpha(\mathcal{S})$ for the data sample $\mathcal{S}:=\{(x_1,y_1),\ldots,(x_n,y_n)\}$ is defined as follows:
+    \begin{property}[Validity]
+        Although the ICP algorithm is computationally much more efficient than its transductive counterpart, one does not have to give up any of its properties. If the data is exchangeable (and the resulting nonconformity score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{\mu_z\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly distributed in $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\alpha$, the probability of finding a new nonconformity score smaller or equal than the $\alpha$-quantile of $A(\mathcal{C})$ is
+        \begin{gather}
+            P\Big(\mu_{z^*}\leq q_\alpha(A(\mathcal{C}))\Big) = \frac{\left\lceil\alpha|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+        \end{gather}
+        By comparison with Equation \eqref{data:icp} one immediately gets the following result:
+        \begin{gather}
+            P(y^*\in\Gamma^\alpha(x,\mathcal{C})) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+        \end{gather}
+        However, this is where the TCP and ICP algorithms differ. When using Equation \eqref{data:tcp} for the transductive algorithm, the above probabilities would contain a factor $|\mathcal{C}|+1$ in both the numerator and the denominator, so the coverage condition is satisfied. However, for the inductive algorithm, a minimal modification also leads to validity:
+        \begin{gather}
+            \Gamma^\alpha(x)\longrightarrow\Gamma^\alpha(x) := \left\{y\in Y\mid A(x,y)\leq q_{(1+1/|\mathcal{C}|)(1-\alpha)}(A(\mathcal{C}))\right\},
+        \end{gather}
+        i.e. the empirical quantiles are replaced by ``inflated'' quantiles. The smoothing of Property \ref{data:smooth_cp} can also be implied in this case. If one does not use a smoothened conformal predictor but assumes that all calibration scores are distinct, the following property is obtained:
+        \begin{gather}
+            P(y^*\in\Gamma^\alpha(x,\mathcal{C}))\geq 1 - \alpha + \frac{1}{|\mathcal{C}|}.
+        \end{gather}
+        So, in the limit of large calibration sets, the exact validity is recovered.
+    \end{property}
+    \begin{remark}
+        One does have to pay attention when interpreting the above statement. The validity property holds in probability with respect to both the new instance $(x^*,y^*)$ and the calibration set $\mathcal{C}$. However, this does not not mean that for a fixed calibration set $\mathcal{C}$ the error fraction
+        \begin{gather}
+            \frac{|\{1\leq i\leq k:y_i\in\Gamma^\alpha(x_i,\mathcal{C})\}|}{k}
+        \end{gather}
+        is bounded by $\alpha$ for $k\longrightarrow\infty$. Because the events are not independent, the error can be much larger than $\alpha$.
+    \end{remark}
+
+    The above offline ICP algorithm can be generalized to an online algorithm:
+    \begin{construct}[Online ICP]
+        Consider an increasing sequence of positive integers $(m_n)_{n\in\mathbb{N}_0}$ of ``update thresholds''. The prediction region $\Gamma^\alpha(\mathcal{S})$ for the data sample $\mathcal{S}:=\{(x_1,y_1),\ldots,(x_n,y_n)\}$ is defined as follows:
         \begin{itemize}
-            \item If $n\leq m_1$, use a fixed conformal predictor to construct $C^\alpha(\mathcal{S})$.
-            \item If $n>m_1$, find the integer $k$ such that $m_k<n\leq m_{k+1}$ and construct $C^\alpha(\mathcal{S})$ as follows:
+            \item If $n\leq m_1$, use a fixed conformal predictor to construct $\Gamma^\alpha(\mathcal{S})$.
+            \item If $m_k<n\leq m_{k+1}$, construct $\Gamma^\alpha(\mathcal{S})$ as follows:
             \begin{gather}
-                C^\alpha(\mathcal{S}) := \left\{y\in Y\,\middle\vert\,\frac{|\{m_k<j\leq n:\alpha_j\geq\alpha_n\}|}{n-m_k}>\varepsilon\right\},
+                \Gamma^\alpha(\mathcal{S}) := \left\{y\in Y\,\middle\vert\,\frac{|\{m_k<j\leq n\mid\mu_{z_j}\geq\mu_{z_n}\}|}{n-m_k}>\varepsilon\right\},
             \end{gather}
             where
             \begin{align*}
-                \alpha_j &:= A\big(\mathcal{B}(\mathcal{C}_k),(x_j, y_j)\big)\\
-                \alpha_n &:= A\big(\mathcal{B}(\mathcal{C}_k),(x_n, y)\big).
+                \mu_{z_j} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_j,y_j))\\
+                \mu_{z_n} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_n,y)).
             \end{align*}
         \end{itemize}
-        It is clear that for $k\ll|\mathcal{C}|$ the off-line ICP algorithm approximates the on-line version.
+        It is clear that for $k\ll|\mathcal{C}|$ the offline ICP algorithm approximates the online version. The major benefit of the online algorithm is that one does not need to use the inflated quantiles to obtain valid prediction regions, because the calibration set grows every time new data is observed and, hence, the finite-size fluctuations get supressed.
     \end{construct}
 
-    \begin{property}[Validity]
-        It can be shown that the on-line ICP algorithm is conservative. Because of the remark about off-line ICP above, the off-line version produces approximately conservative prediction regions.
-    \end{property}
-
     ?? COMPLETE ??
+
+\subsection{Distribution-shift}
+
+    An important problem in the field of data science, in particular that of machine learning, is the change of the data generating process. Consider a classic train-test routine. If the model was trained on a data set sampled from the distribution $P_0$, but applied to a data set sampled from the distribution $P_1$, there is no reason the expect that the model will still give reasonable results. Furthermore, even if the crude point predictions are still somewhat sensible, this does not mean that their theoretical properties, such as the validity of confidence regions, is preserved.
+
+    A first step to resolve this problem is the detection of a possible distribution shift. Conformal prediction, as introduced in the previous section, can be used to detect such shifts in an online fashion. The main idea of the algorithm is to construct a martingale \ref{prob:martingale} from the $p$-values produced by a conformal predictor. For every (reasonable) martingale $\seq{X}$ the Doob-Ville inequality \ref{prob:doob_inequality} says that the growth is bounded. However, if the sequence $\seq{X}$ is constructed in such a way that the martingale property is lost once the data distribution changes, the Doob-Ville inequality can be violated and the crossing of a given threshold can be regarded as evidence for this distribution shift \cite{cp_all}.
+
+    The general expression of the martingale will be of the form
+    \begin{gather}
+        X_i\equiv\prod_{k=0}^if_k(p_k),
+    \end{gather}
+    where $p_k$ is the $p$-value of the $k^{th}$ data point as produced by some conformal predictor. The functions $f_k$ are called the \textbf{betting functions}. For $\seq{X}$ to be a martingale with respect to the natural filtration of the $p_k$'s, the betting functions should satisfy
+    \begin{gather}
+        \int_0^1f_k(p)dp = 1.
+    \end{gather}
+
+    \begin{method}[Power martingale]
+        For every constant $\varepsilon\in[0,1]$ one defines the power martingale by
+        \begin{gather}
+            X^\varepsilon_i := \prod_{k=0}^i\varepsilon p^{\varepsilon-1}_k.
+        \end{gather}
+        One can also construct a mixture martingale by integrating over $\varepsilon$:
+        \begin{gather}
+            X_i := \int_0^1X^\varepsilon_id\varepsilon.
+        \end{gather}
+        Because $\varepsilon\leq0$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e. when unlikely values are observed.
+    \end{method}
+    However, not all distribution shifts will give rise to such behaviour. For example, it is possible that, although the $p$-values are not distributed uniformly anymore (since the data is not exchangeable), they are concentrated in the upper half of the unit interval and, hence, do not let the ``martingale'' grow strongly. For this reason it is convenient to construct betting functions that take into account the distribution of the $p$-values.
+    \begin{method}[Plug-in martingale]
+        Let $\hat{\rho}_i(p)$ denote an estimate of the probability density constructed using the $p$-values $\{p_1,\ldots,p_i\}$. The plug-in martingale is defined by the betting functions
+        \begin{gather}
+            f_i := \hat{\rho}_{i-1}.
+        \end{gather}
+        Now, if the empirical distribution functions of the $p$-values converge weakly \ref{lebesgue:weak_convergence} to an absolutely continuous distribution and $\log(\hat{\rho}_i(p))\longrightarrow\log(\rho(p))$ uniformly, where $\rho$ is the limit density of the empirical distributions, it can be shown that plug-in martingale grows quicker than the martingale associated to any other (continuous) betting function.
+    \end{method}

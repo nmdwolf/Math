@@ -326,7 +326,7 @@
         \end{gather}
     }
     The definition of the Lie derivative closely resembles the definition of the ordinary derivative on Euclidean space. This is not a coincidence:
-    \begin{formula}[$\dag$]\label{bundle:lie_derivative_function}
+    \begin{formula}\label{bundle:lie_derivative_function}
         Working out the definition of the Lie derivative and rewriting it as an operator equality gives
         \begin{gather}
             \label{bundle:lie_derivative_function_expansion}
@@ -336,13 +336,59 @@
         \begin{gather}
             \mathcal{L}_Xf(p) = X_p(f).
         \end{gather}
+        \begin{proof}[Explanation]
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                In this derivation Landau's little-o notation is used:
+                \begin{gather}
+                    \lim_{t\rightarrow0}\frac{o(t)}{t} = 0.
+                \end{gather}
+                Now, assume that $X$ is a smooth vector field and $f$ is a smooth function. Because the Lie derivative is a local operation one can work in a local chart such that $\gamma$ is (again locally) equivalent to a curve\footnote{The vector field $X(p) = (p,Y(p))$, where $Y$ is a smooth vector field on $\mathbb{R}^n$, can also be identified with $Y$ itself. This is implicitly done in the derivation by using the notation $X$ for both vector fields.} $\beta_p:U\rightarrow\mathbb{R}^n$ and such that one can expand $\beta_p(t)$ around $p\in U$:
+                \begin{align}
+                    \mathcal{L}_Xf(p) &= \lim_{t\rightarrow0}\left[\frac{f(\beta_p(0) + t\beta_p'(0) + o(t)) - f(p)}{t}\right]\nonumber\\
+                    &= \lim_{t\rightarrow0}\left[\frac{f(p + tX(p) + o(t)) - f(p)}{t}\right]\nonumber\\
+                    &= \lim_{t\rightarrow0}\left[\frac{f(p) + tDf(p)\cdot X(p) + o(t) - f(p)}{t}\right]\nonumber\\
+                    &= \sum_k\pderiv{f}{x^k}(p)X_k(p) + \lim_{t\rightarrow0}\frac{o(t)}{t}\nonumber\\
+                    &= \sum_k\pderiv{f}{x^k}(p)X_k(p),\label{diff:lie_derivative_calc}
+                \end{align}
+                where the defining condition \ref{bundle:integral_curve} for integral curves was used on the second line. If this equation is rewritten as an operator equality, one obtains
+                \begin{gather}
+                    \mathcal{L}_X = \sum_kX_k\pderiv{}{x^k}.
+                \end{gather}
+            \end{mdframed}
+        \end{proof}
     \end{formula}
 
-    \newformula{Lie derivative for vector fields$^\dag$}{\label{bundle:lie_derivative_vector_field}
+    \newformula{Lie derivative for vector fields}{\label{bundle:lie_derivative_vector_field}
         Let $X,Y\in\mathfrak{X}(M)$.
         \begin{gather}
             \mathcal{L}_XY(p) := \left.\deriv{}{t}(\sigma_t^*X)(\gamma_p(t))\right|_{t=0}.
         \end{gather}
+        \begin{proof}[Explanation]
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                For vector fields one cannot just take the difference at two different points because the tangent spaces generally do not coincide. This can be resolved by using the flow \ref{bundle:flow}:
+                \begin{gather}
+                    \label{derivmath:lie_derivative_vector_fields}
+                    \mathcal{L}_XY = \lim_{t\rightarrow0}\frac{(T\sigma_t)^{-1}X(\gamma_p(t)) - X(p)}{t},
+                \end{gather}
+                where $T\sigma_t$ is the differential \ref{bundle:differential} of the flow, which satisfies $(T\sigma)^{-1} = T\sigma_{-t}$. To see that this definition makes sense, one has to show that $(T\sigma_t)^{-1}[X(\gamma_p(t))]\in T_pM$. This goes as follows:
+                \begin{align*}
+                    (T\sigma_t)^{-1}X(\gamma_p(t))(f) &= T\sigma_{-t}X(\gamma_p(t))(f)\\
+                    &= X(\sigma_{-t}\circ\gamma_p(t))(f\circ\sigma_{-t})\\
+                    &= X(\sigma_{-t}\circ\sigma_t(p))(f\circ\sigma_{-t})\\
+                    &= X(p)(f\circ\sigma_{-t})\\
+                    &\in T_pM
+                \end{align*}
+                for all $f\in C^k(M,\mathbb{R})$. On the third line the definition of the flow \ref{bundle:flow} was used. One can also rewrite the second term in the numerator of \eqref{derivmath:lie_derivative_vector_fields} using the flow: \[X(p) = X(\sigma_0(p)) = T\sigma_0(X).\] Using the definition of the pushforward of vector fields \eqref{bundle:pushforward}, the Lie derivative can be rewritten as follows:
+                \begin{align*}
+                    \mathcal{L}_XY &= \lim_{t\rightarrow0}\frac{\sigma_{-t*}X(\gamma_p(t)) - \sigma_{0*}X(\gamma_p(0))}{t}\\
+                    &= \left.\deriv{}{t}(\sigma_{-t*}X)(\gamma_p(t))\right|_{t=0}.
+                \end{align*}
+                Finally, by using the relation between pushforward and pullback \eqref{bundle:pullback_pushforward} this becomes
+                \begin{gather}
+                    \mathcal{L}_XY = \left.\deriv{}{t}(\sigma_t^*X)(\gamma_p(t))\right|_{t=0}.
+                \end{gather}
+            \end{mdframed}
+        \end{proof}
     }
     \begin{property}\index{Lie!bracket}
         Let $X,Y\in\mathfrak{X}(M)$ be vector fields of class $C^k$. The Lie derivative has the following properties:
@@ -463,14 +509,34 @@
         \end{itemize}
     \end{property}
 
-    \begin{remark}[$\dag$]\label{bundle:vector_calculus}
+    \begin{remark}\label{bundle:vector_calculus}
         The gradient, rotor (curl) and divergence from standard vector calculus (Section \ref{section:nabla}) can be rewritten using exterior derivatives as follows. Consider $\mathbf{f} := (f_1,f_2,f_3)$ with $f_i$ smooth for every $i$ and let $f$ be a smooth function. Denote the canonical isomorphism between $\mathbb{R}^3$ and $\mathbb{R}^{3*}$ by $\sim$.
         \begin{align}
             \sim df &= \nabla f \\
             \sim (\ast d\alpha) &= \nabla\times\mathbf{f} \\
             \ast d\omega &= \nabla\cdot\mathbf{f}
         \end{align}
-        Property \ref{vector:mixed_properties} now follow from the nilpotency $d^2=0$.
+        Property \ref{vector:mixed_properties} now follow from the nilpotency $d^2=0$.\newline
+
+        \begin{proof}[Explanation]
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                Looking at Equation \eqref{bundle:function_derivative} for the exterior derivative of a smooth function and remembering the definition of the gradient \ref{vector:gradient}, one can see that these two definitions look very similar. The major difference lies in the fact that $\nabla f$ is a vector in $\mathbb{R}^3$ and $df$ is a covector in $\mathbb{R}^{*3}$. However, there exists an isomorphism between these spaces and so one can identify $\nabla f$ and $df$.
+
+                Similar relations hold for the divergence \ref{vector:divergence} and rotor \ref{vector:rotor}. However, here one has to use a different construction because the spaces $\Lambda^1$ and $\Lambda^2$ have to be used. The Hodge star \ref{vector:hodge_star} can be used to obtain the correct dimensions.
+
+                Consider a vector $\vector{f} = (f_1,f_2,f_3)$ where the $f_i$ are smooth. Using these functions $f_i$ one can construct a one-form $\alpha = f_1dx_1 + f_2dx_2 + f_3dx_3$ and a two-form $\omega = f_1dx_2\wedge dx_3 + f_2dx_3\wedge dx_1 + f_3 dx_1\wedge dx_2$. After applying the exterior derivative (in the corresponding spaces) one obtains
+                \begin{align}
+                    d\alpha &= \left(\pderiv{f_3}{x_2} - \pderiv{f_2}{x_3}\right)dx_2\wedge dx_3 + \left(\pderiv{f_1}{x_3} - \pderiv{f_3}{x_1}\right)dx_3\wedge dx_1 + \left(\pderiv{f_2}{x_1} - \pderiv{f_1}{x_2}\right)dx_1\wedge dx_2,\nonumber\\
+                    d\omega &= \left(\pderiv{f_1}{x_1} + \pderiv{f_2}{x_2} + \pderiv{f_3}{x_3}\right)dx_1\wedge dx_2\wedge dx_3.\nonumber
+                \end{align}
+                Using Corollary \ref{vector:hodge_star_vectorcalculus} and the canonical isomorphism $\sim\ :\mathbb{R}^{3*}\rightarrow\mathbb{R}^3$ one can rewrite this as
+                \begin{align}
+                    \sim df &= \nabla f,\\
+                    \sim (\ast d\alpha) &= \nabla\times\vector{f},\\
+                    \ast d\omega &= \nabla\cdot\vector{f}.
+                \end{align}
+            \end{mdframed}
+        \end{proof}
     \end{remark}
 
     \begin{example}

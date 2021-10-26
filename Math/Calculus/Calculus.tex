@@ -14,6 +14,13 @@
         \end{gather}
     }
 
+    \newdef{Envelope}{\index{envelope}
+        Consider a set $\mathcal{F}$ of real-valued functions with common domain $X$. An envelope function for $\mathcal{F}$ is any function $F:X\rightarrow\mathbb{R}$ such that
+        \begin{gather}
+            \forall f\in\mathcal{F},x\in X:|f(x)|\leq F(x).
+        \end{gather}
+    }
+
 \section{Sequences}\index{sequence}
 
     \newdef{Limit superior}{\index{limit}\label{calculus:limit_superior}
@@ -320,12 +327,29 @@
         \end{gather}
     \end{formula}
 
-    \newmethod{Borel transform$^\dag$}{\index{Borel!transform}\label{calculus:borel_transform}
+    \newmethod{Borel transform}{\index{Borel!transform}\label{calculus:borel_transform}
         Consider the following function: \[F(x) := \sum_{n=0}^\infty\frac{a_n}{n!}x^n.\] If the integral
         \begin{gather}
             \int_0^\infty e^{-t}F(xt)dt<\infty
         \end{gather}
-        for all $x\in\mathbb{R}$, then $F$ is called the Borel transform of $f$. Furthermore, the integral will give a convergent expression for $f$.
+        for all $x\in\mathbb{R}$, then $F$ is called the Borel transform of $f$. Furthermore, the integral will give a convergent expression for $f$.\newline
+
+        \begin{proof}
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                The function $F$ is defined as follows:
+                \begin{gather}
+                    F(x) := \sum_{n=0}^\infty\frac{a_n}{n!}x^n.
+                \end{gather}
+                A Borel transform gives:
+                \begin{align*}
+                    \int_0^\infty F(xt)e^{-t}dt&=\sum_{n=0}^N\int_0^\infty\frac{a_n}{n!}x^nt^ne^{-t}dt\\
+                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\int_0^\infty t^ne^{-t}dt\\
+                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\Gamma(n+1)\\
+                    &=\sum_{n=0}^Na_nx^n,
+               \end{align*}
+               where the definition of the Gamma function \ref{calculus:gamma_function} was used on line 3 and the relation between the factorial function and the Gamma function \eqref{calculus:gamma_factorial_relation} was used on line 4.\qed
+           \end{mdframed}
+        \end{proof}
     }
     \begin{theorem}[Watson]\index{Watson}
         The uniqueness of the function $F$ is guaranteed if the function $f$ is holomorphic on the domain $\{z\in\mathbb{C}\mid|\arg(z)| < \frac{\pi}{2} + \varepsilon\}$.

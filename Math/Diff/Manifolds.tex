@@ -117,7 +117,7 @@ References for this chapter (and Part \ref{part:diffgeom} in general) are \cite{
         for all $p\in M$. Theorem \ref{linalgebra:dimension_isomorphism} then implies that the tangent spaces over two distinct points $p,q\in M$ are isomorphic. (A way to relate distinct tangent spaces will be presented in Sections \ref{section:linear_connections} and \ref{section:covariant_derivatives}.)
     \end{property}
 
-    \newadef{Tangent space $\dag$}{\label{manifold:alternative_definition}
+    \newadef{Tangent space}{\label{manifold:alternative_definition}
         Let $(U,\varphi)$ be a chart around the point $p\in M$. Two smooth curves $\gamma_1,\gamma_2$ through $p\in M$ are said to be tangent at $p$ if their local representations are tangent at 0:
         \begin{gather}
             \label{manifold:equal_derivative}
@@ -132,7 +132,24 @@ References for this chapter (and Part \ref{part:diffgeom} in general) are \cite{
             \label{manifold:tangent_vector_chain_rule}
             v_p(f) = \pderiv{(f\circ\varphi^{-1})}{x^i}(\varphi(p))\deriv{x^i}{t}(0),
         \end{gather}
-        where $x^i:=(\varphi\circ c)^i$. The first factor depends only on the point $p$, while the second factor is equal for all tangent curves through $p$. It is thus clear that curves satisfying equation \eqref{manifold:equal_derivative} define the same tangent vector.
+        where $x^i:=(\varphi\circ c)^i$. The first factor depends only on the point $p$, while the second factor is equal for all tangent curves through $p$. It is thus clear that curves satisfying equation \eqref{manifold:equal_derivative} define the same tangent vector.\newline
+
+        \begin{proof}[Proof of equivalence]
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                Let $(U,\varphi)$ be a chart around the point $p\in M$. Using the first definition of a tangent vector \ref{manifold:tangent_vector_partial}, i.e. \[\left.\pderiv{}{q^i}\right|_{p}:C^\infty_p(M,\mathbb{R})\rightarrow\mathbb{R}:f\mapsto\pderiv{}{q^i}\left(f\circ\varphi^{-1}\right)(\varphi(p)),\] one can rewrite Equation \eqref{manifold:tangent_vector_chain_rule} \[v_p(f) = \pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{q^i}{t}(0)\] as follows: \[v_p(f) = \left.\pderiv{f}{q^i}\right|_p\deriv{q^i}{t}(0).\] Because the partial derivatives as defined in \ref{manifold:tangent_vector_partial} form a basis for the tangent space (by construction), one can see that this equation is in fact an expansion of the tangent vector $v_p$ in terms of that basis. It follows that vectors tangent to curves\footnote{More precisely, representatives of equivalence classes of vectors tangent to curves.} are also tangent vectors according to the first definition.
+
+                To prove the other direction one has to show that the partial derivative operators can be constructed as vectors tangent to curves. A tangent vector can be expressed, according to the first construction, in the following way: \[v_p = v^i\left.\pderiv{}{q^i}\right|_p,\] where the definition $v = (v^1,\ldots,v^n)$ was used. One can then construct the curve $\gamma:t\mapsto\varphi^{-1}(q_0+vt)$. It is obvious that the tangent vector $v_p$ is tangent to the curve $\gamma$. From this it follows that there exists an isomorphism between the tangent vectors from the first definition and the equivalence classes of vectors tangent to curves from the second definition.\qed
+
+                Although the previous equivalence implies that the tangent space construction using germs of curves gives a vector space, one could also check the vector space axioms directly. First, one should prove that the sum of vectors tangent to the curves $\gamma$ and $\delta$ is again a vector tangent to some curve $\chi:\mathbb{R}\rightarrow M$. To this end, define the curve \[\chi(t)\equiv\varphi^{-1}\circ\Big(\varphi\circ\gamma(t) + \varphi\circ\delta(t) - \varphi(p)\Big),\] where $\varphi$ is again the coordinate map in some chart $(U,\varphi)$ around $p\in M$. Using Equation \eqref{manifold:tangent_vector_chain_rule} one can find
+                \begin{align*}
+                    v_{p,\chi}(f) &= \pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{(\varphi^i\circ\chi)}{t}(0)\\
+                    &=\pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\deriv{}{t}\left(\varphi^i\circ\gamma + \varphi^i\circ\delta - \varphi^i(p)\right)\\
+                    &=\pderiv{(f\circ\varphi^{-1})}{q^i}(\varphi(p))\left(\deriv{(\varphi^i\circ\gamma)}{t} + \deriv{(\varphi^i\circ\delta)}{t}\right)\\
+                    &=v_{p,\gamma}(f) + v_{p,\delta}(f).
+                \end{align*}
+                The constant term $-\varphi(p)$ in the definition of $\chi$ is necessary to make sure that $\chi(0) = \gamma(0) = \delta(0) = p$. The axiom of scalar multiplication by a number $\lambda\in K$ can be proven similarly by defining the curve \[\chi(t) = \varphi^{-1}\circ\left[\lambda\Big(\varphi\circ\gamma(t)\Big)\right].\]\qed
+            \end{mdframed}
+        \end{proof}
     }
 
 \section{Submanifolds}

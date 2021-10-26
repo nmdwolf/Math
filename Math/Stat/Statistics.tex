@@ -16,6 +16,31 @@
             \overline{x} := \frac{1}{N}\sum_{i=1}^Nx_i.
         \end{gather}
     \end{example}
+
+    \begin{theorem}[Weak law of large numbers\footnotemark]\index{law!of large numbers}\index{Khinchin's law}
+        \footnotetext{Also called \textbf{Khinchin's law}.}
+        Assume that the sequence $\seq{X}$ of random variables is i.i.d. The sample average converges in probability \ref{prob:convergence_in_probability} to the expectation value:
+        \begin{gather}
+            \lim_{n\rightarrow\infty}\mathrm{Pr}\left(|\overline{X}_n-\mu|>\varepsilon\right)=0
+        \end{gather}
+        for all $\varepsilon>0$.
+    \end{theorem}
+    \begin{theorem}[Strong law of large numbers\footnotemark]\index{law!of large numbers}\index{Kolmogorov!law}\label{prob:strong_lln}
+        \footnotetext{Also called \textbf{Kolmogorov's law}.}
+        Assume that the sequence $\seq{X}$ of random variables is i.i.d. The sample average converges almost surely \ref{lebesgue:almost_everywhere} to the expectation value:
+        \begin{gather}
+            \mathrm{Pr}\left(\lim_{n\rightarrow\infty}\overline{X}_n=\mu\right)=0.
+        \end{gather}
+        In fact, the i.i.d. assumption can be weakened. The convergence
+        \begin{gather}
+            \overline{X}_n\overset{\text{a.s.}}{\longrightarrow}\expect{\overline{X}_n}
+        \end{gather}
+        holds as long as the random variables are independent, have finite second moment and satisfy
+        \begin{gather}
+            \sum_{k=1}^\infty\frac{1}{k^2}\variance{X_k}<\infty.
+        \end{gather}
+    \end{theorem}
+
     \newformula{$r^{th}$ central sample moment}{\label{statistics:central_sample_moment}
         \begin{gather}
             m_r := \frac{1}{N}\sum_{i=1}^N(x_i-\overline{x})^r
@@ -232,7 +257,7 @@
     \end{result}
 
     The law of large numbers can also be phrased in terms of the empirical distribution function:
-    \begin{theorem}[Glivenko-Cantelli]\index{Glivenko-Cantelli}
+    \begin{theorem}[Glivenko-Cantelli]\index{Glivenko-Cantelli}\label{statistics:glivenko_cantelli}
         Consider a cumulative distribution function $F$ on a probability space $\Omega$. Denote the empirical distribution function of $n$ random variables on $\Omega$ by $F_n$. If the random variables are i.i.d. according to $F$, then
         \begin{gather}
             \sup_{x\in\Omega}|F(x)-F_n(x)|\overset{\text{a.s.}}{\longrightarrow}0.
@@ -264,6 +289,55 @@
         \end{gather}
         where $K_\alpha$ is defined by the Kolmogorov distribution: $F_\mathrm{Kol}(K_\alpha) = 1-\alpha$.
     }
+
+    \newdef{Glivenko-Cantelli class}{\index{Glivenko-Cantelli!class}\label{statistics:glivenko_cantelli_class}
+        Consider a set of measurable functions $\mathcal{F}$ on a measurable space $(\Omega,\Sigma)$. For every probability measure $P$ on $\Omega$, one can define the $\mathcal{F}$-norm as follows:
+        \begin{gather}
+            \|P\|_\mathcal{F} := \sup\{\mathrm{E}_P[f]\mid f\in\mathcal{F}\}.
+        \end{gather}
+        A class $\mathcal{F}$ of measurable functions is said to be Glivenko-Cantelli with respect to a probability measure $P$ if it satisfies
+        \begin{gather}
+            \|P_n-P\|_\mathcal{F}\overset{\text{a.s.}}{\longrightarrow}0,
+        \end{gather}
+        where $P_n$ is the empirical measure.\footnote{If the convergence only holds in probability, the class is said to be \textbf{weakly GC}.} The Glivenko-Cantelli theorem \ref{statistics:glivenko_cantelli} says that the indicator functions of the sets $]\infty,x]$ form a Glivenko-Cantelli class.\footnote{Because every indicator function is uniquely associated to a set, one can also speak of GC classes of measurable sets.} In fact, they are \textbf{universally GC} because this theorem applies to all probability measures on $\Omega$. A class is said to be \textbf{uniformally GC} if the convergence holds uniformly over all probability measures.
+    }
+    \begin{remark}
+        Note that by the law of large numbers every singleton class is Glivenko-Cantelli (also universally and uniformly). The above definition strengthens the convergence of all elements of $\mathcal{F}$ to uniform convergence.
+    \end{remark}
+
+    \begin{property}[Bracketing number]
+        Consider a collection of measurable functions $\mathcal{F}$ on a meaurable space $(\Omega,\Sigma)$ and recall Definition \ref{functional:bracket} of the bracketing number. If the bracketing number $N_{[\,]}(\varepsilon,\mathcal{F},\|\cdot\|_1)$ is finite for all $\varepsilon>0$, then $\mathcal{F}$ is Glivenko-Cantelli (with respect to the probability measure that induces the $L^1$-norm $\|\cdot\|_1$).
+    \end{property}
+    \begin{property}[Metric entropy]\label{statistics:entrop_GC}
+        Consider a collection of measurable functions $\mathcal{F}$ on a meaurable space $(\Omega,\Sigma)$ and recall Definition \ref{metric:covering_number} of the metric entropy. Moreover, assume that $\mathcal{F}$ admits an integrable envelope $F$. Let $\mathcal{F}_M$ denote the collection of functions $f\mathbbm{1}_{F\leq M}$, where $f\in\mathcal{F}$. If
+        \begin{gather}
+            \frac{1}{n}\ln N_C(\varepsilon,\mathcal{F}_M,\|\cdot\|_1)\overset{d}{\longrightarrow}0,
+        \end{gather}
+        where $\|\cdot\|_1$ is the $L^1$-norm associated to the empirical measure $P_n$, for all $\varepsilon>0$ and $M>0$, then $\mathcal{F}$ is Glivenko-Cantelli.
+    \end{property}
+
+    \begin{property}[Symmetrized empirical measure]
+        Let $\{\sigma_1,\ldots,\sigma_n\}$ be a set of i.i.d. Rademacher variables \ref{prob:rademacher}. The symmetrized empirical measure is defined as follows:
+        \begin{gather}
+            P^\sigma_n:f\mapsto\frac{1}{n}\sum_{i=1}^n\sigma_if(x_i).
+        \end{gather}
+        Given a collection $\mathcal{F}$ of measurable functions on $(\Omega,\Sigma,P)$, the following inequality holds:
+        \begin{gather}
+            \expect{\|P_n-P\|_\mathcal{F}}\leq2\expect{\|P^\sigma_n\|_\mathcal{F}}.
+        \end{gather}
+    \end{property}
+
+    \begin{theorem}[Donsker]\index{Donsker}
+        Consider an empirical distribution function $F_n$ and define its normalized empirical process:
+        \begin{gather}
+            G_n := \sqrt{n}(F_n-F),
+        \end{gather}
+        where $F$ is the cumulative distribution function of the random variables $X_i$. The central limit theorem says that the empirical process converges in distribution to a standard normal distribution for every $x\in\mathbb{R}$. This can be strengthened as follows:
+        \begin{gather}
+            G_n\overset{d}{\longrightarrow}U
+        \end{gather}
+        in $D(\mathbb{R},\|\cdot\|_\infty)$, where $U$ is a standard Brownian bridge and $D(\mathbb{R},\|\cdot\|_\infty)$ denotes the space of c\`adl\`ag functions equipped with the supremum metric \ref{metric:supremum_distance}.
+    \end{theorem}
 
 \subsection{Common distributions}
 
@@ -317,7 +391,7 @@
     \begin{property}\index{memory}\label{statistics:memoryless_exponential_distribution}
         The exponential distribution is \textbf{memoryless}:
         \begin{gather}
-            \mathrm{Pr}(X>x_1+x_2|X>x_2) = \mathrm{Pr}(X>x_1).
+            \mathrm{Pr}(X>x_1+x_2\mid X>x_2) = \mathrm{Pr}(X>x_1).
         \end{gather}
     \end{property}
 
@@ -376,7 +450,7 @@
         \end{gather}
     }
 
-    \newformula{Cauchy distribution\footnotemark}{\index{Cauchy!distribution}\index{Breit-Wigner|see{Cauchy distribution}}\label{stat:cauchy_distribution}
+    \newformula{Cauchy distribution\footnotemark}{\index{Cauchy!distribution}\index{Breit-Wigner|see{Cauchy distribution}}\label{statistics:cauchy_distribution}
         \footnotetext{Also known (especially in particle physics) as the \textbf{Breit-Wigner} distribution.}
         The general density $f(x;x_0,\gamma)$ is given by
         \begin{gather}
@@ -835,7 +909,7 @@
         where $P(\Lambda(x)\leq\eta|H_0) = \alpha $.
     \end{definition}
     \sremark{In some references the reciprocal of $\Lambda$ is used as the definition of the likelihood ratio.}
-    \begin{theorem}[Neyman-Pearson lemma]\index{Neyman-Pearson}
+    \begin{theorem}[Neyman-Pearson lemma]\index{Neyman-Pearson}\label{statistics:neyman_pearson}
         The likelihood ratio test is the most powerful test at significance level $\alpha$.
     \end{theorem}
 

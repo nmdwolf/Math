@@ -123,13 +123,26 @@
         This measure is called the probability distribution of $X$.
     }
 
-    \newdef{Density}{\index{density}\index{cumulative distribution function}
-        \nomenclature[A_CDF]{CDF}{cumulative distribution function}
-        Let $f\geq0$ be an integrable function and recall Property \ref{lebesgue:measure_by_integral}. The function $f$ is called the density of the measure $P(A):=\int_Af\,d\lambda$ (with respect to the Lebesgue measure $\lambda$). Measures of this form are often called \textbf{cumulative distribution functions} and denoted by $F$. More generally, by the Radon-Nikodym theorem from Section \ref{section:Radon-Nikodym}, every absolutely continuous distribution function $F$ is of the form
+    \begin{example}[Rademacher variable]\index{Rademacher!variable}\label{prob:rademacher}
+        A random variable on $\Omega=\{-1,1\}$ with probability distribution $P_X(-1)=P_X(1)=\frac{1}{2}$.
+    \end{example}
+
+    \newdef{Density}{\index{density}
+        Let $f\geq0$ be an integrable function and recall Property \ref{lebesgue:measure_by_integral}. The function $f$ is called the density of the measure $P(A):=\int_Af\,d\lambda$ (with respect to the Lebesgue measure $\lambda$). If the measure is a probability measure, i.e. is normalized to 1, $f$ is called a \textbf{probability density function}.
+
+        More generally, by the Radon-Nikodym theorem \ref{lebesgue:radon_nikodym}, every absolutely continuous probability distribution $P$ is of the form
         \begin{gather}
-            F(A) = \int_Af\,d\lambda
+            P(A) = \int_Af\,d\lambda
         \end{gather}
         for some integrable function $f$.
+    }
+
+    \newdef{Cumulative distribution function}{\index{cumulative distribution function}
+        \nomenclature[A_CDF]{CDF}{cumulative distribution function}
+        Consider a random variable $X$ and its associated distribution $P_X$. The cumulative distribution function $F_X:\mathbb{R}\rightarrow[0,1]$ is defined as follows:
+        \begin{gather}
+            F_X(a) := P_X(\{x\in\mathbb{R}\mid x\leq a\}).
+        \end{gather}
     }
 
     \begin{theorem}[Skorokhod's representation theorem]\index{Skorokhod}
@@ -139,7 +152,7 @@
             \item $\ds\lim_{x\rightarrow-\infty}F(x) = 0$ and $\ds\lim_{x\rightarrow\infty}F(x) = 1$.
             \item $F$ is right-continuous, i.e. $\ds\lim_{y\nearrow y_0}F(y)=F(y_0)$.
         \end{itemize}
-        There exists a random variable $X:[0,1]\rightarrow\mathbb{R}$ defined on the probability space $([0,1],\mathcal{B},m_{[0,1]})$ such that $F=F_X$.
+        There exists a random variable $X:[0,1]\rightarrow\mathbb{R}$ defined on the probability space $([0,1],\mathcal{B},\lambda_{[0,1]})$ such that $F=F_X$, where $\mathcal{B}$ is the Borel $\sigma$-algebra of $[0,1]$ with its Euclidean topology.
     \end{theorem}
 
     \begin{theorem}[Theorem of the unconscious statistician]\label{prob:unconscious_statistician}
@@ -153,9 +166,9 @@
     \end{remark}
 
     \begin{formula}
-        Consider an absolutely continuous probability function $F$ defined on $\mathbb{R}^n$ and let $f$ be the associated density. Let $g:\mathbb{R}^n\rightarrow\mathbb{R}$ be integrable with respect to $F$.
+        Consider an absolutely continuous probability function $P$ defined on $\mathbb{R}^n$ and let $f$ be the associated density. Let $g:\mathbb{R}^n\rightarrow\mathbb{R}$ be integrable with respect to $P$.
         \begin{gather}
-            \int_{\mathbb{R}^n}g\,dF = \int_{\mathbb{R}^n}f(x)g(x)dx
+            \int_{\mathbb{R}^n}g\,dP = \int_{\mathbb{R}^n}f(x)g(x)dx
         \end{gather}
     \end{formula}
     \begin{result}
@@ -175,8 +188,8 @@
     \end{formula}
 
     Weak convergence of measures \ref{lebesgue:weak_convergence} induces a notion of convergence of random variables:
-    \newdef{Convergence in distribution}{\index{convergence!in distribution}
-        A sequence $\seq{X}$ of random variables is said to converge in distribution to a random variable $Y$ if the associated distribution functions $F_{X_n}$ converge pointwise to $F_Y$, i.e. $\lim_{n\rightarrow\infty}F_{X_n}(x)=F_Y(x)$ for all $x\in\mathbb{R}$ where $F$ is continuous.
+    \newdef{Convergence in distribution}{\index{convergence!in distribution}\label{prob:convergence_in_distribution}
+        A sequence $\seq{X}$ of random variables is said to converge in distribution to a random variable $Y$ if the associated cumulative distribution functions $F_{X_n}$ converge pointwise to $F_Y$, i.e. $\lim_{n\rightarrow\infty}F_{X_n}(x)=F_Y(x)$ for all $x\in\mathbb{R}$, where $F$ is continuous. This is equivalent to requiring that the associated probability measures $P_{X_n}$ converge weakly to $P_X$ (Definition \ref{lebesgue:weak_convergence}).
     }
     \begin{notation}
         If a sequence $\seq{X}$ converges in distribution to a random variable $Y$, this is often denoted by $X_n\overset{d}{\longrightarrow}Y$. Sometimes the $d$ (for ``distribution'') is replaced by the $\mathcal{L}$ (for ``law'').
@@ -190,6 +203,14 @@
             \item $X_n/Y_n\overset{d}{\longrightarrow}X/c$.
         \end{itemize}
     \end{theorem}
+
+    \newdef{Convergence in probability}{\index{convergence!in probability}\label{prob:convergence_in_probability}
+        A sequence $\seq{X}$ of random variables on a metric space $(\Omega,d)$ is said to converge in probability to a random variable $Y$ if for all $\varepsilon>0$ the following statement holds:
+        \begin{gather}
+            \lim_{n\rightarrow\infty}\mathrm{Pr}(d(X_n,X)>\varepsilon)=0.
+        \end{gather}
+        Convergence in probability implies convergence in distribution.
+    }
 
     \newdef{\difficult{Giry monad}}{\index{Giry monad}
         Consider the category $\mathbf{Meas}$ of measurable spaces. On this space one can define a monad \ref{cat:monad} that sends a set $X$ to its collection of probability distributions equipped with the $\sigma$-algebra generated by all evaluation maps $\mathrm{ev}_U$, where $U$ runs over the measurable subsets of $X$.
@@ -216,6 +237,13 @@
     \begin{notation}
         Other notations that are common in the literature are $\langle X \rangle$ and $\mu_X$.
     \end{notation}
+
+    \begin{property}[Markov's inequality]\index{Markov!inequality}
+        Let $X$ be a random variable. For every constant $\lambda>0$ the following inequality holds:
+        \begin{gather}
+            \mathrm{Pr}(X\geq\lambda)\leq\frac{\expect{X}}{\lambda}.
+        \end{gather}
+    \end{property}
 
     \newdef{Moment of order \texorpdfstring{$r$}{r}}{\index{moment}\label{prob:moment}
         The moment of order $r$ is defined as the expectation value of the $r^{th}$ power of $X$. By Equation \eqref{prob:omega_int_to_real_int} this becomes
@@ -247,6 +275,13 @@
         If $\expect{|X|^n}$ is finite for $n>0$, then $\expect{X^k}$ exist and is finite for all $k\leq n$.
     \end{property}
 
+    \begin{property}[Chebyshev's inequality]\index{Chebyshev!inequality}
+        Let $X$ be a nonnegative random variable. For every constant $\lambda>0$ the following inequality holds:
+        \begin{gather}
+            \mathrm{Pr}(|X-\expect{X}|\geq\lambda)\leq\frac{\variance{X}}{\lambda^2}.
+        \end{gather}
+    \end{property}
+
     \newdef{Moment generating function}{\index{moment!generating function}\label{prob:moment_generating_function}
         \begin{gather}
             M_X(t) := \expect{e^{tX}} = \int_{-\infty}^\infty e^{tx}f_X(x)dx
@@ -257,6 +292,24 @@
         \begin{gather}
             \label{prob:moment_generating}
             \expect{X^n} = \left.\mderiv{n}{M_X(t)}{t}\right|_{t=0}.
+        \end{gather}
+    \end{property}
+
+    \begin{method}[Chernoff bounds]\index{Chernoff bound}
+        The Chernoff bound for a random variable gives a bound on the tail probabilities. For all constants $\lambda>0$ the following inequality holds:
+        \begin{gather}
+            \mathrm{Pr}(X\geq a)=\mathrm{Pr}(e^{\lambda X}\geq e^{\lambda a})\leq\frac{\expect{e^{\lambda X}}}{e^{\lambda a}}.
+        \end{gather}
+        If one has more information about the moment generating function, then the Chernoff bound can be used to obtain improved concentration inequalities by optimizing over $\lambda$.
+    \end{method}
+    \begin{property}[Hoeffding's inequalities]\index{Hoeffding!inequality}\label{prob:hoeffding_inequality}
+        Consider a collection of independent, bounded random variables $X_1,\ldots,X_n$. Without loss of generality one can assume that they are bounded by the unit intevral, i.e. $0\leq X_i\leq 1$. For every constant $\lambda\geq0$ the following inequality holds:
+        \begin{gather}
+            \mathrm{Pr}\left(\overline{X}-\expect{\overline{X}}\geq\lambda\right)\leq\exp(-2n\lambda^2).
+        \end{gather}
+        If one can sharpen the bounds for the variables such that $X_i\in[a_i,b_i]$, then
+        \begin{gather}
+            \mathrm{Pr}\left(\overline{X}-\expect{\overline{X}}\geq\lambda\right)\leq\exp\left(-\frac{2n^2\lambda^2}{\sum_{i=1}^n(b_i-a_i)^2}\right).
         \end{gather}
     \end{property}
 
@@ -340,7 +393,7 @@
 
     Let $(\Omega,\Sigma,P)$ be a probability space. Consider a random variable $X\in L^2(\Omega,\Sigma,P)$ and a sub-$\sigma$-algebra $\mathcal{G}\subset\Sigma$. Property \ref{lebesgue:L2_hilbert_space} implies that the spaces $L^2(\Sigma)$ and $L^2(\mathcal{G})$ are complete and, hence, the projection theorem \ref{functional:projection_theorem} can be applied. For every $X\in L^2(\Sigma)$ there exists a random variable $Y\in L^2(\mathcal{G})$ such that $X-Y$ is orthogonal to $L^2(\mathcal{G})$. This has the following result:
     \begin{gather}
-        \forall Z\in L^2(\mathcal{G}):\langle X-Y|Z \rangle\equiv\int_\Omega(X-Y)ZdP = 0.
+        \forall Z\in L^2(\mathcal{G}):\langle X-Y\mid Z \rangle\equiv\int_\Omega(X-Y)Z\,dP = 0.
     \end{gather}
     Since $\mathbbm{1}_G\in L^2(\mathcal{G})$ for every $G\in\mathcal{G}$, Equation \eqref{lebesgue:domain_change} can be rewritten as
     \begin{gather}
@@ -351,7 +404,7 @@
     \newdef{Conditional expectation}{\index{expectation!conditional}\label{prob:conditional_expectation}
         Let $(\Omega,\Sigma,P)$ be a probability space and let $\mathcal{G}$ be a sub-$\sigma$-algebra of $\Sigma$. For every $\Sigma$-measurable random variable $X\in L^2(\Sigma)$ there exists a unique (up to a null set) random variable $Y\in L^2(\mathcal{G})$ that satisfies Equation \eqref{prob:conditional_expectation_condition} for every $G\in\mathcal{G}$. This variable $Y$ is called the conditional expectation of $X$ given $\mathcal{G}$ and it is denoted by $\expect{X|\mathcal{G}}$:
         \begin{gather}
-            \int_G\expect{X|\mathcal{G}}\,dP = \int_GX\,dP.
+            \int_G\expect{X\mid\mathcal{G}}\,dP = \int_GX\,dP.
         \end{gather}
     }
     \begin{remark}
@@ -361,11 +414,11 @@
     \begin{property}\label{prob:conditional_expectation_props}
         Let $(\Omega,\Sigma,P)$ be a probability space and consider a sub-$\sigma$-algebra $\mathcal{G}\subset\Sigma$. If the random variable $X$ is $\mathcal{G}$-measurable, then
         \begin{gather}
-            \expect{X|\mathcal{G}} = X\text{ a.s.}
+            \expect{X\mid\mathcal{G}} = X\text{ a.s.}
         \end{gather}
         On the other hand, if $X$ is independent of $\mathcal{G}$, then
         \begin{gather}
-            \expect{X|\mathcal{G}} = \expect{X}\text{ a.s.}
+            \expect{X\mid\mathcal{G}} = \expect{X}\text{ a.s.}
         \end{gather}
     \end{property}
 
@@ -434,33 +487,33 @@
         Let $X,Y$ be two random variables with joint density $f_{(X,Y)}$. The conditional density of $Y$ given $X\in A$ is
         \begin{gather}
             \label{prob:conditional_distribution}
-            h(y|X\in A) = \frac{\int_Af_{(X,Y)}(x,y)dx}{\int_Af_X(x)dx}.
+            h(y\mid X\in A) = \frac{\int_Af_{(X,Y)}(x,y)dx}{\int_Af_X(x)dx}.
         \end{gather}
         For $X=\{a\}$ this equation is ill-defined since the denominator would become 0. However, it is possible to avoid this problem by formally setting
         \begin{gather}
             \label{prob:formal_conditional}
-            h(y|A=a) := \frac{f_{(X,Y)}(a,y)}{f_X(a)},
+            h(y\mid A=a) := \frac{f_{(X,Y)}(a,y)}{f_X(a)},
         \end{gather}
         where $f_X(a)\neq0$. This last condition is nonrestrictive\marginpar{\dbend} because the probability of having a measurement $(X,Y)\in\{(x,y)\mid f_X(x) = 0\}$ is 0 (for nonsingular measures). One can thus define the conditional probability of $Y$ given $X=a$ as follows:
         \begin{gather}
-            P(Y\in B|X=a) := \int_B h(y|X=a)dy.
+            P(Y\in B\mid X=a) := \int_B h(y\mid X=a)dy.
         \end{gather}
     }
 
     \newformula{Conditional expectation}{\index{expectation!conditional}
         \begin{gather}
-            \expect{Y|X}(\omega) = \int_\mathbb{R}yh(y|X(\omega))dy
+            \expect{Y\mid X}(\omega) = \int_\mathbb{R}yh(y\mid X(\omega))dy
         \end{gather}
         Let $\mathcal{F}_X$ denote the $\sigma$-algebra generated by the random variable $X$ as before. Using Fubini's theorem one can prove that for all sets $A\in\mathcal{F}_X$ the following equality holds:
         \begin{gather}
-            \int_A\expect{Y|X}\,dP = \int_AY\,dP.
+            \int_A\expect{Y\mid X}\,dP = \int_AY\,dP.
         \end{gather}
-        This implies that the conditional expectation $\expect{Y|X}$ on $\mathcal{F}_X$ coincides with Definition \ref{prob:conditional_expectation}.
+        This implies that the conditional expectation $\expect{Y\mid X}$ on $\mathcal{F}_X$ coincides with Definition \ref{prob:conditional_expectation}.
     }
     Applying Property \ref{prob:conditional_expectation_props} to the case $\mathcal{G}=\mathcal{F}_X$ gives the law of total expectation:
     \begin{property}[Law of total expectation]
         \begin{gather}
-            \expect{\expect{Y|X}} = \expect{Y}
+            \expect{\expect{Y\mid X}} = \expect{Y}
         \end{gather}
     \end{property}
 
@@ -517,10 +570,47 @@
         \begin{gather}
             P\left(\sup_{t\leq\tau}X_t\geq C\right)\leq\frac{\expect{\max(0, X_\tau)}}{C}
         \end{gather}
-        for all $C\geq1$.
+        for all $C\geq1$ and $\tau\in T$.
     \end{property}
 
-    \begin{theorem}[Doob decomposition]\index{Doob}
+    The following property generalizes the Hoeffding inequalities \ref{prob:hoeffding_inequality}:
+    \begin{property}[Hoeffding-Azuma inequality]\index{Hoeffding-Azuma inequality}\label{prob:hoeffding_azuma}
+        Let $\seq{X}$ be a (super)martingale with bounded differences, i.e. there exist constants $c_k>0$ such that
+        \begin{gather}
+            |X_k-X_{k-1}|\leq c_k.
+        \end{gather}
+        The following inequality holds for all $\lambda\geq0$:
+        \begin{gather}
+            \mathrm{Pr}(X_N-X_0\geq\lambda)\leq\exp\left(-\frac{\lambda^2}{2\sum_{i=1}^Nc_i^2}\right).
+        \end{gather}
+        A symmetric result for the lower tail holds for submartingales. If there exist predictable processes $\seq{A},\seq{B}$ such that
+        \begin{gather}
+            A_k\leq X_k-X_{k-1}\leq B_k
+        \end{gather}
+        and
+        \begin{gather}
+            B_k-A_k\leq c_k
+        \end{gather}
+        for all $k\in\mathbb{N}$, the inequality can be sharpened:
+        \begin{gather}
+            \mathrm{Pr}(X_N-X_0\geq\lambda)\leq\exp\left(-\frac{2\lambda^2}{\sum_{i=1}^Nc_i^2}\right).
+        \end{gather}
+
+        Now, consider a function $f:\Omega^n\rightarrow\mathbb{R}$ such that
+        \begin{gather}
+            \sup_{x_1,\ldots,x_n,x'_k}|f(x_1,\ldots,x_k,\ldots,x_n)-f(x_1,\ldots,x'_k,\ldots,x_n)|\leq c_k
+        \end{gather}
+        for all $k\in\mathbb{N}$. By applying the above Hoeffding-Azuma inequalities to the Doob martingale
+        \begin{gather}
+            Z_m:=\expect{f(X_1,\ldots,X_n)\mid X_1,\ldots,X_m},
+        \end{gather}
+        one obtains the following inequality:
+        \begin{gather}
+            \mathrm{Pr}(f(X_1,\ldots,X_n)-\expect{f}\geq\lambda)\leq\exp\left(-\frac{2\lambda^2}{\sum_{i=1}^nc_i^2}\right).
+        \end{gather}
+    \end{property}
+
+    \begin{theorem}[Doob decomposition]\index{Doob!decomposition}
         Any integrable adapted process $\tseq{X}$ can be decomposed as $X_t=X_0+M_t+A_t$, where $\tseq{M}$ is a martingale and $\tseq{A}$ is a predictable process. These two processes are constructed iteratively as follows:
         \begin{align}
             A_0 = 0\qquad&\qquad M_0 = 0\\
@@ -545,7 +635,7 @@
         where $\omega\in\Omega$. For $t=0$ the convention $(X\cdot M)_0=0$ is used.
     }
     \begin{property}
-        If the process $\seq{X}$ is bounded, the stochastic integral itself defines a martingale.
+        If the process $\seq{X}$ is bounded, the stochastic integral defines a martingale.
     \end{property}
 
     \begin{property}[It\^o isometry]\index{It\^o!isometry}

@@ -279,6 +279,89 @@
 
     \remark{It is not hard to see that the KKT conditions reduce to the conditions for Lagrange multipliers when all $h_j$ are identically 0. For this reason the quantities $\alpha$ and $\beta$ are called the \textbf{KKT multipliers}.}
 
+\section{Approximation theory}
+\subsection{Bayes optimality}
+
+    \newdef{Bayes risk}{\index{Bayes!risk}
+        The minimal risk over all models:
+        \begin{gather}
+            R^* := \inf_{f:\mathcal{X}\rightarrow\mathcal{Y}}R(f).
+        \end{gather}
+    }
+
+    \newdef{Bayes classifier}{\index{Bayes!classifier}
+        Given a joint probability distribution $P$ over the instance space $\mathcal{X}\times\mathcal{Y}$ and a loss function $l:\mathcal{Y}\times\mathcal{Y}\rightarrow\mathbb{R}$, the pointwise Bayes predictor is defined as follows:
+        \begin{gather}
+            f^*:x\mapsto\arg\min_{y\in\mathcal{Y}}\int_\mathcal{Y}l(y,y')dP(y'\mid x).
+        \end{gather}
+    }
+    \begin{property}[Bayes optimality]
+        The risk of the pointwise Bayes predictor is minimal, i.e. $R(f^*)=R^*$. In practice, however, one cannot achieve Bayes optimality (through the pointwise Bayes predictor), since this would require the knowledge of the distribution.
+    \end{property}
+
+    \newdef{Approximation error}{\index{error}
+        Given a data set $\mathcal{D}\subset\mathcal{X}\times\mathcal{Y}$, the empirical risk $R_\mathrm{emp}$ is defined as follows:
+        \begin{gather}
+            R_\mathrm{emp}:\hat{y}\mapsto\frac{1}{|\mathcal{D}|}\sum_{(x,y)\in\mathcal{D}}l(\hat{y}(x),y).
+        \end{gather}
+        Consider a hypothesis space $\mathcal{H}\subseteq\mathcal{Y}^\mathcal{X}$ (e.g. selected by a choice of model architecture). The minimizer of the true risk in $\mathcal{H}$ is denoted by $h^*$, while the empirical risk minimizer is denoted by $\hat{h}$. The \textbf{approximation error/uncertainty} is defined as the difference $R(\hat{h})-R(h^*)$, while the \textbf{model uncertainty} is defined as the difference $R(h^*)-R^*$. The total error made by $\hat{h}$ (with respect to the Bayes optimum) is then simply the sum of these two.
+    }
+
+\subsection{PAC theory and empirical risk minimization}\index{PAC theory}\label{section:pac}
+
+    \begin{property}
+        Note that by the (strong) law of large numbers \ref{prob:strong_lln}, the empirical risk converges to the true risk almost surely whenever the data poitns are sampled i.i.d. However, in practice, the true question becomes how fast this convergence happens.
+    \end{property}
+
+    \newdef{Probably approximately correct}{
+        \nomenclature[A_PAC]{PAC}{probably approximately correct}
+        A model $\hat{f}$ is said to be $\varepsilon$-accurate at the confidence level $1-\delta$ (with respect to the hypothesis space $\mathcal{H}$), or simply $(\varepsilon,\delta)$-PAC, if it satisfies
+        \begin{gather}
+            \mathrm{Pr}\left(R(\hat{f})-\inf_{f\in\mathcal{H}}R(f)>\varepsilon\right)<\delta.
+        \end{gather}
+    }
+    \begin{result}
+        If one can prove a PAC bound, one gets the following bound for free:
+        \begin{gather}
+            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+2\varepsilon
+        \end{gather}
+        with probability $1-\delta$, i.e. with high probability the true risk for the minimizer is only slightly higher than the empirical risk and, hence, the minimizer is a reasonbaly good estimate.
+    \end{result}
+
+    \begin{property}[Bounded losses]
+        Consider a hypothesis space $\mathcal{H}$ with a bounded loss function. The probability that for a given number of data points $n\in\mathbb{N}_0$ their exists at least one model $f\in\mathcal{H}$ for which the empirical risk deviates significantly from the true risk is bounded as follows:
+        \begin{align}
+            \mathrm{Pr}(\exists f\in\mathcal{H}:|R_\mathrm{emp}(f)-R(f)|\geq\varepsilon) &= \mathrm{Pr}(\sup_{f\in\mathcal{H}}|R_\mathrm{emp}(f)-R(f)|\geq\varepsilon)\nonumber\\
+            &\leq\sum_{f\in\mathcal{H}}\mathrm{Pr}(|R_\mathrm{emp}(f)-R(f)|\geq\varepsilon)\nonumber\\
+            &\leq\sum_{f\in\mathcal{H}}2e^{-2n\varepsilon^2}\nonumber\\
+            &=2|\mathcal{H}|e^{-2n\varepsilon^2},
+        \end{align}
+        where the second inequality comes from Hoeffding's inequality \ref{prob:hoeffding_inequality} (the empirical risk is an average). In combination with a similar expression for the one-sided tails, using the one-sided Hoeffding inequality, the PAC bound becomes
+        \begin{gather}
+            R(f)\leq R_\mathrm{emp}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}},
+        \end{gather}
+        with probability at least $1-\delta$. Note that this bound is distribution-free, i.e. it does not depend on the data-generating distribution.
+
+        This bound on the empirical risk also implies a bound on the expected risk of the minimizer $\hat{f}$:
+        \begin{gather}
+            \expect{R(\hat{f})}\leq\inf_{f\in\mathcal{H}}R(f)+\sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}+\delta,
+        \end{gather}
+        where $\delta>0$ is now arbitrary.
+    \end{property}
+
+    The issue with the above two bounds is that they only apply to the case where the hypothesis space $\mathcal{H}$ is finite. To obtain useful bounds for countable hypothesis spaces, a new tool is required:
+    \newdef{Complexity regularizer}{
+        A function $c:X\rightarrow\mathbb{R}^+$ such that
+        \begin{gather}
+            \sum_{x\in X}e^{-c(x)}\leq1.
+        \end{gather}
+        A simple example would be the log-probabilities $c(x):=\ln(P(x))$ when a probability distribution $P$ on $X$ is given.
+    }
+    Using a complexity regularizer on $\mathcal{H}$, the following risk bound can be obtained with probability $1-\delta$:
+    \begin{gather}
+        R(f)\leq R_\mathrm{emp}(f) + \sqrt{\frac{c(f)+\ln(1/\delta)}{2n}}.
+    \end{gather}
+
 \section{Classification problems}
 \subsection{Clustering}\index{clustering}
 
@@ -324,7 +407,7 @@
 
 \section{Garden}
 
-    ?? ADD (e.g. trees, forests)??
+    ?? ADD (e.g. trees, forests) ??
 
 \section{Support-vector machines}
 \subsection{Kernel methods}
@@ -355,7 +438,7 @@
             \item\textbf{Reproducing property}: For all $x\in X, f\in\mathcal{H}$ the evaluation functional $\delta_x$ satisfies $\delta_x(f) = \langle k(\cdot,x)|f \rangle_{\mathcal{H}}$.
             \item\textbf{Density}: The span of $\{k(\cdot,x)\mid x\in X\}$ is dense in $\mathcal{H}$.
         \end{enumerate}
-        The density property is often replaced by the property that $k(\cdot, x)\in\mathcal{H}$ for all $x\in X$.
+        The density property is often replaced by the property that $k(\cdot,x)\in\mathcal{H}$ for all $x\in X$.
     }
 
     \begin{property}[Convergence]
@@ -467,10 +550,122 @@
     \begin{align}
         \beta_i = 0&\implies y_i(w^Tx_i+b)\geq1\\
         \beta_i = C&\implies y_i(w^Tx_i+b)\leq1\\
-        \beta_i \in\ ]0, C[&\implies y_i(w^Tx_i+b)=1
+        \beta_i\in\ ]0,C[&\implies y_i(w^Tx_i+b)=1.
     \end{align}
 
     ?? COMPLETE (e.g. geometry)??
+
+\section{Vapnik-Chervonenkis theory}
+\subsection{VC dimension}
+
+    \newdef{Shatter coefficient}{\index{shatter}
+        Let $\Omega$ denote the universe of discours and consider a set $C\in\Omega$. The shatter(ing) coefficients of $C$ are defined as follows:
+        \begin{gather}
+            S_n(C) := \max_{x_1,\ldots,x_n}\left|\big\{\{x_1,\ldots,x_n\}\cap c\,\big\vert\,c\in C\big\}\right|.
+        \end{gather}
+        It should be clear that every shatter coefficient $S_n$ is bounded above by $2^n$.
+
+        Given a collection of binary functions $\mathcal{F}\subseteq\{0,1\}^X$, the shatter(ing) coefficients (or \textbf{growth functions}) of $\mathcal{F}$ are given by:
+        \begin{gather}
+            S_n(\mathcal{F}) := \max_{\{x_1,\ldots,x_n\}\subset X}\left|\big\{\{f(x_1),\ldots,f(x_n)\}\,\big\vert\,f\in\mathcal{F}\big\}\right|.
+        \end{gather}
+        The shatter coefficients give a notion of effective size of $\mathcal{F}$, since they say how many different results the functions can produce given a data set of $n$ points.
+    }
+
+    \newdef{Vapnik-Chervonenkis dimension}{\index{Vapnik-Chervonenkis!dimension}
+        The Vapnik-Chervonenkis (VC) dimension of a collection of functions $\mathcal{F}$ is defined as follows:
+        \begin{gather}
+            \mathrm{VC}(\mathcal{F}) := \max\{k\in\mathbb{N}\mid S_k(\mathcal{F})=2^k\}.
+        \end{gather}
+        Note that if a collection shatters $n$ points, it also necessarily shatters a subset of these points, therefore, one also has
+        \begin{gather}
+            S_n(\mathcal{F})=2^n
+        \end{gather}
+        for all $n<\mathrm{VC}(\mathcal{F})$.
+
+        A collection is called a \textbf{Vapnik-Chervonenkis class} if its VC dimension is finite.
+    }
+    \begin{property}[Sauer's lemma\footnotemark]\index{Sauer's lemma}\label{data:sauer_lemma}
+        \footnotetext{Sometimes called the \textbf{Sauer-Shelah lemma}.}
+        The VC dimension bounds shatter coefficients in the following way:
+        \begin{gather}
+            S_n(\mathcal{F})\leq\sum_{k=0}^{\mathrm{VC}(\mathcal{F})}\binom{n}{k}
+        \end{gather}
+        for all $n\in\mathbb{N}$. For $n\leq\mathrm{VC}(\mathcal{F})$, the right-hand side is just the full binomial expansion for $2^n$ and, accordingly, the shatter coefficients grow exponentially. For $n\geq d$, the binomial series is truncated and polynomial behaviour is obtained:
+        \begin{gather}
+            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{en}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})},
+        \end{gather}
+        where $e$ is the Euler number.
+    \end{property}
+
+    The generalization bounds of Section \ref{section:pac} on empirical risk minimization can be extended to uncountable hypothesis spaces as follows:
+    \begin{property}[Generalization bound]
+        The expected risk of the empirical risk minimizer $\hat{f}$ is bounded as follows:
+        \begin{gather}
+            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(en/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
+        \end{gather}
+        with probability at least $1-\delta$.
+    \end{property}
+
+    ?? CHECK ALL THESE BOUNDS ??
+
+\subsection{Rademacher complexity}
+
+    \begin{remark}[Real-valued functions]
+        The VC dimension of a collection of arbitrary real-valued functions can be defined as the VC dimension of the corresponding collection of indicator functions:
+        \begin{gather}
+            \mathrm{VC}(\mathcal{F}) := \mathrm{VC}\left(\big\{\theta(f(x)-\lambda)\,\big\vert\,f\in\mathcal{F},\lambda\in\mathbb{R}\big\}\right).
+        \end{gather}
+        This definition is equivalent to the following one through subgraphs:
+        \begin{gather}
+            \mathrm{VC}(\mathcal{F}) = \mathrm{VC}\left(\big\{C_f:=\{(x,\lambda)\in X\times\mathbb{R}\mid\lambda<f(x)\}\,\big\vert\,f\in\mathcal{F}\big\}\right).
+        \end{gather}
+    \end{remark}
+
+    \begin{example}[Linear spaces]
+        Every vector space $V$ of real-valued functions has VC dimension at most $\dim(V)+1$.
+    \end{example}
+    \begin{example}[Translations]
+        The set of translations of a real-valued function has VC dimension 1.
+    \end{example}
+
+    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that VC bounds obtained before make sense in this setting. To obtain useful bounds, it will be important to introduce a new notion of effective size:
+    \newdef{Rademacher complexity}{\index{Rademacher!complexity}
+        Consider a collection of functions $\mathcal{F}:=\{f:X\rightarrow\mathbb{R}\}$. The Rademacher complexity is defined as follows:
+        \begin{gather}
+            \mathfrak{R}_n(\mathcal{F}) := \expect{\sup_{f\in\mathcal{F}}\frac{1}{n}\sum_{i=1}^n\sigma_if(X_i)},
+        \end{gather}
+        where the $\sigma_i$ are Rademacher variables \ref{prob:rademacher} and the expectation is taken over both the Rademacher variables and the sample $(X_1,\ldots,X_n)$.
+    }
+
+    \begin{property}[Risk bound]
+        Consider a collection of bounded functions $\mathcal{F}\subseteq[a,b]^\mathcal{X}$.
+        \begin{gather}
+            \expect{R(f)}\leq R_\mathrm{emp}(f)+2\mathfrak{R}_n(\mathcal{F})+(b-a)\sqrt{\frac{\log(1/\delta)}{2n}}
+        \end{gather}
+        with probability at least $1-\delta$.
+    \end{property}
+
+    \begin{property}[VC dimension]
+        The shatter coefficient bounds the Rademacher complexity in the following way:
+        \begin{gather}
+            \mathfrak{R}_n(\mathcal{F})\leq\sqrt{\frac{2\ln(S_n(\mathcal{F}))}{n}}.
+        \end{gather}
+    \end{property}
+
+\subsection{Relation to Glivenko-Cantelli classes}
+
+    \begin{property}
+        Recall Property \ref{statistics:entrop_GC}. The empirical $L^1$-norm only depends on the values of the functions $f\in\mathcal{F}$ at the given data points and, therefore, the covering number of $\mathcal{F}$ is bounded above by the covering number of $\{(f(x_1),\ldots,f(x_n))\mid f\in\mathcal{F}\}$. The latter is itself bounded above by the shatter coefficient $S_n(\mathcal{F})$. If $\mathcal{F}$ has finite VC dimension, Sauer's lemma \ref{data:sauer_lemma} implies that this coefficient grows polynomial in $n$, so
+        \begin{gather}
+            \frac{1}{n}\ln N_C(\varepsilon,\mathcal{F}_M,\|\cdot\|_1)\overset{d}{\longrightarrow}0
+        \end{gather}
+        and, thus, $\mathcal{F}$ is Glivenko-Cantelli.
+    \end{property}
+
+    \begin{theorem}
+        A class of sets is Vapnik-Chervonenkis if and only if it is Glivenko-Cantelli \ref{statistics:glivenko_cantelli_class}.
+    \end{theorem}
 
 \section{Time series analysis}
 
@@ -657,14 +852,20 @@
 
     One of the simplest ways to express uncertainty about predictions or parameter estimates is to give a set of possible values instead of a single value. However, to be meaningful, these sets should satisfy some conditions.
 
-    \newdef{Validity}{\index{validity}\index{significance}
-        Consider a region predictor $\Gamma$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance/confidence level} $\alpha\in[0,1]$) if satisfies
+    \newdef{Validity}{\index{validity}\index{significance}\label{data:validity}
+        Consider a measurable region predictor $\Gamma$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
         \begin{gather}
+            \label{data:validity_condition}
             P(y\in\Gamma^\alpha(x))\geq 1-\alpha.
         \end{gather}
-        One sometimes also distinguishes between exact validity and \textbf{conservative} validity, where the former is a subcase of the latter for which the inequality becomes an equality.
+        One sometimes also distinguishes between exact validity and \textbf{conservative} validity, where the former is the subcase of the latter for which the inequality becomes an equality.
+
+        In fact, one can define two notions of validity: pointwise and asymptotic. Equation \eqref{data:validity_condition} characterizes pointwise validity in the sense that the probability of having an error is given by a Bernoulli process with parameter $\alpha$. Asymptotic validity is a frequentist notion in the following sense:
+        \begin{gather}
+            \lim_{n\rightarrow\infty}\frac{\mathrm{Err}_n(\Gamma)}{n}\leq\alpha,
+        \end{gather}
+        where $\mathrm{Err}_n(\Gamma)$ is the number of errors made by $\Gamma$ after $n$ trials. It should be clear that pointwise validity (both exact and conservative) implies asymptotic validity.
     }
-    In practice one will always prefer models that are as exact as possible.
 
     \begin{remark}[Confidence regions]
         The definition of valid confidence predictors above is similar to the definition of confidence regions (Section \ref{section:confidence}). However, in contrast to confidence regions of population parameters, the size of confidence regions for predictive distributions does not go towards to zero in the infinite data limit. This follows from the fact that in general all observations are subject to noise and, hence, even with perfect knowledge about the data generating distribution, an exact prediction is impossible.\footnote{Note that when observations are not sampled according to a distribution, but are perfectly predictable, this is of course not true.}
@@ -678,7 +879,7 @@
     \newdef{Exchangeability}{\index{exchangeability}\index{bag}
         Consider an ordered data sample $\{z_i\}_{1\leq i\leq N}$. The joint distribution $P(z_1,\ldots,z_N)$ is said to be exchangeable if it is invariant under any permutation of the data points. A distribution $Q$ is said to be exchangeable if $Q^n$ is exchangeable for all $n\in\mathbb{N}$.
 
-        This definition can be restated in a purely combinatorial way. First, define the notion of a \textbf{bag} obtained from a (possibly ordered) data sample $\{z_i\}_{1\leq i\leq N}$ as the (unordered) set $\mathcal{B}$ containing these elements. The joint distribution $P$ is then said to be exchangeable if the probability of finding any sequence of data points is equal to the probability of drawing this same sequence from the bag of these elements. Since this probability is purely combinatorial and, hence, completely independent of the ordering, it should be clear that this coincides with the first definition. The set of bags in a space $X$ is sometimes denoted by $X^\infty$.
+        This definition can be restated in a purely combinatorial way. First, define the notion of a \textbf{bag} obtained from a (possibly ordered) data sample $\{z_i\}_{1\leq i\leq N}$ as the (unordered) multiset $\mathcal{B}$ containing these elements. The joint distribution $P$ is then said to be exchangeable if the probability of finding any sequence of data points is equal to the probability of drawing this same sequence from the bag of these elements. Since this probability is purely combinatorial and, hence, completely independent of the ordering, it should be clear that this coincides with the first definition. The set of bags in a space $X$ is sometimes denoted by $X^\infty$.
     }
 
     \newdef{Nonconformity measure}{\index{measure!conformity}
@@ -697,15 +898,20 @@
             A_C(\mathcal{B},(x,y)) := \max\Big(l(x)-y,y-u(x)\Big).
         \end{gather}
     \end{example}
-    \begin{example}[Nested interval predictors]
-        Let $T$ be a totally ordered set \ref{set:total_order}. For every model $\tseq{C}\equiv(l_t,u_t)_{t\in T}:X\rightarrow\mathbb{R}^2$ that predicts a sequence of nested intervals, i.e. $s\leq t\implies l_s(x)\geq l_t(x)\land u_s(x)\leq u_t(x)$, that is trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
+    It should be noted that although common, nonconformity measures and, by extension, conformal prediction are also applicable to nonmetric spaces:
+    \begin{example}[Nested region predictors]
+        Let $T$ be a totally ordered set \ref{set:total_order}. For every model $\tseq{C}:X\rightarrow P(Y)$ that predicts a sequence of nested regions, i.e.
+        \begin{gather}
+            s\leq t\implies C_s(x)\subseteq C_t(x),
+        \end{gather}
+        trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
             A_T(\mathcal{B},(x,y)) := \inf\{t\in T\mid y\in C_t(x)\}.
         \end{gather}
     \end{example}
 
     \begin{construct}[Conformal predictor]\label{data:cp}
-        Consider a data sample given as a bag $\mathcal{B}\in P(Z)$ together with a nonconformity measure $A$ and let $\alpha$ denote the confidence level of the prediction region to be constructed. For any new element $z^*\in Z$ the algorithm proceeds as follows:
+        Consider a data sample given as a bag $\mathcal{B}\in Z^\infty$ together with a nonconformity measure $A$ and let $\alpha$ denote the confidence level of the prediction region to be constructed. For any new element $z^*\in Z$ the algorithm proceeds as follows:
         \begin{enumerate}
             \item Denote the nonconformity score $A(\mathcal{B},z^*)$ by $\mu_{z^*}$.
             \item For every element $z$ in $\mathcal{B}$, define $\mu_z$ by replacing $z$ by $z^*$ in the bag and calculating the nonconformity score as in the previous step.
@@ -722,7 +928,15 @@
     \begin{property}[Optimality]
         A conformal predictor satisfies the following conditions:
         \begin{itemize}
-            \item Regions are (conservatively) valid, i.e. $P(p^*\leq\alpha)\leq\alpha$ and thus also $P(y^*\in\Gamma^\alpha(x))\geq1-\alpha$.
+            \item Regions are (conservatively) valid, i.e.
+                \begin{gather}
+                    P(p^*\leq\alpha)\leq\alpha,
+                \end{gather}
+                and thus also
+                \begin{gather}
+                    P(y^*\in\Gamma^\alpha(x^*,\mathcal{B}))\geq1-\alpha,
+                \end{gather}
+                where the probability is taken over both the bag $\mathcal{B}$ and the point $(x^*,y^*)$.
             \item Regions are nested, i.e. $\alpha\leq\beta\implies\forall x\in X:\Gamma^\alpha(x)\subseteq\Gamma^\beta(x)$.
         \end{itemize}
         Given any region predictor satisfying these three properties below, there exists a conformal predictor that is more efficient, i.e. produces smaller prediction regions.
@@ -733,7 +947,7 @@
         \begin{gather}
             p^*(\theta) := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z>\mu_{z^*}\}| + \theta\,|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z=\mu_{z^*}\}|}{|\mathcal{B}|+1},
         \end{gather}
-        where $\theta$ is uniformly sampled from the unit interval $[0,1]$. Exact validity is then obtained by also marginalizing over the random variable $\theta$.
+        where $\theta$ is independently and uniformly sampled from the unit interval $[0,1]$. Exact validity is then obtained by also marginalizing over the random variable $\theta$.
     \end{property}
 
     Now, one could wonder if the assumption of exchangeability is a realistic assumption. Obviously if one applies the procedure to independent observations, everything is fine since i.i.d. sequences are clearly exchangeable. However, some important classes of data sequences are clearly not exchangeable, e.g. time series. This kind of data often contains intrinsic correlation and, hence, the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There, one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
@@ -742,7 +956,7 @@
     \end{gather}
     where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using these explicit permutations, one can generalize the construction of conformal predictors to arbitrary randomization schemes, i.e. to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
 
-    ?? FINISH ??
+    ?? FINISH (is this even relevant for this compendium) ??
 
     At last a computationally efficient modification of the original CP algorithm is introduced. For most applications, especially those in machine learning and big data, the computational inefficiency of conformal predictors would make them hard to use. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification:
     \begin{construct}[Inductive CP]
@@ -753,6 +967,7 @@
        \end{gather}
         As in the original CP algorithm, a new observation $z^*$ is included in the prediction region if and only if $p^*>\alpha$:
         \begin{gather}
+            \label{data:icp2}
             \Gamma^\alpha(x) := \{y\in Y\mid p(x,y)>\alpha\}.
         \end{gather}
         It should be clear that the underlying predictor only needs to be trained once using this scheme.
@@ -762,19 +977,23 @@
     \end{remark}
 
     \begin{property}[Validity]
-        Although the ICP algorithm is computationally much more efficient than its transductive counterpart, one does not have to give up any of its properties. If the data is exchangeable (and the resulting nonconformity score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{\mu_z\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly distributed in $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\alpha$, the probability of finding a new nonconformity score smaller or equal than the $\alpha$-quantile of $A(\mathcal{C})$ is
+        Although the above ICP algorithm is already computationally much more efficient than its transductive counterpart, one can go even further. However, in this case one needs to pay attention in order not to ruin the validity. To use Equation \eqref{data:icp} one does not have to retrain the model every time, but one still needs to reevaluate the nonconformity score for possible $y^*\in Y$. It would be even better if one could extract the boundaries of the prediction region straight from the calibration data.
+
+        If the data is exchangeable (and the resulting nonconformitys score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{\mu_z\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly sampled from $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\beta$, the probability of finding a new nonconformity score smaller than or equal to the $\beta$-quantile of $A(\mathcal{C})$ is
         \begin{gather}
-            P\Big(\mu_{z^*}\leq q_\alpha(A(\mathcal{C}))\Big) = \frac{\left\lceil\alpha|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+            P\Big(\mu_{z^*}\leq q_\beta(A(\mathcal{C}))\Big) = \frac{\left\lceil\beta|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
         \end{gather}
-        By comparison with Equation \eqref{data:icp} one immediately gets the following result:
+        If one constructs a prediction region by including all points $(x^*,y^*)\in Z$ such that the associated nonconformity score is smaller than the $(1-\alpha)$-quantile, one immediately obtains
         \begin{gather}
-            P(y^*\in\Gamma^\alpha(x,\mathcal{C})) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+            P(y^*\in\Gamma^\alpha(x^*,\mathcal{C})) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
         \end{gather}
-        However, this is where the TCP and ICP algorithms differ. When using Equation \eqref{data:tcp} for the transductive algorithm, the above probabilities would contain a factor $|\mathcal{C}|+1$ in both the numerator and the denominator, so the coverage condition is satisfied. However, for the inductive algorithm, a minimal modification also leads to validity:
+        However, this is where the TCP and ICP algorithms differ. When using Equation \eqref{data:tcp} for the transductive algorithm, the above probabilities would contain a factor $|\mathcal{C}|+1$ in both the numerator and the denominator, so the coverage condition is satisfied. However, for this quantile-based reformulation of the inductive algorithm, a minimal modification also leads to validity:
         \begin{gather}
             \Gamma^\alpha(x)\longrightarrow\Gamma^\alpha(x) := \left\{y\in Y\mid A(x,y)\leq q_{(1+1/|\mathcal{C}|)(1-\alpha)}(A(\mathcal{C}))\right\},
         \end{gather}
-        i.e. the empirical quantiles are replaced by ``inflated'' quantiles. The smoothing of Property \ref{data:smooth_cp} can also be implied in this case. If one does not use a smoothened conformal predictor but assumes that all calibration scores are distinct, the following property is obtained:
+        i.e. the empirical quantiles are replaced by ``inflated'' quantiles. When using Equations \eqref{data:icp} and \eqref{data:icp2} to determine the ICP region, one is essentially including all points $(x^*,y^*)$ such that the nonconformity score is smaller than or equal to the $(1-\alpha)$-quantile of the enhanced calibration curve $A(\mathcal{C})\cup\{A(x^*,y^*)\}$. It is not hard to show that this quantile is equivalent to the inflated quantile of the ordinary calibration curve.
+
+        The smoothing of Property \ref{data:smooth_cp} can also be implied in this case. If one does not use a smoothened conformal predictor but assumes that all calibration scores are distinct, the following property is obtained:
         \begin{gather}
             P(y^*\in\Gamma^\alpha(x,\mathcal{C}))\geq 1 - \alpha + \frac{1}{|\mathcal{C}|}.
         \end{gather}
@@ -808,6 +1027,60 @@
 
     ?? COMPLETE ??
 
+\subsection{Classifier calibration}
+
+    A specific instance of regression problems are classification tasks where the one tries to model a function $f:X\rightarrow Y$ with $Y$ finite and discrete. For the case of probabilistic classifiers, the notion of validity \ref{data:validity} admits the following formulation:
+    \begin{definition}[Calibration]\index{calibration}
+        A probabilistic (multiclass) classifier $\hat{P}(\cdot\mid\cdot):Y\times X\rightarrow[0,1]$ is said to be (well-)calibrated if
+        \begin{gather}
+            \mathrm{Pr}\left(y\,\middle\vert\,\hat{P}(y\mid x)=p\right)=p
+        \end{gather}
+        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\hat{P}$, i.e. instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class.
+    \end{definition}
+
+    Consider now the case of binary classification: $X\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
+    \begin{gather}
+        A_\mathrm{binary}(\mathcal{B},(x,y)) := 1 - \hat{P}(y\mid x;\mathcal{B}),
+    \end{gather}
+    where the classifier $\hat{P}(\cdot\mid\cdot\,;\mathcal{B})$ is possibly estimated on $\mathcal{B}$. At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
+
+    In fact, for classification tasks, where the codomain is finite (or at least discrete), it makes sense to slightly change the approach. Instead of fixing the significance level $\alpha$, one could (or should) consider some specific values:\index{confidence}\index{credibility}
+    \begin{itemize}
+        \item\textbf{Confidence}: $\sup\{1-\alpha\mid|\Gamma^\alpha(x)|\leq1\}$
+        \item\textbf{Credibility}: $\inf\{\alpha\mid|\Gamma^\alpha(x)|=0\}$
+    \end{itemize}
+    The former is the highest probability with which the model can predict a single class. If one wants a higher probability, more than one class has to be considered. The latter gives a measure of how ``credible'' the predictions are. The smaller this number, i.e. the greater the confidence with which the model predicts a vacuously false result (every sample necessarily belongs to a class), the less reliable the model is for a given sample.
+
+\subsection{Conditionality}
+
+    The above sections considered confidence predictors that were valid in a global sense, i.e. averaged over the whole instance space $X\times Y$. However, as in ordinary probability theory, in many settings it makes more sense to consider conditional statements:
+    \begin{gather}
+        \label{data:conditional_validity_condition}
+        P(y\in\Gamma^\alpha(x)\mid\kappa(x,y))\geq 1-\alpha,
+    \end{gather}
+    where the function $\kappa:X\times Y\rightarrow K$ represents the conditioning statement (the set $K$ can be any set). In the conformal prediction literature it is often called a \textbf{taxonomy function}.\index{taxonomy}
+
+    In practice, the label set $K$ is often finite and discrete, i.e. one considers a finite subdivision of $X\times Y$. The simplest solution to obtain conditional validity in this case is to apply any known algorithm to every conditional class individually. In the case of conformal prediction this gives rise to the notion of \textbf{Mondrian conformal predictors}.\index{Mondrian}
+
+    In a perfect world, the ultimate goal should be to have exact objectwise validity:
+    \begin{gather}
+        P(y\in\Gamma^\alpha(x)\mid x)\geq 1-\alpha.
+    \end{gather}
+    However, in general, one can show that this cannot be attained:
+    \begin{property}[No-go theorem]
+        Let $X$ be a separable metric space equipped with its canonical Borel $\sigma$-algebra and consider a confidence predictor $\Gamma^\alpha$ at conditional significance level $\alpha\in[0,1]$. For every probability distribution $P$ on $X\times Y$ and $P_X$-almost all non-atoms $x\in X$ one has
+        \begin{gather}
+            \mathrm{Pr}(\lambda(\Gamma^\alpha(x))=\infty)\geq 1-\alpha
+        \end{gather}
+        and
+        \begin{gather}
+            \mathrm{Pr}(\mathrm{co}(\Gamma^\alpha(x))=\mathbb{R})\geq 1-2\alpha,
+        \end{gather}
+        where $\lambda$ and $\mathrm{co}$ denote the Lebesgue measure and convex hull, respectively.
+    \end{property}
+
+    ?? FINISH ??
+
 \subsection{Distribution-shift}
 
     An important problem in the field of data science, in particular that of machine learning, is the change of the data generating process. Consider a classic train-test routine. If the model was trained on a data set sampled from the distribution $P_0$, but applied to a data set sampled from the distribution $P_1$, there is no reason the expect that the model will still give reasonable results. Furthermore, even if the crude point predictions are still somewhat sensible, this does not mean that their theoretical properties, such as the validity of confidence regions, is preserved.
@@ -824,15 +1097,15 @@
     \end{gather}
 
     \begin{method}[Power martingale]
-        For every constant $\varepsilon\in[0,1]$ one defines the power martingale by
+        For every constant $\varepsilon\in[0,1]$ one defines the power martingale as
         \begin{gather}
             X^\varepsilon_i := \prod_{k=0}^i\varepsilon p^{\varepsilon-1}_k.
         \end{gather}
-        One can also construct a mixture martingale by integrating over $\varepsilon$:
+        One can also construct a \textbf{simple mixture} martingale by integrating over $\varepsilon$:
         \begin{gather}
             X_i := \int_0^1X^\varepsilon_id\varepsilon.
         \end{gather}
-        Because $\varepsilon\leq0$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e. when unlikely values are observed.
+        Because $\varepsilon-1\leq0$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e. when unlikely values are observed.
     \end{method}
     However, not all distribution shifts will give rise to such behaviour. For example, it is possible that, although the $p$-values are not distributed uniformly anymore (since the data is not exchangeable), they are concentrated in the upper half of the unit interval and, hence, do not let the ``martingale'' grow strongly. For this reason it is convenient to construct betting functions that take into account the distribution of the $p$-values.
     \begin{method}[Plug-in martingale]
@@ -842,3 +1115,22 @@
         \end{gather}
         Now, if the empirical distribution functions of the $p$-values converge weakly \ref{lebesgue:weak_convergence} to an absolutely continuous distribution and $\log(\hat{\rho}_i(p))\longrightarrow\log(\rho(p))$ uniformly, where $\rho$ is the limit density of the empirical distributions, it can be shown that plug-in martingale grows quicker than the martingale associated to any other (continuous) betting function.
     \end{method}
+
+    A different approach is to use $p$-values that are constructed directly from disitributional data. For inspiration, consider the following property:
+    \begin{property}
+        Consider a data sample $\seq{x}$ and let $f,g$ be two possible probability densities describing this sample. If $f$ is the true density, the likelihood process
+        \begin{gather}
+            X_i := \prod_{k=0}^i \frac{g(x_i)}{f(x_i)}
+        \end{gather}
+        is a martingale.
+    \end{property}
+    So likelihood ratios already give rise to test martingales. However, this martingale cannot be used to check for distribution shifts, since it is only a martingale when the true density is used.
+    \begin{example}[Likelihood nonconformity]
+        For every two probability densities $f,g$ one can define a nonconformity measure as follows:
+        \begin{gather}
+            A_\mathrm{NP}(\mathcal{B},z) := \log f(z) - \log g(z),
+        \end{gather}
+        i.e. the log-likelihood ratio.\footnote{The subscript refers to the Neyman-Pearson lemma \ref{statistics:neyman_pearson} for which this function gives the (logarithm) of the test statistic.}
+
+        By using this nonconformity measure in combination with the above plug-in approach, one can obtain a likelihood-based changepoint detection algorithm. If the initial distribution is not known, it can be estimated based on the bag $\mathcal{B}$.
+    \end{example}

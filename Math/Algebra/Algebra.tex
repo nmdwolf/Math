@@ -1,4 +1,7 @@
 \chapter{Algebra}
+
+    For the later sections on (co)homology theory some terminology from Chapter \ref{chapter:hom_alg} is used.
+
 \section{Algebraic structures}
 
     \newdef{Semigroup}{\index{semi-!group}\index{magma}\label{algebra:semigroup}
@@ -475,8 +478,7 @@
         A group action is said to be transitive if for every two elements $x, y\in X$ there exists a group element $g\in G$ such that $g\cdot x = y$. Equivalently, a group action is transitive if there is only one orbit.
     }
     \begin{property}\label{group:transitive_action_property}
-        Let $X$ be a set equipped with a transitive action of a group $G$. There exists a bijection $X\cong G/G_x$, where $G_x$ is the stabilizer of any element $x\in X$.\newline
-
+        Let $X$ be a set equipped with a transitive action of a group $G$. There exists a bijection $X\cong G/G_x$, where $G_x$ is the stabilizer of any element $x\in X$.\\
         \begin{proof}
             \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
                 Choose an element $x\in X$. The stabilizer of $x$ with respect to $G$ is the set \[S_x := \{g\in G\mid g\cdot x = x\}.\] Due to the transitivity of the group action one obtains that \[\forall x, y\in X: \exists h\in G: h\cdot x = y.\] So, for every $z\in X$ one can choose a group element $g_z$ such that $g_z\cdot x = z$. For all elements in the coset $g_zS_x = \{g_zs\in G\mid s\in S_x\}$ the following equality is satisfied: \[(g_zs)\cdot x = g_z\cdot (s\cdot x) = g_z\cdot x = z.\] This implies that the map $\Phi:G/S_x \rightarrow X$ is surjective.
@@ -541,3 +543,48 @@
     }
 
     ?? COMPLETE (ADD e.g. classification of extensions) ??
+
+\section{Hochschild and cyclic cohomology}\index{cohomology!Hochschild}
+
+    \newdef{Hochschild homology groups}{\label{algebra:hochschild_homology}
+        Let $A$ be an associative algebra and consider an $A$-bimodule $M$. For all $n\geq0$ define
+        \begin{gather}
+            HC_n(A;M) := M\otimes A^{\otimes n}.
+        \end{gather}
+        The boundary operator $d:HC_n(A;M)\rightarrow HC_{n-1}(A;M)$ is defined as follows:
+        \begin{align}
+            d_n:m\otimes a_1\otimes\cdots\otimes a_n\mapsto ma_1\otimes\cdots\otimes a_n + \sum_{i=1}^{n-1}(-1)^im\otimes a_1&\otimes\cdots\otimes a_ia_{i+1}\otimes\cdots\otimes a_n\\
+            &+ (-1)^na_1m\otimes\cdots\otimes a_n.\nonumber
+        \end{align}
+        The Hochschild homology is then given by the homology of this chain complex:
+        \begin{gather}
+            HH_\bullet(A;M) := \ker(d_n)/\im(d_{n+1}).
+        \end{gather}
+        This complex can be turned into a graded-commutative algebra by equipping it with the \textit{shuffle product}.
+    }
+    \begin{remark}[Cohomology]
+        Hochschild cohomology of $A$ can be obtained by dualizing: $HC^n(A):=\hom(HC_n(A),K)$, where $K$ is the field over which $A$ is defined.
+    \end{remark}
+
+    \begin{theorem}[Hochschild-Kostant-Rosenberg]\index{Hochschild-Kostant-Rosenberg}
+        Let $A=C^\infty(M)$ for $M$ a smooth manifold.
+        \begin{gather}
+            HH_\bullet(A)\cong\Omega^n(M).
+        \end{gather}
+    \end{theorem}
+
+    \newdef{Cyclic homology}{\index{cohomology!cyclic}
+        The cyclic chain complex $CC_\bullet(A)$ is the subcomplex of the Hochschild complex $HC_\bullet(A)$ obtained as the kernel of $1-\lambda$, where $\lambda$ is the permutation operator
+        \begin{gather}
+            \lambda:HC_n(A)\rightarrow HC_n(A):a_0\otimes\cdots\otimes a_n\mapsto(-1)^na_n\otimes a_0\otimes\cdots\otimes a_{n-1}.
+        \end{gather}
+        It can be shown that the Hochschild boundary operator commutes with the permutation operator and, hence, descends to the cyclic complex. The resulting homology is called cyclic homology $CH_\bullet(A)$. By dualizing one obtains cyclic cohomology.
+    }
+
+    \begin{example}[Smooth algebras]
+        Consider the case of $A=C^\infty(M)$, where $M$ is a smooth manifold. Then
+        \begin{gather}
+            CH_n(A)\cong Z^n_\text{dR}(M)\oplus\bigoplus_{\substack{i=1\\n-2i\geq0}}H^{n-2i}_\text{dR}(M).
+        \end{gather}
+        For this reason cyclic cohomology will be used in noncommutative geometry to generalize de Rham cohomology.
+    \end{example}

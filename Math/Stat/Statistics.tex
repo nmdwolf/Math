@@ -354,10 +354,16 @@
     }
 
     \begin{formula}[Gaussian distribution]\index{distribution!normal}\index{Gauss!distribution}\label{statistics:normal_distr}
+        Let $\sigma$ be a positive number.
         \begin{gather}
-            \mathcal{G}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+            \mathcal{G}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
         \end{gather}
-        This distribution is also called a (univariate) \textbf{normal distribution}.
+        This distribution is also called a (univariate) \textbf{normal distribution} with \textbf{mean} $\mu$ and \textbf{standard deviation} $\sigma$ (or \textbf{variance} $\sigma^2$).
+
+        This formula can also be generalized to multivariate distributions. Let $\Sigma$ be a positive-definite matrix, the \textbf{covariance} matrix. The associated multivariate normal distribution is given by
+        \begin{gather}
+            \mathcal{G}(\vector{x};\vector{\mu},\Sigma) = \frac{1}{\sqrt{2\pi}\det(\Sigma)}\exp\left(-\frac{(\vector{x}-\vector{\mu})^T\Sigma^{-1}(\vector{x}-\vector{\mu})}{2}\right).
+        \end{gather}
     \end{formula}
 
     \newformula{Standard normal distribution}{\index{error!function}\label{statistics:standard_normal_distr}
@@ -377,9 +383,9 @@
         \end{gather}
     \end{theorem}
     \begin{remark}
-        If the random variables are not independent, property 2 will not be fulfilled. However, a generalization to distributions that are not identical exists. These are the \textit{Lyapunov} and \textit{Lindeberg} CLTs. (This generalization does require additional conditions on the higher moments.)
+        If the random variables are not independent, the CLT will not hold. However, a generalization to distributions that are not identical exists. These are the \textit{Lyapunov} and \textit{Lindeberg} CLTs. (This generalization does require additional conditions on the higher moments.)
     \end{remark}
-    \remark{The sum of Gaussians is always Gaussian.}
+    \remark{The sum of Gaussians is again Gaussian with the sum of the means and standard deviations as parameters.}
 
     \begin{formula}[Exponential distribution]\index{distribution!exponential}\label{statistics:exponential_distr}
         \begin{align}
@@ -428,7 +434,7 @@
     \end{remark}
 
     \begin{formula}[$\chi^2$-distribution]\index{distribution!$\chi^2$}\label{statistics:chi_squared_distr}
-        The sum of $k$ squared, independent (standard), normally distributed random variables $Y_i$ defines the random variable:
+        The sum of $k$ squared independent (standard) normally distributed random variables $Y_i$ defines the random variable:
         \begin{gather}
             \chi^2_k := \sum_{i=1}^kY_i^2,
         \end{gather}
@@ -437,7 +443,7 @@
             f(\chi^2;n) := \frac{\chi^{n-2}e^{-\frac{\chi^2}{2}}}{2^{\frac{n}{2}}\Gamma\left(\frac{n}{2}\right)}.
         \end{gather}
     \end{formula}
-    \remark{Due to the CLT \ref{statistics:CLT} the $\chi^2$-distribution approximates a Gaussian distribution for large $k$: $f(\chi^2;k)\overset{k>30}{\longrightarrow}\mathcal{G}(\sqrt{2\chi^2};\sqrt{2k-1},1)$.
+    \remark{Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n$: $f(\chi^2;n)\overset{n>30}{\longrightarrow}\mathcal{G}(\sqrt{2\chi^2};\sqrt{2n-1},1)$.
 
     \newformula{Student-$t$ distribution}{\index{distribution!Student-$t$}\label{statistics:student_t_distr}
         The Student-$t$ distribution describes the difference between the true mean and a sample average with estimated standard deviation $\hat{\sigma}$:
@@ -472,7 +478,7 @@
     }
 
     \begin{formula}[Inverse-variance averaging]
-        When performing a sequence of measurements $x_i$ with different variances $\sigma_i^2$, it is impossible to use the arithmetic mean \ref{statistics:arithmetic_mean} in a meaningful way because the measurements are not of the same type. Therefore it is also impossible to apply the CLT \ref{statistics:CLT}.
+        When performing a sequence of measurements $x_i$ with different variances $\sigma_i^2$, it is impossible to use the arithmetic mean \ref{statistics:arithmetic_mean} in a meaningful way because the measurements are not of the same type. Therefore, it is also impossible to apply the CLT \ref{statistics:CLT}.
 
         These problems can be resolved by the using the weighted mean \ref{statistics:weighted_mean}:
         \begin{gather}
@@ -485,31 +491,16 @@
         \end{gather}
     \end{formula}
 
-    \begin{formula}\index{variance}
-        Let $X$ be random variable with variance $\variance{X}$. The variance of a linear function $f(X) = aX + b$ is given by
+    \newformula{Error propagation}{\index{propagation!of errors}
+        Let $\mathbf{X}$ be a vector random variable with \underline{small} (co)variance such that functions of $\mathbf{X}$ admit a good first-order Taylor approximation around the mean. The variance of a general function $f(\mathbf{X})$ is given by
         \begin{gather}
-            \label{statistics:variance_linear_function}
-            \variance{f} = a^2\variance{X}.
+            \label{statistics:error_propagation}
+            \variance{f} \approx \sum_p\left(\pderiv{f}{X_{(p)}}\right)^2\variance{X_{(p)}} + \sum_{p\neq q}\left(\pderiv{f}{X_{(p)}}\right)\left(\pderiv{f}{X_{(q)}}\right)\text{cov}[X_{(p)},X_{(q)}].
         \end{gather}
-    \end{formula}
-    \begin{formula}
-        Let $X$ be random variable with a \underline{small} variance $\variance{X}$. The variance of a general function $f(X)$ is given by
-        \begin{gather}
-            \label{statistics:variance_general_function}
-            \variance{f}\approx\left(\deriv{f}{x}\right)^2\variance{x}.
-        \end{gather}
-    \end{formula}
+    }
     \begin{result}
         The correlation coefficient \ref{statistics:correlation_coefficient} of a random variable $X$ and a \textbf{linear} function of $X$ is independent of $\sigma_x$ and is always equal to $\pm1$.
     \end{result}
-
-    \newformula{Law of error propagation}{\index{propagation}
-        Let $\mathbf{X}$ be a vector random variable with \underline{small} variance. The variance of a general function $f(\mathbf{X})$ is given by
-        \begin{gather}
-            \label{statistics:error_propagation}
-            \variance{f} = \sum_p\left(\pderiv{f}{X_{(p)}}\right)^2\variance{X_{(p)}} + \sum_{p\neq q}\left(\pderiv{f}{X_{(p)}}\right)\left(\pderiv{f}{X_{(q)}}\right)\text{cov}[X_{(p)},X_{(q)}].
-        \end{gather}
-    }
 
     \newdef{Fractional error}{\index{fractional error}
         Let $X,Y$ be two independent random variables. The standard deviation of $f(X,Y) = XY$ is given by the fractional error:
@@ -527,13 +518,13 @@
     \newformula{Covariance of functions}{\index{covariance}
         \begin{gather}
             \label{statistics:covariance_functions}
-            \mathrm{cov}[f,g] = \sum_{p,q}\left(\pderiv{f}{X_{(p)}}\right)\left(\pderiv{g}{X_{(q)}}\right)\mathrm{cov}[X_{(p)},X_{(q)}]
+            \mathrm{cov}[f,g] \approx \sum_{p,q}\left(\pderiv{f}{X_{(p)}}\right)\left(\pderiv{g}{X_{(q)}}\right)\mathrm{cov}[X_{(p)},X_{(q)}]
         \end{gather}
     }
     \begin{result}
-        Let $\mathbf{f} = (f_1,\ldots,f_k)$ be a vector-valued function. The covariance matrix $\variance{\mathbf{f}}$ is given by
+        Let $\mathbf{f} = (f_1,\ldots,f_k)$ be a vector-valued function. The covariance matrix $\variance{\mathbf{f}(\mathbf{X})}$ is to first order given by
         \begin{gather}
-            \variance{\mathbf{f}} = J\variance{\mathbf{X}}J^T,
+            \variance{\mathbf{f}(\mathbf{X})} \approx J\variance{\mathbf{X}}J^T,
         \end{gather}
         where $J$ is the Jacobian matrix of $\mathbf{f}$.
     \end{result}
@@ -577,7 +568,7 @@
         Using the Bienaym\'e formula \ref{prob:bienayme} one can show that the standard error of the mean, i.e. the standard deviation of the sample mean, is given by the following formula:
         \begin{gather}
             \label{statistics:standard_error}
-            \mathrm{Var}(\overline{x}) = \frac{\sigma^2}{N}.
+            \variance{\overline{x}} = \frac{\sigma^2}{N}.
         \end{gather}
     \end{formula}
 
@@ -670,7 +661,7 @@
 
     From Definition \ref{statistics:likelihood} it follows that the estimator $\hat{a}_\mathrm{MLE}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is therefore not the most probable estimator.
 
-    Using Bayes's theorem one finds $f(a|x) = f(x|a)\frac{f(a)}{f(x)}$. The prior density $f(x)$ is fixed since the values $x_i$ are given by the measurement and, hence, does not vary. The density $f(a)$ is generally assumed to be uniform if there is no prior knowledge about $a$. It follows that $f(a|x)$ and $f(x|a)$ are proportional and, hence, the logarithms of these functions differ only by an additive constant. This leads to following method for finding an estimator $\hat{a}$:
+    Using Bayes's theorem one finds $f(a\mid x) = f(x\mid a)\frac{f(a)}{f(x)}$. The prior density $f(x)$ is fixed since the values $x_i$ are given by the measurement and, hence, does not vary. The density $f(a)$ is generally assumed to be uniform if there is no prior knowledge about $a$. It follows that $f(a\mid x)$ and $f(x\mid a)$ are proportional and, hence, the logarithms of these functions differ only by an additive constant. This leads to following method for finding an estimator $\hat{a}$:
     \newmethod{Maximum likelihood estimator}{\index{likelihood!estimator}
         The maximum likelihood estimator $\hat{a}$ is obtained by solving the following equation:
         \begin{gather}
@@ -694,7 +685,7 @@
             \arg\max_\theta\ln\mathcal{L} &= \arg\max_\theta\sum_{i\in I}\ln p(x_i;\theta)\\
             &= \arg\max_\theta\sum_{i\in I}\ln p(x_i;\theta) - \ln q(x_i)\\
             &= \arg\min_\theta\frac{1}{n}\sum_{i\in I}\ln\frac{q(x_i)}{p(x_i;\theta)}\\
-            &\longrightarrow\arg\min\theta\int p(x;\theta)\ln\frac{q(x)}{p(x;\theta)}dx = \arg\min_\theta D_\mathrm{KL}(p_\theta\|q),
+            &\longrightarrow\arg\min_\theta\int q(x;\theta)\ln\frac{q(x)}{p(x;\theta)}dx = \arg\min_\theta D_\mathrm{KL}(q\|p_\theta),
         \end{align*}
         where the law of large numbers was used in the last line.
     \end{property}
@@ -724,7 +715,7 @@
         When all uncertainties $\sigma_i$ are equal, the slope $\hat{m}$ and intercept $\hat{c}$ are given by the following formulas:
         \begin{align}
             \label{statistics:least_squares_slope}
-            \hat{m} &:= \frac{\overline{xy} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2} = \frac{\mathrm{cov}(x,y)}{\mathrm{Var}(x)}\\
+            \hat{m} &:= \frac{\overline{xy} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2} = \frac{\mathrm{cov}(x,y)}{\variance{x}}\\
             \label{statistics:least_squares_intercept}
             \hat{c} &:= \overline{y} - \hat{m}\overline{x} = \frac{\overline{x^2} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2}.
         \end{align}
@@ -734,9 +725,9 @@
     \newformula{Errors of linear fit}{
         \begin{align}
             \label{statistics:least_squares_slope_variance}
-            \mathrm{Var}(\hat{m}) &= \frac{1}{N(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
+            \variance{\hat{m}} &= \frac{1}{N(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
             \label{statistics:least_squares_intercept_variance}
-            \mathrm{Var}(\hat{c}) &= \frac{\overline{x^2}}{N(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
+            \variance{\hat{c}} &= \frac{\overline{x^2}}{N(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
             \label{statistics:least_squares_linear_fit_covariance}
             \mathrm{cov}(\hat{m},\hat{c}) &= \frac{-\overline{x}}{N(\overline{x^2} - \overline{x}^2)}\sigma^2
         \end{align}
@@ -761,7 +752,7 @@
     \begin{gather}
         \eta = \frac{1}{n}\sum_{i=1}^nx_i = \overline{x}.
     \end{gather}
-    The optimal value for $\theta$ can be found by maximizing the log-likelihood $\log p(\mathbf{x};\theta)$ or, equivalently according to Property \ref{statistics:minimizing_KL}, by minimizing the Kullback-Leibler divergence between the observed point and the ``true'' distribution $P(x;\xi)$. The latter is found by $m$-projecting the observed point $\eta$ on the submanifold $S$ of ``admissible'' distributions.
+    The optimal value for $\theta$ can be found by maximizing the log-likelihood $\log p(\mathbf{x};\theta)$. In Property \ref{statistics:minimizing_KL} it was shown that this is equivalent to minimizing the Kullback-Leibler divergence between the ``true'' distribution $P(x;\xi)$ and the variational solution $p(x;\theta)$. However, in practice the true distribution is not known. Luckily one can replace the true distribution by the empirical distribution in the proof of \ref{statistics:minimizing_KL}. Minimization then corresponds to $m$-projecting the observed point $\eta$ on the submanifold $S$ of ``admissible'' distributions.
 
     \begin{theorem}[Sanov]\index{Sanov}
         Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d. samples. Let $P_n$ be the empirical distribution function of the samples \eqref{statistics:empirical_distribution}. Further, let $\Gamma$ be a collection of probability distributions such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
@@ -777,10 +768,10 @@
 \section{Bayesian modelling}
 
     \newdef{Conjugate distributions}{\index{conjugate!distribution}
-        Consider a prior distribution $F(\theta)$ and a posterior distribution $F(\theta|X)$. If these distributions belong to the same family, e.g. they are both Gaussians, they are said to be conjugate. In this case the prior $F(\theta)$ is said to be a \textbf{conjugate prior} for the likelihood $F(X|\theta)$.
+        Consider a prior distribution $F(\theta)$ and a posterior distribution $F(\theta\mid X)$. If these distributions belong to the same family, e.g. they are both Gaussians, they are said to be conjugate. In this case the prior $F(\theta)$ is said to be a \textbf{conjugate prior} for the likelihood $F(X\mid\theta)$.
     }
     \begin{example}
-        The simplest example is the case of binomial distributions, where the conjugate prior is the \textit{Beta distribution}. This can be generalized to multi-class situations. The conjugate prior of a categorical (or even \textit{multinomial}) distribution is the \textit{Dirichlet distribution}.
+        The simplest example is the case of binomial distributions, where the conjugate prior is the \textit{$\beta$-distribution}. This can be generalized to multi-class situations. The conjugate prior of a categorical (or even \textit{multinomial}) distribution is the \textit{Dirichlet distribution}.
     \end{example}
 
 \section{Confidence intervals}\index{confidence}\label{section:confidence}
@@ -1067,8 +1058,8 @@
         Let $N_+$ and $N_-$ denote the number of points above and below the fit. Under the hypothesis that all points were independently drawn from the same distribution the number of runs is distributed as follows (approximately Gaussian):
         \begin{gather}
             \begin{aligned}
-                P(r_\mathrm{even}) &= 2\frac{\binom{N_+ - 1}{\frac{r}{2} - 1}\binom{N_- - 1}{\frac{r}{2} - 1}}{\binom{N}{N_+}}\\\\
-                P(r_\mathrm{odd}) &= \frac{\binom{N_+ - 1}{\frac{r - 3}{2}}\binom{N_- - 1}{\frac{r - 1}{2}} + \binom{N_- - 1}{\frac{r - 3}{2}}\binom{N_+ - 1}{\frac{r - 1}{2}}}{\binom{N}{N_+}},
+                P(r_\text{even}) &= 2\frac{\binom{N_+ - 1}{\frac{r}{2} - 1}\binom{N_- - 1}{\frac{r}{2} - 1}}{\binom{N}{N_+}}\\\\
+                P(r_\text{odd}) &= \frac{\binom{N_+ - 1}{\frac{r - 3}{2}}\binom{N_- - 1}{\frac{r - 1}{2}} + \binom{N_- - 1}{\frac{r - 3}{2}}\binom{N_+ - 1}{\frac{r - 1}{2}}}{\binom{N}{N_+}},
             \end{aligned}
         \end{gather}
         where $C^n_k$ is the binomial coefficient $\binom{n}{k}$. The first two moments of this distribution are given by the following formulas:

@@ -5,7 +5,7 @@
 \section{Tangent bundle}
 
     The tangent space, as introduced in Section \ref{section:tangent_space}, can also be introduced in a more abstract/general way. Because it is the most important example of a vector bundle, tangent bundles are introduced first.
-    \begin{construct}[Tangent bundle]\index{tangent!bundle}
+    \begin{construct}[Tangent bundle]\index{tangent!bundle}\label{bundle:tangent_bundle}
         Let $M$ be an $n$-dimensional manifold with atlas $\{(U_i,\varphi_i)\}_{i\leq n}$. Construct for every open set $U$ an associated set $TU := U\times\mathbb{R}^n$ and construct for every smooth function $f$ an associated smooth function on $TU$, called the \textbf{differential} or \textbf{derivative} of $f$, by
         \begin{gather}
             \label{bundle:T_function}
@@ -118,7 +118,7 @@
     \end{property}
 
     \begin{theorem}[Serre \& Swan]\index{Serre-Swan}\label{bundle:serre_swan}
-        The set of smooth sections of a smooth vector bundle over a smooth manifold $M$ is a finitely-generated projective $C^\infty(M)$-module. More generally, the set of sections of a vector bundle over a compact Hausdorff manifold $B$ is a finitely-generated projective $C(B)$-module.
+        The set of smooth sections of a smooth vector bundle over a smooth manifold $M$ is a finitely-generated projective $C^\infty(M)$-module. More generally, the set of sections of a vector bundle over a compact Hausdorff manifold $X$ is a finitely-generated projective $C(X)$-module.
     \end{theorem}
 
     \begin{property}[Zero section]\label{bundle:zero_section}
@@ -233,13 +233,15 @@
         The winding number of a vector field $X$ along a curve $\gamma$ (where it is assumed that $X$ does not vanish on $\gamma$) is equal to the sum of indices of zeroes of $X$ lying inside $\gamma$.
     \end{property}
 
-    \begin{theorem}[Poincar\'e-Hopf]\index{Poincar\'e-Hopf}
-        Let $M$ be a compact manifold and consider a vector field $X$ having only isolated zeroes.
+    \begin{theorem}[Poincar\'e-Hopf]\index{Poincar\'e-Hopf}\index{Euler!characteristic}\label{bundle:poincare_hopf}
+        Let $M$ be a compact manifold and consider a vector field $X$ having only isolated zeroes. The Euler characteristic \ref{topology:euler_characteristic} is given by
         \begin{gather}
-            \sum_{p:X(p)=0}\mathrm{ind}_X(p) = \chi(M),
+            \chi(M)=\sum_{p\in X^{-1}(0)}\mathrm{ind}_X(p).
         \end{gather}
-        where $\chi$ denotes the Euler characteristic \ref{topology:euler_characteristic}.
     \end{theorem}
+    \begin{remark}
+        This is essentially a restatement of Property \ref{manifold:euler_characteristic}, where one submanifold is given by the zero section and the other is given by the graph of $X$.
+    \end{remark}
 
     An immediate consequence of the Poincar\'e-Hopf theorem is the following well-known result:
     \begin{theorem}[Hairy ball theorem]\index{hairy ball theorem}
@@ -509,36 +511,6 @@
         \end{itemize}
     \end{property}
 
-    \begin{remark}\label{bundle:vector_calculus}
-        The gradient, rotor (curl) and divergence from standard vector calculus (Section \ref{section:nabla}) can be rewritten using exterior derivatives as follows. Consider $\mathbf{f} := (f_1,f_2,f_3)$ with $f_i$ smooth for every $i$ and let $f$ be a smooth function. Denote the canonical isomorphism between $\mathbb{R}^3$ and $\mathbb{R}^{3*}$ by $\sim$.
-        \begin{align}
-            \sim df &= \nabla f \\
-            \sim (\ast d\alpha) &= \nabla\times\mathbf{f} \\
-            \ast d\omega &= \nabla\cdot\mathbf{f}
-        \end{align}
-        Property \ref{vector:mixed_properties} now follow from the nilpotency $d^2=0$.\newline
-
-        \begin{proof}[Explanation]
-            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
-                Looking at Equation \eqref{bundle:function_derivative} for the exterior derivative of a smooth function and remembering the definition of the gradient \ref{vector:gradient}, one can see that these two definitions look very similar. The major difference lies in the fact that $\nabla f$ is a vector in $\mathbb{R}^3$ and $df$ is a covector in $\mathbb{R}^{*3}$. However, there exists an isomorphism between these spaces and so one can identify $\nabla f$ and $df$.
-
-                Similar relations hold for the divergence \ref{vector:divergence} and rotor \ref{vector:rotor}. However, here one has to use a different construction because the spaces $\Lambda^1$ and $\Lambda^2$ have to be used. The Hodge star \ref{vector:hodge_star} can be used to obtain the correct dimensions.
-
-                Consider a vector $\vector{f} = (f_1,f_2,f_3)$ where the $f_i$ are smooth. Using these functions $f_i$ one can construct a one-form $\alpha = f_1dx_1 + f_2dx_2 + f_3dx_3$ and a two-form $\omega = f_1dx_2\wedge dx_3 + f_2dx_3\wedge dx_1 + f_3 dx_1\wedge dx_2$. After applying the exterior derivative (in the corresponding spaces) one obtains
-                \begin{align}
-                    d\alpha &= \left(\pderiv{f_3}{x_2} - \pderiv{f_2}{x_3}\right)dx_2\wedge dx_3 + \left(\pderiv{f_1}{x_3} - \pderiv{f_3}{x_1}\right)dx_3\wedge dx_1 + \left(\pderiv{f_2}{x_1} - \pderiv{f_1}{x_2}\right)dx_1\wedge dx_2,\nonumber\\
-                    d\omega &= \left(\pderiv{f_1}{x_1} + \pderiv{f_2}{x_2} + \pderiv{f_3}{x_3}\right)dx_1\wedge dx_2\wedge dx_3.\nonumber
-                \end{align}
-                Using Corollary \ref{vector:hodge_star_vectorcalculus} and the canonical isomorphism $\sim\ :\mathbb{R}^{3*}\rightarrow\mathbb{R}^3$ one can rewrite this as
-                \begin{align}
-                    \sim df &= \nabla f,\\
-                    \sim (\ast d\alpha) &= \nabla\times\vector{f},\\
-                    \ast d\omega &= \nabla\cdot\vector{f}.
-                \end{align}
-            \end{mdframed}
-        \end{proof}
-    \end{remark}
-
     \begin{example}
         Let $f\in C^\infty(M,\mathbb{R})$ and let $\gamma$ be a curve on $M$. From Definition \ref{bundle:dual_basis} of the basis $\{dx_k\}_{k\leq n}$ one obtains the following result:
         \begin{gather}
@@ -633,7 +605,7 @@
         \begin{gather}
             \Omega^k(M;E) := \Gamma(E\otimes\Lambda^kT^*M).
         \end{gather}
-        The latter construction could also be called a \textbf{vector bundle-valued differential form}.
+        The latter construction is also often called a \textbf{vector bundle-valued differential form}.
     }
 
     \begin{construct}[Wedge product]\index{wedge!product}\label{bundle:vector_valued_wedge}
@@ -643,6 +615,16 @@
         \end{gather}
         This is a direct generalization of the formula for the wedge product of ordinary differential forms, where the scalar product (product in the algebra $\mathbb{R}$) is replaced by the tensor product (product in the tensor algebra). It should be noted that the result of this operation is not a section of any of the original bundles $E_1$ or $E_2$, but rather of the tensor product bundle $E_1\otimes E_2$.
     \end{construct}
+
+    \begin{remark}[Differential vs. pushforward]\label{bundle:differential_remark}
+        At this point the reason why the pushforward \ref{bundle:pushforward} is also sometimes called the differential (as in Definition \ref{bundle:tangent_bundle}) can be given.
+
+        It can be shown that for any vector bundle $E$ and any manifold $M$, the space of sections of the homomorphism bundle $\hom(TM,E)$ is isomorphic to the space of $E$-valued differential forms $\Omega^1(M;E)$. Now, consider a smooth function $f:M\rightarrow N$. Its pushforward is a map $f_*:TM\rightarrow TN$. Locally, the corresponding differential form is given by
+        \begin{gather}
+            df := df^i\otimes\partial_i,
+        \end{gather}
+        where $(f^1,\ldots,f^{\dim(N)})$ is a local expression for $f$ and $\{\partial_1,\ldots,\partial_{\dim(N)}\}$ is a local frame for $TN$. It is straightforward to show that acting with this differential form on a vector field in $\mathfrak{X}(M)$ gives the same result as acting with the pushforward $f_*$.
+    \end{remark}
 
     \begin{construct}[Exterior derivative]\label{bundle:twisted_differential}
         The definition of an exterior derivative on $E$-valued differential forms is more involved than in the case of ordinary forms. The naive thing to do would be defining a derivative through the Leibniz formula. However, without further structure on $E$ there is no natural way of differentiating sections of $E$.
@@ -804,7 +786,7 @@
     \end{example}
 
     \begin{property}[Affinity]
-        Consider two affine connections $\nabla,\overline\nabla$ on a smooth manifold $M$. The operator $\nabla-\overline\nabla$ is an endormorphism of $E$, i.e. $\nabla-\overline\nabla\in\Omega^1(M;\End(E))$. It follows that the set of affine connections forms an affine space (hence the name).
+        Consider two affine connections $\nabla,\overline\nabla$ on a smooth manifold $M$. The operator $\nabla-\overline\nabla$ is an endomorphism of $E$, i.e. $\nabla-\overline\nabla\in\Omega^1(M;\End(E))$. It follows that the set of affine connections forms an affine space (hence the name).
     \end{property}
 
     \newdef{Connection coefficients}{\index{Christoffel symbols}\label{bundle:christoffel_symbol}
@@ -819,6 +801,28 @@
             &= (\partial_j\sigma^k + \Gamma^k_{\ ji}\sigma^i)e_k\otimes f^j.
         \end{align}
     }
+
+    \newdef{Curvature}{\index{curvature}\label{bundle:curvature}
+        Let $\nabla$ be a Koszul connection on a vector bundle $E\rightarrow M$. The associated curvature 2-form $F_\nabla\in\Omega^2(M;\End(E))$ is defined as follows:
+        \begin{gather}
+            F_\nabla(X,Y)\sigma := [\nabla_X,\nabla_Y]\sigma - \nabla_{[X,Y]}\sigma.
+        \end{gather}
+    }
+
+    \newdef{Curvature}{\index{curvature}\label{bundle:torsion}
+        Let $\nabla$ be an affine connection on smooth manifold $M$. The associated torsion 2-form $T\in\Omega^2(M;TM)$ is defined as follows:
+        \begin{gather}
+            T(X,Y) := \nabla_XY-\nabla_YX-[X,Y].
+        \end{gather}
+    }
+    \begin{property}[Bianchi identities]\index{Bianchi identity}\label{bundle:bianchi_identities}
+        Let $\nabla$ be an affine connection on smooth manifold $M$. The associated curvature and torsion forms are related as follows:
+        \begin{align}
+            R(X,Y)Z-T(T(X,Y),Z)+\text{cyclic} &= \nabla_XT(Y,Z)\\
+            \nabla_XR(Y,Z)+R(T(X,Y),Z)+\text{cyclic} &= 0,
+        \end{align}
+        where cyclic indicates that all terms obtained by cyclic permutations of the vector fields have to be included.
+    \end{property}
 
 \subsection{Induced connections}
 
@@ -882,9 +886,13 @@
     In this section the study of PDEs is generalized to vector bundles. The case of PDEs on $\mathbb{R}^n$ was treated in Chapter \ref{chapter:pde}.
 
     \newdef{Differential operator}{\index{differential!operator}\index{elliptic!operator}\label{bundle:differential_operator}
-        A (linear) differential operators between two vector bundels $E,F$ over the same base manifold $X$ is a linear map $\Gamma(E)\rightarrow\Gamma(F)$ that can locally be expressed as a system of partial differential equations.
+        A (linear) differential operators between two vector bundels $E,F$ over the same base manifold $M$ is a linear map $D:\Gamma(E)\rightarrow\Gamma(F)$ that can locally be expressed as a system of partial differential equations. The principal symbols on different charts glue together to give a globally defined morphism
+        \begin{gather}
+            \sigma_D:T^*M\rightarrow\hom(\pi^*E,\pi^*F),
+        \end{gather}
+        where $\pi:T^*M\rightarrow M$ is the cotangent bundle projection.
 
-        The principal symbol of this operator is defined as the principal symbol \ref{pde:principal_symbol} of the associated PDE. By extension one says the differential operator is \textbf{elliptic} (hyperbolic, \ldots) if its associated PDE is elliptic (hyperbolic, \ldots).
+        By extension of the ordinary theory of PDEs one says that the differential operator is \textbf{elliptic} (hyperbolic, \ldots) if its associated PDE is elliptic (hyperbolic, \ldots). E.g. a differential operator is hyperbolic if the the above morphism is invertible for all cotangent vectors.
     }
 
     \newdef{Normally hyperbolic operators}{\index{hyper-!bolic operator}

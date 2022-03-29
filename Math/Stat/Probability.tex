@@ -14,7 +14,7 @@
     }
 
     \newdef{$\sigma$-algebra of a random variable}{\index{$\sigma$!algebra}
-        Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$. The following family of sets is a $\sigma$-algebra:
+        Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$ and denote the Borel $\sigma$-algebra of $\mathbb{R}$ by $\mathcal{B}$. The following family of sets is a $\sigma$-algebra:
         \begin{gather}
             \label{prob:sigma_algebra_generated_random_variable}
             X^{-1}(\mathcal{B}) := \{S\in\Sigma\mid\exists B\in\mathcal{B}:S = X^{-1}(B)\}.
@@ -152,7 +152,7 @@
             \item $\ds\lim_{x\rightarrow-\infty}F(x) = 0$ and $\ds\lim_{x\rightarrow\infty}F(x) = 1$.
             \item $F$ is right-continuous, i.e. $\ds\lim_{y\nearrow y_0}F(y)=F(y_0)$.
         \end{itemize}
-        There exists a random variable $X:[0,1]\rightarrow\mathbb{R}$ defined on the probability space $([0,1],\mathcal{B},\lambda_{[0,1]})$ such that $F=F_X$, where $\mathcal{B}$ is the Borel $\sigma$-algebra of $[0,1]$ with its Euclidean topology.
+        There exists a random variable $X:[0,1]\rightarrow\mathbb{R}$ defined on the probability space $([0,1],\mathcal{B}_{[0,1]},\lambda_{[0,1]})$ such that $F=F_X$, where $\mathcal{B}_{[0,1]}$ is the Borel $\sigma$-algebra of $[0,1]$ with its Euclidean topology.
     \end{theorem}
 
     \begin{theorem}[Theorem of the unconscious statistician]\label{prob:unconscious_statistician}
@@ -187,7 +187,7 @@
         \end{gather}
     \end{formula}
 
-    Weak convergence of measures \ref{lebesgue:weak_convergence} induces a notion of convergence of random variables:
+    Weak convergence of measures \ref{lebesgue:weak_convergence} induces a notion for convergence of random variables:
     \newdef{Convergence in distribution}{\index{convergence!in distribution}\label{prob:convergence_in_distribution}
         A sequence $\seq{X}$ of random variables is said to converge in distribution to a random variable $Y$ if the associated cumulative distribution functions $F_{X_n}$ converge pointwise to $F_Y$, i.e. $\lim_{n\rightarrow\infty}F_{X_n}(x)=F_Y(x)$ for all $x\in\mathbb{R}$, where $F$ is continuous. This is equivalent to requiring that the associated probability measures $P_{X_n}$ converge weakly to $P_X$ (Definition \ref{lebesgue:weak_convergence}).
     }
@@ -235,13 +235,13 @@
         \end{gather}
     }
     \begin{notation}
-        Other notations that are common in the literature are $\langle X \rangle$ and $\mu_X$.
+        Other common notations are $\langle X \rangle$ and $\mu_X$.
     \end{notation}
 
     \begin{property}[Markov's inequality]\index{Markov!inequality}
-        Let $X$ be a random variable. For every constant $\lambda>0$ the following inequality holds:
+        Let $X$ be a random variable. For every constant $a>0$ the following inequality holds:
         \begin{gather}
-            \mathrm{Pr}(X\geq\lambda)\leq\frac{\expect{X}}{\lambda}.
+            \mathrm{Pr}(X\geq a)\leq\frac{\expect{X}}{a}.
         \end{gather}
     \end{property}
 
@@ -272,13 +272,13 @@
     }
 
     \begin{property}
-        If $\expect{|X|^n}$ is finite for $n>0$, then $\expect{X^k}$ exist and is finite for all $k\leq n$.
+        If $\expect{|X|^n}$ is finite for some $n>0$, then $\expect{X^k}$ exists and is finite for all $k\leq n$.
     \end{property}
 
     \begin{property}[Chebyshev's inequality]\index{Chebyshev!inequality}
-        Let $X$ be a nonnegative random variable. For every constant $\lambda>0$ the following inequality holds:
+        Let $X$ be a nonnegative random variable. For every constant $a>0$ the following inequality holds:
         \begin{gather}
-            \mathrm{Pr}(|X-\expect{X}|\geq\lambda)\leq\frac{\variance{X}}{\lambda^2}.
+            \mathrm{Pr}(|X-\expect{X}|\geq a)\leq\frac{\variance{X}}{a^2}.
         \end{gather}
     \end{property}
 
@@ -288,19 +288,19 @@
         \end{gather}
     }
     \begin{property}
-        If the moment generating function exists, the moments $\expect{X^n}$ can be expressed in terms of $M_X$ (using the series expansion of the exponential function):
+        If the moment generating function exists, the moments $\expect{X^n}$ can be expressed in terms of $M_X$:
         \begin{gather}
             \label{prob:moment_generating}
             \expect{X^n} = \left.\mderiv{n}{M_X(t)}{t}\right|_{t=0}.
         \end{gather}
     \end{property}
 
-    \begin{method}[Chernoff bounds]\index{Chernoff bound}
-        The Chernoff bound for a random variable gives a bound on the tail probabilities. For all constants $\lambda>0$ the following inequality holds:
+    \begin{method}[Chernoff bound]\index{Chernoff bound}
+        The Chernoff bound for a random variable gives a bound on the tail probabilities. For all constants $\lambda>0$, the Markov inequality implies the following statement:
         \begin{gather}
             \mathrm{Pr}(X\geq a)=\mathrm{Pr}(e^{\lambda X}\geq e^{\lambda a})\leq\frac{\expect{e^{\lambda X}}}{e^{\lambda a}}.
         \end{gather}
-        If one has more information about the moment generating function, then the Chernoff bound can be used to obtain improved concentration inequalities by optimizing over $\lambda$.
+        If one has more information about the moment generating function, the Chernoff bound can be used to obtain improved concentration inequalities by optimizing over $\lambda$.
     \end{method}
     \begin{property}[Hoeffding's inequalities]\index{Hoeffding!inequality}\label{prob:hoeffding_inequality}
         Consider a collection of bounded, independent random variables $X_1,\ldots,X_n$. Without loss of generality one can assume that they are bounded by the unit intevral, i.e. $0\leq X_i\leq 1$. For every constant $\lambda\geq0$ the following inequality holds:
@@ -354,7 +354,7 @@
 \subsection{Correlation}
 
     \begin{property}\index{independence}\label{prob:independence_expectation_values}
-        Two random variables $X,Y$ are independent if and only if $\expect{f(X)g(Y)} = \expect{f(X)}\expect{g(Y)}$ holds for all Borel-measurable bounded functions $f,g$.
+        Two random variables $X,Y$ are independent if and only if $\expect{f(X)g(Y)} = \expect{f(X)}\expect{g(Y)}$ holds for all measurable bounded functions $f,g$.
     \end{property}
 
     The value $\expect{XY}$ is equal to the inner product $\langle X|Y \rangle$ as defined in \eqref{lebesgue:L2_inner_product}. It follows that independence of random variables implies orthogonality. To generalize this concept, the following notions are introduced:
@@ -365,7 +365,7 @@
         The covariance of two random variables $X,Y$ is defined as follows:
         \begin{gather}
             \label{prob:covariance}
-            \mathrm{cov}(X,Y) := \langle X_c|Y_c \rangle = \expect{(X-\expect{X})(Y-\expect{Y})}.
+            \mathrm{cov}(X,Y) := \langle X_c\mid Y_c \rangle = \expect{(X-\expect{X})(Y-\expect{Y})}.
         \end{gather}
         Some basic math gives
         \begin{gather}
@@ -400,9 +400,9 @@
         \label{prob:conditional_expectation_condition}
         \int_GX\,dP = \int_GY\,dP
     \end{gather}
-    for all $G\in\mathcal{G}$. This leads to the introduction of the following definition:
+    for all $G\in\mathcal{G}$. This leads to the following definition:
     \newdef{Conditional expectation}{\index{expectation!conditional}\label{prob:conditional_expectation}
-        Let $(\Omega,\Sigma,P)$ be a probability space and let $\mathcal{G}$ be a sub-$\sigma$-algebra of $\Sigma$. For every $\Sigma$-measurable random variable $X\in L^2(\Sigma)$ there exists a unique (up to a null set) random variable $Y\in L^2(\mathcal{G})$ that satisfies Equation \eqref{prob:conditional_expectation_condition} for every $G\in\mathcal{G}$. This variable $Y$ is called the conditional expectation of $X$ given $\mathcal{G}$ and it is denoted by $\expect{X|\mathcal{G}}$:
+        Let $(\Omega,\Sigma,P)$ be a probability space and let $\mathcal{G}$ be a sub-$\sigma$-algebra of $\Sigma$. For every $\Sigma$-measurable random variable $X\in L^2(\Sigma)$ there exists a unique (up to a null set) random variable $Y\in L^2(\mathcal{G})$ that satisfies Equation \eqref{prob:conditional_expectation_condition} for every $G\in\mathcal{G}$. This variable $Y$ is called the conditional expectation of $X$ given $\mathcal{G}$ and it is denoted by $\expect{X\mid\mathcal{G}}$:
         \begin{gather}
             \int_G\expect{X\mid\mathcal{G}}\,dP = \int_GX\,dP.
         \end{gather}
@@ -511,7 +511,8 @@
         This implies that the conditional expectation $\expect{Y\mid X}$ on $\mathcal{F}_X$ coincides with Definition \ref{prob:conditional_expectation}.
     }
     Applying Property \ref{prob:conditional_expectation_props} to the case $\mathcal{G}=\mathcal{F}_X$ gives the law of total expectation:
-    \begin{property}[Law of total expectation]
+    \begin{property}[Law of total expectation\footnotemark]
+        \footnotetext{Also called the \textbf{tower property}.}
         \begin{gather}
             \expect{\expect{Y\mid X}} = \expect{Y}
         \end{gather}
@@ -520,7 +521,7 @@
     \begin{theorem}[Bayes's theorem]\index{Bayes}\label{prob:bayes_density}
         The conditional density can be computed without prior knowledge of the joint density:
         \begin{gather}
-            g(x|y) = \frac{h(y|x)f_X(x)}{f_Y(y)}.
+            g(x\mid y) = \frac{h(y\mid x)f_X(x)}{f_Y(y)}.
         \end{gather}
     \end{theorem}
 
@@ -564,17 +565,23 @@
         \end{enumerate}
         If the equality in the last condition is replaced by the inequality $\leq$ (resp. $\geq$), the stochastic process is called a \textbf{supermartingale} (resp. \textbf{submartingale}).
     }
+    \begin{example}[Doob martingale]\index{Doob!martingale}
+        Consider an integrable random variable $X$ and a filtration $\mathbb{F}$. The associated Doob martingale (a martingale with respect to $\mathbb{F}$) is given by
+        \begin{gather}
+            Y_t := \expect{X\mid\mathbb{F}_t}.
+        \end{gather}
+    \end{example}
 
     \begin{property}[Doob-Ville inequality]\index{Doob!inequality}\index{Ville}\label{prob:doob_inequality}
         Consider a c\`adl\`ag submartinagle $\tseq{X}$.
         \begin{gather}
-            P\left(\sup_{t\leq\tau}X_t\geq C\right)\leq\frac{\expect{\max(0, X_\tau)}}{C}
+            \mathrm{Pr}\left(\sup_{t\leq\tau}X_t\geq C\right)\leq\frac{\expect{\max(0,X_\tau)}}{C}
         \end{gather}
         for all $C\geq1$ and $\tau\in T$.
     \end{property}
 
     The following property generalizes the Hoeffding inequalities \ref{prob:hoeffding_inequality}:
-    \begin{property}[Hoeffding-Azuma inequality]\index{Hoeffding-Azuma inequality}\label{prob:hoeffding_azuma}
+    \begin{property}[Hoeffding-Azuma inequality]\index{Hoeffding-Azuma inequality}\index{McDiarmid inequality}\label{prob:hoeffding_azuma}
         Let $\seq{X}$ be a (super)martingale with bounded differences, i.e. there exist constants $c_k>0$ such that
         \begin{gather}
             |X_k-X_{k-1}|\leq c_k.
@@ -583,7 +590,7 @@
         \begin{gather}
             \mathrm{Pr}(X_N-X_0\geq\lambda)\leq\exp\left(-\frac{\lambda^2}{2\sum_{i=1}^Nc_i^2}\right).
         \end{gather}
-        A symmetric result for the lower tail holds for submartingales. If there exist predictable processes $\seq{A},\seq{B}$ such that
+        A symmetric result for the lower tail holds for (sub)martingales. Moreover, if there exist predictable processes $\seq{A},\seq{B}$ such that
         \begin{gather}
             A_k\leq X_k-X_{k-1}\leq B_k
         \end{gather}
@@ -595,12 +602,11 @@
         \begin{gather}
             \mathrm{Pr}(X_N-X_0\geq\lambda)\leq\exp\left(-\frac{2\lambda^2}{\sum_{i=1}^Nc_i^2}\right).
         \end{gather}
-
         Now, consider a function $f:\Omega^n\rightarrow\mathbb{R}$ such that
         \begin{gather}
             \sup_{x_1,\ldots,x_n,x'_k}|f(x_1,\ldots,x_k,\ldots,x_n)-f(x_1,\ldots,x'_k,\ldots,x_n)|\leq c_k
         \end{gather}
-        for all $k\in\mathbb{N}$. By applying the above Hoeffding-Azuma inequalities to the Doob martingale
+        for all $k\in\mathbb{N}$. By applying the above inequalities to the Doob martingale
         \begin{gather}
             Z_m:=\expect{f(X_1,\ldots,X_n)\mid X_1,\ldots,X_m},
         \end{gather}
@@ -608,6 +614,7 @@
         \begin{gather}
             \mathrm{Pr}(f(X_1,\ldots,X_n)-\expect{f}\geq\lambda)\leq\exp\left(-\frac{2\lambda^2}{\sum_{i=1}^nc_i^2}\right).
         \end{gather}
+        This inequality is sometimes called the \textbf{McDiarmid inequality}.
     \end{property}
 
     \begin{theorem}[Doob decomposition]\index{Doob!decomposition}

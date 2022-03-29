@@ -8,8 +8,8 @@
     \newdef{Retraction}{\index{retract}
         Let $X$ be a topological space and let $A\subset X$ be a subspace. A continuous function $f:X\rightarrow A$ is called a retraction (and $A$ is called a \textbf{retract} of $X$) if it satisfies $f(a)=a$ for all $a\in A$.\footnote{It is a retraction of the inclusion map $A\hookrightarrow X$ in the sense of Definition \ref{cat:retract}.}
     }
-    \newdef{Homotopy}{\index{homotopy}\label{topology:homotopy}
-        Let $f,g\in C(X,Y)$ where $X,Y$ are topological spaces. If there exists a continuous function $H:X\times[0,1]\rightarrow Y$ such that $f(x) = H(x,0)$ and $g(x) = H(x,1)$, then $f$ and $g$ are said to be homotopic. This relation induces an equivalence relation on $C(X,Y)$ for which the quotient space is denoted by $[X,Y]$.
+    \newdef{Homotopy}{\index{homotopy}\index{isotopy}\label{topology:homotopy}
+        Let $f,g\in C(X,Y)$ where $X,Y$ are topological spaces. If there exists a continuous function $H:X\times[0,1]\rightarrow Y$ such that $f(x) = H(x,0)$ and $g(x) = H(x,1)$, then $f$ and $g$ are said to be homotopic. This relation induces an equivalence relation on $C(X,Y)$ for which the quotient space is denoted by $[X,Y]$. A homotopy $H$ such that $H(\cdot,t)$ is a homeomorphism for all $t\in[0,1]$ is called an \textbf{isotopy}.
     }
     \newdef{Deformation retraction}{
         Let $X$ be a topological space and let $A\subseteq X$ be a subspace. $A$ is called a deformation retract if there exists a homotopy between the identity function on $X$ and a retraction $f:X\rightarrow A$.
@@ -35,6 +35,15 @@
 
     \newprop{Path space}{\index{mapping!space}\label{topology:path_space}
         Consider a topological space $X$. By Property \ref{topology:internal_hom} functions $Y\rightarrow X^{[0,1]}$ to the path space represent functions $Y\times[0,1]\rightarrow X$, i.e. the path space represents homotopies to $X$.
+    }
+
+    \newdef{Mapping class group}{\index{mapping class group}\label{topology:MCG}
+        \nomenclature[A_MCG]{MCG}{mapping class group}
+        Consider a topological space $X$ with some structure. The mapping class group of $X$ is defined as the quotient
+        \begin{gather}
+            \mathrm{MCG}(X) := \Aut(X)/\Aut_0(X),
+        \end{gather}
+        i.e. as the set of path-components of its automorphism group (path are in this case given by isotopies).
     }
 
 \subsection{Homotopy groups}
@@ -78,6 +87,9 @@
     \newdef{Simply-connected space}{\index{simply-connected}\label{topology:simply_connected}
         A topological space is said to be simply-connected if it is path-connected and if the fundamental group is trivial.
     }
+    \newdef{Semilocally simply connected}{
+        A topological space is said to be semi-locally simply connected if every point admits a neighbourhood $U$ such that every loop in $U$ can be contracted to a point.
+    }
 
     \newdef{Universal covering space}{
         A covering space \ref{topology:covering_space} is said to be universal if it is simply-connected.
@@ -85,11 +97,20 @@
     \begin{uproperty}
         Let $X$ be a topological space and let $\widetilde{X}$ be its the universal covering space. Every other covering space $C$ of $X$ is also covered by $\widetilde{X}$.
     \end{uproperty}
-    \begin{property}[Universal cover]\index{deck transformation}
-        Consider a topological space $X$ and let $\widetilde{X}$ be its universal covering space. The group of deck transformations $\Aut(\widetilde{X})$ from Definition \ref{topology:deck_transformation} is isomorphic to the fundamental group $\pi_1(X)$. Hence one obtains
+    \begin{property}[Automorphisms]\index{deck transformation}\label{topology:universal_cover_automorphisms}
+        Consider a topological space $X$ and let $\widetilde{X}$ be its universal covering space. The group of deck transformations $\Aut(\widetilde{X})$ from Definition \ref{topology:deck_transformation} is isomorphic to the fundamental group $\pi_1(X)$. Hence, one obtains
         \begin{gather}
             X\cong\widetilde{X}/\pi_1(X).
         \end{gather}
+    \end{property}
+    \begin{property}[Existence]
+        If the space is connected, locally path-connected and semilocally simply connected, the universal cover exists.
+
+        An explicit construction for a path-connected space is the following (when multiple path-components exist, one should take the disjoint union of the individual covers):
+        \begin{gather}
+            \widetilde{X} = \{[\gamma]\mid\gamma:[0,1]\rightarrow X,\gamma(0)=x_0\},
+        \end{gather}
+        where $x_0$ is the base point of $x_0$ and $[\gamma]$ denotes the homotopy class of $\gamma$.
     \end{property}
 
     The definition of fundamental groups can be generalized to arbitrary dimensions. (Note that in the following definition the interval $[0,1]$ is replaced by the sphere $S^1$. This is nonrestrictive as one can construct $S^n$ by identifying the boundary of $[0,1]^n$ with the basepoint $x_0$.)
@@ -100,6 +121,14 @@
     \begin{property}\label{topology:abelian_homotopy_groups}
         For $n\geq1$ the sets $\pi_n(X,x_0)$ are groups. For $n\geq2$  the homotopy groups $\pi_n(X,x_0)$ are Abelian. This follows from an Eckmann-Hilton argument \ref{algebra:eckmann_hilton}.
     \end{property}
+
+    \begin{remark}[Relative homotopy groups]\index{relative!homotopy group}
+        As for (co)homology one can also define relative homotopy groups given a subset inclusion $A\subset X$. Two continuous functions $f,g:X\rightarrow Y$ are said to be homotopic relative to $A$ if there exists a continous function $H:[0,1]\times X\rightarrow Y$ such that
+        \begin{enumerate}
+            \item $H(0,x)=f(x)$ and $H(1,x)=g(x)$, and
+            \item $H(t,a)=f(a)=g(a)$ for all $a\in A$.
+        \end{enumerate}
+    \end{remark}
 
     \begin{property}[Path-connectedness]
         If $X$ is path-connected, the homotopy groups for different basepoints are isomorphic.
@@ -823,13 +852,13 @@
     \end{result}
 
     \begin{theorem}[Hurewicz]\index{Hurewicz}
-        Let $X$ be path-connected and let $[\cdot]$ and $\langle\cdot\rangle$ denote the equivalence classes in the homotopy and homology groups, respectively. Because every path can be obtained as a singular 1-chain, the map $h:\pi(X)\rightarrow H_1(X):[\gamma]\mapsto\langle\gamma\rangle$ defines a group morphism. Furthermore, this map induces an isomorphism $h':\pi(X)/[\pi(X), \pi(X)]\rightarrow H_1(X)$.
+        Let $X$ be path-connected and let $[\cdot]$ and $\langle\cdot\rangle$ denote the equivalence classes in the homotopy and homology groups, respectively. Because every path can be obtained as a singular one-chain, the map $h:\pi_1(X)\rightarrow H_1(X):[\gamma]\mapsto\langle\gamma\rangle$ defines a group morphism. Furthermore, this map induces an isomorphism $h':\pi_1(X)/[\pi_1(X),\pi_1(X)]\rightarrow H_1(X)$.
 
-        More generally, for every topological space $X$ and every $n\in\mathbb{N}$ there exists a morphism $h_*:\pi_n(X)\rightarrow H_n(X)$. If $Y$ is $(n-1)$-connected, then for every $k\leq n$ this morphism is in fact an isomorphism.
+        More generally, for every topological space $X$ and every $k\in\mathbb{N}$ there exists a morphism $h_*:\pi_k(X)\rightarrow H_k(X)$. If $Y$ is $(n-1)$-connected, then for every $k\leq n$ this morphism is in fact an isomorphism.
     \end{theorem}
 
     \newdef{Singular cohomology}{\index{cohomology!singular}\index{pullback!of cohomology}
-        The singular cohomology groups of a topological space $X$ with coefficients in an Abelian group $G$ are defined as follows:
+        The singular cohomology groups of a topological space $X$ with coefficients in an Abelian group $G$ are defined as follows:\footnote{Actually this is the \textit{Universal Coefficient Theorem} when defining cohomology through a suitable hom-complex.}
         \begin{gather}
             H^k(X;G) := \hom(H_k(X),G),
         \end{gather}
@@ -851,7 +880,23 @@
         \end{proof}
     \end{property}
 
-\section{\difficult{Axiomatic approach}}
+\section{Local coefficients}\index{local!coefficients}\label{section:local_coefficients}
+
+    For some applications one needs to generalize the notion of (co)homology. For example, when considering integration theory on manifolds (Section \ref{section:compact_cohomology}), one in general needs to take into account the nonorientability.
+
+    Consider a topological space $X$ that admits a universal cover $\widetilde{X}$. By Property \ref{topology:universal_cover_automorphisms} one then has
+    \begin{gather}
+        X\cong\widetilde{X}/\pi_1(X).
+    \end{gather}
+    Given a $\mathbb{Z}[\pi_1(X)]$-module $A$, one defines the $A$-twisted chain (singular) group of $X$ as
+    \begin{gather}
+        C(X;A):=C(\widetilde{X})\otimes_{\mathbb{Z}[\pi_1(X)]}A.
+    \end{gather}
+    $\pi_1(X)$, the automorphism group of $\widetilde{X}$, acts on singular simplices by postcomposition.
+
+    When $A$ is a trivial $\pi_1(X)$-module, the tensor product structure enforces that the orbit of every automorphism collapses and, hence, $C(\widetilde{X})\otimes_{\mathbb{Z}[\pi_1(X)]}A\cong C(X)\otimes_\mathbb{Z}A$. It follows that the ordinary singular cohomology with coefficients in $A$ is recovered (as expected).
+
+\section{\difficult{Axiomatic approach}}\label{section:eilenberg_steenrod}
 
     \newdef{Eilenberg-Steenrod axioms}{\index{Eilenberg-Steenrod axioms}\label{topology:eilenberg_steenrod_axioms}
         All (co)homology theories have a set of properties in common. By treating these properties as axioms, one can construct relative (co)homology theories as a sequence of functors $H_k:\mathbf{Top}\times\mathbf{Top}\rightarrow\mathbf{Ab}$ (technically one should replace $\mathbf{Top}\times\mathbf{Top}$ by the category consisting of subspace inclusions $A\hookrightarrow X$). The axioms are as follows:
@@ -897,10 +942,27 @@
     Under Brown's theorem these induce isomorphisms $X_n\cong\Omega X_{n+1}$. This endows the sequence of spaces $\seq{X}$ with the following structure:
     \newdef{Spectrum\footnotemark}{\index{spectrum}\label{topology:spectrum}
         \footnotetext{Sometimes called an $\Omega$-spectrum to distinguish it from other (possibly more general) spectra.}
-        A sequence of pointed topological spaces $\seq{X}$ such that $X_n\cong\Omega X_{n+1}$. (The isomorphism can be a weak homotopy equivalence or homeomorphism depending on the context.)
+        A sequence of pointed topological spaces $\seq{X}$ such that $X_n\cong\Omega X_{n+1}$. (The isomorphism can be a weak homotopy equivalence or homeomorphism depending on the context.) A weaker definition, that of \textbf{prespectra} or \textbf{sequential spectra}, is that of a sequence of pointed topological spaces $\seq{X}$ with structure morphisms $\Sigma X_n\rightarrow X_{n+1}$, where $\Sigma$ is the reduced suspension functor. By Eckman-Hilton duality, every $\Omega$-spectrum is a prespectrum.
+
+        Every prespectrum gives rise to a spectrum by taking a direct limit over loop spaces:
+        \begin{gather}
+            (LX)_n := \varinjlim_{k\in\mathbb{N}}\Omega^kX_{n+k}.
+        \end{gather}
+        This gives a \textit{fibrant replacement functor} in the \textit{model structure} on spectra.
     }
     \begin{property}
         Brown's representability theorem shows that there exists a bijection between isomorphism classes of (generalized) cohomology theories and homotopy-equivalence classes of spectra.
+    \end{property}
+
+    \begin{property}[Eilenberg-MacLane spectrum]\index{Eilenberg-MacLane!spectrum}
+        The Eilenberg-MacLane spectrum of an Abelian group $A$ is the sequence of Eilenberg-MacLane spaces $\{K(A,n)\}_{n\in\mathbb{N}}$. By the Dold-Kan theorem \ref{model:dold_kan} Abelian groups form a subcategory of Abelian chain complexes: $\mathbf{Ab}\hookrightarrow\mathbf{Ch}^+(\mathbf{Ab})$. The Eilenberg-MacLane assignment extends to a functor $\mathcal{D}(\mathbf{Ab})\rightarrow\mathbf{Spectra}$ from the derived category of Abelian chain complexes to the category of ($\Omega$-)spectra.
+    \end{property}
+
+    \begin{property}
+        There exists an ($\infty$-)equivalence between $\mathbf{Sp}$ and $\infty\mathbf{Grpd}$. The left adjoint sends (a topological space representing) a given homotopy type to its suspension spectrum. The right adjoint sends a spectrum $\seq{X}$ to (the homotopy type of) its infinite loop space
+        \begin{gather}
+            \Omega^\infty X:=X_0\cong\varinjlim_{k\in\mathbb{N}}\Omega^kX_k.
+        \end{gather}
     \end{property}
 
 \section{Equivariant cohomology}\index{equivariant!cohomology}

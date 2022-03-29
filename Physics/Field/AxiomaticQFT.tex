@@ -1,6 +1,6 @@
 \chapter{\difficult{Axiomatic QFT}}
 
-    For the sections on the Haag-Kastler framework and its extensions hte reader is referred to the work of \textit{Brunetti, Fredenhagen et al}. A reference for the remaining sections on algebraic QFT is \cite{baez_aqft}. For the sections on TQFTs and \textit{open-closed} TQFTS the reader is referred to the original papers \cite{atiyah} and \cite{open_closed}.
+    For the sections on the Haag-Kastler framework and its extensions hte reader is referred to the work of \textit{Brunetti, Fredenhagen et al}. A reference for the remaining sections on algebraic QFT is \cite{baez_aqft}. The sections on cohomological quantization and quantization from a sheaf point of view are based on \cite{nuiten}. For the sections on TQFTs and \textit{open-closed} TQFTS the reader is referred to the original papers \cite{atiyah} and \cite{open_closed}, respectively.
 
 \section{Algebraic QFT}
 \subsection{Haag-Kastler axioms}
@@ -68,7 +68,7 @@
 
 \section{Topological QFT}
 
-    For convenience the reader is reminded of some of the notations that are used. $\mathbf{FinVect}$ will denote the category of finite-dimensional vector spaces over $\mathbb{C}$ and $\mathbf{Bord}^d_{d-1}$ denotes the category of $d$-dimensional cobordisms \ref{manifold:cobordism}.
+    For convenience the reader is reminded of some of the notations that are used. $\mathbf{FinVect}$ will denote the category of finite-dimensional vector spaces over $\mathbb{C}$ and $\mathbf{Bord}^d_{d-1}$ denotes the category of $d$-dimensional (framed\footnote{A framing in this context means a framing of the $d$-stabilized tangent bundles $TM\oplus\mathbb{R}^{d-\dim(M)}$.}) cobordisms \ref{manifold:cobordism}.
 
 \subsection{Atiyah-Segal axioms}
 
@@ -104,11 +104,40 @@
 
     In dimensions 3 and higher the definition above is intractable. To allow the construction to be generalized to higher dimensions one considers the following (extended) definition:
     \newdef{Extended TQFT}{
-        A $d$-dimensional extended TQFT is a symmetric monoidal functor $F:\mathbf{Bord}_1^d\rightarrow\mathbf{FinVect}$ satisfying the Atiyah-Segal axioms, where the invariance axiom is required only at the highest level of $k$-morphisms.
+        A $d$-dimensional extended TQFT is a symmetric monoidal $(\infty,d)$-functor $F:\mathbf{Bord}^d\rightarrow\mathbf{FinVect}$ satisfying the Atiyah-Segal axioms, where the invariance axiom is required only at the highest level of $k$-morphisms.
     }
+
+    \begin{remark}
+        One can replace the category $\mathbf{FinVect}$ by any other symmertric monoidal category $\mathbf{C}$.
+    \end{remark}
+
+    The following conjecture by \textit{Baez} and \textit{Dolan}, later proven by \textit{Lurie}, states that every extended TQFT is defined by a single object. This is motivated by the fact that all cobordisms between smooth manifolds can be obtained from gluing together (the geometric representation) of identity morphisms and taking disjoint unions of them.
+    \begin{theorem}[Cobordism hypothesis]\index{cobordism!hypothesis}
+        $\mathbf{Bord}^d$ is the free symmetric monoidal $(\infty,n)$-category with all duals on a single object $\mathrm{pt}$. In particular, every symmetric monoidal $(\infty,n)$-functor $F:\mathbf{Bord}^d\rightarrow\mathbf{C}$ is characterized by a single fully dualizable object $F(\mathrm{pt})\in\ob{C}$.
+    \end{theorem}
 
 \subsection{Open-closed TQFT}
 
     In the case of ordinary TQFTs as defined in the previous section, one considers cobordisms between closed manifolds. Hence, the relevant objects in this category are manifolds with boundary. A generalization is obtained by relaxing the constraint on the cobordisms and allowing for the notion of manifolds with corners (Section \ref{section:manifold_boundary}). For simplicity only the case of 2D TQFTs (as in the original definition) will be considered.
 
     ?? COMPLETE ??
+
+\section{Prequantum field theory}
+
+    Now, consider an (extended) TQFT. In full generality such a TQFT assigns to every manifold $M$ an ($\infty$-)stack of fields. For a cobordism, this induces a span \ref{cat:span} by restriction to the boundary components. Composition of cobordisms corresponds to pullback of spans. So, a TQFT induces a (monoidal) functor $\mathbf{Bord}^d\rightarrow\mathbf{Span}(\mathbf{H})$, where $\mathbf{H}$ is the $(\infty,1)$-category of $\infty\mathbf{Grpd}$-valued $\infty$-sheaves. When considering cobordisms between cobordisms, one obtains spans between spans. So, eventually, a $d$-dimensional TQFT can be seen to be equivalent to a symmetric monoidal $(\infty,n)$-functor $\mathbf{Bord}^d\rightarrow\mathbf{Corr}_d(\mathbf{H})$, where $\mathbf{Corr}_n(\mathbf{H})$ is the $(\infty,n)$-category of \textit{$n$-fold correspondences} in $\mathbf{H}$. By a theorem by \textit{Lurie}, correspondences admit a (symmetric) monoidal structure induced by that on $\mathbf{H}$. The cobordism hypothesis now immediately implies that any such functor is uniquely characterized by a (moduli) stack of fields. These theories are called \textbf{(local) prequantum field theories (pQFT)}.
+
+    \begin{property}
+        Any local pQFT is a (topological) $\sigma$-model:
+        \begin{gather}
+            \mathrm{Fields}(M)\cong[\smallint\!M,\mathbf{Fields}],
+        \end{gather}
+        where $\mathbf{Fields}$ is the classifying stack and $\smallint$ sends a manifold to its homotopy type, i.e. it is the shape modality \ref{topos:cohesive_modalities}.
+    \end{property}
+
+    Now, to obtain a reasonable quantum theory, one also needs an action principle. To a $d$-dimensional manifold it should assign a phase, i.e. a map $\mathbf{H}\rightarrow\mathrm{U}(1)$, to its boundary components it should assign a gauge field, i.e. a map $\mathbf{H}\rightarrow\mathbf{B}\mathrm{U}(1)$, etc. Combining this with the pQFT, one obtains a functor $\mathbf{Bord}^d\rightarrow\mathbf{Corr}_d(\mathbf{H}/_{\mathbf{B}^d\mathrm{U}(1)})$ to the $d$-fold correspondences in the slice topos over the classifying stack of circle $d$-bundles. Because the classiyfing stacks are \textit{$E_\infty$-algebras} in $\mathbf{H}$, i.e. commutative monoids in $\mathbf{H}$, the slice topos admits the structure of a symmetric monoidal category. Therefore one can extend the action functional to disjoint unions of cobordisms.
+    \newdef{Action functional}{\index{action}
+        An action functional for a pQFT $\mathbf{Bord}^d\rightarrow\mathbf{Corr}_d(\mathbf{H})$ is a lift (of monoidal functors) to a symmetric monoidal $(\infty,n)$-functor $\mathbf{Bord}^d\rightarrow\mathbf{Corr}_d(\mathbf{H}/_{\mathbf{B}^d\mathrm{U}(1)})$.
+    }
+    By the cobordism hypothesis, such a functional is uniquely defined by a morphism $\mathbf{Fields}\rightarrow\mathbf{B}^d\mathrm{U}(1)$, i.e. by a circle $d$-bundle on the space of fields.
+
+    One can also rephrase this assignment in terms of (higher) holonomy functors. Any map $U\rightarrow[\smallint\!M,\mathbf{B}^d\mathrm{U}(1)]$ is given by th assignment of a flat $d$-bundle on $U\times M$, by the adjunction $\smallint\dashv\flat$. Taking the holonomy of this bundle defines a functor $[\smallint\!M,\mathbf{B}^d\mathrm{U}(1)]\rightarrow\mathbf{B}^{d-k}\mathrm{U}(1)$, where $k$ is the dimension of $U$. Composition with the classifying functor $\mathbf{Fields}\rightarrow\mathbf{B}^d\mathrm{U}(1)$ induces an assignment of $(d-k)$-bundles to the spaces of fields on $M$. This is the generalization of the (Lagrangian) action principle, where integration of Lagrangians is replaced by assigning higher holonomies.

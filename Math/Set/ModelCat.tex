@@ -44,7 +44,7 @@
     \end{property}
 
     \newdef{Connected components}{\index{connected!component}
-        Consider a simplicial set $X$. Its set of connected components $\pi_0X$ is defined as the quotient of $X_0$ under the relation \[X_1\underset{d_1}{\overset{d_0}{\rightrightarrows}}X_0\times X_0.\]
+        Consider a simplicial set $X$. Its set of connected components $\pi_0(X)$ is defined as the quotient of $X_0$ under the relation \[X_1\underset{d_1}{\overset{d_0}{\rightrightarrows}}X_0\times X_0.\] This defines a fucntor $\func{\pi_0}{sSet}{Set}$. By base change \ref{cat:change_of_base}, this also induces a functor on simplicial categories.
     }
 
     \begin{construct}[Nerve and realization]\label{model:nerve_and_realization}
@@ -104,47 +104,6 @@
     \begin{property}[Classifying space]\index{bar construction}\index{classifying!space}
         For a (discrete) group $G$ one can construct two important objects: the delooping $\mathbf{B}G$ and the classifying space $BG$ (Definitions \ref{cat:group_delooping} and \ref{bundle:classifying_space}). As their notations imply there exists a relation between these space. By first taking the nerve of $\mathbf{B}G$ and then passing to its geometric realization, one obtains $BG$. In fact this method can be applied to any monoid $A$ to obtain the so-called (two-sided) \textit{bar construction}.
     \end{property}
-
-\subsection{Kan complexes}
-
-    \newdef{Horn}{\index{horn}
-        Consider the standard simplex $\Delta[n]$. For all $n\geq1$ and $0\leq k\leq n$ the $(n,k)$-horn $\Lambda^k[n]$ is defined as the subsimplicial set obtained by removing the $k^{th}$ face from $\partial\Delta[n]$. When $k=0$ or $k=n$, the horn is said to be \textbf{outer}, otherwise it is said to be \textbf{inner}.
-    }
-
-    \newdef{Kan fibration}{\index{Kan!fibration}
-        A morphism of simplicial sets that has the right lifting property with respect to all horn inclusions $\Lambda^k[n]\hookrightarrow\Delta[n]$.
-    }
-    \newdef{Kan complex}{\index{Kan!complex}
-        \nomenclature[S_Kan]{$\mathbf{Kan}$}{category of Kan complexes}
-        A simplicial set that has all horn fillers or, equivalently, a simplicial set for which the terminal morphism is a Kan fibration. The full subcategory of $\mathbf{sSet}$ on Kan complexes is denoted by $\mathbf{Kan}$.
-    }
-
-    \begin{property}[Horn filler condition]\label{model:horn_filler}
-        A simplicial set is the nerve of a (small) category if and only if all of its inner horns admit a unique filler. If one requires all horns to admit a unique filler, the nerve of a groupoid is obtained.
-    \end{property}
-
-    By relaxing the above requirements one can generalize the notion of a category (due to \textit{Boardman} and \textit{Vogt}):
-    \newdef{Quasicategory\footnotemark}{\index{quasi-!category}\index{logos}\index{Boardman condition}\label{model:quasicategory}
-        \footnotetext{Some authors such as \textit{Joyal} call these \textbf{logoi} (singular: \textbf{logos}).}
-        A simplicial set for which all inner horns have (not necessarily unique) fillers. This condition is sometimes called the \textbf{Boardman condition}.
-    }
-
-    At this point the first instance of a ``homotopy category'' can be defined:
-    \newdef{Homotopy category I}{\index{homotopy!category}
-        Let $X$ be a quasicategory. The homotopy category $\mathbf{Ho}(X)$ consists of the following data:
-        \begin{itemize}
-            \item\textbf{Objects}: $X_0$
-            \item\textbf{Morphisms}: The quotient of $X_1$ under the relation $f\circ g\sim h$ if there exists a 2-simplex with edges $f,g$ and $h$.
-        \end{itemize}
-    }
-    \begin{property}[Fundamental category]\index{fundamental!category}
-        If $X$ is a quasicategory, its homotopy category is equivalent to its \textbf{fundamental category} $\pi_1X$, i.e. the image under the left adjoint of the (simplicial) nerve functor.
-    \end{property}
-
-    The following theorem is a restatement of Property \ref{model:horn_filler}:
-    \begin{theorem}[Joyal]\index{Joyal}
-        A quasicategory is a Kan complex if and only if its homotopy category is a groupoid.
-    \end{theorem}
 
 \subsection{Homological algebra}
 
@@ -219,7 +178,7 @@
     \newdef{Gabriel-Zisman localization}{\index{localization!Gabriel-Zisman}\label{model:localization}
         Consider a category $\mathbf{C}$ with a collection of morphisms $M\subset\mathrm{hom}(\mathbf{C})$. The localization of $\mathbf{C}$ with respect to $M$ is constructed by adding for each morphism $f\in M$ a formal inverse to $\mathrm{hom}(\textbf{C})$.
 
-        More specifically, the localization consists a category $\mathbf{C}[M^{-1}]$ and a functor $F_M:\mathbf{C}\rightarrow\mathbf{C}[M^{-1}]$ that inverts $M$, i.e. it maps all morphisms in $M$ to isomorphisms, with the property that $F_M$ is universal with respect to inverting $M$.
+        More specifically, the localization consists of a category $\mathbf{C}[M^{-1}]$ and a functor $F_M:\mathbf{C}\rightarrow\mathbf{C}[M^{-1}]$ that inverts $M$, i.e. it maps all morphisms in $M$ to isomorphisms, with the property that $F_M$ is universal with respect to inverting $M$.
 
         Universality here means that for every other category $\mathbf{D}$ and functor $\func{F}{C}{D}$ that inverts all morphisms in $M$ the following conditions are satisfied:
         \begin{itemize}
@@ -233,6 +192,10 @@
     \begin{remark}[Size issues]
         When $\mathbf{C}$ is small, so is its localization. However, even in the case were $\mathbf{C}$ is locally small, its localization might be large.
     \end{remark}
+
+    \newdef{Reflective localization}{\index{localization!reflective}
+        Consider an adjunction $\func{F\dashv G}{C}{D}$. $G$ is fully faithful, i.e. defines a reflective subcategory \ref{cat:reflective_inclusion}, if and only if $F$ realizes $\mathbf{D}$ as a localization of $\mathbf{C}$. The essential image of $G$ consists exactly of the local objects in $C$.
+    }
 
     \newdef{Derived functor}{\index{derived!functor}\label{model:derived_functor}
         Consider a homotopical functor $\func{F}{A}{B}$ and let $\gamma$ be the composition $\gamma=\gamma_\mathbf{B}\circ F$ with the localization functor $\func{\gamma_{\mathbf{B}}}{B}{Ho(B)}$. The derived functor $\func{\mathbf{Ho}(F)}{Ho(A)}{Ho(B)}$ is the functor obtained by the universal property of $\mathbf{Ho(A)}$ applied to $\gamma$.
@@ -451,7 +414,7 @@
     }
 
     In Definition \ref{model:localization} it was shown that one can assign to every category with weak equivalences a ``homotopy category''. When the category has the additional structure of a model category, one can construct an equivalent category:
-    \newadef{Homotopy category II}{\index{homotopy!category}\label{model:homotopy_category_2}
+    \newadef{Homotopy category I}{\index{homotopy!category}\label{model:homotopy_category_2}
         Let $\mathbf{C}$ be a model category. The homotopy category $\mathbf{Ho}(\mathbf{C})$ is the category defined by the following data:
         \begin{itemize}
             \item\textbf{Objects}: $\ob{C}$
@@ -590,7 +553,49 @@
 
     ?? COMPLETE (this section is way too abstract and difficult at this point) ??
 
-\subsection{Simplicial spaces}
+\section{Simplicial spaces}
+\subsection{Kan complexes}
+
+    \newdef{Horn}{\index{horn}
+        Consider the standard simplex $\Delta[n]$. For all $n\geq1$ and $0\leq k\leq n$ the $(n,k)$-horn $\Lambda^k[n]$ is defined as the subsimplicial set obtained by removing the $k^{th}$ face from $\partial\Delta[n]$. When $k=0$ or $k=n$, the horn is said to be \textbf{outer}, otherwise it is said to be \textbf{inner}.
+    }
+
+    \newdef{Kan fibration}{\index{Kan!fibration}
+        A morphism of simplicial sets that has the right lifting property with respect to all horn inclusions $\Lambda^k[n]\hookrightarrow\Delta[n]$.
+    }
+    \newdef{Kan complex}{\index{Kan!complex}
+        \nomenclature[S_Kan]{$\mathbf{Kan}$}{category of Kan complexes}
+        A simplicial set that has all horn fillers or, equivalently, a simplicial set for which the terminal morphism is a Kan fibration. The full subcategory of $\mathbf{sSet}$ on Kan complexes is denoted by $\mathbf{Kan}$.
+    }
+
+    \begin{property}[Horn filler condition]\label{model:horn_filler}
+        A simplicial set is the nerve of a (small) category if and only if all of its inner horns admit a unique filler. If one requires all horns to admit a unique filler, the nerve of a groupoid is obtained.
+    \end{property}
+
+    By relaxing the above requirements one can generalize the notion of a category (due to \textit{Boardman} and \textit{Vogt}):
+    \newdef{Quasicategory\footnotemark}{\index{quasi-!category}\index{logos}\index{Boardman condition}\label{model:quasicategory}
+        \footnotetext{Some authors such as \textit{Joyal} call these \textbf{logoi} (singular: \textbf{logos}).}
+        A simplicial set for which all inner horns have (not necessarily unique) fillers. This condition is sometimes called the \textbf{Boardman condition}.
+    }
+
+    At this point the first instance of a ``homotopy category'' can be defined:
+    \newdef{Homotopy category II}{\index{homotopy!category}
+        Let $X$ be a quasicategory. The homotopy category $\mathbf{Ho}(X)$ consists of the following data:
+        \begin{itemize}
+            \item\textbf{Objects}: $X_0$
+            \item\textbf{Morphisms}: The quotient of $X_1$ under the relation $f\circ g\sim h$ if there exists a 2-simplex with edges $f,g$ and $h$.
+        \end{itemize}
+    }
+    \begin{property}[Fundamental category]\index{fundamental!category}
+        If $X$ is a quasicategory, its homotopy category is equivalent to its \textbf{fundamental category} $\pi_1(X)$, i.e. the image under the left adjoint of the (simplicial) nerve functor.
+    \end{property}
+
+    The following theorem is a restatement of Property \ref{model:horn_filler}:
+    \begin{theorem}[Joyal]\index{Joyal}
+        A quasicategory is a Kan complex if and only if its homotopy category is a groupoid.
+    \end{theorem}
+
+\subsection{Simplicial localization}
 
     \newdef{Homotopy category III}{\index{homotopy!category}\label{model:enriched_homotopy_category}
         Consider a simplicially enriched category $\mathbf{C}$. Its homotopy category $\pi_0(\mathbf{C})$ is defined as follows:
@@ -603,8 +608,8 @@
     \newdef{Dwyer-Kan equivalence I}{\index{equivalence!Dwyer-Kan}\label{model:enriched_dwyer_kan}
         Consider a simplicial functor $\func{F}{C}{D}$ between two simplicially enriched categories. This functor is called a Dwyer-Kan equivalence if:
         \begin{itemize}
-            \item The induced map on hom-objects is a weak equivalence. $F$ is is said to be $\infty$-fully faithful.\footnote{This is related to the fact that simplicial categories are models for $\infty$-categories.}
-            \item The induced map on connected components $\pi_0 F:\pi_0(\mathbf{C})\rightarrow\pi_0(\mathbf{D})$ is an equivalence (of categories). In fact, this condition can be relaxed to $\pi_0F$ being essentially surjective, since together with the previous condition this implies that $\pi_0F$ is an equivalence.
+            \item $F$ is \textbf{$\infty$-fully faithful}, i.e. the induced map on hom-objects is a weak equivalence. \footnote{This is a generalization of the ordinary definition for categories. (Simplicial categories will give models for $\infty$-categories.)}
+            \item The induced map on connected components $\pi_0( F):\pi_0(\mathbf{C})\rightarrow\pi_0(\mathbf{D})$ is an equivalence (of categories). In fact, this condition can be relaxed to $\pi_0F$ being essentially surjective, since together with the previous condition this implies that $\pi_0F$ is an equivalence.
         \end{itemize}
     }
 
@@ -614,7 +619,7 @@
             \item\textbf{Objects}: $\ob{C}$
             \item\textbf{Morphisms}: $L^H\mathbf{C}(x,y)$ is the simplicial set defined as follows:
             \begin{quote}
-                First, for every $n\in\mathbb{N}$ one constructs a category with as objects the zigzags of morphisms in $\mathbf{C}$ relating $x$ and $y$ such that all left-pointing morphisms are in $W$, and as morphisms the endpoint-preserving ``natural transformations'' (in the sense that all triangles/squares in the resulting diagram commute). Then, the coproduct is taken of the (simplicial) nerves of the categories for all $n\in\mathbb{N}$. Finally, the quotient is taken by the equivalence relations generated by:
+                First, for every $n\in\mathbb{N}$ one constructs a category with as objects the zigzags of morphisms in $\mathbf{C}$ relating $x$ and $y$ such that all left-pointing morphisms are in $W$, and as morphisms the endpoint-preserving ``natural transformations'' (in the sense that all triangles/squares in the resulting diagram commute). Then, the coproduct is taken over the (simplicial) nerves of the categories for all $n\in\mathbb{N}$. Finally, the quotient is taken by the equivalence relations generated by:
                 \begin{enumerate}
                     \item inserting or removing identity morphisms, and
                     \item composing composable morphisms.
@@ -626,12 +631,15 @@
     \begin{property}
         Let $(\mathbf{C},W)$ be a category with weak equivalences. It can be shown that
         \begin{gather}
-            \pi_0(L^H\mathbf{C})\cong\mathbf{C}[W^{-1}].
+            \mathrm{Ho}(L^H\mathbf{C})\cong\mathbf{C}[W^{-1}].
         \end{gather}
         This construction gives a more explicit description of the homotopy category. Furthermore, if $\mathbf{M}$ is a simplicial model category, the categories $\mathbf{M_{cf}}$ and $L^H\mathbf{M}$ are Dwyer-Kan equivalent.
     \end{property}
     \begin{property}
         Quillen equivalent model categories have Dwyer-Kan equivalent simplicial localizations.
+    \end{property}
+    \begin{property}
+        Up to Dwyer-Kan equivalence, every simplicially enriched category can be obtained as the simplicial localization of a category with weak equivalences.
     \end{property}
 
     \newdef{Simplicial resolution}{\index{resolution!(co)simplicial}
@@ -654,9 +662,7 @@
             \item\textbf{Objects}: $\ob{C}$
             \item\textbf{Morphisms}: $\text{hom}(\mathfrak{C}\mathbf{C})_n := \text{hom}(F^{n+1}\mathbf{C})$, where $F$ is identity-on-objects and $F\mathbf{C}$ has as morphisms strings of composable morphisms in $\mathbf{C}$
         \end{itemize}
-        It can be shown that $\mathfrak{C}\mathbf{C}$ is a \textit{simplicial computad} for any simplicially enriched category $\mathbf{C}$.
-
-        ?? CHECK THIS (I think this can be found in Bergner or Rezk) ??
+        It can be shown that $\mathfrak{C}\mathbf{C}$ is a \textit{simplicial computad} for any simplicially enriched category $\mathbf{C}$, $\mathfrak{C}$ acts as the cofibrant replacement functor in the Bergner model structure.
     }
 
 \subsection{Segal spaces}
@@ -704,13 +710,45 @@
         A map of Segal spaces is a Dwyer-Kan equivalence if and only if it is a weak equivalence in the \textit{complete Segal space model structure}. A map of complete Segal spaces is a Dwyer-Kan equivalence if and only if it is a levelwise weak equivalence.
     \end{property}
 
+\subsection{Coherent nerve}
+
+    The nerve and realization functors \ref{model:nerve_and_realization} can also be modified to incorporate the higher homotopical data present in a simplicially enriched category.
+
+    First, define a cosimplicial simplicially enriched category $\func{C}{\Delta}{sSetCat}$ that assigns to every finite ordinal $[n]$ the category consisting of the following data:
+    \begin{itemize}
+        \item\textbf{Objects}: $[n]\equiv\{0,1,\ldots,n\}$
+        \item\textbf{Morphisms}: $C[n](i,j) := N(P_{ij})$, where $N$ is the ordinary nerve functor on $\mathbf{Cat}$ and $P_{ij}$ is the poset consisting of all subsets of $\{i,\ldots,j\}$ that contain both $i$ and $j$.
+    \end{itemize}
+    The (homotopy) \textbf{coherent nerve functor} (or \textbf{simplicial nerve functor}\footnote{This terminology was also used for the ordinary nerve functor taking values in $\mathbf{sSet}$. In general it should be clear from the context which one is meant.}) is the nerve functor induced by this cosimplicial object. It not only knowns about all possible morphisms, it also knows about all possible ways how one can obtain this morphism.
+    \begin{remark}
+        The cosimplicial object $\func{C}{\Delta}{sSetCat}$ is in fact just the free resolution functor $\mathfrak{C}$ in the Bergner model structure \ref{model:bergner_free_resolution} restricted to the subcategory $\simplex$.
+    \end{remark}
+
+    \begin{property}
+        The homotopy coherent nerve functor $N_\Delta$ is uniquely determined by the following relation:
+        \begin{gather}
+            \mathbf{sSet}(\Delta[n],N_\Delta\mathbf{C})=\mathbf{sSetCat}(C[n],\mathbf{C}).
+        \end{gather}
+    \end{property}
+
+    \begin{property}[Simplicial realization]
+        The left adjoint of the homotopy coherent nerve functor satisfies the following relation for all finite ordinals $[n]$:
+        \begin{gather}
+            |\Delta[n]|\cong C[n].
+        \end{gather}
+    \end{property}
+
+    \begin{property}[Quasicategories]
+        If $\mathbf{C}$ is $\mathbf{Kan}$-enriched, its coherent nerve is a quasicategory. By Example \ref{model:simplicial_model_category} this allows to associate a quasicategory to any simplicial model category by passing to the coherent nerve of its fibrant-cofibrant subcategory.
+    \end{property}
+
     At this point it is interesting to reconsider the simplicial nerve construction \ref{model:nerve}. Although the functor $\func{N}{Cat}{sSet}$ is fully faithfull, there is a problem in that weak equivalences of simplicial sets do not necessarily correspond to (weak) equivalences of categories. The issue comes from the definition of the canonical model structure \ref{model:sset_model_structure} on $\mathbf{sSet}$. Here, the weak equivalences are those morphisms that become weak equivalences after geometric realization. During this step information about the direction of morphisms is lost and it becomes impossible to distinguish categories from groupoids. Only when all morphisms are assumed to be invertible, i.e. the category is assumed to be groupoid, does one recover the converse statement.
 
     A first solution is to use a different model structure with less weak equivalences:
     \newdef{Joyal model structure}{\index{Joyal!model structure}
         The category $\mathbf{sSet}$ of simplicial sets \ref{model:simplicial set} admits a model structure defined by the following data:
         \begin{itemize}
-            \item\textbf{Weak equivalences}: \textit{weak categorical equivalences}
+            \item\textbf{Weak equivalences}: \textit{weak categorical equivalences}, i.e. maps $f:X\rightarrow Y$ such that the induced simplicial functor $C(f):C(X)\rightarrow C(Y)$ is a Dwyer-Kan equivalence.
             \item\textbf{Cofibrations}: monomorphisms
             \item\textbf{Fibrant objects}: quasicategories \ref{model:quasicategory}
         \end{itemize}
@@ -755,11 +793,22 @@
         An object for which there exists a regular cardinal $\kappa$ such that its covariant hom-functor preserves all $\kappa$-filtered colimits. These objects are also said to be \textbf{$\kappa$-compact} or \textbf{$\kappa$-presentable}.
     }
     \newdef{Accessible category}{\index{accessible}
-        A locally small category $\mathbf{C}$ for which there exists a regular cardinal $\kappa$ such that $\mathbf{C}$ has all $\kappa$-filtered colimits and such that $\mathbf{C}$ contains a set of $\kappa$-small objects that generates all objects by $\kappa$-filtered colimits.
+        A locally small category $\mathbf{C}$ for which there exists a regular cardinal $\kappa$ such that $\mathbf{C}$ has all $\kappa$-filtered colimits and such that $\mathbf{C}$ contains a small subcategory $\mathbf{D}$ of $\kappa$-small objects that generates all objects by $\kappa$-filtered colimits, i.e. $\mathbf{C}\cong\mathrm{Ind}_\kappa(\mathbf{D})$.
     }
     \newdef{Locally presentable category}{\index{presentable}
-        A cocomplete accessible category.
+        A cocomplete, accessible category. They can be shown to also be complete (and, hence, bicomplete).
     }
+
+    \begin{property}
+        Every locally presentable category can be obtained as a full reflective subcategory of a presheaf category under an \textbf{accessible embedding}, i.e. an embedding that preserves filtered colimits.
+    \end{property}
+    \begin{property}[Gabriel-Ulmer duality]\index{Gabriel-Ulmer duality}
+        There exists an equivalence between locally finitely presentable categories and categories of left exact copresheaves from small complete categories. This gives a 2-equivalence $\mathbf{Lex}^{op}\cong\mathbf{LFP}$.
+    \end{property}
+
+    \begin{theorem}[Adjoint functor theorem]\index{adjoint functor theorem}
+        Consider a functor $\func{F}{C}{D}$ between locally presentable categories. $F$ admits a right adjoint if and only if it preserves all colimits. $F$ admits a left adjoint if and only if it is accessible and if it preserves all limits.
+    \end{theorem}
 
     For ordinary categories the axioms guarantee the existence of a (unique) composition of any finite number of (composable) morphisms. However, in some cases it is useful, or even necessary, to talk about the ``composite'' of an infinite number of morphisms:
     \newdef{Transfinite composition}{\index{composition}\label{cat:transfinite_composition}
@@ -824,7 +873,27 @@
             \item\textbf{Cofibrations}: $\mathrm{cof}(\mathbf{C})$
             \item\textbf{Acyclic cofibrations}: cofibrations that are $S$-local weak equivalences
         \end{itemize}
+        If it exists, the Bousfield localization $L_S\mathbf{M}$ of $\mathbf{M}$ at $S$ is the universal left Quillen functor $\gamma:\mathbf{M}\rightarrow L_S\mathbf{M}$ such that its left derived functor sends the image of $S$ to isomorphisms in $\mathbf{Ho}(\mathbf{M})$. The identity functor gives a Quillen adjunction between $\mathbf{M}$ and $L_S\mathbf{M}$ and the induced adjunction on homotopy categories defines a reflective localization.
     \end{construct}
+    \begin{remark}
+        The notions of local object/morphisms can be slightly generalized (they give equivalent localizations). A \textbf{$S$-local morphism} $f:a\rightarrow b$ is a morphism such that for all objects $x\in\ob{M}$ for which the map
+        \begin{gather}
+            \mathbf{M}(g^\mathrm{c},x^\mathrm{f}):\mathbf{M}(d^\mathrm{c},x^\mathrm{f})\rightarrow\mathbf{M}(c^\mathrm{c},x^\mathrm{f})
+        \end{gather}
+        is a weak equivalence for all $g\in S$ ($x$ is said to be \textbf{$S$-local}), the map
+        \begin{gather}
+            \mathbf{M}(f^\mathrm{c},x^\mathrm{f}):\mathbf{M}(b^\mathrm{c},x^\mathrm{f})\rightarrow\mathbf{M}(a^\mathrm{c},x^\mathrm{f})
+        \end{gather}
+        is also a weak equivalence. This is the homotopical version of Definition \ref{cat:local_object}, after cofibrant (resp. fibrant) replacement of the domain (resp. codomain), the Yoneda embedding of every $S$-local object is weak equivalence, where $S$-local objects are those objects whose Yoneda embedding maps morphisms in $S$ to weak equivalences.
+    \end{remark}
+
+    \newdef{Combinatorial model category}{
+        A locally presentable, cofibrantly generated model category.
+    }
+
+    \begin{theorem}[Dugger]\index{Dugger}\label{model:dugger}
+        Every combinatorial model category is Quillen equivalent to a (left) Bousfield localization of a category of simplicial presheaves on a small category (with the global projective model structure).
+    \end{theorem}
 
     ?? FINISH ??
 
@@ -898,38 +967,6 @@
 
     ?? COMPLETE (CHECK THESE STATEMENTS) ??
 
-\subsection{Simplicial nerve}
-
-    The nerve and realization functors \ref{model:nerve_and_realization} can also be modified to incorporate the higher homotopical data present in a simplicially enriched category.
-
-    First, define a cosimplicial simplicially enriched category $\func{S}{\Delta}{sSetCat}$ that assigns to every finite ordinal $[n]$ the category consisting of the following data:
-    \begin{itemize}
-        \item\textbf{Objects}: $[n]\equiv\{0,1,\ldots,n\}$
-        \item\textbf{Morphisms}: $S[n](i,j) := N(P_{ij})$, where $N$ is the ordinary nerve functor on $\mathbf{Cat}$ and $P_{ij}$ is the poset consisting of all subsets of $\{i,\ldots,j\}$ that contain both $i$ and $j$.
-    \end{itemize}
-    The homotopy coherent nerve functor (or \textbf{simplicial nerve functor}\footnote{This terminology was also used for the ordinary nerve functor taking values in $\mathbf{sSet}$. In general it should be clear from the context which one is meant.}) is the nerve functor induced by this cosimplicial object.
-    \begin{remark}
-        The cosimplicial object $\func{S}{\Delta}{sSetCat}$ is in fact just the free resolution functor $\mathfrak{C}$ in the Bergner model structure \ref{model:bergner_free_resolution} restricted to the subcategory $\simplex$.
-    \end{remark}
-
-    \begin{property}
-        The homotopy coherent nerve functor $N$ is uniquely determined by the following relation:
-        \begin{gather}
-            \mathbf{sSet}(\Delta[n],N\mathbf{C})=\mathbf{sSetCat}(S[n],\mathbf{C}).
-        \end{gather}
-    \end{property}
-
-    \begin{property}[Simplicial realization]
-        The left adjoint of the homotopy coherent nerve functor, here called the simplicial realization functor, satisfies the following relation for all finite ordinals $[n]$:
-        \begin{gather}
-            |\Delta[n]|\cong S[n].
-        \end{gather}
-    \end{property}
-
-    \begin{property}[Quasicategories]
-        If $\mathbf{C}$ is $\mathbf{Kan}$-enriched, its simplicial nerve is a quasicategory. By Example \ref{model:simplicial_model_category} this allows to associate a quasicategory to any simplicial model category by passing to the simplicial nerve of its fibrant-cofibrant subcategory.
-    \end{property}
-
     By Definition \ref{model:homotopy_category_2} one can construct morphisms in a homotopy category as morphisms from a cofibrant replacement to a fibrant replacement. This allows to define diagrams-up-to-homotopy (in two settings):
     \newdef{Homotopy coherent diagram}{\index{homotopy!diagram}
         A morphism in the homotopy category of the Bergner model category. When considering diagrams taking values in a $\mathbf{Kan}$-enriched category, one can use the free resolution functor to characterize them as functors $D:\mathfrak{C}\mathbf{I}\rightarrow\mathbf{C}$. Since the simplicial realization functor extends the free resolution functor $\mathfrak{C}$ to simplicial sets, one can also define homotopy coherent diagrams on simplicial sets.
@@ -942,3 +979,12 @@
     }
 
     ?? COMPLETE ??
+
+\section{$\infty$-categories}
+\subsection{Simplicial approach}
+
+    The first approach to $\infty$-category theory is the simplicial one. The motivation is Property \ref{model:horn_filler}, which relates the categorical structure to the existence of certain horn fillers. The generalization is then given by the notion of quasicategories \ref{model:quasicategory}.
+
+    \begin{theorem}[Lurie]\index{Lurie}\label{model:lurie_presentation}
+        An $\infty$-category is presentable if and only if it is equivalent to  the coherent nerve of the fibrant-cofibrant subcategory of a combinatorial model category and, hence by Dugger's theorem \ref{model:dugger}, can be presented by simplicial presheaves.
+     \end{theorem}

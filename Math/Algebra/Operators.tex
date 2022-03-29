@@ -5,18 +5,17 @@
 \section{\texorpdfstring{$C^*$-}{C-star }algebras}
 \subsection{Involutive algebras}
 
-    \newdef{Involutive algebra\footnotemark}{\index{algebra!involutive}\index{$*$-algebra|see{algebra, involutive}}
-        \footnotetext{Also called a $^*$\textbf{-algebra}.}
+    \newdef{Involutive algebra}{\index{algebra!involutive}\index{$*$-algebra|see{algebra, involutive}}
         An involutive algebra is an associative algebra $A$ over a commutative involutive ring $(R,\overline{\,\cdot\,}\,)$ together with an algebra involution $\cdot^*:A\rightarrow A$ such that:
         \begin{enumerate}
             \item $(a + b)^* = a^* + b^*$,
             \item $(ab)^* = b^*a^*$, and
             \item $(\lambda a)^* = \overline\lambda a^*$,
         \end{enumerate}
-        for all $a,b\in A$ and $\lambda\in R$.
+        for all $a,b\in A$ and $\lambda\in R$. These algebras are also sometimes called \textbf{$\ast$-algebras}.
     }
 
-    \newdef{$C^*$-algebra}{\index{C$^*$-algebra}
+    \newdef{$C^*$-algebra}{\index{C$^*$-algebra}\label{operators:c_star}
         A $C^*$-algebra is an involutive Banach algebra \ref{functional:banach_space} such that the \textbf{$C^*$-identity}
         \begin{gather}
             \|a^*a\| = \|a\|\|a^*\|
@@ -40,6 +39,21 @@
     \begin{property}
         Every norm-closed $\ast$-subalgebra of a $C^*$-algebra is a $C^*$-algebra.
     \end{property}
+
+    \newdef{$H^*$-algebra}{\index{H-!$\ast$-algebra}
+        A Hilbert space $\mathcal{H}$ equipped with a unital $\ast$-algebra structure that satisfies the following conditions for all $a,b,c\in\mathcal{H}$:
+        \begin{enumerate}
+            \item $\langle ab|c \rangle = \langle b|a^*c \rangle$, and
+            \item $\langle ab|c \rangle = \langle a|cb^* \rangle$.
+        \end{enumerate}
+    }
+    \begin{example}[Linear operators]\index{Hilbert-Schmidt!norm}\label{operators:hilbert_schmidt_inner_product}
+        The canonical example of $H^*$-algebras is given by the algebra of linear operators on a Hilbert space $\mathcal{H}$, where the involution is given by taking adjoints and the inner product is the Hilbert-Schmidt inner product induced by the norm \ref{linalgebra:hilbert_schmidt_norm} (up to a factor $k>0$):
+        \begin{gather}
+            \langle f|g \rangle_\text{HS} := k\,\tr(f^*g).
+        \end{gather}
+        The resulting space is denoted by $L^2(\mathcal{H},k)$. A result, analogous to the Artin-Wedderburn theorem \ref{algebra:artin_wedderburn}, states that every $H^*$-algebra can be decomposed as an orthogonal direct sum of finitely many algebras of the form $L^2(\mathcal{H}_i,k_i)$.
+    \end{example}
 
 \subsection{Positive maps}
 
@@ -91,19 +105,23 @@
         The set of states is a convex set. The extreme points of this set are called \textbf{pure states}, all other elements are called \textbf{mixed states}.
     \end{property}
 
+    \begin{example}[Function algebras]
+        Let $X$ be a locally compact Hausdorff space and consider its algebra of functions with compact support $C_c(X)$. By the Riesz-Markov theorem \ref{distributions:riesz_markov} the positive linear functionals on this algebra correspond to Radon measures on $X$. The subspace of states then correspond exactly to the probability measures on $X$. Under this identification the pure states correspond to Dirac measures (evaluation functionals).
+    \end{example}
+
 \subsection{Traces}
 
     \newdef{Trace}{\index{trace}
-        Let $A$ be a $C^*$-algebra. A trace on $A$ is a linear functional $\tr:A\rightarrow[0,\infty]$ that satisfies the following conditions:
+        Let $A$ be a $C^*$-algebra. A trace on $A$ is a linear functional that satisfies the following conditions:
         \begin{enumerate}
-            \item\textbf{Positivity}: $\tr(A^+)\subseteq A^+$, and
+            \item\textbf{Positivity}: $\tr(A^+)\geq 0$, and
             \item\textbf{Tracial}: $\tr(ab)=\tr(ba)$ for all $a,b\in A$.
         \end{enumerate}
     }
     \remark{The tracial property could have been replaced by the following equivalent, but seemingly weaker, condition: $\tr(a^*a)=\tr(aa^*)$ for all $a\in A$.}
 
     \newdef{Adjoint map}{\index{adjoint!operator}
-        Assume that a trace functional $\tr$ is given on the $C^*$-algebra and consider a continuous linear map $\phi$ defined on the Schatten class $\mathcal{I}_p$. One can define the adjoint map $\phi^*$ on $\mathcal{I}_q$ whenever $p,q$ are H\"older conjugate. This adjoint is given by the following equation:
+        Assume that a trace functional $\tr$ is given on a $C^*$-algebra and consider a continuous linear map $\phi$ defined on the Schatten class $\mathcal{I}_p$. One can define the adjoint map $\phi^*$ on $\mathcal{I}_q$ whenever $p,q$ are H\"older conjugate. This adjoint is given by the following equation:
         \begin{gather}
             \tr\Big((\phi^*(A))^*B\Big) = \tr\Big(A^*\phi(B)\Big),
         \end{gather}
@@ -135,7 +153,7 @@
 \subsection{Representations}
 
     \newdef{$C^*$-algebra representation}{\index{representation!of an algebra}
-        A representation of a $C^*$-algebra $\mathcal{C}$ is a unital $\ast$-morphism $\mathcal{C}\rightarrow\mathcal{B}(\mathcal{H})$.
+        A representation of a $C^*$-algebra $A$ is a unital $\ast$-morphism $A\rightarrow\mathcal{B}(\mathcal{H})$.
     }
 
     \newdef{Normal state}{\index{state!normal}\label{operators:normal_state}
@@ -147,38 +165,85 @@
     }
 
     \newdef{Cyclic vector}{\index{cyclic!vector}
-        A cyclic vector for a $C^*$-algebra representation $\rho:\mathcal{C}\rightarrow\mathcal{B}(\mathcal{H})$ is a vector $\xi\in\mathcal{H}$ such that $\{\rho(c)\xi\mid c\in\mathcal{C}\}$ is (norm) dense in $\mathcal{H}$.
+        A cyclic vector for a $C^*$-algebra representation $\rho:A\rightarrow\mathcal{B}(\mathcal{H})$ is a vector $\xi\in\mathcal{H}$ such that $\{\rho(a)\xi\mid a\in A\}$ is (norm) dense in $\mathcal{H}$.
     }
 
-    \begin{construct}[Gel'fand-Naimark-Segal]\index{Gel'fand-Naimark-Segal construction}\label{operators:gns}
-        \nomenclature[A_GNS]{GNS}{Gel'fand-Naimark-Segal}
-        Let $\mathcal{C}$ be a $C^*$-algebra. Given a state $\omega$ on $\mathcal{C}$ there exists a $C^*$-representation $\rho:\mathcal{C}\rightarrow\mathcal{B}(D)$, where $D\subset\mathcal{H}$ is a dense subspace of a Hilbert space $\mathcal{H}$, such that the following conditions are satisfied:
-        \begin{itemize}
-            \item There exists a distinguished cyclic unit vector $\xi$ such that $D = \{\rho(c)\xi\mid c\in\mathcal{C}\}$.
-            \item For all elements $c\in\mathcal{C}$ the following equality holds:
-                \begin{gather}
-                    \omega(c) = \langle\rho(c)\xi|\xi\rangle.
-                \end{gather}
-        \end{itemize}
-
-        ?? COMPLETE CONSTRUCTION ??
-    \end{construct}
-
-    \begin{theorem}[Gel'fand-Naimark]\index{Gel'fand-Naimark}
-        Every $C^*$-algebra is isometrically $\ast$-isomorphic to a norm closed ($C^*$-)algebra of bounded operators on a Hilbert space $\mathcal{H}$.
-    \end{theorem}
-
     \begin{theorem}[Stinespring]\index{Stinespring}\label{operators:stinespring}
-        Consider a linear operator $\Phi:\mathcal{B}(\mathcal{H})\rightarrow\mathcal{B}(\mathcal{H})$. It is completely positive if and only if there exists a $C^*$-representation $\pi:\mathcal{B}(\mathcal{H})\rightarrow\mathcal{B}(\mathcal{K})$ and a bounded linear operator $V:\mathcal{H}\rightarrow\mathcal{K}$ such that
+        Consider a linear operator $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$. It is completely positive if and only if there exists a $C^*$-representation $\pi:\mathcal{B}(\mathcal{H}_2)\rightarrow\mathcal{B}(\mathcal{K})$ and a bounded linear operator $V:\mathcal{H}_1\rightarrow\mathcal{K}$ such that
         \begin{gather}
-            \Phi(A) = V^\dag\pi(A)V.
+            \Phi^\dagger(a) = V^\dag\pi(a)V
         \end{gather}
+        or, equivalently,
+        \begin{gather}
+            \Phi(\rho) = \pi^\dagger(V\rho V^\dagger).
+        \end{gather}
+        Moreover, $V$ is an isometry if and only if $\Phi$ is trace-preserving.
     \end{theorem}
+    \begin{remark}
+        Because the adjoint of a completely positive map is again completely positive, the above two characterizations can be used interchangeably. The former is the mostly used by mathematicians, while the latter is better known in the physics literature.
+
+        The most common situation is where $\mathcal{H}:=\mathcal{H}_1=\mathcal{H}_2$ and $\pi:\mathcal{B}(\mathcal{H})\rightarrow\mathcal{B}(\mathcal{H}\otimes\mathcal{K}):a\mapsto a\otimes b$, for some density operator $B\in\mathcal{B}(\mathcal{K})$. The adjoint to tensoring by a density operator is taking the partial trace $\tr_\mathcal{K}$. This way one obtains the following expressions:
+        \begin{gather}
+            \Phi^\dagger(a) = V^\dag(a\otimes b)V
+        \end{gather}
+        and, equivalently,
+        \begin{gather}
+            \Phi(\rho) = \tr_\mathcal{K}(V\rho V^\dagger).
+        \end{gather}
+    \end{remark}
+
+    \newdef{Hilbert module}{\index{Hilbert!module}
+        Let $A$ be a $C^*$-algebra and $H$ a vector space. $H$ is a (right) pre-Hilbert $A$-module if there exists a map
+        \begin{gather}
+            \langle\cdot\mid\cdot\rangle_A:H\times H\rightarrow A
+        \end{gather}
+        satisfying the following conditions:
+        \begin{enumerate}
+            \item\textbf{Conjugate linearity}: For all $x,y,z\in H$:
+                \begin{gather}
+                    \langle x|y+z \rangle_A = \langle x|y \rangle_A+\langle x|z \rangle_A \qquad\qquad \langle x|y \rangle_A = \langle y|x \rangle_A^*.
+                \end{gather}
+            \item\textbf{Nondegeneracy}: For all $x\in H$:
+                \begin{gather}
+                    \langle x|x \rangle_A\geq0 \qquad\qquad \langle x|x \rangle_A = 0 \iff x = 0.
+                \end{gather}
+            \item\textbf{Equivariance}: For all $x,y\in H$ and $a\in A$:
+                \begin{gather}
+                    \langle x|y \rangle_Aa = \langle x|ya \rangle_A.
+                \end{gather}
+        \end{enumerate}
+        A left module is obtained by requiring linearity and (left-)equivariance in the first argument. The completion of a pre-Hilbert module with respect to the norm $x\mapsto\sqrt{\|\langle x|x \rangle_A\|}$ is called a \textbf{Hilbert $A$-module}.
+    }
+
+    \newdef{Fredholm module}{\index{Fredholm!module}\label{operators:fredholm_module}
+        Let $A$ be unital a $C^*$-algebra with a $\ast$-representation $\pi:A\rightarrow\End(\mathcal{H})$ on a Hilbert space $\mathcal{H}$. When equipped with an operator $F\in\End(\mathcal{H})$ this gives an (\textbf{odd}) Fredholm module if
+        \begin{gather}
+            F=F^*\qquad\text{and}\qquad F^2=\mathbbm{1}_\mathcal{H}\qquad\text{and}\qquad[F,\pi(A)]\subseteq\mathcal{B}_0(\mathcal{H}).
+        \end{gather}
+        The Fredholm operator is said to be \textbf{even} if $\mathcal{H}$ is a super-Hilbert space with grading $\Gamma\in\End(\mathcal{H})$ satisyfing
+        \begin{gather}
+            \Gamma^*=\Gamma\qquad\text{and}\qquad\Gamma^2=\mathbbm{1}_\mathcal{H}\qquad\text{and}\qquad[\Gamma,\pi(A)]=0\qquad\text{and}\qquad\{\Gamma,F\}_+=0.
+        \end{gather}
+        $F$ has the form
+        \begin{gather}
+            \begin{pmatrix}
+                0&F_+\\F_-&0
+            \end{pmatrix},
+        \end{gather}
+        where $F_+$ is Fredholm.
+    }
+    \begin{remark}[Kasparov $K$-theory]\index{K-theory!Kasparov}
+        If $A$ is not unital, one should relax the first two relations up to compact operators, i.e. $F=F^*$ and $F^2=\mathbbm{1}_\mathcal{H}$ in the Calkin algebra. This gives a clear relation to \textit{Kasparov's $K$-theory}, where the homology complex $KK_\bullet$ is defined in terms of such generalized Fredholm modules. However, it can be shown that these induce the same $KK$-classes.
+    \end{remark}
+
+    \begin{example}
+        Consider $A=\mathbb{C}$ and let $\pi:\mathbb{C}\rightarrow\End(\mathcal{H})$ be the unique unital representation. Fredholm modules with this data correspond to (essentially self-adjoint) Fredholm operators on $\mathcal{H}$.
+    \end{example}
 
 \subsection{Gel'fand duality}\index{Gel'fand!duality}
 
     \newdef{Gel'fand spectrum}{\index{Gel'fand!spectrum}
-        Consider a unital $C^*$-algebra $A$. Its set of characters, i.e. the algebra morphisms $A\rightarrow\mathbb{C}$, can be equipped with a compact\footnote{Locally compact if the algebra is non-unital.} Hausdorff topology (the weak-* topology \ref{functional:weak_star_topology}).
+        Consider a commutative $C^*$-algebra $A$ (in fact any involutive algebra suffices). Its set of characters, i.e. the algebra morphisms $A\rightarrow\mathbb{C}$, can be equipped with a locally compact Hausdorff topology (the weak-* topology \ref{functional:weak_star_topology}). This space is compact if and only if the algebra is unital.
     }
     \newdef{Gel'fand representation}{
         Consider a $C^*$-algebra $A$ and let $\Phi_A$ denote its Gel'fand spectrum. The Gel'fand transformation of an element $a\in A$ is defined as the morphism $\hat{a}:\Phi_A\rightarrow\mathbb{C}$ given by the following formula:
@@ -188,8 +253,44 @@
         where $\langle\cdot,\cdot\rangle$ denotes the pairing between $A$ and $\Phi_A$. By definition of the topology on the Gel'fand spectrum the functional $\hat{a}$ is continuous for all $a\in A$. The mapping $a\mapsto\hat{a}$ is called the Gel'fand representation of $A$.
     }
 
-    \begin{theorem}[Gel'fand-Naimark]\index{Gel'fand-Naimark}
-        Let $A$ be a commutative $C^*$-algebra. The Gel'fand representation gives an isometric $\ast$-isomorphism between $A$ and the set of continuous functionals which vanish at infinity $C_0(\Phi_A)$ on its Gel'fand spectrum.
+    \begin{theorem}[Gel'fand-Naimark: Commutative case]\index{Gel'fand-Naimark}
+        Let $A$ be a commutative $C^*$-algebra. The Gel'fand representation gives an isometric $\ast$-isomorphism between $A$ and the set $C_0(\Phi_A)$ of continuous complex-valued functions that vanish at infinity on its Gel'fand spectrum.
+    \end{theorem}
+    \begin{remark}
+        In fact, the Gel'fand-Naimark theorem gives an equivalence between the category of locally compact Hausdorff spaces and the category of commutative $C^*$-algebras.
+    \end{remark}
+
+    \begin{property}
+        A compact Hausdorff space is connected if and only if its algebra of continuous functions has no nontrivial projections.
+    \end{property}
+    \begin{property}
+        A commutative $C^*$-algebra is separable if and only if its Gel'fand spectrum is metrizable.
+    \end{property}
+
+    \begin{formula}[Spectrum]
+        Recall Definition \ref{functional:spectrum} of the spectrum of an operator. This is related to the spectrum of a unital, commutative $C^*$-algebra as follows:
+        \begin{gather}
+            \sigma(a) = \{a(x)\mid x\in\Phi_A\},
+        \end{gather}
+        for all $a\in A$.
+    \end{formula}
+
+    \begin{construct}[Gel'fand-Naimark-Segal]\index{Gel'fand-Naimark-Segal construction}\label{operators:gns}
+        \nomenclature[A_GNS]{GNS}{Gel'fand-Naimark-Segal}
+        Let $A$ be a $C^*$-algebra. Given a state $\omega$ on $A$ there exists a $C^*$-representation $\rho:A\rightarrow\mathcal{B}(D)$, where $D\subset\mathcal{H}$ is a dense subspace of a Hilbert space $\mathcal{H}$, such that the following conditions are satisfied:
+        \begin{itemize}
+            \item There exists a distinguished cyclic unit vector $\xi$ such that $D = \{\rho(a)\xi\mid a\in A\}$.
+            \item For all elements $a\in A$ the following equality holds:
+                \begin{gather}
+                    \omega(a) = \langle\rho(a)\xi|\xi\rangle.
+                \end{gather}
+        \end{itemize}
+
+        ?? COMPLETE CONSTRUCTION ??
+    \end{construct}
+
+    \begin{theorem}[Gel'fand-Naimark: General case]\index{Gel'fand-Naimark}\label{operators:gelfand_naimark}
+        Every $C^*$-algebra is isometrically $\ast$-isomorphic to a norm closed ($C^*$-)algebra of bounded operators on a Hilbert space $\mathcal{H}$.
     \end{theorem}
 
 \section{von Neumann algebras}
@@ -249,7 +350,7 @@
         A factor is of type $\mathrm{III}$ if it does not contain any nonzero finite projections.
     }
 
-\subsection{Projection-valued measures}
+\subsection{Projection-valued measures}\label{section:PVM}
 
     This section focuses on the algebra of bounded operators $\mathcal{B}(\mathcal{H})$ on a (complex) Hilbert space $\mathcal{H}$.
 
@@ -266,7 +367,7 @@
             \item $P_AP_B = P_{A\cap B}$, and
             \item for all disjoint $\seq{E}\subset\Sigma$:
                 \begin{gather}
-                    \sum_{n\in\mathbb{N}}P_{E_n} = P_{\cup_{n\in\mathbb{N}}E_i}.
+                    \sum_{n\in\mathbb{N}}P_{E_n} = P_{\cup_{n\in\mathbb{N}}E_n}.
                 \end{gather}
         \end{enumerate}
     }
@@ -299,11 +400,15 @@
         \begin{gather}
             A = \int_\mathbb{R}\lambda\,dP_A(\lambda).
         \end{gather}
-        If $\mathbb{R}$ is replaced by $\mathbb{C}$, this theorem also holds for normal operators.
+        If $\mathbb{R}$ is replaced by $\mathbb{C}$, this theorem also holds for normal operators. If $A$ is compact, the measure becomes purely atomic, i.e. there exists an orthonormal basis of $\mathcal{H}$ consisting of eigenvectors of $A$ and, moreover, the eigenvalues are necessarily real.
     \end{theorem}
     \begin{property}[Spectrum and support]
         The spectrum of a self-adjoint operator $A$ coincides with the support of its associated spectral measure $P_A$. A number $\lambda\in\mathbb{R}$ belongs to the point spectrum of $A$ if and only if the PVM associated to $A$ does not vanish on $\{\lambda\}$. A number $\lambda\in\mathbb{R}$ belongs to the continuous spectrum of $A$ if the associated PVM vanishes on $\{\lambda\}$ but is nonvanishing on any open set containing $\lambda$.
     \end{property}
+
+    \newdef{Singular value}{\index{singular!value}
+        Let $A$ be a compact operator. The singular values of $A$ are given by the square roots of the eigenvalues of the self-adjoint (and compact) operator $A^*A$. If $A$ is self-adjoint, its singular values and eigenvalues coincide.
+    }
 
     The above property allows to compose self-adjoint operators with (measurable) functions similar to how one can compute $f(X)$ for finite-dimensional operators by applying $f$ to the eigenvalues of $X$:
     \begin{formula}[Function of operators]
@@ -312,3 +417,43 @@
             f(A) := \int_{\sigma(A)}f(\lambda)\,dP_A(\lambda) = \int_\mathbb{R}g(\lambda)\,dP_A(\lambda) =: g(A).
         \end{gather}
     \end{formula}
+
+    \newdef{Dixmier ideal}{\index{Dixmier!ideal}
+        For every compact operator one can sort the singular values in decreasing order. One can then define the operator
+        \begin{gather}
+            \sigma_n(A) := \sum_{i=1}^ns_i(A).
+        \end{gather}
+        The Dixmier ideal is defined as follows:
+        \begin{gather}
+            \mathfrak{D}(\mathcal{H}):=\{A\in\End_0(\mathcal{H})\mid\sigma_n(A)=O(\ln(n))\}.
+        \end{gather}
+    }
+    The following functional gives an alternative for the ordinary trace on operators that are not trace-class.
+    \newdef{Dixmier trace}{\index{Dixmier!trace}\index{measurable!operator}\label{operators:dixmier_trace}
+        For every element in $A\in\mathfrak{D}(\mathcal{H})$, the Dixmier trace is defined as follows:
+        \begin{gather}
+            \tr_\mathfrak{D}(A) := \omega\left(\left\{\frac{\sigma_n(A)}{1+\log(n)}\mid n\in\mathbb{N}\right\}\right),
+        \end{gather}
+        where $\omega:\ell^\infty(\mathbb{N})$ is a linear functional satisfying the conditions
+        \begin{enumerate}
+            \item\textbf{Positivity}: $\omega(s)\geq0$ if $s_n\geq0$ for all $n\in\mathbb{N}$.
+            \item\textbf{Convergence}: $\omega(s)=\lim_{n\rightarrow\infty}s_n$ if $s$ is convergent.
+            \item\textbf{Dilation-invariant}: Let $D:\ell^\infty(\mathbb{N})\rightarrow\ell^\infty(\mathbb{N})$ be the following operator:
+            \begin{gather}
+                D:(s_1,s_2,\ldots)\mapsto(s_1,s_1,s_2,s_2,\ldots).
+            \end{gather}
+            The state $\omega$ is dilation-invariant if $\omega(s)=\omega(D(s))$ for all $s\in\ell^\infty(\mathbb{N})$.
+        \end{enumerate}
+        If for an operator $A\in\mathfrak{D}(\mathcal{H})$ the Dixmier trace is independent of the chosen state, it is said to be \textbf{measurable}.
+    }
+    \begin{property}\index{singular!trace}
+        The Dixmier trace has the following properties:
+        \begin{itemize}
+            \item $\tr_\mathfrak{D}(A+B)=\tr_\mathfrak{D}(A) + \tr_\mathfrak{D}(B)$ for all $A,B\in\mathfrak{D}(\mathcal{H})$.
+            \item If $A$ is bounded and $B$ is an element of the Dixmier ideal, then $\tr_\mathfrak{D}(AB)=\tr_\mathfrak{D}(BA)$.
+            \item The Dixmier ideal vanishes on trace-class operators (in particular, it is \textbf{singular}, i.e. it vanishes on finite-rank operators):
+                \begin{gather}
+                    A\in\mathcal{B}_1(\mathcal{H})\implies\tr_\mathfrak{D}(A)=0.
+                \end{gather}
+        \end{itemize}
+    \end{property}

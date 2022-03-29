@@ -103,7 +103,7 @@
         A geometric morphism for which the direct image part is fully faithful.
     }
     \begin{property}[Characterization of geometric embeddings]\label{topos:characterization_embedding}
-        Let $f:\mathcal{E}\rightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\mathrm{hom}(\mathcal{E})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{F}$ is equivalent to the full subcategory of $\mathcal{E}$ on $W$-local objects. It is also equivalent to the localization $\mathcal{E}[W^{-1}]$ at $W$ (Definition \ref{model:localization}).
+        Let $f:\mathcal{E}\rightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\mathrm{hom}(\mathcal{F})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{E}$ is both equivalent to the full subcategory of $\mathcal{F}$ on $W$-local objects and the localization $\mathcal{F}[W^{-1}]$ at $W$ (Definition \ref{model:localization}).
     \end{property}
 
     \begin{property}[Base change]
@@ -203,9 +203,9 @@
             \label{topos:matching_family_condition}
             F(f')(x_f)=F(g')(x_g).
         \end{gather}
-        Given such a matching family, one calls an element $x\in Fc$ an \textbf{amalgamation} if it satisfies
+        Given such a matching family, one calls an element $a\in Fx$ an \textbf{amalgamation} if it satisfies
         \begin{gather}
-            F(f)(x)=x_f
+            F(f)(a)=x_f
         \end{gather}
         for all morphisms $f\in S(y)$. The existence of such an element can also be stated in terms of natural transformations. Consider the obvious inclusion $\iota_S$ of $S$ into the the hom-functor $\mathbf{C}(-,x)$. Every morphism with codomain $x$ can be obtained from the identity morphism by precomposition and, hence, a natural transformation $\mathbf{C}(-,x)\Rightarrow F$ is determined by its action on the identity morphisms $\mathbbm{1}_x$. The existence of an amalgamation is thus equivalent to the existence of an extension of $S$ along $\iota_S$.
     }
@@ -223,11 +223,50 @@
         \begin{gather}
             Fx\cong\mathbf{Psh}(\mathcal{Y}x,F)\xrightarrow{\mathbf{Psh}(\eta, F)}\mathbf{Psh}(S,F).
         \end{gather}
-        This is also called the \textbf{descent condition} of sheaves. In this context the collection of matching families $\mathrm{Match}(S,F)$ for a sieve $S$ with respect to a presheaf $F$ is often called the \textbf{descent object} of $S$ with respect to $F$.
+        This is also called the \textbf{descent condition} for sheaves. In this context the collection of matching families $\mathrm{Match}(S,F):=\mathbf{Psh}(S,F)$ for a sieve $S$ with respect to a presheaf $F$ is often called the \textbf{descent object} of $S$ with respect to $F$.
     }
 
     \begin{example}[Topological spaces]
         The usual category of sheaves $\mathbf{Sh}(X)$ on a topological space $X$ is obtained as the category of sheaves on the site $(\mathbf{Open}(X),J_{\mathbf{Open}(X)})$. Since the morphisms in the covering sieves are exactly the inclusion maps $U_i\hookrightarrow U$, the pullback of two such morphisms is given by the intersection $U_i\cap U_j$. Hence, the condition for a matching family, as formulated in \ref{topos:matching_family} above, gives the second part of Definition \ref{sheaf:def}. The uniqueness of an amalgamation is equivalent to the first part of that definition.
+
+        For topological spaces, sheaves are easily represented visually. A matching family assigns to every set $U_i$ of an open cover $\mathcal{U}\equiv\{U_i\}_{i\in I}$ of $U$ an element $x_i\in FU_i$, such that the restrictions coincide on double overlaps, as in step $(1)$ in the figure below.
+        \begin{gather*}
+            \begin{tikzpicture}[baseline=-1mm]
+                \node (title) at (0, 2) {Cover};
+                \node (Uij) at (0, 1) {$U_i\cap U_j$};
+                \node (Ui) at (-1, 0) {$U_i$};
+                \node (Uj) at (1, 0) {$U_j$};
+                \node (U) at (0, -1) {$U$};
+                \draw[left hook->] (Uij) -- (Ui);
+                \draw[right hook->] (Uij) -- (Uj);
+                \draw[right hook->] (Ui) -- (U);
+                \draw[left hook->] (Uj) -- (U);
+            \end{tikzpicture}
+            \xrightarrow{\ (1)\ }
+            \begin{tikzpicture}[baseline=-1mm]
+                \node (title) at (0, 2) {Matching family};
+                \node (Uij) at (0, 1) {\footnotesize$x_i|_{U_i\cap U_j} = x_j|_{U_i\cap U_j}$};
+                \node (Ui) at (-1, 0) {$x_i$};
+                \node (Uj) at (1, 0) {$x_j$};
+                \draw[->] (Uij) -- (Ui);
+                \draw[->] (Uij) -- (Uj);
+            \end{tikzpicture}
+            \xrightarrow{\ (2)\ }
+            \begin{tikzpicture}[baseline=-1mm]
+                \node (title) at (0, 2) {Unique amalgamation};
+                \node (Uij) at (0, 1) {\footnotesize$x_i|_{U_i\cap U_j} = x_j|_{U_i\cap U_j}$};
+                \node (Ui) at (-1, 0) {\footnotesize$x_i=x|_{U_i}$};
+                \node (Uj) at (1, 0) {\footnotesize$x_j=x|_{U_j}$};
+                \node (U) at (0, -1) {$x$};
+                \draw[->] (Uij) -- (Ui);
+                \draw[->] (Uij) -- (Uj);
+                \draw[->] (Ui) -- (U);
+                \draw[->] (Uj) -- (U);
+            \end{tikzpicture}
+        \end{gather*}
+        The descent condition then states that for every such matching family, there exists a unique element $x$ on $U$, such that the elements of the matching family are restrictions of $x$ as in step $(2)$ of the figure above.
+
+        The classical example would be the assignment of the set of continuous functions to open subsets of a topological space. When two functions, defined on two open sets, coincide on the intersection, there exists a unique continuous function defined on the union, such that it restricts to the given functions.
     \end{example}
 
     \begin{example}[Canonical topology]\index{topology!canonical}
@@ -252,8 +291,8 @@
         Given a presheaf $\mathcal{F}$, one can construct a sheaf $\overline{\mathcal{F}}$ along the same lines of Construction \ref{sheaf:colimit_construction}.
     \end{construct}
 
-    \newdef{Global sections functor}{\index{global!sections}
-        Every Grothendieck topos $\mathcal{E}$ admits a geometric morphism to $\mathbf{Set}$, where the left adjoint assigns to an object $x$ its set of global elements:
+    \newdef{Global sections functor}{\index{global!sections}\label{topos:global_sections}
+        Every Grothendieck topos $\mathcal{E}$ admits a geometric morphism to $\mathbf{Set}$, where the right adjoint assigns to an object $x$ its set of global elements:
         \begin{gather}
             \Gamma:\mathcal{E}\rightarrow\mathbf{Set}:x\mapsto\mathcal{E}(1,x).
         \end{gather}
@@ -363,14 +402,14 @@
 \section{Stacks}\index{stack}
 \subsection{2-sheafs}
 
-    An important subject, especially in the context of gauge theories in physics, is that of groupoid-valued (pre)sheaves. To this end, sites are generalized to higher category theory:
-    \newdef{2-coverage}{\index{coverage}\index{site}
-        Virtually the same as an ordinary coverage \ref{topos:coverage}. However, instead of exact factorization, factorization is only required to exist up to an isomorphism. A 2-category equipped with a 2-coverage is called a \textbf{2-site}.
-    }
-    As for 1-sites, every coverage generates a unique sieve. It is the full subcategory on those morphisms that factor through a covering map in the given coverage (again up to isomorphism).
-
+    An important subject, especially in the context of gauge theories in physics, is that of groupoid-valued (pre)sheaves. To this end, sites are generalized to higher category theory.
     \newdef{2-presheaf}{\index{presheaf}\index{prestack}
-        Consider a 2-category $\mathbf{C}$. A 2-presheaf on $\mathbf{C}$ is a pseudofunctor $\cfunc{F}{C}{Cat}$. When $\mathbf{C}$ is the categorification of a 1-category, i.e. it has discrete hom-categories, 2-presheaves are often called a \textbf{prestacks}.
+        Consider a 2-category $\mathbf{C}$. A 2-presheaf on $\mathbf{C}$ is a pseudofunctor $\cfunc{F}{C}{Cat}$. When $\mathbf{C}$ is the categorification of a 1-category, i.e. when it has discrete hom-categories, 2-presheaves are better known as \textbf{prestacks}.
+    }
+    \newdef{2-coverage}{\index{coverage}\index{site}
+        Virtually the same as an ordinary coverage \ref{topos:coverage}, but factorization is only required to exist up to an isomorphism. A 2-category equipped with a 2-coverage is called a \textbf{2-site}.
+
+        As for 1-sites, every coverage generates a unique sieve. It is the full subcategory on those morphisms that factor through a covering map in the given coverage (again up to isomorphism).
     }
     As in the case of ordinary categories (Definition \ref{topos:local_object_sheaf}), one can define 2-sheaves through a descent condition:
     \newdef{2-sheaf}{\label{topos:2_sheaf}
@@ -381,11 +420,11 @@
         where the fist equivalence is just the 2-Yoneda lemma.
     }
     \begin{remark}
-        It should be noted that 2-(pre)sheaves can also be defined on ordinary (1-)sites. Sieves, regarded as subfunctors of the Yoneda embedding, take values in $\mathbf{Set}$. By composing these with the embedding $\mathbf{Set}\hookrightarrow\mathbf{Cat}$ of sets as (discrete) categories, one obtains 2-presheaves (in fact 2-subfunctors of the 2-Yoneda embedding). Often 2-sheaves over 1-sites are called \textbf{stacks} (although this terminology is also used for general 2-sites).
+        It should be noted that 2-(pre)sheaves can also be defined on ordinary (1-)sites. Sieves, regarded as subfunctors of the Yoneda embedding, take values in $\mathbf{Set}$. By composing these with the embedding $\mathbf{Set}\hookrightarrow\mathbf{Cat}$ of sets as (discrete) categories, one obtains 2-subfunctors of the 2-Yoneda embedding. Often 2-sheaves over 1-sites are called \textbf{stacks} (although this terminology is also used for general 2-sites).
     \end{remark}
 
     \newdef{Prestack of groupoids}{
-        Consider a category $\mathbf{C}$. A prestack of groupoids is a $\mathbf{Grpd}$-valued prestack on $\mathbf{C}$.
+        Consider a category $\mathbf{C}$. A prestack of groupoids on $\mathbf{C}$ is a $\mathbf{Grpd}$-valued prestack on $\mathbf{C}$.
 
         The category of (groupoid-valued) prestacks becomes $\mathbf{Grpd}$-enriched if one takes the hom-category between two prestacks $F,G$ to consist of the following data:
         \begin{itemize}
@@ -399,52 +438,55 @@
 
     For ordinary sites and presheaves, descent was defined in terms of matching families. Since presheaves are now taking values in a 2-category, the matching families are a bit more complex. However, this structure is already familiar from differential geometry and algebraic topology, where it is known under the name of the \textit{\v{C}ech nerve}:
     \newdef{\v{C}ech groupoid}{\index{Cech!groupoid}
-        Consider a site $(\mathbf{C},J)$. To every covering family $\mathcal{U}:=\{f_i:x_i\rightarrow x\}_{i\in I}$ one can assign an internal groupoid in presheaves $C(\mathcal{U})$ consisting of the following data:
+        Consider a site $(\mathbf{C},J)$. To every covering family $\mathcal{U}\equiv\{f_i:x_i\rightarrow x\}_{i\in I}$ one can assign an internal groupoid in presheaves $C(\mathcal{U})$ consisting of the following data:
         \begin{itemize}
             \item\textbf{Objects}: $\bigsqcup_i\mathcal{Y}x_i$
             \item\textbf{Morphisms}: $\bigsqcup_{i,j}\mathcal{Y}x_i\times_{\mathcal{Y}x}\mathcal{Y}x_j$
         \end{itemize}
         This is equivalent to the ($\mathbf{Grpd}$-valued) presheaf that assigns to every object $y\in\ob{C}$ the groupoid consisting of the following data:
         \begin{itemize}
-            \item\textbf{Objects}: The pairs $(i,g_i:y\rightarrow x_i)$ such that $x_i\in\mathcal{U}$.
+            \item\textbf{Objects}: The pairs $(i,g_i:y\rightarrow x_i)$ where $x_i\in\mathcal{U}$.
             \item\textbf{Morphisms}: A unique arrow $(i,g_i)\rightarrow(j,g_j)$ if and only if $f_i\circ g_i = f_j\circ g_j$.
         \end{itemize}
     }
-    Comparing this last equation to the condition for matching families in Definition \ref{topos:matching_family}, shows that one could presume that the \v{C}ech groupoid is related to the matching families. This intuition is indeed correct:
+    Comparing the definition of morphisms in the \v{C}ech groupoid to the condition for matching families in Definition \ref{topos:matching_family}, shows that one could presume that the \v{C}ech groupoid is related to the matching families. This intuition is indeed correct:
     \begin{property}[Matching families]\label{topos:cech_matching_families}
         Any ordinary presheaf $F$ can be considered to be $\mathbf{Grpd}$-valued by postcomposing with the embedding $\mathbf{Set}\hookrightarrow\mathbf{Grpd}$. For any covering family $\mathcal{U}$, there exists an isomorphism
         \begin{gather}
-            \cfunccat{C}{Grpd}(C(\mathcal{U}),F)\cong\mathrm{Match}(\mathcal{U},F).
+            \cfunccat{C}{Grpd}(C(\mathcal{U}),F)\cong\mathbf{Psh}_2(\mathcal{U},F).
         \end{gather}
-        Note that the left-hand side is an ordinary set since $F$ is $\mathbf{Set}$-valued. Because the \v{C}ech groupoid (co)represents a descent object, it is sometimes called a \textbf{codescent object}.
+        Because the \v{C}ech groupoid (co)represents a descent object, it is sometimes called a \textbf{codescent object}.
     \end{property}
     It is exactly this (co)descent property of the \v{C}ech groupoid that will be used in Chapter \ref{chapter:hdg} to define (higher) smooth groupoids.
 
     People with some experience in algebraic topology will also notice that the \v{C}ech groupoid only contains the first degrees of the \v{C}ech complex. The full \v{C}ech complex can be obtained from the following construction:
     \newdef{\v{C}ech nerve}{\index{Cech!nerve}
-        Consider a morphism $f:y\rightarrow x$ in a category $\mathbf{C}$. The \v{C}ech nerve $C_\bullet(f)$ is the \textit{simplicial object} \ref{model:simplicial_object} that is defined as the $(k+1)$-fold pullback of $f$ along itself in degree $k$. For a covering family $\mathcal{U}:=\{f_i:x_i\rightarrow x\}$, the \v{C}ech nerve is defined as $C_\bullet(\mathcal{U}):=C_\bullet(\bigsqcup_ix_i\rightarrow x)$.
+        Consider a morphism $f:y\rightarrow x$ in a category $\mathbf{C}$. The \v{C}ech nerve $C_\bullet(f)$ is the simplicial object \ref{model:simplicial_object} that is defined as the $(k+1)$-fold pullback of $f$ along itself in degree $k$. For a covering family $\mathcal{U}\equiv\{f_i:x_i\rightarrow x\}$, the \v{C}ech nerve is defined as $C_\bullet(\mathcal{U}):=C_\bullet(\bigsqcup_ix_i\rightarrow x)$.
     }
-    For $\infty$-sheaves the full \v{C}ech nerve will be used. However, for 2-sheaves and in particular stacks only use its 3-coskeleton is necessary. The extra information will encode the \textit{cocycle condition} known for example from the study of fibre bundles (see Equation \eqref{bundle:G_cocycle_condition}).
+    For $\infty$-sheaves the full \v{C}ech nerve will be used. However, for 2-sheaves and, in particular, stacks, only its 3-coskeleton is necessary. The extra information will encode the \textit{cocycle condition} \eqref{bundle:G_cocycle_condition} known for example from the study of fibre bundles.
 
 \subsection{Stacks on a 1-site}
 
-    In this section the notion of fibred categories and their equivalence to $\mathbf{Cat}$-valued pseudofunctors \ref{section:fibred_categories} is introduced.
+    For the definition of stacks, one needs the notions of fibred categories or, equivalently, pseudofunctors as defined in Section \ref{section:fibred_categories}. The definitions are recalled here:
+    \begin{mdframed}[roundcorner=10pt, linecolor=green, linewidth=1pt]
+        Consider a functor $\func{\Pi}{A}{B}$. A morphism $f$ in $\mathbf{A}$ is said to be $\Pi$-Cartesian if for every morphism $\varphi$ in $\mathbf{A}$ and factorization of $\Pi\varphi$ through $\Pi f$ in $\mathbf{B}$, there exists a unique factorization of $\varphi$ through $f$. $f$ is called the inverse image of $\Pi f$.
+
+        A fibred category consists of a functor $\func{\Pi}{A}{B}$ such that for each morphism in $(f:c\rightarrow d)\mathbf{B}$ with $d\in\im(\Pi)$ and each lift $y\in\mathbf{A}_d$ there exists at least one inverse image in $(\widetilde{f}:x\rightarrow y)\in\mathbf{A}$ of $f$. By the Grothendieck construction every fibred category gives rise to a pseudofunctor $\cfunc{F}{B}{Cat}$ by sending objects to their fibres under $\Pi$ and sending morphisms $f$ to their pullback functors $f^*$.
+    \end{mdframed}
 
     \newdef{Descent datum}{\index{descent}
-        Consider a category $\mathbf{C}$ with a covering family $\mathcal{U}:=\{f_i:x_i\rightarrow x\}$ and a fibred $\mathbf{C}$-category $F$. The projections associated to the pullback $x_i\cap x_j:=x_i\times_xx_j$ will be denoted by $\pi_{1,2}$ (and analogously for iterated pullbacks) and their (Cartesian) pullback functors (induced by the cleavage on $\mathbf{C}$) will be denoted by $\pi^*$. A descent datum for $\mathcal{U}$ with respect to $F$ is a pair $(\{g_i\},\{f_{ij}\})$ where $\{g_i\}$ is a matching family for $\mathcal{U}$ with respect to $F$ and every $f_{ij}$ is an isomorphism $\pi_1^*x_i\cong \pi_2^*x_j$. This data is required to satisify the following \textbf{cocycle condition}:
+        Consider a category $\mathbf{C}$ with a covering family $\mathcal{U}\equiv\{f_i:x_i\rightarrow x\}$ and a pseudofunctor $\cfunc{F}{C}{Cat}$. The projections associated to the pullback $x_i\cap x_j:=x_i\times_xx_j$ will be denoted by $\pi_i$ and $\pi_j$ (and analogously for iterated pullbacks). A descent datum for $\mathcal{U}$ with respect to $F$ is a pair of families $(\{g_i\},\{f_{ij}\})_{i,j\in I}$, where $\{g_i\}$ is a matching family for $\mathcal{U}$ with respect to $F$ and every $f_{ij}$ is an isomorphism $\pi_i^*x_i\cong \pi_j^*x_j$. This data is required to satisify the following \textbf{cocycle condition}:
         \begin{gather}
-            \pi_{13}^*f_{ik} = \pi_{12}^*f_{ij}\circ\pi_{23}^*f_{jk}.
+            \pi_{ik}^*f_{ik} = \pi_{ij}^*f_{ij}\circ\pi_{jk}^*f_{jk}.
         \end{gather}
         Morphisms $(\{g_i\},\{f_{ij}\})\rightarrow(\{g'_i\},\{f'_{ij}\})$ between descent data are families of morphisms $\{\phi_i:g_i\rightarrow g'_i\}$ that satisfy
         \begin{gather}
-            \pi_1^*\phi_i\circ f_{ij} = f'_{ij}\circ\pi_2^*\phi_j.
+            \pi_i^*\phi_i\circ f_{ij} = f'_{ij}\circ\pi_j^*\phi_j.
         \end{gather}
         The category of descent data for $\mathcal{U}$ with respect to $F$ will be denoted by $\mathrm{Descent}(\mathcal{U},F)$.
     }
     \begin{construct}
-        Consider an object $\xi$ in $Fx$. From this object one can construct a descent datum as follows. The objects $g_i$ are the pullbacks $f_i^*\xi$ and the isomorphisms $f_{ij}:\pi_2^*f_i^*\xi\cong\pi_1^*f_j^*\xi$ are obtained from the fact that both these objects are (Cartesian) pullbacks of the same morphisms. Arrows in $Fx$ induce morphisms of descent data by (Cartesian) pullbacks along the covering maps.
-
-        This construction defines a functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$. It can be shown that this construction is independent of a choice of cleavage up to equivalence.
+        Consider an object $\xi$ in $Fx$. From this object one can construct a descent datum as follows. The objects $g_i$ are the pullbacks $f_i^*\xi$ and the isomorphisms $f_{ij}:\pi_i^*f_i^*\xi\cong\pi_j^*f_j^*\xi$ are obtained from the fact that both these objects are (Cartesian) pullbacks of the same morphisms. Arrows in $Fx$ induce morphisms of descent data by (Cartesian) pullbacks along the covering maps. This construction defines a functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$. It can be shown that this construction is independent of a choice of cleavage up to equivalence.
     \end{construct}
 
     \newdef{Stack}{\index{prestack}\index{stack}
@@ -453,7 +495,7 @@
             \item $F$ is called a \textbf{separated prestack} if for each covering family $\mathcal{U}$ on $x\in\ob{C}$, the functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$ is fully faithful.
             \item $F$ is called a \textbf{stack} if for each covering family $\mathcal{U}$ on $x\in\ob{C}$ the functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$ is an equivalence.
         \end{itemize}
-        This is a generalization of the descent condition \ref{topos:local_object_sheaf}. This can be seen by observing that $\mathrm{Descent}(\mathcal{U},F)\cong\hom_{\mathbf{C}}(S(\mathcal{U}),F)$, where $S(\mathcal{U})$ is the sieve generated by $\mathcal{U}$ regarded as a fibred category.
+        This is a generalization of the descent condition \ref{topos:local_object_sheaf}. This can be seen by observing that $\mathrm{Descent}(\mathcal{U},F)\cong\mathbf{Psh}_2(S(\mathcal{U}),F)$, where $S(\mathcal{U})$ is the sieve generated by $\mathcal{U}$ regarded as a fibred category.
     }
 
     A more conceptual (although completely equivalent) generalization from (1-)sheaves to 2-sheaves can be obtained by starting from Property \ref{topos:cech_matching_families}. There it was shown that matching families for (1-)presheaves can be obtained as natural transformations from the \v{C}ech groupoid.
@@ -468,10 +510,8 @@
     \end{property}
 
     \begin{remark}[1-sheaves]
-        Although most of the above seems very abstract and complex compared to ordinary sheaves, it is not quite so. In fact, when restricting to pseudofunctors of the form $\mathbf{C}^{op}\rightarrow\mathbf{Set}$, where the embedding $\mathbf{Set}\hookrightarrow\mathbf{Cat}$ is used to view sets as discrete categories, one obtains ordinary sheaves as a subcategory of stacks. For example, by the equivalence between pseudofunctors and Grothendieck fibrations, it is known that the Cartesian pullbacks $f^*$ are in fact just the images of morphism $f$ under the pseudofunctor $F$. This way the condition $\pi_1^*c_i\cong\pi^*_2c_j$ can be rewritten as $Ff'_i(c_i)=Ff'_j(c_j)$, which is nothing but the matching family condition \eqref{topos:matching_family_condition}.
+        Although most of the above seems very abstract and complex compared to ordinary sheaves, it is not quite so. In fact, when restricting to pseudofunctors of the form $\mathbf{C}^{op}\rightarrow\mathbf{Set}$, where the embedding $\mathbf{Set}\hookrightarrow\mathbf{Cat}$ sends sets to discrete categories, one obtains ordinary sheaves as a subcategory of stacks. For example, by the equivalence between pseudofunctors and Grothendieck fibrations, it is known that the Cartesian pullbacks $f^*$ are in fact just the images of morphism $f$ under the pseudofunctor $F$. This way the condition $\pi_1^*c_i\cong\pi^*_2c_j$ can be rewritten as $Ff'_i(c_i)=Ff'_j(c_j)$, which is nothing but the matching family condition \eqref{topos:matching_family_condition}.
     \end{remark}
-
-    ?? COMPLETE (this is currently a hot mess of abstract concepts) ??
 
 \section{Higher topos theory}
 
@@ -487,12 +527,46 @@
         \end{gather}
     }
 
+    \begin{property}[\v{C}ech model structure]\label{topos:cech_model_structure}
+        For any small category $\mathbf{C}$, the $\infty$-category of $\infty\mathbf{Grpd}$-valued $\infty$-sheaves can be represented by the category $[\mathbf{C}^{op},\mathbf{sSet}]$ of simplicial presheaves on $\mathbf{C}$ by a theorem of Lurie \ref{model:lurie_presentation}, i.e. there exists an $\infty$-equivalence between $\mathbf{Sh}_{(\infty,1)}(\mathbf{C})$ and the full subcategory on fibrant-cofibrant objects of the (left Bousfield) localization of $[\mathbf{C}^{op},\mathbf{sSet}]$ at the \v{C}ech nerve projections. The resulting model structure is called the \textbf{\v{C}ech model structure}.
+
+        A presheaf $X$ is fibrant in this model structure if the map
+        \begin{gather}
+            \hom(M,X)\rightarrow\hom(\mathcal{C}(\mathcal{U}),X)
+        \end{gather}
+        is a weak equivalence for all open covers $\mathcal{U}$, i.e. exactly if $X$ satisfies the descent condition and, hence, is an $\infty$-stack.
+    \end{property}
+
     The most straightforward definition of an $\infty$-sheaf generalizes Definition \ref{topos:local_object_sheaf}:
     \newdef{\texorpdfstring{$\infty$-sheaf}{Infinity-sheaf}}{\index{sheaf}
         Consider an $\infty$-site $(\mathbf{C},J)$ and let $S$ denote the collection of monomorphisms in $\mathbf{Psh}_\infty(\mathbf{C})$ induced by the covering sieves. An $\infty$-presheaf on $\mathbf{C}$ is called a $J$-sheaf if it is $S$-local. A presheaf with values in an $\infty$-category $\mathbf{D}$ is called a sheaf if the representable presheaf $\mathbf{D}(x,F-)$ is a $J$-sheaf for all $x\in\ob{D}$.
+
+        In terms of the \v{C}ech nerve $\mathcal{C}$, the descent condition can be written as follows:
+        \begin{gather}
+            Fx\simeq\mathbf{Psh}_\infty(\mathcal{C}(\mathcal{U}),F)
+        \end{gather}
+        for all covers $\mathcal{U}$ of $x$, where $\simeq$ denotes a weak equivalence.
     }
     \newdef{\texorpdfstring{$\infty$-stack}{Infinity-stack}}{\index{stack}
         An $(\infty,1)$-sheaf taking values in $\infty\mathbf{Grpd}$.
+    }
+
+    Property \ref{topos:global_sections} can be generalized as follows:
+    \begin{property}
+        For every $\infty$-topos $\mathbf{H}$ there exists a geometric morphism $(\mathrm{Disc}\dashv\Gamma):\mathbf{H}\leftrightarrows\infty\mathbf{Grpd}$. Any morphism into a discrete object $\mathrm{Disc}(X)$ is constant.
+
+        The left adjoint is sometimes called the \textbf{discrete object functor}. This terminology stems from the case of the forgetful functor $\func{\Gamma}{Top}{Set}$, where the (fully faithful) left adjoint equips a set with the discrete topology.
+    \end{property}
+    \begin{example}[Sheaves on manifolds]
+        One of the archetypal examples of $\infty$-topoi is the topos of sheaves over smooth manifolds. By the Yoneda embedding one can regard a manifold as a sheaf and the global sections functor maps this representable sheaf to the manifold itself: $\Gamma(M)=M$. For a Lie group one can construct the classifying stack $\mathbf{B}G$. The global sections functor maps this stack to the delooping groupoid $BG$.
+    \end{example}
+
+    \newdef{Mapping stack}{\label{topos:mapping_stack}
+        Consider two $\infty$-stacks $X,Y\in\mathbf{Sh}_{(\infty,1)}(\mathbf{C})$. The mapping stack is defined as follows:
+        \begin{gather}
+            [X,Y](U):=\mathbf{Sh}_{(\infty,1)}(\mathbf{C})(X\times U,Y),
+        \end{gather}
+        where on the right-hand side, $U$ denotes the representable $\infty$-stack.
     }
 
     ?? FINISH (PERHAPS MOVE infinity-CATEGORY STUFF TO CHAPTER ON MODEL THEORY) ??
@@ -546,20 +620,20 @@
         \end{itemize}
         If one takes $\mathcal{S}=\mathbf{Set}$, the conditions are automatically satisfied since all functors are $\mathbf{Set}$-indexed.
 
-        The left and right adjoints are sometimes called the \textbf{discrete} and \textbf{codiscrete object functors} $\mathrm{Disc}$ and $\mathrm{coDisc}$ (in fact, this terminology is applied more generally when $\mathcal{E}$ is just any category). If these functors exist, $\mathcal{E}$ is said to have \textbf{(co)discrete objects}. This terminology stems from the case of the forgetful functor $\func{\Gamma}{Top}{Set}$, where the (fully faithful) left and right adjoints equip a set with the (co)discrete topology.
+        The right adjoint is sometimes called the \textbf{codiscrete object functor} $\mathrm{coDisc}$ (in fact, this terminology is applied more generally when $\mathcal{E}$ is just any category). If this functor exists, $\mathcal{E}$ is said to have \textbf{codiscrete objects}.
     }
     \begin{property}
         A topos is local if and only if $1$ is tiny \ref{cat:tiny}.
     \end{property}
 
-    \newdef{Locally-connected topos}{\index{locally!connected topos}
-        An object in a category is said to be \textbf{connected} if its representable functor preserves finite coproducts. A topos is said to be \textbf{locally-connected} if all objects can be written as coproducts of connected objects. This defines a functor
+    \newdef{Locally connected topos}{\index{locally!connected topos}\index{fundamental!groupoid}\label{topos:locally_connected}
+        An object in a category is said to be \textbf{connected} if its representable functor preserves finite coproducts. A topos is said to be \textbf{locally connected} if all objects can be written as coproducts of connected objects. This defines a functor
         \begin{gather}
             \Pi_0:\mathcal{E}\rightarrow\mathbf{Set}:\bigsqcup_{i\in I}X_i\mapsto I
         \end{gather}
-        left adjoint to the constant sheaf functor (which is itself left adjoint to the global section functor). This functor is suitably called the \textbf{connected components functor}.
+        left adjoint to the discrete object functor (which is itself left adjoint to the global section functor). This functor is suitably called the \textbf{connected components functor}.
 
-        A topos is locally-connected if and only if its global section geometric morphism is essential. More generally, a topos over some base topos $\mathcal{S}$ is said to be \textbf{locally-connected} if its associated geometric morphism is essential and the left adjoint is $\mathcal{S}$-indexed.
+        A topos is locally connected if and only if its global section geometric morphism is essential. More generally, a topos over some base topos $\mathcal{S}$ is said to be \textbf{locally connected} if its associated geometric morphism is essential and the left adjoint is $\mathcal{S}$-indexed. In the case of $(\infty,1)$-topoi, the image of the functor $\Pi_0$ is called the \textbf{fundamental $\infty$-groupoid}.
     }
     \newdef{Connected topos}{\index{connected!topos}
         A topos over a base topos is said to be \textbf{connected} if the inverse image part of the associated geometric morphism is fully faithful. For sheaf topoi over a topological space $X$ this is exactly the requirement that $X$ is connected.
@@ -574,7 +648,7 @@
         A local, strongly connected topos. This implies the existence of an adjoint quadruple $(\Pi_0,\mathrm{Disc},\Gamma,\mathrm{coDisc})$ where both $\mathrm{Disc}$ and $\mathrm{coDisc}$ are fully faithful.
     }
 
-    \begin{property}[Cohesive modalities]\index{flat!modality}\index{sharp!modality}\index{shape!modality}\index{discrete!object}
+    \begin{property}[Cohesive modalities]\index{flat!modality}\index{sharp!modality}\index{shape!modality}\index{discrete!object}\label{topos:cohesive_modalities}
         The adjoint quadruple on a cohesive topos induces an adjoint triple of modalities \ref{cat:closure_operator}, i.e. idempotent (co)monads (see Section \ref{section:modal_type_theory} for a formal introduction in the context of type theory):
         \begin{gather}
             (\smallint\dashv\flat\dashv\sharp):=(\mathrm{Disc}\circ\Pi_0\dashv\mathrm{Disc}\circ\Gamma\dashv\mathrm{coDisc}\circ\Gamma).

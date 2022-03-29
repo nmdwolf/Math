@@ -8,8 +8,8 @@
     \begin{definition}[Bundle metric]\index{metric!Riemannian}
         Consider the bundle of $(0,2)$-tensors. From Definition \ref{vector:tensor_product} it follows that every section $g$ of this bundle defines a bilinear map \[g_p:T_pM\times T_pM\rightarrow\mathbb{R}\] for all $p\in M$. If this map is symmetric and nondegenerate, it is called a \textbf{Lorentzian} or \textbf{pseudo-Riemannian metric}. If the map is also positive, it is called a \textbf{Riemannian metric}.\footnote{Recall Section \ref{section:innerproduct} about Hermitian forms and metric forms.} The collection $\{\langle\cdot|\cdot\rangle_p:p\in M\}$ is called a \textbf{bundle metric} or \textbf{fibre metric}.
     \end{definition}
-    \newdef{Pseudo-Riemannian manifold}{\index{Riemann!manifold}\label{riemann:riemannian_manifold}
-        A smooth manifold equipped with a pseudo-Riemannian metric. A \textbf{Riemannian manifold} is defined similarly.
+    \newdef{Riemannian manifold}{\index{Riemann!manifold}\label{riemann:riemannian_manifold}
+        A smooth manifold equipped with a Riemannian metric.
     }
 
     A Riemannian metric induces a duality between $TM$ and $T^*M$ (akin to the Riesz representation theorem \ref{functional:riesz}). This is given by the \textit{flat} and \textit{sharp} isomorphisms:
@@ -35,15 +35,14 @@
         Using the de Rham differential and the Hodge star operator \ref{vector:hodge_star}, one can define a boundary operator $\delta:\Omega^k(M)\rightarrow\Omega^{k-1}(M)$:
         \begin{gather}
             \label{riemann:codifferential}
-            \delta := (-1)^k\ast^{-1}d\ast = (-1)^{n(k+1)+1}\ast d\ast.
+            \delta := (-1)^k\ast^{-1}d\,\ast = (-1)^{n(k+1)+1}\ast d\ast.
         \end{gather}
         It is not hard to check that this is indeed a boundary operator in the sense of Definition \ref{homalg:chain_complex}.
     }
-    \newdef{Hodge Laplacian\footnotemark}{\index{Hodge!Laplacian}\index{Laplace-de Rham|see{Hodge Laplacian}}
+    \newdef{Hodge Laplacian\footnotemark}{\index{Hodge!Laplacian}\index{Laplace-de Rham|see{Hodge Laplacian}}\label{riemann:hodge_laplacian}
         \footnotetext{Sometimes called the \textbf{Hodge-de Rham} or \textbf{Laplace-de Rham} operator.}
         Using the de Rham differential and codifferential one can define a derivation on $\Omega^k(M)$:
         \begin{gather}
-            \label{riemann:hodge_laplacian}
             \Delta := d\delta + \delta d.
         \end{gather}
         It should be noted that, in contrast to the differential $d$, the Hodge Laplacian depends on the metric through the definition of the codifferential.
@@ -60,12 +59,35 @@
         \end{gather}
         where $h\in\mathcal{H}^k(M)$.
     \end{theorem}
-    \begin{result}
-        The $k^{th}$ de Rham cohomology group is isomorphic (as an Abelian group) to the space of harmonic $k$-forms:
+    \begin{result}[Hodge theorem]
+        The $k^{th}$ de Rham cohomology group is isomorphic (as an Abelian group/vector space) to the space of harmonic $k$-forms:
         \begin{gather}
             H^k(M)\cong\mathcal{H}^k(M).
         \end{gather}
     \end{result}
+
+    \begin{remark}\label{bundle:vector_calculus}
+        The gradient, rotor (curl) and divergence from standard vector calculus (Section \ref{section:nabla}) can be rewritten and generalized using exterior derivatives as follows. Consider a smooth function $f$ and a smooth vector field $X$.
+        \begin{align}
+            \nabla f &= df\,^\sharp\\
+            \nabla\times X &= \left(\ast\,dX^\flat\right)^\sharp\\
+            \nabla\cdot X &= \left(\ast^{-1}d\ast X^\flat\right)^\sharp,
+        \end{align}
+        Property \ref{vector:mixed_properties} now follows from the nilpotency $d^2=0$.\\
+        \begin{proof}[Explanation]
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                Looking at Equation \eqref{bundle:function_derivative} for the exterior derivative of a smooth function and remembering the definition of the gradient \ref{vector:gradient} in $\mathbb{R}^3$, one can see that these two definitions look very similar. The major difference lies in the fact that $\nabla f$ is a vector and $df$ is a covector. However, because of the nondegeneracy of the metric, there exists an isomorphism between these spaces: the musical isomorphisms.
+
+                Similar relations hold for the divergence \ref{vector:divergence} and rotor \ref{vector:rotor}. However, here one has to use a different construction because the spaces $\Lambda^1$ and $\Lambda^2$ have to be used. The Hodge star \ref{vector:hodge_star} can be used to obtain the correct dimensions.
+
+                For simplicity we will give a derivation in $\mathbb{R}^3$ with the Euclidean metric. Consider a vector field $X = (f_1,f_2,f_3)$ where the $f_i$ are smooth. Using these functions $f_i$ one can construct a one-form $X^\flat = f_1dx_1 + f_2dx_2 + f_3dx_3$ and a two-form $\ast X^\flat = f_1dx_2\wedge dx_3 + f_2dx_3\wedge dx_1 + f_3 dx_1\wedge dx_2$. After applying the exterior derivative one obtains
+                \begin{align}
+                    dX^\flat &= \left(\pderiv{f_3}{x_2} - \pderiv{f_2}{x_3}\right)dx_2\wedge dx_3 + \left(\pderiv{f_1}{x_3} - \pderiv{f_3}{x_1}\right)dx_3\wedge dx_1 + \left(\pderiv{f_2}{x_1} - \pderiv{f_1}{x_2}\right)dx_1\wedge dx_2,\nonumber\\
+                    d\ast X^\flat &= \left(\pderiv{f_1}{x_1} + \pderiv{f_2}{x_2} + \pderiv{f_3}{x_3}\right)dx_1\wedge dx_2\wedge dx_3.\nonumber
+                \end{align}
+            \end{mdframed}
+        \end{proof}
+    \end{remark}
 
 \subsection{Riemannian manifolds}
 
@@ -162,8 +184,15 @@
             \nabla_\mu V^\mu = \frac{1}{\sqrt{\det(g)}}\partial_\mu(\sqrt{\det(g)}V^\mu).
         \end{gather}
     }
-    \newdef{Laplace-Beltrami operator}{\index{Laplace-Beltrami operator}\index{Laplace!operator|seealso{Laplace-Beltrami}}
-        Consider a Riemannian manifold $(M,g)$. The Laplace-Beltrami operator on $M$ is defined as the Laplace operator \ref{vector:laplace_operator}, i.e. as the divergence of the gradient.
+    \newdef{Laplace-Beltrami operator}{\index{Laplace-Beltrami operator}\index{Laplace!operator|seealso{Laplace-Beltrami}}\index{Bochner!Laplacian}
+        Consider a Riemannian manifold $(M,g)$. The Laplace-Beltrami operator on $M$ is defined as the Laplace operator \ref{vector:laplace_operator}, i.e. as the divergence of the gradient:
+        \begin{gather}
+            \Delta := \tr\nabla^2.
+        \end{gather}
+        This is, up to a sign\footnote{Some authors already include a minus sign in the definition of the Laplace-Beltrami operator.}, equal to the \textbf{Bochner Laplacian}:
+        \begin{gather}
+            \Delta = -\nabla^*\nabla.
+        \end{gather}
     }
 
     The geodesic equation \ref{diff:geodesic_equation} can be generalized as follows:
@@ -332,8 +361,8 @@
         \end{itemize}
         for all $g\in\mathrm{Spin}(n)$, where $\vartriangleleft$ and $\cdot$ denote the right actions of the respective structure groups. If $M$ admits a spin structure, it is called a \textbf{spin manifold} and the principal $\mathrm{Spin}(n)$-bundle $P_\mathrm{Spin}$ is called the \textbf{spin frame bundle} (of $M$).
     }
-    \newdef{Spin bundle}{
-        A vector bundle associated to a spin frame bundle. Sections of a spin bundle are called \textbf{spinor fields}.
+    \newdef{Spinor bundle}{\index{spinor!bundle}\label{riemann:spinor_bundle}
+        The vector bundle associated to the spin frame bundle induced by the (fundamental) spinor representation \ref{clifford:spinor}. Sections of the spinor bundle are called \textbf{spinor fields}. If the dimension of the manifold is even, the spinor representation decomposes into two irreducible representations, the associated vector bundles are called bundles of \textbf{half-spinors}.
     }
 
     \begin{example}
@@ -355,6 +384,10 @@
         \end{enumerate}
     }
 
+    \begin{property}[Independent sections]
+        Consider a rank-$n$ vector bundle $\pi:E\rightarrow M$. If $w_i(E)$ vanishes, the restriction of $E$ to the $i$-skeleton of $M$ admits $n-i+1$ linearly independent sections.
+    \end{property}
+
     Consider a principal $\mathrm{O}(n)$-bundle $\pbundle$ together with an open cover $\{U_i\}_{i\in I}$ of $M$. This bundle is locally defined by a \v{C}ech 2-cocycle $g_{ij}:U_i\cap U_j\rightarrow\mathrm{O}(n)$. Using the two-fold covering map $\rho:\mathrm{Pin}(n)\rightarrow\mathrm{O}(n)$, this cocycle can be used to define a function
     \begin{gather}
         p_{ijk}:U_i\cap U_j\cap U_k\rightarrow\mathrm{Spin}(n):x\mapsto\gamma_{jk}(x)\gamma^{-1}_{ik}(x)\gamma_{ij}(x),
@@ -362,7 +395,7 @@
     where $\gamma_{ij}$ is a lift of the cocycle $g_{ij}$ to $\mathrm{Pin}(n)$. It can be shown that this defines a 2-cocycle with values in $\mathbb{Z}_2$, i.e. $[p_{ijk}]\in\check{H}^2(M;\mathbb{Z}_2)$. If this cocycle vanishes, the $\mathrm{O}$-bundle admits a well-defined $\mathrm{Pin}$-lift in the sense of Definition \ref{bundle:reduction}.
 
     \begin{property}[Stiefel-Whitney classes]
-        For a $\mathrm{Pin}^+(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2$. However, for a $\mathrm{Pin}^-(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2+w_1\smile w_1$. So, in general $[p]$ is not a Stiefel-Whitney class.
+        For a $\mathrm{Pin}^+(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2$. However, for a $\mathrm{Pin}^-(n)$-extension of an $\mathrm{O}(n)$-bundle, the cocycle $p$ satisfies $[p]=w_2+w_1\smile w_1$. So, in general $[p]$ is not a Stiefel-Whitney class. However, note that if $w_1$ vanishes, i.e. if the bundle is orientable, the cocycle does reduce to the second Stiefel-Whitney class.
     \end{property}
 
     The classification of spin manifolds can be stated in terms of characteristic classes. However, instead of the usual $\mathbb{R}$- or $\mathbb{Z}$-valued cohomology classes, one needs classes in $\mathbb{Z}_2$-cohomology.
@@ -371,15 +404,17 @@
     \end{property}
     \begin{result}[Orientability]\index{orientable!manifold}
         A smooth manifold is orientable if and only if its first Stiefel-Whitney class vanishes.
+
+        This class has a geometric interpretation. Consider any triangulation of the base manifold. A choice of orientation consists of a consistent assignment of a sign to every edge in the 1-skeleton (or, equivalently, a trivialization of the bundle over the 1-skeleton). The total change
     \end{result}
     \begin{property}[Spin manifold]
         A smooth orientable manifold $M$ is spin if and only if its second Stiefel-Whitney class vanishes. Furthermore, the distinct spin structures form an affine space over $H^1(M;\mathbb{Z}_2)$.
     \end{property}
 
     \newdef{Integral classes}{
-        Consider the Bockstein morphism $\beta:H^i(M;\mathbb{Z}_2)\rightarrow H^{i+1}(M;\mathbb{Z})$ associated to the reduction $\mathbb{Z}\rightarrow\mathbb{Z}_2$. The integral Stiefel-Whitney classes are defined as the images $\beta w_i\in H^{i+1}(M;\mathbb{Z})$.
+        Consider the Bockstein morphism $\beta:H^i(M;\mathbb{Z}_2)\rightarrow H^{i+1}(M;\mathbb{Z})$ associated to the mod-2 reduction $\mathbb{Z}\rightarrow\mathbb{Z}_2$. The integral Stiefel-Whitney classes are defined as the images $\beta w_i\in H^{i+1}(M;\mathbb{Z})$.
     }
-    \begin{property}[$\mathrm{Spin}^\mathbb{C}$-structures]
+    \begin{property}[$\mathrm{Spin}^\mathbb{C}$-structures]\label{riemann:spin_c}
         An orientable vector bundle admits a $\mathrm{Spin}^\mathbb{C}$-structure if and only if its third integral Stiefel-Whitney class vanishes.
     \end{property}
 
@@ -388,24 +423,30 @@
     In this section the partial derivatives $\partial_i$ and gradient operator $\sum_{i=1}^ne_i\partial_i$ are generalized to Clifford algebras and Clifford modules.
 
     \newdef{Clifford bundle}{\index{Clifford!bundle}
-        Consider a (pseudo-)Riemannian manifold $(M,g)$ of signature $(p,q)$. For every point $p\in M$ one can construct a Clifford algebra associated to the tangent space $(T_pM,g_p)$. Using these Clifford algebras one can construct an associated bundle to $TM$ that has $C\ell_{p,q}(\mathbb{R})$ as its typical fibre. A vector bundle with a Clifford algebra as typical fibre, for which the local trivializations respect the algebra structure, is called a Clifford bundle.\footnote{Note that one can use this construction to turn any vector bundle that admits a fibre metric into a Clifford bundle.}
+        Consider a (pseudo-)Riemannian manifold $(M,g)$ of signature $(p,q)$. For every point $p\in M$ one can construct a Clifford algebra associated to the tangent space $(T_pM,g_p)$. Using these Clifford algebras one can construct an associated bundle to $TM$ that has $C\ell_{p,q}(\mathbb{R})$ as its typical fibre. A vector bundle with a Clifford algebra as typical fibre, for which the local trivializations respect the algebra structure, is called a Clifford bundle.\footnote{Note that one can use this construction to turn any vector bundle that admits a fibre metric into a Clifford bundle. Moreover, this is a particular instance of the more general notion of \textit{$C^*$-algebra bundles}.}
     }
 
+    The following criterion gives an algebraic characterization of spin-manifolds:
+    \begin{property}[Plymen's criterion]\index{Plymen's criterion}\index{spin}
+        A Riemannian manifold admits a $\mathrm{Spin}^\mathbb{C}$-structure if and only if the $C^*$-algebra of continuous section of its Clifford bundle is Morita-equivalent to the $C^*$-algebra of continuous functions. (Note that Morita-equivalence of $C^*$-algebras is more involved than the similar notion for ordinary rings.)
+    \end{property}
+
+    The spinor bundle \ref{riemann:spinor_bundle} is a particular instance of the following notion:
     \newdef{Clifford module bundle}{\index{Clifford!module}
         Consider a (pseudo-)Riemannian manifold $(M, g)$ with its associated Clifford bundle $C\ell(TM)$. Any vector bundle that admits a left $C\ell(TM)$-action is called a Clifford module (bundle) over $M$.
     }
 
-    To be able to define a Dirac operator on spin bundles, one first needs to define the Dirac operator on $\mathbb{R}^n$. This Dirac operator is obtained by composing the ordinary gradient
+    To be able to define a Dirac operator on spinor bundles, one first needs to define the Dirac operator on $\mathbb{R}^n$. This Dirac operator is obtained by composing the ordinary gradient
     \begin{gather}
         \partial:=\sum_{i=1}^ne_i\partial_i
     \end{gather}
-    with the linear map $\iota_{C\ell}:e_i\mapsto\gamma_i$ that sends a basis of $\mathbb{R}^n$ to the corresponding generators of $C\ell_n(\mathbb{R})$:
+    with the linear injection $\iota_{C\ell}:e_i\mapsto\gamma_i$ that sends a basis of $\mathbb{R}^n$ to the corresponding generators of $C\ell_n(\mathbb{R})$:
     \begin{gather}
         \label{riemann:dirac_operator_R}
         \underline{\partial} := \sum_{i=1}^n\gamma_i\partial_i.
     \end{gather}
     To extend this definition to Clifford modules one simply needs to replace partial derivatives by covariant derivatives as usual:
-    \begin{property}[Induced connection]
+    \begin{property}[Induced Clifford connection]
         Let $(M,g)$ be a (pseudo-)Riemannian manifold and let $\nabla$ be the associated Levi-Civita connection. For every Clifford module $E$ over $M$ there exists a unique connection $\nabla^E:\Gamma(E)\rightarrow \Gamma(T^*M\otimes E)$ that respects the Clifford action:
         \begin{gather}
             \nabla^E(\iota_{C\ell}(X)\cdot\sigma) = \iota_{C\ell}(\nabla X)\cdot\sigma + \iota_{C\ell}(X)\cdot\nabla^E\sigma,
@@ -413,7 +454,7 @@
         where $\iota_{C\ell}:TM\rightarrow C\ell(TM)$ is the canonical map that embeds a vector field in $C\ell(TM)$.
     \end{property}
 
-    \newdef{Dirac operator}{\index{Dirac!operator}
+    \newdef{Dirac operator}{\index{Dirac!operator}\label{riemann:dirac_operator}
         Consider a (pseudo-)Riemannian manifold $(M,g)$ together with a Clifford module $E$. If $\nabla^E$ is the compatible connection from the previous property, the Dirac operator on $E$ is defined as follows:
         \begin{gather}
             \underline{D} := \sum_{i=1}^n\gamma_i\cdot\nabla^E_{e_i}\sigma,
@@ -424,16 +465,61 @@
         The Dirac operator is a self-adjoint elliptic differential operator \ref{bundle:differential_operator}.
     \end{property}
 
-\subsection{Index theorem}
+    \begin{definition}[Index]
+        In many cases the Clifford module $E$ will be obtained by taking the tensor product of some vector bundle with a spinor bundle $S$. Such a spinor bundle decomposes as
+        \begin{gather}
+            S\cong S^+\oplus S^-
+        \end{gather}
+        under Clifford multiplication, which in turn induces a decomposition of $E$. The Dirac operator $\underline{D}$ interchanges these spaces:
+        \begin{gather}
+            \underline{D}S^+=S^-\qquad\qquad\underline{D}S^-=S^+.
+        \end{gather}
+        By the previous property, $\underline{D}$ is elliptic and, if $M$ is compact, one can show that this implies that it is also Fredholm \ref{functional:fredholm}. The index of $\underline{D}$ is defined as the Fredholm index of $\underline{D}|_{E^+}$:
+        \begin{gather}
+            \mathrm{ind}(\underline{D}) := \dim\ker(\underline{D}|_{E^+})-\dim\mathrm{coker}(\underline{D}|_{E^+}).
+        \end{gather}
+    \end{definition}
+
+    The symbol $\sigma(D):\pi^*E\rightarrow\pi^*F$, where $\pi:T^*M\rightarrow M$ is the cotangent bundle projection, of every elliptic differential operator gives an isomorphism on all sections except the zero section, so it induces a class in $K(T^*M,T^*M_0)$. One can then use the (relative) Chern character \ref{k:chern_character} to obtain a (compactly supported\footnote{The Chern character gives a relative cohomology class in $H^\bullet(T^*M,T^*M_0)\cong H^\bullet(D(T^*M),S(T^*M))$. The (unit) sphere bundle over a compact manifold is compact, so this class injects into the compactly supported cohomology \ref{bundle:cohomology_compact_support} of $T^*M$.}) cohomology class on $T^*M$ and apply the Thom isomorphism \ref{bundle:thom_isomorphism} to obtain a (compactly supported) cohomology class on $M$.
+
+    However, because $K$-theory is a (multiplicative generalized Eilenberg-Steenrod) cohomology theory, it also admits a Thom isomorphism. So one could first map relative $K$-theory (or the reduced $K$-theory of the Thom space) to the $K$-theory of $T^*M$ and then apply the Chern character.
+
+    These two approaches are not equivalent. The Thom class, which induces the Thom isomorphism through the cup product, is sent to the image of the Todd class under the Thom isomorphism:
+    \begin{gather}
+        \mathrm{ch}(\mathcal{T}(1))\equiv\mathrm{ch}(\mathrm{th}(E)) = \mathcal{T}(\mathrm{td}(E)),
+    \end{gather}
+    where 1 denotes the multiplicative unit in $K$-theory and $\mathrm{td}$ is the Todd class \ref{bundle:todd_class}. This also implies that
+    \begin{gather}
+        \mathrm{ch}(\mathcal{T}_K(x))=\mathcal{T}(\mathrm{ch}(x)\cup\mathrm{td}(E)),
+    \end{gather}
+    for every class $x\in K(M)$. These considerations lead to the following definition of the index of $D$ (here it is assumed that a Riemannian metric is provided such that $TM$ and $T^*M$ can be identified):
+    \newdef{Topological index}{
+        Consider a compact $n$-dimensional manifold $M$ together with an elliptic differential operator $D$.
+        \begin{align}
+            \mathrm{ind}(D) :=& (-1)^{n(n+1)/2} \int_M\mathcal{T}^{-1}(\mathrm{ch}(\sigma(D)))\cup\mathrm{td}(T_\mathbb{C}M)\nonumber\\
+            =& (-1)^n \int_{TM}\mathrm{ch}(\sigma(D))\cup\mathrm{td}(T_\mathbb{C}M),
+        \end{align}
+        where $\mathcal{T}$ is the Thom isomorphism on $TM$.
+    }
+    \begin{result}
+        The index of an elliptic differential operator on an odd-dimensional manifold vanishes.
+    \end{result}
 
     \begin{property}
         The $\hat{A}$-genus \ref{bundle:a_roof_genus} of a spin manifold is an integer.
     \end{property}
 
+    \begin{formula}[Lichnerowicz formula]\index{Lichnerowicz formula}\label{riemann:lichnerowicz_formula}
+        Let $\underline{D}$ be the Dirac operator on a spinor bundle $S$. Unlike in the Euclidean case, the Dirac operator does not square to the (Bochner) Laplacian:
+        \begin{gather}
+            \underline{D}^2 = \nabla^*\nabla + \frac{1}{4}R,
+        \end{gather}
+        where $R$ is the scalar (Ricci) curvature.
+    \end{formula}
+
     ?? COMPLETE ??
 
-\section{Conformal structures}
-\subsection{Conformal transformations}
+\section{Conformal structures}\label{section:conformal_structures}
 
     \newdef{Conformal transformation}{
         Consider two (pseudo-)Riemannian manifolds $(M,g)$ and $(M',g')$. A smooth function $f:M\rightarrow M'$ is said to be conformal if it leaves the metric invariant up to a scale transformation (compare this to Definition \ref{diff:conformal_map}):
@@ -472,6 +558,6 @@
         \nomenclature[S_CONF]{$\mathrm{Conf}(M)$}{conformal group of (pseudo-)Riemannian manifold $M$}
         The conformal group $\mathrm{Conf}(M)$ is the connected component of the identity of the conformal diffeomorphism group of the conformal compactification of $M$.
     }
-    \begin{property}
-        The conformal group of (pseudo-)Euclidean space in signature $(p,q)$ is isomorphic to $\mathrm{SO}(p+1,q+1)$.
+    \begin{property}\label{riemann:conformal_group}
+        The conformal group of a (pseudo-)Euclidean space of signature $(p,q)$ is isomorphic to $\mathrm{SO}(p+1,q+1)$.
     \end{property}

@@ -13,6 +13,7 @@
         \end{gather}
         Then, define a tangent vector $v\in T_p P$ to be vertical if it lies in the image of $\iota_{p,\ast}$, i.e. $\mathrm{Vert}(T_pP) := \im(\iota_{p,\ast})$. This definition is equivalent to the previous one because of the short exact sequence
         \begin{gather}
+            \label{bundle:principal_bundle_exact_sequence}
             0\longrightarrow\mathfrak{g}\overset{\iota_{p,\ast}}{\longrightarrow}T_pP\overset{\pi_\ast}{\longrightarrow}T_pM\longrightarrow0.
         \end{gather}
     \end{adefinition}
@@ -58,6 +59,7 @@
 
 \subsection{Ehresmann connections}
 
+    The exact sequence \eqref{bundle:principal_bundle_exact_sequence} does not split canonically. However, one can make a choice of splitting:
     \newdef{Ehresmann connection}{\index{connection!Ehresmann}\index{horizontal!vector}\label{bundle:connection}
         Consider a smooth fibre bundle $E$. An (Ehresmann) connection on $E$ is the selection of a subspace $\mathrm{Hor}(T_eE)\leq T_eE$ for every $e\in E$ such that:
         \begin{enumerate}
@@ -119,10 +121,15 @@
         For functions $f\in\Omega^0(P)$ it is vacuously true that they are both vertical and horizontal.
     }
     \newdef{Tensorial form}{\index{tensorial}\index{basic}\label{bundle:tensorial_form}
-        Consider a differential form $\theta$ on a principal $G$-bundle $P$ with values in a vector space $V$ equipped with a representation $\rho:G\rightarrow V$. This form is said to be \textbf{tensorial} or \textbf{basic of type $(V,\rho)$} if it is horizontal and if it satisfies the equivariance condition
+        Consider a differential form $\theta$ on a principal $G$-bundle $P$ with values in a vector space $V$ equipped with a representation $\rho:G\rightarrow V$. This form is said to be tensorial or \textbf{basic of type $(V,\rho)$} if it is horizontal and if it satisfies the equivariance condition
         \begin{gather}
             R_g^*\theta = \rho(g^{-1})\theta.
         \end{gather}
+        An equivalent construction exists. Let $E:=P\times_\rho V$ be the associated vector bundle of $(V,\rho)$. Tensorial $k$-forms of type $(V,\rho)$ are naturally isomorphic to $E$-valued $k$-forms. The isomorphism is given fibrewise by
+        \begin{gather}
+            \phi\mapsto\overline{\phi}:=f^{-1}(\pi^*\phi),
+        \end{gather}
+        where $f:V\rightarrow E_{\pi(u)}\cong(\pi^*E)_u:v\mapsto[u,v]$.
     }
 
 \subsection{Connection forms}
@@ -220,9 +227,9 @@
         On the intersection $U\cap V\subset M$ there exists a (unique) gauge transformation $\xi:U\cap V\rightarrow G$ such that $\sigma_V(m) = \sigma_U(m)\cdot\xi(m)$. Using this gauge transformation one can relate $\omega^U$ and $\omega^V$ as follows:
         \begin{gather}
             \label{bundle:local_compatibility}
-            \omega^V|_m = \mathrm{Ad}_{\xi(m)^{-1}}\omega^U|_m + \xi^*\Omega|_m,
+            \omega^V = \mathrm{Ad}_{\xi^{-1}}\omega^U + \xi^*\Omega,
         \end{gather}
-        where $\Omega$ is the Maurer-Cartan form on $G$.
+        where $\Omega$ is the Maurer-Cartan form on $G$. This formula holds more generally to (locally) relate the connection one-forms $\omega$ and $\xi^*\omega$ for any gauge transformation $\xi\in\Aut_V(P)$.
     \end{formula}
 
     \begin{example}[General linear group]
@@ -392,8 +399,10 @@
         \begin{gather}
             \nabla_X\sigma|_{x_0} := \lim_{t\rightarrow0}\frac{(\mathrm{Par}_t^\gamma)^{-1}\sigma(\gamma(t)) - \sigma(x_0)}{t},
         \end{gather}
-        where $\gamma$ is any curve satisfying $\gamma(0) = x_0$ and $\gamma'(0) = X(x_0)$.
-
+        where $\gamma$ is any curve satisfying $\gamma(0) = x_0$ and $\gamma'(0) = X(x_0)$. Let $\widetilde{\gamma}$ and $X^H$ be the horizontal lifts of $\gamma$ and $X$, respectively. An equivalent expression is the following one:
+        \begin{gather}
+            \nabla_X\sigma = \pi_*(\sigma_*X - X^H\circ\sigma).
+        \end{gather}
         One can also rephrase the above definition in terms of the horizontal vector field associated to the lift $\widetilde{\gamma}$ (akin to Definition \ref{bundle:lie_derivative_functions}). By Property \ref{bundle:section_bijection} every section $\sigma$ of an associated bundle corresponds to a $G$-equivariant map $\phi(\sigma):P\rightarrow V$. In terms of this map one obtains
         \begin{gather}
             \phi(\nabla_X\sigma) = X^H(\phi(\sigma)),
@@ -428,8 +437,18 @@
         \end{gather}
         where $\barwedge$ denotes the combination of the wedge product and the action $\rho$.
     \end{remark}
-    \begin{property}
+    \begin{property}[Tensorial]\label{bundle:tensorial_derivative}
         If $\Phi$ is an equivariant form, then $D\Phi$ is a tensorial form.
+    \end{property}
+
+    The compatibility condition for connection one-forms \eqref{bundle:local_compatibility} can be restated in terms of the covariant derivative:
+    \begin{property}[Gauge transformation]
+        Consider a principal bundle $\prb$ and a connection one-form $\omega$. For every gauge transformation $\xi\in\Aut_V(P)$ one (locally) has the following expression:
+        \begin{gather}
+            \label{bundle:connection_gauge_transformation}
+            \xi^*\omega = \omega + \xi^{-1}D\xi,
+        \end{gather}
+        where $D$ is the exterior covariant derivative associated to $\omega$.
     \end{property}
 
     \begin{formula}
@@ -473,6 +492,11 @@
     \newdef{Curvature}{\index{curvature}
         Let $\omega$ be a principal connection one-form. The curvature $\Omega$ of $\omega$ is defined as the exterior covariant derivative $D\omega$.
     }
+    Property \ref{bundle:tensorial_derivative} implies the following important statement:
+    \begin{property}[Tensorial]
+        In contrast to a connection one-form, the associated curvature is a tensorial $\mathfrak{g}$-valued two-form or, equivalently, an $\End(P)$-valued two-form.
+    \end{property}
+
     \newdef{Flat connection}{\index{flat!connection}
         A principal connection is said to be flat if its curvature vanishes everywhere. A bundle is said to be flat if it admits a flat connection.
     }
@@ -482,7 +506,7 @@
         \begin{gather}
             D^2\phi = \Omega\triangleright\phi,
         \end{gather}
-        where $\phi\in\Omega^\bullet(M;E)$.
+        where $\phi\in\Omega^\bullet(M;E)$. This curvature form $\Omega$ coincides with the one from Definition \ref{bundle:curvature}.
     \end{formula}
 
     \begin{example}
@@ -659,6 +683,8 @@
         \end{itemize}
     }
 
+    In the remainder of this section this approach will be followed to find explicit descriptions of characteristic classes of vector bundles and principal bundles.
+
 \subsection{Complex bundles}
 
     In this section only complex bundles are considered. This allows for the choice of $\mathfrak{u}(n)$-valued connection one-forms. See Chapter \ref{chapter:complex_geometry} for more information.
@@ -666,17 +692,29 @@
     \newdef{Chern class}{\index{Chern!class}
         Consider a rank-$n$ vector bundle $\bundle$ with curvature two-form $\Omega$. Using Chern-Weil theory one defines the Chern classes $c_k(E)$ as follows:
         \begin{gather}
-            \det\left(1 + \frac{it}{2\pi}\Omega\right) =: \sum_{k=1}^nc_k(E)t^k.
+            \det\left(\mathbbm{1} + \frac{it}{2\pi}\Omega\right) =: \sum_{k=1}^nc_k(E)t^k.
         \end{gather}
         The $k^{th}$ Chern class is a cohomology class in $H^{2k}(M)$.
     }
-
     \newdef{Chern polynomial}{
         Let $c_k(E)$ denote the $k^{th}$ Chern class of $E$. The Chern polynomial is defined as follows:
         \begin{gather}
             c_t(E) := \sum_{k=1}^\infty c_k(E)t^i.
         \end{gather}
         The \textbf{total Chern class} is defined by taking $t=1$.
+    }
+
+    \newdef{Chern character}{\index{Chern!character}\label{bundle:chern_character}
+        Consider a rank-$n$ vector bundle $\bundle$ with curvature two-form $\Omega$. Using Chern-Weil theory one defines the Chern character as follows:
+        \begin{gather}
+            \mathrm{ch}(E) := \tr\left(\exp\left(\frac{i\Omega}{2\pi}\right)\right).
+        \end{gather}
+        If $c_i:=c_i(E)$ denotes the $i^{th}$ Chern class of $E$, the Chern character can also be expressed as
+        \begin{gather}
+            \mathrm{ch}(E) = \sum_{k=0}^n\frac{c_1^k+\cdots+c_n^k}{k!}.
+        \end{gather}
+        The term with prefactor $1/k!$ is a homogeneous polynomial of degree $k$. One sometimes calls this term the $k^{th}$ Chern character. Using Chern-Weil theory, this form is proportional to $\tr(\Omega^k)$.
+
     }
 
     \begin{formula}[Whitney product formula\footnotemark]\index{Whitney!product formula}
@@ -703,7 +741,7 @@
         Consider a smooth manifold $M$. The first Chern class of the canonical bundle $\bigwedge^nT^*M$ is called the canonical class of $M$.
     }
     \newdef{Theta characteristic}{\index{characteristic!$\theta$}
-        Consider a smooth manifold $M$ together with its canonical class $K_M$. The theta characteristic, if it exists, is a characteristic class $\Theta$ such that $\Theta\smile\Theta=K_M$ where $\smile$ is the cup-product in cohomology \ref{bundle:cup_product}.
+        Consider a smooth manifold $M$ together with its canonical class $K_M$. The theta characteristic, if it exists, is a characteristic class $\Theta$ such that $\Theta\cup\Theta=K_M$, where $\cup$ is the cup-product in cohomology \ref{bundle:cup_product}.
     }
 
     After finding the Chern roots of a vector bundle $E$, one can use them to define various other classes:
@@ -720,7 +758,7 @@
     \end{example}
 
     The following genus is very important, especially in the context of the \textit{Atiyah-Singer index theorem} (see further below):
-    \begin{example}[Todd genus]\index{Todd class}\index{Bernoulli!number}
+    \begin{example}[Todd class]\index{Todd class}\index{Bernoulli!number}\label{bundle:todd_class}
         Consider the function
         \begin{gather}
             Q(x) := \frac{x}{1-e^{-x}} = 1 + \frac{x}{2} + \sum_{i=1}^\infty\frac{(-1)^{i-1}B_i}{(2i)!}x^{2i},
@@ -749,14 +787,18 @@
         \begin{gather}
             p_k(E) := (-1)^kc_{2k}(E^\mathbb{C})\in H^{4k}(M),
         \end{gather}
-        where $E^\mathbb{C}$ is the complexification of $E$.
+        where $E^\mathbb{C}$ is the complexification of $E$. If $E$ has the structure of a complex vector bundle, one can use the relation $E^\mathbb{C}\cong E\oplus\overline{E}$ to express the Pontryagin classes purely in terms of the Chern classes of $E$, e.g.
+        \begin{gather}
+            \label{bundle:chern_pontryagin}
+            p_1(E)=c_1^2(E)-2c_2(E).
+        \end{gather}
     }
 
     When the vector bundles in question are orientable, the structure group can further be reduced to $\mathrm{SO}(n)$. If the rank is even, one can define the following characteristic class:
     \newdef{Euler class}{\index{Euler!class}
         Let $\bundle$ be an orientable vector bundle of rank $2k$. The Euler class of $E$ is defined as follows:
         \begin{gather}
-            e(E) := p_k(E)\smile p_k(E).
+            e(E) := p_k(E)\cup p_k(E).
         \end{gather}
     }
     \begin{property}\index{Pfaffian}
@@ -779,6 +821,32 @@
 
     ?? COMPLETE ??
 
+\subsection{Chern-Simons forms}\label{section:chern_simons}
+
+    By Chern-Weil theory, the image of invariant polynomials under the Chern-Weil morphism is closed. This not only allows to interpret them as cohomology classes as done above, but it also implies that (locally) one can find a trivialization:
+    \begin{gather}
+        \langle\Omega_A,\cdots\rangle_n = d\mathrm{CS}^n(A),
+    \end{gather}
+    where $\langle\cdots\rangle_n$ denotes an invariant polynomial of degree $2n$. Such a form is called a Chern-Simons form or \textbf{secondary characteristic form}.
+
+    More generally, consider the \textit{concordance} $P\times[0,1]$ for some principal bundle $P$ with itself together with a connection $\hat{A}$. This connection defines a path between two connections $A,A'$ on $P$. The relative Chern-Simons form is defined as\index{concordance}
+    \begin{gather}
+        \mathrm{CS}^n(A,A') := \int_{[0,1]}\langle\Omega_{\hat{A}},\cdots\rangle_n.
+    \end{gather}
+    The differential of this form gives the difference of characteristic forms:
+    \begin{gather}
+        d\mathrm{CS}^n(A,A') = \langle\Omega_{A_1},\cdots\rangle_n - \langle\Omega_{A_0},\cdots\rangle_n.
+    \end{gather}
+    However, note that the Chern-Simons form is only defined up to an exact form.
+
+    \begin{example}[Killing form]
+        Consider the Killing transgression form, which for $\mathfrak{su}(n)$ is induced by the trace functional. The related Chern-Simons form is given by
+        \begin{gather}
+            \langle dA,A \rangle + \frac{2}{3}\langle A,[A\wedge A] \rangle.
+        \end{gather}
+        This form is the exterior derivative of the second Chern character, which for $\mathfrak{su}(n)$-bundles is equivalent to the second Chern class. A similar expression can be obtained for the Chern-Simons form associated to all other Chern characters.
+    \end{example}
+
 \section{\difficult{Differential cohomology}}\index{differential!cohomology}\label{section:differential_cohomology}
 
     In the foregoing sections a multitude of objects were introduced that are related to principal fibre bundles. For example, connections and their associated curvature forms could be used to construct differential quantities, while characteristic classes contained data about the topology of the bundle. However, even in the simple case of $\mathrm{U}(1)$-bundles, neither the (first) Chern class, nor the curvature form are are able to uniquely characterize the bundle.
@@ -790,9 +858,9 @@
     \newdef{Differential character}{\index{Cheeger-Simons|see{differential character}}\index{differential!character}
         Consider a positive integer $k\geq1$ and let $M$ be a manifold. A (\textbf{Cheeger-Simons}) differential character of \textbf{degree} $k$ is a group homomorphism $\chi:Z_{k-1}(M)\rightarrow\mathrm{U}(1)$ that is given by integration on boundaries:\footnote{Some authors omit the exponential function by working modulo $\mathbb{Z}$. This just replaces the multiplicative $\mathrm{U}(1)$-group by the isomorphic additive $\mathbb{R}/\mathbb{Z}$-group.}
         \begin{gather}
-            \chi(\partial\gamma) = \exp\left(2\pi i\int_\gamma\omega\right)
+            \chi(\partial\gamma) = \exp\left(2\pi i\int_\gamma\omega(\chi)\right)
         \end{gather}
-        for some $\omega\in\Omega^k(M)$. The group of differential characters of degree $k$ is denoted by $\hat{H}^k(M;\mathbb{Z})$. For $k=0$ the convention $\hat{H}^0(M;\mathbb{Z}):=H^0(M;\mathbb{Z})$ is used.
+        for some $\omega(\chi)\in\Omega^k(M)$. The group of differential characters of degree $k$ is denoted by $\hat{H}^k(M;\mathbb{Z})$. For $k=0$ the convention $\hat{H}^0(M;\mathbb{Z}):=H^0(M;\mathbb{Z})$ is used.
     }
 
     \begin{property}[Thin invariance]\index{thin}
@@ -800,13 +868,14 @@
     \end{property}
 
     \begin{property}[Curvature]\index{curvature!cohomology}\index{flat!character}
-        Every differential character is represented by a unique, closed and integral $k$-form. The map $\mathrm{curv}:\hat{H}^k(M;\mathbb{Z})\rightarrow\Omega^k_\mathrm{int}(M)$ is called the curvature map. If $\mathrm{curv}(\chi)=0$, the character $\chi$ is said to be \textbf{flat}.
+        Every differential character is represented by a unique, closed and integral $k$-form. The map $\mathrm{curv}:\hat{H}^k(M;\mathbb{Z})\rightarrow\Omega^k_\mathrm{int}(M):\chi\mapsto\omega(\chi)$ is called the curvature map. If $\mathrm{curv}(\chi)=0$, the character $\chi$ is said to be \textbf{flat}.
     \end{property}
 
-    \begin{property}[Characteristic class]\index{Dixmier-Douady class}
-        Every differential character gives rise to a characteristic class as follows. The group of cocycles is free and the quotient map $\mathbb{R}\rightarrow\mathrm{U}(1)$ is onto, so every differential character lifts to a group homomorphism $\widetilde{\chi}:Z_{k-1}(M)\rightarrow\mathbb{R}$ such that $h(z)=\exp(2\pi i\widetilde{h}(z))$. The map
+    \begin{property}[Characteristic class]\index{characteristic!class}\index{Dixmier-Douady class}
+        Every differential character gives rise to a characteristic class as follows. The group of cocycles is free and the quotient map $\mathbb{R}\rightarrow\mathrm{U}(1)$ is onto, so every differential character lifts to a group homomorphism $\widetilde{\chi}:Z_{k-1}(M)\rightarrow\mathbb{R}$ such that $\chi(z)=\exp(2\pi i\widetilde{\chi}(z))$. The map
         \begin{gather}
-            \mathrm{ch}:C_k(M)\rightarrow\mathbb{Z}:\gamma\mapsto\int_\gamma\mathrm{curv}(\chi)-\widetilde{\chi}(\partial\gamma)
+            \label{bundle:characteristic_class}
+            \mathrm{ch}(\chi):C_k(M)\rightarrow\mathbb{Z}:\gamma\mapsto\int_\gamma\mathrm{curv}(\chi)-\widetilde{\chi}(\partial\gamma)
         \end{gather}
         induces a well-defined map $\mathrm{ch}:\hat{H}^k(M;\mathbb{Z})\rightarrow H^k(M;\mathbb{Z})$. If $\mathrm{ch}(\chi)=0$, the character $\chi$ is said to be \textbf{topologically trivial}. The characteristic class associated to a differential character is sometimes called the \textbf{Dixmier-Douady} class (see e.g. \cite{brylinski}).
     \end{property}
@@ -841,6 +910,36 @@
         \end{gather}
         which has the closed integral forms as kernel. This exact sequence says that two connections on the same principal $\mathrm{U}(1)$-bundle differ by a global connection form (up to an integral form).
     \end{property}
+
+\subsection{Combining singular and de Rham cohomology}
+
+    There is an alternative to the Cheeger-Simons approach. Let $C^n$ and $Z^n$ again denote the smooth cochain and cocycle groups.
+    \newdef{Differential cocycle}{
+        A tuple $(c,h,\omega)\in C^n(M;\mathbb{Z})\times C^{n-1}(M)\times\Omega^n(M)$ such that
+        \begin{align}
+            \delta c &= 0\\
+            d\omega &= 0\\
+            \delta h &= \omega-c.
+        \end{align}
+        A differential cocycle thus consists of a singular cocycle (topological information) and a de Rham cocycle (differential information), that are equal up to a (singular) coboundary.
+
+        The cochain complex $C^n(M;\mathbb{Z})\times C^{n-1}(M)\times\Omega^n(M)$ with differential
+        \begin{gather}
+            d:(c,h,\omega)\mapsto(\delta c,\omega-c-\delta h,d\omega)
+        \end{gather}
+        defines a cohomology theory $\hat{H}(n)^\bullet(M)$.
+    }
+    \begin{property}[Relation to differential characters]\index{monodromy}
+        The cohomology of differential characters can be identified with the above coomology as follows:
+        \begin{gather}
+            \hat{H}^k(M)\cong\hat{H}(k)^k(M).
+        \end{gather}
+        Given a differential cocycle $(c,h,\omega)$, the curvature and characteristic class of the associated differential character are $\omega$ and $c$, respectively. The function $e^{2\pi ih}$ is called the \textbf{monodromy} of the cocycle. It can be checked that Equation \eqref{bundle:characteristic_class} is exactly the third relation in the definition of cocycles above. The $\bmod\,\mathbb{Z}$-reduction of $h$ gives the differential character associated to the cocycle.
+    \end{property}
+
+    \begin{example}
+        The first ordinary differential cohomology group $\hat{H}^1(M;\mathbb{Z})$ is isomorphic to the group of smooth functions $C^\infty(M;\mathrm{U}(1))$.
+    \end{example}
 
 \subsection{Deligne cohomology}
 
@@ -898,6 +997,18 @@
         \end{gather}
         where $\check{H}^\bullet$ denotes \v{C}ech cohomology \ref{sheaf:cech} and the cochain complex $\mathbf{B}^k\mathrm{U}(1)_\mathrm{conn}$ is turned into a cochain complex by inverting the degrees.
     }
+
+    \begin{property}[Deligne-Beilinson product]\index{Deligne-Beilinson product}
+        Consider the Deligne complex for two integers $k,l\in\mathbb{N}$. There exists a cup product
+        \begin{gather}
+            \cup:\mathbf{B}^k\mathrm{U}(1)_\mathrm{conn}\otimes\mathbf{B}^l\mathrm{U}(1)_\mathrm{conn}\rightarrow\mathbf{B}^{k+l+1}\mathrm{U}(1)_\mathrm{conn}:x\otimes y\mapsto x\cup y:=
+            \begin{cases}
+                x\wedge dy&\deg(y)=l\\
+                0&\text{otherwise}.
+            \end{cases}
+        \end{gather}
+    \end{property}
+
     \begin{example}[Circle bundles]
         A (\v{C}ech-)Deligne cocycle in degree 2 consists of data $(A_i,g_{ij})$ such that
         \begin{gather*}
@@ -915,6 +1026,14 @@
         where the inclusion arrows denote the restriction to intersections $U_{ij}:=U_i\cap U_j$. Property \ref{bundle:compatibility_connection} and the subsequent example, specialized in the case of $\mathrm{U}(1)$-bundles, show that the above data are exactly the components of a princpal circle bundle with connection.
     \end{example}
     \remark{As was the case for differential characters, higher Deligne cohomology classes classify higher $\mathrm{U}(1)$-bundles with connection. The main benefit of this approach is that one gets an ``explicit'' description of the local data. See \cite{hitchin_gerbes} for a good introduction.}
+
+    \begin{remark}[Trivial bundles and twisted bundles]
+        From \v{C}ech-Deligne cohomology, one knows that a trivial $k$-bundle $\alpha$ is defined by a $(k-1)$-cochain $\beta$ such that
+        \begin{gather}
+            (\delta\beta)_{i_0\ldots i_k} = \alpha_{i_0\ldots i_k},
+        \end{gather}
+        i.e. a trivial $k$-bundle is equivalent to a twisted $(k-1)$-bundle.
+    \end{remark}
 
     ?? COMPLETE ??
 

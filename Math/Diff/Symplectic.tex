@@ -56,7 +56,7 @@
     \end{property}
 
     \newdef{Symplectic potential}{\index{symplectic!potential}
-        By the Poincaré lemma \ref{bundle:poincare} the symplectic form $\omega$ locally defines a one-form $\theta$:
+        By the Poincaré lemma \ref{bundle:poincare} the symplectic form $\omega$ locally defines a one-form:
         \begin{gather}
             \omega = d\theta.
         \end{gather}
@@ -70,6 +70,18 @@
         \end{gather}
         where $X\in T_yT^*M$. This one-form serves as a symplectic potential for the cotangent bundle: \[\omega = d\alpha.\]
     \end{construct}
+
+    \newdef{Liouville vector field}{\index{Liouville!vector field}
+        Consider a symplectic manifold $(M,\omega)$. A vector field $X$ is called a Liouville vector field if it preserves the symplectic form:
+        \begin{gather}
+            \mathcal{L}_X\omega = \omega.
+        \end{gather}
+        By Cartan's magic formula a global symplectic potential is then given by
+        \begin{gather}
+            \theta := X\intmul\omega.
+        \end{gather}
+        It follows that the existence of a Liouville vector field implies the exactness of $M$.
+    }
 
     \newdef{Multisymplectic structure}{\index{multi-!plectic manifold}
         The definition of a symplectic structure can be generalized to multisymplectic or \textbf{$n$-plectic} structures as $(n+1)$-forms $\omega$ that satisfy the conditions:
@@ -103,6 +115,22 @@
         \end{gather}
         Equivalently, a vector field is symplectic if its flow is a symplectomorphism. These vector fields form a Lie subalgebra of $\mathfrak{X}(M)$.
     }
+
+    \begin{theorem}[Gromov's nonsqueezing theorem\footnotemark]
+        \footnotetext{Also called the theorem of the \textbf{symplectic camel} (after a paper by \textit{I. Stewart}).}
+        Consider the Euclidean ball and cylinder $B^{2n}(r)$ and $Z^{2n}(R)$ in $\mathbb{R}^{2n}$ with their standard (induced) symplectic forms. If there exists a symplectic embedding $B^{2n}(r)\hookrightarrow Z^{2n}(R)$, then $r\leq R$.
+    \end{theorem}
+    This theorem implies that one cannot arbitrarily squeeze a symplectic manifold while preserving its (symplectic) volume. This hints towards the existence of certain invariants:
+    \newdef{Symplectic capacity}{\index{capacity}
+        Consider the category of symplectic manifolds with symplectic embeddings as morphisms. A symplectic capacity is a functor $C$ from this category to the poset of (nonnegative) real numbers (this just means that it is a monotonic function on symplectic manifolds) satisfying the following conditions:
+        \begin{enumerate}
+            \item\textbf{Homogeneity}: If $\alpha\neq0$, $C(M,\alpha\omega)=|\alpha|C(M,\omega)$.
+            \item\textbf{Normalization}: $C(B^{2n}(r))=C(Z^{2n}(r))=\pi r^2$.
+        \end{enumerate}
+    }
+    \begin{example}
+        Inspired by \textit{Gromov}'s theorem, one can obtain capacities by taking the largest ball that embeds into the manifold and the smallest cylinder such that the manifolds embeds in it. These define the minimal and maximal capacities, respectively.
+    \end{example}
 
 \section{Hamiltonian vector fields}\label{section:hamiltonian_vector_fields}
 
@@ -201,6 +229,13 @@
     \begin{example}[Closed sections]\label{symplectic:closed_section_submanifold}
         Consider a closed section of a cotangent bundle $T^*M$, i.e. a map $\sigma:M\rightarrow T^*M$ such that $d\sigma=0$. The graph of $\sigma$ is a Lagrangian submanifold.
     \end{example}
+    \begin{example}[Conormal bundle]
+        Consider a submanifold $\iota:S\hookrightarrow M$ of a symplectic manifold. The conormal bundle
+        \begin{gather}
+            N^*S := \{(p,\alpha)\mid\forall v\in T_pS:\alpha(v)=0\}
+        \end{gather}
+        is a Lagrangian submanifold of $T^*M$.
+    \end{example}
 
     \begin{theorem}[Maslov \& H\"ormander]\index{Maslov-H\"ormander}\index{Morse!family}\index{generating!function}\label{symplectic:maslow_hormander}
         Let $M$ be a smooth manifold and consider a smooth function $W:M\times\mathbb{R}^k\rightarrow\mathbb{R}$ with $k\geq 0$. If 0 is a regular value of the map \[\pderiv{W}{u}:M\times\mathbb{R}^k\rightarrow\mathbb{R}^k,\] the subset $\Lambda\subset T^*M$, locally defined by the equations
@@ -210,6 +245,10 @@
         is a Lagrangian submanifold. Conversely, if $\Lambda\xhookrightarrow{\iota}T^*M$ is a Lagrangian submanifold, then at every $\lambda_0\in\Lambda$ there exists an integer \[k_0\geq\dim(M) - \rk\left(D(\pi\circ\iota)|_{\lambda_0}\right)\] such that locally around $\lambda_0$ the submanifold $\Lambda$ is described by some function $W:M\times\mathbb{R}^{k_0}$ satisfying the above equations.
     \end{theorem}
     Any function $W$ generating a Lagrangian submanifold through the above equations will be called a \textbf{generating function}. Functions satisfying both the equations and the regularity condition are called \textbf{Morse families}.
+
+    \newdef{Liouville class}{\index{Liouville!class}
+        Consider an exact symplectic manifold $(M,\omega)$ and a Lagrangian submanifold $L$. Because $\omega|_L=0$, every (global) symplectic potential $\theta$ defines a cohomology class $[\theta]\in H^1_\mathrm{dR}(L)$.\footnote{This class depends on the choice of potential.} For $M$ a cotangent bundle and $\theta$ the Liouville one-form, this is called the Liouville class of $L$.
+    }
 
     \newdef{Real polarization}{\index{polarization}
         A (real) polarization of a symplectic manifold $(M,\omega)$ is a foliation by Lagrangian submanifolds, i.e. a subbundle $P\subset TM$ such that the following conditions are satisfied:
@@ -222,7 +261,7 @@
     }
     More generally one can define a (complex) polarization:
     \newdef{Polarization}{
-        An integrable Lagrangian subbundle $\mathcal{P}$ of the complexified tangent bundle $T_\mathbb{C}M$ with the additional property that $\dim(\mathcal{P}\cap\overline{\mathcal{P}}\cap TM)$ is constant throughout the entire manifold.
+        An integrable Lagrangian subbundle $\mathcal{P}$ of the complexified tangent bundle $TM^\mathbb{C}$ with the additional property that $\dim(\mathcal{P}\cap\overline{\mathcal{P}}\cap TM)$ is constant throughout the entire manifold.
 
         A real polarization is (after complexifying it) the same as a complex polarization for which $\mathcal{P}=\overline{\mathcal{P}}$.
     }
@@ -231,7 +270,7 @@
     \end{remark}
 
     \begin{example}[Vertical polarization]\index{vertical!polarization}
-        Consider the cotangent bundle $T^*M$ of a smooth manifold $M$. Define the bundle $\mathcal{P}$ at every point $\alpha\in T^*_\mathbb{C}M$ as \[\ker(\pi_*)=T_\alpha T^*_{\pi(\alpha)}M\otimes\mathbb{C}=\mathrm{span}_\mathbb{C}\left\{\pderiv{}{p_i}\,\middle\vert\,p_i\text{ is a Darboux coordinate on }T^*M\right\},\] where $\pi:T^*_\mathbb{C}M\rightarrow M$ is the (complexified) cotangent bundle projection. It can be shown that this polarization is real.
+        Consider the cotangent bundle $T^*M$ of a smooth manifold $M$. Define the bundle $\mathcal{P}$ at every point $\alpha\in T^*M^\mathbb{C}$ as \[\ker(\pi_*)=T_\alpha T^*_{\pi(\alpha)}M\otimes\mathbb{C}=\mathrm{span}_\mathbb{C}\left\{\pderiv{}{p_i}\,\middle\vert\,p_i\text{ is a Darboux coordinate on }T^*M\right\},\] where $\pi:T^*M^\mathbb{C}\rightarrow M$ is the (complexified) cotangent bundle projection. It can be shown that this polarization is real.
     \end{example}
 
     \newdef{Admissible polarization}{
@@ -239,6 +278,69 @@
     }
     \newdef{K\"ahler polarization}{\index{K\"ahler!polarization}
         A polarization $\mathcal{P}$ such that $\mathcal{P}\cap\overline{\mathcal{P}}=\emptyset$. In this case $\mathcal{P}$ is always admissible and $E=TM$. Every \textit{K\"ahler manifold} (see Chapter \ref{chapter:complex_geometry}) admits such a polarization, namely its (anti)holomorphic tangent bundle. Conversely, the existence of a K\"ahler polarization implies that the manifold is (pseudo)K\"ahler, where the (anti)holomorphic bundle is given by the polarization. More generally, the (anti)holomorphic tangent bundles of any complex bundle are called the (anti)holomorphic polarization.
+    }
+
+    \newdef{Lagrangian Grassmannian}{\index{Grassmannian!Lagrangian}
+        The set of isomorphism classes of Lagrangian subspaces of $\mathbb{R}^{2n}$. It is often denoted by $\mathrm{LGr}(n)$. It can be shown to be isomorphic to the homogeneous space $\mathrm{U}(n)/\mathrm{O}(n)$.
+    }
+    \begin{property}[Maslov class]\index{Maslov!index}\index{Maslov!cycle}
+        The square of the determinant function gives an isomorphism $\pi_1(\mathrm{LGr}(n))\cong\pi_1(S^1)$, where the generator of $\pi_1(S^1)$ is identified with the path of unitary matrices $\mathrm{diag}(e^{i\pi t},1,1,\ldots)$. By the Hurewicz theorem and the definition of (singular) cohomology, one obtains $H^1(\mathrm{LGr}(n))\cong\mathbb{Z}$, which is just the degree of the induced element in $\pi_1(S^1)$. This class is called the \textbf{Maslov class} or Maslov index.
+
+        The Maslov index (for loops) of a Lagrangian submanifold $L\subset M$ is defined analogously. Every loop in $L$ defines a loop in $\mathrm{LGr}(n)$, since the tangent spaces are Lagrangian subspaces. The Maslov index $\mu(L):\pi_1(L)\rightarrow\mathbb{Z}$ is defined as the Maslov index of this induced loop.
+
+        This definition can be extended to arbitrary paths of Lagrangians. For any Lagrangian $L_0\in\mathrm{LGr}(n)$, one can stratify the Grassmannian by the sets
+        \begin{gather}
+            \Lambda_k := \{L\in\mathrm{LGr}(n)\mid\dim(L\cap L_0) = k\}.
+        \end{gather}
+        The union $\Sigma(L_0):=\bigcup_{i=1}^n\Lambda_i\cong\overline{\Lambda_1}$ is called the \textbf{Maslov cycle} (with respect to $L_0$). It consists of all subspaces that intersect nontrivially with $L_0$. The Maslov index $\mu$ is the Poincar\'e dual to this codimension-1 cycle, it counts the number of intersections of the given path with the Maslov cycle.
+
+        Another approach passes through relative homology. Because the stratum $\Lambda_0$ is contractible, the long exact sequence in homology implies the existence of an isomorphism $H_1(\mathrm{LGr}(n),\Lambda_0)\cong H_1(\mathrm{LGr}(n))\cong\mathbb{Z}$. Combined with the Hurewicz isomorphism and degree map, one again gets a Maslov index for paths with endpoints in $\Lambda_0$. It immediately follows that a path entirely in $\Lambda_0$ has vanishing Maslov index.
+    \end{property}
+    \begin{remark}
+        There exists a generalization \cite{path_maslov}, based on intersection theory, for paths with endpoints in nonzero strata, i.e. where the endpoints satisfy $\gamma(0)\in\Lambda_{k_0}$ and $\gamma(1)\in\Lambda_{k_1}$ for $k_0,k_1\geq1$. The important difference is that for these paths the Maslov index can be a half-integer:
+        \begin{gather}
+            \mu + \frac{k_0-k_1}{2}\in\mathbb{Z}.
+        \end{gather}
+    \end{remark}
+
+    \begin{property}[Homotopy invariance]
+        The Maslov index is invariant under homotopies rel endpoints.
+    \end{property}
+    \begin{property}[Additivity]
+        If $\gamma_1$ and $\gamma_2$ are two paths that can be concatenated, then
+        \begin{gather}
+            \mu(\gamma_2\ast\gamma_1) = \mu(\gamma_1) + \mu(\gamma_2).
+        \end{gather}
+    \end{property}
+
+    \newadef{Maslov index}{
+        The above two properties give rise to an axiomatic characterization of the Maslov index:\footnote{Some authors introduce additional factors of 2 in these conditions to account for nonorientablity.}
+        \begin{enumerate}
+            \item\textbf{Homotopy invariance}: $\gamma_1\sim\gamma_2\iff\mu(\gamma_1)=\mu(\gamma_2)$,
+            \item\textbf{Additivity}: $\mu(\gamma_1\ast\gamma_2)=\mu(\gamma_1)+\mu(\gamma_2)$,
+            \item\textbf{Direct sum}: $\mu(\gamma_1\oplus\gamma_2)=\mu(\gamma_1)+\mu(\gamma_2)$, and
+            \item\textbf{Normalization}: $\mu(t\mapsto e^{2\pi it})=1$.
+        \end{enumerate}
+    }
+
+    \begin{formula}
+        Consider a loop $\gamma:[0,1]\rightarrow\mathrm{LGr}(n)$. An explicit formula for its Maslov index is given by
+        \begin{gather}
+            \mu(L) = \frac{\alpha(1)-\alpha(0)}{\pi},
+        \end{gather}
+        where $\exp(i\alpha(t))$ is the determinant of any unitary lift of $\gamma$.
+    \end{formula}
+
+    \newdef{Pairwise Maslov index}{
+        One can also extend the definition of the Maslov index to a pair of paths. To this end one should note that the diagonal map $\Delta:M\rightarrow M\times M$ gives a Lagrangian embedding. The pairwise Maslov index is then defined as follows:
+        \begin{gather}
+            \mu(\gamma_1,\gamma_2) := \mu(\gamma_1\times\gamma_2;\Delta),
+        \end{gather}
+        where the right-hand side denotes the Maslov index with respect to the $\Delta$-stratification of $\mathrm{LGr}(2n)$. However, this index is only well-defined if the pair $(\gamma_1,\gamma_2)$ is \textbf{admissible}, i.e. if $\gamma_1(0)\cap\gamma_2(0)=\emptyset=\gamma_1(1)\cap\gamma_2(1)$. For pairs that do not satisfy this condition, one should choose a \textit{compatible almost complex structure} $J$ (Chapter \ref{chapter:complex_geometry}). Then, the Maslov index is defined as follows
+        \begin{gather}
+            \mu(\gamma_1,\gamma_2) := \mu(\gamma_1,e^{-\theta J}\gamma_2),
+        \end{gather}
+        where $\theta$ is chosen such that $(\gamma_1,e^{-\theta' J}\gamma_2)$ is admissible for all $0<|\theta'|\leq\theta$. Homotopy invariance then implies that the definition does not depend on the precise choice of $\theta$.
     }
 
 \section{Hamiltonian dynamics}\label{section:hamiltonian_dynamics}

@@ -35,10 +35,21 @@
         where $r$ is the distance between the charges and $\varepsilon_0$ is the permittivity of the vacuum $(\varepsilon_0\approx\num{8.854E-12}\frac{\mathrm{F}}{\mathrm{m}})$.
     \end{formula}
 
+    \newdef{Electric potential}{\index{potential}
+        The electric field gives the force experienced by a single (positive) charge. The electric potential is then defined as the work done by this charge when moving through the field:
+        \begin{gather}
+            V(\vector{a},\vector{b}) := \int_{\vector{a}}^{\vector{b}}\vector{E}\cdot d\vector{l}.
+        \end{gather}
+        By fixing the endpoint (some fixed reference location\footnote{As usual the potential is only determined up to some constant.}), the electric field and electric potential are related in the same way as the ordinary potential and the associated (conservative) force (cf. Equation \eqref{classic:conservative_force}):
+        \begin{gather}
+            E = -\nabla V.
+        \end{gather}
+    }
+
     \newdef{Capacitance}{\index{capacitance}\label{em:capacitance}
         The capacitance is a (geometrical) value that reflects the amount of charge an object can store:
         \begin{gather}
-            C := \frac{q}{U}.
+            C := \frac{Q}{V}.
         \end{gather}
     }
 
@@ -50,6 +61,12 @@
             I := \deriv{Q}{t}.
         \end{gather}
     }
+    \begin{formula}[Power]
+        Given that the electric potential gives the work done by a positive charge, the electric power of a current $I$ is given by
+        \begin{gather}
+            P = VI.
+        \end{gather}
+    \end{formula}
 
     \begin{property}[Electric field of conductor]
         The electric field inside a conductor is vanishes at equilibrium. All free charges are located at the surface. Moreover, the electric field at the surface points in the direction of the normal vector.
@@ -167,7 +184,20 @@
     \end{formula}
 
     \begin{formula}[Multipole expansion]
-        Consider a general charge distribution $\rho:\mathbb{R}^3\rightarrow\mathbb{R}$. This distribution induces a multipole potential
+        Consider a general charge distribution $\rho:\mathbb{R}^3\rightarrow\mathbb{R}$ with support in a region $\Gamma$ and assume that $\|\vector{r}\|\gg\mathrm{diam}(\Gamma)$. If $\vector{r}$ is oriented along the $z$-axis, one can write the (squared) distance to an infinitesimal volume element as
+        \begin{gather}
+            R^2 = r^2 + (r')^2 - 2rr'\cos(\theta)
+        \end{gather}
+        or
+        \begin{gather}
+            \label{em:legendre}
+            \frac{1}{R} = \frac{1}{r}\frac{1}{\sqrt{1 - \left(\frac{r'}{r}\right)^2-2\left(\frac{r'}{r}\right)\cos(\theta)}},
+        \end{gather}
+        where $\vector{r}'$ is the position of the volume element and $\theta$ is the polar angle of the volume element. In the general integral
+        \begin{gather}
+            V(\vector{r}) = \frac{1}{4\pi\varepsilon_0}\int\frac{\rho(\vector{r}')}{\|\vector{r}-\vector{r}'\|}d^3V'
+        \end{gather}
+        one can now expand the denominator in powers of $1/r$, since the second factor in \eqref{em:legendre} is the generating function of Legendre polynomials:
         \begin{gather}
             V(\vector{r}) = \frac{1}{4\pi\varepsilon_0}\left(\frac{K_0}{r} + \frac{K_1}{r^2} + \frac{K_2}{r^3} +\cdots\right),
         \end{gather}
@@ -179,9 +209,9 @@
             \item $\cdots$
             \item $K_n := \displaystyle\int P_n(\cos(\theta))r^n\rho(\vector{r})dV$,
         \end{itemize}
-        where $P_n$ is the $n^{th}$ \textit{Legendre polynomial}. The first term gives an approximation as if all charge is concentrated in a single point. At very large distances, where the charge distribution appears as a single point, this gives a good approximation.
+        where $P_n$ is the $n^{th}$ \temptext{Legendre polynomial}. The first term gives an approximation as if all charge was concentrated in a single point (its called the \textbf{monopole approximation}). At very large distances, where the charge distribution appears as a single point, this gives a good approximation.
 
-        ?? CHECK THIS (Spherical harmonics should appear for general systems) ??
+        When the position vector $\vector{r}$ is not assumed to be oriented along the $z$-axis, the Legendre polynomials have to be replaced by \temptext{spherical harmonics}.
     \end{formula}
 
 \section{Magnetism}\index{magnetization}\index{susceptibility}\index{permeability}\index{induction}

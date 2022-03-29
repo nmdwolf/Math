@@ -42,7 +42,7 @@
         In a typical Alice-and-Bob-style experiment one can ask the question if this observation allows to achieve a better-than-classical communication channel. If Alice performs a spin flip on her qubit, although the resulting state has instantly ``changed'' (cf. \textit{spooky action at a distance}), Bob still cannot uniquely determine what this state is (since the resulting state is still maximally entangled). However, if Alice sends her qubit to Bob, the latter can perform a measurement on the composite system to find out what the state is and in this way determine which operation Alice performed ($\mathbbm{1},X,Y,Z$). Alice has thus effectively sent 2 classical bits of information through 1 qubit. Note that due to the fact that Alice still has to send her qubit through classical means, no faster-than-light communication is achieved.
     \end{method}
 
-    \newdef{GHZ\footnotemark state}{\index{Greenberger-Horne-Zeilinger state}
+    \newdef{GHZ\footnotemark\ state}{\index{Greenberger-Horne-Zeilinger state}
         \footnotetext{\textit{Greenberger-Horne-Zeilinger}}
         \nomenclature[A_GHZ]{GHZ}{Greenberger-Horne-Zeilinger}
         The GHZ state is defined as the multiparticle qudit ($d,N>2$) version of the Bell state above and is, hence, also referenced to as a cat state:
@@ -56,34 +56,68 @@
     \newdef{Density operator}{
         Consider a (finite-dimensional) Hilbert space $\mathcal{H}$. A density operator on $\mathcal{H}$ is a linear operator $\rho\in\End(\mathcal{H})$ satisfying the following properties:
         \begin{enumerate}
-            \item\textbf{Positivity}: $\langle\rho v|v\rangle\geq0$ for all $v\in\mathcal{H}$.
+            \item\textbf{Positivity}: $\langle v|\rho v \rangle\geq0$ for all $v\in\mathcal{H}$.
             \item\textbf{Hermiticity}: $\rho^\dag=\rho$.
             \item\textbf{Unit trace}: $\tr(\rho)=1$.
         \end{enumerate}
         More concisely, density operators are the representing objects of normal states \ref{operators:normal_state} on $\mathcal{B}(\mathcal{H})$.
     }
+
+    \begin{example}[Classical probability]
+        A diagonal density matrix corresponds to a (classical) discrete probability distribution.
+    \end{example}
+
     \newdef{Pure state}{\index{pure}
         A state is said to be pure if it is described by an outer product of a state vector or, equivalently, by an idempotent density matrix. A density matrix that is not of this form gives rise to a \textbf{mixed state}.
     }
 
 	\newdef{Reduced density operator}{
-		Let $|\Psi\rangle_{AB}$ be the state of a bipartite system. The reduced density operator $\hat\rho_A$ of $A$ is defined as follows:
+		Let $|\Psi\rangle\in\mathcal{H}_A\otimes\mathcal{H}_B$ be the state of a bipartite system. The reduced density operator $\hat\rho_A$ of $A$ is defined as follows:
 		\begin{gather}
-			\hat\rho_A := \tr_B|\Psi\rangle_{ABAB}\langle\Psi|.
+			\hat\rho_A := \tr_B|\Psi\rangle\langle\Psi|.
 		\end{gather}
 	}
 
 	\newdef{Purification}{\index{purification}
-		Let $\hat\rho_A$ be the density operator of a system $A$. A purification of $\hat\rho_A$ is a pure state $|\Psi\rangle_{AB}$ of some composite system $AB$ such that
+		Let $\hat\rho_A$ be the density operator of a system $A$. A purification of $\hat\rho_A$ is a pure state $|\Psi\rangle$ of some composite system $AB$ such that
 		\begin{gather}
-			\hat\rho_A = \tr_B|\Psi\rangle_{ABAB}\langle\Psi|.
+			\hat\rho_A = \tr_B|\Psi\rangle\langle\Psi|.
 		\end{gather}
 	}
 	\begin{property}
-		Any two purifications of the same density operator $\hat\rho_A$ are related by a transformation $\mathbbm{1}_A\otimes\hat{V}$ with $\hat{V}$ a unitary operator on $\mathcal{H}_B$.
+		Any two purifications of the same density operator $\hat\rho_A$ are related by a transformation $\mathbbm{1}_A\otimes\hat{V}$ with $\hat{V}$ an isometry.
 	\end{property}
 
 \section{Operations}
+
+    The following definition generalizes the content of Section \ref{section:PVM} to a setting of partial information:
+    \newdef{Positive operator-valued measure}{\index{measurement!positive-operator valued}
+        \nomenclature[A_POVM]{POVM}{positive operator-valued measure}
+        Let $\mathcal{H}$ be a finite-dimensional Hilbert space. A POVM on $\mathcal{H}$ consists of a finite set of positive (semi)definite operators $\{P_i\}_{i\leq n}$ such that
+        \begin{gather}
+            \sum_{i=1}^nP_i=\mathbbm{1}_\mathcal{H}.
+        \end{gather}
+        The probability to obtain state $i$, given a state $\hat{\rho}$, is given by $\tr(\hat{\rho}P_i)$. Note that the operators are not necessarily orthogonal projectors, so $n$ can be greater than $\dim(\mathcal{H})$.
+
+        Now, consider a measurable space $(X,\Sigma)$ and a (possibly infinite-dimensional) Hilbert space $\mathcal{H}$. A POVM on $X$ consists of a function $P:\Sigma\rightarrow\mathcal{B}(\mathcal{H})$ satisfying the following conditions:
+        \begin{enumerate}
+            \item $P_E$ is positive and self-adjoint for all $E\in\Sigma$,
+            \item $P_X=\mathbbm{1}_\mathcal{H}$, and
+            \item for all disjoint $\seq{E}\subset\Sigma$:
+                \begin{gather}
+                    \sum_{n\in\mathbb{N}}P_{E_n} = P_{\cup_{n\in\mathbb{N}}E_n}.
+                \end{gather}
+        \end{enumerate}
+    }
+
+    The following theorem can be derived from the Stinespring theorem \ref{operators:stinespring}:
+    \begin{theorem}[Naimark dilation theorem]\index{Naimark dilation theorem}
+        Every POVM $P$ on $\mathcal{H}$ can be realized as a PVM $\Pi$ on a possibly larger Hilbert space $\mathcal{K}$, i.e. there exists a bounded operator $V:\mathcal{K}\rightarrow\mathcal{H}$ such that
+        \begin{gather}
+            P(\cdot) = V\Pi(\cdot)V^\dagger.
+        \end{gather}
+        In the finite-dimensional setting $V$ can be chosen to be an isometry.
+    \end{theorem}
 
     \newdef{Completely positive trace-preserving}{\index{quantum!channel}
         \nomenclature[A_CPTP]{CPTP}{completely positive, trace-preserving}
@@ -94,7 +128,7 @@
 
     The following property can be derived from the Stinespring theorem \ref{operators:stinespring}:
     \begin{property}[Kraus decomposition]\index{Kraus decomposition}\label{qc:kraus}
-        Let $\mathcal{H}_1,\mathcal{H}_2$ be Hilbert spaces of dimensions $m$ and $n$, respectively. A map of bounded operators $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$ is completely positive if and only if there exist bounded operators $\{A_i\}_{i\leq mn}$ such that
+        Let $\mathcal{H}_1,\mathcal{H}_2$ be Hilbert spaces of dimensions $m$ and $n$, respectively. A linear map $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$ is completely positive if and only if there exist bounded operators $\{A_i\}_{i\leq mn}$ such that
         \begin{gather}
             \Phi(B) = \sum_{i=1}^{mn}A^\dag_iBA_i.
         \end{gather}

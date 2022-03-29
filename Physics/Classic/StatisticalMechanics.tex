@@ -12,7 +12,7 @@
             \label{statmech:boltzmann_formula}
             S := k\ln\Omega(E,V,N,\alpha),
         \end{gather}
-        where $\Omega$ denotes the number of microstates corresponding to the system with energy $E$, volume $V$, number of particles $N$ and any other state variable (these are denoted by $\alpha$). In general $S$ will be the Shannon entropy \ref{prob:shannon_entropy}.
+        where $\Omega$ denotes the number of microstates corresponding to the system with energy $E$ and any other state variables (these are denoted by $\alpha$). In general $S$ will be the Shannon entropy \ref{prob:shannon_entropy}.
     \end{axiom}
 
 \section{Temperature}
@@ -29,7 +29,7 @@
     \newformula{Partition function}{\index{partition!function}\label{statmech:partition_function}
         The partition function for discrete systems is defined as
         \begin{gather}
-            Z(T) := \sum_i{g_ie^{-\beta\varepsilon_i}}.
+            Z(T) := \sum_i{g_ie^{-\beta E_i}}.
         \end{gather}
         The analogue for continuous systems is
         \begin{gather}
@@ -38,9 +38,9 @@
     }
 
     \begin{formula}
-        Consider a system of $N$ indistinguishable noninteracting particles. Let $\varepsilon_i$ be the energy associated with the $i^{th}$ energy level and let $g_i$ be its degeneracy. The probability $p_i$ of finding a particle in the $i^{th}$ energy level is given by
+        Consider a system of $N$ indistinguishable, noninteracting particles. Let $\varepsilon_i$ be the energy associated with the $i^{th}$ energy level and let $g_i$ be its degeneracy. The probability $p_i$ of finding a particle in the $i^{th}$ energy level is given by
         \begin{gather}
-            p_i = \frac{g_i e^{-\beta\varepsilon_i}}{Z}.
+            p_i = \frac{g_i e^{-\beta E_i}}{Z}.
         \end{gather}
     \end{formula}
 
@@ -72,7 +72,7 @@
             \mathcal{Z} := \prod_i\mathcal{Z}_i = \sum_{n_k, \varepsilon_i}e^{\beta n_k(\mu - \varepsilon_i)}.
         \end{gather}
     }
-    \remark{In the case of fermions, i.e. $n_i\in\{0,1\}$, this formula reduces to $\mathcal{Z} = e^{\beta\mu}Z$.}
+    \remark{In the case of fermions, i.e. $n_i\in\{0,1\}$, this formula reduces to $\mathcal{Z} = e^{\beta\mu N}Z$, with $N$ the total particle number.}
 
     \newdef{Fugacity}{\index{fugacity}\label{statmech:fugacity}
         \begin{gather}
@@ -83,7 +83,7 @@
     \begin{formula}[Quantum mechanics]
         For quantum-mechanical systems one can rewrite the partition function as follows:
         \begin{gather}
-            \mathcal{Z} = \tr\exp\left(-\frac{\hat{H}-\mu\hat{N}}{T}\right).
+            \mathcal{Z} = \tr\exp-\beta\left(\hat{H}-\mu\hat{N}\right).
         \end{gather}
         This reduces to the above expressions when working in the single-particle eigenbasis (this is only possible for free theories).
     \end{formula}
@@ -92,20 +92,20 @@
 
     \begin{theorem}[Virial theorem]\index{virial theorem}\label{statmech:virial_theorem}
         \begin{gather}
-            \langle T \rangle = -\frac{1}{2}\sum_k\langle \vector{r}_k\cdot\vector{F}_k \rangle
+            \langle E_\mathrm{kin} \rangle = -\frac{1}{2}\sum_k\langle \vector{r}_k\cdot\vector{F}_k \rangle
         \end{gather}
     \end{theorem}
     \begin{result}
         For potentials of the form $V=ar^{-n}$ this becomes
         \begin{gather}
-            2\langle T \rangle = -n\langle V \rangle.
+            2\langle E_\mathrm{kin} \rangle = -n\langle V \rangle.
         \end{gather}
     \end{result}
 
     \begin{theorem}[Equipartition theorem]\index{equipartition theorem}
-        Let $x$ be a generalized coordinate.
+        Let $q$ be a generalized coordinate.
         \begin{gather}
-            \left\langle x^k\pderiv{H}{x^l} \right\rangle = k_bT\delta_{kl}
+            \left\langle q^k\pderiv{H}{q^l} \right\rangle = k_bT\delta_{kl}
         \end{gather}
     \end{theorem}
     \begin{result}
@@ -114,6 +114,55 @@
             \langle T \rangle = \frac{1}{2}k_bT.
         \end{gather}
     \end{result}
+
+\section{Lattice systems}
+\subsection{Ising model}\index{Ising model}
+
+    The most well-known and widespread lattice system in statistical mechanics is the Ising model. It not only characterizes (ferro)magnets and spin glasses (approximately), but it can also be used to study brain signals, social networks or forest growth.
+
+    \begin{formula}[Ising Hamiltonian]
+        Let $\Lambda$ be a lattice in $\mathbb{R}^n$ and consider a collection of spins $\{S_i\}_{i\in\Lambda}$ on this lattice. If the external magnetic field is denoted by $h$, the Ising Hamiltonian has the following form:
+        \begin{gather}
+            \hat{H} := -\sum_{\langle i,j \rangle\in\Lambda}J_{ij}S_iS_j-h\sum_{i\in\Lambda}S_i,
+        \end{gather}
+        where $\langle i,j \rangle$ denotes a pair of neighbouring indices. The constants $J_{ij}$ give the interaction strength between the neighbouring spins.
+    \end{formula}
+
+    Two general situations can be distinguished: If all $J_{ij}>0$, the system is said to be \textbf{ferromagnetic}, while if all $J_{ij}>0$, the system is said to be \textbf{antiferromagnetic}. In the case of ferromagnetism and a vanishing external field, i.e. $h=0$, the ground state of the Ising model is degenerate. All spins are alligned, i.e. $S_iS_j=1$, but the orientation has no influence on the energy. However, when an external field is applied (even a very small one), the second term in the Hamiltonian induces a preferential orientation and the degeneracy is lifted.
+
+    When the temperature is finite, i.e. $T>0$, thermal fluctuations will start to randomly flip spins and the equilibrium state will not coincide with the perfectly ordered state anymore. The question now becomes if there exists a critical temperature $T_c$ at which the system changes between a disordered state and an ordered state. For one spatial dimension the solution was found by Ising:
+    \begin{property}[$d=1$]
+        For a one-dimensional lattice the Ising model does not undergo a phase transition at a finite temperature. However, at $T=0$, a second-order phase transition is obtained.
+
+        The easiest way to prove this is through the transfer operator method, where the partition function is written as a product of transfer operators. Here, this is shown for a periodic chain with uniform interaction strength $J_{ij}\equiv J$:
+        \begin{align}
+            Z &= \sum_{\{S_1,\ldots,S_L\}}\exp\left(-\sum_{i=1}^{L-1}JS_iS_{i+1}-hS_i\right)\\
+            &= \prod_{i=1}^{L-1}\sum_{S_i,S_{i+1}}\exp\left(-JS_iS_{i+1}-hS_i\right)\\
+            &= \prod_{i=1}^{L-1}P_{i,i+1}\\
+            &\equiv\tr(P^L).
+        \end{align}
+        The matrix $P_{i,i+1}$ is given by
+        \begin{gather}
+            P_{i,i+1} :=
+            \begin{pmatrix}
+                e^{\beta(J+h)}&e^{-\beta J}\\
+                e^{-\beta J}&e^{\beta(J-h)}
+            \end{pmatrix}
+        \end{gather}
+        for all $i\in\{1,\ldots,L\}$. The result then becomes $Z=\lambda^L_1+\lambda^L_2$, where $\lambda_1$ and $\lambda_2$ are the eigenvalues of $P$. In the thermodynamic limit, i.e. $L\gg1$, only the largest eigenvalue will contribute:
+        \begin{gather}
+            \lambda_1 = e^{\beta J}\cosh(\beta h) + \sqrt{e^{2\beta J}\sinh^2(\beta h)+e^{-2\beta J}}.
+        \end{gather}
+        So, for $L\gg1$, the free energy density becomes
+        \begin{align*}
+            f(T,J,h) &= -\frac{k_BT}{L}\ln(Z)\\
+            &= -k_BT\left(e^{\beta J}\cosh(\beta h) + \sqrt{e^{2\beta J}\sinh^2(\beta h)+e^{-2\beta J}}\right).
+        \end{align*}
+
+        ?? FINISH ??
+    \end{property}
+
+    For higher-dimensional lattices a phase-transition is found at finite temperature. This was first proven by \textit{Onsager et al.} and required considerably more work than the one-dimensional setting.
 
 \section{Black-body radiation}
 

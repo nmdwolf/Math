@@ -25,7 +25,7 @@
 
     The Artin-Wedderburn theorem \ref{algebra:artin_wedderburn} implies the following decomposition theorem:
     \begin{theorem}
-        Let $C$ be a finite-dimensional $C^*$-algebra. There exist unique integers $N,d_1,\ldots,d_N$ such that
+        Let $C$ be a finite-dimensional $C^*$-algebra. There exist unique integers $N$ and $d_1,\ldots,d_N$ such that
         \begin{gather}
             C\cong\bigoplus_{i=1}^NM_{d_i}(K).
         \end{gather}
@@ -38,6 +38,20 @@
 
     \begin{property}
         Every norm-closed $\ast$-subalgebra of a $C^*$-algebra is a $C^*$-algebra.
+    \end{property}
+
+    \newdef{Normal element}{\index{normal!element}
+        An element of a $\ast$-algebra that commutes with its adjoint:
+        \begin{gather}
+            a^*a = aa^*.
+        \end{gather}
+    }
+    \begin{property}
+        Every element in a $\ast$-algebra can be decomposed as the sum of two normal elements:
+        \begin{gather}
+            a = \frac{1}{2}\big((a+a^*) + (a-a^*)\big).
+        \end{gather}
+        This implies that a linear morphism defined on normal elements extends uniquely to the whole algebra.
     \end{property}
 
     \newdef{$H^*$-algebra}{\index{H-!$\ast$-algebra}
@@ -58,7 +72,7 @@
 \subsection{Positive maps}
 
     \newdef{Positive element}{\index{positive}
-        A self-adjoint element of a $C^*$-algebra $A$ for which its spectrum is contained in $[0,\infty[$. The cone of all positive elements in $A$ is often denoted by $A^+$.
+        A self-adjoint element of a $C^*$-algebra $A$ for which its spectrum is contained in $[0,+\infty[$. The cone of all positive elements in $A$ is often denoted by $A^+$.
     }
     \begin{property}[Positive decomposition]
         Every positive element $a$ can be written as $a=b^*b$ for some element $b$. Moreover, every positive element admits a positive square-root.
@@ -108,6 +122,11 @@
     \begin{example}[Function algebras]
         Let $X$ be a locally compact Hausdorff space and consider its algebra of functions with compact support $C_c(X)$. By the Riesz-Markov theorem \ref{distributions:riesz_markov} the positive linear functionals on this algebra correspond to Radon measures on $X$. The subspace of states then correspond exactly to the probability measures on $X$. Under this identification the pure states correspond to Dirac measures (evaluation functionals).
     \end{example}
+
+    The following is some kind of Jordan algebra-theoretic analogue of the Gel'fand-Naimark theorem \ref{operators:gelfand_naimark}:
+    \begin{theorem}[Alfsen-Schutz]\index{Alfsen-Schutz}
+        The state spaces of two $C^*$-algebras are isomorphic if and only if the algebras are isomorphic as (special) Jordan algebras \ref{linalgebra:jordan_algebra}.
+    \end{theorem}
 
 \subsection{Traces}
 
@@ -164,6 +183,10 @@
         In case where $A=\mathcal{B}(\mathcal{H})$, the normal states are exactly the $\sigma$-weakly continuous states \ref{functional:sigma_weak_topology}.
     }
 
+    \newdef{Folium}{\index{folium}
+        Let $\pi:A\rightarrow\mathcal{B}(\mathcal{H})$ be a $C^*$-representation. The space of normal states of this representation is called its folium.
+    }
+
     \newdef{Cyclic vector}{\index{cyclic!vector}
         A cyclic vector for a $C^*$-algebra representation $\rho:A\rightarrow\mathcal{B}(\mathcal{H})$ is a vector $\xi\in\mathcal{H}$ such that $\{\rho(a)\xi\mid a\in A\}$ is (norm) dense in $\mathcal{H}$.
     }
@@ -192,54 +215,6 @@
         \end{gather}
     \end{remark}
 
-    \newdef{Hilbert module}{\index{Hilbert!module}
-        Let $A$ be a $C^*$-algebra and $H$ a vector space. $H$ is a (right) pre-Hilbert $A$-module if there exists a map
-        \begin{gather}
-            \langle\cdot\mid\cdot\rangle_A:H\times H\rightarrow A
-        \end{gather}
-        satisfying the following conditions:
-        \begin{enumerate}
-            \item\textbf{Conjugate linearity}: For all $x,y,z\in H$:
-                \begin{gather}
-                    \langle x|y+z \rangle_A = \langle x|y \rangle_A+\langle x|z \rangle_A \qquad\qquad \langle x|y \rangle_A = \langle y|x \rangle_A^*.
-                \end{gather}
-            \item\textbf{Nondegeneracy}: For all $x\in H$:
-                \begin{gather}
-                    \langle x|x \rangle_A\geq0 \qquad\qquad \langle x|x \rangle_A = 0 \iff x = 0.
-                \end{gather}
-            \item\textbf{Equivariance}: For all $x,y\in H$ and $a\in A$:
-                \begin{gather}
-                    \langle x|y \rangle_Aa = \langle x|ya \rangle_A.
-                \end{gather}
-        \end{enumerate}
-        A left module is obtained by requiring linearity and (left-)equivariance in the first argument. The completion of a pre-Hilbert module with respect to the norm $x\mapsto\sqrt{\|\langle x|x \rangle_A\|}$ is called a \textbf{Hilbert $A$-module}.
-    }
-
-    \newdef{Fredholm module}{\index{Fredholm!module}\label{operators:fredholm_module}
-        Let $A$ be unital a $C^*$-algebra with a $\ast$-representation $\pi:A\rightarrow\End(\mathcal{H})$ on a Hilbert space $\mathcal{H}$. When equipped with an operator $F\in\End(\mathcal{H})$ this gives an (\textbf{odd}) Fredholm module if
-        \begin{gather}
-            F=F^*\qquad\text{and}\qquad F^2=\mathbbm{1}_\mathcal{H}\qquad\text{and}\qquad[F,\pi(A)]\subseteq\mathcal{B}_0(\mathcal{H}).
-        \end{gather}
-        The Fredholm operator is said to be \textbf{even} if $\mathcal{H}$ is a super-Hilbert space with grading $\Gamma\in\End(\mathcal{H})$ satisyfing
-        \begin{gather}
-            \Gamma^*=\Gamma\qquad\text{and}\qquad\Gamma^2=\mathbbm{1}_\mathcal{H}\qquad\text{and}\qquad[\Gamma,\pi(A)]=0\qquad\text{and}\qquad\{\Gamma,F\}_+=0.
-        \end{gather}
-        $F$ has the form
-        \begin{gather}
-            \begin{pmatrix}
-                0&F_+\\F_-&0
-            \end{pmatrix},
-        \end{gather}
-        where $F_+$ is Fredholm.
-    }
-    \begin{remark}[Kasparov $K$-theory]\index{K-theory!Kasparov}
-        If $A$ is not unital, one should relax the first two relations up to compact operators, i.e. $F=F^*$ and $F^2=\mathbbm{1}_\mathcal{H}$ in the Calkin algebra. This gives a clear relation to \textit{Kasparov's $K$-theory}, where the homology complex $KK_\bullet$ is defined in terms of such generalized Fredholm modules. However, it can be shown that these induce the same $KK$-classes.
-    \end{remark}
-
-    \begin{example}
-        Consider $A=\mathbb{C}$ and let $\pi:\mathbb{C}\rightarrow\End(\mathcal{H})$ be the unique unital representation. Fredholm modules with this data correspond to (essentially self-adjoint) Fredholm operators on $\mathcal{H}$.
-    \end{example}
-
 \subsection{Gel'fand duality}\index{Gel'fand!duality}
 
     \newdef{Gel'fand spectrum}{\index{Gel'fand!spectrum}
@@ -257,7 +232,7 @@
         Let $A$ be a commutative $C^*$-algebra. The Gel'fand representation gives an isometric $\ast$-isomorphism between $A$ and the set $C_0(\Phi_A)$ of continuous complex-valued functions that vanish at infinity on its Gel'fand spectrum.
     \end{theorem}
     \begin{remark}
-        In fact, the Gel'fand-Naimark theorem gives an equivalence between the category of locally compact Hausdorff spaces and the category of commutative $C^*$-algebras.
+        In fact, the Gel'fand-Naimark theorem gives an equivalence between the category of commutative nonunital $C^*$-algebras and the category of locally compact Hausdorff spaces (with continuous functions that vanish at infinity).
     \end{remark}
 
     \begin{property}
@@ -293,6 +268,80 @@
         Every $C^*$-algebra is isometrically $\ast$-isomorphic to a norm closed ($C^*$-)algebra of bounded operators on a Hilbert space $\mathcal{H}$.
     \end{theorem}
 
+\subsection{\difficult{Hilbert modules}}
+
+    \newdef{Hilbert $C^*$-module}{\index{Hilbert!module}
+        Let $A$ be a $C^*$-algebra and $H$ a vector space. $H$ is a (right) pre-Hilbert $A$-module if there exists a map
+        \begin{gather}
+            \langle\cdot\mid\cdot\rangle_A:H\times H\rightarrow A,
+        \end{gather}
+        sometimes called the \textbf{$A$-inner product}, satisfying the following conditions:
+        \begin{enumerate}
+            \item\textbf{Conjugate linearity}: For all $x,y,z\in H$:
+                \begin{gather}
+                    \langle x|y+z \rangle_A = \langle x|y \rangle_A+\langle x|z \rangle_A \qquad\qquad \langle x|y \rangle_A = \langle y|x \rangle_A^*.
+                \end{gather}
+            \item\textbf{Nondegeneracy}: For all $x\in H$:
+                \begin{gather}
+                    \langle x|x \rangle_A\geq0 \qquad\qquad \langle x|x \rangle_A = 0 \iff x = 0.
+                \end{gather}
+            \item\textbf{Equivariance}: For all $x,y\in H$ and $a\in A$:
+                \begin{gather}
+                    \langle x|y \rangle_Aa = \langle x|y\cdot a \rangle_A.
+                \end{gather}
+        \end{enumerate}
+        A left module is obtained by requiring linearity and (left-)equivariance in the first argument. The completion of a pre-Hilbert module with respect to the norm $x\mapsto\sqrt{\|\langle x|x \rangle_A\|}$ is called a \textbf{Hilbert $A$-module}.
+    }
+    \newdef{Hilbert $C^*$-bimodule}{
+        Let $A,B$ be $C^*$-algebras and consider a Hilbert $C^*$-module $H$ over $B$. $H$ is a Hilbert $(A,B)$-bimodule if it admits a left $\ast$-representation of $A$ such that
+        \begin{gather}
+            \langle a^*\cdot x|y \rangle_B = \langle x|a\cdot y \rangle_A
+        \end{gather}
+        for all $a\in A$, i.e. adjoints in $A$ correspond to adjoints with respect to the $B$-inner product.
+    }
+
+    \begin{example}
+        Consider $A=\mathbb{C}$ and let $\pi:\mathbb{C}\rightarrow\End(\mathcal{H})$ be the unique unital representation. Fredholm modules with this data correspond to (essentially self-adjoint) Fredholm operators on $\mathcal{H}$.
+    \end{example}
+
+    \newdef{Fredholm module}{\index{Fredholm!module}\label{operators:fredholm_module}
+        Let $\pi:A\rightarrow\End(\mathcal{H})$ be a $\ast$-representation of a unital $C^*$-algebra on a Hilbert space $\mathcal{H}$. When equipped with an operator $F\in\End(\mathcal{H})$ this gives an (\textbf{odd}) Fredholm module if
+        \begin{gather}
+            F=F^*\qquad\text{and}\qquad F^2=\mathbbm{1}_\mathcal{H}\qquad\text{and}\qquad[F,\pi(A)]\subseteq\mathcal{B}_0(\mathcal{H}).
+        \end{gather}
+        The Fredholm operator is said to be \textbf{even} if $\mathcal{H}$ is a super-Hilbert space with grading $\Gamma\in\End(\mathcal{H})$ satisyfing
+        \begin{gather}
+            \Gamma^*=\Gamma\qquad\text{and}\qquad\Gamma^2=\mathbbm{1}_\mathcal{H}\qquad\text{and}\qquad[\Gamma,\pi(A)]=0\qquad\text{and}\qquad\{\Gamma,F\}_+=0.
+        \end{gather}
+        $F$ has the form
+        \begin{gather}
+            \begin{pmatrix}
+                0&F_+\\F_-&0
+            \end{pmatrix},
+        \end{gather}
+        where $F_+$ is Fredholm.
+    }
+
+    \begin{remark}[Kasparov $K$-theory]
+        If $A$ is not unital, one should relax the first two relations up to compact operators, i.e. $F=F^*$ and $F^2=\mathbbm{1}_\mathcal{H}$ in the Calkin algebra. This gives a clear relation to \textit{Kasparov's $K$-theory} (see below), where the homology complex $KK_\bullet$ is defined in terms of such generalized Fredholm modules. However, it can be shown that these induce the same $KK$-classes.
+    \end{remark}
+
+    \newdef{Kasparov bimodule}{\index{Kasparov bimodule}
+        Let $A,B$ be two $C^*$-algebras and let $H$ be a super-Hilbert $(A,B)$-bimodule. $H$ is a Kasparov $(A,B)$-bimodule if there exists an odd adjointable operator $F\in\mathcal{B}(H)$ satisfying the following properties for all $a\in A$:
+        \begin{enumerate}
+            \item $(F^2-\mathbbm{1}_H)\pi_A(a)$ is compact,
+            \item $(F-F^*)\pi_A(a)$ is compact, and
+            \item $[F,\pi_A(a)]$ is compact.
+        \end{enumerate}
+        If $A$ is unital (and the representation respects units), this implies that $F$ is a projection in the Calkin algebra. If $F$ is a projection on the nose, then the bimodule is said to be \textbf{normalized}.
+    }
+    \newdef{Kasparov $K$-theory}{\index{K-theory!Kasparov}\label{operators:kk_theory}
+        The set, in fact Abelian group, of homotopy classes of Kasparov bimodules $K\!K(A,B)$, where a homotopy between two Kasparov $(A,B)$-bimodules is a Kasparov $(A,C([0,1],B))$-bimodule that restricts to the given bimodules on the boundaries of the interval.
+    }
+    \begin{property}
+        Every Kasparov bimodule is homotopic to a normalized bimodule. Hence, for Kasparov $K$-theory, one can restrict to normalized bimodules.
+    \end{property}
+
 \section{von Neumann algebras}
 
     \newdef{von Neumann algebra}{\index{von Neumann!algebra}
@@ -325,135 +374,37 @@
         The collection of projections inherits the structure of a partial order from the partial order on the corresponding subspaces. A projection $p$ is said to be finite if there exists no smaller projection $q$ that is equivalent to $p$.
     }
 
+    \begin{theorem}[Gleason]\index{Gleason}\index{measure}
+        Consider a \textbf{finitely additive measure}\footnote{If this also holds for countable sequences, it is called \textbf{$\sigma$-additive} in analogy with Definition \ref{lebesgue:measure}.} on the von Neumann algebra $\mathcal{B}(\mathcal{H})$, i.e. a function $\mu$ on the set of orthogonal projections in $\mathcal{B}(\mathcal{H})$ such that
+        \begin{gather}
+            \mu\left(\sum_{i=1}^np_i\right) = \sum_{i=1}^n\mu(p_i)
+        \end{gather}
+        for all $n\in\mathbb{N}$. If $\dim(\mathcal{H})\neq2$, each finitely additive measure can be uniquely extended to a state on $\mathcal{B}(\mathcal{H})$. Moreover, every $\sigma$-additive measure can be uniquely extended to a normal state.
+
+        Conversely, the restriction of every state (resp. normal state) to the set of orthogonal projections induces a finitely additive (resp. $\sigma$-additive) measure.
+    \end{theorem}
+
 \subsection{Factors}
 
     \newdef{Factor}{\index{factor}
         Consider a von Neumann algebra $M$. A $*$-subalgebra $A$ is called a factor of $M$ if its center $Z(A)$ is given by the scalar multiples of the idenity.
     }
 
-    \newdef{Type $\mathrm{I}$ factor}{
+    \newdef{Type-$\mathrm{I}$ factor}{
         A factor is of type $\mathrm{I}$ if it contains a \textit{minimal projection}.
     }
-    \begin{property}[Type $\mathrm{I}_n$ factors]
-        Any type $\mathrm{I}$ factor is isomorphic to the algebra of all bounded operators on a Hilbert space. To indicate the dimension $n$ of this Hilbert space (which may be $\infty$) one sometimes uses the subclassification of type $\mathrm{I}_n$ factors.
+    \begin{property}[Type-$\mathrm{I}_n$ factors]
+        Any type $\mathrm{I}$-factor is isomorphic to the algebra of all bounded operators on a Hilbert space. To indicate the dimension $n$ of this Hilbert space (which may be $\infty$) one sometimes uses the subclassification of type $\mathrm{I}_n$ factors.
     \end{property}
 
     \newdef{Powers index}{\index{index!Powers}
-        Consider a Hilbert space $\mathcal{H}$ together with its von Neumann algebra of bounded operators $\mathcal{B}(\mathcal{H})$. A unital $*$-endomorphism $\alpha$ is said to have Powers index $n\in\mathbb{N}$ if the space $\alpha(\mathcal{B}(\mathcal{H}))$ is isomorphic to a type $\mathrm{I}_n$ factor.
+        Consider a Hilbert space $\mathcal{H}$ together with its von Neumann algebra of bounded operators $\mathcal{B}(\mathcal{H})$. A unital $*$-endomorphism $\alpha$ is said to have Powers index $n\in\mathbb{N}$ if the space $\alpha(\mathcal{B}(\mathcal{H}))$ is isomorphic to a type $\mathrm{I}_n$-factor.
     }
 
-    \newdef{Type $\mathrm{II}$ factor}{
+    \newdef{Type-$\mathrm{II}$ factor}{
         A factor is of type $\mathrm{II}$ if it contains nonzero \textit{finite projections} but no minimal ones. If the identity is finite, the factor is sometimes said to be of type $\mathrm{II}_1$, otherwise it is of type $\mathrm{II}_\infty$.
     }
 
-    \newdef{Type $\mathrm{III}$ factor}{
+    \newdef{Type-$\mathrm{III}$ factor}{
         A factor is of type $\mathrm{III}$ if it does not contain any nonzero finite projections.
     }
-
-\subsection{Projection-valued measures}\label{section:PVM}
-
-    This section focuses on the algebra of bounded operators $\mathcal{B}(\mathcal{H})$ on a (complex) Hilbert space $\mathcal{H}$.
-
-    \begin{property}[Closed subspaces]
-        There exists a bijection between the set of closed subspaces of $\mathcal{H}$ and the set of projections in $\mathcal{B}(\mathcal{H})$. Furthermore, if the projection $p$ corresponds to a subspace $\mathcal{H}_p$, the projection $\mathbbm{1}_\mathcal{H}-p$ corresponds to the orthogonal complement $\mathcal{H}^\perp_p$.
-    \end{property}
-
-    \newdef{Projection-valued measure}{\index{measure!projection-valued}\index{spectral!measure}
-        \nomenclature[A_PVM]{PVM}{projection-valued measure}
-        Consider a topological space $X$ and let $\Sigma$ be a $\sigma$-algebra \ref{set:sigma_algebra} on $X$. A projection-valued measure (PVM) or \textbf{spectral measure} on $X$ is a map $P:\Sigma\rightarrow\mathcal{B}(\mathcal{H})$ satisfying the following conditions:
-        \begin{enumerate}
-            \item $P_E$ is a projection for all $E\in\Sigma$,
-            \item $P_X = \mathbbm{1}_\mathcal{H}$,
-            \item $P_AP_B = P_{A\cap B}$, and
-            \item for all disjoint $\seq{E}\subset\Sigma$:
-                \begin{gather}
-                    \sum_{n\in\mathbb{N}}P_{E_n} = P_{\cup_{n\in\mathbb{N}}E_n}.
-                \end{gather}
-        \end{enumerate}
-    }
-    \begin{property}
-        For every two elements $v,w\in\mathcal{H}$ the map
-        \begin{gather}
-            E\mapsto\mu^P_{v,w}(E):=\langle v|P_Ew \rangle
-        \end{gather}
-        defines a (complex) measure $\mu^P_{v,w}$ on $X$. The square of the norm of an element $v\in\mathcal{H}$ is then simply given by $\mu^P_{v,v}(X)$ for any PVM $P$ due to the second condition above.
-    \end{property}
-
-    \begin{property}
-        Let $f:X\rightarrow\mathbb{C}$ be a measurable function on a measurable space $(X,\Sigma)$. Given a PVM $P$ on $X$, one defines $\Delta_f$ to be the set of all $v\in\mathcal{H}$ for which $f\in L^2(X,\mu^P_{v,v})$. The operator $\int_Xf(\lambda)\,dP(\lambda):\Delta_f\rightarrow\mathcal{H}$ defined by
-        \begin{gather}
-            \left\langle v\left|\int_Xf(\lambda)\,dP(\lambda)w\right.\right\rangle = \int_Xf(\lambda)\,d\mu^P_{v,w}(\lambda)
-        \end{gather}
-        is closed and normal. Furthermore, it satisfies the following two equalities:
-        \begin{align}
-            \left(\int_Xf(\lambda)\,dP(\lambda)\right)^* &= \int_X\overline{f(\lambda)}\,dP(\lambda)\\
-            \left\|\int_Xf(\lambda)\,dP(\lambda)v\right\|^2 &= \int_X|f(\lambda)|^2d\mu^P_{v,v}(\lambda).
-        \end{align}
-        If $f$ is bounded, the above operator is bounded by the supremum norm of $f$:
-        \begin{gather}
-            \left\|\int_Xf(\lambda)dP(\lambda)\right\|\leq\|f\|_\infty.
-        \end{gather}
-    \end{property}
-
-    \begin{theorem}[Spectral decomposition]
-        Let $A$ be a self-adjoint operator on a Hilbert space $\mathcal{H}$. There exists a unique projection-valued measure $P_A:\mathcal{B}(X)\rightarrow\mathcal{B}(\mathcal{H})$ on the Borel $\sigma$-algebra of the real line such that
-        \begin{gather}
-            A = \int_\mathbb{R}\lambda\,dP_A(\lambda).
-        \end{gather}
-        If $\mathbb{R}$ is replaced by $\mathbb{C}$, this theorem also holds for normal operators. If $A$ is compact, the measure becomes purely atomic, i.e. there exists an orthonormal basis of $\mathcal{H}$ consisting of eigenvectors of $A$ and, moreover, the eigenvalues are necessarily real.
-    \end{theorem}
-    \begin{property}[Spectrum and support]
-        The spectrum of a self-adjoint operator $A$ coincides with the support of its associated spectral measure $P_A$. A number $\lambda\in\mathbb{R}$ belongs to the point spectrum of $A$ if and only if the PVM associated to $A$ does not vanish on $\{\lambda\}$. A number $\lambda\in\mathbb{R}$ belongs to the continuous spectrum of $A$ if the associated PVM vanishes on $\{\lambda\}$ but is nonvanishing on any open set containing $\lambda$.
-    \end{property}
-
-    \newdef{Singular value}{\index{singular!value}
-        Let $A$ be a compact operator. The singular values of $A$ are given by the square roots of the eigenvalues of the self-adjoint (and compact) operator $A^*A$. If $A$ is self-adjoint, its singular values and eigenvalues coincide.
-    }
-
-    The above property allows to compose self-adjoint operators with (measurable) functions similar to how one can compute $f(X)$ for finite-dimensional operators by applying $f$ to the eigenvalues of $X$:
-    \begin{formula}[Function of operators]
-        Let $f:\sigma(A)\rightarrow\mathbb{C}$ be a measurable function (with respect to the restriction of the Borel algebra on $\mathbb{R}$) and let $g:\mathbb{R}\rightarrow\mathbb{C}$ be any other measurable function that coincides with $f$ on $\sigma(A)$.
-        \begin{gather}
-            f(A) := \int_{\sigma(A)}f(\lambda)\,dP_A(\lambda) = \int_\mathbb{R}g(\lambda)\,dP_A(\lambda) =: g(A).
-        \end{gather}
-    \end{formula}
-
-    \newdef{Dixmier ideal}{\index{Dixmier!ideal}
-        For every compact operator one can sort the singular values in decreasing order. One can then define the operator
-        \begin{gather}
-            \sigma_n(A) := \sum_{i=1}^ns_i(A).
-        \end{gather}
-        The Dixmier ideal is defined as follows:
-        \begin{gather}
-            \mathfrak{D}(\mathcal{H}):=\{A\in\End_0(\mathcal{H})\mid\sigma_n(A)=O(\ln(n))\}.
-        \end{gather}
-    }
-    The following functional gives an alternative for the ordinary trace on operators that are not trace-class.
-    \newdef{Dixmier trace}{\index{Dixmier!trace}\index{measurable!operator}\label{operators:dixmier_trace}
-        For every element in $A\in\mathfrak{D}(\mathcal{H})$, the Dixmier trace is defined as follows:
-        \begin{gather}
-            \tr_\mathfrak{D}(A) := \omega\left(\left\{\frac{\sigma_n(A)}{1+\log(n)}\mid n\in\mathbb{N}\right\}\right),
-        \end{gather}
-        where $\omega:\ell^\infty(\mathbb{N})$ is a linear functional satisfying the conditions
-        \begin{enumerate}
-            \item\textbf{Positivity}: $\omega(s)\geq0$ if $s_n\geq0$ for all $n\in\mathbb{N}$.
-            \item\textbf{Convergence}: $\omega(s)=\lim_{n\rightarrow\infty}s_n$ if $s$ is convergent.
-            \item\textbf{Dilation-invariant}: Let $D:\ell^\infty(\mathbb{N})\rightarrow\ell^\infty(\mathbb{N})$ be the following operator:
-            \begin{gather}
-                D:(s_1,s_2,\ldots)\mapsto(s_1,s_1,s_2,s_2,\ldots).
-            \end{gather}
-            The state $\omega$ is dilation-invariant if $\omega(s)=\omega(D(s))$ for all $s\in\ell^\infty(\mathbb{N})$.
-        \end{enumerate}
-        If for an operator $A\in\mathfrak{D}(\mathcal{H})$ the Dixmier trace is independent of the chosen state, it is said to be \textbf{measurable}.
-    }
-    \begin{property}\index{singular!trace}
-        The Dixmier trace has the following properties:
-        \begin{itemize}
-            \item $\tr_\mathfrak{D}(A+B)=\tr_\mathfrak{D}(A) + \tr_\mathfrak{D}(B)$ for all $A,B\in\mathfrak{D}(\mathcal{H})$.
-            \item If $A$ is bounded and $B$ is an element of the Dixmier ideal, then $\tr_\mathfrak{D}(AB)=\tr_\mathfrak{D}(BA)$.
-            \item The Dixmier ideal vanishes on trace-class operators (in particular, it is \textbf{singular}, i.e. it vanishes on finite-rank operators):
-                \begin{gather}
-                    A\in\mathcal{B}_1(\mathcal{H})\implies\tr_\mathfrak{D}(A)=0.
-                \end{gather}
-        \end{itemize}
-    \end{property}

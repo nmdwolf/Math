@@ -127,7 +127,7 @@
         A random variable on $\Omega=\{-1,1\}$ with probability distribution $P_X(-1)=P_X(1)=\frac{1}{2}$.
     \end{example}
 
-    \newdef{Density}{\index{density}
+    \newdef{Density}{\index{density}\index{mass}
         Let $f\geq0$ be an integrable function and recall Property \ref{lebesgue:measure_by_integral}. The function $f$ is called the density of the measure $P(A):=\int_Af\,d\lambda$ (with respect to the Lebesgue measure $\lambda$). If the measure is a probability measure, i.e. is normalized to 1, $f$ is called a \textbf{probability density function}.
 
         More generally, by the Radon-Nikodym theorem \ref{lebesgue:radon_nikodym}, every absolutely continuous probability distribution $P$ is of the form
@@ -135,9 +135,11 @@
             P(A) = \int_Af\,d\lambda
         \end{gather}
         for some integrable function $f$.
+
+        In the case where $P$ is discrete, i.e. one works with respect to the counting measure, the Radon-Nikodym derivative is called the \textbf{probability mass function}. (In this compendium this function will also often be called the density function.)
     }
 
-    \newdef{Cumulative distribution function}{\index{cumulative distribution function}
+    \newdef{Cumulative distribution function}{\index{cumulative distribution function}\label{prob:cdf}
         \nomenclature[A_CDF]{CDF}{cumulative distribution function}
         Consider a random variable $X$ and its associated distribution $P_X$. The cumulative distribution function $F_X:\mathbb{R}\rightarrow[0,1]$ is defined as follows:
         \begin{gather}
@@ -155,10 +157,11 @@
         There exists a random variable $X:[0,1]\rightarrow\mathbb{R}$ defined on the probability space $([0,1],\mathcal{B}_{[0,1]},\lambda_{[0,1]})$ such that $F=F_X$, where $\mathcal{B}_{[0,1]}$ is the Borel $\sigma$-algebra of $[0,1]$ with its Euclidean topology.
     \end{theorem}
 
+    The following theorem is a specific instance of the more general change-of-variables formula:
     \begin{theorem}[Theorem of the unconscious statistician]\label{prob:unconscious_statistician}
         Consider a random variable $X$ on a probability space $(\Omega,\Sigma,P)$. The following equality holds for every integrable function $g\in L^1(\mathbb{R})$:
         \begin{gather}
-            \int_\Omega g\circ X\,dP = \int_\mathbb{R}g(x)dP_X(x).
+            \int_\Omega g\circ X\,dP = \int_\mathbb{R}g\,dP_X.
         \end{gather}
     \end{theorem}
     \begin{remark}
@@ -168,14 +171,14 @@
     \begin{formula}
         Consider an absolutely continuous probability function $P$ defined on $\mathbb{R}^n$ and let $f$ be the associated density. Let $g:\mathbb{R}^n\rightarrow\mathbb{R}$ be integrable with respect to $P$.
         \begin{gather}
-            \int_{\mathbb{R}^n}g\,dP = \int_{\mathbb{R}^n}f(x)g(x)dx
+            \int_{\mathbb{R}^n}g\,dP = \int_{\mathbb{R}^n}f(x)g(x)\,dx
         \end{gather}
     \end{formula}
     \begin{result}
         The previous formula together with Theorem \ref{prob:unconscious_statistician} gives rise to
         \begin{gather}
             \label{prob:omega_int_to_real_int}
-            \int_\Omega g\circ X\,dP = \int_{\mathbb{R}^n}f_X(x)g(x)dx.
+            \int_\Omega g\circ X\,dP = \int_{\mathbb{R}^n}f_X(x)g(x)\,dx.
         \end{gather}
     \end{result}
 
@@ -235,7 +238,7 @@
         \end{gather}
     }
     \begin{notation}
-        Other common notations are $\langle X \rangle$ and $\mu_X$.
+        Other common notations are $\langle X \rangle$ and $\mu_X$. However, the latter might be confused with a general measure on the space $X$ and will, therefore, not be used here.
     \end{notation}
 
     \begin{property}[Markov's inequality]\index{Markov!inequality}
@@ -248,12 +251,12 @@
     \newdef{Moment of order \texorpdfstring{$r$}{r}}{\index{moment}\label{prob:moment}
         The moment of order $r$ is defined as the expectation value of the $r^{th}$ power of $X$. By Equation \eqref{prob:omega_int_to_real_int} this becomes
         \begin{gather}
-            \expect{X^r} = \int_\mathbb{R}x^rf_X(x)dx.
+            \expect{X^r} = \int_\mathbb{R}x^rf_X(x)\,dx.
         \end{gather}
     }
     \newdef{Central moment of order \texorpdfstring{$r$}{r}}{\index{central!moment}\label{prob:central_moment}
         \begin{gather}
-            \expect{(X-\mu)^r} = \int_\mathbb{R}(x-\mu)^rf_X(x)dx
+            \expect{(X-\mu)^r} = \int_\mathbb{R}(x-\mu)^rf_X(x)\,dx
         \end{gather}
     }
     \begin{remark}
@@ -284,7 +287,7 @@
 
     \newdef{Moment generating function}{\index{moment!generating function}\label{prob:moment_generating_function}
         \begin{gather}
-            M_X(t) := \expect{e^{tX}} = \int_{-\infty}^\infty e^{tx}f_X(x)dx
+            M_X(t) := \expect{e^{tX}} = \int_\mathbb{R}e^{tx}f_X(x)\,dx
         \end{gather}
     }
     \begin{property}
@@ -340,13 +343,13 @@
         Let $X$ be a random variable. If the CDF of $X$ is continuous at $a,b\in\mathbb{R}$, then
         \begin{gather}
             \label{prob:inversion_formula}
-            F_X(b) - F_X(a) = \lim_{c\rightarrow\infty}\frac{1}{2\pi}\int_{-c}^c\frac{e^{-ita} - e^{-itb}}{it}\varphi_X(t)dt.
+            F_X(b) - F_X(a) = \lim_{c\rightarrow\infty}\frac{1}{2\pi}\int_{-c}^c\frac{e^{-ita} - e^{-itb}}{it}\varphi_X(t)\,dt.
         \end{gather}
     }
     \begin{formula}
         If $\varphi_X(t)$ is integrable, the CDF is given by:
         \begin{gather}
-            f_X(x) = \frac{1}{2\pi}\int_{-\infty}^\infty e^{-itx}\varphi_X(t)dt.
+            f_X(x) = \frac{1}{2\pi}\int_\mathbb{R}e^{-itx}\varphi_X(t)\,dt.
         \end{gather}
     \end{formula}
     \remark{This formula implies that the density function and the characteristic function form a Fourier transform pair.}
@@ -433,7 +436,7 @@
     \newdef{Joint density}{
         If the probability measure from the previous definition can be written as
         \begin{gather}
-            P_{(X,Y)}(B) = \int_Bf_{(X,Y)}(x,y)dxdy
+            P_{(X,Y)}(B) = \int_Bf_{(X,Y)}(x,y)\,dxdy
         \end{gather}
         for some integrable $f_{(X,Y)}$, it is said that $X$ and $Y$ have a joint density.
     }
@@ -448,8 +451,8 @@
     \begin{result}
         If the joint density exists, the marginal distributions are absolutely continuous and the associated density functions are given by
         \begin{gather}
-            f_X(x) = \int_\mathbb{R}f_{(X,Y)}(x,y)dy\\
-            f_Y(y) = \int_\mathbb{R}f_{(X,Y)}(x,y)dx.
+            f_X(x) = \int_\mathbb{R}f_{(X,Y)}(x,y)\,dy\\
+            f_Y(y) = \int_\mathbb{R}f_{(X,Y)}(x,y)\,dx.
         \end{gather}
         The converse, however, is not always true. The one-dimensional distributions can be absolutely continuous without the existence of a joint density.
     \end{result}
@@ -465,14 +468,14 @@
     \begin{formula}[Sum of random variables]
         Consider two independent random variables $X,Y$ and let $Z=X+Y$ denote their sum. The density $f_Z$ is given by the following convolution:
         \begin{gather}
-            f_Z(z) := f\ast g(z) = \int_{-\infty}^\infty g(x)h(z-x)dx = \int_{-\infty}^\infty g(z-y)h(y)dy,
+            f_Z(z) := f\ast g(z) = \int_\mathbb{R}g(x)h(z-x)\,dx = \int_\mathbb{R}g(z-y)h(y)\,dy,
         \end{gather}
         where $g,h$ denote the densities of $X,Y$ respectively.
     \end{formula}
     \begin{formula}[Product of random variables]
         Consider two independent random variables $X,Y$ and let $Z=XY$ denote their product. The density $f_Z$ is given by
         \begin{gather}
-            f_Z(z) = \int_{-\infty}^\infty g(x)h(z/x)\frac{dx}{|x|} = \int_{-\infty}^\infty g(z/y)h(y)\frac{dy}{|y|},
+            f_Z(z) = \int_\mathbb{R}g(x)h(z/x)\,\frac{dx}{|x|} = \int_\mathbb{R}g(z/y)h(y)\,\frac{dy}{|y|},
         \end{gather}
         where $g,h$ denote the densities of $X,Y$ respectively.
     \end{formula}
@@ -487,7 +490,7 @@
         Let $X,Y$ be two random variables with joint density $f_{(X,Y)}$. The conditional density of $Y$ given $X\in A$ is
         \begin{gather}
             \label{prob:conditional_distribution}
-            h(y\mid X\in A) = \frac{\int_Af_{(X,Y)}(x,y)dx}{\int_Af_X(x)dx}.
+            h(y\mid X\in A) = \frac{\int_Af_{(X,Y)}(x,y)\,dx}{\int_Af_X(x)\,dx}.
         \end{gather}
         For $X=\{a\}$ this equation is ill-defined since the denominator would become 0. However, it is possible to avoid this problem by formally setting
         \begin{gather}
@@ -496,13 +499,13 @@
         \end{gather}
         where $f_X(a)\neq0$. This last condition is nonrestrictive\marginpar{\dbend} because the probability of having a measurement $(X,Y)\in\{(x,y)\mid f_X(x) = 0\}$ is 0 (for nonsingular measures). One can thus define the conditional probability of $Y$ given $X=a$ as follows:
         \begin{gather}
-            P(Y\in B\mid X=a) := \int_B h(y\mid X=a)dy.
+            P(Y\in B\mid X=a) := \int_B h(y\mid X=a)\,dy.
         \end{gather}
     }
 
     \newformula{Conditional expectation}{\index{expectation!conditional}
         \begin{gather}
-            \expect{Y\mid X}(\omega) = \int_\mathbb{R}yh(y\mid X(\omega))dy
+            \expect{Y\mid X}(\omega) = \int_\mathbb{R}yh(y\mid X(\omega))\,dy
         \end{gather}
         Let $\mathcal{F}_X$ denote the $\sigma$-algebra generated by the random variable $X$ as before. Using Fubini's theorem one can prove that for all sets $A\in\mathcal{F}_X$ the following equality holds:
         \begin{gather}
@@ -797,7 +800,7 @@
     \newdef{Kolmogorov randomness}{\index{Kolmogorov!randomness}
         Consider a \textit{universal Turing machine} $U$. The \textbf{Kolmogorov complexity} $C(\kappa)$ of a finite bit string $\kappa$ (with respect to $U$) is defined as
         \begin{gather}
-            C(\kappa) := \min\{|\sigma|\mid\sigma\text{ is finite}, U(\sigma)=\kappa\}.
+            C(\kappa) := \min\{|\sigma|\mid\sigma\text{ is finite}\land U(\sigma)=\kappa\}.
         \end{gather}
         A finite bit string is said to be Kolmogorov random (with respect to $U$) if there exists an integer $n\in\mathbb{N}$ such that $C(\kappa)\geq|\sigma|-n$.
     }
@@ -809,24 +812,219 @@
 
     It would be pleasing if this notion of randomness could easily be extended to infinite bit strings, for example by giving such a string the label random if there exists a uniform choice of constant $k$ such that all initial segments of the string are $k$-random. However, by a result of \textit{Martin-L\"of}, there does not exist any string satisfying this condition.
 
-\section{Imprecise probability}
+\section{Optimal transport}\label{section:optimal_transport}
 
-    \newdef{Gamble}{\index{gamble}\index{desirable}
-        Consider a set $X$. The set of gambles over $X$ is the (Banach) space of bounded real-valued functions $\mathcal{L}(X):=\{f:X\rightarrow\mathbb{R}\}$. A subset $\mathcal{D}\subset\mathcal{L}(X)$ of ``desirable'' gambles is said to be \textbf{coherent} if it satisfies the following condition:
-        \begin{enumerate}
-            \item\textbf{Positivity:} $\lambda>0\implies\lambda\mathcal{D}=\mathcal{D}$,
-            \item\textbf{Additivity:} $\mathcal{D}+\mathcal{D}\subseteq\mathcal{D}$,
-            \item\textbf{Accepting partial gains:} $\mathcal{L}^+(X)\subseteq\mathcal{D}$, where $\mathcal{L}^+(X):=\{f\in\mathcal{L}(X)\mid f>0\}$, and
-            \item\textbf{Avoiding partial losses:} $\mathcal{L}^-(X)\cap\mathcal{D}=\emptyset$, $\mathcal{L}^-(X):=\{f\in\mathcal{L}(X)\mid f<0\}$.
-        \end{enumerate}
-        The first two axioms imply that the desirable gambles form a convex cone. It is also clear that the positive orthant $\mathcal{L}^+(X)$ is the smallest coherent set of desirable gambles.
+    In this section a new notion of atomicity of measures will be used:
+    \begin{definition}
+        A measure on $\mathbb{R}^n$ is said to \textbf{give mass to small sets} if there exists a subset of \textit{Hausdorff dimension} $n-1$ (or smaller) that has nonzero measure.
+    \end{definition}
+
+\subsection{Kantorovich duality}
+
+    The problem of optimal transport constitutes the search of the most cost efficient transportation scheme that connects a set of producers to a set of consumers. Assume that these are described by the probability spaces $(X,\Sigma_X,\mu_X)$ and $(Y,\Sigma_Y,\mu_Y)$, respectively.
+
+    \newdef{Cost function}{\index{cost}
+        A measurable function $X\times Y\rightarrow\overline{\mathbb{R}}$.
     }
-    \begin{property}[Order structure]
-        The collection of all coherent sets of desirable gambles over a space $X$ can be given a poset structure by inclusion, with $\mathcal{L}^+(X)$ as its least element. If $\mathcal{D}\subset\mathcal{D}^+$, then $\mathcal{D}$ is said to be less \textbf{committal} than $\mathcal{D}'$.
+    \newdef{Transportation scheme}{
+        A transportation scheme or \textbf{transference plan} is a joint distribution $\pi\in\mathbb{P}(X\times Y)$ whose marginals coincide with $\mu_X$ and $\mu_Y$.
+    }
+
+    \newdef{Monge-Kantorovich problem}{\index{Monge-Kantorovich problem}
+        The optimal transportation scheme for a given cost function according to \textit{Kantorovich} is the solution of the following optimization problem:
+        \begin{gather}
+            \inf_{\pi\in\mathbb{P}(X\times Y)}\mathrm{E}_\pi[c] = \inf_{\pi\in\mathbb{P}(X\times Y)}\int_{X\times Y}c(x,y)\,d\pi(x,y).
+        \end{gather}
+        The original problem of optimal transportation was considered by \textit{Monge}. However, he studied a restricted problem, where every producer only delivers to a unique consumer. In this case the joint distributions have a specific form, namely
+        \begin{gather}
+            \int_{X\times Y}c(x,y)\,d\pi(x,y) = \int_Xc(x,T(x))\,d\mu_X(x)
+        \end{gather}
+        for some measurable function $T:X\rightarrow Y$ such that $T_\ast\mu_X=\mu_Y$.
+    }
+
+    \begin{example}[Finite state spaces]
+        Consider the case where both $X$ and $Y$ are finite of the same size and are both equipped with the uniform distribution. In this case the joint distributions $\pi$ can be represented by \textit{bistochastic matrices}, i.e. matrices with nonnegative entries such that every column and every row sums to one. This also implies that the optimization problem reduces to a linear problem on a convex, compact subset. This allows one to use Choquet's theorem \ref{functional:choquet} to restrict the attention to the extremal points, which in this case are given by permutation matrices. So, the optimal solution is given by the optimal one-to-one pairing of producers and consumers.
+    \end{example}
+
+    \begin{property}[Kantorovich duality]\index{Kantorovich!duality}\index{Kantorovich|seealso{Monge}}
+        Let $X,Y$ be Polish spaces \ref{metric:polish_space} and consider a lower semicontinuous function $c:X\times Y\rightarrow\overline{\mathbb{R}^+}$ (Definition \ref{topology:semicontinuity}). Denote by $\mathbb{P}_\text{Borel}(\mu,\nu)$ the space of Borel measures on $X\times Y$ whose marginals are given by $\mu_X$ and $\mu_Y$. Moreover, denote by $\Phi_c\subseteq\mathcal{L}^1(X)\times\mathcal{L}^1(Y)$ the space of pairs of integrable functions satisfying
+        \begin{gather}
+            c_X(x)+c_Y(y)\leq c(x,y)
+        \end{gather}
+        for $\mu_X$-almost all $x\in X$ and $\mu_Y$-almost all $y\in Y$. Then
+        \begin{gather}
+            \inf_{\pi\in\mathbb{P}_\text{Borel}(\mu,\nu)}\int_{X\times Y}c\,d\pi = \sup_{(c_X,c_Y)\in\Phi_c}\int_Xc_X\,d\mu_X+\int_Yc_Y\,d\mu_Y
+        \end{gather}
+        and the this problem admits a solution. Moreover, one can restrict the space of would-be solutions on the right-hand side to those that are also bounded and continuous without changing the solution.
     \end{property}
 
-    \newdef{Credal set}{\index{credal set}
-        A subset of the set of probability measures $\mathbb{P}(X)$.
-
-        Credal sets are often used to represent the lack of knowledge about a probability distribution. For this reason it is natural to assume that credal sets are convex. If one is uncertain about both $P_1,P_2\in K\subseteq\mathbb{P}(X)$, one is also uncertain about the mixtures $\lambda P_1+(1-\lambda)P_2,\lambda\in[0,1]$.
+    \newdef{Kantorovich distance}{\index{Kantorovich!distance}\index{Wasserstein metric}
+        Let $X$ be a Polish space and consider a lower semicontinuous metric $d$ on $X$. The Kantorovich(-Rubinstein) distance $\mathcal{T}_d$ between two Borel probability measures $\mu,\nu$ on $X$ is defined as the optimal transport cost between them:
+        \begin{gather}
+            \mathcal{T}_d(\mu,\nu) := \inf_{\pi\in\mathbb{P}_\text{Borel}(X\times X)}\int_{X\times X}d(x,x')\,d\pi(x,x').
+        \end{gather}
+        If the metric $d$ is the one inducing the topology on $X$, one obtains the definition of the \textbf{Wasserstein 1-metric}.
     }
+
+    \begin{theorem}[Kantorovich-Rubinstein]\index{Kantorovich-Rubinstein}\index{Lipschitz!norm}
+        If $X=Y$ and $c$ is equal to some metric $d$ on $X$, the Kantorovich distance is given by
+        \begin{gather}
+            \mathcal{T}_d(\mu,\nu) = \sup\left\{\int_X\varphi\,d\mu-\int_X\varphi\,d\nu\,\middle\vert\,\varphi\in\mathrm{Lip}(X,d)\cap\mathcal{L}^1(\mu)\cap\mathcal{L}^1(\nu)\land\|\varphi\|_\mathrm{Lip}\leq1\right\},
+        \end{gather}
+        where
+        \begin{gather}
+            \|\varphi\|_\mathrm{Lip} := \sup_{x\neq x'\in X}\frac{|\varphi(x)-\varphi(x')|}{d(x,x')}
+        \end{gather}
+        is the \textbf{Lipschitz norm}.
+    \end{theorem}
+
+    \begin{property}[Translation invariance]
+        The Kantorovich distance is invariant under translations by finite measures.
+    \end{property}
+
+    \begin{property}
+        When $X=Y=\mathbb{R}^n$ with $d$ the Euclidean metric, the Kantorovich distance admits yet another description. In this case the Lipschitz norm is equal to the supremum norm of the gradient. This gives
+        \begin{gather}
+            \mathcal{T}_d(\mu,\nu) = \inf\left\{\|\sigma\|_1\,\middle\vert\,\nabla\cdot\sigma=\mu-\nu\right\},
+        \end{gather}
+        where the condition on $\sigma$ makes sense by the Riesz-Markov theorem \ref{distributions:riesz_markov}.
+    \end{property}
+
+\subsection{Convex costs}
+
+    In this section cost functions of the form
+    \begin{gather}
+        c(x,y) = h(x-y)
+    \end{gather}
+    for some convex function $h:\mathbb{R}^n\rightarrow\mathbb{R}$ are considered. Moreover, the function $h$ will be assumed to be at least differentiable with locally Lipschitz gradient.
+
+    \newdef{$c$-concave function}{\index{concave}
+        A function $f:\mathbb{R}^n\rightarrow[-\infty,+\infty[$, not identically $-\infty$, is said to be $c$-concave if there exists a set $A\subset\mathbb{R}^n\times\mathbb{R}$ such that
+        \begin{gather}
+            f(x) = \inf_{(x',\lambda)\in A}c(x,x')+\lambda.
+        \end{gather}
+    }
+
+    \begin{theorem}[Gangbo-McCann]\index{Gangbo-McCann}
+        If $c$ is strictly convex and $\mu$ does not give mass to small sets, the Monge-Kantorovich problem has a a.s.~unique minimizer $\pi = (\mathbbm{1}\times T)_\ast\mu$ with
+        \begin{gather}
+            T(x) = x - (\nabla h)^{-1}(\nabla\psi(x))
+        \end{gather}
+        for some $h$-concave function $\psi:\mathbb{R}^n\rightarrow\overline{\mathbb{R}}$.
+    \end{theorem}
+    \begin{remark}
+        If $h$ is a strictly convex function of the distance $\|x-y\|$, the theorem has to be modified:
+        \begin{itemize}
+            \item If $\mu\perp\nu$, the theorem still holds.
+            \item If the measures are not singular, one has to restrict to transportation schemes that fix the shared mass. In effect, one removes the shared mass from the problem to recover the previous case.
+        \end{itemize}
+    \end{remark}
+    Note that if $h$ is sufficiently differentiable, the inverse $\nabla h^{-1}$ is equal to the gradient of the Legendre transform by Property \ref{calculus:legendre_condition}.
+
+\subsection{Concave costs}
+
+    In this section cost functions of the form
+    \begin{gather}
+        c(x,y) = g(\|x-y\|)
+    \end{gather}
+    for some concave function $g:\mathbb{R}\rightarrow\mathbb{R}$ are considered.
+
+    \begin{property}
+        Let $c$ be strictly concave. If the transportation cost is not everywhere infinite and if $\mu$ does not give mass to small sets, then:
+        \begin{itemize}
+            \item If $\mu\perp\nu$, there exists a unique optimal transport scheme such that $\nu = T_\ast\mu$ with
+            \begin{gather}
+                T(x) = x - (\nabla g)^{-1}\nabla\varphi(x)
+            \end{gather}
+            for some \textit{$c$-concave function} $\varphi$.
+            \item If the measures are not singular, there still exists a unique optimum by restricting to those schemes that fix shared mass.
+        \end{itemize}
+    \end{property}
+
+\subsection{Densities}
+
+    \begin{property}[Continuity equation]\index{continuity!equation}
+        Let $X$ be a complete smooth manifold and consider a family $(T_t)_{0\leq t\leq1}$ of locally Lipschitz diffeomorphism on $X$ such that $T_0=\mathbbm{1}_X$ with associated vector fields $v_t$. If $\mu$ is a probability measure on $X$, the family $(\mu_t:=T_{t,\ast}\mu)_{0\leq t\leq 1}$ uniquely satisfies the \textbf{continuity equation}:
+        \begin{gather}
+            \pderiv{\mu_t}{t} + \nabla\cdot(\mu_tv_t) = 0,
+        \end{gather}
+        where the divergence of a measure is defined by duality.
+
+        Let $v:\mathbb{R}^n\rightarrow\mathbb{R}^n$ be an almost everywhere smooth vector field. This induces a linear, constant velocity flow as follows:
+        \begin{gather}
+            T_t(x) := x - tv(x).
+        \end{gather}
+        If all $T_t$ are diffeomorphisms, the Eulerian velocity field $v_t(x):=T_t^{-1}\big(v(x)\big)$ satisfies the Eulerian continuity equation:
+        \begin{gather}
+            \pderiv{v_t}{t} + (v_t\cdot\nabla)v_t = 0.
+        \end{gather}
+    \end{property}
+    \begin{formula}
+        Given a solution of the continuity equation, the associated flow determines an optimal transport scheme for a cost function $c$ if and only if
+        \begin{gather}
+            v_0 = -(\nabla c)^{-1}\nabla\psi
+        \end{gather}
+        for some $c$-concave function $\psi$. Moreover, if $v_t = (\nabla c)^{-1}\nabla u$ for some function $u(t,x)$, then $u$ satisfies the \textbf{Hamilton-Jacobi equation} with Hamiltonian $c^*$:
+        \begin{gather}
+            \pderiv{u}{t} + c^*(\nabla u) = 0.
+        \end{gather}
+    \end{formula}
+
+    In this section one considers absolutely continuous measures with respect to the Lebesgue measure on $\mathbb{R}^n$:
+    \begin{gather}
+        d\mu_X = \rho_0dx\qquad\qquad d\mu_Y = \rho_1dx.
+    \end{gather}
+    The transport cost in the Monge problem can then be rewritten as
+    \begin{gather}
+        \int_{\mathbb{R}^n}c(x,T(x))\rho_0(x)\,dx
+    \end{gather}
+    with
+    \begin{gather}
+        \int_{T^{-1}(A)}\rho_0(x)\,dx = \int_A\rho_1(x)\,dx
+    \end{gather}
+    for all measurable $A\subset\mathbb{R}^n$. By the change-of-variables formula this (weak) integral equation is equivalent to the Jacobian equation for
+    \begin{gather}
+        \det(DT(x))\rho_1(T(x))=\rho_0(x).
+    \end{gather}
+
+    \begin{example}[Euclidean metric]\index{Brenier map}
+        If the cost function $c$ is the square of the Euclidean distance, the optimal transport mapping $T$, called the \textbf{Brenier map}, is given by the gradient of a convex potential:
+        \begin{gather}
+            T(x) = \nabla\varphi(x),
+        \end{gather}
+        and the optimal cost is equal to the square of the \textbf{Wasserstein 2-metric}:
+        \begin{gather}
+            \mathcal{T}_{\|\cdot\|_2^2}(\rho_0,\rho_1) = \inf_{\pi\in\mathbb{P}_\text{Borel}(\rho_0,\rho_1)}\int_{\mathbb{R}^n}\|x-x'\|\,d\pi(x,x')=W^2_2(\rho_0,\rho_1).
+        \end{gather}
+        Moreover, this minimum is unique a.e.
+
+        It can also be shown that the flow acts affinely:
+        \begin{gather}
+            \sigma_t(x) = t\nabla\Phi(x) + (1-t)x.
+        \end{gather}
+    \end{example}
+
+    In fact, the affinity of the flow can be shown more generally:
+    \begin{property}
+        Consider the time-dependent Monge-Kantorovich problem. If the differential cost $c:\mathbb{R}^n\rightarrow\mathbb{R}$ is strictly convex, the flows are given by straight lines:
+        \begin{gather}
+            x_t = x + t(x'-x).
+        \end{gather}
+        This situation can be generalized to (complete) smooth manifolds, where the minimizers of $\ell^p$-costs are geodesics with arc length parametrization.
+    \end{property}
+
+    It is possible to relate optimal transport to mechanics (Section \ref{section:analytical_mechanics}) in the following way:
+    \begin{method}[Benamou-Brenier formulation]\index{Benamou-Brenier}
+        Let $\rho_0$ and $\rho_1$ describe the density of particles in a system at time steps $t=0$ and $t=1$. Assume that there exists a time-dependent velocity field $v:\mathbb{R}\times\mathbb{R}^n\rightarrow\mathbb{R}^n$. These are related by the \textit{continuity equation} \ref{lagrange:eulerian_continuity_gather}:
+        \begin{gather}
+            \pderiv{\rho}{t} + \nabla\cdot(\rho v) = 0.
+        \end{gather}
+        The optimization problem now becomes minimizing the \textit{action} or \textit{kinetic energy}:
+        \begin{gather}
+            K(\rho,v) := \frac{1}{2}\int_{\mathbb{R}^n}\int_0^T\rho(t,x)\|v(t,x)\|^2\,dtdx.
+        \end{gather}
+        By making the change of variables $(\rho,v)\longrightarrow(\rho,m:=\rho v)$, one obtains a convex problem with a linear constraint (the continuity equation).
+    \end{method}
+    \begin{property}
+        The infimum of the Benamou-Brenier action is equal (up to constant factors) to the square of the Wasserstein 2-metric and, hence, gives an equivalent characterization of the Monge-Kantorovich problem for the Euclidean distance.
+    \end{property}

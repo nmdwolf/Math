@@ -5,7 +5,7 @@
 \section{General definitions}
 
     \newdef{Domain}{\index{domain}
-        A connected open subset of $\mathbb{R}^n$.
+        A connected, open subset of $\mathbb{R}^n$.
     }
 
     \newdef{Factorial}{\index{factorial}
@@ -15,7 +15,7 @@
     }
 
     \newdef{Envelope}{\index{envelope}
-        Consider a set $\mathcal{F}$ of real-valued functions with common domain $X$. An envelope function for $\mathcal{F}$ is any function $F:X\rightarrow\mathbb{R}$ such that
+        Consider a set $\mathcal{F}$ of real-valued functions with common domain $X$. An envelope (function) for $\mathcal{F}$ is any function $F:X\rightarrow\mathbb{R}$ such that
         \begin{gather}
             \forall f\in\mathcal{F},x\in X:|f(x)|\leq F(x).
         \end{gather}
@@ -26,13 +26,13 @@
     \newdef{Limit superior}{\index{limit}\label{calculus:limit_superior}
         Let $\seq{x}$ be a sequence of real numbers. The limit superior is defined as follows:
         \begin{gather}
-            \limsup_{n\rightarrow\infty}x_n := \inf_{n\geq1}\left\{\sup_{k\geq n}x_n\right\}.
+            \limsup_{n\rightarrow\infty}x_n := \inf_{n\geq1}\sup_{k\geq n}x_k.
         \end{gather}
     }
     \newdef{Limit inferior}{\label{calculus:limit_inferior}
         Let $\seq{x}$ be a sequence of real numbers. The limit superior is defined as follows:
         \begin{gather}
-            \liminf_{n\rightarrow\infty}x_n := \sup_{n\geq1}\left\{\inf_{k\geq n}x_n\right\}.
+            \liminf_{n\rightarrow\infty}x_n := \sup_{n\geq1}\inf_{k\geq n}x_k.
         \end{gather}
     }
 
@@ -45,20 +45,12 @@
 
 \section{Continuity}\index{continuity}
 
-    \newdef{Lipschitz continuity}{\index{Lipschitz!continuity}\label{calculus:lipschitz_continuity}
-        A function $f:\mathbb{R}\rightarrow\mathbb{R}$ is said to be Lipschitz continuous if there exists a constant $C>0$ such that
-        \begin{gather}
-            |f(x) - f(x')|\leq C|x-x'|
-        \end{gather}
-        for all $x,x'\in\mathbb{R}$.
-    }
-
-    \begin{theorem}[Darboux]\index{Darboux!theorem for differentiable functions}
-        Every differentiable function defined on a closed interval has the intermediate value property \ref{topology:intermediate_value_theorem}.
-    \end{theorem}
     \begin{definition}[Darboux function]\index{Darboux!function}
         A function that has the intermediate value property.
     \end{definition}
+    \begin{theorem}[Darboux]\index{Darboux!theorem for differentiable functions}
+        Every differentiable function defined on a closed interval has the intermediate value property \ref{topology:intermediate_value_theorem}.
+    \end{theorem}
     \begin{result}[Bolzano]\index{Bolzano}
         If $f(a)<0$ and $f(b)>0$ (or vice versa), there exists at least one point $x_0$ for which $f(x_0)=0$.
     \end{result}
@@ -108,7 +100,7 @@
     \newdef{Uniform convergence}{
         Let $\seq{f}$ be a sequence of functions. The sequence is said to converge uniformly to a limit function $f$ if
         \begin{gather}
-            \lim_{n\rightarrow\infty}\sup_{x\in\dom(f_n)}\big\{|f_n(x) - f(x)|\big\} = 0.
+            \lim_{n\rightarrow\infty}\sup_{x\in\dom(f_n)}|f_n(x) - f(x)| = 0.
         \end{gather}
     }
 
@@ -120,7 +112,7 @@
     \end{property}
 
     \newprop{Absolute/conditional convergence}{
-        If $S'=\sum_{i=1}^\infty|a_i|$ converges, so does the series $S=\sum_{i=1}^\infty a_i$. Moreover, $S$ is said to be absolutely convergent. If $S$ converges but $S'$ does not, then $S$ is said to be conditionally convergent.
+        If $S'=\sum_{i=1}^\infty|a_i|$ converges, so does the series $S=\sum_{i=1}^\infty a_i$. Moreover, $S$ is said to be absolutely convergent. If $S$ converges but $S'$ does not, $S$ is said to be conditionally convergent.
     }
 
     \newdef{Majorizing series}{\index{majorization}
@@ -204,10 +196,11 @@
 \section{Differentiation}\index{differentiation}
 
     \newformula{Derivative}{\label{calculus:derivative}
-        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. The following limit is called the derivative of $f$ (if it exists):
+        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. The following limit is called the derivative of $f$ at $x$ (if it exists):
         \begin{gather}
             f'(x) := \lim_{h\rightarrow0}\frac{f(x+h)-f(x)}{h}.
         \end{gather}
+        If the derivative exists at every point of some interval $I$, then $f$ is said to be differentiable on $I$.
     }
 
     \begin{theorem}[Mean value theorem]\index{mean!value theorem}\label{calculus:mean_value_theorem}
@@ -225,7 +218,7 @@
     }
 
     \begin{theorem}[Boman]\index{Boman}
-        Consider a function $f:\mathbb{R}^d\rightarrow\mathbb{R}$. If for every smooth function $g:\mathbb{R}\rightarrow\mathbb{R}^d$ the composition $f\circ g$ is smooth, then the function $f$ is also smooth.
+        Consider a function $f:\mathbb{R}^d\rightarrow\mathbb{R}$. If for every smooth function $g:\mathbb{R}\rightarrow\mathbb{R}^d$ the composition $f\circ g$ is smooth, the function $f$ is also smooth.
     \end{theorem}
 
     \begin{property}[Taylor expansion]\index{Taylor!expansion}\index{Maclaurin expansion|see{Taylor}}
@@ -260,15 +253,15 @@
     \end{theorem}
 
     \begin{formula}[Derivative of \texorpdfstring{$f(x)^{g(x)}$}{f(x)^g(x)}]
-        Consider a function of the form \[u(x)=f(x)^{g(x)}.\] To find the derivative of this function one can use the derivative of the natural logarithm: \[\ln[u(x)] = g(x)\ln[f(x)].\] Taking the derivative gives: \[\deriv{\ln[u(x)]}{x} = \deriv{}{x}\Big(g(x)\ln[f(x)]\Big) = \deriv{g(x)}{x}\ln[f(x)] + \frac{g(x)}{f(x)}\deriv{f(x)}{x}.\] At the same time the derivative of a logarithm also satisfies \[\deriv{\ln[u(x)]}{x} = \frac{1}{u(x)}\deriv{u}{x}.\] Combining these two equations finally gives
+        Consider a function of the form \[u(x)=f(x)^{g(x)}.\] After taking the logarithm and applying the standard rules of differentiation, one can obtain the following expression:
         \begin{gather}
             \label{calculus:derivative_f^g}
-            \deriv{}{x}\left[f(x)^{g(x)}\right] = f(x)^{g(x)}\left[\deriv{g}{x}(x)\ln[f(x)] + \frac{g(x)}{f(x)}\deriv{f}{x}(x)\right].
+            \deriv{}{x}\left[f(x)^{g(x)}\right] = f(x)^{g(x)}\left(\deriv{g}{x}(x)\ln[f(x)] + \frac{g(x)}{f(x)}\deriv{f}{x}(x)\right).
         \end{gather}
     \end{formula}
 
     \newdef{Euler operator}{\index{Euler!operator}\label{calculus:euler_operator}
-        On the space $C^r(\mathbb{R}^n,\mathbb{R})$, where $r>1$, the Euler operator $\mathbb{E}$ is defined as follows:
+        On the space $C^{r>1}(\mathbb{R}^n,\mathbb{R})$, the Euler operator $\mathbb{E}$ is defined as follows:
         \begin{gather}
             \mathbb{E} := \sum_{i=1}^nx_i\pderiv{}{x^i}.
         \end{gather}
@@ -290,7 +283,7 @@
 
     \newdef{Improper Riemann integral}{\label{calculus:improper_integral}
         \begin{gather}
-            \int_{-\infty}^\infty f(x)dx = \lim_{\substack{a\rightarrow-\infty\\b\rightarrow\infty}}\int_a^bf(x)dx
+            \int_{-\infty}^\infty f(x)dx = \lim_{\substack{a\rightarrow-\infty\\b\rightarrow+\infty}}\int_a^bf(x)dx
         \end{gather}
         One-sided improper integrals are defined in a similar fashion.
     }
@@ -300,7 +293,7 @@
         \begin{gather}
             \exists F\in C^1(I):\forall x\in I:F'(x)=f(x).
         \end{gather}
-        Furthermore, the function $F$ is uniformly continuous on $I$ and it is given by the following integral:
+        Furthermore, the function $F$ is uniformly continuous on $I$ and is given by the following integral:
         \begin{gather}
             \label{calculus:first_fundamental_theorem}
             F(x) = \int_c^xf(x')dx'.
@@ -308,7 +301,7 @@
     \end{theorem}
 
     \begin{remark}
-        The function $F$ in the previous theorem is called a \textbf{primitive (function)} of $f$. Remark that $F$ is just ``a'' primitive function since adding a constant to $F$ does not change anything because the derivative of a constant is zero.
+        The function $F$ in the previous theorem is called a \textbf{primitive (function)} of $f$. Remark that $F$ is just ``a'' primitive function, since adding a constant to $F$ does not change anything because the derivative of a constant is zero.
     \end{remark}
 
     \begin{theorem}[Second fundamental theorem of calculus]
@@ -327,31 +320,39 @@
         \end{gather}
     \end{formula}
 
-    \newmethod{Borel transform}{\index{Borel!transform}\label{calculus:borel_transform}
-        Consider the following function: \[F(x) := \sum_{n=0}^\infty\frac{a_n}{n!}x^n.\] If the integral
+    \newdef{Borel transform}{\index{Borel!transform}\label{calculus:borel_transform}
+        Consider the following function:
+        \begin{gather}
+            F(x) := \sum_{n=0}^\infty\frac{a_n}{n!}x^n.
+        \end{gather}
+        If
         \begin{gather}
             \int_0^\infty e^{-t}F(xt)dt<\infty
         \end{gather}
-        for all $x\in\mathbb{R}$, then $F$ is called the Borel transform of $f$. Furthermore, the integral will give a convergent expression for $f$.\\
+        for all $x\in\mathbb{R}$, then $F$ is called the Borel transform of
+        \begin{gather}
+            f(x) = \sum_{n=0}^\infty a_nx^n.
+        \end{gather}
+        Furthermore, the integral gives a convergent expression for $f$.\\
         \begin{proof}
             \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
                 The function $F$ is defined as follows:
                 \begin{gather}
                     F(x) := \sum_{n=0}^\infty\frac{a_n}{n!}x^n.
                 \end{gather}
-                A Borel transform gives:
+                The Borel transform gives:
                 \begin{align*}
                     \int_0^\infty F(xt)e^{-t}dt&=\sum_{n=0}^N\int_0^\infty\frac{a_n}{n!}x^nt^ne^{-t}dt\\
                     &=\sum_{n=0}^N\frac{a_n}{n!}x^n\int_0^\infty t^ne^{-t}dt\\
                     &=\sum_{n=0}^N\frac{a_n}{n!}x^n\Gamma(n+1)\\
                     &=\sum_{n=0}^Na_nx^n,
                \end{align*}
-               where the definition of the Gamma function \ref{calculus:gamma_function} was used on line 3 and the relation between the factorial function and the Gamma function \eqref{calculus:gamma_factorial_relation} was used on line 4.\qed
+               where the definition of the Gamma function \ref{calculus:gamma_function} was used on line 3 and the relation \eqref{calculus:gamma_factorial_relation} between the factorial function and the Gamma function was used on line 4.\qed
            \end{mdframed}
         \end{proof}
     }
     \begin{theorem}[Watson]\index{Watson}
-        The uniqueness of the function $F$ is guaranteed if the function $f$ is holomorphic on the domain $\{z\in\mathbb{C}\mid|\arg(z)| < \frac{\pi}{2} + \varepsilon\}$.
+        The Borel transform $F$ is unique if the function $f$ is holomorphic on the domain $\{z\in\mathbb{C}\mid|\arg(z)| < \frac{\pi}{2} + \varepsilon\}$.
     \end{theorem}
 
 \subsection{Euler integrals}\index{Euler!integral}
@@ -371,7 +372,7 @@
     }
 
     \begin{formula}
-        The following formula relates the gamma and beta functions:
+        The following formula relates the beta and gamma functions:
         \begin{gather}
             B(x,y) = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}.
         \end{gather}
@@ -401,30 +402,76 @@
 
 \subsection{Gaussian integrals}\index{Gauss!integral}
 
-    \newformula{$n$-dimensional Gaussian integral}{
-        A general Gaussian integral is an integral of the form
+    \newformula{$n$-dimensional Gaussian integral}{\index{Wick!lemma}
+        An integral of the form
         \begin{gather}
-            I\left(A,\vector{b}\right) = \int_{-\infty}^\infty\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x} + \vector{b}\cdot\vector{x}\right)d^nx,
+            I\left(A,\vector{b}\right) := \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x} + \vector{b}\cdot\vector{x}\right)d^nx,
         \end{gather}
         where $A$ is a real symmetric matrix. By performing the transformation $\vector{x}\rightarrow A^{-1}\vector{b} - \vector{x}$ and diagonalizing $A$, one can obtain the following expression:
         \begin{gather}
             \label{calculus:gaussian_integral}
-            I\left(A,\vector{b}\right) = (2\pi)^{n/2}\det(A)^{-1/2}\exp\left(\frac{1}{2}\vector{b}\cdot A^{-1}\vector{b}\right).
+            I\left(A,\vector{b}\right) = \sqrt{\frac{(2\pi)^n}{\det(A)}}\exp\left(\frac{1}{2}\vector{b}\cdot A^{-1}\vector{b}\right).
         \end{gather}
+        More generally one has the following result:
+        \begin{gather}
+            \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)f(\vector{x})d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\left.\exp\left(\frac{1}{2}\sum_{i,j=1}^nA^{-1}_{ij}\partial_i\partial_j\right)f(\vector{x})\right|_{\vector{x}=0}.
+        \end{gather}
+        This result is sometimes called \textbf{Wick's lemma}.
     }
     \begin{result}
         A functional generalization is given by:
         \begin{align}
-            I(iA,iJ) &= \int[d\varphi]\exp\left(-i\int d^nxd^ny\ \varphi(x)A(x, y)\varphi(y) + i\int d^nx\ \varphi(x)J(x)\right)\nonumber\\
-            &= C\det(A)^{-1/2}\exp\left(\frac{i}{2}\int d^nxd^ny\ J(x)A^{-1}(x, y)J(y)\right),
+            I(iA,iJ) &= \int[d\varphi]\exp\left(-i\int_{\mathbb{R}^n\times\mathbb{R}^n}\varphi(x)A(x,y)\varphi(y)\,d^nxd^ny + i\int_{\mathbb{R}^n}\varphi(x)J(x)\,d^nx\right)\nonumber\\
+            &= C\det(A)^{-1/2}\exp\left(\frac{i}{2}\int_{\mathbb{R}^n\times\mathbb{R}^n}J(x)A^{-1}(x,y)J(y)\,d^nxd^ny\right),
         \end{align}
         where the analytic continuation $I(iA,iJ)$ of Equation \eqref{calculus:gaussian_integral} was used. One should pay attention to the normalization factor $C$ which is infinite in general.
     \end{result}
 
+    \begin{method}[Feynman diagrams]\index{Feynman!diagram}
+        The expansion of the exponential in the general expression for Gaussian integrals admits a diagrammatic expression. Let $f(\vector{x})$ be a polynomial function of the coordinates.
+
+        If the number of factors in a monomial is odd, the resulting integral will vanish (since the integral of an odd function over an even domain is zero). For an even number of factors one gets the following expression:
+        \begin{gather}
+            \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)x^{i_1}\cdots x^{i_k}d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\sum_{\sigma\in S_k}A^{-1}_{\sigma(i_1)\sigma(i_2)}\cdots A^{-1}_{\sigma(i_{k-1})\sigma(i_k)}.
+        \end{gather}
+        To every coordinate dimension one can assign a vertex in the place, i.e. the object $x_i$ can be interpreted as a real-valued function on the set of $k$ elements. The sum on the right-hand side above can then be expressed as a ``sum'' over all possible diagrams, where a factor $A^{-1}_{ij}$ is represented by a line connecting the vertices $i$ and $j$.
+    \end{method}
+
+    \begin{example}[Feynman diagrams]
+        Some simple example are given:
+        \begin{gather*}
+            A^{-1}_{13}A^{-1}_{12}A^{-1}_{24} =
+            \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+                \node[fill, circle, inner sep = 0, minimum size = 5pt] at (0, 0) (1) {};
+                \node[fill, circle, inner sep = 0, minimum size = 5pt] at (2, 0) (2) {};
+                \node[fill, circle, inner sep = 0, minimum size = 5pt] at (0, -2) (3) {};
+                \node[fill, circle, inner sep = 0, minimum size = 5pt] at (2, -2) (4) {};
+                \draw (1) -- (2);
+                \draw (1) -- (3);
+                \draw (2) -- (4);
+            \end{tikzpicture}
+        \end{gather*}
+        Higher powers of a given coordinate would then for example give rise to diagrams with loops at a given vertex:
+        \begin{gather*}
+            A^{-1}_{11}A^{-1}_{12}A^{-1}_{22} =
+            \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+                \node[fill, circle, inner sep = 0, minimum size = 5pt] at (0, 0) (1) {};
+                \node[fill, circle, inner sep = 0, minimum size = 5pt] at (2, 0) (2) {};
+                \draw (-0.5, 0) circle (0.5);
+                \draw (1) -- (2);
+                \draw (2.5, 0) circle (0.5);
+            \end{tikzpicture}
+        \end{gather*}
+    \end{example}
+
+    \begin{remark}[Normalization]
+        In practice one often divides all Gaussian integrals by the quantity $I(A,0)$ to cancel the normalization factor. In the functional setting this even imperative since, as mentioned above, the normalization factor diverges for infinite-dimensional spaces.
+    \end{remark}
+
 \section{Convexity}
 
     \newdef{Convex set}{\index{convex}\index{hull}\label{calculus:convex}
-        A subset of $X$ of a vector space $V$ (Definition \ref{linalgebra:vector_space}) is said to be convex if $x,y\in X$ implies that $\{\lambda x+(1-\lambda)y\mid\lambda\in[0,1]\}\subset X$. The \textbf{convex hull} of a subset $X$ is defined as the smallest convex subset containing $X$.
+        A subset of $X$ of a vector space $V$ (Definition \ref{linalgebra:vector_space}) is said to be convex if $x,y\in X$ implies that $\{\lambda x+(1-\lambda)y\mid\lambda\in[0,1]\}\subset X$, i.e. if all straight lines connecting elements of the set are completely contained in that set. The \textbf{convex hull} of a subset $X$ is defined as the smallest convex subset containing $X$.
     }
 
     \newdef{Convex function}{
@@ -454,28 +501,35 @@
     \end{theorem}
     The following inequality can be derived directly from the definition of convexity by induction:
     \begin{theorem}[Jensen's inequality]\index{Jensen's inequality}\label{calculus:jensen_inequality}
-        Let $f$ be a convex function and consider a point $\{a_i\}_{i\leq n}$ in the probability simplex $\Delta^n$ (Definition \ref{topology:standard_simplex}). Jensen's equality states that
+        Let $f$ be a convex function and consider a point $\{a_i\}_{i\leq n}$ in the probability simplex $\Delta^n$ (Definition \ref{topology:standard_simplex}).
         \begin{gather}
-            f\left(\sum_ia_ix_i\right)\leq\sum_ia_if(x_i).
+            f\left(\sum_{i=1}^na_ix_i\right)\leq\sum_{i=1}^na_if(x_i).
         \end{gather}
     \end{theorem}
 
     \newdef{Legendre transformation}{\index{Legendre!transformation}\label{calculus:legendre}
-        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. In certain cases (especially in physics) it is sometimes useful to replace the argument $x$ by the slope of $f$ at $x$, i.e. perform the transformation
+        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. In certain cases (especially in physics) it is sometimes useful to replace the argument $x$ by the slope of $f$ at $x$, i.e. to perform the transformation
         \begin{gather}
-            x\longrightarrow\deriv{f}{x}\equiv f'(x).
+            x\longrightarrow f'(x).
         \end{gather}
-        However, it should be clear that this transformation is not always well-defined and even if it is, it does not always preserve all the information in $f$.
+        However, it should be clear that this transformation is not always well-defined and, even if it is, it does not always preserve all the information contained in $f$.
 
         These conditions are satisfied exactly if $f$ is convex (or concave). In this case the Legendre transform of $f$ is defined as
         \begin{gather}
             f^*(x^*) := \sup_x\big(x^*x - f(x)\big).
         \end{gather}
-        Consider the case where $f$ is differentiable. The above supremum can then be obtained by differentiating the right-hand side and equating it to zero. This results in $x^* = f'(x)$, which is exactly the transformation that was required. By expressing everything in terms of the Legendre tranformed quantity $x^*$, one can also find the derivative of $f^*$:
+        Now, consider the case where $f$ is differentiable. The above supremum can then be obtained by differentiating the right-hand side and equating it to zero. This results in $x^* = f'(x)$, which is exactly the transformation that was required. By expressing everything in terms of the Legendre tranformed quantity $x^*$, one can also find the derivative of $f^*$:
         \begin{gather}
             \deriv{f^*}{x^*}(x^*) = x(x^*).
         \end{gather}
     }
+    \begin{property}[Alternative characterization]\label{calculus:legendre_condition}
+        In fact, up to an additive constant, the condition
+        \begin{gather}
+            (f^*)' = (f')^{-1}
+        \end{gather}
+        uniquely determines the Legendre transformation.
+    \end{property}
     \begin{remark}
-        Although the previous derivation used only 2 coordinates, the definition of Legendre transformations can easily be generalized to more coordinates.
+        The above definitions can easily be extended to higher dimensions ($n\geq2$).
     \end{remark}

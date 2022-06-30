@@ -1,4 +1,4 @@
-\chapter{Fuzzy Set Theory}
+\chapter{\difficult{Fuzzy Set Theory \& Imprecise Probabilities}}
 
     The main reference for the basics on fuzzy sets is the original paper \cite{fuzzy}. For the basics of (ordered) sets, see Section \ref{section:ordered_sets} at the beginning of this compendium.
 
@@ -36,4 +36,91 @@
         \begin{gather}
             C(x) := \Lambda(x)A(x) + (1-\Lambda(x))B(x).
         \end{gather}
+    }
+
+\section{Fuzzy measure theory}
+
+    In this section some of the content of Chapter \ref{chapter:measure} is generalized to fuzzy set theory. Unless explicitly stated, all concepts will be defined over a general measurable space $(X,\Sigma)$.
+
+    \newdef{Capacity\footnotemark}{\index{capacity}\index{measure}\index{game}
+        \footnotetext{Also called a \textbf{fuzzy measure}.}
+        A set function $\mu:\Sigma\rightarrow\mathbb{R}$ satisfying the following conditions:
+        \begin{enumerate}
+            \item\textbf{Grounded}: $\emptyset\in\Sigma\implies\mu(\emptyset)=0$, and
+            \item\textbf{Monotonicity}: $A\subseteq B\implies\mu(A)\leq\mu(B)$ for all $A,B\in\mathcal{C}$.
+        \end{enumerate}
+        A capacity is said to be \textbf{normalized} (or \textbf{regular}) if $\mu(X)=1$. If one drops the monotonicity condition, the notion of a \textbf{game} is obtained.
+    }
+    \newdef{Alternating capacity}{\index{probability}
+        A $k$-alternating capacity $\mu$ satisfies
+        \begin{gather}
+            \mu\left(\,\bigcap_{i=1}^kA_i\right)\leq\sum_{I\subset\{1,\ldots,k\}}(-1)^{|I|+1}\mu\left(\,\bigcup_{i\in I}A_i\right)
+        \end{gather}
+        for all measurable sets $A_1,\ldots,A_k$. A 2-alternating capacity is called a \textbf{probability measure} if the inequality is saturated for all $A_1,A_2$. By interchanging the union and intersection symbols (and the inequality sign), the definition of \textbf{$k$-monotone capacities} is obtained. If a capacity is $k$-alternating (resp. $k$-monotone) for all $k\geq2$, it is also said to be \textbf{totally alternating} (resp. \textbf{totally monotone}).
+    }
+    \begin{property}
+        A capacity $\mu:\Sigma\rightarrow\mathbb{R}$ is $k$-monotone (resp. $k$-alternating) if and only if its \textbf{dual capacity}
+        \begin{gather}
+            \overline{\mu}(A) := \mu(X) - \mu(A^c)
+        \end{gather}
+        is $k$-alternating (resp. $k$-monotone).
+    \end{property}
+
+    \newdef{Choquet integral}{\index{Choquet!integral}
+        Consider a capacity $\mu$ on $(X,\Sigma)$ and a measurable function $f:\mathcal{U}\rightarrow\mathbb{R}$, i.e. a function such that $\{y\mid f(y)\geq x\}\in\Sigma$ for all $x\in\mathbb{R}$. The Choquet integral of $f$ is defined as follows:
+        \begin{gather}
+            \int_Xf\,d\mu := \int_{-\infty}^0\big(\mu(\{y\mid f(y)\geq x\})-\mu(X)\big)\,dx+\int_0^{+\infty}\mu(\{y\mid f(y)\geq x\})\,dx.
+        \end{gather}
+        This integral is not additive, but it is monotonic in $f$. This expression can be obtained as follows, where functions are decomposed in their positive and negative parts: $f=f^+-f^-$. The original definition by \textit{Choquet} was for nonnegative functions:
+        \begin{gather}
+            \int_Xf^+\,d\mu := \int_0^{+\infty}\mu(\{y\mid f^+(y)\geq x\})\,dx.
+        \end{gather}
+        The general Choquet integral then takes the form
+        \begin{gather}
+            \int_Xf\,d\mu := \int_Xf^+\,d\mu - \int_Xf^-\,d\overline{\mu}.
+        \end{gather}
+    }
+
+    \begin{property}
+        A capacity is 2-alternating if and only if the associated Choquet integral is subadditive.
+    \end{property}
+
+    \begin{example}[Possibility and necessity]\index{possibility}\index{necessity}
+        A normalized capacity $\mu$ satisfying
+        \begin{gather}
+            \mu(A,B) = \max\big(\mu(A),\mu(B)\big)
+        \end{gather}
+        for all $A,B\in\Sigma$. If one replaces the maximum by a minimum, the definition of a \textbf{necessity measure} is obtained.
+    \end{example}
+    \begin{example}[Belief and plausibility]\index{belief}\index{plausibility}
+        Belief and plausibility measures are respectively defined as totally monotone and totally alternating normalized capacities. It is not difficult to show that possibility and necessity measures are particular instances of belief and plausibility measures.
+    \end{example}
+
+    \newdef{Consonant capacity}{\index{focal set}
+        A capacity $\mu:\Sigma\rightarrow\mathbb{R}$ such that the \textbf{focal sets}, the sets $A\in\Sigma$ such that $\mu(A)>0$, admit a total order (i.e. they are nested).
+    }
+    \begin{remark}
+        Consonant belief and plausibility measures are called \textbf{necessity} and \textbf{possibility measures}, respectively.
+    \end{remark}
+
+\section{Imprecise probabilities}
+
+    \newdef{Gamble}{\index{gamble}\index{desirable}
+        Consider a set $X$. The set of gambles over $X$ is the (Banach) space of bounded real-valued functions $\mathcal{B}(X):=\{f:X\rightarrow\mathbb{R}\mid\sup_{x\in X}f(x)<+\infty\}$. A subset $\mathcal{D}\subset\mathcal{B}(X)$ of ``desirable'' gambles is said to be \textbf{coherent} if it satisfies the following condition:
+        \begin{enumerate}
+            \item\textbf{Positivity:} $\lambda>0\implies\lambda\mathcal{D}=\mathcal{D}$,
+            \item\textbf{Additivity:} $\mathcal{D}+\mathcal{D}\subseteq\mathcal{D}$,
+            \item\textbf{Accepting partial gains:} $\mathcal{B}^+(X)\subseteq\mathcal{D}$, where $\mathcal{B}^+(X):=\{f\in\mathcal{B}(X)\mid f>0\}$, and
+            \item\textbf{Avoiding partial losses:} $\mathcal{B}^-(X)\cap\mathcal{D}=\emptyset$, $\mathcal{B}^-(X):=\{f\in\mathcal{B}(X)\mid f<0\}$.
+        \end{enumerate}
+        The first two axioms imply that the desirable gambles form a convex cone. It is also clear that the positive orthant $\mathcal{B}^+(X)$ is the smallest coherent set of desirable gambles.
+    }
+    \begin{property}[Order structure]
+        The collection of all coherent sets of desirable gambles over a space $X$ can be given a poset structure by inclusion, with $\mathcal{B}^+(X)$ as its least element. If $\mathcal{D}\subset\mathcal{D}^+$, then $\mathcal{D}$ is said to be less \textbf{committal} than $\mathcal{D}'$.
+    \end{property}
+
+    \newdef{Credal set}{\index{credal set}
+        A subset of the set of probability measures $\mathbb{P}(X)$.
+
+        Credal sets are often used to represent the lack of knowledge about a probability distribution. For this reason it is natural to assume that credal sets are convex. If one is uncertain about both $P_1,P_2\in K\subseteq\mathbb{P}(X)$, one is also uncertain about the mixtures $\lambda P_1+(1-\lambda)P_2,\lambda\in[0,1]$.
     }

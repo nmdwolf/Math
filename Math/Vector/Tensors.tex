@@ -436,16 +436,32 @@
         The Levi-Civita symbol is not a tensor, it is a \textit{pseudotensor}. This means that the sign changes under reflections or any transformation with determinant $-1$. (To turn it into a proper tensor, one should multiply it by a factor $\sqrt{g}$, where $g$ is the determinant of the metric.)
     \end{remark}
 
-    \newformula{Cross product}{\index{cross!product}\label{vector:cross_product}
+    \newdef{Cross product}{\index{cross!product}\label{vector:cross_product}
         Using the Levi-Civita symbol, one can define the $i^{th}$ component of the cross product as follows:
         \begin{gather}
-            (v\times w)_i = \varepsilon_{ijk}v_jw_k.
+            (v\times w)_i = \sum_{j,k=1}^3\varepsilon_{ijk}v_jw_k.
         \end{gather}
         The previous remark implies that the cross product is in fact not a vector, instead it is a ``pseudovector''.
     }
-    \begin{remark}
-        It is important to note that this construction is only valid in 3 dimensions.
+    \begin{remark}[Generalization and Hurwitz theorem]
+        The cross product actually exists in four cases: $\mathbb{R}^0,\mathbb{R}^1,\mathbb{R}^3$ and $\mathbb{R}^7$. In general it is characterized by the following conditions:
+        \begin{enumerate}
+            \item\textbf{Bilinearity}: $(\lambda v)\times(\kappa w) = \lambda\kappa(v\times w)$.
+            \item\textbf{Orthogonality}: $v\cdot(v\times w)=0=w\cdot(v\times w)$.
+            \item\textbf{Magnitude}: $\|v\times w\|^2 = \|v\|^2\|w\|^2 - (v\cdot w)^2$.
+        \end{enumerate}
+        These conditions imply that on $\mathbb{R}^1$ the cross product is identically zero. However, one $\mathbb{R}^3$ and $\mathbb{R}^7$ one obtains an anticommutative bilinear operation. (On $\mathbb{R}^3$ it is unique, while on $\mathbb{R}^7$ different choices exist.)
+
+        This construction is related to the Hurwitz classification theorem \ref{linalgebra:hurwitz}, since one can construct the cross products on $\mathbb{R}^n$ by embedding it as the imaginary part of the (real, normed) division algebra of dimension $n+1$. The cross product is then obtained from the ordinary product after discarding the real component.  For example, for $\mathbb{R}^1$ embedded in  $\mathbb{C}$, one obtains a product of two purely imaginary numbers, which is real. Discarding this component gives exactly zero, as mentioned above.
     \end{remark}
+
+    \begin{property}[Exceptional Lie group $G_2$]\index{$G_2$}\index{triple product}
+        Using the vector product, one can define an associative 3-form, the \textbf{triple product}:
+        \begin{gather}
+            u\otimes v\otimes w\mapsto u\cdot(v\times w).
+        \end{gather}
+        The group of linear isomorphisms that preserve the triple product on $\mathbb{R}^7$ is denoted by $G_2$. (By the relation between vector products and division algebras, this group is also the automorphism group of the octonions.)
+    \end{property}
 
 \subsection{Wedge product}\label{section:wedge_product}
 
@@ -467,7 +483,7 @@
 
     \begin{construct}
         Let $\{e_i\}_{i\leq \dim(V)}$ be a basis for $V$. The above definition implies that a basis for $\Lambda^r(V)$ is given by
-        \[\{e_{i_1}\wedge\ldots\wedge e_{i_r}\mid\forall k: 1\leq i_k \leq \dim(V)\}.\] Accordingly, the dimension of this space is given by
+        \[\{e_{i_1}\wedge\ldots\wedge e_{i_r}\mid\forall k\leq r: 1\leq i_k \leq \dim(V)\}.\] Accordingly, the dimension of this space is given by
         \begin{gather}
             \label{vector:wedge_dimension}
             \dim\Lambda^r(V) = \binom{n}{r}.
@@ -486,7 +502,7 @@
         Elements of $\Lambda^k(V)$ that can be written as the wedge product of $k$ vectors are known as $k$-\textbf{blades} or \textbf{pure $k$-vectors}.
     \end{definition}
 
-    \begin{formula}\index{cross!product}
+    \begin{formula}[Cross product]
         In dimension 3 there exists an important isomorphism $J:\Lambda^2(\mathbb{R}^3)\rightarrow\mathbb{R}^3$:
         \begin{gather}
             \label{vector:wedge_to_cross}
@@ -599,7 +615,7 @@
 
     Taking the defining relation of the Hodge star operator together with the above property implies the following formula (which is often found in the literature as the defining relation):
     \begin{formula}
-        For all $\omega\in\Lambda^k(V)$ and $\rho\in\Lambda^{n-k}(V)$ the Hodge star operator satisfies the following formula:
+        For all $\omega,\rho\in\Lambda^k(V)$ the Hodge star operator satisfies the following formula:
         \begin{gather}
             \omega\wedge\ast\rho = \langle\omega|\rho\rangle\vol(V).
         \end{gather}
@@ -616,10 +632,17 @@
     \begin{remark}
         Formula \eqref{vector:wedge_to_cross} is an explicit evaluation of the first equation \eqref{vector:cross_by_hodge_star}.
         \begin{proof}
-            The signs $\sgn(\sigma)$ in the definition of wedge products can be written using the Levi-Civita symbol $\varepsilon_{ijk}$ as defined in \ref{vector:levi_civita_symbol}. The factor $\frac{1}{2}$ is introduced to correct for the double counting due to the contraction over both the indices $j$ and $k$.
+            The signs $\sgn(\sigma)$ in the definition of wedge products can be written using the Levi-Civita symbol $\varepsilon_{ijk}$ as defined in \ref{vector:levi_civita_symbol}. The factor $\tfrac{1}{2}$ is introduced to correct for the double counting due to the contraction over both the indices $j$ and $k$.
         \end{proof}
     \end{remark}
 
     \newdef{Self-dual form}{\index{dual!self-dual}
-        Let $V$ be a 4-dimensional inner product space and consider $\omega\in\Lambda^2(V)$. Then $\omega$ is said to be self-dual if $\ast\omega = \omega$. Furthermore, every $\rho\in\Lambda^2(V)$ can be uniquely decomposed as the sum of a self-dual and an anti-self-dual two-form.
+        Let $V$ be a 4-dimensional inner product space and consider an element $\omega\in\Lambda^2(V)$. Then $\omega$ is said to be self-dual if
+        \begin{gather}
+            \ast\omega = \omega.
+        \end{gather}
+        Furthermore, every element $\rho\in\Lambda^2(V)$ can be uniquely decomposed as the sum of a self-dual and an anti-self-dual two-form:
+        \begin{gather}
+            \rho = \frac{1}{2}\big((\rho + \ast\rho) + (\rho - \ast\rho)\big).
+        \end{gather}
     }

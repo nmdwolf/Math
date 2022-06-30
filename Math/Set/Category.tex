@@ -279,11 +279,11 @@
         The comma category of the pair of functors $(\mathbbm{1}_{\mathbf{C}},\mathbbm{1}_{\mathbf{C}})$. This is equivalently the functor category $[\mathbf{2},\mathbf{C}]$ where $\mathbf{2}$ is the \textbf{interval category/walking arrow} $\{0\rightarrow1\}$.
     }
     \newdef{Functorial factorization}{\index{factorization!functorial}\label{cat:functorial_factorization}
-        A \textit{section} of the composition functor \[\func{\circ}{[3,C]}{[2,C]},\] where $\mathbf{3}$ is the poset $\{0\rightarrow1\rightarrow2\}$.
+        A \textit{section} (see Definition \ref{cat:retract}) of the composition functor \[\func{\circ}{[3,C]}{[2,C]},\] where $\mathbf{3}$ is the poset $\{0\rightarrow1\rightarrow2\}$.
     }
 
     \newdef{Slice category}{\index{category!slice}
-        Let $\mathbf{C}$ be a category and consider an object $x\in\ob{C}$. The slice category $\mathbf{C}/x$ of $\mathbf{C}$ over $x$ is defined as follows:
+        Let $\mathbf{C}$ be a category and consider an object $x\in\ob{C}$. The slice category $\mathbf{C}_{/x}$ of $\mathbf{C}$ over $x$ is defined as follows:
         \begin{itemize}
             \item\textbf{Objects}: The morphisms in $\mathbf{C}$ with codomain $x$.
             \item\textbf{Morphisms}: The morphisms $f\rightarrow g$ are morphisms $h$ in $\mathbf{C}$ such that $g\circ h = f$.
@@ -369,7 +369,7 @@
                 Because the horizontal morphism are both projected to $f$ and $\alpha$ is projected to the identity, there exists a unique factorization of the diagram through a morphism $f^*\alpha:f^*x\rightarrow f^*y$.
         \end{itemize}
 
-        Conversely, every pseudofunctor gives rise to a fibred category through the Grothendieck construction $\int:\cfunccat{C}{Cat}\rightarrow\mathbf{Cat}/\mathbf{C}$ as follows. (These two constructions constitute a 2-equivalence of 2-categories.). Consider a pseudofunctor $\cfunc{F}{C}{Cat}$. The ``bundle'' $\int\!F$ consists of the following data:
+        Conversely, every pseudofunctor gives rise to a fibred category through the Grothendieck construction $\int:\cfunccat{C}{Cat}\rightarrow\mathbf{Cat}_{/\mathbf{C}}$ as follows. (These two constructions constitute a 2-equivalence of 2-categories.). Consider a pseudofunctor $\cfunc{F}{C}{Cat}$. The ``bundle'' $\int\!F$ consists of the following data:
         \begin{itemize}
             \item The objects are pairs $(x,y)$ with $x\in\ob{C}$ and $y\in\mathrm{ob}(Fx)$.
             \item The morphisms $(x,y)\rightarrow(x',y')$ are pairs $(f:x\rightarrow x',\alpha:y\rightarrow Ff(y'))$.
@@ -927,6 +927,15 @@
         \end{gather}
     \end{property}
 
+    \newdef{Category of elements}{\index{category!of elements}\label{cat:category_of_elements}
+        Consider a presheaf $\cfunc{F}{C}{Set}$. Its category of elements $\mathrm{El}(F)$ is defined as the comma category $(\mathcal{Y}\downarrow\ !_F)$, where $!_F:\ast\rightarrow\cfunccat{C}{Set}$ sends the unique object to $F$ itself. Equivalently, it is the category with objects the pairs $(c,x)\in\ob{C}\times Fc$ and morphisms $f\in\mathbf{C}(c,c')$ such that $c = Ff(c')$.
+
+        This category comes equipped with a canonical forgetful functor
+        \begin{gather}
+            \mathbf{C}_F:\mathrm{El}(F)\rightarrow\mathbf{C}:(c,x)\mapsto c.
+        \end{gather}
+    }
+    \remark{The category of elements is usually defined for covariant functors. To obtain that definition one should take the opposite of the category of elements (and also take the opposite of the forgetful functor).}
 
     \newdef{Kan extension}{\index{Kan!extension}\label{cat:kan_extension}
         Consider two functors $\func{F}{A}{B}$ and $\func{G}{A}{C}$. The right Kan extension of $F$ along $G$ is given by the universal functor $\func{\mathrm{Ran}_GF}{C}{B}$ and natural transformation $\eta:\mathrm{Ran}_GF\circ G\Rightarrow F$:
@@ -1576,15 +1585,15 @@
         \end{gather}
         The generalization to other enriching categories is now straightforward. Consider a diagram $\func{D}{I}{C}$ and a weight functor $\func{W}{I}{\mathcal{V}}$, where $\mathbf{C}$ is $\mathcal{V}$-enriched. If $\mathbf{C}$ is powered over $\mathcal{V}$, the $W$-weighted limit of $D$ is defined by the same formula as above:
         \begin{gather}
-            \wlim{W}D:=\int_{i\in I}[Wi,Di].
+            \wlim{W}D:=\int_{i\in\mathbf{I}}[Wi,Di].
         \end{gather}
         In a similar way one can define weighted colimits in copowered $\mathcal{V}$-categories as coends:
         \begin{gather}
-            \colim^WD:=\int^{i\in I}Wi\cdot Di.
+            \colim^WD:=\int^{i\in\mathbf{I}}Wi\cdot Di.
         \end{gather}
-        Here the weight functor $W$ is required to be contravariant since colimits (and cocones in general) are natural transformations between contravariant functors.
+        Here, the weight functor $W$ is required to be contravariant since colimits (and cocones in general) are natural transformations between contravariant functors.
     }
-    \begin{property}[Weighted limits are Hom-objects]
+    \begin{property}[Weighted limits are Homs]
         In the case $\mathbf{C}=\mathcal{V}$, the powering functor becomes the internal hom and, therefore, one sees that weighted limits are given by (enriched) natural transformations (as was the case for ordinary conical limits).
     \end{property}
 
@@ -1608,9 +1617,17 @@
         \end{enumerate}
     }
 
-    One can also express Kan extensions as weighted limits:
+    One can also express Kan extensions as weighted limits (this simply follows from expression \ref{cat:enriched_kan_extension}):
     \begin{property}[Kan extensions]\index{Kan!extension}
         Consider functors $\func{F}{A}{B}$ and $\func{G}{A}{C}$. If for every $x\in\ob{C}$ the weighted limit $\wlim{\mathbf{C}(x,G-)}F$ exists, these limits can be combined into a functor that can be shown to be the right Kan extension $\mathrm{Ran}_GF$. The left Kan extension can be obtained as a weighted colimit.
+    \end{property}
+
+    \begin{property}[Category of elements]
+        The weighted (co)limits of a functor (over $\mathbf{Set}$) can also be expressed in terms of the category of elements \ref{cat:category_of_elements} of the weight:
+        \begin{gather}
+            \wlim{W}F\cong\lim F\circ\mathbf{C}_W,
+        \end{gather}
+        where the limit on the right-hand side is a conical limit.
     \end{property}
 
 \section{Abelian categories}\label{section:abelian_categories}

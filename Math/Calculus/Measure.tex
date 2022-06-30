@@ -12,7 +12,7 @@
             \item\textbf{Empty set is null}: $\mu(\emptyset) = 0$, and
             \item\textbf{$\sigma$-additivity}: $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
         \end{enumerate}
-        When $\mu$ only satisfies countable subadditivity, i.e. the equality in the last condition becomes an inequality $\leq$, it is called an \textbf{outer measure}.
+        When $\mu$ is defined on all of $P(X)$ and only satisfies countable subadditivity, i.e. the equality in the last condition becomes an inequality $\leq$, it is called an \textbf{outer measure}.
     }
     \begin{remark}
         To show that two measures coincide on a $\sigma$-algebra, it suffices to show that they coincide on the generating sets and apply the monotone class theorem \ref{set:monotone_class}.
@@ -50,17 +50,32 @@
     \newdef{Borel measure}{\index{Borel!measure}
         Consider a topological space together with its Borel $\sigma$-algebra \ref{topology:borel_set}. Any measure defined on this measurable space is called a Borel measure.
     }
+
+    Given a Borel measure on a topological space, there are different ways of how one can approximate the measure of Borel sets by those of open or closed sets. Sadly, different distinct definitions can be found in the literature all under the name of ``regular'' measure. The next definition gives the most widely used ones:
     \newdef{Regular measure}{\label{lebesgue:regular_measure}
-        Let $\mu$ be a measure on a measurable space $(X,\Sigma)$. It is called a regular measure if it satisfies the following equations for every measurable set $B$:
-        \begin{align}
-            \mu(B) =& \inf\big\{\mu(O)\,\big\vert\,O\text{ open and measurable},O\supset B\big\}\\
-            \mu(B) =& \sup\big\{\mu(F)\,\big\vert\,F\text{ compact and measurable},F\subset B\big\}.
-        \end{align}
-        A Borel regular measure can also be characterized as a Borel measure such that for every subset $A\subseteq X$ there exists a Borel set $B$ with $A\subseteq B$ and $\inf\big\{\mu(E)\,\big\vert\,A\subseteq E\in\Sigma\big\}=\mu(B)$.
+        If $\mu$ is an outer measure on a topological space $X$ whose completion contains the Borel sets, it is said to be \textbf{Borel regular} if for every set $A\subset X$, there exists a Borel set $B\subseteq A$ such that $\mu(A)=\mu(B)$.
+
+        Let $\mu$ be a measure on $(X,\Sigma)$, where $X$ is a topological space. It is said to be \textbf{regular} if if it satisfies the following conditions for every measurable set $B$:
+        \begin{enumerate}
+            \item\textbf{Outer regularity}: $\mu(B)=\inf\big\{\mu(O)\,\big\vert\,O\text{ open},O\supset B\big\}$, and
+            \item\textbf{Inner regularity}: $\mu(B)=\sup\big\{\mu(K)\,\big\vert\,K\text{ closed and measurable},K\subset B\big\}$.
+        \end{enumerate}
+        If $X$ is locally compact Hausdorff, the measure is said to be \textbf{regular} if it satisfies the following conditions for every measurable set $B$:
+        \begin{enumerate}
+            \item\textbf{Outer regularity}: $\mu(B)=\inf\big\{\mu(O)\,\big\vert\,O\text{ open},O\supset B\big\}$, and
+            \item\textbf{Inner regularity}: $\mu(B)=\sup\big\{\mu(K)\,\big\vert\,K\text{ compact and measurable},K\subset B\big\}$.
+        \end{enumerate}
+        Note that for locally compact spaces, inner regularity uses compact subsets. Authors that use the second definition of regularity often call these latter measures \textbf{tight}. Note that since compact subsets of Hausdorff spaces are closed, tight measures are in particular regular.
     }
+
+    By slightly modifying the definition of tight Borel measures, one can obtain yet another type of regularity:
     \newdef{Radon measure}{\index{Radon!measure}\index{locally!finite}\label{lebesgue:radon_measure}
         A Borel measure on a Hausdorff space that is outer regular, inner regular on open sets and \textbf{locally finite}, i.e. every point has a neighbourhood of finite measure. When restricted to locally-compact Hausdorff spaces, this is equivalent to requiring that every compact subset has finite measure.
     }
+
+    \begin{property}
+        Let $X$ be either a locally compact, separable metric space or a Polish space. Every finite Borel measure on $X$ is tight. Slightly weaker, every finite Borel measure on a metric space is regular.
+    \end{property}
 
     \newdef{\texorpdfstring{$\sigma$-}{sigma-}finite measure}{\index{$\sigma$!finite}\label{lebesgue:sigma_finite_measure}
         Let $(X,\Sigma,\mu)$ be a measure space. The measure $\mu$ is said to be $\sigma$-finite if there exists a sequence $\seq{A}$ of measurable sets such that $\bigcup_{n=1}^\infty A_n = X$ with $\forall n\in\mathbb{N}:\mu(A_n)<\infty$.
@@ -92,8 +107,10 @@
         \end{gather}
         The collection of all Lebesgue-measurable sets is denoted by $\mathcal{M}$ and the outer measure $\lambda^*(X)$, now denoted by $\lambda$, is called the \textbf{Lebesgue measure} of $X$.
     \end{theorem}
-    \begin{construct}[Carath\'eodory's extension theorem]\index{pre-!measure}\label{lebesgue:caratheodory}
-        In fact, the above construction can be generalized to arbitrary sets. Every outer measure $\mu^*$ gives rise to a $\sigma$-algebra consisting of those sets that satisfy Carath\'eodory's criterion \ref{lebesgue:lebesgue_measure} with respect to $\mu^*$. Furthermore, consider a \textbf{premeasure} $\mu_0$, i.e. a $\sigma$-additive function defined on an algebra of sets \ref{set:algebra_of_sets} such that $\mu_0(\emptyset) = 0$. Definition \ref{lebesgue:outer_measure} can be used to define an outer measure $\mu^*$ in terms of the premeasure $\mu_0$ by replacing intervals with elements from the given algebra of sets. The $\sigma$-algebra generated by this outer measure contains the given algebra of sets and $\mu^*$ restricts to $\mu_0$. This shows that any premeasure can be extended to a genuine measure. Moreover, it can be shown that this measure is complete.
+    The construction of Lebesgue measurable sets from the Lebesgue outer measure can be generalized to arbitrary sets:
+    \begin{construct}[Carath\'eodory's extension theorem\footnotemark]\index{pre-!measure}\index{Hahn-Kolmogorov}\label{lebesgue:caratheodory}
+        \footnotetext{Also called the \textbf{Hahn-Kolmogorov theorem}.}
+        Every outer measure $\mu^*$ gives rise to a $\sigma$-algebra consisting of those sets that satisfy Carath\'eodory's criterion \ref{lebesgue:lebesgue_measure} with respect to $\mu^*$. Furthermore, consider a \textbf{premeasure} $\mu_0$, i.e. a $\sigma$-additive function defined on an algebra of sets \ref{set:algebra_of_sets} such that $\mu_0(\emptyset) = 0$. Definition \ref{lebesgue:outer_measure} can be used to define an outer measure $\mu^*$ in terms of the premeasure $\mu_0$ by replacing intervals with elements from the given algebra of sets. The $\sigma$-algebra generated by this outer measure contains the given algebra of sets and $\mu^*$ restricts to $\mu_0$. This shows that any premeasure can be extended to a genuine measure, uniquely if $\mu_0$ is $\sigma$-finite. Moreover, it can be shown that this measure is complete.
     \end{construct}
     \begin{result}\label{lebesgue:completion_remark}
         The Lebesgue $\sigma$-algebra $\mathcal{M}$ is the completion of the Borel $\sigma$-algebra $\mathcal{B}$. (This is how the Lebesgue $\sigma$-algebra was introduced historically.)
@@ -103,7 +120,7 @@
         Any countable set is null with respect to the Lebesgue outer measure.
     \end{property}
 
-    \begin{property}
+    \begin{property}[Regularity]
         The Lebesgue measure is a regular Borel measure. For every $A\subset\mathbb{R}$ there exists a sequence $\seq{O}$ of open sets such that
         \begin{gather}
             \label{lebesgue:open_cover_existence}
@@ -204,11 +221,11 @@
 
     \newdef{Measure-preserving function}{\label{lebesgue:measure_preserving}
         \nomenclature[S_Meas]{$\mathbf{Meas}$}{category of measure spaces and measure-preserving functions}
-        Let $(X,\Sigma,\mu)$ be a measure space and consider a measurable function $T:X\rightarrow X$. $T$ is said to be measure-preserving if it satisfies
+        Let $(X,\Sigma,\mu)$ be a measure space and consider a measurable function $T:X\rightarrow X$. $T$ is said to be measure-preserving if
         \begin{gather}
-            \mu\left(T^{-1}(A)\right) = \mu(A)
+            T_\ast\mu = \mu.
         \end{gather}
-        for all $A\in\Sigma$. This can also be concisely written as $T_\ast\mu=\mu$. These functions form the morphisms in the category $\mathbf{Meas}$ of measure spaces.\footnote{The notation $\mathbf{Meas}$ is also sometimes used to denote the larger category of measurable spaces and measurable functions.}
+        These functions form the morphisms in the category $\mathbf{Meas}$ of measure spaces.\footnote{The notation $\mathbf{Meas}$ is also sometimes used to denote the larger category of measurable spaces and measurable functions.}
     }
 
     \newdef{Ergodic function}{\index{ergodic}
@@ -381,7 +398,7 @@
     \begin{property}
         Let $f,g$ be integrable functions on a measure space $(X,\Sigma,\mu)$. The following important properties hold:
         \begin{itemize}
-            \item\textbf{Linearity}: $\int_A(f+\lambda g)d\mu = \int_Af\,d\mu/\lambda\int_Ag\,d\mu$ for all $\lambda\in\mathbb{R}$
+            \item\textbf{Linearity}: $\int_A(f+\lambda g)d\mu = \int_Af\,d\mu+\lambda\int_Ag\,d\mu$ for all $\lambda\in\mathbb{R}$
             \item\textbf{Monotonicity}: $f\leq g$ a.e. implies $\int_Af\,d\mu\leq\int_Ag\,d\mu$ and $\forall A\in\Sigma:\int_Af\,d\mu\leq\int_Ag\,d\mu\implies f\leq g$ a.e.
             \item\textbf{Finiteness}: $f$ is finite a.e.
             \item $|\int_Af\,d\mu|\leq\int_A|f|\,d\mu$.
@@ -389,7 +406,7 @@
         \end{itemize}
     \end{property}
 
-    \begin{definition}[Lebesgue integrable functions]
+    \begin{definition}[Integrable functions]
         The set of integrable functions over a set $A\in\mathcal{M}$ forms the vector space $\mathcal{L}^1(A)$.
     \end{definition}
 
@@ -457,13 +474,13 @@
     \end{theorem}
 
     \begin{theorem}[Riemann-Lebesgue lemma]\index{Riemann-Lebesgue lemma}\label{lebesgue:riemann_lebesue_lemma}
-        Let $f\in\mathcal{L}^1(\mathbb{R})$. The sequences \[s_k = \int_{-\infty}^\infty f(x)\sin(kx)dx\] and \[c_k = \int_{-\infty}^\infty f(x)\cos(kx)dx\] both converge to 0.
+        Let $f\in\mathcal{L}^1(\mathbb{R})$. The sequences \[s_k = \int_\mathbb{R}f(x)\sin(kx)\,dx\] and \[c_k = \int_\mathbb{R}f(x)\cos(kx)\,dx\] both converge to 0.
     \end{theorem}
 
     \begin{theorem}[Birkhoff ergodicity]\index{ergodic!theorem}\index{Birkhoff|seealso{ergodic}}\label{lebesgue:ergodic}
         Let $(X,\Sigma,\mu)$ be a measure space and let $T$ be a $\mu$-ergodic map. For every measurable function $f$ and for $\mu$-almost every element $x\in X$ the integral of $f$ can be computed as an average over the orbit of $x$:
         \begin{gather}
-            \lim_{n\rightarrow\infty}\frac{1}{n+1}\sum_{t=0}^nf(T^n(x)) = \int f\,d\mu.
+            \lim_{n\rightarrow\infty}\frac{1}{n+1}\sum_{t=0}^nf(T^n(x)) = \int_Xf\,d\mu.
         \end{gather}
     \end{theorem}
 
@@ -493,14 +510,14 @@
         \end{gather}
         Integration with respect to the Dirac measure has the following important property:
         \begin{gather}
-            \int f\,d\delta_a = f(a).
+            \int_Xf\,d\delta_a = f(a).
         \end{gather}
     }
 
 \section{Space of integrable functions}
 \subsection{Distance}\index{distance}
 
-    To define a distance between functions, a notion of the length of a function is introduced first. Normally this would not be a problem, one could use the integral of a function to define a norm. However, the fact that two functions differing on a null set have the same integral carries problems with it: a nonzero function could have a zero length. To avoid this issue one quotients out these degenerate functions::
+    To define a distance between functions, a notion of the length of a function is introduced first. Normally this would not be a problem, one could use the integral of a function to define a norm. However, the fact that two functions differing on a null set have the same integral carries problems with it: a nonzero function could have a zero length. To avoid this issue one quotients out these degenerate functions:
     \newdef{$L^1$-space}{
         \nomenclature[S_L1]{$L^1$}{space of integrable functions}
         Define the set of equivalence classes $L^1 = \mathcal{L}^1_{/\equiv}$ by introducing the following equivalence relation: $f\equiv g$ if and only if $f=g$ a.e.
@@ -509,9 +526,12 @@
         $L^1$ is a Banach space \ref{functional:banach_space}. The norm on $L^1$ is given by
         \begin{gather}
             \label{lebesgue:L1_norm}
-            \|f\|_1 := \int|f|\,d\mu.
+            \|f\|_1 := \int_X|f|\,d\mu.
         \end{gather}
-        In particular, if $\int|f|\,d\mu=0$, then $f=0$ a.e.
+        In particular
+        \begin{gather}
+            \int_X|f|\,d\mu=0\implies f=0\text{ a.e.}
+        \end{gather}
     \end{property}
 
 \subsection{Hilbert space \texorpdfstring{$L^2$}{L2}}\label{section:hilbert_space}
@@ -520,12 +540,12 @@
         $L^2$ is a Hilbert space \ref{functional:hilbert_space}. The norm on $L^2$ is given by
         \begin{gather}
             \label{lebesgue:L2_norm}
-            \|f\|_2 := \left(\int|f|^2\,d\mu\right)^{\frac{1}{2}}.
+            \|f\|_2 := \left(\int_X|f|^2\,d\mu\right)^{\frac{1}{2}}.
         \end{gather}
         This norm is induced by the following inner product:
         \begin{gather}
             \label{lebesgue:L2_inner_product}
-            \langle f|g \rangle := \int\overline{f}g\,d\mu.
+            \langle f|g \rangle := \int_X\overline{f}g\,d\mu.
         \end{gather}
     \end{property}
 
@@ -546,7 +566,7 @@
             \|f\|_p := \left(\int_X|f|^p\,d\mu\right)^{\frac{1}{p}}.
         \end{gather}
     \end{formula}
-    \remark{Note that $L^2$ is the only $L^p$-space that is also a Hilbert space. The other $L^p$-spaces do not have a norm induced by an inner product.}
+    \remark{Note that $L^2$ is the only $L^p$-space that is also a \textit{Hilbert space} (Definition \ref{functional:hilbert_space}). The other $L^p$-spaces do not have a norm induced by an inner product.}
 
     \newformula{H\"{o}lder's inequality}{\index{H\"older!inequality}\index{H\"older!conjugates}\label{lebesgue:holders_inequality}
         Let $\frac{1}{p} + \frac{1}{q} = 1$ with $p\geq1$ (numbers satisfying this equality are called \textbf{H\"older conjugates}). For every $f\in L^p$ and $g\in L^q$ one has that
@@ -588,25 +608,9 @@
     \end{property}
 
 \section{Product measures}
-\subsection{Real hyperspace}
+\subsection{Construction}
 
-    The notions of intervals and lengths from the one-dimensional case can be generalized to higher dimensions in the following way:
-    \newdef{Hypercube}{\index{hyper-!cube}
-        Let $I_1,\ldots,I_n$ be a sequence of intervals. The hypercube spanned by them is defined as the following set:
-        \begin{gather}
-            \mathbf{I} := I_1\times\cdots\times I_n.
-        \end{gather}
-    }
-    \newdef{Generalized length}{\index{volume}
-        Let $\mathbf{I}$ be a hypercube induced by the set of intervals $I_1,\ldots,I_n$. The generalized length (or \textbf{volume}) of $\mathbf{I}$ is defined as
-        \begin{gather}
-            l(\mathbf{I}) := \prod_{i=1}^{n}l(I_i).
-        \end{gather}
-    }
-
-\subsection{Construction of the product measure}
-
-    The general condition for multi-dimensional Lebesgue measures is given by the following equation that should hold for all $A_1\in\Sigma_1$ and $A_2\in\Sigma_2$:
+    The general condition for product measures is given by the following equation that should hold for all $A_1\in\Sigma_1$ and $A_2\in\Sigma_2$:
     \begin{gather}
         \label{lebesgue:general_condition}
         \mu(A_1\times A_2) = \mu_1(A_1)\mu_2(A_2).
@@ -615,22 +619,22 @@
     \newdef{Section}{\index{section!of a product set}
         Let $A=A_1\times A_2$. The following two sets are called sections:
         \begin{align*}
-            A_{\omega_1} &:= \{\omega_2\in X_2\mid(\omega_1,\omega_2)\in A\}\subset\Sigma_2,\\
-            A_{\omega_2} &:= \{\omega_1\in X_1\mid(\omega_1,\omega_2)\in A\}\subset\Sigma_1.
+            A_{x_1} &:= \{x_2\in X_2\mid(x_1,x_2)\in A\}\subset\Sigma_2,\\
+            A_{x_2} &:= \{x_1\in X_1\mid(x_1,x_2)\in A\}\subset\Sigma_1.
         \end{align*}
     }
     The following property follows immediately from the definition of product $\sigma$-algebras \ref{set:product_of_sigma_algebras}:
     \begin{property}
-        Let $\Sigma = \Sigma_1\times\Sigma_2$. If $A\in\Sigma$, then $A_{\omega_1}\in\Sigma_2$ for each $\omega_1$ and $A_{\omega_2}\in\Sigma_1$ for each $\omega_2$. Equivalently, the sets $\mathcal{G}_1 = \{A\in\Sigma\mid\forall\omega_1\in X_1:A_{\omega_1}\in\Sigma_2\}$ and $\mathcal{G}_2 = \{A\in\Sigma\mid\forall\omega_2\in X_2: A_{\omega_2}\in\Sigma_1\}$ coincide with the product $\sigma$-algebra $\Sigma$.
+        Let $\Sigma := \Sigma_1\times\Sigma_2$ be the product $\sigma$-algebra. If $A\in\Sigma$, then $A_{x_1}\in\Sigma_2$ for each $x_1\in X_1$ and $A_{x_2}\in\Sigma_1$ for each $x_2\in X_2$. Equivalently, the sets $\mathcal{G}_1 = \{A\in\Sigma\mid\forall x_1\in X_1:A_{x_1}\in\Sigma_2\}$ and $\mathcal{G}_2 = \{A\in\Sigma\mid\forall x_2\in X_2: A_{x_2}\in\Sigma_1\}$ coincide with $\Sigma$.
     \end{property}
 
     \begin{property}
-        The function $A_{\omega_2}\mapsto\mu(A_{\omega_2})$ is a step function:
+        The function $A_{x_2}\mapsto\mu(A_{x_2})$ is a step function:
         \begin{gather*}
-            \mu(A_{\omega_2}) =
+            \mu(A_{x_2}) =
             \begin{cases}
-                \mu_1(A_1)&\omega_2\in A_2\\
-                0&\omega_2\not\in A_2.
+                \mu_1(A_1)&x_2\in A_2\\
+                0&x_2\not\in A_2.
             \end{cases}
         \end{gather*}
     \end{property}
@@ -638,40 +642,40 @@
     \begin{formula}[Product measure]\index{measure}
         From the previous property it follows that the product measure $\mu(A)$ can be written in the following way:
         \begin{gather}
-            \mu(A) = \int_{\Omega_2}\mu_1(A_{\omega_2})d\mu_2(\omega_2).
+            \mu(A) = \int_{X_2}\mu_1(A_{x_2})\,d\mu_2(x_2).
         \end{gather}
     \end{formula}
     \begin{property}
-        Let $\mu_1,\mu_2$ be finite measures. If $A\in\Sigma$, the functions
-        \[\omega_1\mapsto\mu_2(A_{\omega_1}) \qquad\text{and}\qquad \omega_2\mapsto\mu_1(A_{\omega_2})\]
+        Let $\mu_1,\mu_2$ be $\sigma$-finite measures. If $A\in\Sigma$, the functions
+        \[x_1\mapsto\mu_2(A_{x_1}) \qquad\text{and}\qquad x_2\mapsto\mu_1(A_{x_2})\]
         are measurable with respect to $\Sigma_1$ and $\Sigma_2$ respectively and
         \begin{gather}
-            \int_{\Omega_2}\mu_1(A_{\omega_2})d\mu_2(\omega_2) = \int_{\Omega_1}\mu_2(A_{\omega_1})d\mu_1(\omega_1).
+            \int_{X_2}\mu_1(A_{x_2})\,d\mu_2(x_2) = \int_{X_1}\mu_2(A_{x_1})\,d\mu_1(x_1).
         \end{gather}
-        Furthermore, the set function $\mu$ is countably additive and if any other product measure coincides with $\mu$ on all rectangles, it coincides with $\mu$ on the whole product $\sigma$-algebra.
+        Furthermore, the set function $\mu$ is countably additive and if any other product measure coincides with $\mu$ on all product sets, it coincides with $\mu$ on the whole product $\sigma$-algebra.
     \end{property}
 
 \subsection{Fubini's theorem}
 
     \begin{property}
-        Let $f:X_1\times X_2\rightarrow\mathbb{R}$ be a nonnegative function. If $f$ is measurable with respect to $\Sigma_1\times\Sigma_2$, then for each $\omega_1\in X$ the function $\omega_2\mapsto f(\omega_1,\omega_2)$ is measurable with respect to $\Sigma_2$ (and vice versa). Their integrals with respect to $\mu_1$ and $\mu_2$ respectively are also measurable.
+        Let $f:X_1\times X_2\rightarrow\mathbb{R}$ be a nonnegative function. If $f$ is measurable with respect to $\Sigma_1\times\Sigma_2$, then for each $x_1\in X$ the function $x_2\mapsto f(x_1,x_2)$ is measurable with respect to $\Sigma_2$ (and vice versa). Their integrals with respect to $\mu_1$ and $\mu_2$ respectively are also measurable.
     \end{property}
     \newdef{Section}{\index{section}
-        The functions $\omega_1\mapsto f(\omega_1,\omega_2)$ and $\omega_2\mapsto f(\omega_1,\omega_2)$ are called sections of $f$.
+        The functions $x_1\mapsto f(x_1,x_2)$ and $x_2\mapsto f(x_1,x_2)$ are called sections of $f$.
     }
 
     \begin{theorem}[Tonelli]\index{Tonelli}\label{lebesgue:tonelli_theorem}
         Let $f:X_1\times X_2\rightarrow\mathbb{R}$ be a nonnegative function. The following equalities hold:
         \begin{align}
-            \int_{X_1\times X_2}f(\omega_1,\omega_2)d\mu(\omega_1,\omega_2) &= \int_{X_1}\left(\int_{X_2}f(\omega_1,\omega_2)d\mu_2(\omega_2)\right)d\mu_1(\omega_1)\nonumber\\
-            &= \int_{X_2}\left(\int_{X_1}f(\omega_1,\omega_2)d\mu_1(\omega_1)\right)d\mu_2(\omega_2).
+            \int_{X_1\times X_2}f\,d\mu &= \int_{X_1}\left(\int_{X_2}f(x_1,x_2)d\mu_2(x_2)\right)d\mu_1(x_1)\nonumber\\
+            &= \int_{X_2}\left(\int_{X_1}f(x_1,x_2)d\mu_1(x_1)\right)d\mu_2(x_2).
         \end{align}
     \end{theorem}
 
     \begin{result}[Fubini]\index{Fubini}
-        Let $f\in L^1(X_1\times X_2)$. The sections of $f$ are integrable in the appropriate spaces. Furthermore, the functions $\omega_1\mapsto\int_{X_2}f\,d\mu_2$ and $\omega_2\mapsto\int_{X_1}f\,d\mu_1$ are in $L^1(\Omega_1)$ and $L^1(\Omega_2)$ respectively and Tonelli's theorem holds.
+        Let $f\in L^1(X_1\times X_2)$. The sections of $f$ are integrable in the appropriate spaces. Furthermore, the functions $x_1\mapsto\int_{X_2}f(x_1,x_2)\,d\mu_2(x_2)$ and $x_2\mapsto\int_{X_1}f(x_1,x_2)\,d\mu_1(x_1)$ are in $L^1(X_1)$ and $L^1(X_2)$ respectively and Tonelli's theorem holds.
     \end{result}
-    \remark{The previous construction and theorems also apply to higher-dimensional product spaces. These theorems provide a way to construct higher-dimensional Lebesgue measures by defining them as the completion of the product of multiple one-dimensional Lebesgue measures.}
+    \remark{The previous construction and theorems also apply to higher-dimensional product spaces. These theorems provide a way to construct higher-dimensional measures by defining them (as the completion of) the product of measures.}
 
 \section{Radon-Nikodym theorem}\label{section:Radon-Nikodym}
 
@@ -713,14 +717,14 @@
         Let $(X,\Sigma)$ be a measurable space and let $\mu,\nu$ be two $\sigma$-finite measures defined on $\Sigma$ such that $\nu\ll\mu$. There exists a nonnegative, measurable function $f:X\rightarrow\mathbb{R}$ such that $\nu(A) = \int_Af\,d\mu$ for all $A\in\Sigma$.
     \end{theorem}
     \remark{The function $f$ in this theorem is unique up to a $\mu$-null (and thus $\nu$-null) set.}
-    \begin{property}
+    \begin{property}[Integrability]
         In general the Radon-Nikodym derivative is not integrable (unless the measures are finite). However, it is always locally integrable \ref{lebesgue:locally_integrable}. Together with Property \ref{lebesgue:measure_by_integral} this implies that (densities of) absolutely continuous measures are in bijection with locally integrable functions.
     \end{property}
 
     \begin{property}[Change of variables]
         Let $\mu,\nu$ be finite measures such that $\nu\ll\mu$ and let $\deriv{\nu}{\mu}$ be the associated Radon-Nikodym derivative. For every $\nu$-integrable function $f$ the following equality holds
         \begin{gather}
-            \int_A f\,d\nu = \int_Afh_\nu\,d\mu
+            \int_A f\,d\nu = \int_Af\deriv{\nu}{\mu}\,d\mu
         \end{gather}
         for all $A\in\Sigma$.
     \end{property}
@@ -757,14 +761,14 @@
         \begin{gather}
             \mu_F\big(\{x\}\big) = F(x) - F(x^-).
         \end{gather}
-        Such elements are examples of \textbf{atoms}, sets of positive measure for which every proper measurable subset is null.
+        Such elements are examples of \textbf{atoms}, sets of positive measure for which every proper measurable subset is null. Note that by right-continuity of $F$, the number of discontinuities is countable and the only atoms of $\mu_F$ are exactly these discontinuities.
     \end{property}
     \begin{result}
         It follows that the Lebesgue-Stieltjes measures having null singletons are exactly those for which $F$ is continuous.
     \end{result}
 
     \begin{property}[Regularity]\index{Borel!measure}
-        The Lebesgue-Stieltjes measure is a regular Borel measure. Furthermore, every (finite) regular Borel measure $\mu$ on $\mathbb{R}$ is equal to a Lebesgue-Stieltjes measure induced by the function
+        The Lebesgue-Stieltjes measure is a Radon measure. Furthermore, every Radon measure $\mu$ on $\mathbb{R}$ is equal to a Lebesgue-Stieltjes measure induced by the function
         \begin{gather}
             F(x) = \mu\big(]-\!\infty,x]\big).
         \end{gather}
@@ -777,13 +781,43 @@
         The Dirac measure at $x\in\mathbb{R}$ can be obtained as the Lebesgue-Stieltjes measure for $F(x)=\mathbbm{1}_{[x,\infty[}$.
     \end{example}
 
-\subsection{Signed measures}
+    \begin{property}
+        If the Lebesgue-Stieltjes measure $\mu_F$ is nonatomic, then
+        \begin{gather}
+            F_\ast\mu_F = \lambda,
+        \end{gather}
+        for $\lambda$ the Lebesgue measure.
+    \end{property}
+
+    \begin{property}
+        Let $\mu,\nu$ be two absolutely continuous measures\footnote{In fact  one can relax this to merely being nonatomic.} on $\mathbb{R}^n$ (with respect to the Lebesgue measure). There exists a unique increasing triangular Borel function $T:\mathbb{R}^n\rightarrow\mathbb{R}^n$ such that
+        \begin{gather}
+            T_\ast\mu = \nu.
+        \end{gather}
+        Triangular means that $Tx\equiv\big(f_1(x_1),f_2(x_1,x_2),\ldots,f_n(x_1,\ldots,x_n)\big)$ for some Borel functions $f_i:\mathbb{R}^i\rightarrow\mathbb{R}$ and increasing means that each $f_i$ is an increasing function of $x_i$.
+    \end{property}
+    \begin{remark}
+        For $\mathbb{R}$ the Borel function $T$ is obtained by first mapping $\mu$ to the Lebesgue measure on $[0,1]$ and then mapping it to $\nu$. Explicitly, let $F_\mu$ be the \textit{cumulative dsitribution} of $\mu$:
+        \begin{gather}
+            F_\mu(x) := \mu\big(]-\infty,x]\big),
+        \end{gather}
+        and let $G_\nu$ be the \textit{quantile function} of $\nu$:
+        \begin{gather}
+            G_\nu(x) := \inf\{t\in\mathbb{R}\mid F_\nu(t)\geq x\}.
+        \end{gather}
+        The required transformation is then given by the composition:
+        \begin{gather}
+            T = G_\nu\circ F_\mu.
+        \end{gather}
+    \end{remark}
+
+\section{Signed measures}
 
     \newdef{Signed measure}{\index{measure!signed}
         Consider a measurable space $(X,\Sigma)$. A function $\mu:\Sigma\rightarrow\overline{\mathbb{R}}$ is called a signed measure if it satisfies the following conditions:
         \begin{enumerate}
             \item\textbf{Measure zero}: $\mu(\emptyset) = 0$, and
-            \item\textbf{Countable additivity} : $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
+            \item\textbf{$\sigma$-additivity} : $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
         \end{enumerate}
         Note that these requirements are the same as for an ordinary measure \ref{lebesgue:measure}, except that now the function is allowed to become negative. The function is, however, not allowed to attain $-\infty$ to exclude undefined expressions such as $\infty-\infty$.
     }
@@ -806,11 +840,11 @@
 
     The following theorem generalizes both the Radon-Nikodym and Lebesgue decomposition theorems to the case of signed measures:
     \begin{theorem}\index{Radon-Nikodym}\label{lebesgue:signed_radon_nikodym}
-        Consider a $\sigma$-finite signed measure $\mu$ and a $\sigma$-finite measure $\nu$ on a measurable space $(X,\Sigma)$. There exists a $\nu$-a.e. unique integrable function $f\in L^1(\nu)$ and a $\sigma$-finite measure $\mu_s\perp\nu$ such that for all $A\in\Sigma$:
+        Consider a $\sigma$-finite signed measure $\mu$ and a $\sigma$-finite measure $\nu$ on a measurable space $(X,\Sigma)$. There exists a $\nu$-a.e.~unique integrable function $f\in L^1(\nu)$ and a $\sigma$-finite measure $\mu_s\perp\nu$ such that for all $A\in\Sigma$:
         \begin{gather}
-            \mu(A) = \int_Afd\nu + \mu_s(A).
+            \mu(A) = \int_Af\,d\nu + \mu_s(A).
         \end{gather}
-        \emph{As before, the function is called $f$ the Radon-Nikodym derivative of $\mu$.}
+        \emph{As before, the function $f$ is called the Radon-Nikodym derivative of $\mu$.}
     \end{theorem}
 
     \begin{theorem}[Hahn-Jordan]\index{Hahn-Jordan}

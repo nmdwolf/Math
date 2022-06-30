@@ -65,7 +65,7 @@
     \newdef{Continuity}{\index{continuity}\label{metric:continuity}
         Let $(M,d)$ and $(M',d')$ be two metric spaces. A function $f:M\rightarrow M'$ is said to be continuous at a point $a\in$ $\dom(f)$ if
         \begin{gather}
-            \forall\varepsilon>0:\exists\delta_\varepsilon>0:\forall x\in\dom(f):d(a,x)<\delta_\varepsilon\implies d'(f(a),f(x))<\varepsilon.
+            \forall\varepsilon>0:\exists\delta_\varepsilon>0:\forall x\in\dom(f):d(a,x)<\delta_\varepsilon\implies d'\big(f(a),f(x)\big)<\varepsilon.
         \end{gather}
     }
     \begin{property}
@@ -75,9 +75,17 @@
     \newdef{Uniform continuity}{\index{uniform!continuity}\label{metric:uniform_continuity}
         Let $(M,d)$ and $(M',d')$ be two metric spaces. A function $f:M\rightarrow M'$ is said to be uniformly continuous if
         \begin{gather}
-            \forall\varepsilon>0:\exists\delta_\varepsilon:\forall x, y\in\dom(f):d(x,y)<\delta_\varepsilon\implies d'(f(x),f(y))<\varepsilon.
+            \forall\varepsilon>0:\exists\delta_\varepsilon:\forall x, y\in\dom(f):d(x,y)<\delta_\varepsilon\implies d'\big(f(x),f(y)\big)<\varepsilon.
         \end{gather}
         This is clearly a stronger notion than that of continuity since the number $\varepsilon$ is equal for all points $y\in\dom(f)$.
+    }
+
+    \newdef{Lipschitz continuity}{\index{Lipschitz!continuity}\label{calculus:lipschitz_continuity}
+        Let $(M,d)$ and $(M',d')$ be two metric spaces. A function $f:M\rightarrow M'$ is said to be Lipschitz continuous if there exists a constant $C>0$ such that
+        \begin{gather}
+            d'\big(f(x),f(y)\big)\leq Cd(x,y)
+        \end{gather}
+        for all $x,y\in M$.
     }
 
 \section{Examples}
@@ -144,6 +152,16 @@
             \item Every closed subset of a complete metric space is complete.
             \item Every complete subset of a metric space is closed.
         \end{itemize}
+    \end{property}
+
+    \newdef{Polish space}{\index{Polish space}\label{metric:polish_space}
+        A separable, completely metrizable space.
+    }
+    \begin{property}
+        All uncountable Polish spaces are Borel isomorphic (Definition \ref{lebesgue:borel_measurable_function}).
+    \end{property}
+    \begin{property}
+        All open and closed subsets of a Polish space are Polish. So are $G_\delta$-subsets.
     \end{property}
 
 \subsection{Injective metric spaces}
@@ -227,9 +245,13 @@
     \end{theorem}
 
     \newdef{Equicontinuity}{\index{equicontinuity}\label{metric:equicontinuity}
-        Let $X$ be a topological space and let $M$ be a metric space. A collection $\mathcal{F}$ of maps $X\rightarrow M$ is equicontinuous in $a\in X$ if for all neighbourhoods $U$ of $a$ the following statements holds for all $\varepsilon\geq 0$:
+        Let $X$ be a topological space and let $M$ be a metric space. A collection $\mathcal{F}$ of maps $X\rightarrow M$ is equicontinuous in $x\in X$ if for all $\varepsilon\geq 0$ there exists a neighbourhood $U$ of $x$ such that
         \begin{gather}
-            \forall f\in\mathcal{F},\forall x\in U:d(f(x),f(a))\leq\varepsilon.
+            \forall f\in\mathcal{F},\forall x'\in U:d(f(x),f(x'))\leq\varepsilon.
+        \end{gather}
+        More generally, when both $X$ and $Y$ are arbitrary topological spaces, the collection $\mathcal{F}$ is said to be (topologically) equicontinuous at $x\in X$ if for every point $y\in Y$ and every open neighbourhood $W$ of $y$ there exist neighbourhoods $U\ni x,V\ni y$ such that
+        \begin{gather}
+            \forall f\in\mathcal{F}:f(U)\cap V\neq\emptyset\implies f(U)\subset W.
         \end{gather}
     }
 
@@ -243,4 +265,16 @@
             \item $\mathcal{F}$ is compact with respect to the supremum distance \eqref{metric:supremum_distance}.
             \item $\mathcal{F}$ is equicontinuous, closed under uniform convergence and $\{f(x)\mid f\in\mathcal{F}\}$ is totally bounded for every $x\in K$.
         \end{itemize}
+    \end{theorem}
+
+    \newdef{Lusin space}{\index{Lusin space}
+        A topological space that is homeomorphic to a Borel subset of a compact metric space. Equivalently, a topological space that admits a stronger topology that is Polish which is the same as saying that it is the image of a Polish space under a continuous bijection. (In particular, every Polish space is Lusin.)
+    }
+    \newdef{Suslin space\footnotemark}{\index{Suslin space}
+        \footnotetext{Sometimes written as ``Souslin''.}
+        The image of a Polish space under a continuous function. (In particular, every Lusin space is Suslin.)
+    }
+
+    \begin{theorem}[Lusin-Suslin]
+        A subset of a Polish space is Lusin if and only if it is Borel.
     \end{theorem}

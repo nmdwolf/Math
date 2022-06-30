@@ -2,6 +2,53 @@
 
     The main reference for the sections on optimization problems is \cite{conjugategradient}. For the geometry of clustering methods, see \cite{clustering_bregman}. The main references for the section on \textit{conformal prediction} are \cite{cp, cp_all}. Although a part of this chapter is a continuation of the previous one, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason the chapter starts with some sections on applied linear algebra (for a refresher see Chapter \ref{chapter:linear_algebra}).
 
+\section{Data sampling}
+\subsection{Inverse CDF sampling}
+
+    Although one of the most straightforward sampling algorithms, this approach makes the strong assumption that the cumulative distribution function \ref{prob:cdf} is invertible.
+
+    \begin{method}
+        Sample a point $\lambda$ uniformly from the unit interval $[0,1]$. This number gives the cumulative distribution of the point to be sampled. (The CDF $F_X(X)$ is itself uniformly distributed.) The new point $x'$ is simply given by $F^{-1}_X(\lambda)$.
+
+        In the case where $F_X$ is discrete $\lambda$ might not lie in the image of $F_X$ and the inverse might not admit an algorithmically useful expression, so one should use a different approach. Given a point $x\in\mathbb{R}$ and its associated cumulative probability $F_X(x)$ one can sample a new point $x'$ as follows. One increases (or decreases) $x$ until the unique point $x'$ is found such that $F_X(x'-1)<\lambda\leq F_X(x')$.
+    \end{method}
+
+\subsection{Uniform rejection sampling}
+
+    This method again uses the fact that the value of the cumulative distribution function is itself uniformly distributed on the unit interval $[0,1]$. The CDF does not have to be invertible for this method, but the probability density should be compactly supported.
+
+    \begin{method}
+        Consider an interval $[a,b]$ such that $f_X$ vanishes outside this interval and let $q_0$ be an upper bound for $f_X$. Now, sample a point $x'$ uniformly on $[a,b]$ and sample a point $q$ uniformly on $[0,q_0]$. If $f_X(x')\geq q$, then $x'$ is a good sample. If not, repeat this procedure.
+    \end{method}
+
+    The proof of that this algorithm works is quite easy and mainly depends on the fact that \[\mathrm{Pr}(Q\leq f_X(X))=\frac{1}{q_0(b-a)}.\] This value is often called the \textbf{acceptance probability}. From this expression it is clear that if one chooses $q_0$ too large, the acceptance probability becomes very small and the algorithm will take a long time to produce a sample.
+
+\subsection{Monte Carlo sampling}
+
+    The general idea of (Markov chain) Monte Carlo methods is to construct a sequence of points such that (starting from a given index) all points represent good samples and such that the sequence forms a Markov chain.
+
+    The first Monte Carlo algorithm uses an acceptance threshold:
+    \begin{method}[Metropolis-Hastings]
+        Assume that a normal distribution $\mathcal{N}(\mu,\sigma^2)$ is given. The first element is given by $x_0=\mu$. Subsequent points are constructed as follows:
+        \begin{itemize}
+            \item Sample a point $x'$ from the normal distribution.
+            \item Calculate the \textbf{acceptance ratio} \[\lambda := \frac{f_X(x')}{f_X(x_{i-1})}.\]
+            \item If $\lambda\geq1$, $x_i=x'$.
+            \item If not, sample a point $q$ uniformly on $[0,1]$. If $\lambda\geq q$, $x_i=x'$, else $x_i=x_{i-1}$.\footnote{This step could be merged with the previous one since $\lambda\geq1$ always implies $\lambda\geq q$.}
+        \end{itemize}
+        To obtain an efficient algorithm, it is helpful to choose $\mu=\expect{X}$ and $\sigma^2=\variance{X}$. This ensures that the points are sampled in a region that resembles the form of $f_X$.
+
+        In fact, this method can be drastically generalized. First of all it is possible to replace the normal distribution by any symmetric transition probability:
+        \begin{gather}
+            g(x'\mid x) = g(x\mid x').
+        \end{gather}
+        In case the transition probability is not symmetric, the acceptance ratio needs to be modified:
+        \begin{gather}
+            \lambda := \frac{f_X(x')g(x_{i-1}\mid x')}{f_X(x_{i-1})g(x'\mid x_{i-1})}.
+        \end{gather}
+    \end{method}
+    \remark{It is clear from the definition of the acceptance ratio that one does not need $f_X$ to be normalized. This avoids costly calculations of the normalization factor.}
+
 \section{Optimization}
 \subsection{Linear equations}
 
@@ -423,21 +470,21 @@
 
     This section will introduce the mathematics of kernel methods. This mainly involves the language of Hilbert spaces (see Chapter \ref{chapter:functional} for a refresher).
 
-    \newdef{Kernel\footnotemark}{\index{kernel|seealso{Mercer}}\index{Mercer!kernel}\label{data:kernel}
+    \newdef{Kernel\footnotemark}{\index{kernel}\index{Mercer|seealso{kernel}}\label{data:kernel}
         \footnotetext{Also called a \textbf{Mercer kernel}. See Mercer's theorem below for more information.}
         A function $k:X\times X\rightarrow\mathbb{C}$ that is (conjugate) symmetric and for which the Gram-matrix $K_{ij}:=K(x_i,x_j)$ is positive-definite for all $n\in\mathbb{N}$ and $\{x_i\in X\}_{i\leq n}$.
     }
-    \newdef{Reproducing kernel Hilbert space}{\index{Hilbert!reproducing kernel}
+    \newdef{Reproducing kernel Hilbert space}{\index{Hilbert!space}
         \nomenclature[A_RKHS]{RKHS}{reproducing kernel Hilbert space}
-        A Hilbert space $\mathcal{H}\subset\mathrm{Map}(X,\mathbb{C})$ for some set $X$ for which all evaluation functionals $\delta_x:f\mapsto f(x)$ are bounded (or continuous by Property \ref{functional:bounded_continuous}). Reproducing kernel Hilbert spaces are often abbreviated as \textbf{RKHS}s.
+        A Hilbert space $\mathcal{H}\subset\mathrm{Map}(X,\mathbb{C})$ of functions over a set $X$ for which all evaluation functionals $\delta_x:f\mapsto f(x)$ are bounded (or continuous by Property \ref{functional:bounded_continuous}). Reproducing kernel Hilbert spaces are often abbreviated as \textbf{RKHS}s.
     }
-    Using the Riesz representation theorem \ref{functional:riesz} one can express every evaluation functional $\delta_x$ on a RKHS $\mathcal{H}$ as a function $K_x\in\mathcal{H}$. This allows for the introduction of a kernel on $X$:
+    Using the Riesz representation theorem \ref{functional:riesz} one can express every evaluation functional $\delta_x$ on $\mathcal{H}$ as a function $K_x\in\mathcal{H}$. This allows for the introduction of a kernel on $X$:
     \newdef{Reproducing kernel}{
-        Let $\mathcal{H}$ be a RKHS on a set $X$. The (reproducing) kernel $k$ on $X$ is defined as follows:
+        Let $\mathcal{H}$ be an RKHS on a set $X$. The (reproducing) kernel $k$ on $X$ is defined as follows:
         \begin{gather}
             k(x,y) := \delta_x(K_y)\overset{\text{Riesz}}{=} \langle K_x|K_y \rangle_\mathcal{H}.
         \end{gather}
-        Because $k$ is given by a metric, it is not hard to see that the reproducing kernel is a Mercer kernel \ref{data:kernel}.
+        Because $k$ is given by an inner product, it is not hard to see that the reproducing kernel is a kernel \ref{data:kernel}.
     }
 
     Starting from a kernel one can also characterize an RKHS as follows:
@@ -456,18 +503,16 @@
 
     \begin{theorem}[Moore-Aronszajn]\index{Moore-Aronszajn}
         There exists a bijection between RKHSs and kernels.
-
         \begin{proof}
-            One direction of the theorem is, as mentioned before, rather simple to see. The other direction is constructive:
-            \begin{quote}
-                 Given a kernel $k$, one defines for all $x\in X$ the function $K_x:=k(\cdot, x)$. The RKHS is then constructed as the Hilbert completion of $\mathrm{span}\{k_x\mid x\in X\}$, where the inner product is defined as follows
-                \begin{gather}
-                    \left\langle\left.\sum_{x\in X}a_xK_x\right|\sum_{y\in X}b_yK_y\right\rangle_\mathcal{H} := \sum_{x,y\in X}\overline{a_x}b_yk(x,y).
-                \end{gather}
-            \end{quote}
-        \end{proof}
+            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+                One direction of the theorem is, as mentioned before, rather simple to see. The other direction is constructive:
 
-        ?? ADD BOX ??
+                Given a kernel $k$, one defines the function $K_x:=k(\cdot,x)$ for all $x\in X$. The RKHS is then constructed as the Hilbert completion of $\mathrm{span}\{K_x\mid x\in X\}$, where the inner product is defined as follows
+                \begin{gather}
+                    \left\langle\left.\sum_{x\in X}a_xK_x\right|\sum_{y\in X}b_yK_y\right\rangle := \sum_{x,y\in X}\overline{a_x}b_yk(x,y).
+                \end{gather}
+            \end{mdframed}
+        \end{proof}
     \end{theorem}
 
     \begin{formula}
@@ -479,7 +524,7 @@
 
     \remark{Note that one can use different conventions in the above definitions, e.g. the definition $k(x,y)=\langle K_y|K_x\rangle_\mathcal{H}$ is also valid.}
 
-    \begin{theorem}[Mercer]
+    \begin{theorem}[Mercer]\index{Mercer}
         Let $X$ be a finite measure space and consider a (conjugate) symmetric function $k\in L^2(X\times X,\mathbb{C})$. If $k$ satisfies the \textbf{Mercer condition}
         \begin{gather}
             \iint_{X\times X}k(x,y)\overline{f(x)}f(y)dxdy\geq0
@@ -498,12 +543,26 @@
     \end{theorem}
 
     \newadef{Kernel}{
-        Consider a set $X$. A function $k:X\times X\rightarrow\mathbb{C}$ is called a kernel on $X$ if there exists a Hilbert space $\mathcal{H}$ together with a function $\phi:X\rightarrow\mathcal{H}$ such that
+        Consider a set $X$. A function $k:X\times X\rightarrow\mathbb{C}$ is called a (Mercer) kernel on $X$ if there exists a Hilbert space $\mathcal{H}$ together with a function $\phi:X\rightarrow\mathcal{H}$ such that
         \begin{gather}
             k(x,y) = \langle\phi(x)|\phi(y)\rangle_\mathcal{H}.
         \end{gather}
-        When using Mercer's theorem, the feature maps are given by $\phi_i:x\mapsto\sqrt{\lambda_i}e_i(x)$.
+        When using Mercer's theorem, the feature maps are given by
+        \begin{gather}
+            \phi_i:x\mapsto\sqrt{\lambda_i}e_i(x).
+        \end{gather}
     }
+
+    \begin{remark}
+        The kernel expressions in the Mercer and Moore-Aronszajn theorems are related by the fact that the RKHSs induced by kernels satisfying the assumptions of the Mercer theorem are of the form
+        \begin{gather}
+            \mathcal{H} = \left\{f\in L^2(X,\mathbb{C})\,\middle\vert\,\sum_{i=1}^\infty\frac{\langle f,e_i \rangle^2_{L^2}}{\lambda_i}<+\infty\right\}.
+        \end{gather}
+    \end{remark}
+
+    \begin{remark}[Vector-valued functions]
+        Much of this section can be generalized to the setting of vector-valued functions $f:X\rightarrow\mathbb{C}^d$. In this case the kernels $k:X\times X\rightarrow\mathbb{C}$ are generalized to a matrix-valued functions $k:X\times X\rightarrow\mathbb{C}^{d\times d}$.
+    \end{remark}
 
 \subsection{Decision boundaries}
 
@@ -570,17 +629,21 @@
 \subsection{VC dimension}
 
     \newdef{Shatter coefficient}{\index{shatter}
-        Let $\Omega$ denote the universe of discours and consider a set $C\in\Omega$. The shatter(ing) coefficients of $C$ are defined as follows:
+        Let $\Omega$ denote the universe of discours and consider a set $C\subset P(\Omega)$. $C$ \textbf{shatters} a set $A\subset\Omega$ if for every subset $a\subseteq A$ there exists a subset $c\in C$ such that
         \begin{gather}
-            S_n(C) := \max_{x_1,\ldots,x_n}\left|\big\{\{x_1,\ldots,x_n\}\cap c\,\big\vert\,c\in C\big\}\right|.
+            a = c\cap A.
         \end{gather}
-        It should be clear that every shatter coefficient $S_n$ is bounded above by $2^n$.
+        The shatter(ing) coefficients of $C$ are defined as follows:
+        \begin{gather}
+            S_n(C) := \max_{x_1,\ldots,x_n\in\Omega}\left|\big\{\{x_1,\ldots,x_n\}\cap c\,\big\vert\,c\in C\big\}\right|.
+        \end{gather}
+        It should be clear that every shatter coefficient $S_n$ is bounded above by $2^n$. If $S_n(C)=2^n$, then $C$ shatters some set of cardinality $n$.
 
         Given a collection of binary functions $\mathcal{F}\subseteq\{0,1\}^X$, the shatter(ing) coefficients (or \textbf{growth functions}) of $\mathcal{F}$ are given by:
         \begin{gather}
-            S_n(\mathcal{F}) := \max_{\{x_1,\ldots,x_n\}\subset X}\left|\big\{\{f(x_1),\ldots,f(x_n)\}\,\big\vert\,f\in\mathcal{F}\big\}\right|.
+            S_n(\mathcal{F}) := \max_{x_1,\ldots,x_n\in X}\left|\big\{\{f(x_1),\ldots,f(x_n)\}\,\big\vert\,f\in\mathcal{F}\big\}\right|.
         \end{gather}
-        The shatter coefficients give a notion of effective size of $\mathcal{F}$, since they say how many different results the functions can produce given a data set of $n$ points.
+        The shatter coefficients give a notion of the effective size of $\mathcal{F}$, since they say how many different results the functions can produce given a data set of $n$ points.
     }
 
     \newdef{Vapnik-Chervonenkis dimension}{\index{Vapnik-Chervonenkis!dimension}
@@ -604,7 +667,7 @@
         \end{gather}
         for all $n\in\mathbb{N}$. For $n\leq\mathrm{VC}(\mathcal{F})$, the right-hand side is just the full binomial expansion for $2^n$ and, accordingly, the shatter coefficients grow exponentially. For $n\geq d$, the binomial series is truncated and polynomial behaviour is obtained:
         \begin{gather}
-            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{en}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})},
+            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{e\,n}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})},
         \end{gather}
         where $e$ is the Euler number.
     \end{property}
@@ -613,7 +676,7 @@
     \begin{property}[Generalization bound]
         The expected risk of the empirical risk minimizer $\hat{f}$ is bounded as follows:
         \begin{gather}
-            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(en/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
+            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(e\,n/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
         \end{gather}
         with probability at least $1-\delta$.
     \end{property}
@@ -623,11 +686,11 @@
 \subsection{Rademacher complexity}
 
     \begin{remark}[Real-valued functions]
-        The VC dimension of a collection of arbitrary real-valued functions can be defined as the VC dimension of the corresponding collection of indicator functions:
+        The VC dimension of a collection of arbitrary real-valued functions can be defined as the VC dimension of the corresponding collection of indicator functions (Heaviside functions):
         \begin{gather}
             \mathrm{VC}(\mathcal{F}) := \mathrm{VC}\left(\big\{\theta(f(x)-\lambda)\,\big\vert\,f\in\mathcal{F},\lambda\in\mathbb{R}\big\}\right).
         \end{gather}
-        This definition is equivalent to the following one through subgraphs:
+        This definition is equivalent to the following one based on subgraphs:
         \begin{gather}
             \mathrm{VC}(\mathcal{F}) = \mathrm{VC}\left(\big\{C_f:=\{(x,\lambda)\in X\times\mathbb{R}\mid\lambda<f(x)\}\,\big\vert\,f\in\mathcal{F}\big\}\right).
         \end{gather}
@@ -640,7 +703,7 @@
         The set of translations of a real-valued function has VC dimension 1.
     \end{example}
 
-    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that VC bounds obtained before make sense in this setting. To obtain useful bounds, it will be important to introduce a new notion of effective size:
+    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that the VC bounds obtained before above make sense in this setting. To obtain useful bounds, it is important to introduce a new notion of effective size:
     \newdef{Rademacher complexity}{\index{Rademacher!complexity}
         Consider a collection of functions $\mathcal{F}:=\{f:X\rightarrow\mathbb{R}\}$. The Rademacher complexity is defined as follows:
         \begin{gather}
@@ -1040,20 +1103,20 @@
 
 \subsection{Classifier calibration}
 
-    A specific instance of regression problems are classification tasks where the one tries to model a function $f:X\rightarrow Y$ with $Y$ finite and discrete. For the case of probabilistic classifiers, the notion of validity \ref{data:validity} admits the following formulation:
-    \begin{definition}[Calibration]\index{calibration}
+    A specific instance of regression problems are classification tasks, where the one tries to model a function $f:X\rightarrow Y$ with $Y$ finite (or discrete). For the case of probabilistic classifiers, the notion of validity \ref{data:validity} admits the following formulation:
+    \newdef{Calibration}{\index{calibration}
         A probabilistic (multiclass) classifier $\hat{P}(\cdot\mid\cdot):Y\times X\rightarrow[0,1]$ is said to be (well-)calibrated if
         \begin{gather}
             \mathrm{Pr}\left(y\,\middle\vert\,\hat{P}(y\mid x)=p\right)=p
         \end{gather}
-        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\hat{P}$, i.e. instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class.
-    \end{definition}
+        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\hat{P}$, i.e. instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class. A possible way to visually investigate the calibration of a probabilistic classifier is to draw \textbf{calibration plots} or \textbf{reliability diagrams} for all classes, where for every class label $y$ and for a suitable partition $\mathcal{P}:=\{0=p_1,p_2,\ldots,p_n=1\}$ of the interval $[0,1]$ the $i^{th}$ point is the proportion of instances for which $y$ was predicted with probability between $p_i$ and $p_{i+1}$. For a calibrated model, these points should lie on the diagonal.
+    }
 
     Consider now the case of binary classification: $X\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
     \begin{gather}
-        A_\mathrm{binary}(\mathcal{B},(x,y)) := 1 - \hat{P}(y\mid x;\mathcal{B}),
+        A_\text{binary}(\mathcal{B},(x,y)) := 1 - \hat{P}(y\mid x;\mathcal{B}),
     \end{gather}
-    where the classifier $\hat{P}(\cdot\mid\cdot\,;\mathcal{B})$ is possibly estimated on $\mathcal{B}$. At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
+    where the classifier is possibly estimated on $\mathcal{B}$. At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
 
     In fact, for classification tasks, where the codomain is finite (or at least discrete), it makes sense to slightly change the approach. Instead of fixing the significance level $\alpha$, one could (or should) consider some specific values:\index{confidence}\index{credibility}
     \begin{itemize}
@@ -1061,6 +1124,26 @@
         \item\textbf{Credibility}: $\inf\{\alpha\mid|\Gamma^\alpha(x)|=0\}$
     \end{itemize}
     The former is the highest probability with which the model can predict a single class. If one wants a higher probability, more than one class has to be considered. The latter gives a measure of how ``credible'' the predictions are. The smaller this number, i.e. the greater the confidence with which the model predicts a vacuously false result (every sample necessarily belongs to a class), the less reliable the model is for a given sample.
+
+    Various othe approaches exist to calibrate existing probabilistic classifiers. In practice it has been observed that many models show sigmoidal distortions in their calibration plots. A possible approach is then to modify the final sigmoidal layer in these models (or add an extra sigmoidal layer if the model did not use one). This gives rise to \textbf{Platt scaling} and \textbf{temperature scaling}. For the former one takes the output $\hat{P}$ and fits a sigmoidal layer of the form
+    \begin{gather}
+        \hat{P}_\text{Platt}(y\mid x;A,B) = \frac{1}{1+\exp(-A\hat{P}(y\mid x)-B)}.
+    \end{gather}
+    For the latter one modifies the existing logits as follows for some parameter $T>0$:
+    \begin{gather}
+        \hat{P}_\text{temp}(y\mid x;T) = \frac{1}{1+\exp(-\hat{z}(y\mid x)/T)},
+    \end{gather}
+    where $\hat{z}$ represents the logits of the estimator $\hat{P}$.
+
+    \begin{remark}[Accuracy]
+        Because temperature scaling does not change the maximum of the softmax function, the eventual predictions do not change.
+    \end{remark}
+
+\subsection{Normalizing flows}
+
+    One of the main problems for obtaining valid uncertainty estimates is that the underlying distribution of a given data set is often unknown. Except for the conformal prediction framework, all other methods make some assumptions about the underlying data generating process (even CP makes the exchangeability assumption). One way around this problem is by first transforming the data such that it is sampled according to a well-known distribution.
+
+
 
 \subsection{Conditionality}
 
@@ -1081,7 +1164,7 @@
     \begin{property}[No-go theorem]
         Let $X$ be a separable metric space equipped with its canonical Borel $\sigma$-algebra and consider a confidence predictor $\Gamma^\alpha$ at conditional significance level $\alpha\in[0,1]$. For every probability distribution $P$ on $X\times Y$ and $P_X$-almost all non-atoms $x\in X$ one has
         \begin{gather}
-            \mathrm{Pr}(\lambda(\Gamma^\alpha(x))=\infty)\geq 1-\alpha
+            \mathrm{Pr}(\lambda(\Gamma^\alpha(x))=+\infty)\geq 1-\alpha
         \end{gather}
         and
         \begin{gather}

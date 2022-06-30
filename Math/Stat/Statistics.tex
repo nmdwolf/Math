@@ -64,7 +64,7 @@
     \end{remark}
 
     \newdef{Geometric mean}{\label{statistics:geometric_mean}
-        Let $\{x_i\}$ be a data set taking values in either $\mathbb{R}_+$ or $\mathbb{R}_-$. The geometric mean is used to average out \textit{normalised} measurements, i.e. ratios with respect to a reference value.
+        Let $\{x_i\}$ be a data set taking values in either $\mathbb{R}_+$ or $\mathbb{R}_-$. The geometric mean is used to average out \textit{normalized} measurements, i.e. ratios with respect to a reference value.
         \begin{gather}
             g := \left(\prod_{i=1}^Nx_i\right)^{1/N}
         \end{gather}
@@ -131,13 +131,13 @@
         A better estimator for the variance of a sample is given by the following formula:
         \begin{gather}
             \label{statistics:bessel_correction}
-            \hat{s} := \frac{1}{N-1}\sum_{i=1}^N(x_i - \overline{x})^2.
+            \hat{s}^2 := \frac{1}{N-1}\sum_{i=1}^N(x_i - \overline{x})^2.
         \end{gather}
         See Remark \ref{statistics:variance_bessel_correction} for more information.
     \end{remark}
 
     \newdef{Skewness}{\index{skewness}\label{statistics:skewness}
-        The skewness $\gamma$ describes the asymmetry of a distribution. It is defined as the proportionality constant relating the third central moment $m_3$ and the standard deviation $\sigma$:
+        The skewness $\gamma$ describes the asymmetry of a distribution. It is defined as the proportionality constant relating the third central moment and the standard deviation:
         \begin{gather}
             m_3 = \gamma\sigma^3.
         \end{gather}
@@ -150,7 +150,7 @@
     }
 
     \newdef{Kurtosis}{\index{kurtosis}\label{statistics:kurtosis}
-        The kurtosis $c$ is an indicator for the ``tailedness''. It is defined as the proportionality constant relating the fourth central moment $m_4$ and the standard deviation $\sigma$:
+        The kurtosis $c$ is an indicator for the ``tailedness''. It is defined as the proportionality constant relating the fourth central moment and the standard deviation:
         \begin{gather}
             m_4 = c\sigma^4.
         \end{gather}
@@ -172,7 +172,7 @@
         The difference between the two values of the independent variable where the dependent variable is half of its maximum. This quantity is often denoted by the abbreviation \textbf{FWHM}.
     }
     \begin{property}
-        For Gaussian distributions the following relation exists between the FWHM and the standard deviation $\sigma$:
+        For Gaussian distributions the following relation exists between the FWHM and the standard deviation:
         \begin{gather}
             \mathrm{FWHM} = 2.35\sigma.
         \end{gather}
@@ -187,14 +187,14 @@
         \begin{gather}
             \mathrm{cov}(x,y) := \frac{1}{N}\sum_{i=1}^N(x_i-\overline{x})(y_i - \overline{y}) = \overline{xy} - \overline{x}\ \overline{y}.
         \end{gather}
-        The covariance is also often denoted by $\sigma_{xy}$.
+        The covariance is also often denoted by $\sigma_{xy}$ because of the next property:
     }
-    \begin{formula}
+    \begin{property}
         The covariance and standard deviation are related by the following equality:
         \begin{gather}
             \sigma_x^2 = \sigma_{xx}.
         \end{gather}
-    \end{formula}
+    \end{property}
 
     \newdef{Correlation coefficent}{\index{correlation}\label{statistics:correlation_coefficient}
         \begin{gather}
@@ -208,9 +208,8 @@
             \label{statistics:covariance_matrix}
             V_{ij} &= \mathrm{cov}(x_{(i)},x_{(j)})\\
             \label{statistics:correlation_matrix}
-            \rho_{ij} &= \rho_{(i)(j)},
+            \rho_{ij} &= \rho_{(i)(j)}.
         \end{align}
-        where $\mathrm{cov}(x_{(i)},x_{(j)})$ and $\rho_{(i)(j)}$ are defined as in Formulas \ref{statistics:covariance} and \ref{statistics:correlation_coefficient}.
     \end{remark}
 
 \section{Probability distributions}
@@ -271,19 +270,18 @@
     \newdef{Kolmogorov-Smirnov statistic}{\label{statistics:kolmogorov_smirnov_statistic}
         Let $F$ be a given cumulative distribution function. The $n^{th}$ Kolmogorov-Smirnov statistic is defined as follows:
         \begin{gather}
-            D_n := \sup_x|F_n(x) - F(x)|.
+            D_n := \sup_{x\in\Omega}|F_n(x) - F(x)|.
         \end{gather}
     }
 
-    \newdef{Kolmogorov distribution}{\index{distribution!Kolmogorov}
+    \newdef{Kolmogorov distribution}{\index{distribution!Kolmogorov}\label{statistics:kolmogorov_distribution_cumulative}
         \begin{gather}
-            \label{statistics:kolmogorov_distribution_cumulative}
             F_\mathrm{Kol}(x) := 1 - 2\sum_{i=1}^\infty(-1)^{i-1}e^{-2i^2x^2} = \frac{\sqrt{2\pi}}{x}\sum_{i=1}^\infty e^{-(2i-1)^2\pi^2/(8x^2)}
         \end{gather}
     }
 
-    \newprop{Kolmogorov-Smirnov test}{\index{Kolmogorov-Smirnov test}
-        Let the null hypothesis $H_0$ state that a given data sample is described by a distribution function $F$. The null hypothesis is rejected at significance level $\alpha$ if
+    \newprop{Kolmogorov-Smirnov test}{\index{test!Kolmogorov-Smirnov}
+        Let the null hypothesis $H_0$ state that a given data sample is described by a cumulative distribution function $F$. The null hypothesis is rejected at significance level $\alpha$ if
         \begin{gather}
             \sqrt{n}D_n > K_{\alpha},
         \end{gather}
@@ -299,7 +297,7 @@
         \begin{gather}
             \|P_n-P\|_\mathcal{F}\overset{\text{a.s.}}{\longrightarrow}0,
         \end{gather}
-        where $P_n$ is the empirical measure.\footnote{If the convergence only holds in probability, the class is said to be \textbf{weakly GC}.} The Glivenko-Cantelli theorem \ref{statistics:glivenko_cantelli} says that the indicator functions of the sets $]\infty,x]$ form a Glivenko-Cantelli class.\footnote{Because every indicator function is uniquely associated to a set, one can also speak of GC classes of measurable sets.} In fact, they are \textbf{universally GC} because this theorem applies to all probability measures on $\Omega$. A class is said to be \textbf{uniformally GC} if the convergence holds uniformly over all probability measures.
+        where $P_n$ is the empirical measure.\footnote{If the convergence only holds in probability, the class is said to be \textbf{weakly GC}.} The Glivenko-Cantelli theorem \ref{statistics:glivenko_cantelli} says that the indicator functions of the sets $]-\infty,x]$ form a Glivenko-Cantelli class.\footnote{Because every indicator function is uniquely associated to a set, one can also speak of GC classes of measurable sets.} In fact, they are \textbf{universally GC} because this theorem applies to all probability measures on $\Omega$. A class is said to be \textbf{uniformally GC} if the convergence holds uniformly over all probability measures.
     }
     \begin{remark}
         Note that by the law of large numbers every singleton class is Glivenko-Cantelli (also universally and uniformly). The above definition strengthens the convergence of all elements of $\mathcal{F}$ to uniform convergence.
@@ -328,7 +326,7 @@
     \end{property}
 
     \begin{theorem}[Donsker]\index{Donsker}
-        Consider an empirical distribution function $F_n$ and define its normalized empirical process:
+        Consider an empirical distribution function $F_n$ and define its normalized empirical process as
         \begin{gather}
             G_n := \sqrt{n}(F_n-F),
         \end{gather}
@@ -341,7 +339,7 @@
 
 \subsection{Common distributions}
 
-    \newformula{Uniform distribution}{\index{distribution!uniform}\label{statistics:uniform_distr}
+    \newdef{Uniform distribution}{\index{distribution!uniform}\label{statistics:uniform_distr}
         \begin{align}
             f(x;a,b) &:=
             \begin{cases}
@@ -353,27 +351,27 @@
         \end{align}
     }
 
-    \begin{formula}[Gaussian distribution]\index{distribution!normal}\index{Gauss!distribution}\label{statistics:normal_distr}
+    \newdef{Gaussian distribution}{\index{distribution!normal}\index{Gauss!distribution}\label{statistics:normal_distr}
         Let $\sigma$ be a positive number.
         \begin{gather}
-            \mathcal{G}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
+            \mathcal{N}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).
         \end{gather}
         This distribution is also called a (univariate) \textbf{normal distribution} with \textbf{mean} $\mu$ and \textbf{standard deviation} $\sigma$ (or \textbf{variance} $\sigma^2$).
 
         This formula can also be generalized to multivariate distributions. Let $\Sigma$ be a positive-definite matrix, the \textbf{covariance} matrix. The associated multivariate normal distribution is given by
         \begin{gather}
-            \mathcal{G}(\vector{x};\vector{\mu},\Sigma) = \frac{1}{\sqrt{2\pi}\det(\Sigma)}\exp\left(-\frac{(\vector{x}-\vector{\mu})^T\Sigma^{-1}(\vector{x}-\vector{\mu})}{2}\right).
+            \mathcal{N}(\vector{x};\vector{\mu},\Sigma) = \frac{1}{\sqrt{2\pi}\det(\Sigma)}\exp\left(-\frac{(\vector{x}-\vector{\mu})^T\Sigma^{-1}(\vector{x}-\vector{\mu})}{2}\right).
         \end{gather}
-    \end{formula}
+    }
 
-    \newformula{Standard normal distribution}{\index{error!function}\label{statistics:standard_normal_distr}
+    \newdef{Standard normal distribution}{\index{error!function}\label{statistics:standard_normal_distr}
         \begin{gather}
             \mathcal{N}(z) := \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}
         \end{gather}
-        The cumulative distribution of $\mathcal{N}$ is given by the \textit{error function}.
+        The cumulative distribution of $\mathcal{N}$ is called the \textbf{error function} $\mathrm{erf}(x)$.
     }
     \begin{remark}\index{standardization}
-        Every Gaussian distribution can be transformed into a standard normal distribution by passing to the random variable $Z = \frac{X-\mu}{\sigma}$. This transformation is often called \textbf{standardization}.
+        Every Gaussian distribution can be transformed into a standard normal distribution by passing to the random variable $Z=\tfrac{X-\mu}{\sigma}$. This transformation is often called \textbf{standardization}.
     \end{remark}
 
     \begin{theorem}[Central limit theorem]\index{central!limit theorem}\label{statistics:CLT}
@@ -385,15 +383,20 @@
     \begin{remark}
         If the random variables are not independent, the CLT will not hold. However, a generalization to distributions that are not identical exists. These are the \textit{Lyapunov} and \textit{Lindeberg} CLTs. (This generalization does require additional conditions on the higher moments.)
     \end{remark}
-    \remark{The sum of Gaussians is again Gaussian with the sum of the means and standard deviations as parameters.}
+    \begin{formula}
+        The sum of any number of (independent) Gaussian random variables is again Gaussian with the sum of the means and variances as parameters:
+        \begin{gather}
+            \forall i\in I:X_i\sim\mathcal{N}(\mu_i,\sigma^2_i)\implies\sum_{i\in I}X_i\sim\mathcal{N}\left(\sum_{i\in I}\mu_i,\sum_{i\in I}\sigma^2_i\right).
+        \end{gather}
+    \end{formula}
 
-    \begin{formula}[Exponential distribution]\index{distribution!exponential}\label{statistics:exponential_distr}
+    \newdef{Exponential distribution}{\index{distribution!exponential}\label{statistics:exponential_distr}
         \begin{align}
             f(x;\tau) &:= \frac{1}{\tau}e^{-\frac{x}{\tau}}\\\nonumber\\
             \expect{x} &= \tau\\\nonumber\\
             \variance{x} &= \tau^2.
         \end{align}
-    \end{formula}
+    }
     \begin{property}\index{memory}\label{statistics:memoryless_exponential_distribution}
         The exponential distribution is \textbf{memoryless}:
         \begin{gather}
@@ -401,7 +404,7 @@
         \end{gather}
     \end{property}
 
-    \newformula{Bernoulli distribution}{\index{distribution!Bernoulli}\index{Bernoulli|seealso{distribution}}\label{statistics:bernoulli_distr}
+    \newdef{Bernoulli distribution}{\index{distribution!Bernoulli}\index{Bernoulli|seealso{distribution}}\label{statistics:bernoulli_distr}
         A random variable that can only take 2 possible values is described by a Bernoulli distribution. When the possible values are 0 and 1, with respective chances $\rho$ and $1-\rho$, the distribution is given by
         \begin{align}
             p(k;\rho) &:= \rho^k(1-\rho)^{1-k}\\\nonumber\\
@@ -410,30 +413,37 @@
         \end{align}
     }
 
-    \newformula{Binomial distribution}{\index{distribution!binomial}\label{statistics:binomial_distr}
-        A process with $n$ i.i.d. Bernoulli trials with probability $\rho$, is described by a binomial distribution:
+    \newdef{Binomial distribution}{\index{distribution!binomial}\label{statistics:binomial_distr}
+        A process with $n$ i.i.d.~Bernoulli trials with probability $\rho$, is described by a binomial distribution:
         \begin{align}
-            p(k;\rho,n) &:= \binom{n}{k}\rho^k(1-\rho)^{n-k}\\\nonumber\\
+            \mathrm{Binom}(k;\rho,n) &:= \binom{n}{k}\rho^k(1-\rho)^{n-k}\\\nonumber\\
             \expect{k} &= n\rho\\\nonumber\\
             \variance{k} &= n\rho(1-\rho).
         \end{align}
     }
 
-    \begin{formula}[Poisson distribution]\index{distribution!Poisson}\label{statistics:poisson_distr}
+    \newdef{Poisson distribution}{\index{distribution!Poisson}\label{statistics:poisson_distr}
         A process with known possible outcomes but an unknown number of events is described by a Poisson distribution with average expected number of events $\lambda$.
         \begin{align}
-            p(r;\lambda) &:= \frac{e^{-\lambda}\lambda^r}{r!}\\\nonumber\\
+            \mathrm{Poisson}(r;\lambda) &:= \frac{e^{-\lambda}\lambda^r}{r!}\\\nonumber\\
             \expect{r} &= \variance{r} = \lambda.
         \end{align}
+    }
+    \begin{formula}
+        If multiple independent Poisson processes occur simultaneously, the probability of $r$ events is also described by a Poisson distribution:
+        \begin{gather}
+            \forall i\in I:X_i\sim\mathrm{Poisson}(\lambda_i)\implies\sum_{i\in I}X_i\sim\mathrm{Poisson}\left(\sum_{i\in I}\lambda_i\right).
+        \end{gather}
+        The number of events coming from the process described by $\lambda_i|r=\sum_{i\in I}\lambda_i$ is given by a binomial distribution $\mathrm{Binom}(r_i;\Lambda_i,r)$ with $\Lambda_i = \frac{\lambda_i}{\sum_{i\in I}\lambda_i}$.
     \end{formula}
-    \begin{property}
-        If two Poisson processes, with expectations $\lambda_a$ and $\lambda_b$ respectively, occur simultaneously, the probability of $r$ events is also described by a Poisson distribution with average $\lambda_a+\lambda_b$. The number of events coming from the process described by $\lambda_a$ is given by a binomial distribution $p(r_a;\Lambda_a, r)$ with $\Lambda_a = \frac{\lambda_a}{\lambda_a + \lambda_b}$.
-    \end{property}
     \begin{remark}
-        For $\lambda\longrightarrow\infty$, the Poisson distribution $p(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{G}(x;\lambda,\sqrt{\lambda})$.
+        For $\lambda\longrightarrow\infty$, the Poisson distribution $\mathrm{Poisson}(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{N}(x;\lambda,\sqrt{\lambda})$.
     \end{remark}
+    \begin{theorem}[Raikov]\index{Raikov}
+        If the sum of two independent random variables is Poisson, the individual random variables are also Poisson.
+    \end{theorem}
 
-    \begin{formula}[$\chi^2$-distribution]\index{distribution!$\chi^2$}\label{statistics:chi_squared_distr}
+    \newdef{$\chi^2$-distribution}{\index{distribution!$\chi^2$}\label{statistics:chi_squared_distr}
         The sum of $k$ squared independent (standard) normally distributed random variables $Y_i$ defines the random variable:
         \begin{gather}
             \chi^2_k := \sum_{i=1}^kY_i^2,
@@ -442,10 +452,15 @@
         \begin{gather}
             f(\chi^2;n) := \frac{\chi^{n-2}e^{-\frac{\chi^2}{2}}}{2^{\frac{n}{2}}\Gamma\left(\frac{n}{2}\right)}.
         \end{gather}
-    \end{formula}
-    \remark{Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n$: $f(\chi^2;n)\overset{n>30}{\longrightarrow}\mathcal{G}(\sqrt{2\chi^2};\sqrt{2n-1},1)$.
+    }
+    \begin{property}
+        Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n$:
+        \begin{gather}
+            f(\chi^2;n)\overset{n>30}{\longrightarrow}\mathcal{N}(\sqrt{2\chi^2};\sqrt{2n-1},1).
+        \end{gather}
+    \end{property}
 
-    \newformula{Student-$t$ distribution}{\index{distribution!Student-$t$}\label{statistics:student_t_distr}
+    \newdef{Student-$t$ distribution}{\index{distribution!Student-$t$}\label{statistics:student_t_distr}
         The Student-$t$ distribution describes the difference between the true mean and a sample average with estimated standard deviation $\hat{\sigma}$:
         \begin{gather}
             f(t;n) := \frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\ \Gamma\left(\frac{n}{2}\right)\left(1 + \frac{t^2}{n}\right)^{\frac{n+1}{2}}},
@@ -456,8 +471,8 @@
         \end{gather}
     }
 
-    \newformula{Cauchy distribution\footnotemark}{\index{Cauchy!distribution}\index{Breit-Wigner|see{Cauchy distribution}}\label{statistics:cauchy_distribution}
-        \footnotetext{Also known (especially in particle physics) as the \textbf{Breit-Wigner} distribution.}
+    \newdef{Cauchy distribution\footnotemark}{\index{Cauchy!distribution}\index{Breit-Wigner|see{Cauchy distribution}}\label{statistics:cauchy_distribution}
+        \footnotetext{Also known, especially in particle physics, as the \textbf{Breit-Wigner} distribution.}
         The general density $f(x;x_0,\gamma)$ is given by
         \begin{gather}
             f(x;x_0,\gamma) := \frac{1}{\pi}\frac{\gamma}{(x - x_0)^2 + \gamma^2}.
@@ -467,9 +482,9 @@
             \expect{e^{itx}} = e^{ix_0t - \gamma|t|}.
         \end{gather}
     }
-    \begin{property}
+    \begin{remark}
         Both the mean and variance of the Cauchy distribution are undefined.
-    \end{property}
+    \end{remark}
 
 \section{Errors}
 
@@ -492,10 +507,10 @@
     \end{formula}
 
     \newformula{Error propagation}{\index{propagation!of errors}
-        Let $\mathbf{X}$ be a vector random variable with \underline{small} (co)variance such that functions of $\mathbf{X}$ admit a good first-order Taylor approximation around the mean. The variance of a general function $f(\mathbf{X})$ is given by
+        Let $X$ be a vector random variable such that functions of $X$ admit a good first-order Taylor approximation around the mean (this usually means that the covariance is small). The variance of a general function of $X$ is given by
         \begin{gather}
             \label{statistics:error_propagation}
-            \variance{f} \approx \sum_p\left(\pderiv{f}{X_{(p)}}\right)^2\variance{X_{(p)}} + \sum_{p\neq q}\left(\pderiv{f}{X_{(p)}}\right)\left(\pderiv{f}{X_{(q)}}\right)\text{cov}[X_{(p)},X_{(q)}].
+            \variance{f(X)} \approx \sum_{i=1}^n\left(\pderiv{f}{X_i}\right)^2\variance{X_i} + \sum_{i\neq j}\left(\pderiv{f}{X_i}\right)\left(\pderiv{f}{X_j}\right)\mathrm{cov}[X_i,X_j].
         \end{gather}
     }
     \begin{result}
@@ -518,15 +533,15 @@
     \newformula{Covariance of functions}{\index{covariance}
         \begin{gather}
             \label{statistics:covariance_functions}
-            \mathrm{cov}[f,g] \approx \sum_{p,q}\left(\pderiv{f}{X_{(p)}}\right)\left(\pderiv{g}{X_{(q)}}\right)\mathrm{cov}[X_{(p)},X_{(q)}]
+            \mathrm{cov}[f,g] \approx \sum_{i,j}\left(\pderiv{f}{X_i}\right)\left(\pderiv{g}{X_j}\right)\mathrm{cov}[X_i,X_j]
         \end{gather}
     }
     \begin{result}
-        Let $\mathbf{f} = (f_1,\ldots,f_k)$ be a vector-valued function. The covariance matrix $\variance{\mathbf{f}(\mathbf{X})}$ is to first order given by
+        Let $f\equiv(f_1,\ldots,f_k)$ be a vector-valued function. The covariance matrix is to first order given by
         \begin{gather}
-            \variance{\mathbf{f}(\mathbf{X})} \approx J\variance{\mathbf{X}}J^T,
+            \variance{f(X)} \approx J\variance{X}J^T,
         \end{gather}
-        where $J$ is the Jacobian matrix of $\mathbf{f}$.
+        where $J$ is the Jacobian matrix of $f$.
     \end{result}
 
 \section{Parameter estimation}
@@ -581,10 +596,14 @@
     \newformula{Variance estimator for unknown mean}{\index{Bessel!correction}\label{statistics:variance_bessel_correction}
         If the true mean is unknown and the sample mean has been used to estimate it, a consistent and unbiased estimator is given by
         \begin{gather}
-            s^2 = \frac{1}{N-1}\sum_{i=1}^N(x_i-\overline{x})^2.
+            \hat{s}^2 = \frac{1}{N-1}\sum_{i=1}^N(x_i-\overline{x})^2.
         \end{gather}
         The modified factor $\frac{1}{N-1}$ is called the \textbf{Bessel correction}. It corrects the bias of the estimator given by the sample variance \ref{statistics:sample_variance}. The consistency is guaranteed by the CLT.
     }
+
+    \begin{property}[Characterization of normal distributions]
+        The class of normal distributions is uniquely characterized by those distributions for which the sample mean and sample variance are independent.
+    \end{property}
 
 \subsection{Estimation error}
 
@@ -605,23 +624,11 @@
 \subsection{Likelihood function}
 
     \newdef{Likelihood}{\index{likelihood}\label{statistics:likelihood}
-        The likelihood $\mathcal{L}(a;\vec{x})$ is the probability to find a set of measurements $\vector{x} = \{x_1,\ldots,x_N\}$ given a density $f(X;a)$:
+        The likelihood $\mathcal{L}(a;\mathbf{x})$ is the joint density of a set of measurements $\mathbf{x} := \{x_1,\ldots,x_N\}$:
         \begin{gather}
-            \mathcal{L}(a;\vector{x}) = \prod_{i=1}^Nf(x_i;a).
+            \mathcal{L}(a;\mathbf{x}) = \prod_{i=1}^Nf(x_i;a).
         \end{gather}
     }
-    \newdef{Log-likelihood}{\label{statistics:log_likelihood}
-        \begin{gather}
-            \log\mathcal{L}(a;\vector{x}) = \sum_i\ln f(x_i;a)
-        \end{gather}
-    }
-
-    \begin{property}
-        The expectation value of an estimator $\hat{a}$ is given by
-        \begin{gather}
-            \langle\hat{a}\rangle = \int\hat{a}\mathcal{L}(\hat{a};x)dx.
-        \end{gather}
-    \end{property}
 
     \begin{theorem}[Cramer-Rao bound]\index{Cramer-Rao}\index{minimum!variance bound}\label{statistics:minimum_variance_bound}
         The variance of an \textbf{unbiased} estimator has a lower bound called the Cramer-Rao bound or \textbf{minimum variance bound (MVB)}:
@@ -642,7 +649,7 @@
 
     \newdef{Fisher information}{\index{Fisher!information}\label{statistics:fisher_information}
         \begin{gather}
-            I_X(a) := \left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle = N\int\left(\deriv{\ln f}{a}\right)^2f\,dX
+            I_X(a) := \left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle = N\int\left(\deriv{\ln f}{a}\right)^2f\,d\mu
         \end{gather}
         Using this definition one can rewrite the Cramer-Rao inequality as follows:
         \begin{gather}
@@ -680,12 +687,12 @@
     \end{property}
 
     \begin{property}[Minimizing KL-divergence]\label{statistics:minimizing_KL}
-        It can be shown that maximizing the log-likelihood is equivalent to minimizing the Kullback-Leibler divergence \ref{prob:kullback_leibler} between the would-be distribution $p(x;\theta)$ and the true distribution $q(x)$:
+        It can be shown that maximizing the log-likelihood is equivalent to minimizing the Kullback-Leibler divergence \ref{prob:kullback_leibler} between the would-be density $f(x;\theta)$ and the true density $q(x)$:
         \begin{align*}
-            \arg\max_\theta\ln\mathcal{L} &= \arg\max_\theta\sum_{i\in I}\ln p(x_i;\theta)\\
-            &= \arg\max_\theta\sum_{i\in I}\ln p(x_i;\theta) - \ln q(x_i)\\
-            &= \arg\min_\theta\frac{1}{n}\sum_{i\in I}\ln\frac{q(x_i)}{p(x_i;\theta)}\\
-            &\longrightarrow\arg\min_\theta\int q(x;\theta)\ln\frac{q(x)}{p(x;\theta)}dx = \arg\min_\theta D_\mathrm{KL}(q\|p_\theta),
+            \arg\max_\theta\ln\mathcal{L} &= \arg\max_\theta\sum_{i\in I}\ln f(x_i;\theta)\\
+            &= \arg\max_\theta\sum_{i\in I}\ln f(x_i;\theta) - \ln q(x_i)\\
+            &= \arg\min_\theta\frac{1}{n}\sum_{i\in I}\ln\frac{q(x_i)}{f(x_i;\theta)}\\
+            &\longrightarrow\arg\min_\theta\int q(x;\theta)\ln\frac{q(x)}{f(x;\theta)}\,dx = \arg\min_\theta D_\mathrm{KL}(q\|f_\theta),
         \end{align*}
         where the law of large numbers was used in the last line.
     \end{property}
@@ -708,7 +715,7 @@
         \end{enumerate}
     }
     \begin{property}
-        The optimal $\chi^2$-value is asymptotically distributed according to a $\chi^2$-distribution $f(\chi^2;n)$. The number of degrees of freedom $n$ is equal to the number of events $N$ minus the number of fitted parameters $k$. (See more in Section \ref{section:chi_squared_test}.)
+        The optimal $\chi^2$-value is asymptotically distributed according to a $\chi^2$-distribution with $n$ degrees of freedom. The parameter $n$ is equal to the number of events $N$ minus the number of fitted parameters $k$. (See more in Section \ref{section:chi_squared_test}.)
     \end{property}
 
     \newformula{Linear fit}{\index{linear!fit}
@@ -736,7 +743,7 @@
     The least squares method is very useful to fit data that has been grouped in bins (histograms):
     \newmethod{Binned least squares}{$ $
         \begin{enumerate}
-            \item $N$ i.i.d. events with distributions $f(X;a)$ divided in $N_B$ intervals, where the interval $j$ is centered on the value $x_j$, has a width $W_j$ and contains $n_j$ events.
+            \item $N$ i.i.d.~events with density $f(X;a)$ divided in $N_B$ intervals, where the interval $j$ is centered on the value $x_j$, has a width $W_j$ and contains $n_j$ events.
             \item The ideally expected number of events in the $j^{th}$ interval: $f_j = NW_jf(x_j;a)$.
             \item The real number of events has a Poisson distribution: $\overline{n}_j = \sigma_j^2 = f_j$.
             \item Define the binned $\chi^2$ as
@@ -748,11 +755,11 @@
 
 \subsection{Geometric approach}
 
-    Consider a sample $\mathbf{x}:=\{x_1,\ldots,x_n\}$ drawn from a distribution $P(\mathbf{x};\theta)$ in an exponential family. The likelihood \ref{statistics:likelihood} is given by \[p(\mathbf{x};\theta) = \prod_{i=1}^nP(x_i;\theta).\] The $m$-coordinates of the observed point are
+    Consider a sample $\mathbf{x}:=\{x_1,\ldots,x_n\}$ drawn from a distribution $f(x;\theta)$ in an exponential family. The likelihood \ref{statistics:likelihood} is given by \[\mathcal{L}(\theta;\mathbf{x}) := \prod_{i=1}^nf(x_i;\theta).\] The $m$-coordinates of the observed point are
     \begin{gather}
         \eta = \frac{1}{n}\sum_{i=1}^nx_i = \overline{x}.
     \end{gather}
-    The optimal value for $\theta$ can be found by maximizing the log-likelihood $\log p(\mathbf{x};\theta)$. In Property \ref{statistics:minimizing_KL} it was shown that this is equivalent to minimizing the Kullback-Leibler divergence between the ``true'' distribution $P(x;\xi)$ and the variational solution $p(x;\theta)$. However, in practice the true distribution is not known. Luckily one can replace the true distribution by the empirical distribution in the proof of \ref{statistics:minimizing_KL}. Minimization then corresponds to $m$-projecting the observed point $\eta$ on the submanifold $S$ of ``admissible'' distributions.
+    The optimal value for $\theta$ can be found by maximizing the log-likelihood as before. In Property \ref{statistics:minimizing_KL} it was shown that this is equivalent to minimizing the Kullback-Leibler divergence between the ``true'' distribution $p(x;\xi)$ and the variational solution $f(x;\theta)$. However, in practice the true distribution is not known. Luckily one can replace the true distribution by the empirical distribution in the proof of \ref{statistics:minimizing_KL}. Minimization then corresponds to $m$-projecting the observed point $\eta$ on the submanifold $S$ of ``admissible'' distributions.
 
     \begin{theorem}[Sanov]\index{Sanov}
         Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d. samples. Let $P_n$ be the empirical distribution function of the samples \eqref{statistics:empirical_distribution}. Further, let $\Gamma$ be a collection of probability distributions such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
@@ -788,13 +795,13 @@
 
     \newdef{Two-sided confidence interval}{\label{statistics:two_sided_interval}
         \begin{gather}
-            \mathrm{Pr}(x_-\leq X\leq x_+) = \int_{x_-}^{x_+}f(x)dx = C
+            \mathrm{Pr}(x_-\leq X\leq x_+) = \int_{x_-}^{x_+}f(x)\,dx = C
         \end{gather}
         There are three possible (often used) two-sided intervals:
         \begin{itemize}
             \item\textbf{symmetric interval}: $x_+ - \mu = \mu - x_-$,
             \item\textbf{shortest interval}: $|x_+ - x_-|$ is minimal, or
-            \item\textbf{central interval}: $\int_{-\infty}^{x_-}f(x)dx = \int_{x_+}^\infty f(x)dx = \frac{1-C}{2}$.
+            \item\textbf{central interval}: $\int_{-\infty}^{x_-}f(x)\,dx = \int_{x_+}^\infty f(x)\,dx = \frac{1-C}{2}$.
         \end{itemize}
         The central interval is the most widely used confidence interval.
     }
@@ -803,9 +810,9 @@
     \newdef{One-sided confidence interval}{
         \begin{align}
             \label{statistics:one_sided_interval1}
-            \mathrm{Pr}(x\geq x_-) &= \int_{x_-}^\infty f(x)dx = C\\
+            \mathrm{Pr}(x\geq x_-) &= \int_{x_-}^\infty f(x)\,dx = C\\
             \label{statistics:one_sided_interval2}
-            \mathrm{Pr}(x\leq x_+) &= \int_{-\infty}^{x_+}f(x)dx = C
+            \mathrm{Pr}(x\leq x_+) &= \int_{-\infty}^{x_+}f(x)\,dx = C
         \end{align}
     }
 
@@ -873,7 +880,7 @@
     \newdef{Significance}{\index{significance}\label{statistics:significance}
         The probability of making a type I error:
         \begin{gather}
-            \alpha := \int P_\mathrm{I}(x)dx.
+            \alpha := \int P_\mathrm{I}(x)\,dx.
         \end{gather}
     }
     \begin{property}
@@ -885,19 +892,34 @@
     \newdef{Power}{\index{power}
         The probability of not making a type II error:
         \begin{gather}
-            \beta := \int P_\mathrm{II}(x)dx \quad\longrightarrow\quad \text{power: }1-\beta.
+            \beta := \int P_\mathrm{II}(x)\,dx \quad\longrightarrow\quad \text{power: }1-\beta.
         \end{gather}
     }
     \begin{remark}
         A good test is a test with a small significance and a large power. The probabilities $P_\mathrm{I}$ and $P_\mathrm{II}$ should be as different as possible.
     \end{remark}
 
-    \begin{definition}[Likelihood ratio test]\index{likelihood!ratio}\label{statistics:likelihood_ratio}
+    \newdef{Shapiro-Wilk test}{\index{test!Shapiro-Wilk}
+        After obtaining a data sample it is often interesting to see if the data is distributed normally, since many other tests and methods assume a normal distribution. The Shapiro-Wilk test considers the following test statistic:
+        \begin{gather}
+            W := \frac{\sum_{i=1}^n(a_ix_{(i)})^2}{\sum_{i=1}^n(x_i-\overline{x})^2},
+        \end{gather}
+        where
+        \begin{itemize}
+            \item $x_{(i)}$ are the order statistics,
+            \item $(a_i,\ldots,a_n) := \frac{m^TV}{\|V^{-1}m\|}$,
+            \item $m\equiv(m_1,\ldots,m_n)$ are the expectation values of the order statistics of i.i.d. standard normal distributions, and
+            \item $V$ is the covariance matrix of $m$.
+        \end{itemize}
+        The test statistic does not follow a known distribution and all critical values are calculated with Monte-Carlo simulations.
+    }
+
+    \begin{definition}[Likelihood ratio test]\index{test!likelihood ratio}\index{likelihood|seealso{test}}\label{statistics:likelihood_ratio}
         The null hypothesis $H_0:\theta=\theta_0$ is rejected in favour of the alternative hypothesis $H_1:\theta=\theta_1$ if the likelihood ratio $\Lambda$ satisfies the following condition:
         \begin{gather}
-            \Lambda(x) = \frac{\mathcal{L}(\theta_0|x)}{\mathcal{L}(\theta_1|x)}\leq\eta,
+            \Lambda(x) = \frac{\mathcal{L}(\theta_0\mid x)}{\mathcal{L}(\theta_1\mid x)}\leq\eta,
         \end{gather}
-        where $P(\Lambda(x)\leq\eta|H_0) = \alpha $.
+        where $P(\Lambda(x)\leq\eta\mid H_0) = \alpha$.
     \end{definition}
     \sremark{In some references the reciprocal of $\Lambda$ is used as the definition of the likelihood ratio.}
     \begin{theorem}[Neyman-Pearson lemma]\index{Neyman-Pearson}\label{statistics:neyman_pearson}
@@ -914,7 +936,7 @@
         \end{gather}
     \end{construct}
 
-\section{Comparison tests}
+\subsection{Comparison tests}
 
     \newdef{McNemar test}{\index{test!McNemar}
         Consider two models or hypotheses describing a given data set. Construct the contingency table describing the number of true positives and true negatives for both models:
@@ -927,7 +949,7 @@
                 \text{TN (model 2)}&c&d
             \end{array}
         \end{gather}
-        The null hypothesis of the McNemar test is that there is no significant difference between the predictive power of the model, i.e. $ p_a+p_c = p_a+p_b$ and $p_b+p_d = p_c+p_d$ where $p_i$ indicates the proportion of the variable $i$. By noting that the diagonal values are redundant in this description, one can write the hypotheses more concisely:
+        The null hypothesis of the McNemar test is that there is no significant difference between the predictive power of the models, i.e. $ p_a+p_c = p_a+p_b$ and $p_b+p_d = p_c+p_d$, where $p_i$ indicates the proportion of class $i$. In fact it is easy to see that the diagonal values are irrelevant for this hypothesis:
         \begin{align*}
             H_0&:b=c\\
             H_1&:b\neq c.
@@ -950,9 +972,9 @@
     \end{remark}
 
     \newdef{Wilcoxon signed-rank test}{\index{test!Wilcoxon}
-        Consider a paired data sample, i.e. two dependent data samples for which the $i^{th}$ entries are paired together. This test checks if the population means are different. The test statistic is defined as follows:
+        Consider a paired data sample, i.e. two dependent data samples for which the entries are uniquely paired. This test checks if the population means (more generally, the location parameters) are different. The test statistic is defined as follows:
         \begin{quote}
-            First, calculate the differences $d_i$ and rank their absolute values (ties are assigned an average rank). Then, calculate the sums of the ranks $R_+,R_-$ for positive and negative differences and take smallest of these:
+            First, calculate the differences $d_i$ and rank their absolute values (ties are assigned an average rank). Then, calculate the sums of the ranks $R_+,R_-$ for positive and negative differences and take the smallest of these:
             \begin{gather}
                 T:=\min(R_+,R_-).
             \end{gather}
@@ -960,7 +982,10 @@
         \end{quote}
     }
     \begin{remark}
-        The biggest benefit of this test over a signed $t$-test is that the Wilcoxon test does not require the data samples to be drawn from a normal distribution. However in the case where the assumptions for a paired $t$-test are met, the $t$-test is more powerful.
+        The main benefit of this test over a signed $t$-test is that the Wilcoxon test does not require the data samples to be drawn from a normal distribution. However in the case where the assumptions for a paired $t$-test are met, the $t$-test is more powerful.
+    \end{remark}
+    \begin{remark}[Independent samples]\index{test!Mann-Whitney}
+        There exists a similar rank-based test for unpaired data samples. This is the \textbf{Wilcoxon rank-sum test} or \textbf{Mann-Whitney $U$-test}.
     \end{remark}
 
     \newdef{Friedman test}{\index{test!Friedman}
@@ -977,7 +1002,7 @@
         \begin{gather}
             F := \frac{(N-1)\chi^2_F}{N(k+1)-\chi^2_F}.
         \end{gather}
-        This follows an $F$-distribution with $k-1$ and $(N-1)(k-1)$ degrees of freedom. As a further remark is that the (nonparametric) Friedman test is weaker than the (parametric) \textit{repeated-measures ANOVA} whenever the assumptions for the latter hold (similar to the case of the Wilcoxon signed-rank test).
+        This follows an $F$-distribution with $k-1$ and $(N-1)(k-1)$ degrees of freedom. A further remark is that the (nonparametric) Friedman test is weaker than the (parametric) \textit{repeated-measures ANOVA} whenever the assumptions for the latter hold (similar to the case of the Wilcoxon signed-rank test).
     \end{remark}
 
 \subsection{Post-hoc tests}
@@ -991,18 +1016,17 @@
         \end{gather}
         where $k$ is the number of models and $N$ is the number of data sets. The exact critical values can either be found in the literature or one can approximately use a normal distribution.
     }
-
-    \newdef{Bonferroni-Dunn test}{\index{test!Bonferonni-Dunn}
+    \begin{remark}[Bonferroni-Dunn test]\index{test!Bonferonni-Dunn}
         If all one wants to do is see if a particular model performs better than a given baseline model, the Nemenyi test is too conservative since it corrects for $k(k-1)/2$ model comparisons instead of $k-1$. Therefore it is better to use a general method to control the family-wise error for multiple measurements. The Bonferroni-Dunn test modifies the Nemenyi test by performing a Bonferroni correction with $n-1$ degrees of freedom.
-    }
+    \end{remark}
 
     A more powerful test is given by the following strategy:
     \newdef{Holm test}{\index{test!Holm}
         Consider the $p$-values of the Nemenyi test. Instead of comparing all values to a single Bonferroni-corrected significance, one can use a so-called ``step-down'' method. First one orders the $p$-values in ascending order and compares the smallest one to $\frac{\alpha}{k-1}$. If this value is significant, i.e. the hypothesis that the associated models perform equally well is rejected, one compares $p_2$ to $\frac{\alpha}{k-2}$ and so on until one finds a hypothesis that cannot be rejected. All remaining hypotheses are retained as well.
     }
 
-    \begin{remark}
-        It is possible that the post hoc test fails to report a significant difference even though the Friedman test rejected the null hypothesis. This is a consequence of the lower power of post hoc tests.
+    \begin{remark}[Power]
+        It is possible that the post-hoc test fails to report a significant difference even though the Friedman test rejected the null hypothesis. This is a consequence of the lower power of post hoc tests.
     \end{remark}
 
 \section{Goodness of fit}\index{goodness of fit}
@@ -1015,40 +1039,40 @@
         \end{gather}
         From this definition it is immediately clear that the AIC rewards goodness-of-fit but penalizes overfitting due to the first term.
 
-        This criterion is often useful when trying to select the best model/parameters to describe a certain data set. However it should be noted that it is not an absolute measure of quality.
+        This criterion is often useful when trying to select the best model/parameters to describe a certain data set. However, it should be noted that it is not an absolute measure of quality.
     }
 
-\subsection{\texorpdfstring{$\chi^2$}{Chi squared}-test}\index{$\chi^2$-test}\label{section:chi_squared_test}
+\subsection{\texorpdfstring{$\chi^2$}{Chi squared}-test}\index{test!$\chi^2$}\label{section:chi_squared_test}
 
-    \begin{property}\label{statistics:chance_for_chi_square}
+    \begin{property}\label{statistics:chi_square}
         If there are $N - n$ fitted parameters one has:
         \begin{gather}
-            \int_{\chi^2}^\infty f\left(\chi^2|n\right)d\chi^2 \approx 1\implies
+            \int_{\chi^2}^\infty f_{\chi^2}(x\mid n)\,dx \approx 1\implies
             \begin{cases}
-                \circ\text{ good fit}\\
-                \circ\text{ errors were overestimated}\\
-                \circ\text{ selected measurements}\\
-                \circ\text{ lucky shot}
+                \bullet\text{ good fit}\\
+                \bullet\text{ errors were overestimated}\\
+                \bullet\text{ selected measurements}\\
+                \bullet\text{ lucky shot}
             \end{cases}
         \end{gather}
     \end{property}
-    \begin{property}[Reduced chi-squared]
+    \begin{property}[Reduced $\chi^2$]
         The reduced chi-squared statistic is defined as follows:
         \begin{gather}
-            \chi^2_\mathrm{red} := \chi^2/n,
+            \chi^2_\text{red} := \chi^2/n,
         \end{gather}
         where $n$ is the number of degrees of freedom. Depending on the value of this statistic one can draw the following conclusions (under the right assumptions):
         \begin{itemize}
-            \item $\chi^2_\mathrm{red} \gg 1$: poor modelling,
-            \item $\chi^2_\mathrm{red} > 1$: bad modelling or underestimation of the uncertainties,
-            \item $\chi^2_\mathrm{red} \approx 1$: good fit, or
-            \item $\chi^2_\mathrm{red} < 1$: (improbable) overestimation of the uncertainties.
+            \item $\chi^2_\text{red}\gg1$: poor modelling,
+            \item $\chi^2_\text{red}>1$: bad modelling or underestimation of the uncertainties,
+            \item $\chi^2_\text{red}\approx1$: good fit, or
+            \item $\chi^2_\text{red}<1$: (improbable) overestimation of the uncertainties.
         \end{itemize}
     \end{property}
 
-\subsection{Runs test}\index{runs test}
+\subsection{Runs test}\index{test!runs}
 
-    A good $\chi^2$-test does not mean that the fit is good. As mentioned in Property \ref{statistics:chance_for_chi_square}, it is possible that the errors were overestimated. Another condition for a good fit is that the data points vary around the fit, i.e. there are no long sequences of points that lie above/underneath the fit. This condition is tested with a runs test \ref{statistics:runs_distribution}.
+    A good $\chi^2$-test does not mean that the fit is good. As mentioned in Property \ref{statistics:chi_square}, it is possible that the errors were overestimated. Another condition for a good fit is that the data points vary around the fit, i.e. there are no long sequences of points that lie above/underneath the fit. This condition is tested with a runs test \ref{statistics:runs_distribution}.
 
     \begin{remark}
         The $\chi^2$-test and runs test are complementary. The $\chi^2$-test only takes the absolute value of the differences between the fit and data points into account, the runs test only takes the signs of the differences into account.

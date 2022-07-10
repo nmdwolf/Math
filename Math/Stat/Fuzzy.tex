@@ -1,8 +1,8 @@
-\chapter{\difficult{Fuzzy Set Theory \& Imprecise Probabilities}}
+\chapter{\difficult{Fuzzy Set \& Imprecise Probabilities}}
 
-    The main reference for the basics on fuzzy sets is the original paper \cite{fuzzy}. For the basics of (ordered) sets, see Section \ref{section:ordered_sets} at the beginning of this compendium.
+    The main reference for the basics on fuzzy sets is the original paper \cite{fuzzy}. For the basics of (ordered) sets, see Section \ref{section:ordered_sets} at the beginning of this compendium. The section on imprecise probabilities is mainly based on \cite{imprecise}.
 
-    This chapter begins with a small organizational remark. Although the content of the current chapter fits better in the parts on general set theory and logic, it does use more advanced concepts from for example topology and category theory. Furthermore, the main application here is the characterization of uncertainty in statistics and machine learning. For that reason it was added here.
+    This chapter begins with a small organizational remark. Although the content of the current chapter fits better in the parts on general set theory and logic, it does use more advanced concepts from for example topology and category theory. Furthermore, the main application is the characterization of uncertainty in statistics and machine learning. For that reason it was added here.
 
 \section{Fuzzy sets}
 
@@ -49,7 +49,17 @@
             \item\textbf{Grounded}: $\emptyset\in\Sigma\implies\mu(\emptyset)=0$, and
             \item\textbf{Monotonicity}: $A\subseteq B\implies\mu(A)\leq\mu(B)$ for all $A,B\in\mathcal{C}$.
         \end{enumerate}
-        A capacity is said to be \textbf{normalized} (or \textbf{regular}) if $\mu(X)=1$. If one drops the monotonicity condition, the notion of a \textbf{game} is obtained.
+        If one drops the monotonicity condition, the notion of a \textbf{game} is obtained. A capacity is said to be \textbf{normalized} (or \textbf{regular}) if $\mu(X)=1$. For infinite sets $X$, the following two conditions are generally added:
+        \begin{enumerate}
+            \item[3]\textbf{Upward continuity}: If $\seq{A}\subset\Sigma$ is an increasing sequence, then
+                \begin{gather}
+                    \mu\left(\bigcup_{n\in\mathbb{N}}A_n\right)=\lim_{n\rightarrow\infty}\mu(A_n).
+                \end{gather}
+            \item[4]\textbf{Downward continuity}: If $\seq{A}\subset\Sigma$ is a decreasing sequence of compact sets, then
+                \begin{gather}
+                    \mu\left(\bigcap_{n\in\mathbb{N}}A_n\right)=\lim_{n\rightarrow\infty}\mu(A_n).
+                \end{gather}
+        \end{enumerate}
     }
     \newdef{Alternating capacity}{\index{probability}
         A $k$-alternating capacity $\mu$ satisfies
@@ -67,14 +77,20 @@
     \end{property}
 
     \newdef{Choquet integral}{\index{Choquet!integral}
-        Consider a capacity $\mu$ on $(X,\Sigma)$ and a measurable function $f:\mathcal{U}\rightarrow\mathbb{R}$, i.e. a function such that $\{y\mid f(y)\geq x\}\in\Sigma$ for all $x\in\mathbb{R}$. The Choquet integral of $f$ is defined as follows:
+        Consider a capacity $\mu$ on $(X,\Sigma)$ and a measurable function $f:\mathcal{U}\rightarrow\mathbb{R}$, i.e.~a function such that $\{y\mid f(y)\geq x\}\in\Sigma$ for all $x\in\mathbb{R}$. The Choquet integral of $f$ is defined as follows:
         \begin{gather}
             \int_Xf\,d\mu := \int_{-\infty}^0\big(\mu(\{y\mid f(y)\geq x\})-\mu(X)\big)\,dx+\int_0^{+\infty}\mu(\{y\mid f(y)\geq x\})\,dx.
         \end{gather}
         This integral is not additive, but it is monotonic in $f$. This expression can be obtained as follows, where functions are decomposed in their positive and negative parts: $f=f^+-f^-$. The original definition by \textit{Choquet} was for nonnegative functions:
         \begin{gather}
-            \int_Xf^+\,d\mu := \int_0^{+\infty}\mu(\{y\mid f^+(y)\geq x\})\,dx.
+            \int_Xf^+\,d\mu := \int_0^{+\infty}\mu(\{y\mid f^+(y)\geq x\})\,dx\,,
         \end{gather}
+        which for simple functions reduces to:
+        \begin{align}
+            \int_Xf^+\,d\mu &= \int_X\sum_{i=1}^na_i\mathbbm{1}_{\{x\in X\mid f^+(x)=a_i\}}\,d\mu\nonumber\\
+            &= \int_X\sum_{i=1}^n(a_i-a_{i-1})\mathbbm{1}_{\{x\in X\mid f^+(x)\geq a_i\}}\nonumber\\
+            &= \sum_{i=1}^n(a_i-a_{i-1})\mu(\{x\in X\mid f(x)\geq a_i\}).
+        \end{align}
         The general Choquet integral then takes the form
         \begin{gather}
             \int_Xf\,d\mu := \int_Xf^+\,d\mu - \int_Xf^-\,d\overline{\mu}.
@@ -88,7 +104,7 @@
     \begin{example}[Possibility and necessity]\index{possibility}\index{necessity}
         A normalized capacity $\mu$ satisfying
         \begin{gather}
-            \mu(A,B) = \max\big(\mu(A),\mu(B)\big)
+            \mu(A\cup B) = \max\big\{\mu(A),\mu(B)\big\}
         \end{gather}
         for all $A,B\in\Sigma$. If one replaces the maximum by a minimum, the definition of a \textbf{necessity measure} is obtained.
     \end{example}
@@ -97,11 +113,11 @@
     \end{example}
 
     \newdef{Consonant capacity}{\index{focal set}
-        A capacity $\mu:\Sigma\rightarrow\mathbb{R}$ such that the \textbf{focal sets}, the sets $A\in\Sigma$ such that $\mu(A)>0$, admit a total order (i.e. they are nested).
+        A capacity $\mu:\Sigma\rightarrow\mathbb{R}$ such that the \textbf{focal sets}, the sets $A\in\Sigma$ such that $\mu(A)>0$, admit a total order (i.e.~they are nested).
     }
-    \begin{remark}
-        Consonant belief and plausibility measures are called \textbf{necessity} and \textbf{possibility measures}, respectively.
-    \end{remark}
+    \begin{example}
+        Necessity and possibility measures are exactly the consonant belief and plausibility measures.
+    \end{example}
 
 \section{Imprecise probabilities}
 

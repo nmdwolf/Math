@@ -14,7 +14,7 @@
                 \node (1) at (2, 0) {$1$};
                 \node (O) at (2, -2) {$\Omega$};
                 \node at (1, -1) {pb};
-                \draw[->] (A) -- node[above]{$\exists!$} (1);
+                \draw[->] (A) -- (1);
                 \draw[right hook->] (A) -- node[left]{$\phi$} (B);
                 \draw[right hook->] (1) -- node[right]{$\texttt{true}$} (O);
                 \draw[->] (B) -- node[below]{$\exists!\chi$} (O);
@@ -24,14 +24,14 @@
         \end{figure}
     }
     \begin{adefinition}
-        Consider a well-powered category $\mathbf{C}$. The assignment of subobjects $\mathrm{Sub}(x)$ to an object $x\in\ob{C}$ defines a contravariant functor $\mathrm{Sub}:\mathbf{C}\rightarrow\mathbf{Set}$. A subobject classifier $\Omega$ is a representation of this functor, i.e.~the following isomorphism is natural in $x$:
+        Consider a well-powered category $\mathbf{C}$. The assignment of subobjects $\mathrm{Sub}(x)$ to an object $x\in\ob{C}$ defines functor $\mathrm{Sub}:\mathbf{C}^{op}\rightarrow\mathbf{Set}$. A subobject classifier $\Omega$ is a representation of this functor, i.e.~the following isomorphism is natural in $x$:
         \begin{gather}
             \mathrm{Sub}(x)\cong\mathbf{C}(x,\Omega).
         \end{gather}
     \end{adefinition}
 
     \begin{example}[Indicator function]\index{indicator function}
-        The category $\mathbf{Set}$ has a subobject classifier, the 2-element set $\{\texttt{true},\texttt{false}\}$. The morphism $\chi:S\rightarrow\Omega$ is the indicator function
+        The category $\mathbf{Set}$ has a subobject classifier: the 2-element set $\{\texttt{true},\texttt{false}\}$. The morphism $\chi:S\rightarrow\Omega$ is the indicator function
         \begin{gather}
             \chi_S(x)=
             \begin{cases}
@@ -42,7 +42,7 @@
     \end{example}
 
     \newdef{Elementary topos}{\index{topos!elementary}
-        An elementary topos is a finitely complete Cartesian closed category admitting a subobject classifier. Equivalently, one can define an elementary topos as a finitely complete category in which all power objects exist.
+        An elementary topos is a finitely complete, Cartesian closed category admitting a subobject classifier. Equivalently, one can define an elementary topos as a finitely complete category in which all power objects exist.
 
         The power object $Px$ of $x\in\ob{\mathcal{E}}$ is related to the subobject classifier $\Omega$ by the following relation:
         \begin{gather}
@@ -54,11 +54,11 @@
     \end{remark}
 
     \begin{theorem}[Fundamental theorem of topos theory]\index{fundamental theorem!of topos theory}
-        Let $\mathcal{E}$ be a topos. For every object $x\in\ob{\mathcal{E}}$ the slice category $\mathcal{E}_{/x}$ is also a topos. The subobject classifier is given by $\pi_2:\Omega\times x\rightarrow x$.
+        Let $\mathcal{E}$ be an elementary topos. For every object $x\in\ob{\mathcal{E}}$ the slice category $\mathcal{E}_{/x}$ is also a topos. The subobject classifier is given by $\pi_2:\Omega\times x\rightarrow x$.
     \end{theorem}
 
     \begin{property}[Balanced]
-        All monos in a topos are regular. Hence, every mono arises as an equalizer and every epic equalizer is necessarily an isomorphism. It follows that every topos is balanced \ref{cat:balanced}.
+        All monos in a topos are regular. Hence, every mono arises as an equalizer. Since every epic equalizer is necessarily an isomorphism \ref{cat:regular_iso}, it follows that every topos is balanced \ref{cat:balanced}.
     \end{property}
 
     \begin{property}[Epi-mono factorization]\index{image}
@@ -71,7 +71,7 @@
 
 \section{Internal logic}\label{section:internal_logic}
 
-    In this subsection general finitely complete categories that admit a subobject classifier are considered (they do not have to be elementary topoi).
+    In this subsection finitely complete categories that admit a subobject classifier are considered (they do not have to be elementary topoi).
 
     \newdef{Truth value}{\index{truth value}
         A global element of the subobject classifier, i.e.~a morphism $1\rightarrow\Omega$. The subobject classifier $\Omega$ is also sometimes called the \textbf{object of truth values}.
@@ -90,10 +90,10 @@
     }
 
     \newdef{Logical morphism}{\index{morphism!logical}
-        Let $\mathcal{E},\mathcal{F}$ be (elementary) topoi. A morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ is called a logical morphism if it preserves finite limits, exponential objects and subobject classifiers.
+        Let $\mathcal{E},\mathcal{F}$ be (elementary) topoi. A morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ is said to be logical if it preserves finite limits, exponential objects and subobject classifiers.
     }
     \begin{property}
-        If a logical morphism has a left adjoint then it also has a right adjoint.
+        If a logical morphism has a left adjoint, it also has a right adjoint.
     \end{property}
 
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
@@ -113,7 +113,7 @@
     \begin{example}[Topological spaces]\label{topos:topological_spaces}
         Every continuous function $f:X\rightarrow Y$ induces a geometric morphism
         \begin{gather}
-            \mathbf{Sh}(X)\adj{f^*}{f_*}\mathbf{Sh}(Y),
+            \mathbf{Sh}(X)\adj{f^*}{f_*}\mathbf{Sh}(Y)\,,
         \end{gather}
         where the direct image functor $f_*$ is defined as
         \begin{gather}
@@ -316,12 +316,16 @@
     \begin{remark}[Descent condition]
         This is essentially a restatement of the descent condition \ref{topos:local_object_sheaf}. Covering sieves, regarded as subfunctors, are in particular local isomorphisms. Stability of sieves under pullback together with the co-Yoneda lemma \ref{cat:ninja_yoneda}, which says that every presheaf is a colimit of representables, generates the full collection of local isomorphisms.
     \end{remark}
+    By Property \ref{model:reflective_localization}, the construction of Grothendieck topoi as localizations of presheaf categories is equivalent to a definition in terms of reflections:
+    \begin{result}
+        Given a small category $\mathbf{C}$, there exists a bijection between the Grothendieck topologies on $\mathbf{C}$ and the equivalence classes of left exact reflective subcategories of $\mathbf{Psh(C)}$.
+    \end{result}
 
     As a last point the weaker notion of coverages is introduced:
     \newdef{Coverage}{\index{coverage}\label{topos:coverage}
         Let $\mathbf{C}$ be a category. A coverage on $\mathbf{C}$ is a map that assigns to every object $x\in\ob{C}$ a collection of families $\{f:y\rightarrow x\}\subset\mathrm{hom}(\mathbf{C})$ satisfying the following condition. If $\{f:y\rightarrow x\}$ is a \textbf{covering family} on $x$, then for every morphism $g:x'\rightarrow x$ there exists a covering family $\{f':y'\rightarrow x'\}$ on $x'$ such that every composite $g\circ f'$ factors through some $f$.
     }
-    It should be clear that every coverage generates a sieve (the smallest sieve containing the coverage). Furthermore, although coverages are weaker and easier to handle, they are in fact equivalent for the purpose of sheaf theory:
+    It should be clear that every coverage generates a sieve. Furthermore, although coverages are weaker and easier to handle, they are in fact equivalent for the purpose of sheaf theory:
     \begin{property}
         Consider a covering family $C$ and let $S_C$ be the sieve it generates. A presheaf is a sheaf for $C$ if and only if it is a sheaf for $S_C$.
     \end{property}
@@ -331,9 +335,9 @@
     See Chapter \ref{chapter:sheaf} for the application of sheaves to topology.
 
     \begin{property}[Presheaf topos]\label{topos:sheaf_topos}
-        Consider the presheaf category \[\mathbf{Psh}(X):=\mathbf{Psh(Open}(X))\] over a topological space $(X,\tau)$. Unpacking Property \ref{topos:presheaf_topos} shows that this category is an elementary topos where the subobject classifier $\Omega$ is defined as follows:
+        Consider the presheaf category \[\mathbf{Psh}(X):=\mathbf{Psh(Open}(X))\] over a topological space $(X,\tau)$. Unpacking Property \ref{topos:presheaf_topos} shows that this category is an elementary topos where the subobject classifier is given by
         \begin{gather}
-            \Omega(U) := \{V\in\tau\mid V\subseteq U\}.
+            \Omega(U) = \{V\in\tau\mid V\subseteq U\}.
         \end{gather}
     \end{property}
 
@@ -342,9 +346,9 @@
         \begin{gather}
             \mathbf{Top}_{/X}\adj{E}{\Gamma}\mathbf{Psh}(X).
         \end{gather}
-        The slice category on the right-hand side is the category of (topological) bundles (Chapter \ref{chapter:bundles}) over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of local sections and the left adjoint assigns to every presheaf its bundle of germs.
+        The slice category on the left-hand side is the category of (topological) bundles (Chapter \ref{chapter:bundles}) over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of local sections and the left adjoint assigns to every presheaf its bundle of germs.
 
-        By restricting to the subcategories on which this adjunction becomes an adjoint equivalence, one obtain the \textbf{\'etal\'e space} and \textbf{sheaf categories} respectively:
+        By restricting to the subcategories on which this adjunction becomes an adjoint equivalence, one obtains     the \textbf{\'etal\'e space} and \textbf{sheaf categories} respectively:
         \begin{gather}
             \mathbf{Et}(X)\cong\mathbf{Sh}(X).
         \end{gather}
@@ -357,8 +361,9 @@
         The fact that the counit of the adjunction \ref{topos:etale_adjunction} restricts to an isomorphism on the full subcategory $\mathbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
     \end{property}
 
-    \newdef{Petit and gros topoi}{\index{topos!petit \& gros}
-        Consider a topological space $X$ together with its category of opens $\mathbf{Open}(X)$. The petit topos over $X$ is defined as the sheaf topos $\mathbf{Sh}(X)$. It represents $X$ as some kind of generalized space. (By Construction \ref{topos:etale_adjunction} the objects in a small topos are the \'etal\'e spaces over a given base space.) However, one can also build a topos whose objects are generalized spaces. To this end, choose a site $S$ of ``probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. See Section \ref{section:smooth_spaces} for more information.
+    \newdef{Petit and gros topoi\footnotemark}{\index{topos!petit \& gros}
+        \footnotetext{For those that do not master French, petit and gros mean small and big, respctively.}
+        Consider a topological space $X$ together with its category of opens $\mathbf{Open}(X)$. The petit topos over $X$ is defined as the sheaf topos $\mathbf{Sh}(X)$. It represents $X$ as a ``generalized space''. (By Construction \ref{topos:etale_adjunction} the objects in a petit topos are the \'etal\'e spaces over the given base space.) However, one can also build a topos whose objects are themselves generalized spaces. To this end, choose a site $S$ of ``probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. See Section \ref{section:smooth_spaces} for more information.
     }
 
     \begin{property}[Localic reflection]\index{localic reflection}
@@ -392,7 +397,7 @@
     }
 
     \begin{property}
-        For the presheaf topos on a small category $\mathbf{C}$, the Grothendieck topologies on $\mathbf{C}$ and Lawvere-Tierney topologies on $\mathbf{Psh(C)}$ are equivalent.
+        For the presheaf topos on a small category $\mathbf{C}$, the Grothendieck topologies on $\mathbf{C}$ are equivalent to Lawvere-Tierney topologies on $\mathbf{Psh(C)}$.
         \begin{proof}[Sketch of proof]
             Since a Grothendieck topology assigns to every object a collection of sieves, Property \ref{topos:presheaf_topos} implies that $J(x)\subseteq\Omega_\mathbf{Psh}(x)$ for all $x\in\ob{C}$. By the base change condition of Grothendieck topologies, this relation is natural in $x$ and, hence, $J$ is a subobject of $\Omega_\mathbf{Psh}$. One thus finds a characteristic morphism $j:\Omega_\mathbf{Psh}\rightarrow\Omega_\mathbf{Psh}$ that can be proven (by the other conditions of Grothendieck topologies) to define a Lawvere-Tierney topology on $\mathbf{Psh(C)}$. Conversely, a Lawvere-Tierney topology is a morphism $j:\Omega\rightarrow\Omega$ and, hence, determines a unique subobject of $\Omega_\mathbf{Psh}$, i.e.~a unique collection of sieves for every object $x\in\ob{C}$. From the conditions of Lawvere-Tierney topologies one can then prove that this collection satisfies the conditions of a Grothendieck topology.
         \end{proof}
@@ -593,9 +598,9 @@
             \item The morphism in $\mathbf{H}(X,A)$ are called \textbf{coboundaries}.
             \item The set of connected components
             \begin{gather}
-                H(X;A):=\pi_0\mathbf{H}(X,A)=\hom_{\mathbf{Ho(H)}}(X,A),
+                H(X;A):=\pi_0\mathbf{H}(X,A)=\hom_\mathbf{Ho(H)}(X,A)\,,
             \end{gather}
-            where $\mathbf{Ho}(\mathbf{H})$ is the homotopy category \ref{model:homotopy_category_2} of $\mathbf{H}$, is called the intrinsic cohomology of $X$ with coefficients in $A$.
+            where $\mathbf{Ho(H)}$ is the homotopy category \ref{model:homotopy_category_2} of $\mathbf{H}$, is called the intrinsic cohomology of $X$ with coefficients in $A$.
         \end{itemize}
         If the object $A$ admits an $n$-delooping $\mathbf{B}^nA$, the $n^{th}$ cohomology group of $X$ is defined as
         \begin{gather}

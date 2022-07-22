@@ -1,17 +1,18 @@
 \chapter{Calculus}
 
-\nomenclature[S_CartSp]{$\mathrm{CartSp}$}{the category of Euclidean spaces and ``suitable'' homomorphisms (e.g.~linear maps, smooth maps, ...)}
+\nomenclature[S_CartSp]{$\mathrm{CartSp}$}{the category of Euclidean spaces and ``suitable'' morphisms (e.g.~linear maps, smooth maps, ...)}
 
 \section{General definitions}
 
     \newdef{Domain}{\index{domain}
-        A connected, open subset of $\mathbb{R}^n$.
+        A connected, open subset of $\mathbb{R}^n$. (Not to be confused with the domain of a function \ref{set:domain}.)
     }
 
-    \newdef{Factorial}{\index{factorial}
+    \newdef{Factorial}{\index{factorial}\label{calculus:factorial}
         \begin{gather}
-            n! := n(n-1)\cdots1
+            n! := n(n-1)\cdots1\,,
         \end{gather}
+        where $n\in\mathbb{N}$. The convention is that $0!=1$. (This for example agrees with the combinatorial result that there is only one way to order zero objects.)
     }
 
     \newdef{Envelope}{\index{envelope}
@@ -46,23 +47,23 @@
 \section{Continuity}\index{continuity}
 
     \begin{definition}[Darboux function]\index{Darboux!function}
-        A function that has the intermediate value property.
+        A function that has the intermediate value property \ref{topology:intermediate_value_theorem}.
     \end{definition}
     \begin{theorem}[Darboux]\index{Darboux!theorem for differentiable functions}
-        Every differentiable function defined on a closed interval has the intermediate value property \ref{topology:intermediate_value_theorem}.
+        Every differentiable function defined on a closed interval has the intermediate value property.
     \end{theorem}
     \begin{result}[Bolzano]\index{Bolzano}
         If $f(a)<0$ and $f(b)>0$ (or vice versa), there exists at least one point $x_0$ for which $f(x_0)=0$.
     \end{result}
 
     \begin{theorem}[Weierstrass's extreme value theorem]\index{Weierstrass!extreme value theorem}
-        Let $I=[a,b]\subset\mathbb{R}$ be a closed interval and let $f$ be a continuous function defined on $I$. Then $f$ attains a minimum and maximum at least once on $I$.
+        Let $I=[a,b]$ be a closed interval and let $f:I\rightarrow\mathbb{R}$ be a continuous function. Then $f$ attains a minimum and maximum at least once on $I$.
     \end{theorem}
 
     \newdef{Absolute continuity}{\index{continuity!absolute}\label{calculus:absolute_continuity}
         A function $f:\mathbb{R}\rightarrow\mathbb{R}$ is said to be absolutely continuous if for every $\varepsilon>0$ there exists a $\delta_\varepsilon>0$ such that for every finite collection of disjoint intervals $]x_i,y_i[$ satisfying
         \begin{gather}
-            \sum_i(y_i-x_i)<\delta_\varepsilon,
+            \sum_i(y_i-x_i)<\delta_\varepsilon\,,
         \end{gather}
         the function $f$ satisfies
         \begin{gather}
@@ -77,7 +78,7 @@
     \newdef{Function of bounded variation}{\index{bounded!variation}
         A function $f$ is said to be of bounded variation on the interval $[a,b]$ if the following quantity is finite:
         \begin{gather}
-            V_{a,b}(f) := \sup_{P\in\mathcal{P}}\sum_{i=0}^{|P|-1}|f(x_{i+1})-f(x_i)|,
+            V_{a,b}(f) := \sup_{P\in\mathcal{P}}\sum_{i=0}^{|P|-1}|f(x_{i+1})-f(x_i)|\,,
         \end{gather}
         where the supremum is taken over all partitions of $[a,b]$.
     }
@@ -108,15 +109,22 @@
 \subsection{Convergence tests}\index{convergence}
 
     \begin{property}
-        A necessary condition for the convergence of a series $\sum_{i=n}^\infty a_i$ is that $\lim_{n\rightarrow\infty}a_n = 0$.
+        A necessary condition for the convergence of a series $\sum_{i=1}^\infty a_i$ is that
+        \begin{gather}
+            \lim_{n\rightarrow\infty}a_n=0.
+        \end{gather}
     \end{property}
 
     \newprop{Absolute/conditional convergence}{
-        If $S'=\sum_{i=1}^\infty|a_i|$ converges, so does the series $S=\sum_{i=1}^\infty a_i$. Moreover, $S$ is said to be absolutely convergent. If $S$ converges but $S'$ does not, $S$ is said to be conditionally convergent.
+        If $S'=\sum_{i=1}^\infty|a_i|$ converges, so does $S=\sum_{i=1}^\infty a_i$. In this case, $S$ is said to be absolutely convergent. If $S$ converges but $S'$ does not, $S$ is said to be conditionally convergent.
     }
 
     \newdef{Majorizing series}{\index{majorization}
-        Let $S_a=\sum_{i=1}^\infty a_i$ and $S_b=\sum_{i=1}^\infty b_i$ be two series. The series $S_a$ is said to majorize $S_b$ if for every $k>0$ the partial sums satisfy $S_{a,k}\geq S_{b,k}$.
+        Let $S_a=\sum_{i=1}^\infty a_i$ and $S_b=\sum_{i=1}^\infty b_i$ be two series. The series $S_a$ is said to majorize $S_b$ if for every $k>0$ the partial sums satisfy $S_{a,k}\geq S_{b,k}$, i.e.
+        \begin{gather}
+            \sum_{i=1}^ka_i\geq\sum_{i=1}^kb_i
+        \end{gather}
+        for all $k\in\mathbb{N}$.
     }
     \begin{method}[Comparison test]\index{convergence!comparison test}
         Let $S_a,S_b$ be two series such that $S_a$ majorizes $S_b$.
@@ -129,7 +137,7 @@
     \end{method}
 
     \begin{method}[Maclaurin-Cauchy integral test]\index{convergence!integral test}\index{Maclaurin-Cauchy integral test|see{convergence}}
-        Let $f$ be a nonnegative, continuous and monotonically decreasing function defined on the interval $[n,\infty[$. If $\int_n^\infty f(x)dx$ is convergent, so is $\sum_{k=n}^\infty f(k)$. On the other hand, if the integral is divergent, so is the series.
+        Let $f$ be a nonnegative, continuous and monotonically decreasing function defined on the interval $[n,\infty[$ for some $n\in\mathbb{N}$. If $\int_n^\infty f(x)\,dx$ is convergent, so is $\sum_{k=n}^\infty f(k)$. On the other hand, if the integral is divergent, so is the series.
     \end{method}
     \begin{remark}
         The function does not have to be nonnegative and decreasing on the complete interval. As long as it does on the interval $[N,\infty[$ for some $N\geq n$, the statement holds. This can be seen by writing $\sum_{k=n}^\infty f(k) = \sum_{k=n}^Nf(k) + \sum_{k=N}^\infty f(k)$ and noting that the first term is always finite (and similarly for the integral).
@@ -143,7 +151,7 @@
     \end{property}
 
     \begin{method}[d'Alembert's ratio test]\index{convergence!ratio test}\index{d'Alembert!ratio test|see{convergence}}
-        Define the quantity
+        Consider the quantity
         \begin{gather}
             R := \lim_{n\rightarrow\infty}\left|\frac{a_{n+1}}{a_n}\right|.
         \end{gather}
@@ -156,7 +164,7 @@
     \end{method}
 
     \begin{method}[Cauchy's root test]\index{convergence!root test}\index{Cauchy!root test|see{convergence}}
-        Define the quantity
+        Consider the quantity
         \begin{gather}
             R := \limsup_{n\rightarrow\infty}\sqrt[n]{|a_n|}.
         \end{gather}
@@ -175,10 +183,9 @@
         The root test is stronger than the ratio test. However, if the ratio test can determine the convergence of a series, the radius of convergence of both tests will coincide and, hence, it is a well-defined quantity.
     \end{remark}
 
-    \begin{method}[Gauss's test]\index{convergence!Gauss's test}
-        If $a_n>0$ for all $n$, one can write the ratio of successive terms as follows:
+    \begin{method}[Gauss's test]\index{convergence!Gauss's test}\label{series:gauss_test}
+        If $a_n>0$ for all $n\in\mathbb{N}$, one can write the ratio of successive terms as follows:
         \begin{gather}
-            \label{series:gauss_test}
             \left|\frac{a_n}{a_{n+1}}\right| = 1 + \frac{h}{n} + \frac{B(n)}{n^k},
         \end{gather}
         where $k>1$ and $B(n)$ is a bounded function when $n\longrightarrow\infty$. The series converges if $h>1$ and diverges otherwise.
@@ -196,11 +203,16 @@
 \section{Differentiation}\index{differentiation}
 
     \newformula{Derivative}{\label{calculus:derivative}
-        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. The following limit is called the derivative of $f$ at $x$ (if it exists):
+        Consider a function $f:\mathbb{R}\rightarrow\mathbb{R}$. If it exists, the following limit is called the derivative of $f$ at $x\in\mathbb{R}$:
         \begin{gather}
-            f'(x) := \lim_{h\rightarrow0}\frac{f(x+h)-f(x)}{h}.
+            \deriv{f}{x}\equiv f'(x) := \lim_{h\rightarrow0}\frac{f(x+h)-f(x)}{h}.
         \end{gather}
         If the derivative exists at every point of some interval $I$, then $f$ is said to be differentiable on $I$.
+        For multivariate functions $f:\mathbb{R}^n\rightarrow\mathbb{R}$ one can similarly define the partial derivatives:
+        \begin{gather}
+            \pderiv{f}{x_i} := \frac{f(x+he_i)-f(x)}{h}\,,
+        \end{gather}
+        where $e_i$ is the $i^{th}$ coordinate vector, i.e.~the partial derivatives determine the rate of change in the coordinate directions.
     }
 
     \begin{theorem}[Mean value theorem]\index{mean!value theorem}\label{calculus:mean_value_theorem}
@@ -211,7 +223,7 @@
     \end{theorem}
 
     \newdef{Differentiablity class}{\label{calculus:differentiablity_class}
-        Let $I$ be a set and let $f$ be a function defined on $I$. If $f$ is $n$ times continuously differentiable on $I$ (i.e.~$f^{(i)}$ exists and is continuous for $i=1,\dotso,n$), then $f$ is said to be of class $C^n(I)$.
+        A function $f:\mathbb{R}\rightarrow\mathbb{R}$ is said to be of class $C^n$ if it is $n$ times continuously differentiable, i.e.~$f^{(i)}$ exists and is continuous for $i=1,\ldots,n$. Multivariate functions are said to be of class $C^n$ if all of their partial derivatives are.
     }
     \newdef{Smooth function}{\index{smooth!function}\label{calculus:smooth}
         A function $f$ is said to be smooth if it is of class $C^\infty$.
@@ -226,7 +238,7 @@
         \begin{gather}
             f(y) = f(x) + f'(x)(y-x) + \frac{f''(x)}{2}(y-x)^2 + \cdots = \sum_{n=0}^\infty\frac{f^{(n)}(x)}{n!}(y-x)^n.
         \end{gather}
-        For the special case $x=0$ the name \textbf{Maclaurin series} is sometimes used.
+        For the special case $x=0$ the name \textbf{Maclaurin series} is sometimes used. A similar expression exists for multivariate functions, where derivatives are replaced by partial derivatives.
     \end{property}
 
     \newdef{Analytic function}{\index{analytic!function}\label{calculus:analytic}
@@ -237,7 +249,7 @@
     \begin{theorem}[Hadamard lemma]\index{Hadamard!lemma}
         Let $f:\mathbb{R}^n\rightarrow\mathbb{R}$ be a smooth function defined on an open, star-convex set $U$. One can expand the function as follows:
         \begin{gather}
-            f(x) = f(x_0) + \sum_{i=1}^n(x^i-x^i_0)g_i(x_0),
+            f(x) = f(x_0) + \sum_{i=1}^n(x^i-x^i_0)g_i(x_0)\,,
         \end{gather}
         where all functions $g_i$ are also smooth on $U$.
     \end{theorem}
@@ -253,15 +265,15 @@
     \end{theorem}
 
     \begin{formula}[Derivative of \texorpdfstring{$f(x)^{g(x)}$}{f(x)^g(x)}]
-        Consider a function of the form \[u(x)=f(x)^{g(x)}.\] After taking the logarithm and applying the standard rules of differentiation, one can obtain the following expression:
+        Consider a function of the form \[u(x)=f(x)^{g(x)}\,,\] with $f,g:\mathbb{R}\rightarrow\mathbb{R}$ differentiable. After taking the logarithm and applying the standard rules of differentiation, one can obtain the following expression:
         \begin{gather}
             \label{calculus:derivative_f^g}
-            \deriv{}{x}\left[f(x)^{g(x)}\right] = f(x)^{g(x)}\left(\deriv{g}{x}(x)\ln[f(x)] + \frac{g(x)}{f(x)}\deriv{f}{x}(x)\right).
+            \deriv{}{x}\left(f(x)^{g(x)}\right) = f(x)^{g(x)}\left(\deriv{g}{x}(x)\ln[f(x)] + \frac{g(x)}{f(x)}\deriv{f}{x}(x)\right).
         \end{gather}
     \end{formula}
 
     \newdef{Euler operator}{\index{Euler!operator}\label{calculus:euler_operator}
-        On the space $C^{r>1}(\mathbb{R}^n,\mathbb{R})$, the Euler operator $\mathbb{E}$ is defined as follows:
+        On the space $C^{n>1}(\mathbb{R}^n,\mathbb{R})$, the Euler operator $\mathbb{E}$ is defined as follows:
         \begin{gather}
             \mathbb{E} := \sum_{i=1}^nx_i\pderiv{}{x^i}.
         \end{gather}
@@ -277,38 +289,36 @@
         \end{gather}
     \end{theorem}
 
-    ?? COMPLETE (add multidimensional extensions) ??
-
 \section{Integration theory}\index{Riemann!integral}
 
     \newdef{Improper Riemann integral}{\label{calculus:improper_integral}
         \begin{gather}
-            \int_{-\infty}^\infty f(x)dx = \lim_{\substack{a\rightarrow-\infty\\b\rightarrow+\infty}}\int_a^bf(x)dx
+            \int_{-\infty}^{+\infty}f(x)\,dx := \lim_{\substack{a\rightarrow-\infty\\b\rightarrow+\infty}}\int_a^bf(x)\,dx
         \end{gather}
         One-sided improper integrals are defined in a similar fashion.
     }
 
     \begin{theorem}[First fundamental theorem of calculus]\index{fundamental theorem!of calculus}
-        Let $f$ be a continuous function defined on an open interval $I$ and consider an element $c\in I$. The following theorem establishes the relation between integration and differentiation:
+        Let $f$ be a continuous function defined on an open interval $I$ and consider any number $c\in I$. The following expression establishes the relation between integration and differentiation:
         \begin{gather}
             \exists F\in C^1(I):\forall x\in I:F'(x)=f(x).
         \end{gather}
         Furthermore, the function $F$ is uniformly continuous on $I$ and is given by the following integral:
         \begin{gather}
             \label{calculus:first_fundamental_theorem}
-            F(x) = \int_c^xf(x')dx'.
+            F(x) = \int_c^xf(x')\,dx'.
         \end{gather}
     \end{theorem}
 
     \begin{remark}
-        The function $F$ in the previous theorem is called a \textbf{primitive (function)} of $f$. Remark that $F$ is just ``a'' primitive function, since adding a constant to $F$ does not change anything because the derivative of a constant is zero.
+        The function $F$ in the previous theorem is called a \textbf{primitive (function)} of $f$. Remark that $F$ is just ``a'' primitive function, since adding a constant to $F$ does not change anything because the derivative of a constant is zero (the number $c\in\mathbb{R}$ was arbitrary).
     \end{remark}
 
     \begin{theorem}[Second fundamental theorem of calculus]
-        Let $f$ be a $C^1$-function defined on the interval $[a,b]$.
+        Let $f$ be a $C^1$-function on the interval $[a,b]$.
         \begin{gather}
             \label{calculus:second_fundamental_theorem}
-            \int_a^bf'(x)dx = f(b) - f(a)
+            \int_a^bf'(x)\,dx = f(b) - f(a)
         \end{gather}
     \end{theorem}
 
@@ -316,7 +326,7 @@
         \footnotetext{This is a more general version of the \textit{Leibniz integral rule}.}
         \begin{gather}
             \label{calculus:diff_under_integral}
-            \deriv{}{x}\int_{a(x)}^{b(x)}f(x,y)dy = f(x,b(x))\cdot b'(x) - f(x,a(x))\cdot a'(x) + \int_{a(x)}^{b(x)}\pderiv{f(x,y)}{x}dy
+            \deriv{}{x}\int_{a(x)}^{b(x)}f(x,y)\,dy = f\big(x,b(x)\big)b'(x) - f\big(x,a(x)\big)a'(x) + \int_{a(x)}^{b(x)}\pderiv{f(x,y)}{x}\,dy
         \end{gather}
     \end{formula}
 
@@ -327,7 +337,7 @@
         \end{gather}
         If
         \begin{gather}
-            \int_0^\infty e^{-t}F(xt)dt<\infty
+            \int_0^{+\infty}e^{-t}F(xt)\,dt<+\infty
         \end{gather}
         for all $x\in\mathbb{R}$, then $F$ is called the Borel transform of
         \begin{gather}
@@ -338,13 +348,13 @@
             \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
                 The function $F$ is defined as follows:
                 \begin{gather}
-                    F(x) := \sum_{n=0}^\infty\frac{a_n}{n!}x^n.
+                    F(x) := \sum_{n=0}^{+\infty}\frac{a_n}{n!}x^n.
                 \end{gather}
                 The Borel transform gives:
                 \begin{align*}
-                    \int_0^\infty F(xt)e^{-t}dt&=\sum_{n=0}^N\int_0^\infty\frac{a_n}{n!}x^nt^ne^{-t}dt\\
-                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\int_0^\infty t^ne^{-t}dt\\
-                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\Gamma(n+1)\\
+                    \int_0^{+\infty}F(xt)e^{-t}\,dt&=\sum_{n=0}^N\int_0^{+\infty}\frac{a_n}{n!}x^nt^ne^{-t}\,dt\\
+                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\int_0^{+\infty}t^ne^{-t}\,dt\\
+                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\,\Gamma(n+1)\\
                     &=\sum_{n=0}^Na_nx^n,
                \end{align*}
                where the definition of the Gamma function \ref{calculus:gamma_function} was used on line 3 and the relation \eqref{calculus:gamma_factorial_relation} between the factorial function and the Gamma function was used on line 4.\qed
@@ -352,7 +362,7 @@
         \end{proof}
     }
     \begin{theorem}[Watson]\index{Watson}
-        The Borel transform $F$ is unique if the function $f$ is holomorphic on the domain $\{z\in\mathbb{C}\mid|\arg(z)| < \frac{\pi}{2} + \varepsilon\}$.
+        The Borel transform $F$ is unique if the function $f$ is holomorphic (Definition \ref{complexcalculus:holomorphic}) on the domain $\{z\in\mathbb{C}\mid|\arg(z)|<\frac{\pi}{2}+\varepsilon\}$.
     \end{theorem}
 
 \subsection{Euler integrals}\index{Euler!integral}
@@ -360,14 +370,14 @@
    \newformula{Beta function}{\index{beta function}\label{calculus:beta_function}
        The beta function (also known as the \textbf{Euler integral of the first kind}) is defined as follows:
         \begin{gather}
-            B(x,y) := \int_0^1t^{x-1}(1-t)^{y-1}dt.
+            B(x,y) := \int_0^1t^{x-1}(1-t)^{y-1}\,dt.
         \end{gather}
     }
 
    \newformula{Gamma function}{\index{gamma!function}\label{calculus:gamma_function}
        The gamma function (also known as the \textbf{Euler integral of the second kind}) is defined as follows:
         \begin{gather}
-            \Gamma(x) := \int_0^\infty t^{x-1}e^{-t}dt.
+            \Gamma(x) := \int_0^{+\infty}t^{x-1}e^{-t}\,dt.
         \end{gather}
     }
 
@@ -386,7 +396,7 @@
     \end{property}
 
     \newformula{Factorial}{
-        For integers $n\in\mathbb{N}$ the gamma function can be expressed in terms of the factorial:
+        For integers $n\in\mathbb{N}$ the gamma function can be expressed in terms of the factorial \ref{calculus:factorial}:
         \begin{gather}
             \label{calculus:gamma_factorial_relation}
             \Gamma(n) = (n-1)!\,.
@@ -405,24 +415,24 @@
     \newformula{$n$-dimensional Gaussian integral}{\index{Wick!lemma}
         An integral of the form
         \begin{gather}
-            I\left(A,\vector{b}\right) := \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x} + \vector{b}\cdot\vector{x}\right)d^nx,
+            I\left(A,\vector{b}\right) := \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x} + \vector{b}\cdot\vector{x}\right)\,d^nx\,,
         \end{gather}
-        where $A$ is a real symmetric matrix. By performing the transformation $\vector{x}\rightarrow A^{-1}\vector{b} - \vector{x}$ and diagonalizing $A$, one can obtain the following expression:
+        where $A$ is a real symmetric matrix. By performing the transformation $\vector{x}\rightarrow A^{-1}\vector{b}-\vector{x}$ and diagonalizing $A$, one can obtain the following expression:
         \begin{gather}
             \label{calculus:gaussian_integral}
             I\left(A,\vector{b}\right) = \sqrt{\frac{(2\pi)^n}{\det(A)}}\exp\left(\frac{1}{2}\vector{b}\cdot A^{-1}\vector{b}\right).
         \end{gather}
         More generally one has the following result:
         \begin{gather}
-            \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)f(\vector{x})d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\left.\exp\left(\frac{1}{2}\sum_{i,j=1}^nA^{-1}_{ij}\partial_i\partial_j\right)f(\vector{x})\right|_{\vector{x}=0}.
+            \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)f(\vector{x})\,d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\left.\exp\left(\frac{1}{2}\sum_{i,j=1}^nA^{-1}_{ij}\partial_i\partial_j\right)f(\vector{x})\right|_{\vector{x}=0}.
         \end{gather}
         This result is sometimes called \textbf{Wick's lemma}.
     }
     \begin{result}
         A functional generalization is given by:
         \begin{align}
-            I(iA,iJ) &= \int[d\varphi]\exp\left(-i\int_{\mathbb{R}^n\times\mathbb{R}^n}\varphi(x)A(x,y)\varphi(y)\,d^nxd^ny + i\int_{\mathbb{R}^n}\varphi(x)J(x)\,d^nx\right)\nonumber\\
-            &= C\det(A)^{-1/2}\exp\left(\frac{i}{2}\int_{\mathbb{R}^n\times\mathbb{R}^n}J(x)A^{-1}(x,y)J(y)\,d^nxd^ny\right),
+            I(iA,iJ) &= \int\exp\left(-i\int_{\mathbb{R}^n\times\mathbb{R}^n}\varphi(x)A(x,y)\varphi(y)\,d^nx\,d^ny + i\int_{\mathbb{R}^n}\varphi(x)J(x)\,d^nx\right)[d\varphi]\nonumber\\
+            &= C\det(A)^{-1/2}\exp\left(\frac{i}{2}\int_{\mathbb{R}^n\times\mathbb{R}^n}J(x)A^{-1}(x,y)J(y)\,d^nx\,d^ny\right),
         \end{align}
         where the analytic continuation $I(iA,iJ)$ of Equation \eqref{calculus:gaussian_integral} was used. One should pay attention to the normalization factor $C$ which is infinite in general.
     \end{result}
@@ -432,13 +442,13 @@
 
         If the number of factors in a monomial is odd, the resulting integral will vanish (since the integral of an odd function over an even domain is zero). For an even number of factors one gets the following expression:
         \begin{gather}
-            \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)x^{i_1}\cdots x^{i_k}d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\sum_{\sigma\in S_k}A^{-1}_{\sigma(i_1)\sigma(i_2)}\cdots A^{-1}_{\sigma(i_{k-1})\sigma(i_k)}.
+            \int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)x^{i_1}\cdots x^{i_k}\,d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\sum_{\sigma\in S_k}A^{-1}_{\sigma(i_1)\sigma(i_2)}\cdots A^{-1}_{\sigma(i_{k-1})\sigma(i_k)}.
         \end{gather}
         To every coordinate dimension one can assign a vertex in the place, i.e.~the object $x_i$ can be interpreted as a real-valued function on the set of $k$ elements. The sum on the right-hand side above can then be expressed as a ``sum'' over all possible diagrams, where a factor $A^{-1}_{ij}$ is represented by a line connecting the vertices $i$ and $j$.
     \end{method}
 
     \begin{example}[Feynman diagrams]
-        Some simple example are given:
+        Some simple examples are given:
         \begin{gather*}
             A^{-1}_{13}A^{-1}_{12}A^{-1}_{24} =
             \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
@@ -471,7 +481,7 @@
 \section{Convexity}
 
     \newdef{Convex set}{\index{convex}\index{hull}\label{calculus:convex}
-        A subset of $X$ of a vector space $V$ (Definition \ref{linalgebra:vector_space}) is said to be convex if $x,y\in X$ implies that $\{\lambda x+(1-\lambda)y\mid\lambda\in[0,1]\}\subset X$, i.e.~if all straight lines connecting elements of the set are completely contained in that set. The \textbf{convex hull} of a subset $X$ is defined as the smallest convex subset containing $X$.
+        A subset of $X$ of a vector space $V$ (Definition \ref{linalgebra:vector_space}) is said to be convex if $x,y\in X$ implies that $\big\{\lambda x+(1-\lambda)y\mid\lambda\in[0,1]\big\}\subset X$, i.e.~if all straight lines connecting elements of the set are completely contained in that set. The \textbf{convex hull} of a subset $X$ is defined as the smallest convex subset containing $X$.
     }
 
     \newdef{Convex function}{
@@ -481,9 +491,9 @@
         \end{gather}
         For the definition of a \textbf{concave} function the inequality has to be turned around.
     }
-    \begin{property}[Linear map]
+    \begin{definition}[Linear map]\index{linear!map}
         A function $f:X\rightarrow\mathbb{R}$ is linear if and only if it is both convex and concave.
-    \end{property}
+    \end{definition}
 
     \begin{theorem}[Karamata's inequality]\index{Karamata}
         Consider an interval $I\subset\mathbb{R}$ and let $f:I\rightarrow\mathbb{R}$ be a convex function. If $(x_1,\ldots,x_n)$ is a tuple that majorizes $(y_1,\ldots,y_n)$, i.e.

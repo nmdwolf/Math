@@ -1,8 +1,8 @@
 \chapter{\difficult{Higher-dimensional Geometry}}\label{chapter:hdg}
 
-    The main references are \cite{higher_gauge, phd_schreiber}. The section on spectral geometry is based on the thesis \cite{spectral_geometry}, while that on smooth spaces is inspired by \cite{baez_convenient}. For an introduction to (higher) category theory, see Chapter \ref{chapter:cat}. Section \ref{section:higher_lie_structures} gives a different approach to the higher-dimensional analogues of Lie algebras.
+    In this chapter certain constructions and theorems introduced in the previous chapters are generalized to the setting of higher categories and supergeometries. As such it can been as an analogue to Chapter \ref{chapter:hda} for (differential) geometry.
 
-    In this chapter certain constructions and theorems introduced in the previous chapters are generalized to the setting of higher categories. As such it can been as an analogue to Chapter \ref{chapter:hda} for (differential) geometry.
+    The main references are \cite{higher_gauge, phd_schreiber}. The section on spectral geometry is based on the thesis \cite{spectral_geometry}, while that on smooth spaces is inspired by \cite{baez_convenient}. For an introduction to (higher) category theory, see Chapter \ref{chapter:cat}. Section \ref{section:higher_lie_structures} gives a different approach to the higher-dimensional analogues of Lie algebras.
 
     ?? CITE BAEZ, SCHREIBER, BARTELS, ... ??
 
@@ -12,23 +12,23 @@
 
     The first approach uses a locally convex TVS \ref{functional:locally_convex} as local model space:
     \newdef{$E$-manifold}{\index{manifold}
-        Let $E$ be a locally convex TVS. A Hausdorff topological space is called an $E$-manifold if exists an atlas of charts $(U,\varphi)$, where $\varphi:U\rightarrow\varphi(U)\subset E$ is a homeomorphism and the transition maps are smooth in the sense of Gateaux.
+        Let $E$ be a locally convex TVS. A Hausdorff space is called an $E$-manifold if there exists an atlas of charts $(U,\varphi)$, where $\varphi:U\rightarrow\varphi(U)\subset E$ is a homeomorphism and the transition maps are Gateaux-smooth.
     }
 
     \newdef{Kinematic tangent bundle}{\index{tangent!bundle}
-        Let $M$ be an $E$-manifold with a smooth atlas $\{U_i,\varphi\}_{i\in I}$. The kinematic tangent bundle of $M$ is defined as the quotient of
+        Let $M$ be an $E$-manifold with a smooth atlas $\{(U_i,\varphi)\}_{i\in I}$. The kinematic tangent bundle of $M$ is defined as the quotient of
         \begin{gather}
             \bigsqcup_{i\in I}U_i\times E
         \end{gather}
-        by the equivalence relations $(x,w)\sim(x,d\psi_{ji}(\varphi_i(x);v))$.
+        by the equivalence relations $(x,w)\sim(x,\dr\psi_{ji}(\varphi_i(x);v))$.
     }
     \begin{remark}
         For infinite-dimensional $E$, this tangent bundle is not isomorphic to the definition in terms of derivations. The above construction is ``kinematical'' because the pair $(x,v)$ represent a vector tangent to a curve at the point $x\in M$.
     \end{remark}
 
-    Since infinite-dimensional vector are in general not reflexive, simply defining the cotangent bundle to be the fibrewise dual of the kinematic tangent bundle, would lead to even more size issues. \textit{Kriegl} and \textit{Michor} have shown that one can ccok up to 12 sensible definitions of a cotangent bundle (this also includes ``operational'' definitions using derivations). However, only one of these definitions is well-behaved with respect to Lie derivatives, exterior derivatives and pullbacks. Luckily this is also the definition is the most widely used one in the finite-dimensional setting:
+    Since infinite-dimensional vector spaces are in general not reflexive, simply defining the cotangent bundle to be the fibrewise dual of the kinematic tangent bundle would lead to even more size issues. \textit{Kriegl} and \textit{Michor} have shown that one can cook up to 12 sensible definitions of a cotangent bundle (this also includes ``operational'' definitions using derivations). However, only one of these definitions is well-behaved with respect to Lie derivatives, exterior derivatives and pullbacks. Luckily this is also the most widely used definition in the finite-dimensional setting:
     \newdef{Kinematical cotangent bundle}{
-        Let $M$ be an $E$-manifold. Consider the set of bounded, alternating linear maps $E^{\times k}\rightarrow\mathbb{R}$. This lifts to a vector bundle $L^k_\mathrm{alt}(TM,M\times\mathbb{R})$, the kinematical cotangent bundle.
+        Let $M$ be an $E$-manifold. Consider the set of bounded, alternating linear maps $E^{\times k}\rightarrow\mathbb{R}$. This lifts to a vector bundle $L^k_\mathrm{alt}(TM,M\times\mathbb{R})$.
     }
 
 \section{Smooth spaces}\index{smooth!space}\label{section:smooth_spaces}
@@ -39,26 +39,24 @@
 
     Whilst studying varieties in algebraic geometry people experienced similar problems. For this reason \textit{Grothendieck} invented schemes (see Chapter \ref{chapter:alggeom} and Section \ref{section:schemes} in particular). The main takeaway of this approach was that it is often better to work with a well-behaved category containing some ``nasty'' objects, than to work with a ``nasty'' category containing only nice objects.
 
-    The category $\mathbf{Diff}$ of finite-dimensional smooth manifolds suffers the same problems, namely the space of smooth functions $C^\infty(X,Y)$ is in general some kind of infinite-dimensional manifold. It becomes even worse if one studies the mapping spaces between those. \textit{Kriegl} and \textit{Michor} have introduced a framework in which one can work safely, but the main problem with their solution is that not all spaces of interest are included. Certain other operations such as quotients and (co)limits are also not guaranteed to exist within that category.
+    The category $\mathbf{Diff}$ of finite-dimensional smooth manifolds suffers the same problems, namely the space of smooth functions $C^\infty(X,Y)$ is in general some kind of infinite-dimensional manifold and, hence, cannot be defined internally. It becomes even worse if one studies the mapping spaces between those. \textit{Kriegl} and \textit{Michor} have introduced a framework in which one can work safely, but the main problem with their solution is that not all spaces of interest are included. Certain other operations such as quotients and (co)limits are also not guaranteed to exist within that category.
 
 \subsection{Concrete sites}
 
     \newdef{Diffeological space}{\index{diffeology}\index{plot}
         Let $X$ be a set. A diffeology $\mathcal{D}$ on $X$ is defined as a collection of functions $f:U\subseteq\mathbb{R}^n\rightarrow X$, called \textbf{plots}, satisfying the following conditions (where $U,V$ and $W$ are open sets):
         \begin{enumerate}
-            \item If $f$ is constant, then $f\in\mathcal{D}$. Equivalently, every function $f:\mathbb{R}^0\rightarrow X$ is a plot.
+            \item $\mathcal{D}$ contains all functions $f:\mathbb{R}^0\rightarrow X$ and all constant functions.
             \item If $\{U_i\}_{i\in I}$ is an open cover of $U$ and if $f|_{U_i}\in\mathcal{D}$ for all $i\in I$, then $f\in\mathcal{D}$.
             \item If $f\in\mathcal{D}$ and $g:W\subseteq\mathbb{R}^m\rightarrow\dom(f)$ is smooth, then $f\circ g\in\mathcal{D}$.
         \end{enumerate}
-        The set $X$ can be turned into a topological space by equipping it with the \textbf{$\mathcal{D}$-topology}, i.e.~the final topology with respect to $\mathcal{D}$.
+        The set $X$ can be turned into a topological space by equipping it with the \textbf{$\mathcal{D}$-topology}, the final topology with respect to $\mathcal{D}$.
     }
-    \remark{The domain of different plots can be subsets of different Euclidean spaces $\mathbb{R}^m$ and $\mathbb{R}^n$.}
+    \remark{Note that in contrast to ordinary manifolds, the plots in a diffeology can have domains of different dimensions.}
 
     \newdef{Smooth map}{\index{smooth!function}
         \nomenclature[S_DiffSp]{$\mathbf{DiffSp}$}{category of diffeological spaces and smooth maps}
-        Let $(X,\mathcal{D})$ and $(Y,\mathcal{D}')$ be diffeological spaces. A map $g:X\rightarrow Y$ is said to be smooth if for every $f\in\mathcal{D}$ the composition $g\circ f\in\mathcal{D}'$.
-
-        The diffeological spaces together with their differentiable morphisms form a category $\mathbf{DiffSp}$.
+        Let $(X,\mathcal{D})$ and $(Y,\mathcal{D}')$ be diffeological spaces. A map $g:X\rightarrow Y$ is said to be smooth if for every $f\in\mathcal{D}$ the composite $g\circ f\in\mathcal{D}'$. The diffeological spaces together with their differentiable morphisms form a category $\mathbf{DiffSp}$.
     }
 
     \newdef{Chen space}{\index{Chen space}
@@ -118,7 +116,7 @@
         \nomenclature[S_FormalCartSp]{$\mathbf{FormalCartSp_{diff}}$}{category of infinitesimally thickened Euclidean spaces}
         First, consider a point $\mathbb{R}^0$. Its infinitesimal thickening should be a space such that every function that vanishes at the origin is actually nilpotent (this is essentially a version of the Kock-Lawvere axiom \ref{synth:kock_lawvere_axiom}). The straightforward definition is the following one:
         \begin{gather}
-            \mathbb{D} := \mathrm{Spec}(A),
+            \mathbb{D} := \mathrm{Spec}(A)\,,
         \end{gather}
         where $A:=\mathbb{R}\oplus V$ with $V$ a finite-dimensional nilpotent ideal. A Euclidean space can be infinitesimally thickened by taking the product with $\mathbb{D}$ (or at the algebraic level by taking the tensor product with $A$). A morphism of such spaces is defined by an $R$-algebra homomorphism between their assciated algebras. These form the category $\mathbf{FormalCartSp_{diff}}$.
     }
@@ -127,7 +125,7 @@
     \end{example}
 
     \begin{property}[Morphisms]
-        First, consider the morphisms from a Euclidean space into an infinitesimal neighbourhood $\mathbb{D}^k$. Since such morphisms are dual to algebra homomorphisms, one should look at homomorphisms of the form $\mathbb{R}[\varepsilon]/\varepsilon^{k+1}\rightarrow C^\infty(\mathbb{R}^n)$. However, being an algebra homomorphism implies that $f(1)=1$ and that nilpotents are mapped to nilpotents. The algebra of smooth functions on a Euclidean space does not contain nilpotents and, hence, there exists a unique function into an infinitesimal neighbourhood (the one that factorizes through the one-point set).
+        First, consider the morphisms from a Euclidean space into an infinitesimal neighbourhood $\mathbb{D}^k$. Since such morphisms are dual to algebra homomorphisms, one should look at morphisms of the form $\mathbb{R}[\varepsilon]/\varepsilon^{k+1}\rightarrow C^\infty(\mathbb{R}^n)$. However, being an algebra homomorphism implies that $f(1)=1$ and that nilpotents are mapped to nilpotents. The algebra of smooth functions on a Euclidean space does not contain nilpotents and, hence, there exists a unique function into an infinitesimal neighbourhood (the one that factorizes through the one-point set).
 
         For morphisms out of (first-order) infinitesimal neighbourhoods one obtains the property known from synthetic geometry that morphisms of the form $\mathbb{R}^n\times\mathbb{D}^1\rightarrow\mathbb{R}^n$ are in bijection with vector fields on $\mathbb{R}^n$.
     \end{property}
@@ -136,7 +134,7 @@
         A sheaf on the site of infinitesimally thickened Euclidean spaces (covers are of the form $\{U_i\times\mathrm{Spec}(A)\mid U_i\hookrightarrow\mathbb{R}^n\}$). The category of formal smooth sets or, equivalently, the sheaf topos on $\mathbf{FormalCartSp_{diff}}$ is also called the \textbf{Cahiers topos}. The sets in the image of a formal smooth set $X$ are called the sets of \textbf{plots} of $X$ and can be interpreted as sets of functions into $X$ (in analogy with the definition of smooth spaces).
     }
     \newdef{Reduction}{\index{reduction}\index{infinitesimal}
-        Given an infinitesimally thickened space $\mathbb{R}^n\times\mathbb{D}$, its reduction $\mathfrak{R}$ is defined to be $\mathbb{R}^n$. Every reduction induces a canonical morphism $\mathbb{R}^n\hookrightarrow\mathbb{R}^n\times\mathbb{D}$. Plots get can be reduced by ``precomposing'' with a reduction morphism.
+        Given an infinitesimally thickened space $\mathbb{R}^n\times\mathbb{D}$, its reduction $\mathfrak{R}$ is defined to be $\mathbb{R}^n$. Every reduction induces a canonical morphism $\mathbb{R}^n\hookrightarrow\mathbb{R}^n\times\mathbb{D}$. Plots can be reduced by ``precomposing'' with a reduction morphism.
 
         The \textbf{infinitesimal neighbourhood} (to arbitrary order) of a formal smooth subset $Y\hookrightarrow X$ is defined by taking its plots to be those plots of $X$ for which the reductions factorize through plots of $Y$.
     }
@@ -202,11 +200,11 @@
         which implies that every cohomological vector field defines a coboundary operator on $C^\infty(M)$. A graded manifold equipped with a cohomological vector field is called a \textbf{differential-graded manifold} (dg-manifold).
     }
     \begin{example}[de Rham differential]
-        Consider the de Rham complex $\Omega^\bullet(M)$ with differential $d$. This differential corresponds to a cohomological vector field $Q$ on $\Pi TM$, locally defined by
+        Consider the de Rham complex $\Omega^\bullet(M)$ with differential $\dr$. This differential corresponds to a cohomological vector field $Q$ on $\Pi TM$, locally defined by
         \begin{gather}
             Q := \sum_{i=1}^n\drx^i\partial_i.
         \end{gather}
-        Note that the differentials $dx^i$ are here regarded as coordinate functions on $\Pi TM$. The \textbf{degree} of a homogeneous element of $\Omega^\bullet(M)$ is defined as the difference of its graded degree and its form degree. The de Rham complex itself then corresponds to the algebra $C^\infty(\Pi TM)$.
+        Note that the differentials $\drx^i$ are here regarded as coordinate functions on $\Pi TM$. The \textbf{degree} of a homogeneous element of $\Omega^\bullet(M)$ is defined as the difference of its graded degree and its form degree. The de Rham complex itself then corresponds to the algebra $C^\infty(\Pi TM)$.
     \end{example}
 
     \newdef{Poisson manifold}{\index{Poisson!manifold}\label{hdg:poisson_manifold}
@@ -307,7 +305,7 @@
 
         Consider the \textbf{pair groupoid} $\mathbf{M\times M}$, i.e.~the groupoid with the following data:
         \begin{itemize}
-            \item\textbf{Objects}: $M$
+            \item\textbf{Objects}: $M$, and
             \item\textbf{Morphisms}: $M\times M$, i.e.~between every two points there exists a unique morphism.
         \end{itemize}
         Both the fundamental groupoid $\mathbf{\Pi_1}(M)$ (Definition \ref{topology:fundamental_groupoid}) and the pair groupoid $\mathbf{M\times M}$ integrate the tangent Lie algebroid.
@@ -416,7 +414,7 @@
     \newdef{Path groupoid}{\index{groupoid!path}\label{hdg:path_groupoid}
         Let $M$ be a smooth space. The path groupoid $\mathcal{P}_1(M)$ is the smooth groupoid conssting of the following data:
         \begin{itemize}
-            \item\textbf{Objects}: $M$
+            \item\textbf{Objects}: $M$, and
             \item\textbf{Morphisms}: thin homotopy classes of lazy paths with fixed endpoints on $M$
         \end{itemize}
         The laziness combined with the first condition of thin homotopies implies that the morphisms of this groupoid are (locally) constant near the full boundary of their domain.
@@ -464,15 +462,15 @@
         \begin{itemize}
             \item for every coordinate chart $U_i\subset M$ a local holonomy $n$-functor
             \begin{gather}
-                \mathrm{hol}_i:\mathcal{P}_n(U_i)\rightarrow G;
+                \mathrm{hol}_i:\mathcal{P}_n(U_i)\rightarrow G,
             \end{gather}
             \item for every double intersection $U_{ij}$ a 1-transfor (i.e.~an $n$-natural transformation)
             \begin{gather}
-                g_{ij}:\mathrm{hol}_i\Rightarrow\mathrm{hol}_j;
+                g_{ij}:\mathrm{hol}_i\Rightarrow\mathrm{hol}_j,
             \end{gather}
             \item for every triple intersection $U_{ijk}$ a 2-transfor
             \begin{gather}
-                f_{ijk}:g_{ij}\circ g_{jk}\Rrightarrow g_{ik};
+                f_{ijk}:g_{ij}\circ g_{jk}\Rrightarrow g_{ik},
             \end{gather}
             \item and so on...
         \end{itemize}

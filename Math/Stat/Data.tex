@@ -927,7 +927,7 @@
     One of the simplest ways to express uncertainty about predictions or parameter estimates is to give a set of possible values instead of a single value. However, to be meaningful, these sets should satisfy some conditions.
 
     \newdef{Validity}{\index{validity}\index{significance}\label{data:validity}
-        Consider a measurable region predictor $\Gamma$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
+        Consider a measurable function $\Gamma:X\rightarrow P(Y)$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
         \begin{gather}
             \label{data:validity_condition}
             P(y\in\Gamma^\alpha(x))\geq 1-\alpha.
@@ -936,20 +936,20 @@
 
         In fact, one can define two notions of validity: pointwise and asymptotic. Equation \eqref{data:validity_condition} characterizes pointwise validity in the sense that the probability of having an error is given by a Bernoulli process with parameter $\alpha$. Asymptotic validity is a frequentist notion in the following sense:
         \begin{gather}
-            \lim_{n\rightarrow\infty}\frac{\mathrm{Err}_n(\Gamma)}{n}\leq\alpha,
+            \lim_{n\rightarrow\infty}\frac{\mathrm{Err}_n(\Gamma)}{n}\leq\alpha\,,
         \end{gather}
         where $\mathrm{Err}_n(\Gamma)$ is the number of errors made by $\Gamma$ after $n$ trials. It should be clear that pointwise validity (both exact and conservative) implies asymptotic validity.
     }
 
     \begin{remark}[Confidence regions]
-        The definition of valid confidence predictors above is similar to the definition of confidence regions (Section \ref{section:confidence}). However, in contrast to confidence regions of population parameters, the size of confidence regions for predictive distributions does not go towards to zero in the infinite data limit. This follows from the fact that in general all observations are subject to noise and, hence, even with perfect knowledge about the data generating distribution, an exact prediction is impossible.\footnote{Note that when observations are not sampled according to a distribution, but are perfectly predictable, this is of course not true.}
+        The definition of valid confidence predictors above is similar to the definition of confidence regions (Section \ref{section:confidence}). However, in contrast to confidence regions for population parameters, the size of confidence regions for predictive distributions does not go towards zero in the infinite data limit. This follows from the fact that in general all observations are subject to noise and, hence, even with perfect knowledge about the data generating distribution, an exact prediction is impossible.\footnote{Note that when observations are not sampled according to a distribution, but are perfectly predictable, this is of course not true.}
     \end{remark}
 
 \subsection{Conformal prediction}
 
-    A very general framework for the construction of valid prediction intervals in a model-independent manner is given by the conformal prediction framework by \textit{Vovk et al}. The main ingredients for the construction are randomization and \textit{conformity measures}.
+    A very general framework for the construction of valid prediction intervals in a model-independent manner is given by the conformal prediction framework by \textit{Vovk et al}. The main ingredients for the construction are randomization and ``conformity measures''.
 
-    The first step will be studying the behaviour under randomization of the existing data (be it measurements or past predictions). To ensure that the procedure satisfies the required confidence (or probability) bounds, one has to make some assumptions. One of the main benefits of this framework is that one can relax the condition of the data being i.i.d. to it being exchangeable:
+    The first step will be studying the behaviour under randomization of the existing data (be it measurements or past predictions). To ensure that the procedure satisfies the required confidence (or probability) bounds, one has to make some assumptions. One of the main benefits of this framework is that one can relax the condition of the data being i.i.d.~to it being exchangeable:
     \newdef{Exchangeability}{\index{exchangeability}\index{bag}
         Consider an ordered data sample $\{z_i\}_{1\leq i\leq N}$. The joint distribution $P(z_1,\ldots,z_N)$ is said to be exchangeable if it is invariant under any permutation of the data points. A distribution $Q$ is said to be exchangeable if $Q^n$ is exchangeable for all $n\in\mathbb{N}$.
 
@@ -957,26 +957,26 @@
     }
 
     \newdef{Nonconformity measure}{\index{measure!conformity}
-        Consider a bag $\mathcal{B}$ together with a new element $z^*$ in a probability space $(Z,\Sigma,P)$. A noncomformity measure $f:Z^\infty\times Z\rightarrow\mathbb{R}$ is a measurable function that gives a number indicating how different $z^*$ is from the content of $\mathcal{B}$.
+        Consider a bag $\mathcal{B}$ together with a new element $z^*$ in a probability space $(Z,\Sigma,P)$. A noncomformity measure $A:Z^\infty\times Z\rightarrow\mathbb{R}$ is a measurable function that gives a number indicating how different $z^*$ is from the content of $\mathcal{B}$.
     }
     \sremark{One could restate all statements in this section in terms of ``conformity measures'' and, hence, look at similarities instead of dissimilarities. It will become clear that the procedure is invariant under monotone transformations and, hence, everything can be multiplied by $-1$.}
     \begin{example}[Point predictors]
         A general class of nonconformity measures is obtained from point predictors for a metric space $(Y,d)$ . Given a point predictor $\rho:X\rightarrow Y$ trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_\rho(\mathcal{B},(x,y)) := d(\rho(x),y).
+            A_\rho(\mathcal{B},(x,y)) := d\big(\rho(x),y\big).
         \end{gather}
     \end{example}
     \begin{example}[Interval predictors]
-        For every model $C\equiv(l,u):X\rightarrow\mathbb{R}^2$ that predicts intervals, i.e.~$\forall x\in X: l(x)\leq u(x)$, that is trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
+        For every interval predictor $(l,u):X\rightarrow\mathbb{R}^2$, i.e.~a pair of functions $u,l:X\rightarrow\mathbb{R}$ such that $\forall x\in X:l(x)\leq u(x)$, trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_C(\mathcal{B},(x,y)) := \max\Big(l(x)-y,y-u(x)\Big).
+            A_{u,l}(\mathcal{B},(x,y)) := \max\big(l(x)-y,y-u(x)\big).
         \end{gather}
     \end{example}
     It should be noted that although common, nonconformity measures and, by extension, conformal prediction are also applicable to nonmetric spaces:
     \begin{example}[Nested region predictors]
         Let $T$ be a totally ordered set \ref{set:total_order}. For every model $\tseq{C}:X\rightarrow P(Y)$ that predicts a sequence of nested regions, i.e.
         \begin{gather}
-            s\leq t\implies C_s(x)\subseteq C_t(x),
+            s\leq t\implies C_s(x)\subseteq C_t(x)\,,
         \end{gather}
         trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
@@ -1004,11 +1004,11 @@
         \begin{itemize}
             \item Regions are (conservatively) valid, i.e.
                 \begin{gather}
-                    P(p^*\leq\alpha)\leq\alpha,
+                    P(p^*\leq\alpha)\leq\alpha\,,
                 \end{gather}
                 and thus also
                 \begin{gather}
-                    P(y^*\in\Gamma^\alpha(x^*,\mathcal{B}))\geq1-\alpha,
+                    P(y^*\in\Gamma^\alpha(x^*,\mathcal{B}))\geq1-\alpha\,,
                 \end{gather}
                 where the probability is taken over both the bag $\mathcal{B}$ and the point $(x^*,y^*)$.
             \item Regions are nested, i.e.~$\alpha\leq\beta\implies\forall x\in X:\Gamma^\alpha(x)\subseteq\Gamma^\beta(x)$.
@@ -1019,14 +1019,14 @@
     \begin{property}[Smooth conformal predictors]\label{data:smooth_cp}
         One can modify the above construction in such a way that the resulting conformal predictors are not only conservatively valid but are also exactly valid. To this end one replaces the conformal $p$-value \eqref{data:tcp} by
         \begin{gather}
-            p^*(\theta) := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z>\mu_{z^*}\}| + \theta\,|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z=\mu_{z^*}\}|}{|\mathcal{B}|+1},
+            p^*(\theta) := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z>\mu_{z^*}\}| + \theta\,|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z=\mu_{z^*}\}|}{|\mathcal{B}|+1}\,,
         \end{gather}
         where $\theta$ is independently and uniformly sampled from the unit interval $[0,1]$. Exact validity is then obtained by also marginalizing over the random variable $\theta$.
     \end{property}
 
     Now, one could wonder if the assumption of exchangeability is a realistic assumption. Obviously if one applies the procedure to independent observations, everything is fine since i.i.d. sequences are clearly exchangeable. However, some important classes of data sequences are clearly not exchangeable, e.g.~time series. This kind of data often contains intrinsic correlation and, hence, the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There, one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
     \begin{gather}
-        p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}(A(\sigma\cdot\vector{z})\geq A(\vector{z})),
+        p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}(A(\sigma\cdot\vector{z})\geq A(\vector{z}))\,,
     \end{gather}
     where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using these explicit permutations, one can generalize the construction of conformal predictors to arbitrary randomization schemes, i.e.~to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
 
@@ -1063,7 +1063,7 @@
         \end{gather}
         However, this is where the TCP and ICP algorithms differ. When using Equation \eqref{data:tcp} for the transductive algorithm, the above probabilities would contain a factor $|\mathcal{C}|+1$ in both the numerator and the denominator, so the coverage condition is satisfied. However, for this quantile-based reformulation of the inductive algorithm, a minimal modification also leads to validity:
         \begin{gather}
-            \Gamma^\alpha(x)\longrightarrow\Gamma^\alpha(x) := \left\{y\in Y\mid A(x,y)\leq q_{(1+1/|\mathcal{C}|)(1-\alpha)}(A(\mathcal{C}))\right\},
+            \Gamma^\alpha(x)\longrightarrow\Gamma^\alpha(x) := \left\{y\in Y\mid A(x,y)\leq q_{(1+1/|\mathcal{C}|)(1-\alpha)}(A(\mathcal{C}))\right\}\,,
         \end{gather}
         i.e.~the empirical quantiles are replaced by ``inflated'' quantiles. When using Equations \eqref{data:icp} and \eqref{data:icp2} to determine the ICP region, one is essentially including all points $(x^*,y^*)$ such that the nonconformity score is smaller than or equal to the $(1-\alpha)$-quantile of the enhanced calibration curve $A(\mathcal{C})\cup\{A(x^*,y^*)\}$. It is not hard to show that this quantile is equivalent to the inflated quantile of the ordinary calibration curve.
 
@@ -1092,7 +1092,7 @@
             \end{gather}
             where
             \begin{align*}
-                \mu_{z_j} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_j,y_j))\\
+                \mu_{z_j} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_j,y_j))\,,\\
                 \mu_{z_n} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_n,y)).
             \end{align*}
         \end{itemize}
@@ -1114,14 +1114,14 @@
 
     Consider now the case of binary classification: $X\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
     \begin{gather}
-        A_\text{binary}(\mathcal{B},(x,y)) := 1 - \hat{P}(y\mid x;\mathcal{B}),
+        A_\text{binary}(\mathcal{B},(x,y)) := 1 - \hat{P}(y\mid x;\mathcal{B})\,,
     \end{gather}
     where the classifier is possibly estimated on $\mathcal{B}$. At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
 
     In fact, for classification tasks, where the codomain is finite (or at least discrete), it makes sense to slightly change the approach. Instead of fixing the significance level $\alpha$, one could (or should) consider some specific values:\index{confidence}\index{credibility}
     \begin{itemize}
-        \item\textbf{Confidence}: $\sup\{1-\alpha\mid|\Gamma^\alpha(x)|\leq1\}$
-        \item\textbf{Credibility}: $\inf\{\alpha\mid|\Gamma^\alpha(x)|=0\}$
+        \item\textbf{Confidence}: $\sup\{1-\alpha\mid|\Gamma^\alpha(x)|\leq1\}$, and
+        \item\textbf{Credibility}: $\inf\{\alpha\mid|\Gamma^\alpha(x)|=0\}$.
     \end{itemize}
     The former is the highest probability with which the model can predict a single class. If one wants a higher probability, more than one class has to be considered. The latter gives a measure of how ``credible'' the predictions are. The smaller this number, i.e.~the greater the confidence with which the model predicts a vacuously false result (every sample necessarily belongs to a class), the less reliable the model is for a given sample.
 
@@ -1150,7 +1150,7 @@
     The above sections considered confidence predictors that were valid in a global sense, i.e.~averaged over the whole instance space $X\times Y$. However, as in ordinary probability theory, in many settings it makes more sense to consider conditional statements:
     \begin{gather}
         \label{data:conditional_validity_condition}
-        P(y\in\Gamma^\alpha(x)\mid\kappa(x,y))\geq 1-\alpha,
+        P(y\in\Gamma^\alpha(x)\mid\kappa(x,y))\geq 1-\alpha\,,
     \end{gather}
     where the function $\kappa:X\times Y\rightarrow K$ represents the conditioning statement (the set $K$ can be any set). In the conformal prediction literature it is often called a \textbf{taxonomy function}.\index{taxonomy}
 
@@ -1168,7 +1168,7 @@
         \end{gather}
         and
         \begin{gather}
-            \mathrm{Pr}(\mathrm{co}(\Gamma^\alpha(x))=\mathbb{R})\geq 1-2\alpha,
+            \mathrm{Pr}(\mathrm{co}(\Gamma^\alpha(x))=\mathbb{R})\geq 1-2\alpha\,,
         \end{gather}
         where $\lambda$ and $\mathrm{co}$ denote the Lebesgue measure and convex hull, respectively.
     \end{property}
@@ -1183,11 +1183,11 @@
 
     The general expression of the martingale will be of the form
     \begin{gather}
-        X_i\equiv\prod_{k=0}^if_k(p_k),
+        X_i\equiv\prod_{k=0}^if_k(p_k)\,,
     \end{gather}
     where $p_k$ is the $p$-value of the $k^{th}$ data point as produced by some conformal predictor. The functions $f_k$ are called the \textbf{betting functions}. For $\seq{X}$ to be a martingale with respect to the natural filtration of the $p_k$'s, the betting functions should satisfy
     \begin{gather}
-        \int_0^1f_k(p)dp = 1.
+        \int_0^1f_k(p)\,dp = 1.
     \end{gather}
 
     \begin{method}[Power martingale]
@@ -1197,7 +1197,7 @@
         \end{gather}
         One can also construct a \textbf{simple mixture} martingale by integrating over $\varepsilon$:
         \begin{gather}
-            X_i := \int_0^1X^\varepsilon_id\varepsilon.
+            X_i := \int_0^1X^\varepsilon_i\,d\varepsilon.
         \end{gather}
         Because $\varepsilon-1\leq0$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e.~when unlikely values are observed.
     \end{method}
@@ -1222,7 +1222,7 @@
     \begin{example}[Likelihood nonconformity]
         For every two probability densities $f,g$ one can define a nonconformity measure as follows:
         \begin{gather}
-            A_\mathrm{NP}(\mathcal{B},z) := \log f(z) - \log g(z),
+            A_\mathrm{NP}(\mathcal{B},z) := \log f(z)-\log g(z)\,,
         \end{gather}
         i.e.~the log-likelihood ratio.\footnote{The subscript refers to the Neyman-Pearson lemma \ref{statistics:neyman_pearson} for which this function gives the (logarithm) of the test statistic.}
 

@@ -1,0 +1,179 @@
+\chapter{Mathematical Formalism}\label{chapter:mathematical_formalism_qm}
+
+    The main reference for a mathematically rigorous treatment of quantum mechanics, in particular in the infinite-dimensional setting, is \cite{moretti_QM}. The main reference for the generalization to curved backgrounds \cite{schuller}. Relevant chapters in this compendium are \ref{chapter:distributions}, \ref{chapter:functional} and \ref{chapter:operator_algebras}.
+
+\section{Postulates}
+
+    \begin{axiom}[State spaces]
+        The states of a (closed) system are represented by vectors in a (complex) Hilbert space. In the infinite-dimensional setting one often further restricts to separable spaces, i.e.~the spaces are required to admit a countable Hilbert basis.
+    \end{axiom}
+
+    \begin{axiom}[Observables]\index{observable}
+        A self-adjoint operator. In the finite-dimensional case this is equivalent to an operator that admits a complete set of eigenfunctions.
+    \end{axiom}
+
+    \begin{axiom}[Rays]
+        The dynamics of the system do not depend on the global phase or normalization, states are represented by rays in a projective Hilbert space.
+    \end{axiom}
+
+\subsection{Observables}
+
+    \begin{formula}\index{eigenfunction!expansion}
+        Let $|\Psi\rangle$ be a state vector representing a given system and let $\{|\psi_i\rangle\}_{i\in I}$ be a complete set of eigenvectors of some observable of the system. The state vector $|\Psi\rangle$ can be expressed as a linear combination of the eigenfunctions:
+        \begin{gather}
+            \label{qm_formalism:eigenfunction_expansion}
+            |\Psi\rangle = \sum_ic_i|\psi_i\rangle + \int c_a|\psi_a\rangle\,da,
+        \end{gather}
+        where the summation ranges over the discrete spectrum and the integral over the continuous spectrum (Section \ref{section:spectrum}). Note that this expression only makes sense formally, since linear combinations only consist of a finite number of terms, i.e.~$c_a$ should be a finite sum of delta functionals.
+    \end{formula}
+
+    \begin{formula}[Closure relation]\index{closure!relation}\index{resolution!of the identity}
+        For a complete set of discrete eigenvectors the closure relation (also called the \textbf{resolution of the identity}) is given by
+        \begin{gather}
+            \label{qm_formalism:closure}
+            \sum_n|\psi_n\rangle\langle\psi_n| = \mathbbm{1}.
+        \end{gather}
+        For a complete set of continuous eigenvectors the following counterpart holds:
+        \begin{gather}
+            \label{qm_formalism:closure_continuouos}
+            \int|x\rangle\langle x|\,dx = \mathbbm{1}.
+        \end{gather}
+        For a mixed set of eigenvectors a similar relation is obtained by summing over the discrete part and integrating over the continuous part. For simplicity the notation of Equation \eqref{qm_formalism:closure} will also be used for the continuous part.
+    \end{formula}
+
+    \newdef{Canonical commutation relations}{\index{canonical!commutation relation}\index{Weyl!relations}\label{qm_formalism:CCR}
+        \nomenclature[A_CCR]{CCR}{canonical commutation relation}
+        Two observables $A,B$ are said to obey a canonical commutation relation (CCR) if they satisfy (up to a constant factor $\hbar$)
+        \begin{gather}
+            [A,B] = i.
+        \end{gather}
+        The prime examples are the position and momentum operators $\hat{x}, \hat{p}$. Through functional calculus one can also define the exponential operators $e^{isA}$ and $e^{itB}$. The above relation then induces the so-called \textbf{Weyl form} of the CCR:
+        \begin{gather}
+            e^{isA}e^{itB} = e^{ist}e^{itB}e^{isA}.
+        \end{gather}
+    }
+    \begin{theorem}[Stone-von Neumann]\index{Stone-von Neumann}\label{qm_formalism:stone_von_neumann}
+        All pairs of irreducible, unitary, one-parameter subgroups satisfying the Weyl form of the CCRs are unitarily equivalent.
+    \end{theorem}
+    \begin{result}
+        The Schr\"odinger and Heisenberg pictures are unitarily equivalent.
+    \end{result}
+
+    In fact one can generalize the Weyl relation:
+    \begin{definition}[Weyl system]\index{Weyl!system}
+        Let $(A,\omega)$ be a symplectic vector space and let $\mathcal{H}$ be a Hilbert space equipped with a continuous map $W:A\rightarrow\mathrm{U}(\mathcal{H})$. This data defines a Weyl system if the following equality is satisfied for all $v,v'\in A$:
+        \begin{gather}
+            W(v)w(v')=e^{i\omega(v,v')/2}W(v+v').
+        \end{gather}
+        The relation itself is called a \textbf{Weyl relation}.
+
+        For every vector $v\in A$, the map $t\mapsto W(tv)$ is a continuous unitary one-parameter subgroup, so by Stone's theorem \ref{functional:stone} one obtains a self-adjoint generator $\phi(v)$. The map $v\mapsto\phi(v)$ is called the associated \textbf{Heisenberg system}.
+    \end{definition}
+    \begin{remark}
+        It should be noted that the Weyl relations are more fundamental than their infinitesimal counterpart. Only the Weyl relations are well-defined on more general spaces and when passing to a relativistic setting.
+    \end{remark}
+
+\section{Symmetries}
+\subsection{Quantum symmetries}
+
+    \newdef{State space}{
+        By the postulates of quantum mechanics, the states in a quantum theory are represented by rays in the projective Hilbert space $\mathbb{P}\mathcal{H}$. Probabilities are defined through the \textit{Fubini-Study metric} on $\mathbb{P}\mathcal{H}$ as follows:
+        \begin{gather}
+            \mathcal{P}(\psi,\phi) := \cos^2\big[d_\mathrm{FS}(\psi,\phi)\big] = \frac{|\langle\psi|\phi\rangle|^2}{\langle\psi|\psi\rangle\langle\phi|\phi\rangle},
+        \end{gather}
+        where $|\psi\rangle,|\phi\rangle$ are representatives of the states $\psi,\phi$ in $\mathbb{P}\mathcal{H}$.
+    }
+
+    \newdef{Symmetry}{\index{symmetry!quantum}\index{automorphism!quantum}
+        A quantum symmetry (or \textbf{quantum automorphism}) is an isometric automorphism of $P\mathcal{H}$. The group of these symmetries is denoted by $\Aut_\mathrm{QM}(\mathbb{P}\mathcal{H})$.
+    }
+
+    The following theorem due to \textit{Wigner} gives a (linear) characterization of quantum symmetries:\footnote{It is a particular case of a more general theorem in projective geometry.}
+    \begin{theorem}[Wigner]\index{Wigner}
+        Every quantum automorphism of $\mathbb{P}\mathcal{H}$ is induced by a unitary or anti-unitary operator on $\mathcal{H}$.
+    \end{theorem}
+    This is equivalent to saying that the group morphism \[\pi:\Aut(\mathcal{H},\mathcal{P}):=\mathrm{U}(\mathcal{H})\times\mathrm{AU}(\mathcal{H})\rightarrow\Aut_\mathrm{QM}(\mathbb{P}\mathcal{H})\] is surjective. Together with the kernel $\mathrm{U}(1)$, given by phase shifts, this forms a short exact sequence:
+    \begin{gather}
+        1\longrightarrow\mathrm{U}(1)\longrightarrow\Aut(\mathcal{H},\mathcal{P})\longrightarrow\Aut_\mathrm{QM}(\mathbb{P}\mathcal{H})\longrightarrow1.
+    \end{gather}
+    In the case of symmetry breaking (e.g.~lattice systems), the full symmetry group is reduced to a subgroup $G\subset\Aut_\mathrm{QM}(\mathbb{P}\mathcal{H})$. The group of operators acting on $\mathcal{H}$ is then given by the pullback $\widetilde{G}$ of the diagram \[\Aut(\mathcal{H}, \mathcal{P})\longrightarrow\Aut_\mathrm{QM}(\mathbb{P}\mathcal{H})\longleftarrow G.\] It should also be noted that the kernel of the homomorphism $\widetilde{G}\rightarrow G$ is again $\mathrm{U}(1)$. This leads to the property that $\widetilde{G}$ is a $\mathbb{Z}_2$-twisted (hence noncentral) $\mathrm{U}(1)$-extension of $G$ (where the twist is induced by the homomorphism $\phi:\Aut(\mathcal{H},\mathcal{P})\rightarrow\mathbb{Z}_2$ that says whether an operator is unitary or anti-unitary).
+
+    ?? COMPLETE ??
+
+\subsection{Symmetric states}
+
+    \begin{axiom}[Symmetrization postulate]\index{symmetrization postulate}
+        Let $\mathcal{H}$ be the single-particle Hilbert space. A system of $n$ identical particles is described by a state $|\Psi\rangle$ belonging to either $S^n\mathcal{H}$ or $\Lambda^n\mathcal{H}$, i.e.~\textbf{bosonic} and \textbf{fermionic} states are of the form
+        \begin{gather}
+            |\Psi_B\rangle = \sum_{\sigma\in S_n}|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle
+        \end{gather}
+        and
+        \begin{gather}
+            |\Psi_F\rangle = \sum_{\sigma\in S_n}\sgn(\sigma)|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle,
+        \end{gather}
+        respectively, where the $|\psi_i\rangle$ are single-particle states and $S_n$ is the permutation group on $n$ elements.
+    \end{axiom}
+    \begin{remark}
+        In ordinary quantum mechanics this is a postulate, but in quantum field theory this is a consequence of the \textit{spin-statistics theorem}.
+    \end{remark}
+
+    \newdef{Slater determinant}{\index{Slater!determinant}\index{spin!orbitals}\index{permanent}
+        Let $\{\phi_i(\vector{q})\}_{i\leq n}$ be a set of wave functions, called \textbf{spin orbitals}, describing a system of $n$ identical fermions. The totally antisymmetric wave function of the system is given by
+        \begin{gather}
+            \label{qm_formalism:slater_determinant}
+            \psi(\vector{q}_1,\ldots,\vector{q}_n) = \frac{1}{\sqrt{n!}}\det
+            \begin{pmatrix}
+                \phi_1(\vector{q}_1)&\cdots&\phi_n(\vector{q}_1)\\
+                \vdots&\ddots&\vdots\\
+                \phi_1(\vector{q}_n)&\cdots&\phi_n(\vector{q}_n)
+            \end{pmatrix}
+         \end{gather}
+         A similar function can be defined for bosonic systems using the concept of \textit{permanents}.
+    }
+
+\section{\difficult{Curved backgrounds}}
+
+    Using the tools of distribution theory and differential geometry (Chapters \ref{chapter:distributions}, \ref{chapter:bundles} and onwards), one can introduce quantum mechanics on curved backgrounds (in the sense of ``space'', not ``spacetime'').
+
+    \begin{remark}[Rigged Hilbert spaces]\index{Hilbert!rigged Hilbert space}
+        A first important remark to be made is that the classical definition of the wave function as an element of $L^2(\mathbb{R}^d,\mathbb{C})$ is not sufficient, even in flat Cartesian space. A complete description requires the introduction of so-called \textit{Gelfand triples} or \textit{rigged Hilbert spaces}, where the space of square-integrable functions is replaced by the Schwartz space \ref{distribution:schwartz_space} of rapidly decreasing functions. The linear functionals on this space are then given by the tempered distributions.
+    \end{remark}
+
+    When working on curved spaces or even in non-Cartesian coordinates on flat space, one can encounter problems with the definition of the self-adjoint operators $\hat{q}^i$ and $\hat{p}_i$. The naive definition $\hat{q}^i = q^i,\hat{p}_i = -i\partial_i$ gives rise to extra terms that break the canonical commutation relations and the self-adjointness of the operators (e.g.~the angular position operator $\hat{\varphi}$ on the circle together with its conjugate $\hat{L}$) when calculating inner products.
+
+    An elegant solution to this problem is obtained by giving up the definition of the wave function as a well-defined function $\psi:\mathbb{R}^d\rightarrow\mathbb{C}$. Assume that the physical space has the structure of a Riemannian manifold $(M,g)$ and that the ``naive'' wave functions take values in a vector space $V$. Then, construct a vector bundle $E$ with typical fibre $V$ over $M$. By Property \ref{bundle:section_bijection} an invariant description of the ``true'' wave function is a map $\Psi:F(E)\rightarrow V$ or, locally, the pullback $\psi:=\varphi^*\Psi$ for some local section $\varphi:U\subseteq M\rightarrow F(E)$. The Levi-Civita connection on $M$ also induces a covariant derivative $\nabla$ on $E$ that can be used to define differential operators.
+
+    Now, a general inner product can be introduced:
+    \begin{gather}
+        \langle\psi,\phi\rangle := \int\overline{\psi(x)}\phi(x)\,d^dx.
+    \end{gather}
+    Because the factor $\sqrt{\det(g)}$ transforms in the inverse manner of the measure $d^dx$, the integrand is invariant under coordinate transforms (something that is generally required of physical laws). Using this new inner product one can for example check the self-adjointness of the momentum operator $\hat{P}_i := -i\nabla_i$:
+    \begin{align*}
+        \langle\psi,\hat{P}_i\phi\rangle = &\int\overline{\psi(x)}(-i\nabla_i)\phi(x)\sqrt{\det(g)}\,d^dx\\
+        \overset{\eqref{bundle:local_covariant_derivative}}{=} &\int\overline{\psi(x)}(-i\partial_i - i\omega_i)\phi(x)\sqrt{\det(g)}\,d^dx\\
+        = &\int\overline{(-i\partial_i\psi)(x)}\phi(x)\sqrt{\det(g)}\,d^dx+i\int\overline{\psi(x)}\phi(x)\left(\partial_i\sqrt{\det(g)}\right)\,d^dx\\
+            &\hspace{2cm} -i\int\overline{\psi(x)}\omega_i\phi(x)\sqrt{\det(g)}\,d^dx\\
+        = &\langle\hat{P}_i\psi,\phi\rangle -i\int\overline{\psi(x)}\overline{\omega_i}\phi(x)\sqrt{\det(g)}\,d^dx\\
+            &\hspace{2cm} + i\int\overline{\psi(x)}\phi(x)\left(\partial_i\sqrt{\det(g)}\right)\,d^dx\\
+            &\hspace{2cm} -i\int\overline{\psi(x)}\omega_i\phi(x)\sqrt{\det(g)}\,d^dx.
+    \end{align*}
+    Self-adjointness then requires that
+    \begin{gather}
+        \sqrt{\det(g)}(\omega_i + \overline{\omega_i}) = \partial_i\sqrt{\det(g)}
+    \end{gather}
+    or
+    \begin{gather}
+        2\mathrm{Re}(\omega_i) = \partial_i\ln\left(\sqrt{\det(g)}\right).
+    \end{gather}
+    ?? COMPLETE ??
+
+\section{\difficult{Topos theory}}
+
+    \newdef{Bohr topos}{\index{Bohr!topos}\index{topology!Alexandroff}
+        Consider a $C^*$-algebra $A$ of bounded observables on a Hilbert space $\mathcal{H}$. Denote by $\mathrm{Pos}(A)$ the poset \ref{set:poset} of commutative $C^*$-subalgebras. This set can be equipped with the \textbf{Alexandroff topology}, i.e.~the topology for which the open sets are the upward closes subsets. The topological space $(\mathrm{Pos}(A),\tau_\text{Alex})$ is called the Bohr site of $A$.
+
+        The sheaf topos over the Bohr site is called the Bohr topos. It can be turned into a ringed topos, where the internal ring object (even an internal $C^*$-algebra) is given by the tautological functor
+        \begin{gather}
+            A:\mathrm{Pos}(A)\rightarrow\mathbf{Set}(A):C\mapsto C.
+        \end{gather}
+    }

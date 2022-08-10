@@ -6,17 +6,20 @@
 \subsection{Homotopy}
 
     \newdef{Retraction}{\index{retract}
-        Let $X$ be a topological space and let $A\subset X$ be a subspace. A continuous function $f:X\rightarrow A$ is called a retraction (and $A$ is called a \textbf{retract} of $X$) if it satisfies $f(a)=a$ for all $a\in A$.\footnote{It is a retraction of the inclusion map $A\hookrightarrow X$ in the sense of Definition \ref{cat:retract}.}
+        Let $X$ be a topological space and let $A\subseteq X$ be a subspace. A continuous function $f:X\rightarrow A$ is called a retraction (and $A$ is called a \textbf{retract} of $X$) if\footnote{It is a retraction of the inclusion map $A\hookrightarrow X$ in the sense of Definition \ref{cat:retract}.}
+        \begin{gather}
+            f|_A=\mathbbm{1}_A.
+        \end{gather}
     }
     \newdef{Homotopy}{\index{homotopy}\index{isotopy}\label{topology:homotopy}
-        Let $f,g\in C(X,Y)$ where $X,Y$ are topological spaces. If there exists a continuous function $H:X\times[0,1]\rightarrow Y$ such that $f(x) = H(x,0)$ and $g(x) = H(x,1)$, then $f$ and $g$ are said to be homotopic. This relation induces an equivalence relation on $C(X,Y)$ for which the quotient space is denoted by $[X,Y]$. A homotopy $H$ such that $H(\cdot,t)$ is a homeomorphism for all $t\in[0,1]$ is called an \textbf{isotopy}.
+        Two continuous functions $f,g:X\rightarrow Y$ are said to be homotopic if there exists a continuous function $H:X\times[0,1]\rightarrow Y$ such that $f(x)=H(x,0)$ and $g(x)=H(x,1)$. This relation induces an equivalence relation on $C(X,Y)$ for which the quotient space is denoted by $[X,Y]$. A homotopy $H$ such that $H(\cdot,t)$ is a homeomorphism for all $t\in[0,1]$ is called an \textbf{isotopy}.
     }
-    \newdef{Deformation retraction}{
+    \newdef{Deformation retraction}{\index{deformation}
         Let $X$ be a topological space and let $A\subseteq X$ be a subspace. $A$ is called a deformation retract if there exists a homotopy between the identity function on $X$ and a retraction $f:X\rightarrow A$.
     }
 
     \newdef{Homotopy type}{\index{homotopy!type}
-        Two topological spaces $X$ and $Y$ are said to be \textbf{homotopy equivalent} or to be of the same homotopy type\footnote{The associated equivalence classes are sometimes called \textbf{strong homotopy types} to distinguish them from the homotopy types associated to the weak equivalences introduced further on.} if there exist continuous functions $f:X\rightarrow Y$ and $g:Y\rightarrow X$ such that $f\circ g$ is homotopic to $\mathbbm{1}_Y$ and $g\circ f$ is homotopic to $\mathbbm{1}_X$. The maps $f,g$ are called \textbf{homotopy equivalences}.
+        Two topological spaces $X$ and $Y$ are said to be \textbf{homotopy equivalent} or to be of the same homotopy type\footnote{The associated equivalence classes are sometimes called \textbf{strong homotopy types} to distinguish them from the homotopy types associated to the \textit{weak equivalences} introduced further on.} if there exist continuous functions $f:X\rightarrow Y$ and $g:Y\rightarrow X$ such that $f\circ g$ is homotopic to $\mathbbm{1}_Y$ and $g\circ f$ is homotopic to $\mathbbm{1}_X$. The maps $f,g$ are called \textbf{homotopy equivalences}.
     }
     \begin{property}[Homeomorphisms]
         Every homeomorphism is a homotopy equivalence.
@@ -26,11 +29,11 @@
         A continuous function is said to be null-homotopic if it is homotopic to a constant function.
     }
     \newdef{Contractible space}{\index{contractible}\label{topology:contractible_space}
-        A topological space $X$ is said to be contractible if the identity map $\mathbbm{1}_X$ is null-homotopic or, equivalently, if the space is homotopy-equivalent to a point.
+        A topological space for which the identity map is null-homotopic or, equivalently, a space that is homotopy-equivalent to a point.
     }
 
     \newdef{Good cover}{\index{cover!good}\label{topology:good_cover}
-        Let $X$ be a topological space with an open cover $\mathcal{U}=\{U_i\}_{i\in I}$. The cover $\mathcal{U}$ is called a good cover (or \textbf{nice cover}) if every nonempty finite intersection $U_{i_1}\cap\ldots\cap\,U_{i_k}$ is contractible.
+        Let $X$ be a topological space with an open cover $\mathcal{U}\equiv\{U_i\}_{i\in I}$. The cover $\mathcal{U}$ is called a good cover (or \textbf{nice cover}) if every nonempty finite intersection $U_{i_1}\cap\ldots\cap\,U_{i_k}$ is contractible.
     }
 
     \newprop{Path space}{\index{mapping!space}\label{topology:path_space}
@@ -39,33 +42,31 @@
 
     \newdef{Mapping class group}{\index{mapping class group}\label{topology:MCG}
         \nomenclature[A_MCG]{MCG}{mapping class group}
-        Consider a topological space $X$ with some structure. The mapping class group of $X$ is defined as the quotient
+        Consider a topological space $X$ with some additional structure denoted by $\mathfrak{X}$ (often $\mathfrak{X}$ will be trivial). The mapping class group of $X$ is defined as the quotient
         \begin{gather}
-            \mathrm{MCG}(X) := \Aut(X)/\Aut_0(X),
+            \mathrm{MCG}(X,\mathfrak{X}) := \Aut(X,\mathfrak{X})/\Aut_0(X,\mathfrak{X})\,,
         \end{gather}
         i.e.~as the set of path-components of its automorphism group (path are in this case given by isotopies).
     }
 
 \subsection{Homotopy groups}
 
-    In this subsection it will always be assumed that the spaces are pointed \ref{topology:pointed_space}. The generic base point will be denoted by $\ast$.
-
     \newdef{Loop space}{\index{loop!space}
         \nomenclature[S_zsymOmega]{$\Omega X$}{(based) loop space on $X$}
         \nomenclature[S_LX]{$LX$}{free loop space on $X$}
-        The set of all \textbf{loops} in a pointed topological space $(X,\ast)$, i.e.~all continuous functions $\delta:(S^1,t_0)\rightarrow (X,\ast)$ for which $\delta(t_0)=\ast$. This space is denoted by $\Omega X$. It can be turned into a topological space by equipping it with the \textit{compact-open topology}.
+        The set of all \textbf{loops} in a pointed topological space, i.e.~all continuous functions $\gamma:(S^1,t_0)\rightarrow(X,x_0)$ for which $\gamma(t_0)=x_0$. This space is denoted by $\Omega_{x_0}X$ (if the base point is clear, the subscript is often omitted). It can be turned into a topological space by equipping it with the compact-open topology \ref{topology:compact_open_topology}.
 
         When one drops the requirement of based loops, i.e.~when one considers the space of all continuous functions $S^1\rightarrow X$, the resulting space is called the \textbf{free loop space} on $X$. This space is denoted by $LX$.
     }
     \newdef{Loop group}{\index{loop!group}\label{topology:loop_group}
-        In the case of topological groups one can define a group structure on the (free) loop space. With the \textit{compact-open topology} it even becomes a topological group.
+        In the case of topological groups one can define a group structure on the (free) loop space. With the compact-open topology it becomes a topological group.
     }
     \begin{remark}[\difficult{$H$-structure}]\index{H-!space}\label{topology:h_structure}
         Loop spaces can be equipped with a multiplication corresponding to the concatenation of loops\footnote{It should be noted that the rate at which the concatenated loops are traversed is doubled because the parameter $t$ should remain an element of $S^1\cong[0, 1]/_{0\sim1}$.}. However, this operation is not strictly associative and, hence, it does not endow the loop space with a group structure. Instead it turns the loop space into an \textit{H-group} (which is in particular an $A_\infty$-space \ref{cat:A_infinity_space}), i.e.~a group up to homotopy.
     \end{remark}
 
     \newdef{Fundamental group}{\index{group!fundamental}
-        The fundamental group $\pi_1(X,x_0)$ is defined as the loop space of $(X,x_0)$ modulo homotopy, i.e.~$\pi_1(X):=\pi_0(\Omega X)$ where $\pi_0$ denotes the set of path components \ref{topology:connected_components}. As the name implies, the fundamental group can be given the structure of a multiplicative group where the operation is inherited from that of the loop space.
+        The fundamental group $\pi_1(X,x_0)$ is defined as the loop space of modulo homotopies, i.e.~$\pi_1(X,x_0):=\pi_0(\Omega_{x_0}X)$, where $\pi_0$ denotes the set of path components \ref{topology:connected_components}. As the name implies, the fundamental group can be given the structure of a multiplicative group where the operation is inherited from that of the loop space.
     }
     \begin{remark}
         In general, as the notation implies, the fundamental group depends on the base point $x_0$. However, when the space $X$ is path-connected, the fundamental groups belonging to different base points are isomorphic. It follows that one can speak of ``the'' fundamental group in the case of path-connected spaces.
@@ -78,10 +79,10 @@
     \newdef{Fundamental groupoid $\clubsuit$}{\index{groupoid!fundamental}\index{Poincar\'e!groupoid}\label{topology:fundamental_groupoid}
         Let $X$ be a topological space. The fundamental (or \textbf{Poincar\'e}) groupoid $\mathbf{\Pi}_1(X)$ is the groupoid consisting of the following data:
         \begin{itemize}
-            \item\textbf{Objects}: $X$
-            \item\textbf{Morphisms}: The endpoint-preserving homotopy classes of continuous functions $f:S^1\rightarrow X$.
+            \item\textbf{Objects}: $X$, and
+            \item\textbf{Morphisms}: Endpoint-preserving homotopy classes of continuous functions $f:S^1\rightarrow X$.
         \end{itemize}
-        The fundamental group $\pi_1(X,x)$ can be recovered as the automorphism group of $x\in\text{ob}(\mathbf{\Pi}_1(X))$.
+        The fundamental group $\pi_1(X,x)$ can be recovered as the automorphism group of $x\in\mathrm{ob}(\mathbf{\Pi}_1(X))$.
     }
 
     \newdef{Simply-connected space}{\index{simply-connected}\label{topology:simply_connected}
@@ -92,10 +93,10 @@
     }
 
     \newdef{Universal covering space}{
-        A covering space \ref{topology:covering_space} is said to be universal if it is simply-connected.
+        A simply-connected covering space \ref{topology:covering_space}.
     }
     \begin{uproperty}
-        Let $X$ be a topological space and let $\widetilde{X}$ be its the universal covering space. Every other covering space $C$ of $X$ is also covered by $\widetilde{X}$.
+        Let $X$ be a topological space and let $\widetilde{X}$ be its the universal covering space. Every other covering space of $X$ is also covered by $\widetilde{X}$.
     \end{uproperty}
     \begin{property}[Automorphisms]\index{deck transformation}\label{topology:universal_cover_automorphisms}
         Consider a topological space $X$ and let $\widetilde{X}$ be its universal covering space. The group of deck transformations $\Aut(\widetilde{X})$ from Definition \ref{topology:deck_transformation} is isomorphic to the fundamental group $\pi_1(X)$. Hence, one obtains
@@ -108,7 +109,7 @@
 
         An explicit construction for a path-connected space is the following (when multiple path-components exist, one should take the disjoint union of the individual covers):
         \begin{gather}
-            \widetilde{X} = \{[\gamma]\mid\gamma:[0,1]\rightarrow X,\gamma(0)=x_0\},
+            \widetilde{X} = \{[\gamma]\mid\gamma:[0,1]\rightarrow X,\gamma(0)=x_0\}\,,
         \end{gather}
         where $x_0$ is the base point of $x_0$ and $[\gamma]$ denotes the homotopy class of $\gamma$.
     \end{property}
@@ -285,11 +286,7 @@
     }
 
     \begin{construct}\index{skeleton}
-        Every CW complex can be constructed inductively (up to isomorphism):
-        \begin{quote}
-            First, choose a discrete space $X_0$. This space forms the collection of 0-cells. Then, one adds 1-cells $C_1$ using appropriate attaching maps $f:\partial\overline{B}_1\rightarrow X_0$. This way a 1-dimensional CW complex $X_1$ is obtained. Inductively one obtains a sequence of nested $n$-dimensional CW complexes $X_0\subset X_1\subset\cdots\subset X_n$.
-        \end{quote}
-        The spaces $X_i$ are also called \textbf{$i$-skeletons}.
+        Every CW complex can be constructed inductively (up to isomorphism). First, choose a discrete space $X_0$. This space forms the collection of 0-cells. Then, one adds 1-cells $C_1$ using appropriate attaching maps $f:\partial\overline{B}_1\rightarrow X_0$. This way a 1-dimensional CW complex $X_1$ is obtained. Inductively one obtains a sequence of nested $n$-dimensional CW complexes $X_0\subset X_1\subset\cdots\subset X_n$. The spaces $X_i$ are also called \textbf{$i$-skeletons}.
     \end{construct}
     \remark{Infinite-dimensional CW complexes can be obtained by taking the direct limit \ref{algebra:direct_limit} of the sequence above.}
 
@@ -396,7 +393,7 @@
     \begin{construct}[Mapping cylinder]\index{mapping!cylinder}\index{mapping!cone}\label{topology:mapping_cylinder}
         Let $f:X\rightarrow Y$ be a continuous function. The mapping cylinder $M_f$ or $\mathrm{Cyl}(f)$ is defined as follows:
         \begin{gather}
-            M_f := \left(X\times[0,1]\bigsqcup Y\right)/\sim_f,
+            M_f := \left(X\times[0,1]\bigsqcup Y\right)/\sim_f\,,
         \end{gather}
         where the equivalence relation $\sim_f$ is generated by the relations $(0,x)\sim f(x)$. So the mapping cylinder of $f:X\rightarrow Y$ is the attaching space $(X\times[0,1])\cup_f Y$. From this definition it follows that the ``top'' of the cylinder is homeomorphic to $X$ and the ``base'' is homeomorphic to $f(X)\subseteq Y$.
 
@@ -424,7 +421,7 @@
     For the theory on differential graded algebras, see Chapter \ref{chapter:hda}.
 
     \newdef{Rational space}{\index{rational!space}
-        A simply connected topological space $X$ for which the homotopy groups $\pi_n(X)$ are rational vector spaces.
+        A simply-connected topological space $X$ for which the homotopy groups $\pi_n(X)$ are rational vector spaces.
     }
 
     \newdef{Rational homotopy equivalence}{\index{rational!homotopy equivalence}
@@ -440,28 +437,28 @@
     }
 
     \newdef{Polynomial differential forms}{
-        Consider the standard $n$-simplex $\Delta^n$ (Definition \ref{topology:simplex}). On this topological space one can define differential forms analogous to those from Section \ref{section:forms}. Let $\{t_i\}_{0\leq i\leq n}$ be $n+1$ generators in degree 0 (the barycentric coordinates). Together with $n+1$ associated generators $dt_i$ in degree 1, one can construct the free GCA over $\mathbb{Q}$. To preserve the geometric structure of $\Delta^n$ one has to quotient out the following relations:
+        Consider the standard $n$-simplex $\Delta^n$ (Definition \ref{topology:simplex}). On this topological space one can define differential forms analogous to those from Section \ref{section:forms}. Let $\{t_i\}_{0\leq i\leq n}$ be $n+1$ generators in degree 0 (the barycentric coordinates). Together with $n+1$ associated generators $\dr t_i$ in degree 1, one can construct the free GCA over $\mathbb{Q}$. To preserve the geometric structure of $\Delta^n$ one has to quotient out the following relations:
         \begin{gather}
-            \sum_{i=0}^n t_i = 1 \qquad\text{and}\qquad \sum_{i=0}^n dt_i = 0.
+            \sum_{i=0}^nt_i = 1 \qquad\text{and}\qquad \sum_{i=0}^n\dr t_i = 0.
         \end{gather}
-        The resulting graded algebra is denoted by $\Omega^\bullet_\mathrm{poly}(\Delta^n)$. In degree 0 this complex can be identified with the space of polynomial functions on $\Delta^n$. The ordinary differential forms can be obtained by taking the tensor product of $\Omega^\bullet_\mathrm{poly}$ with the space of smooth functions on $\Delta^n$. Under this isomorphism the generators $dt_i$ are identified with the de Rham differentials of the barycentric coordinates.
+        The resulting graded algebra is denoted by $\Omega^\bullet_\text{poly}(\Delta^n)$. In degree 0 this complex can be identified with the space of polynomial functions on $\Delta^n$. The ordinary differential forms can be obtained by taking the tensor product of $\Omega^\bullet_\text{poly}$ with the space of smooth functions on $\Delta^n$. Under this isomorphism the generators $\dr t_i$ are identified with the de Rham differentials of the barycentric coordinates.
 
-        Morphisms $f:[m]\rightarrow[n]$ in the simplex category $\simplex$ (Definition \ref{model:simplex_category}) induce morphisms of simplices and these in turn induce morphisms $F:\Omega^\bullet_\mathrm{poly}(\Delta^n)\rightarrow\Omega^\bullet_\mathrm{poly}(\Delta^m)$ defined by the following action on generators:
+        Morphisms $f:[m]\rightarrow[n]$ in the simplex category $\simplex$ (Definition \ref{model:simplex_category}) induce morphisms of simplices and these in turn induce morphisms $F:\Omega^\bullet_\text{poly}(\Delta^n)\rightarrow\Omega^\bullet_\text{poly}(\Delta^m)$ defined by the following action on generators:
         \begin{gather}
             F(t_i) := \sum_{f(j)=i}t_j.
         \end{gather}
-        It can be seen that this turns the above construction into a functor $\Omega^\bullet_\mathrm{poly}:\simplex^{op}\rightarrow\mathbf{dgcAlg}$. By passing to the opposite functor and taking a left Kan extension along the Yoneda embedding $\simplex\hookrightarrow\mathbf{sSet}$, one obtains a functor $\func{\Omega^\bullet_\mathrm{poly}}{sSet}{dgcAlg^{op}}$. Composition with the singular set functor $\func{\mathrm{Sing}}{Top}{sSet}$ gives the \textbf{piecewise-polynomial differential forms} functor~$\Omega^\bullet_\mathrm{pwpoly}$.
+        It can be seen that this turns the above construction into a functor $\Omega^\bullet_\text{poly}:\simplex^{op}\rightarrow\mathbf{dgcAlg}$. By passing to the opposite functor and taking a left Kan extension along the Yoneda embedding $\simplex\hookrightarrow\mathbf{sSet}$, one obtains a functor $\func{\Omega^\bullet_\text{poly}}{sSet}{dgcAlg^{op}}$. Composition with the singular set functor $\func{\mathrm{Sing}}{Top}{sSet}$ gives the \textbf{piecewise-polynomial differential forms} functor~$\Omega^\bullet_\text{pwpoly}$.
     }
 
     \newdef{Relative Sullivan algebra}{\index{Sullivan!algebra}\label{topology:sullivan_algebra}
-        An inclusion of DGCAs of the form \[(A,d)\hookrightarrow(A\otimes\Lambda^\bullet V,d'),\] where $A$ is any DGCA and $V$ is a $\mathbb{N}_0$-graded vector space such that:
+        An inclusion of DGCAs of the form \[(A,\dr)\hookrightarrow(A\otimes\Lambda^\bullet V,\dr')\,,\] where $V$ is a $\mathbb{N}_0$-graded vector space such that:
         \begin{itemize}
             \item there is a well-ordered set $I$ indexing a linear basis $\{e_i\}_{i\in I}$ of $V$.
             \item for all $k\in I$ and all $e_k$ one has that
             \begin{gather}
-                d'e_k\in A\otimes\Lambda^\bullet V(<k),
+                \dr'e_k\in A\otimes\Lambda^\bullet V_{<k}\,,
             \end{gather}
-            where $V(<k):=\text{span}\{e_i\}_{i<k}$.
+            where $V_{<k}:=\mathrm{span}\{e_i\}_{i<k}$.
         \end{itemize}
         If in addition the implication
         \begin{gather}
@@ -474,12 +471,12 @@
     \begin{remark}
         The minimality condition admits an (equivalent) reformulation:
         \begin{gather}
-            dV\subseteq A_{\geq1}\otimes\Lambda^\bullet V + A\otimes\Lambda^{\geq2}V.
+            \dr V\subseteq A_{\geq1}\otimes\Lambda^\bullet V + A\otimes\Lambda^{\geq2}V.
         \end{gather}
     \end{remark}
 
     \begin{example}\label{topology:sullivan_algebras_specific}
-        Consider the free DGCA $\Lambda(V)$ on a graded vector space $V$ of finite type with $V_0=V_1=0$. Then $(\Lambda(V),d)$ is a Sullivan algebra.
+        The free DGCA $\Lambda^\bullet V$ on a graded vector space $V$ of finite type with $V_0=V_1=0$ is a Sullivan algebra.
     \end{example}
 
     \newdef{Sullivan model}{\index{Sullivan!model}
@@ -489,7 +486,14 @@
         Minimal Sullivan models are unique up to isomorphism.
     \end{property}
 
-    There is also another approach due to \textit{Quillen}. Instead of working with differential graded algebras, \textit{Quillen} used differential graded Lie algebras, i.e.~strict $L_\infty$-algebras (Section \ref{section:higher_lie_structures}).
+    \begin{property}
+        If $(\Lambda^\bullet V^*,\dr)$ is a minimal Sullivan model of a rational space $X$, then
+        \begin{gather}
+            \pi_\bullet(X)\cong V.
+        \end{gather}
+    \end{property}
+
+    There is also another approach due to \textit{Quillen}. Instead of working with differential graded algebras, \textit{Quillen} used differential graded Lie algebras, i.e.~\textit{strict $L_\infty$-algebras} (Section \ref{section:higher_lie_structures}).
     \begin{construct}[Sketch, Quillen]
         To every simply-connected topological space $X$ one can associated a differential graded Lie algebra $L_\bullet(X)$ such that the homology of this complex is isomorphic to the (shifted) rational homotopy complex $\pi_{\bullet+1}(X)\otimes\mathbb{Q}$ of $X$.
     \end{construct}
@@ -603,11 +607,11 @@
         \begin{itemize}
             \item\textbf{Linearity}:
                 \begin{gather}
-                    \partial_k\left(\sum_ia_i\sigma_i\right) = \sum_ia_i\partial_k\sigma_i,
+                    \partial_k\left(\sum_ia_i\sigma_i\right) = \sum_ia_i\partial_k\sigma_i\,,
                 \end{gather}
             \item\textbf{Action on generators}
                 \begin{align}
-                    \partial_k[v_0,\ldots,v_k] &= \sum_{i=0}^k(-1)^i[v_0,\ldots,\hat{v}_i,\ldots,v_k],\\
+                    \partial_k[v_0,\ldots,v_k] &= \sum_{i=0}^k(-1)^i[v_0,\ldots,\hat{v}_i,\ldots,v_k]\,,\\
                     \partial_0[v] &= 0.
                 \end{align}
         \end{itemize}
@@ -661,7 +665,7 @@
     \begin{construct}
         The definition of homology groups can be generalized by letting the (formal) linear combinations used in the definition of the chain group be of the following form:
         \begin{gather}
-            c = \sum_ig_i\sigma_i^k,
+            c = \sum_ig_i\sigma_i^k\,,
         \end{gather}
         where $g_i\in G$ for some Abelian group $G$. The $k^{th}$ homology group of $X$ with coefficients in $G$ is denoted by $H_k(X;G)$.
     \end{construct}
@@ -691,7 +695,7 @@
     \newdef{Relative boundary operator}{
         The relative boundary operator $\overline\partial_k$ is defined as follows:
         \begin{gather}
-            \overline\partial_k[c_k] := [\partial_kc_k],
+            \overline\partial_k[c_k] := [\partial_kc_k]\,,
         \end{gather}
         where $\partial_k$ on the right-hand side denotes the boundary operator in ordinary homology. This is a well-defined operation since $\partial C_\bullet(L)\subseteq C_\bullet(L)$.
     }
@@ -829,7 +833,7 @@
         \end{gather}
         Their defining property is the following relation:
         \begin{gather}
-            \varepsilon_i^k\circ\varepsilon_j^{k-1} = \varepsilon_j^k\circ\varepsilon_{i-1}^{k-1},
+            \varepsilon_i^k\circ\varepsilon_j^{k-1} = \varepsilon_j^k\circ\varepsilon_{i-1}^{k-1}\,,
         \end{gather}
         where $j\leq i$.
     }
@@ -840,7 +844,7 @@
 
         The action of the boundary operator on the singular $k$-simplex $\sigma^k$ is given by
         \begin{gather}
-            \partial_k\sigma^k = \sum_{i=0}^k(-1)^i\sigma^k\circ\varepsilon^k_i,
+            \partial_k\sigma^k = \sum_{i=0}^k(-1)^i\sigma^k\circ\varepsilon^k_i\,,
         \end{gather}
         where the $\varepsilon^k_i$ are the face maps defined above. The singular boundary operators satisfy the same relation as the the simplicial boundary operators:
         \begin{gather}
@@ -882,11 +886,11 @@
     \newdef{Singular cohomology}{\index{cohomology!singular}\index{pullback!of cohomology}
         The singular cohomology groups of a topological space $X$ with coefficients in an Abelian group $G$ are defined as follows:\footnote{Actually this is the \textit{Universal Coefficient Theorem} when defining cohomology through a suitable hom-complex.}
         \begin{gather}
-            H^k(X;G) := \hom(H_k(X),G),
+            H^k(X;G) := \hom(H_k(X),G)\,,
         \end{gather}
         where on the right-hand side the integral (singular) homology of $X$ is used. A continuous function $f:X\rightarrow Y$ induces a \textbf{pullback} morphism $f^*:H^\bullet(Y;G)\rightarrow H^\bullet(X;G)$ on cohomology by duality:
         \begin{gather}
-            f^*g(\sigma) := g(f_*\sigma),
+            f^*g(\sigma) := g(f_*\sigma)\,,
         \end{gather}
         where $f_*$ is the pushforward \ref{topology:pushforward} induced by $f$.
     }
@@ -895,11 +899,12 @@
         \begin{gather}
             [X,K(G,n)]\rightarrow H^n(X;G)
         \end{gather}
-        between the homotopy classes of maps $X\rightarrow K(G,n)$ and the $n^{th}$ singular cohomology of $X$ with coefficients in $G$. (This result can be widely generalized cf. Theorem \ref{topology:brown} further below.)
-
-        \begin{proof}
-            Consider the Eilenberg-Maclane space $K(G,n)$ for $G$ (Definition \ref{topology:eilenberg_maclane}). By the Hurewicz theorem there exists an isomorphism $H_n(K(G,n))\cong\pi_n(K(G,n))\cong G$. By definition of cohomology $H^n(K(G,n);G)=\hom(H_n(K(G,n)),G)$ and thus $H^n(K(G,n);G)\cong\hom(G,G)$. In particular, there corresponds a cohomology class $\psi$ to the identity mapping on $G$. The cohomology class in $H^n(X;G)$ associated to a homotopy class of functions $f:X\rightarrow K(G,n)$ is given by $f^*\psi$.
-        \end{proof}
+        between the homotopy classes of maps $X\rightarrow K(G,n)$ and the $n^{th}$ singular cohomology of $X$ with coefficients in $G$. (This result can be widely generalized cf.~Theorem \ref{topology:brown} further below.)
+        \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+            \begin{proof}
+                Consider the Eilenberg-Maclane space $K(G,n)$ for $G$ (Definition \ref{topology:eilenberg_maclane}). By the Hurewicz theorem there exists an isomorphism $H_n\big(K(G,n)\big)\cong\pi_n\big(K(G,n)\big)\cong G$. By definition of cohomology $H^n\big(K(G,n);G\big)=\hom\big(H_n(K(G,n)),G\big)$ and thus $H^n\big(K(G,n);G\big)\cong\hom(G,G)$. In particular, there corresponds a cohomology class $\psi$ to the identity mapping on $G$. The cohomology class in $H^n(X;G)$ associated to a homotopy class of functions $f:X\rightarrow K(G,n)$ is given by $f^*\psi$.\qed
+            \end{proof}
+        \end{mdframed}
     \end{property}
 
 \section{Local coefficients}\index{local!coefficients}\label{section:local_coefficients}
@@ -914,7 +919,7 @@
     \begin{gather}
         C(X;A):=C(\widetilde{X})\otimes_{\mathbb{Z}[\pi_1(X)]}A.
     \end{gather}
-    $\pi_1(X)$, the automorphism group of $\widetilde{X}$, acts on singular simplices by postcomposition.
+    The automorphism group $\pi_1(X)$ of $\widetilde{X}$, acts on singular simplices by postcomposition.
 
     When $A$ is a trivial $\pi_1(X)$-module, the tensor product structure enforces that the orbit of every automorphism collapses and, hence, $C(\widetilde{X})\otimes_{\mathbb{Z}[\pi_1(X)]}A\cong C(X)\otimes_\mathbb{Z}A$. It follows that the ordinary singular cohomology with coefficients in $A$ is recovered (as expected).
 
@@ -987,14 +992,14 @@
         \end{gather}
     \end{property}
 
-\section{Equivariant cohomology}\index{equivariant!cohomology}
+\section{\difficult{Equivariant cohomology}}\index{equivariant!cohomology}
 
     In this section topological spaces equipped with a continuous action of a topological group $G$ will be considered. These spaces will be called topological $G$-spaces or just $G$-spaces.
 
     \newdef{Equivariant cohomology}{\index{Borel!construction}\label{topology:equivariant_cohomology}
         Let $X$ be a topological $G$-space for which the $G$-action is free. The equivariant cohomology of $X$ is defined as
         \begin{gather}
-            H_G^\bullet(X) := H^\bullet(X/G),
+            H_G^\bullet(X) := H^\bullet(X/G)\,,
         \end{gather}
         where $X/G$ is the orbit space with respect to the action of $G$ on $X$.
 

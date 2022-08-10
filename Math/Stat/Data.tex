@@ -69,7 +69,7 @@
     \begin{method}[Tikhonov regularization]{\index{Tikhonov regularization}\index{ill-conditioned}
         Consider a linear (regression) problem \[Ax = b.\] The most straightforward way to solve for $x$ is the least squares method introduced in Chapter~\ref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case a regularization term can be added to the minimization problem:
         \begin{gather}
-            \|Ax-b\|^2+\|\Gamma x\|^2,
+            \|Ax-b\|^2+\|\Gamma x\|^2\,,
         \end{gather}
         where $\Gamma$ is called the \textbf{Tikhonov matrix}. In the case that $\Gamma=\lambda\mathbbm{1}$, one speaks of \textbf{$\ell^2$-regularization}. This regularization technique benefits solutions with smaller norms.
     }
@@ -93,7 +93,7 @@
         \nomenclature[A_VIF]{VIF}{variance inflation factor}
         The VIF is an estimate for how much the variance of a coefficient is inflated by multicollinearity. The VIF of a coefficient $\beta_i$ is defined as follows:
         \begin{gather}
-            \mathrm{VIF}_i := \frac{1}{1-R_i^2},
+            \mathrm{VIF}_i := \frac{1}{1-R_i^2}\,,
         \end{gather}
         where $R_i^2$ is the $R^2$-value obtained after regressing the predictor $\hat{X}_i$ on all other predictors. The rule of thumb is that $\mathrm{VIF}\geq10$ implies that a significant amount of multicollinearity is present in the model.
     }
@@ -133,7 +133,7 @@
 
     By taking the input vectors of the Arnoldi method to be the residuals $r_i$, one obtains the \textbf{conjugate gradient} (CG) algorithm. It is interesting to note that the residuals themselves satisfy a recursion relation:
     \begin{gather}
-        r_{i+1} = r_i - \alpha_iAd_i,
+        r_{i+1} = r_i - \alpha_iAd_i\,,
     \end{gather}
     where the step size $\alpha_i$ is defined similar to the step size for ordinary steepest descent:
     \begin{gather}
@@ -172,16 +172,16 @@
 
     A different approach exists where the CG algorithm is not applied to the matrix $A^T\!A$, but the individual matrices are used $A,A^T$ directly. This way not one Krylov space is generated, but two dual ``copies'' are constructed:
     \begin{align*}
-        \mathcal{D}_i &:= \mathrm{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\\
-        \widetilde{\mathcal{D}}_i &:= \mathrm{span}\left\{\widetilde{r}_0,A^T\widetilde{r}_0,\ldots,(A^T)^{i-1}\widetilde{r}_0\right\},
+        \mathcal{D}_i &:= \mathrm{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\,,\\
+        \widetilde{\mathcal{D}}_i &:= \mathrm{span}\left\{\widetilde{r}_0,A^T\widetilde{r}_0,\ldots,(A^T)^{i-1}\widetilde{r}_0\right\}\,,
     \end{align*}
     where $\widetilde{r}_0$ does not have to be related to $r_0$. In this case there are two Galerkin conditions $r_i\perp\mathcal{D}_i$ and $\widetilde{r}_i\perp\widetilde{\mathcal{D}}_i$ (only the first one is relevant). The residuals form biorthogonal bases of the Krylov subspaces:
     \begin{gather}
-        \langle r_i|r_j \rangle = \|r_i\|^2\delta_{ij}.
+        \langle r_i\mid r_j \rangle = \|r_i\|^2\delta_{ij}.
     \end{gather}
     As a consequence the search directions also form biconjugate bases:
     \begin{gather}
-        \langle d_i|d_j \rangle_A = \|d_i\|_A^2\delta_{ij}.
+        \langle d_i\mid d_j \rangle_A = \|d_i\|_A^2\delta_{ij}.
     \end{gather}
 
 \subsection{Nonlinear conjugate gradients}\index{conjugate!gradient}
@@ -195,7 +195,7 @@
             \alpha_i &:= \arg\min_\alpha f(x_i+\alpha d_i)\label{data:argmin}\\
             x_{i+1} &:= x_i+\alpha_id_i\\
             r_{i+1} &:= -\nabla f(x_i)\\
-            d_{i+1} &:= r_{i+1}+\beta_{i+1}d_i,
+            d_{i+1} &:= r_{i+1}+\beta_{i+1}d_i\,,
         \end{align}
         where $\beta_{i+1}$ is computed by one of the following formulas:
         \begin{itemize}
@@ -273,7 +273,7 @@
     \end{gather}
     Problems of this form are called \textbf{primal optimization problems}. By defining an enhanced loss using Lagrange multipliers as before
     \begin{gather}
-        \mathcal{L}(x,\alpha,\beta) := f(x) + \sum_{i=1}^m\alpha_ig_i(x) + \sum_{i=1}^n\beta_ih_i(x),
+        \mathcal{L}(x,\alpha,\beta) := f(x) + \sum_{i=1}^m\alpha_ig_i(x) + \sum_{i=1}^n\beta_ih_i(x)\,,
     \end{gather}
     it is not hard to see that
     \begin{gather}
@@ -315,8 +315,8 @@
             \quad\forall1\leq i\leq m \qquad\text{and}\qquad
             \begin{cases}
                 \beta_jh_j(x) = 0\\
-                h_j(x)\leq0&\quad\forall1\leq j\leq n\\
-                \beta_j\geq0.
+                h_j(x)\leq0&\quad\forall1\leq j\leq n.\\
+                \beta_j\geq0
             \end{cases}
         \end{align}
         Conversely, if there exists values $x,\alpha$ and $\beta$ that satisfy the KKT conditions, they give strongly dual solutions for the primal and dual problems.
@@ -348,7 +348,7 @@
     \newdef{Bayes classifier}{\index{Bayes!classifier}
         Given a joint probability distribution $P$ over the instance space $\mathcal{X}\times\mathcal{Y}$ and a loss function $l:\mathcal{Y}\times\mathcal{Y}\rightarrow\mathbb{R}$, the pointwise Bayes predictor is defined as follows:
         \begin{gather}
-            f^*:x\mapsto\arg\min_{y\in\mathcal{Y}}\int_\mathcal{Y}l(y,y')dP(y'\mid x).
+            f^*:x\mapsto\arg\min_{y\in\mathcal{Y}}\int_\mathcal{Y}l(y,y')\,dP(y'\mid x).
         \end{gather}
     }
     \begin{property}[Bayes optimality]
@@ -390,17 +390,17 @@
             \mathrm{Pr}(\exists f\in\mathcal{H}:|R_\mathrm{emp}(f)-R(f)|\geq\varepsilon) &= \mathrm{Pr}(\sup_{f\in\mathcal{H}}|R_\mathrm{emp}(f)-R(f)|\geq\varepsilon)\nonumber\\
             &\leq\sum_{f\in\mathcal{H}}\mathrm{Pr}(|R_\mathrm{emp}(f)-R(f)|\geq\varepsilon)\nonumber\\
             &\leq\sum_{f\in\mathcal{H}}2e^{-2n\varepsilon^2}\nonumber\\
-            &=2|\mathcal{H}|e^{-2n\varepsilon^2},
+            &=2|\mathcal{H}|e^{-2n\varepsilon^2}\,,
         \end{align}
         where the second inequality comes from Hoeffding's inequality \ref{prob:hoeffding_inequality} (the empirical risk is an average). In combination with a similar expression for the one-sided tails, using the one-sided Hoeffding inequality, the PAC bound becomes
         \begin{gather}
-            R(f)\leq R_\mathrm{emp}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}},
+            R(f)\leq R_\mathrm{emp}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}\,,
         \end{gather}
         with probability at least $1-\delta$. Note that this bound is distribution-free, i.e.~it does not depend on the data-generating distribution.
 
         This bound on the empirical risk also implies a bound on the expected risk of the minimizer $\hat{f}$:
         \begin{gather}
-            \expect{R(\hat{f})}\leq\inf_{f\in\mathcal{H}}R(f)+\sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}+\delta,
+            \expect{R(\hat{f})}\leq\inf_{f\in\mathcal{H}}R(f)+\sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}+\delta\,,
         \end{gather}
         where $\delta>0$ is now arbitrary.
     \end{property}
@@ -482,7 +482,7 @@
     \newdef{Reproducing kernel}{
         Let $\mathcal{H}$ be an RKHS on a set $X$. The (reproducing) kernel $k$ on $X$ is defined as follows:
         \begin{gather}
-            k(x,y) := \delta_x(K_y)\overset{\text{Riesz}}{=} \langle K_x|K_y \rangle_\mathcal{H}.
+            k(x,y) := \delta_x(K_y)\overset{\text{Riesz}}{=} \langle K_x\mid K_y \rangle_\mathcal{H}.
         \end{gather}
         Because $k$ is given by an inner product, it is not hard to see that the reproducing kernel is a kernel \ref{data:kernel}.
     }
@@ -491,7 +491,7 @@
     \newadef{RKHS}{
         A Hilbert space $\mathcal{H}\subset\mathrm{Map}(X,\mathbb{C})$ of functions over a set $X$ such that there exists a kernel $k$ on $X$ with the following properties:
         \begin{enumerate}
-            \item\textbf{Reproducing property}: For all $x\in X, f\in\mathcal{H}$ the evaluation functional $\delta_x$ satisfies $\delta_x(f) = \langle k(\cdot,x)|f \rangle_{\mathcal{H}}$.
+            \item\textbf{Reproducing property}: For all $x\in X, f\in\mathcal{H}$ the evaluation functional $\delta_x$ satisfies $\delta_x(f) = \langle k(\cdot,x)\mid f \rangle_{\mathcal{H}}$.
             \item\textbf{Density}: The span of $\{k(\cdot,x)\mid x\in X\}$ is dense in $\mathcal{H}$.
         \end{enumerate}
         The density property is often replaced by the property that $k(\cdot,x)\in\mathcal{H}$ for all $x\in X$.
@@ -503,16 +503,16 @@
 
     \begin{theorem}[Moore-Aronszajn]\index{Moore-Aronszajn}
         There exists a bijection between RKHSs and kernels.
-        \begin{proof}
-            \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+        \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+            \begin{proof}
                 One direction of the theorem is, as mentioned before, rather simple to see. The other direction is constructive:
 
                 Given a kernel $k$, one defines the function $K_x:=k(\cdot,x)$ for all $x\in X$. The RKHS is then constructed as the Hilbert completion of $\mathrm{span}\{K_x\mid x\in X\}$, where the inner product is defined as follows
                 \begin{gather}
-                    \left\langle\left.\sum_{x\in X}a_xK_x\right|\sum_{y\in X}b_yK_y\right\rangle := \sum_{x,y\in X}\overline{a_x}b_yk(x,y).
+                    \left\langle\sum_{x\in X}a_xK_x\,\middle\vert\,\sum_{y\in X}b_yK_y\right\rangle := \sum_{x,y\in X}\overline{a_x}b_yk(x,y).
                 \end{gather}
-            \end{mdframed}
-        \end{proof}
+            \end{proof}
+        \end{mdframed}
     \end{theorem}
 
     \begin{formula}
@@ -522,16 +522,16 @@
         \end{gather}
     \end{formula}
 
-    \remark{Note that one can use different conventions in the above definitions, e.g.~the definition $k(x,y)=\langle K_y|K_x\rangle_\mathcal{H}$ is also valid.}
+    \remark{Note that one can use different conventions in the above definitions, e.g.~the definition $k(x,y)=\langle K_y\mid K_x\rangle_\mathcal{H}$ is also valid.}
 
     \begin{theorem}[Mercer]\index{Mercer}
         Let $X$ be a finite measure space and consider a (conjugate) symmetric function $k\in L^2(X\times X,\mathbb{C})$. If $k$ satisfies the \textbf{Mercer condition}
         \begin{gather}
-            \iint_{X\times X}k(x,y)\overline{f(x)}f(y)dxdy\geq0
+            \iint_{X\times X}k(x,y)\overline{f(x)}f(y)\,dxdy\geq0
         \end{gather}
         for all $f\in L^2(X,\mathbb{C})$, the Hilbert-Schmidt operator
         \begin{gather}
-            T_k:L^2(X,\mathbb{C})\rightarrow L^2(X,\mathbb{C}):f\mapsto\int_Xk(\cdot,x)f(x)dx
+            T_k:L^2(X,\mathbb{C})\rightarrow L^2(X,\mathbb{C}):f\mapsto\int_Xk(\cdot,x)f(x)\,dx
         \end{gather}
         admits a countable orthonormal basis $\{e_i\}_{i\in\mathbb{N}}$ with nonnegative eigenvalues $\{\lambda_i\}_{i\in\mathbb{N}}$ such that
         \begin{gather}
@@ -545,7 +545,7 @@
     \newadef{Kernel}{
         Consider a set $X$. A function $k:X\times X\rightarrow\mathbb{C}$ is called a (Mercer) kernel on $X$ if there exists a Hilbert space $\mathcal{H}$ together with a function $\phi:X\rightarrow\mathcal{H}$ such that
         \begin{gather}
-            k(x,y) = \langle\phi(x)|\phi(y)\rangle_\mathcal{H}.
+            k(x,y) = \langle\phi(x)\mid\phi(y)\rangle_\mathcal{H}.
         \end{gather}
         When using Mercer's theorem, the feature maps are given by
         \begin{gather}
@@ -584,7 +584,7 @@
 
     The optimization objective now becomes
     \begin{gather}
-        \max_w\frac{\gamma}{\|w\|} \qquad\text{such that}\qquad  y_i(w^Tx_i+b)\geq\gamma\|w\|\qquad\forall 1\leq i\leq n,
+        \max_w\frac{\gamma}{\|w\|} \qquad\text{such that}\qquad  y_i(w^Tx_i+b)\geq\gamma\|w\|\qquad\forall 1\leq i\leq n\,,
     \end{gather}
     where $\gamma=\min_{i\in\{1,\ldots,n\}}\gamma(x_i)$ for $x_i$ ranging over the training set. The problem is formulated in terms of the functional margin $\gamma\|w\|$ to avoid the nonconvex constraint $\|w\|=1$. This allows the application of the Slater conditions for strong duality. Since the geometric margin is invariant under scale transformations, one can without loss of generality work with the assumption $\gamma\|w\|=1$. The optimization problem is then equivalent to the following minimization problem:
     \begin{gather}
@@ -596,11 +596,11 @@
     \end{gather}
     and
     \begin{gather}
-        \sum_{i=1}^n\beta_iy_i = 0,
+        \sum_{i=1}^n\beta_iy_i = 0\,,
     \end{gather}
     where the quantities $\beta_i$ are the KKT multipliers for the affine constraints $1-y_i(w^Tx_i+b)\leq0$. Using these relations the quantity $y$ can be expressed for a new data point as follows:
     \begin{gather}
-        y \equiv w^Tx + b = \sum_{i=1}^n\beta_iy_i\langle x_i|x \rangle + b.
+        y \equiv w^Tx + b = \sum_{i=1}^n\beta_iy_i\langle x_i\mid x \rangle + b.
     \end{gather}
     Two observations can be made at this point. First of all, complementary slackness \ref{data:slackness} implies that the only relevant vectors $x_i$ in this calculation are the ones that satisfy $\gamma(x_i)=0$. These are called the \textbf{support vectors} and they give their name to a class of models called \textbf{support-vector machines} (SVMs)\index{support-vector machine}\nomenclature[A_SVM]{SVM}{support-vector machine}. These are the models that are trained using the above optimization problem. Furthermore, $y$ can be written in terms of an inner product. It is exactly this last observation that allows for the generalization of the above model to nonlinear decision boundaries. The previous section showed that inner products are equivalent to (Mercer) kernels. Hence, by choosing a nonlinear kernel function, one can implicitly work with nonlinear feature maps. This is often called the \textbf{kernel trick}\index{kernel!trick}. As an example, polynomial kernels represent feature maps from $x$ to monomials in the coefficients of $x$.
 
@@ -667,7 +667,7 @@
         \end{gather}
         for all $n\in\mathbb{N}$. For $n\leq\mathrm{VC}(\mathcal{F})$, the right-hand side is just the full binomial expansion for $2^n$ and, accordingly, the shatter coefficients grow exponentially. For $n\geq d$, the binomial series is truncated and polynomial behaviour is obtained:
         \begin{gather}
-            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{e\,n}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})},
+            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{e\,n}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})}\,,
         \end{gather}
         where $e$ is the Euler number.
     \end{property}
@@ -707,7 +707,7 @@
     \newdef{Rademacher complexity}{\index{Rademacher!complexity}
         Consider a collection of functions $\mathcal{F}:=\{f:X\rightarrow\mathbb{R}\}$. The Rademacher complexity is defined as follows:
         \begin{gather}
-            \mathfrak{R}_n(\mathcal{F}) := \expect{\sup_{f\in\mathcal{F}}\frac{1}{n}\sum_{i=1}^n\sigma_if(X_i)},
+            \mathfrak{R}_n(\mathcal{F}) := \expect{\sup_{f\in\mathcal{F}}\frac{1}{n}\sum_{i=1}^n\sigma_if(X_i)}\,,
         \end{gather}
         where the $\sigma_i$ are Rademacher variables \ref{prob:rademacher} and the expectation is taken over both the Rademacher variables and the sample $(X_1,\ldots,X_n)$.
     }
@@ -798,7 +798,7 @@
         \end{gather}
         An important concept, especially in the context of autoregressive models, is that of a \textbf{lag polynomial} (the notation for these is not completely fixed in the literature, but the $\theta$-notation is a common choice):
         \begin{align}
-            \theta(B) &= 1 + \sum_{i=1}^k\theta_iB^i\\
+            \theta(B) &= 1 + \sum_{i=1}^k\theta_iB^i\,,\\
             \varphi(B) &= 1 - \sum_{i=1}^k\varphi_iB^i.
         \end{align}
     }
@@ -828,7 +828,7 @@
         \end{gather}
         The test statistic is
         \begin{gather}
-            \mathrm{DF} = \frac{\gamma}{\mathrm{SE}(\gamma)},
+            \mathrm{DF} := \frac{\gamma}{\mathrm{SE}(\gamma)}\,,
         \end{gather}
         where $\mathrm{SE}$ denotes the standard error. The null hypothesis states that $\gamma=0$, i.e.~there is a \textit{unit root} $(1-B)$ present in the model. Comparing the test statistic to tabulated critical values will give an indication whether to reject the hypothesis or not (the more negative the statistic, the more significant the result).
     \end{method}
@@ -963,15 +963,16 @@
     \begin{example}[Point predictors]
         A general class of nonconformity measures is obtained from point predictors for a metric space $(Y,d)$ . Given a point predictor $\rho:X\rightarrow Y$ trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_\rho(\mathcal{B},(x,y)) := d\big(\rho(x),y\big).
+            A_\rho\big(\mathcal{B},(x,y)\big) := d\big(\rho(x),y\big).
         \end{gather}
     \end{example}
     \begin{example}[Interval predictors]
         For every interval predictor $(l,u):X\rightarrow\mathbb{R}^2$, i.e.~a pair of functions $u,l:X\rightarrow\mathbb{R}$ such that $\forall x\in X:l(x)\leq u(x)$, trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_{u,l}(\mathcal{B},(x,y)) := \max\big(l(x)-y,y-u(x)\big).
+            A_{u,l}\big(\mathcal{B},(x,y)\big) := \max\big(l(x)-y,y-u(x)\big).
         \end{gather}
     \end{example}
+
     It should be noted that although common, nonconformity measures and, by extension, conformal prediction are also applicable to nonmetric spaces:
     \begin{example}[Nested region predictors]
         Let $T$ be a totally ordered set \ref{set:total_order}. For every model $\tseq{C}:X\rightarrow P(Y)$ that predicts a sequence of nested regions, i.e.
@@ -980,7 +981,7 @@
         \end{gather}
         trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_T(\mathcal{B},(x,y)) := \inf\{t\in T\mid y\in C_t(x)\}.
+            A_T\big(\mathcal{B},(x,y)\big) := \inf\{t\in T\mid y\in C_t(x)\}.
         \end{gather}
     \end{example}
 
@@ -989,10 +990,10 @@
         \begin{enumerate}
             \item Denote the nonconformity score $A(\mathcal{B},z^*)$ by $\mu_{z^*}$.
             \item For every element $z$ in $\mathcal{B}$, define $\mu_z$ by replacing $z$ by $z^*$ in the bag and calculating the nonconformity score as in the previous step.
-            \item Calculate the conformal $p$-value as the fraction of elements $z\in\mathcal{B}\cup\{z^*\}$ for which $\mu_z\geq\mu_{z^*}$:
+            \item Calculate the conformal $p$-value as the fraction of ``nonconforming'' elements:\footnote{The reason for the $+1$ in this formula is that one considers the extended data set $\mathcal{B}\cup\{z^*\}$.}
                 \begin{gather}
                     \label{data:tcp}
-                    p^* := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z\geq\mu_{z^*}\}|}{|\mathcal{B}|+1}.
+                    p^* := \frac{|\{z\in\mathcal{B}\mid\mu_z\geq\mu_{z^*}\}|+1}{|\mathcal{B}|+1}.
                 \end{gather}
             \item Include an element $z^*$ in the prediction region $C^\alpha$ if and only if $p^*>\alpha$.
         \end{enumerate}
@@ -1008,7 +1009,7 @@
                 \end{gather}
                 and thus also
                 \begin{gather}
-                    P(y^*\in\Gamma^\alpha(x^*,\mathcal{B}))\geq1-\alpha\,,
+                    P\big(y^*\in\Gamma^\alpha(x^*,\mathcal{B})\big)\geq1-\alpha\,,
                 \end{gather}
                 where the probability is taken over both the bag $\mathcal{B}$ and the point $(x^*,y^*)$.
             \item Regions are nested, i.e.~$\alpha\leq\beta\implies\forall x\in X:\Gamma^\alpha(x)\subseteq\Gamma^\beta(x)$.
@@ -1019,25 +1020,25 @@
     \begin{property}[Smooth conformal predictors]\label{data:smooth_cp}
         One can modify the above construction in such a way that the resulting conformal predictors are not only conservatively valid but are also exactly valid. To this end one replaces the conformal $p$-value \eqref{data:tcp} by
         \begin{gather}
-            p^*(\theta) := \frac{|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z>\mu_{z^*}\}| + \theta\,|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z=\mu_{z^*}\}|}{|\mathcal{B}|+1}\,,
+            p^*(\theta) := \frac{|\{z\in\mathcal{B}\mid\mu_z>\mu_{z^*}\}| + \theta\,|\{z\in\mathcal{B}\cup\{z^*\}\mid\mu_z=\mu_{z^*}\}|}{|\mathcal{B}|+1}\,,
         \end{gather}
-        where $\theta$ is independently and uniformly sampled from the unit interval $[0,1]$. Exact validity is then obtained by also marginalizing over the random variable $\theta$.
+        where $\theta$ is independently and uniformly sampled from the unit interval $[0,1]$. Exact validity is obtained by also marginalizing over $\theta$.
     \end{property}
 
-    Now, one could wonder if the assumption of exchangeability is a realistic assumption. Obviously if one applies the procedure to independent observations, everything is fine since i.i.d. sequences are clearly exchangeable. However, some important classes of data sequences are clearly not exchangeable, e.g.~time series. This kind of data often contains intrinsic correlation and, hence, the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There, one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
+    Now, one could wonder if the assumption of exchangeability is a realistic assumption. Obviously if one applies the procedure to independent observations, everything is fine since i.i.d.~sequences are clearly exchangeable. However, some important classes of data sequences are clearly not exchangeable, e.g.~time series. This kind of data often contains intrinsic correlation and, hence, the exchangeability assumption is almost always violated. However, a solution exists. One can restate the construction above using an explicit randomization as is done in \cite{cp_time_series}. There, one replaces the nonconformity measure by a function that acts on ordinary sequences instead of unordered bags. The fraction $p^*$ can then be expressed as follows:
     \begin{gather}
-        p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}(A(\sigma\cdot\vector{z})\geq A(\vector{z}))\,,
+        p^* = \frac{1}{|S_{N+1}|}\sum_{\sigma\in S_{N+1}}\mathbbm{1}\big(A(\sigma\cdot\vector{z})\geq A(\vector{z})\big)\,,
     \end{gather}
-    where $\vector{z}\equiv(z_1,\ldots,z_N,z^*)$. Using these explicit permutations, one can generalize the construction of conformal predictors to arbitrary randomization schemes, i.e.~to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
+    where $\vector{z}:=(z_1,\ldots,z_N,z^*)$. Using these explicit permutations, one can generalize the construction of conformal predictors to arbitrary randomization schemes, i.e.~to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
 
     ?? FINISH (is this even relevant for this compendium) ??
 
     At last a computationally efficient modification of the original CP algorithm is introduced. For most applications, especially those in machine learning and big data, the computational inefficiency of conformal predictors would make them hard to use. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification:
     \begin{construct}[Inductive CP]
-        Consider a data set $\mathcal{D}\subset Z$ and a nonconformity measure $A$ based on an underlying predictor. First, split $\mathcal{D}$ into a training set $\mathcal{T}$ and a calibration set $\mathcal{C}$. Using $\mathcal{T}$, train the underlying predictor of $A$. Then, for every point $z\equiv(x,y)\in\mathcal{C}$, construct the nonconformity score $\mu_z := A(z)$. As before, for every new element $z^*\in Z$ the conformal $p$-value is defined as the fraction of elements in $\mathcal{C}$ for which the nonconformity measure is larger than the one for $z^*$:
+        Consider a data set $\mathcal{D}\subset Z$ and a nonconformity measure $A$ based on an underlying predictor. First, split $\mathcal{D}$ into a training set $\mathcal{T}$ and a calibration set $\mathcal{C}$. Using $\mathcal{T}$, train the underlying predictor of $A$. Then, for every point $z\equiv(x,y)\in\mathcal{C}$, construct the nonconformity score $\mu_z := A(z)$. As before, for every new element $z^*\in Z$ the conformal $p$-value is defined as the fraction of ``nonconforming'' elements:
         \begin{gather}
             \label{data:icp}
-            p^* := \frac{|\{z\in\mathcal{C}\cap\{z^*\}\mid\mu_z\geq\mu_{z^*}\}|}{|\mathcal{C}|+1}.
+            p^* := \frac{|\{z\in\mathcal{C}\mid\mu_z\geq\mu_{z^*}\}|+1}{|\mathcal{C}|+1}.
        \end{gather}
         As in the original CP algorithm, a new observation $z^*$ is included in the prediction region if and only if $p^*>\alpha$:
         \begin{gather}
@@ -1053,13 +1054,13 @@
     \begin{property}[Validity]
         Although the above ICP algorithm is already computationally much more efficient than its transductive counterpart, one can go even further. However, in this case one needs to pay attention in order not to ruin the validity. To use Equation \eqref{data:icp} one does not have to retrain the model every time, but one still needs to reevaluate the nonconformity score for possible $y^*\in Y$. It would be even better if one could extract the boundaries of the prediction region straight from the calibration data.
 
-        If the data is exchangeable (and the resulting nonconformitys score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{\mu_z\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly sampled from $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\beta$, the probability of finding a new nonconformity score smaller than or equal to the $\beta$-quantile of $A(\mathcal{C})$ is
+        If the data is exchangeable (and the resulting nonconformity score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{\mu_z\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly sampled from $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\beta$, the probability of finding a new nonconformity score smaller than or equal to the $\beta$-quantile of $A(\mathcal{C})$ is
         \begin{gather}
-            P\Big(\mu_{z^*}\leq q_\beta(A(\mathcal{C}))\Big) = \frac{\left\lceil\beta|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+            P\big(\mu_{z^*}\leq q_\beta(A(\mathcal{C}))\big) = \frac{\left\lceil\beta|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
         \end{gather}
         If one constructs a prediction region by including all points $(x^*,y^*)\in Z$ such that the associated nonconformity score is smaller than the $(1-\alpha)$-quantile, one immediately obtains
         \begin{gather}
-            P(y^*\in\Gamma^\alpha(x^*,\mathcal{C})) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+            P\big(y^*\in\Gamma^\alpha(x^*,\mathcal{C})\big) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
         \end{gather}
         However, this is where the TCP and ICP algorithms differ. When using Equation \eqref{data:tcp} for the transductive algorithm, the above probabilities would contain a factor $|\mathcal{C}|+1$ in both the numerator and the denominator, so the coverage condition is satisfied. However, for this quantile-based reformulation of the inductive algorithm, a minimal modification also leads to validity:
         \begin{gather}
@@ -1067,16 +1068,16 @@
         \end{gather}
         i.e.~the empirical quantiles are replaced by ``inflated'' quantiles. When using Equations \eqref{data:icp} and \eqref{data:icp2} to determine the ICP region, one is essentially including all points $(x^*,y^*)$ such that the nonconformity score is smaller than or equal to the $(1-\alpha)$-quantile of the enhanced calibration curve $A(\mathcal{C})\cup\{A(x^*,y^*)\}$. It is not hard to show that this quantile is equivalent to the inflated quantile of the ordinary calibration curve.
 
-        The smoothing of Property \ref{data:smooth_cp} can also be implied in this case. If one does not use a smoothened conformal predictor but assumes that all calibration scores are distinct, the following property is obtained:
+        The smoothing of Property \ref{data:smooth_cp} can also be applied in this case. If one does not use a smoothened conformal predictor but assumes that all calibration scores are distinct, the following property is obtained:
         \begin{gather}
-            P(y^*\in\Gamma^\alpha(x,\mathcal{C}))\geq 1 - \alpha + \frac{1}{|\mathcal{C}|}.
+            P\big(y^*\in\Gamma^\alpha(x,\mathcal{C})\big)\geq 1 - \alpha + \frac{1}{|\mathcal{C}|}.
         \end{gather}
         So, in the limit of large calibration sets, the exact validity is recovered.
     \end{property}
     \begin{remark}
         One does have to pay attention when interpreting the above statement. The validity property holds in probability with respect to both the new instance $(x^*,y^*)$ and the calibration set $\mathcal{C}$. However, this does not not mean that for a fixed calibration set $\mathcal{C}$ the error fraction
         \begin{gather}
-            \frac{|\{1\leq i\leq k:y_i\in\Gamma^\alpha(x_i,\mathcal{C})\}|}{k}
+            \frac{|\{1\leq i\leq k\mid y_i\in\Gamma^\alpha(x_i,\mathcal{C})\}|}{k}
         \end{gather}
         is bounded by $\alpha$ for $k\longrightarrow\infty$. Because the events are not independent, the error can be much larger than $\alpha$.
     \end{remark}
@@ -1088,12 +1089,12 @@
             \item If $n\leq m_1$, use a fixed conformal predictor to construct $\Gamma^\alpha(\mathcal{S})$.
             \item If $m_k<n\leq m_{k+1}$, construct $\Gamma^\alpha(\mathcal{S})$ as follows:
             \begin{gather}
-                \Gamma^\alpha(\mathcal{S}) := \left\{y\in Y\,\middle\vert\,\frac{|\{m_k<j\leq n\mid\mu_{z_j}\geq\mu_{z_n}\}|}{n-m_k}>\varepsilon\right\},
+                \Gamma^\alpha(\mathcal{S}) := \left\{y\in Y\,\middle\vert\,\frac{|\{m_k<j\leq n\mid\mu_{z_j}\geq\mu_{z_n}\}|}{n-m_k}>\varepsilon\right\}\,,
             \end{gather}
             where
             \begin{align*}
-                \mu_{z_j} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_j,y_j))\,,\\
-                \mu_{z_n} &:= A(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_n,y)).
+                \mu_{z_j} &:= A\big(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_j,y_j)\big)\,,\\
+                \mu_{z_n} &:= A\big(\mathcal{B}(z_1,\ldots,z_{m_k}),(x_n,y)\big).
             \end{align*}
         \end{itemize}
         It is clear that for $k\ll|\mathcal{C}|$ the offline ICP algorithm approximates the online version. The major benefit of the online algorithm is that one does not need to use the inflated quantiles to obtain valid prediction regions, because the calibration set grows every time new data is observed and, hence, the finite-size fluctuations get supressed.
@@ -1114,7 +1115,7 @@
 
     Consider now the case of binary classification: $X\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
     \begin{gather}
-        A_\text{binary}(\mathcal{B},(x,y)) := 1 - \hat{P}(y\mid x;\mathcal{B})\,,
+        A_\text{binary}\big(\mathcal{B},(x,y)\big) := 1 - \hat{P}(y\mid x;\mathcal{B})\,,
     \end{gather}
     where the classifier is possibly estimated on $\mathcal{B}$. At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
 
@@ -1127,11 +1128,11 @@
 
     Various othe approaches exist to calibrate existing probabilistic classifiers. In practice it has been observed that many models show sigmoidal distortions in their calibration plots. A possible approach is then to modify the final sigmoidal layer in these models (or add an extra sigmoidal layer if the model did not use one). This gives rise to \textbf{Platt scaling} and \textbf{temperature scaling}. For the former one takes the output $\hat{P}$ and fits a sigmoidal layer of the form
     \begin{gather}
-        \hat{P}_\text{Platt}(y\mid x;A,B) = \frac{1}{1+\exp(-A\hat{P}(y\mid x)-B)}.
+        \hat{P}_\text{Platt}(y\mid x;A,B) = \frac{1}{1+\exp\big(-A\hat{P}(y\mid x)-B\big)}.
     \end{gather}
     For the latter one modifies the existing logits as follows for some parameter $T>0$:
     \begin{gather}
-        \hat{P}_\text{temp}(y\mid x;T) = \frac{1}{1+\exp(-\hat{z}(y\mid x)/T)},
+        \hat{P}_\text{temp}(y\mid x;T) = \frac{1}{1+\exp\big(-\hat{z}(y\mid x)/T\big)}\,,
     \end{gather}
     where $\hat{z}$ represents the logits of the estimator $\hat{P}$.
 
@@ -1150,7 +1151,7 @@
     The above sections considered confidence predictors that were valid in a global sense, i.e.~averaged over the whole instance space $X\times Y$. However, as in ordinary probability theory, in many settings it makes more sense to consider conditional statements:
     \begin{gather}
         \label{data:conditional_validity_condition}
-        P(y\in\Gamma^\alpha(x)\mid\kappa(x,y))\geq 1-\alpha\,,
+        P\big(y\in\Gamma^\alpha(x)\mid\kappa(x,y)\big)\geq 1-\alpha\,,
     \end{gather}
     where the function $\kappa:X\times Y\rightarrow K$ represents the conditioning statement (the set $K$ can be any set). In the conformal prediction literature it is often called a \textbf{taxonomy function}.\index{taxonomy}
 

@@ -6,11 +6,11 @@
 
     The Kolmogorov axioms of probability state when a set admits the definition of a probability theory:
     \newdef{Kolmogorov axioms}{\index{Kolmogorov!axioms}\index{probability}\index{sample space}
-        A probability space $(\Omega,\Sigma,P)$ is a measure space \ref{lebesgue:measure_space} with finite measure $P(X)=1$. The set $\Omega$ is called the \textbf{sample space}.
+        A probability space $(\Omega,\Sigma,P)$ is a measure space \ref{lebesgue:measure_space} with normalized measure $P(X)=1$. The set $\Omega$ is called the \textbf{sample space}.
     }
 
     \newdef{Random variable}{\index{random variable}
-        Let $(\Omega,\Sigma,P)$ be a probability space. A function $X:\Omega\rightarrow\mathbb{R}$ is called a random variable if $\forall a\in\mathbb{R}:X^{-1}\big([a,\infty[\big)=\{\omega\in\Omega\mid X(\omega)\geq a\}\in\Sigma$.
+        Let $(\Omega,\Sigma,P)$ be a probability space. A function $X:\Omega\rightarrow\mathbb{R}$ is called a random variable if $\forall a\in\mathbb{R}:X^{-1}\big([a,+\infty[\big)=\{\omega\in\Omega\mid X(\omega)\geq a\}\in\Sigma$.
     }
 
     \newdef{$\sigma$-algebra of a random variable}{\index{$\sigma$!algebra}
@@ -118,7 +118,7 @@
     \newdef{Probability distribution}{\index{probability!distribution}\label{prob:probability_distribution}
         Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$. The following function is a measure on the Borel $\sigma$-algebra of $\mathbb{R}$:
         \begin{gather}
-            P_X(B) = P(X^{-1}(B)).
+            P_X(B) = P\big(X^{-1}(B)\big).
         \end{gather}
         This measure is called the probability distribution of $X$.
     }
@@ -360,7 +360,7 @@
         Two random variables $X,Y$ are independent if and only if $\expect{f(X)g(Y)} = \expect{f(X)}\expect{g(Y)}$ holds for all measurable bounded functions $f,g$.
     \end{property}
 
-    The value $\expect{XY}$ is equal to the inner product $\langle X|Y \rangle$ as defined in \eqref{lebesgue:L2_inner_product}. It follows that independence of random variables implies orthogonality. To generalize this concept, the following notions are introduced:
+    The value $\expect{XY}$ is equal to the inner product $\langle X\mid Y \rangle$ as defined in \eqref{lebesgue:L2_inner_product}. It follows that independence of random variables implies orthogonality. To generalize this concept, the following notions are introduced:
     \newdef{Centred random variable}{\index{random variable}
         Let $X$ be a random variable with finite expectation value $\expect{X}$. The centred random variable $X_c$ is defined as $X_c = X-\expect{X}$.
     }
@@ -443,17 +443,17 @@
 
     \newdef{Marginal distribution}{\index{distribution!marginal}
         The distributions of the one-dimensional random variables is determined by the joint distribution:
-        \begin{gather}
-            P_X(A) = P_{(X,Y)}(A\times\mathbb{R})\\
-            P_Y(A) = P_{(X,Y)}(\mathbb{R}\times A).
-        \end{gather}
+        \begin{align}
+            P_X(A) &= P_{(X,Y)}(A\times\mathbb{R})\,,\\
+            P_Y(A) &= P_{(X,Y)}(\mathbb{R}\times A).
+        \end{align}
     }
     \begin{result}
         If the joint density exists, the marginal distributions are absolutely continuous and the associated density functions are given by
-        \begin{gather}
-            f_X(x) = \int_\mathbb{R}f_{(X,Y)}(x,y)\,dy\\
-            f_Y(y) = \int_\mathbb{R}f_{(X,Y)}(x,y)\,dx.
-        \end{gather}
+        \begin{align}
+            f_X(x) &= \int_\mathbb{R}f_{(X,Y)}(x,y)\,dy\,,\\
+            f_Y(y) &= \int_\mathbb{R}f_{(X,Y)}(x,y)\,dx.
+        \end{align}
         The converse, however, is not always true. The one-dimensional distributions can be absolutely continuous without the existence of a joint density.
     \end{result}
 
@@ -468,14 +468,14 @@
     \begin{formula}[Sum of random variables]
         Consider two independent random variables $X,Y$ and let $Z=X+Y$ denote their sum. The density $f_Z$ is given by the following convolution:
         \begin{gather}
-            f_Z(z) := f\ast g(z) = \int_\mathbb{R}g(x)h(z-x)\,dx = \int_\mathbb{R}g(z-y)h(y)\,dy,
+            f_Z(z) := f\ast g(z) = \int_\mathbb{R}g(x)h(z-x)\,dx = \int_\mathbb{R}g(z-y)h(y)\,dy\,,
         \end{gather}
         where $g,h$ denote the densities of $X,Y$ respectively.
     \end{formula}
     \begin{formula}[Product of random variables]
         Consider two independent random variables $X,Y$ and let $Z=XY$ denote their product. The density $f_Z$ is given by
         \begin{gather}
-            f_Z(z) = \int_\mathbb{R}g(x)h(z/x)\,\frac{dx}{|x|} = \int_\mathbb{R}g(z/y)h(y)\,\frac{dy}{|y|},
+            f_Z(z) = \int_\mathbb{R}g(x)h(z/x)\,\frac{dx}{|x|} = \int_\mathbb{R}g(z/y)h(y)\,\frac{dy}{|y|}\,,
         \end{gather}
         where $g,h$ denote the densities of $X,Y$ respectively.
     \end{formula}
@@ -495,7 +495,7 @@
         For $X=\{a\}$ this equation is ill-defined since the denominator would become 0. However, it is possible to avoid this problem by formally setting
         \begin{gather}
             \label{prob:formal_conditional}
-            h(y\mid A=a) := \frac{f_{(X,Y)}(a,y)}{f_X(a)},
+            h(y\mid A=a) := \frac{f_{(X,Y)}(a,y)}{f_X(a)}\,,
         \end{gather}
         where $f_X(a)\neq0$. This last condition is nonrestrictive\marginpar{\dbend} because the probability of having a measurement $(X,Y)\in\{(x,y)\mid f_X(x) = 0\}$ is 0 (for nonsingular measures). One can thus define the conditional probability of $Y$ given $X=a$ as follows:
         \begin{gather}
@@ -611,7 +611,7 @@
         \end{gather}
         for all $k\in\mathbb{N}$. By applying the above inequalities to the Doob martingale
         \begin{gather}
-            Z_m:=\expect{f(X_1,\ldots,X_n)\mid X_1,\ldots,X_m},
+            Z_m:=\expect{f(X_1,\ldots,X_n)\mid X_1,\ldots,X_m}\,,
         \end{gather}
         one obtains the following inequality:
         \begin{gather}
@@ -640,7 +640,7 @@
         \footnotetext{Sometimes called the \textbf{martingale transform}.}
         Let $\seq{M}$ be a martingale on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ and let $\seq{X}$ be a predictable stochastic process with respect to $\mathbb{F}$. The (discrete) stochastic integral of $X$ with respect to $M$ is defined as follows:
         \begin{gather}
-            (X\cdot M)_t(\omega) := \sum_{i=1}^tX(\omega)_i\Delta M_i(\omega),
+            (X\cdot M)_t(\omega) := \sum_{i=1}^tX(\omega)_i\Delta M_i(\omega)\,,
         \end{gather}
         where $\omega\in\Omega$. For $t=0$ the convention $(X\cdot M)_0=0$ is used.
     }
@@ -757,7 +757,7 @@
             \item\textbf{Uniformity:} $C(1,1,\ldots,x_i,1,\ldots)=x_i$ for all $1\leq i\leq d$.
             \item\textbf{$d$-nondecreasing:} For every box $B=\prod_{1\leq i\leq d}[a_i,b_i]\subseteq[0,1]^d$ the $C$-volume is nonnegative:
             \begin{gather}
-                \int_BdC := \sum_{\mathbf{z}\in\prod_i\{a_i,b_i\}}(-1)^{N_b(\mathbf{z})}C(\mathbf{z})\geq0,
+                \int_BdC := \sum_{\mathbf{z}\in\prod_i\{a_i,b_i\}}(-1)^{N_b(\mathbf{z})}C(\mathbf{z})\geq0\,,
             \end{gather}
             where $N_B(\mathbf{z}) = \mathrm{Card}(\{i\mid a_i=z_i\})$.
         \end{enumerate}
@@ -766,7 +766,7 @@
     \begin{theorem}[Sklar]\index{Sklar}
         For every joint distribution function $H$ with marginals $F_i$ there exists a unique copula $C$ such that
         \begin{gather}
-            H(x_1,\ldots,x_d) = C(F_1(x_1),\ldots,F_d(x_d)).
+            H(x_1,\ldots,x_d) = C\big(F_1(x_1),\ldots,F_d(x_d)\big).
         \end{gather}
     \end{theorem}
 
@@ -869,7 +869,7 @@
     \begin{theorem}[Kantorovich-Rubinstein]\index{Kantorovich-Rubinstein}\index{Lipschitz!norm}
         If $X=Y$ and $c$ is equal to some metric $d$ on $X$, the Kantorovich distance is given by
         \begin{gather}
-            \mathcal{T}_d(\mu,\nu) = \sup\left\{\int_X\varphi\,d\mu-\int_X\varphi\,d\nu\,\middle\vert\,\varphi\in\mathrm{Lip}(X,d)\cap\mathcal{L}^1(\mu)\cap\mathcal{L}^1(\nu)\land\|\varphi\|_\mathrm{Lip}\leq1\right\},
+            \mathcal{T}_d(\mu,\nu) = \sup\left\{\int_X\varphi\,d\mu-\int_X\varphi\,d\nu\,\middle\vert\,\varphi\in\mathrm{Lip}(X,d)\cap\mathcal{L}^1(\mu)\cap\mathcal{L}^1(\nu)\land\|\varphi\|_\mathrm{Lip}\leq1\right\}\,,
         \end{gather}
         where
         \begin{gather}
@@ -885,7 +885,7 @@
     \begin{property}
         When $X=Y=\mathbb{R}^n$ with $d$ the Euclidean metric, the Kantorovich distance admits yet another description. In this case the Lipschitz norm is equal to the supremum norm of the gradient. This gives
         \begin{gather}
-            \mathcal{T}_d(\mu,\nu) = \inf\left\{\|\sigma\|_1\,\middle\vert\,\nabla\cdot\sigma=\mu-\nu\right\},
+            \mathcal{T}_d(\mu,\nu) = \inf\left\{\|\sigma\|_1\,\middle\vert\,\nabla\cdot\sigma=\mu-\nu\right\}\,,
         \end{gather}
         where the condition on $\sigma$ makes sense by the Riesz-Markov theorem \ref{distributions:riesz_markov}.
     \end{property}
@@ -908,7 +908,7 @@
     \begin{theorem}[Gangbo-McCann]\index{Gangbo-McCann}
         If $c$ is strictly convex and $\mu$ does not give mass to small sets, the Monge-Kantorovich problem has a a.s.~unique minimizer $\pi = (\mathbbm{1}\times T)_\ast\mu$ with
         \begin{gather}
-            T(x) = x - (\nabla h)^{-1}(\nabla\psi(x))
+            T(x) = x - (\nabla h)^{-1}\big(\nabla\psi(x)\big)
         \end{gather}
         for some $h$-concave function $\psi:\mathbb{R}^n\rightarrow\overline{\mathbb{R}}$.
     \end{theorem}
@@ -946,7 +946,7 @@
     \begin{property}[Continuity equation]\index{continuity!equation}
         Let $X$ be a complete smooth manifold and consider a family $(T_t)_{0\leq t\leq1}$ of locally Lipschitz diffeomorphism on $X$ such that $T_0=\mathbbm{1}_X$ with associated vector fields $v_t$. If $\mu$ is a probability measure on $X$, the family $(\mu_t:=T_{t,\ast}\mu)_{0\leq t\leq 1}$ uniquely satisfies the \textbf{continuity equation}:
         \begin{gather}
-            \pderiv{\mu_t}{t} + \nabla\cdot(\mu_tv_t) = 0,
+            \pderiv{\mu_t}{t} + \nabla\cdot(\mu_tv_t) = 0\,,
         \end{gather}
         where the divergence of a measure is defined by duality.
 
@@ -990,7 +990,7 @@
     \begin{example}[Euclidean metric]\index{Brenier map}
         If the cost function $c$ is the square of the Euclidean distance, the optimal transport mapping $T$, called the \textbf{Brenier map}, is given by the gradient of a convex potential:
         \begin{gather}
-            T(x) = \nabla\varphi(x),
+            T(x) = \nabla\varphi(x)\,,
         \end{gather}
         and the optimal cost is equal to the square of the \textbf{Wasserstein 2-metric}:
         \begin{gather}

@@ -2,7 +2,7 @@
 
     The main references for this chapter are \cite{AMP1, AMP2}. For a revision of topological spaces and inner product spaces, see Chapter \ref{chapter:topology} and Section \ref{section:innerproduct}, respectively.
 
-    In this chapter the term ``linear operator'', which was previously reserved for vector space automorphisms, is now used instead of ``linear map''. This is to keep the terminology in sync with that of the standard literature on Banach spaces and operator spaces. In this chapter ``dual space'' will indicate the topological/continuous dual and not just the algebraic/linear dual (unless stated otherwise).
+    In this chapter the term ``linear operator'', which was previously reserved for vector space automorphisms, is now used instead of ``linear map''. This is to keep the terminology in sync with the standard literature on Banach spaces and operator spaces. Moreover, in this chapter ``dual space'' will indicate the topological/continuous dual and not just the algebraic/linear dual (unless stated otherwise).
 
 \section{Banach spaces}
 
@@ -17,7 +17,7 @@
     \newdef{Weak-* topology}{\index{topology!weak-*}\label{functional:weak_star_topology}
         Every TVS admits a canonical embedding into its double dual:
         \begin{gather}
-            \iota:V\rightarrow V^{**}:v\mapsto\mathrm{ev}_v,
+            \iota:V\rightarrow V^{**}:v\mapsto\mathrm{ev}_v\,,
         \end{gather}
         where the evaluation map $\mathrm{ev}_v$ is defined as
         \begin{gather}
@@ -27,20 +27,24 @@
     }
 
     \newdef{Norm}{\index{norm}
-        Let $V$ be a TVS over a field $K$. A function $\|\cdot\|:V\rightarrow[0,\infty[$ is called a norm if it satisfies following conditions:
+        Let $V$ be a TVS over a field $K$. A function $\|\cdot\|:V\rightarrow[0,+\infty[$ is called a norm if it satisfies following conditions for all $v,w\in V$:
         \begin{enumerate}
-            \item\textbf{Nondegeneracy}: $\|v\| = 0 \iff v = 0$,
-            \item\textbf{Homogeneity}: for all scalars $\lambda\in K:\|\lambda v\| = |\lambda|\,\|v\|$, and
-            \item\textbf{Triangle equality (subadditivity)}: $\|v+w\| \leq \|v\| + \|w\|$.
+            \item\textbf{Nondegeneracy}: $\|v\|=0\iff v=0$,
+            \item\textbf{Homogeneity}: for all scalars $\lambda\in K:\|\lambda v\|=|\lambda|\,\|v\|$, and
+            \item\textbf{Triangle equality (subadditivity)}: $\|v+w\|\leq\|v\|+\|w\|$.
         \end{enumerate}
     }
-    \begin{remark}[Metric]\index{metric}
+    \begin{remark}[Metric]\index{metric}\index{topology!norm}\index{topology!strong}
         A norm $\|\cdot\|$ induces a metric \ref{metric:metric} by defining $d(v,w):=\|v-w\|$. The metric topology induced in this way is called the \textbf{norm topology} or \textbf{strong topology}.
     \end{remark}
 
-    \newdef{Normed vector space}{
-        A TVS equipped with a norm $\|\cdot\|$.
-    }
+    \begin{property}[Continuity]
+        Every linear map $\varphi:V\rightarrow W$ of topological vector spaces with $V$ finite-dimensional is continuous. Moreover, if $V$ is normed, every linear isomorphism $\varphi:V\rightarrow W$ is a homeomorphism.
+    \end{property}
+    \begin{result}
+        Two finite-dimensional normed vector spaces with the same dimension are homeomorphic. It follows that all metrics on a finite-dimensional normed vector space are equivalent.
+    \end{result}
+
     \newdef{Banach space}{\index{Banach!space}\label{functional:banach_space}
         A normed vector space that is complete \ref{metric:complete_space} in the norm topology.
     }
@@ -49,7 +53,7 @@
         The dual of a Banach space is also a Banach space.
     \end{property}
 
-    \newdef{Reflexive space}{
+    \newdef{Reflexive (Banach) space}{\index{reflexive}
         A Banach space $V$ for which the canonical inclusion $V\hookrightarrow V^{**}$ is an (isometric) isomorphism.
     }
     \begin{property}
@@ -62,13 +66,6 @@
         Consider a Banach space $V$. The dual of $(V^*,\tau_{\mathrm{weak}^*})$ is isomorphic to $V$.
     \end{property}
 
-    \begin{property}[Continuity]
-        Every linear map $\varphi:V\rightarrow W$ of topological vector spaces with $V$ finite-dimensional is continuous. Moreover, if $V$ is normed, every linear isomorphism $\varphi:V\rightarrow W$ is a homeomorphism.
-    \end{property}
-    \begin{result}
-        Two finite-dimensional normed vector spaces with the same dimension are homeomorphic. It follows that all metrics on a finite-dimensional normed vector space are equivalent.
-    \end{result}
-
     \begin{theorem}[Open mapping theorem\footnotemark]\index{open!mapping theorem}\index{Banach-Schauder}
         \footnotetext{Sometimes called the \textbf{Banach-Schauder} theorem.}
         Let $f:V\rightarrow W$ be a continuous linear operator between two Banach spaces. If $f$ is surjective, it is also open.
@@ -80,11 +77,11 @@
     \end{theorem}
 
     \newdef{Bracket}{\index{bracket}\label{functional:bracket}
-        Let $X$ be a set and consider a normed subset $(\mathcal{F},\|\cdot\|)$ of $X^\mathbb{R}$. For every two functions $u,l:X\rightarrow\mathbb{R}$, the bracket $[l,u]$ on $\mathcal{F}$ consists of all functions $f\in\mathcal{F}$ such that
+        Let $X$ be a set and consider a normed subset $(\mathcal{F},\|\cdot\|)$ of $\mathbb{R}^X$. For every two functions $u,l:X\rightarrow\mathbb{R}$, the bracket $[l,u]$ consists of all functions $f\in\mathbb{R}^X$ such that
         \begin{gather}
             \forall x\in X:l(x)\leq f(x)\leq u(x).
         \end{gather}
-        A $\varepsilon$-bracket, for $\varepsilon>0$, is a bracket $[l,u]$ such that $\|u-l\|<\varepsilon$. The \textbf{bracketing number} $N_{[\,]}(\varepsilon,\mathcal{F},\|\cdot\|)$ is defined as the least number of $\varepsilon$-brackets needed to cover $\mathcal{F}$.
+        An $\varepsilon$-bracket, with $\varepsilon>0$, is a bracket $[l,u]$ such that $\|u-l\|<\varepsilon$. The \textbf{bracketing number} $N_{[\,]}(\varepsilon,\mathcal{F},\|\cdot\|)$ is defined as the least number of $\varepsilon$-brackets needed to cover $\mathcal{F}$.
     }
 
 \section{Hilbert spaces}
@@ -93,9 +90,9 @@
         Let $V$ be an inner product space \ref{linalgebra:innerproduct}. A norm on $V$ can be induced by the inner product in the following way:
         \begin{gather}
             \label{functional:inner_product_norm}
-            \|v\|^2 = \langle v|v \rangle.
+            \|v\|^2 = \langle v\mid v \rangle.
         \end{gather}
-        However, the converse is not true: not every norm induces an inner product. Only norms that satisfy the \textbf{parallelogram law}
+        However, the converse is not true. Not every norm induces an inner product. Only norms that satisfy the \textbf{parallelogram law}
         \begin{gather}
             \label{functional:parallellogram_law}
             \|v+w\|^2 + \|v-w\|^2 = 2(\|v\|^2 + \|w\|^2)
@@ -103,15 +100,15 @@
         can be used to define an inner product. This inner product can be recovered through the \textbf{polarization identity}:
         \begin{gather}
             \label{functional:polarization_identity}
-            4 \langle v|w \rangle = \|v+w\|^2 - \|v-w\|^2 + i\left(\|v+iw\|^2 - \|v-iw\|^2\right).
+            4 \langle v\mid w \rangle = \|v+w\|^2 - \|v-w\|^2 + i\left(\|v+iw\|^2 - \|v-iw\|^2\right).
         \end{gather}
     \end{remark}
 
     \begin{property}[Cauchy-Schwarz inequality]\index{Cauchy-Schwarz}\label{functional:cauchy_schwarz}
         \begin{gather}
-            |\langle v|w \rangle| \leq \|v\|\,\|w\|
+            |\langle v\mid w \rangle|\leq\|v\|\,\|w\|\,,
         \end{gather}
-        The equality holds if and only if $v$ and $w$ are linearly dependent.
+        where the equality holds if and only if $v$ and $w$ are linearly dependent.
     \end{property}
     \begin{result}[Triangle inequality]
         The Cauchy-Schwarz inequality can be used to prove the triangle inequality. Together with the properties of an inner product, this implies that an inner product space is indeed a normed space as mentioned in the beginning of this section.
@@ -125,19 +122,19 @@
         Consider two square-integrable functions $f,g\in L^2([a,b],\mathbb{C})$. As mentioned in Section \ref{section:hilbert_space}, the inner product of $f$ and $g$ is defined as follows:
         \begin{gather}
             \label{functional:inner_product_L2}
-            \langle f|g\rangle = \int_a^b\overline{f(x)}g(x)\,dx.
+            \langle f\mid g\rangle = \int_a^b\overline{f(x)}g(x)\,dx.
         \end{gather}
         It is possible to generalize this inner product with respect to a weight function $\phi\in L^2([a,b],\mathbb{C})$:
         \begin{gather}
             \label{functional:weighted_inner_product}
-            \langle f|g \rangle_\phi := \int_a^b\overline{f(x)}g(x)\phi(x)\,dx.
+            \langle f\mid g \rangle_\phi := \int_a^b\overline{f(x)}g(x)\phi(x)\,dx.
         \end{gather}
     \end{example}
 
     \begin{formula}[Pythagoras]\index{Pythagoras}\label{functional:pythagorean_theorem}
         In an inner product space the triangle equality reduces to the well-known Pythagorean theorem for orthogonal vectors:
         \begin{gather}
-            \langle v|w \rangle=0\implies\|v+w\|^2 = \|v\|^2 + \|w\|^2.
+            \langle v\mid w \rangle=0\implies\|v+w\|^2 = \|v\|^2 + \|w\|^2.
         \end{gather}
         This formula can be extended to any set of orthogonal vectors $v_1,\ldots,v_n$ as follows:
         \begin{gather}
@@ -148,34 +145,34 @@
     \begin{theorem}[Riesz representation theorem]\index{Riesz!representation theorem}\label{functional:riesz}
         Let $\mathcal{H}$ be a Hilbert space. For every continuous linear functional $\rho\in\mathcal{H}^*$ there exists a unique element $v_0\in\mathcal{H}$ such that
         \begin{gather}
-            \rho(h) = \langle v_0|h \rangle
+            \rho(h) = \langle v_0\mid h \rangle
         \end{gather}
         for all $h\in\mathcal{H}$. This implies that $\mathcal{H}$ and $\mathcal{H}^*$ are isometrically isomorphic.\footnote{Anti-isomorphic in the convention with conjugate linearity in the second argument.} Furthermore, the operator norm of $\rho$ is equal to the norm of $v_0$.
     \end{theorem}
     \begin{remark}
-        This theorem justifies the bra-ket notation used in quantum mechanics, where one associates to every \textit{ket} $|\psi\rangle\in\mathcal{H}$ a \textit{bra} $\langle\psi|\in\mathcal{H}^*$.
+        This theorem justifies the bra-ket notation used in quantum mechanics, where one associates to every \textit{ket} $\lvert\psi\rangle\in\mathcal{H}$ a \textit{bra} $\langle\psi\rvert\in\mathcal{H}^*$.
     \end{remark}
 
     \begin{remark}[Relation to Riesz-Markov theorem]
-        Recall the Riesz-Markov theorem \ref{distributions:riesz_markov}. Every continuous functional on $C(\widehat{X})$ can be written as the integration againt some Radon measure. By using the theorem that every Hilbert space is isomorphic to some function space $L^2(X,\mu_\mathrm{count})$, together with Equation \eqref{functional:inner_product_L2}, one can obtain the representation theorem above.
+        By the Riesz-Markov theorem \ref{distributions:riesz_markov} every continuous functional on $C(\widehat{X})$, where $X$ is locally compact, can be written as the integration againt some Radon measure. By using the theorem that every Hilbert space is isomorphic to some function space $L^2(X,\mu)$ one can see that Riesz's representation theorem is very similar.
     \end{remark}
 
 \subsection{Generalized Fourier series}
 
     \begin{property}[Bessel's inequality]\index{Bessel!inequality}
-        The following general equality holds for all orthonormal vectors $v_1,\ldots,v_n$ and scalars $\lambda_1,\ldots,\lambda_n$:
+        Let $\mathcal{H}$ be a Hilbert space. The following equality holds for all orthonormal vectors $v_1,\ldots,v_n\in\mathcal{H}$ and scalars $\lambda_1,\ldots,\lambda_n\in\mathbb{C}$:
         \begin{gather}
-            \left\|v - \sum_{i=1}^n\lambda_iv_i\right\|^2 = \|v\|^2 - \sum_{i=1}^n|\langle v|v_i \rangle|^2 + \sum_{i=1}^n|\langle v|v_i \rangle - \lambda_i|^2.
+            \left\|v - \sum_{i=1}^n\lambda_iv_i\right\|^2 = \|v\|^2 - \sum_{i=1}^n|\langle v\mid v_i \rangle|^2 + \sum_{i=1}^n|\langle v\mid v_i \rangle - \lambda_i|^2.
         \end{gather}
         This expression is minimized when the last term vanishes. This leads to Bessel's inequality
         \begin{gather}
             \label{functional:bessels_inequality}
-            \sum_{i=1}^n|\langle v|v_i \rangle|^2\leq\|v\|^2,
+            \sum_{i=1}^n|\langle v\mid v_i \rangle|^2\leq\|v\|^2\,,
         \end{gather}
-        together with the property that the optimal choice in the generalized Fourier series for $v$ is obtained by taking the coefficients to be the projections $\lambda_i:=\langle v|v_i \rangle$.
+        together with the property that the optimal choice in the generalized Fourier series for $v$ is obtained by taking the coefficients to be the projections $\lambda_i:=\langle v\mid v_i \rangle$.
     \end{property}
     \begin{result}\index{Fourier!generalized series}
-        The sum in \eqref{functional:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^\infty|\langle v|v_i \rangle|^2$ converges for all $v$. This implies that the sequence $(\langle v,v_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$.
+        The sum in \eqref{functional:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^\infty|\langle v\mid v_i \rangle|^2$ converges for all $v$. This implies that the sequence $(\langle v\mid v_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$.
     \end{result}
 
     \begin{theorem}
@@ -183,7 +180,7 @@
         \begin{gather}
             \left\|\sum_{i=1}^\infty\lambda_iv_i\right\|^2 = \sum_{i=1}^\infty|\lambda_i|^2.
         \end{gather}
-        Bessel's inequality implies that the sequence $(\langle v,v_n \rangle)_{n\in\mathbb{N}}$ belongs to $l^2$, so the generalized Fourier series of $v\in\mathcal{H}$ converges in $\mathcal{H}$.
+        Bessel's inequality implies that the sequence $(\langle v\mid v_n \rangle)_{n\in\mathbb{N}}$ belongs to $l^2$, so the generalized Fourier series of $v\in\mathcal{H}$ converges in $\mathcal{H}$.
     \end{theorem}
     \begin{remark}
         Although the convergence of the generalized Fourier series of $v\in\mathcal{H}$ can be established using the previous theorem, it does not follow that the expansion converges to $v$ itself. One can merely say that the Fourier expansion is the best approximation of $v$ with respect to the norm on $\mathcal{H}$.
@@ -192,14 +189,14 @@
     \newdef{Complete set}{\index{complete!set}\index{Hilbert!basis}
         Let $\{e_i\}_{i\in I}$ be a set of orthonormal vectors in an inner product space $V$. This set is said to be complete if every vector $v\in V$ can be expressed as follows:
         \begin{gather}
-            v = \sum_{i\in I}\langle e_i|v \rangle e_i.
+            v = \sum_{i\in I}\langle e_i\mid v \rangle e_i.
         \end{gather}
         This is also sometimes called an \textbf{orthonormal basis} or \textbf{Hilbert basis}. Note that it is not necessarily a (Hamel) basis, since the linear combination does not have to be finite.
     }
     \begin{adefinition}
         A complete set of orthonormal vectors in a Hilbert space $\mathcal{H}$ is a set $S\subset\mathcal{H}$ such that one cannot add another nonzero vector $w$ to it satisfying
         \begin{gather}
-            \forall v_i\in S:\langle v_i|w \rangle = 0.
+            \forall v_i\in S:\langle v_i\mid w \rangle = 0.
         \end{gather}
     \end{adefinition}
 
@@ -208,8 +205,6 @@
     \end{theorem}
 
 \subsection{Orthogonality and projections}
-
-    The basic notions on orthogonality in inner product space can be found in Section \ref{section:orthogonality}.
 
     \begin{property}
         Let $S$ be a subset (not necessarily a subspace) of a Hilbert space $\mathcal{H}$. The orthogonal complement $S^\perp$ is closed in $\mathcal{H}$.
@@ -221,26 +216,28 @@
     \begin{theorem}[Projection theorem]\index{projection!theorem}\label{functional:projection_theorem}
         Let $H$ be a Hilbert space and $S\leq H$ a complete subspace. For every $v\in H$ there exists a unique $v'\in S$ such that $v-v'$ is orthogonal to every $w\in S$, i.e $v-v'\in S^\perp$.
     \end{theorem}
-    \remark{An equivalent definition for this projection is the vector $v'$ satisfying
-    \begin{gather}
-        \|v-v'\| = \inf\{\|v-w\|\mid w\in S\}.
-    \end{gather}
-    It is often denoted by $\proj_S(v)$.}
+    \begin{remark}
+        An equivalent definition for this projection is the vector $v'$ satisfying
+        \begin{gather}
+            \|v-v'\| = \inf\{\|v-w\|\mid w\in S\}.
+        \end{gather}
+        It is often denoted by $\proj_S(v)$.
+    \end{remark}
     \begin{result}
-        It follows that given a complete (or closed) subspace $S$, the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H} = S\oplus S^\perp$.
+        It follows that given a complete (or closed) subspace $S$, the Hilbert space $\mathcal{H}$ can be decomposed as $\mathcal{H}=S\oplus S^\perp$.
     \end{result}
 
     \newdef{Trace}{\index{trace}\label{functional:trace}
         Let $\mathcal{H}$ be a Hilbert space with orthonormal basis $\{e_i\}_{i\in I}$. Given a bounded linear operator $S\in\mathcal{B}(\mathcal{H})$, one defines its trace as follows:
         \begin{gather}
-            \tr(S) := \sum_{i\in I}\langle e_i|Se_i \rangle.
+            \tr(S) := \sum_{i\in I}\langle e_i\mid Se_i \rangle.
         \end{gather}
     }
 
 \subsection{Separable Hilbert spaces}
 
     The definition of separable spaces in the sense of point-set topology is given in \ref{topology:separable}. An equivalent definition for Hilbert spaces is the following one (provided that one accepts Zorn's lemma \ref{set:zorns_lemma}):
-    \newadef{Separable space}{
+    \newadef{Separable (Hilbert) space}{\index{separable}
         A Hilbert space that contains a Hilbert basis.
     }
     \begin{example}[Finite dimensions]
@@ -259,10 +256,10 @@
 \section{Seminorms}\index{semi-!norm}
 
     \newdef{Seminorm}{
-        Let $V$ be a $K$-vector space, where $K$ is a normed field. A function $p:V\rightarrow[0,\infty[$ is called a seminorm if it satisfies the following conditions:
+        Let $V$ be a $K$-vector space, where $K$ is a normed field. A function $p:V\rightarrow[0,+\infty[$ is called a seminorm if it satisfies the following conditions:
         \begin{enumerate}
-            \item\textbf{Homogeneity}: $p(\lambda v) = |\lambda|\,p(v)$ for all scalars $\lambda\in K$ and $v\in V$, and
-            \item\textbf{Triangle equality (subadditivity)}: $p(v+w) \leq p(v) + p(w)$ for all $v,w\in V$.
+            \item\textbf{Homogeneity}: $p(\lambda v)=|\lambda|\,p(v)$ for all scalars $\lambda\in K$ and $v\in V$.
+            \item\textbf{Triangle equality (subadditivity)}: $p(v+w)\leq p(v)+p(w)$ for all $v,w\in V$.
         \end{enumerate}
     }
 
@@ -281,7 +278,7 @@
     \newdef{$\mathscr{P}$-open ball}{\index{ball}
         A $\mathscr{P}$-open ball centered on $v_0$ is a subset $W\subseteq V$ such that all points $w\in W$ satisfy the following condition for a finite number of seminorms $p_i\in\mathscr{P}$:
         \begin{gather}
-            p_i(w-v_0)\leq\varepsilon_i,
+            p_i(w-v_0)\leq\varepsilon_i\,,
         \end{gather}
         where $\varepsilon_i > 0$.
     }
@@ -291,7 +288,7 @@
     \end{property}
 
     \newdef{Separated family}{
-        A family of seminorms $\mathscr{P}$ is said to be separated if for every point $v\in V,v\neq0$ there exists a seminorm $p\in\mathscr{P}$ such that $p(v)\neq0$. If $\mathscr{P}$ is separated, then $\sum_ip_i$ is a norm.
+        A family of seminorms $\mathscr{P}$ is said to be separated if for every point $v\in V,v\neq0$ there exists a seminorm $p\in\mathscr{P}$ such that $p(v)\neq0$. If $\mathscr{P}$ is separated, then $\sum_{i\in I}p_i$ is a norm.
     }
     \begin{property}\label{functional:separated_metric}
         A family of seminorms $\mathcal{P}$ is separated if and only if it generates a Hausdorff topology on $V$. Furthermore, the topology is metrizable if and only if $\mathcal{P}$ is countable. The metric, which is translation-invariant, is given by
@@ -335,83 +332,83 @@
     \newdef{G\^ateaux derivative}{\index{smooth!function}\index{derivative!G\^ateaux}\index{derivative!Michal-Bastiani}\label{functional:gateaux}
         The G\^ateaux differential of a continuous map of locally convex spaces $f:V\rightarrow W$ is defined as follows:
         \begin{gather}
-            df(v;h) := \lim_{t\rightarrow0}\frac{f(v+th) - f(v)}{t}=\left.\deriv{}{t}f(v+th)\right|_{t=0}.
+            \dr f(v;h) := \lim_{t\rightarrow0}\frac{f(v+th) - f(v)}{t}=\left.\deriv{}{t}f(v+th)\right|_{t=0}.
         \end{gather}
         If this limit exists for all $h\in V$, the function is said to be \textbf{G\^ateaux differentiable} at $v\in V$. Moreover, if it is also continuous in both arguments, it is said to be of class $C^1$. By iterating this construction one can define $C^k$- and even $C^\infty$-maps:
         \begin{gather}
-            d^{(k)}f(v;h_1\otimes\cdots\otimes h_k) := \left.\mderiv{k}{}{t}f(v+th_1+\cdots+th_k)\right|_{t=0}.
+            \dr^{(k)}\!f(v;h_1\otimes\cdots\otimes h_k) := \left.\mderiv{k}{}{t}f(v+th_1+\cdots+th_k)\right|_{t=0}.
         \end{gather}
     }
-    Now, it should be noted that the map $df(v;-)$ is not necessarily linear. If it is linear, the function $\delta_vf:V\rightarrow W:h\mapsto df(v;h)$ is called the \textbf{G\^ateaux derivative} of $f$ at $v$. It can be shown that the G\^ateaux differential of $C^1$-functions is always linear and, hence, defines a G\^ateaux derivative. In fact, this notion of differentiability is often called \textbf{(Michal-)Bastiani differentiability}.
+    Now, it should be noted that the map $\dr f(v;-)$ is not necessarily linear. If it is linear, the function $\delta_vf:V\rightarrow W:h\mapsto\dr f(v;h)$ is called the \textbf{G\^ateaux derivative} of $f$ at $v$. It can be shown that the G\^ateaux differential of $C^1$-functions is always linear and, hence, defines a G\^ateaux derivative. In fact, this notion of differentiability is often called \textbf{(Michal-)Bastiani differentiability}.
 
     \begin{formula}[Fundamental theorem of calculus]\index{fundamental theorem!of calculus}\index{integral!Gelfand-Pettis}
         If $f\in C^1(V,W)$, then
         \begin{gather}
-            f(v+h) = f(v) + \int_0^1df(v+th;h)dt,
+            f(v+h) = f(v)+\int_0^1\dr f(v+th;h)\,dt\,,
         \end{gather}
-        where the integral is understood in the following sense. Consider a function $f:(X,\Sigma,\mu)\rightarrow V$ from a measure space to a vector space $V$. If for all $\varphi\in V'$ the pairing $\varphi\circ f$ is (Lebesgue) integrable and there exists for all $A\in\Sigma$ a vector $v_A\in V$ such that
+        where the integral is understood in the following sense. Consider a function $f:(X,\Sigma,\mu)\rightarrow V$ from a measure space to a vector space $V$. If for all $\varphi\in V^*$ the pairing $\varphi\circ f$ is (Lebesgue) integrable and there exists for all $A\in\Sigma$ a vector $v_A\in V$ such that
         \begin{gather}
-            \langle\varphi,e_A\rangle = \int_A\varphi\circ f\,d\mu,
+            \langle\varphi,e_A\rangle = \int_A\varphi\circ f\,d\mu\,,
         \end{gather}
         then $f$ is said to be \textbf{Gelfand-Pettis integrable} and $v_A$ is called the \textbf{Gelfand-Pettis integral} of $f$ over $A$.
     \end{formula}
 
     One can also introduce an alternative notion of differentiability:
     \newdef{Fr\'echet derivative}{\index{Fr\'echet!derivative}\label{functional:frechet}
-        Let $f:V\rightarrow W$ be a function of normed spaces. It is said to be \textbf{Fr\'echet differentiable} at $v\in V$ if there exists a bounded linear operator $Df_v$ such that
+        Let $f:V\rightarrow W$ be a function of normed spaces. It is said to be \textbf{Fr\'echet differentiable} at $v\in V$ if there exists a bounded linear operator $\mathrm{D}f_v$ such that
         \begin{gather}
-            \lim_{\|h\|\rightarrow0}\frac{\|f(v+h)-f(v)+Df_v(h)\|}{\|h\|} = 0.
+            \lim_{\|h\|\rightarrow0}\frac{\|f(v+h)-f(v)+\mathrm{D}f_v(h)\|}{\|h\|} = 0.
         \end{gather}
-        If the linear operator $Df$ exists, it is called the Fr\'echet derivative of $f$ at $v$. If $f$ is (Fr\'echet) differentiable at any point in $V$ and if the map $V\rightarrow\mathcal{B}(V,W):v\mapsto Df_v$ is continuous, then $f$ is said to be of class $C^1$.
+        If the linear operator $\mathrm{D}f$ exists, it is called the Fr\'echet derivative of $f$ at $v$. If $f$ is (Fr\'echet) differentiable at any point in $V$ and if the map $V\rightarrow\mathcal{B}(V,W):v\mapsto\mathrm{D}f_v$ is continuous, then $f$ is said to be of class $C^1$.
     }
 
     The relation between G\^ateaux and Fr\'echet derivatives is clarified by the following property:
     \begin{property}
-        If a function $f:V\rightarrow W$ between normed spaces has a continuous and linear G\^ateaux differential (i.e.~if it has a G\^ateaux derivative), it is also Fr\'echet differentiable. Furthermore, the G\^ateaux derivative $df$ and Fr\'echet derivative $Df$ coincide.
+        If a function between normed spaces has a continuous and linear G\^ateaux differential (i.e.~if it has a G\^ateaux derivative), it is also Fr\'echet differentiable. Furthermore, the G\^ateaux derivative and Fr\'echet derivative coincide.
     \end{property}
 
     Although one can extend functional analysis to Fr\'echet spaces (or even locally convex spaces), they are less well-behaved than Banach spaces:
     \begin{property}
-        The dual of a Fr\'echet space $V$ is Fr\'echet if and only if $V$ is Banach (and hence $V^*$ will also be Banach). Furthermore, the space of linear maps between Fr\'echet spaces $\mathcal{L}(V,W)$ is Fr\'echet if and only if $W$ is Banach.
+        The dual of a Fr\'echet space $V$ is Fr\'echet if and only if $V$ is Banach (and, hence, $V^*$ will also be Banach). Furthermore, the space $\mathcal{L}(V,W)$ of linear maps between Fr\'echet spaces is Fr\'echet if and only if $W$ is Banach.
     \end{property}
 
     \begin{theorem}[Krein-Milman]\index{Krein-Milman}\label{functional:krein_milman}
         Every compact, convex subset of a locally convex Hausdorff space is equal to the convex hull of its extreme points.
     \end{theorem}
-    The following theorem gives an extension
+    This theorem can be extended as follows:
     \begin{theorem}[Choquet]\index{Choquet}\label{functional:choquet}
         For every convex, compact subset $C$ of a normed vector space there exists an assignment
         \begin{gather}
-            \mu:C\rightarrow\mathbb{P}(\mathrm{Extr}(C)):c\mapsto\mu_c
+            \mu:C\rightarrow\mathbb{P}\big(\mathrm{Extr}(C)\big):c\mapsto\mu_c
         \end{gather}
         such that
         \begin{gather}
             f(c) = \int_{\mathrm{Extr}(C)}f\,d\mu_c
         \end{gather}
-        for all affine functions $f$.
+        for all affine functions $f:C\rightarrow\mathbb{C}$.
     \end{theorem}
     \begin{remark}
         The extension of Choquet's theorem to locally convex topological vector spaces is called the \textbf{Choquet-Bishop-de Leeuw theorem}.
     \end{remark}
 
-    \newdef{Strong topology}{\index{topology!strong}\index{topology!polar}
-        Let $X$ be a topological vector space. The strong topology (or \textbf{topology of uniform convergence on bounded sets}) on $X'^*$ is the locally convex topology defined by the seminorms
+    \newdef{Strong topology}{\index{topology!strong|seealso{polar topology}}\index{topology!polar}
+        Let $V$ be a TVS. The strong topology (or \textbf{topology of uniform convergence on bounded sets}) on $V^*$ is the locally convex topology defined by the seminorms
         \begin{gather}
-            p_B(\lambda) := \sup_{x\in B}|\lambda(x)|,
+            p_B(\lambda) := \sup_{v\in B}|\lambda(v)|\,,
         \end{gather}
-        where $B$ is a bounded set of $X$. This is an example of a \textit{polar topology}. A dual space equipped with the strong topology is often called the \textbf{strong dual}.
+        where $B$ is a bounded set of $V$. This is an example of a \textit{polar topology}. A dual space equipped with the strong topology is often called the \textbf{strong dual}.
     }
 
-\subsection{Tensor products}\index{tensor product!of vector spaces}
+\subsection{Tensor products}\index{tensor product!of topological vector spaces}
 
     When moving from finite-dimensional vector spaces to general topological vector spaces, the algebraic tensor product from Section \ref{section:tensors} does not behave in the way one would expect it to. For example, the (algebraic) tensor product of the smooth algebras $C^\infty(\mathbb{R}^m)$ and $C^\infty(\mathbb{R}^n)$ only injects into $C^\infty(\mathbb{R}^{m+n})$, i.e.~not all bivariate smooth functions can be written as a finite sum of products of univariate smooth functions. In this section this will be resolved.
 
     \newdef{Tensor product of Hilbert spaces}{
         The algebraic tensor product of two Hilbert spaces $V,W$ can be equipped with an inner product defined on outer products as
         \begin{gather}
-            \langle v_1\otimes w_1|v_2\otimes w_2 \rangle_{V\otimes W} := \langle v_1|v_2 \rangle_V\,\langle w_1|w_2 \rangle_W
+            \langle v_1\otimes w_1\mid v_2\otimes w_2 \rangle_{V\otimes W} := \langle v_1\mid v_2 \rangle_V\,\langle w_1\mid w_2 \rangle_W
         \end{gather}
-        and extended to all of $V\otimes W$ by linearity. The Hilbert space tensor product $V\mathop{\widehat{\otimes}}W$ (often denoted by $V\otimes_\sigma W$) is then defined as the completion of $V\otimes W$ with respect to this inner product.
+        and extended to all of $V\otimes W$ by linearity. The Hilbert space tensor product $V\mathop{\widehat{\otimes}}W$, often denoted by $V\otimes_\sigma W$, is then defined as the completion of $V\otimes W$ with respect to this inner product.
     }
 
     \newdef{Tensor product of Banach spaces}{
@@ -421,7 +418,7 @@
         \end{gather}
         and
         \begin{gather}
-            \|x\|_\mathrm{inj} := \sup\Big\{|(\mu\otimes\nu)(x)|\,\Big\vert\,\mu\in V^*,\nu\in W^*:\|\mu\|=\|\nu\|=1\Big\}.
+            \|x\|_\text{inj} := \sup\Big\{|(\mu\otimes\nu)(x)|\,\Big\vert\,\mu\in V^*,\nu\in W^*:\|\mu\|=\|\nu\|=1\Big\}.
         \end{gather}
         These two norms are called the \textbf{projective} and \textbf{injective} norms, respectively. Accordingly, the completions $V\otimes_\pi W$ and $V\otimes_\varepsilon W$ of the algebraic tensor product $V\otimes W$ with respect to these norms are called the \textbf{projective} and \textbf{injective} tensor products.
     }
@@ -429,10 +426,10 @@
     \newdef{Tensor products of locally convex spaces}{
         Let $V,W$ be locally convex spaces. Definition \ref{functional:locally_convex_seminorm} gives rise to a family of projective seminorms as in the definition above. These define the projective tensor products $V\otimes_\pi W$. Note that in general the projective tensor product is not complete, even when both $V$ and $W$ are.\footnote{In fact, if both $V$ and $W$ are infinite-dimensional Banach spaces, their tensor product (in this sense) will never be complete.} The completion is denoted by $V\widehat{\otimes}_\pi W$.
 
-        The injective tensor product can be extended to locally convex spaces as follows. Equip the dual $V'$ with the finest locally convex topology that coincides with the weak topology on equicontinuous sets \ref{metric:equicontinuity}. The, equip the space of continuous linear maps $L_\mathrm{cont}(V',W)$ with the topology of uniform convergence on compact equicontinuous sets. $V\otimes W$ with the induced topology, as a subset of $L_\mathrm{cont}(V',W)$, is called the injective tensor product $V\otimes_\varepsilon W$.
+        The injective tensor product can be extended to locally convex spaces as follows. Equip the dual $V'$ with the finest locally convex topology that coincides with the weak topology on equicontinuous sets \ref{metric:equicontinuity}. The, equip the space of continuous linear maps $L_\text{cont}(V^*,W)$ with the topology of uniform convergence on compact equicontinuous sets. $V\otimes W$ with the induced topology, as a subset of $L_\text{cont}(V^*,W)$, is called the injective tensor product $V\otimes_\varepsilon W$.
     }
     \begin{adefinition}
-        Let $V,W$ be locally convex TVSs. The projective tensor product $V\otimes_\pi W$ carries the finest locally convex topology with respect to the canonical injection $V\times W\rightarrow V\otimes W:(v,w)\mapsto v\otimes w$.
+        Let $V,W$ be locally convex spaces. The projective tensor product $V\otimes_\pi W$ carries the finest locally convex topology with respect to the canonical injection $V\times W\rightarrow V\otimes W:(v,w)\mapsto v\otimes w$.
     \end{adefinition}
 
     \newdef{Nuclear space}{\index{nuclear!space}
@@ -458,25 +455,25 @@
     \newdef{Weak operator topology}{
         The topology generated by the seminorms $\big\{T\rightarrow |\lambda(Tv)|\,\big\vert\,v\in V,\lambda\in V^*\big\}$. A net of linear operators $\net{T}$ on a space $V$ converges to a linear operator $T$ in the weak (operator) topology if $T_\alpha x\longrightarrow Tx$ for all $x$ in the weak topology.
 
-        In the case of Hilbert spaces one can simplify the above definition using Riesz's representation theorem \ref{functional:riesz}. The weak operator topology on a Hilbert space is generated by the seminorms $\big\{T\mapsto|\langle Tv|w \rangle|\,\big\vert\,v,w\in\mathcal{H}\big\}$.
+        In the case of Hilbert spaces one can simplify the above definition using Riesz's representation theorem \ref{functional:riesz}. The weak operator topology on a Hilbert space is generated by the seminorms $\big\{T\mapsto|\langle Tv\mid w \rangle|\,\big\vert\,v,w\in\mathcal{H}\big\}$.
     }
 
     \newdef{Strong operator topology}{
         The topology generated by the seminorms $\big\{T\rightarrow\|Tv\|\,\big\vert\,v\in V\big\}$. A net of linear operators $\seq{T}$ on a space $V$ converges to a linear operator $T$ in the strong (operator) topology if $T_\alpha v\longrightarrow Tv$ for all $v$ in the norm (strong) topology.
     }
 
-    \newdef{Operator norm}{\index{operator!norm}
+    \newdef{Operator norm}{\index{norm!operator}
         The operator norm of $L$ is defined as follows:
         \begin{gather}
-            \|L\|_\mathrm{op} = \inf\big\{M\in\mathbb{R}\,\big\vert\,\forall v\in V:\|Lv\|_W \leq M\|v\|_V\big\}.
+            \|L\|_\text{op} = \inf\big\{M\in\mathbb{R}\,\big\vert\,\forall v\in V:\|Lv\|_W \leq M\|v\|_V\big\}.
         \end{gather}
         Equivalent definitions of the operator norm are:
         \begin{gather}
-            \|L\|_\mathrm{op} = \sup_{\|v\|\leq1}\|L(v)\| = \sup_{\|v\|=1}\|L(v)\| = \sup_{v\neq0}\frac{\|L(v)\|}{\|v\|}.
+            \|L\|_\text{op} = \sup_{\|v\|\leq1}\|L(v)\| = \sup_{\|v\|=1}\|L(v)\| = \sup_{v\neq0}\frac{\|L(v)\|}{\|v\|}.
         \end{gather}
     }
 
-    \newdef{Norm topology\footnotemark}{
+    \newdef{Norm topology\footnotemark}{\index{topology!norm}
         \footnotetext{Also called the \textbf{uniform (operator) topology}.}
         A sequence of linear operators $\seq{T}$ on a space $V$ converges to a linear operator $T$ in the norm topology if the sequence $(\|T_n-T\|)_{n\in\mathbb{N}}$ converges to 0. (Sequences suffice since the norm topology is metrizable and, therefore, sequential by Property \ref{topology:first_countable_sequential}.)
     }
@@ -486,7 +483,7 @@
     \newdef{Bounded operator}{\index{bounded!operator}\label{functional:bounded_operator}
         Let $L:V\rightarrow W$ be a linear operator between two normed spaces. The linear operator is said to be bounded if it satisfies
         \begin{gather}
-            \|L\|_\mathrm{op}<\infty.
+            \|L\|_\text{op}<+\infty.
         \end{gather}
     }
     \begin{notation}
@@ -509,13 +506,13 @@
         \end{itemize}
     \end{property}
 
-    \begin{property}[Eigenvalue bound]
+    \begin{property}[Bounded eigenvalues]
         Let $A$ be a bounded linear operator. The eigenvalues of $A$ are bounded by its operator norm. Furthermore, every bounded linear operator on a Banach space has at least one eigenvalue.
     \end{property}
 
     \begin{property}[BLT theorem\footnotemark]
         \footnotetext{BLT stands for ''bounded linear transformation''.}
-        Consider a bounded linear operator $f:X\rightarrow W$, where $X$ is a dense subset of a normed space $V$ and $W$ is a Banach space. There exists a unique extension $F:V\rightarrow W$ such that $\|f\|_\mathrm{op} = \|F\|_\mathrm{op}$.
+        Consider a bounded linear operator $f:X\rightarrow W$, where $X$ is a dense subset of a normed space $V$ and $W$ is a Banach space. There exists a unique extension $F:V\rightarrow W$ such that $\|f\|_\text{op} = \|F\|_\text{op}$.
     \end{property}
 
     \newdef{Schatten class operator}{\index{Schatten class}\label{functional:schatten_class}
@@ -532,7 +529,7 @@
     \begin{example}[Trace class operator]\index{trace!class}
         The space of trace class operators on a Hilbert space $\mathcal{H}$ is defined as follows:
         \begin{gather}
-            \mathcal{B}_1(\mathcal{H}) := \{S\in\mathcal{B}(\mathcal{H})\mid\tr(|S|)<\infty\},
+            \mathcal{B}_1(\mathcal{H}) := \{S\in\mathcal{B}(\mathcal{H})\mid\tr(|S|)<+\infty\}\,,
         \end{gather}
         where the trace functional was defined in \ref{functional:trace} and $|S|:=\sqrt{S^*S}$.
     \end{example}
@@ -542,11 +539,11 @@
         \begin{gather}
             \rho(S) = \tr(ST)
         \end{gather}
-        for all $S\in\mathcal{B}_1(\mathcal{H})$. This implies that $\mathcal{B}_1(\mathcal{H})$ and $\mathcal{B}(\mathcal{H})$ are isometrically equivalent.
+        for all $S\in\mathcal{B}_1(\mathcal{H})$. This implies that $\mathcal{B}^*_1(\mathcal{H})$ and $\mathcal{B}(\mathcal{H})$ are isometrically equivalent.
     \end{property}
 
     The previous property allows for the following definition:
-    \newdef{Weak-* operator topology}{\index{topology!$\sigma$-weak}\label{functional:sigma_weak_topology}
+    \newdef{Weak-* operator topology}{\index{topology!$\sigma$-weak}\index{topology!operator}\label{functional:sigma_weak_topology}
         The weak-* topology on $\mathcal{B}(\mathcal{H})$ with respect to the trace-class operators $\mathcal{B}_1(\mathcal{H})$. This is also called the $\sigma$-weak topology on $\mathcal{B}(\mathcal{H})$.
     }
 
@@ -578,21 +575,21 @@
 
     Definition \ref{linalgebra:adjoint_operator} for finite-dimensional spaces can be generalized as follows:
     \newdef{Adjoint}{\index{adjoint!Hermitian}
-        Let $A$ be a linear operator on a Hilbert space $\mathcal{H}$. A linear operator $A^*$ is said to be the adjoint of $A$ if the following conditions are satisfied:
+        Let $A$ be a linear operator on a Hilbert space $\mathcal{H}$. A linear operator $A^\dag$ is said to be the (Hermitian) adjoint of $A$ if the following conditions are satisfied:
         \begin{enumerate}
-            \item $\langle v|Aw \rangle = \langle A^*v|w \rangle$ for all $v\in\dom(A^*)$ and $w\in\dom(A)$.
-            \item Every other linear operator $B$ satisfying this property is a restriction of $A^*$ (i.e.~the domain of $A^*$ is maximal with respect to the above property).
+            \item $\langle v\mid Aw \rangle = \langle A^\dag v\mid w \rangle$ for all $v\in\dom(A^\dag)$ and $w\in\dom(A)$.
+            \item Every other linear operator $B$ satisfying this property is a restriction of $A^\dag$ (i.e.~the domain of $A^*$ is maximal with respect to the above property).
         \end{enumerate}
     }
     \begin{property}
-        Let $A$ be a bounded linear operator. Its adjoint $A^*$ is also bounded and $\|A\|_\mathrm{op} = \|A^*\|_\mathrm{op}$.
+        Let $A$ be a bounded linear operator. Its adjoint is also bounded and $\|A\|_\text{op} = \|A^\dag\|_\text{op}$.
     \end{property}
 
     \newdef{Symmetric operator}{\index{symmetric!operator}
-        A linear operator $A$ on a Hilbert space $\mathcal{H}$ such that $\dom(A)\subseteq\dom(A^*)$ and $A=A^*|_{\dom(A)}$.
+        A linear operator $A$ on a Hilbert space $\mathcal{H}$ such that $\dom(A)\subseteq\dom(A^\dag)$ and $A=A^\dag|_{\dom(A)}$.
     }
     \newdef{Self-adjoint operator}{\index{self-adjoint}
-        A linear operator $A$ on a Hilbert space $\mathcal{H}$ such that $\dom(A)$ is dense in $\mathcal{H}$ and $A=A^*$.
+        A linear operator $A$ on a Hilbert space $\mathcal{H}$ such that $\dom(A)$ is dense in $\mathcal{H}$ and $A=A^\dag$.
     }
 
     The notion of Hermitian operator is the one where almost nobody agrees upon its definition. Here the definition from \cite{nlab} is chosen:
@@ -675,14 +672,14 @@
     \begin{property}
         The induced function
         \begin{gather}
-            \mathrm{ind}:\pi_0(\mathfrak{F}(\mathcal{H}))\rightarrow\mathbb{Z}
+            \mathrm{ind}:\pi_0\big(\mathfrak{F}(\mathcal{H})\big)\rightarrow\mathbb{Z}
         \end{gather}
         is a group isomorphism:
         \begin{itemize}
             \item $\mathrm{ind}(F^*)=-\mathrm{ind}(F)$, and
             \item $\mathrm{ind}(FG) = \mathrm{ind}(F)+\mathrm{ind}(G)$.
         \end{itemize}
-        This theorem is generalized in $K$-theory by the Atiyah-J\"anich theorem \ref{k:atiyah_janich}.
+        This theorem is generalized in \textit{$K$-theory} by the \textit{Atiyah-J\"anich theorem} \ref{k:atiyah_janich}.
     \end{property}
 
 \subsection{Spectrum}\label{section:spectrum}
@@ -749,7 +746,7 @@
     \begin{property}
         Let $P$ be a spectral measure on $(X,\Sigma)$. For every two elements $v,w\in\mathcal{H}$ the map
         \begin{gather}
-            E\mapsto\mu^P_{v,w}(E):=\langle v|P_Ew \rangle
+            E\mapsto\mu^P_{v,w}(E):=\langle v\mid P_Ew \rangle
         \end{gather}
         defines a (complex) measure $\mu^P_{v,w}$ on $X$. The square of the norm of an element $v\in\mathcal{H}$ is then simply given by $\mu^P_{v,v}(X)$ due to the second condition above.
     \end{property}
@@ -765,12 +762,12 @@
         \end{gather}
         is closed and normal. It also satisfies the following two equalities:
         \begin{align}
-            \left(\int_Xf(\lambda)\,dP(\lambda)\right)^* &= \int_X\overline{f(\lambda)}\,dP(\lambda)\\
-            \left\|\int_Xf(\lambda)\,dP(\lambda)v\right\|^2 &= \int_X|f(\lambda)|^2d\mu^P_{v,v}(\lambda).
+            \left(\int_Xf(\lambda)\,dP(\lambda)\right)^\dag &= \int_X\overline{f(\lambda)}\,dP(\lambda)\\
+            \left\|\int_Xf(\lambda)\,dP(\lambda)v\right\|^2 &= \int_X|f(\lambda)|^2\,d\mu^P_{v,v}(\lambda).
         \end{align}
         If $f$ is bounded, the above operator is bounded by the supremum norm of $f$:
         \begin{gather}
-            \left\|\int_Xf(\lambda)dP(\lambda)\right\|\leq\|f\|_\infty.
+            \left\|\int_Xf(\lambda)\,dP(\lambda)\right\|\leq\|f\|_\infty.
         \end{gather}
     \end{property}
 
@@ -803,7 +800,7 @@
             \item\textbf{Sublinearity}: $\Phi(\lambda f + g)\subseteq\lambda\Phi(f)+\Phi(g)$ and the equality holds if either operator is bounded.
             \item\textbf{Submultiplicativity}: $\Phi(f)\Phi(g)\subseteq\Phi(fg)$ and the equality holds if either operator is bounded. Moreover, the product is commutative if either operator is bounded.
             \item\textbf{Density}:\footnote{This condition is actually redundant.} $\Phi(f)$ is densely defined.
-            \item\textbf{Involutivity}: $\Phi(f^*)=\overline{\Phi(f)}$.
+            \item\textbf{Involutivity}: $\Phi\left(\overline{f}\right)=\overline{\Phi(f)}$.
             \item\textbf{Boundedness}: $\Phi(f)$ is bounded if $f$ is bounded.
             \item\textbf{Convergence}: If the bounded sequence $f_n\longrightarrow f$ pointwise, then $\Phi(f_n)\longrightarrow\Phi(f)$ strongly.
         \end{enumerate}
@@ -814,7 +811,7 @@
         \begin{gather}
             P_\Phi:\Sigma\rightarrow\mathcal{B}(\mathcal{H}):E\mapsto\Phi(\mathbbm{1}_E)
         \end{gather}
-        is a projection-valued measure. Conversely, every proejction-valued measure $P$ gives rise to a measurable functional calculus $\Phi$ such that $P=P_\Phi$.
+        is a projection-valued measure. Conversely, every projection-valued measure $P$ gives rise to a measurable functional calculus $\Phi$ such that $P=P_\Phi$.
     \end{property}
 
     \newdef{Borel functional calculus}{\index{Borel!functional calculus}
@@ -832,22 +829,22 @@
 \subsection{Dixmier trace}
 
     \newdef{Dixmier ideal}{\index{Dixmier!ideal}
-        For every compact operator one can sort the singular values in decreasing order. One can then define the operator
+        For every compact operator one can sort the singular values in decreasing order. The Dixmier ideal is defined as follows:
+        \begin{gather}
+            \mathfrak{D}(\mathcal{H}):=\big\{A\in\End_0(\mathcal{H})\mid\sigma_n(A)=O(\ln(n))\big\}\,,
+        \end{gather}
+        where
         \begin{gather}
             \sigma_n(A) := \sum_{i=1}^ns_i(A).
-        \end{gather}
-        The Dixmier ideal is defined as follows:
-        \begin{gather}
-            \mathfrak{D}(\mathcal{H}):=\{A\in\End_0(\mathcal{H})\mid\sigma_n(A)=O(\ln(n))\}.
         \end{gather}
     }
     The following functional gives an alternative for the ordinary trace on operators that are not trace-class.
     \newdef{Dixmier trace}{\index{Dixmier!trace}\index{measurable!operator}\label{operators:dixmier_trace}
         For every element in $A\in\mathfrak{D}(\mathcal{H})$, the Dixmier trace is defined as follows:
         \begin{gather}
-            \tr_\mathfrak{D}(A) := \omega\left(\left\{\frac{\sigma_n(A)}{1+\log(n)}\mid n\in\mathbb{N}\right\}\right),
+            \tr_\mathfrak{D}(A) := \omega\left(\left\{\frac{\sigma_n(A)}{1+\log(n)}\,\middle\vert\,n\in\mathbb{N}\right\}\right),
         \end{gather}
-        where $\omega:\ell^\infty(\mathbb{N})$ is a linear functional satisfying the conditions
+        where $\omega:\ell^\infty(\mathbb{N})\rightarrow\mathbb{R}$ is a linear functional satisfying the conditions
         \begin{enumerate}
             \item\textbf{Positivity}: $\omega(s)\geq0$ if $s_n\geq0$ for all $n\in\mathbb{N}$.
             \item\textbf{Convergence}: $\omega(s)=\lim_{n\rightarrow\infty}s_n$ if $s$ is convergent.
@@ -855,7 +852,7 @@
             \begin{gather}
                 D:(s_1,s_2,\ldots)\mapsto(s_1,s_1,s_2,s_2,\ldots).
             \end{gather}
-            The state $\omega$ is dilation-invariant if $\omega(s)=\omega(D(s))$ for all $s\in\ell^\infty(\mathbb{N})$.
+            The state $\omega$ is dilation-invariant if $\omega(s)=\omega\big(D(s)\big)$ for all $s\in\ell^\infty(\mathbb{N})$.
         \end{enumerate}
         If for an operator $A\in\mathfrak{D}(\mathcal{H})$ the Dixmier trace is independent of the chosen state, it is said to be \textbf{measurable}.
     }

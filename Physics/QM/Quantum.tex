@@ -465,11 +465,65 @@
 
 \section{\difficult{Topos theory}}
 
-    \newdef{Bohr topos}{\index{Bohr!topos}\index{topology!Alexandroff}
-        Consider a $C^*$-algebra $A$ of bounded observables on a Hilbert space $\mathcal{H}$. Denote by $\mathrm{Pos}(A)$ the poset \ref{set:poset} of commutative $C^*$-subalgebras. This set can be equipped with the \textbf{Alexandroff topology}, i.e.~the topology for which the open sets are the upward closes subsets. The topological space $(\mathrm{Pos}(A),\tau_\text{Alex})$ is called the Bohr site of $A$.
+    \newdef{Bohr topos}{\index{Bohr!topos}\index{Alexandrov!topology}
+        Consider a $C^*$-algebra $A$ of bounded observables on a Hilbert space $\mathcal{H}$. Denote by $\mathrm{ComSub}(A)$ the poset \ref{set:poset} of commutative $C^*$-subalgebras. This set can be equipped with the \textbf{Alexandrov topology}\footnote{There exist an equivalences $\mathbf{Pre}\cong\mathbf{AlexTop}$ and $\mathbf{Pos}\cong\mathbf{AlexTop}_{T_0}$.}, i.e.~the topology for which the open sets are the upward closes subsets. The topological space $(\mathrm{ComSub}(A),\tau_\text{Alex})$ is called the Bohr site of $A$.
 
-        The sheaf topos over the Bohr site is called the Bohr topos. It can be turned into a ringed topos, where the internal ring object (even an internal $C^*$-algebra) is given by the tautological functor
+        The sheaf topos over the Bohr site is called the Bohr topos $\mathbf{Bohr}(A)$. It can be turned into a ringed topos, where the ring object, even an internal commutative $C^*$-algebra, is given by the tautological functor
         \begin{gather}
-            A:\mathrm{Pos}(A)\rightarrow\mathbf{Set}(A):C\mapsto C.
+            \underline{A}:\mathrm{ComSub}(A)\rightarrow\mathbf{Set}:C\mapsto C.
         \end{gather}
     }
+
+    \begin{property}\label{quantum:topos_morphisms}
+        A morphism in $\mathbf{C^*Alg}$ is commutativity-reflecting if and only if the induced morphism on posets admits a right adjoint.
+
+        Moreover, there exists a bijection between the following two classes of morphisms:
+        \begin{itemize}
+            \item Geometric morphisms $f:\mathrm{Bohr}(B)\rightarrow\mathrm{Bohr}(A)$ admitting a right adjoint together with epimorphisms of internal algebras $\underline{A}\rightarrow f^*\underline{B}$.
+            \item Commutativity-reflecting functions $f:A\rightarrow B$ that restrict to algebra morphisms on all commutative subalgebras.
+        \end{itemize}
+    \end{property}
+
+    \newdef{Spectral presheaf}{\index{spectral!presheaf}
+        The presheaf on a Bohr site assigning to every commutative subalgebra its Gel'fand spectrum.
+    }
+    \begin{theorem}[Kochen-Specker]\index{Kochen-Specker}
+        If $A=\mathcal{B}(\mathcal{H})$ with $\dim(\mathcal{H})>2$, the spectral presheaf has no global element.
+    \end{theorem}
+
+    \begin{property}[Gleason's theorem]\index{Gleason}
+        There exists a natural bijection between the quantum states of a $C^*$-algebra $A$ and the classical states of $\underline{A}$ internal to $\mathbf{Bohr}(A)$.
+    \end{property}
+
+    \newdef{Bohrification}{\index{Bohrification}
+        Consider a $C^*$-algebra $A$ together with its Bohr topos $\mathrm{Bohr}(A)$. To its internal $C^*$-algebra $\underline{A}$ one can assign an internal locale $\underline{\Sigma}_A$ by (internal) Gel'fand duality \ref{operators:gelfand_spectrum}. Under the equivalence \ref{topos:slice_locale} one then obtains a locale $\Sigma_A$. The functor
+        \begin{gather}
+            \func{\Sigma}{C^*Alg}{Loc}:A\mapsto\Sigma_A
+        \end{gather}
+        is called Bohrification. This locale can be constructed as the disjoint union
+        \begin{gather}
+            \Sigma_A = \bigsqcup_{C\in\mathrm{ComSub}(A)}\Phi_C\,,
+        \end{gather}
+        the \'etale locale corresponding to the spectral presheaf. Its open sets are given by those subsets whose restrictions to commutative subalgebras are open such that these restrictions are compatible with subalgebra inclusions.
+
+        This topological bundle $\Sigma_A\rightarrow\mathrm{Alex}(\mathrm{ComSub}(A))$ also admits a topos-theoretic incarnation. There exists a (canonical) morphism of ringed topoi
+        \begin{gather}
+            \pi:\mathrm{Bohr}(A)\rightarrow\big(\mathbf{Sh}(\mathrm{Alex}(\mathrm{ComSub}(A))),\underline{\mathbb{R}}\big)\,,
+        \end{gather}
+        whose underlying geometric morphism is simply the identity.
+    }
+    \begin{example}[Gel'fand spectrum]
+        If $A$ is a commutative $C^*$-algebra, its Bohrification is not isomorphic to its ordinary Gel'fand spectrum $\Phi_A$. However, after replacing the topology on $\mathrm{Bohr}(A)$ by the \textit{double negation topology} and repeating the above construction one obtains
+        \begin{gather}
+            \Phi_A\cong\Sigma^{\lnot\lnot}_A.
+        \end{gather}
+    \end{example}
+
+    \begin{property}[States]\index{state}
+        A positive and normalized section of the morphism $\pi:\mathrm{Bohr}(A)\rightarrow\big(\mathbf{Sh}(\mathrm{Alex}(\mathrm{ComSub}(A))),\underline{\mathbb{R}}\big)$ in the category of $\mathbb{R}$-\textit{moduled} topoi.
+    \end{property}
+
+    By Property \ref{quantum:topos_morphisms} above, the following relation is obtained:
+    \begin{property}[Observables]\index{observable}
+        Morphisms $\mathrm{Bohr}(A)\rightarrow\mathrm{Bohr}(C(\mathbb{R})_0)$ admitting a right adjoint together with an epimorphism $C_0(\mathbb{R})\rightarrow A$ correspond to observables on $A$.
+    \end{property}

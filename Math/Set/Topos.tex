@@ -77,8 +77,8 @@
         A global element of the subobject classifier, i.e.~a morphism $1\rightarrow\Omega$. The subobject classifier $\Omega$ is also sometimes called the \textbf{object of truth values}.
     }
 
-    \begin{property}[Heyting algebra]
-        For all objects $x$ in an elementary topos, the poset of subobjects $\mathrm{Sub}(x)$ has the structure of a Heyting algebra \ref{set:heyting}. Hence, every topos canonically gives an external Heyting algebra, namely $\mathrm{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
+    \begin{property}[Heyting algebra]\label{topos:heyting_algebra}
+        For all objects $x$ in an elementary topos, the poset of subobjects $\mathrm{Sub}(x)$ has the structure of a Heyting algebra \ref{set:heyting} and, in particular, that of a locale \ref{topology:locale}. Hence, every topos canonically gives an external Heyting algebra, namely $\mathrm{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
     \end{property}
 
     ?? COMPLETE ??
@@ -97,7 +97,7 @@
     \end{property}
 
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
-        A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ of elementary topoi consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint is left exact. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
+        A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ of elementary topoi consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint is left exact. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint $f^*$ is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
     }
     \newdef{Geometric embedding}{\index{embedding}
         A geometric morphism for which the direct image part is fully faithful.
@@ -192,6 +192,11 @@
         A (small) category equipped with a Grothendieck topology $J$.
     }
 
+    A slightly weaker notion than that of a (Grothendieck) topology is the following:
+    \newdef{Coverage}{\index{coverage}\index{cover}\label{topos:coverage}
+        Let $\mathbf{C}$ be a category. A coverage on $\mathbf{C}$ is a map that assigns to every object $x\in\ob{C}$ a collection of families $\{f:y\rightarrow x\}\subset\mathrm{hom}(\mathbf{C})$, the \textbf{covering families} or \textbf{covers}, satisfying the following condition. If $\{f:y\rightarrow x\}$ is a covering family on $x$, then for every morphism $g:x'\rightarrow x$ there exists a covering family $\{f':y'\rightarrow x'\}$ on $x'$ such that every composite $g\circ f'$ factors through some $f$.
+    }
+
     \newdef{Matching family}{\index{matching!family}\label{topos:matching_family}
         Consider a presheaf $F\in\mathbf{Psh(C)}$ together with a sieve $S$ on $x\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\Rightarrow F$ between $S$, regarded as a subfunctor of $\mathbf{C}(-,x)$, and $F$.
 
@@ -270,8 +275,13 @@
         The classical example would be the assignment of the set of continuous functions to open subsets of a topological space. When two functions, defined on two open sets, coincide on the intersection, there exists a unique continuous function defined on the union, such that it restricts to the given functions.
     \end{example}
 
+    Above, in Definition \ref{topos:coverage}, the notion of a coverage was introduced. It should be clear that every coverage generates a sieve. Furthermore, although coverages are weaker and easier to handle, they are in fact equivalent for the purpose of sheaf theory:
+    \begin{property}
+        Consider a covering family $C$ and let $S_C$ be the sieve it generates. A presheaf is a sheaf for $C$ if and only if it is a sheaf for $S_C$.
+    \end{property}
+
     \begin{example}[Canonical topology]\index{topology!canonical}
-        The canonical topology on a category is the largest Grothendieck topology for which all representable presheaves are sheaves. A subcanonical topology is then defined as a subtopology of the canonical one, i.e.~any Grothendieck topology for which all representable presheaves are sheaves.
+        The canonical topology on a category is the largest (finest) Grothendieck topology for which all representable presheaves are sheaves. A subcanonical topology is then defined as a subtopology of the canonical one, i.e.~any Grothendieck topology for which all representable presheaves are sheaves.
     \end{example}
     \begin{example}[Minimal and maximal topologies]
         The minimal Grothendieck topology on a category is the one for which only the maximal sieves are covering sieves. In this topology all presheaves are sheaves. The maximal Grothendieck topology is the one for which all sieves are covering sieves. In this topology only the terminal element of the associated presheaf category is a sheaf.
@@ -324,13 +334,15 @@
         Given a small category $\mathbf{C}$, there exists a bijection between the Grothendieck topologies on $\mathbf{C}$ and the equivalence classes of left exact reflective subcategories of $\mathbf{Psh(C)}$.
     \end{result}
 
-    As a last point the weaker notion of coverages is introduced:
-    \newdef{Coverage}{\index{coverage}\label{topos:coverage}
-        Let $\mathbf{C}$ be a category. A coverage on $\mathbf{C}$ is a map that assigns to every object $x\in\ob{C}$ a collection of families $\{f:y\rightarrow x\}\subset\mathrm{hom}(\mathbf{C})$ satisfying the following condition. If $\{f:y\rightarrow x\}$ is a \textbf{covering family} on $x$, then for every morphism $g:x'\rightarrow x$ there exists a covering family $\{f':y'\rightarrow x'\}$ on $x'$ such that every composite $g\circ f'$ factors through some $f$.
+    \newdef{Representable morphism}{\index{representable}
+        A natural transformation of presheaves $F\rightarrow G$ is said to be representable if for every representable presheaf $h_X$ and every morphism $h_X\rightarrow G$ the pullback $h_X\times_GF$ is representable.
     }
-    It should be clear that every coverage generates a sieve. Furthermore, although coverages are weaker and easier to handle, they are in fact equivalent for the purpose of sheaf theory:
-    \begin{property}
-        Consider a covering family $C$ and let $S_C$ be the sieve it generates. A presheaf is a sheaf for $C$ if and only if it is a sheaf for $S_C$.
+    \begin{property}[Diagonals]\label{topos:representable_diagonal}
+        The diagonal morphism $\Delta_F:F\rightarrow F\times F$, for $F$ a presheaf on a category with pullbacks, is representable if and only if any of the following two equivalent properties holds:
+        \begin{enumerate}
+            \item For every two representable presheaves $h_X,h_Y$ and natural transformations $h_X\rightarrow F,h_Y\rightarrow F$ the pullback $h_X\times_Fh_Y$ is representable.
+            \item Every natural transformation $h_X\rightarrow F$ from a representable presheaf is representable.
+        \end{enumerate}
     \end{property}
 
 \subsection{Topological sheaves}
@@ -364,9 +376,9 @@
         The fact that the counit of the adjunction \ref{topos:etale_adjunction} restricts to an isomorphism on the full subcategory $\mathbf{Sh}(X)$ is equivalent to the fact that the sheafification of a sheaf $\Gamma$ is again $\Gamma$.
     \end{property}
 
-    \newdef{Petit and gros topoi\footnotemark}{\index{topos!petit \& gros}
+    \newdef{Petit and gros topoi\footnotemark}{\index{topos!petit \& gros}\index{topos!spatial}
         \footnotetext{For those that do not master French, petit and gros mean small and big, respctively.}
-        Consider a topological space $X$ together with its category of opens $\mathbf{Open}(X)$. The petit topos over $X$ is defined as the sheaf topos $\mathbf{Sh}(X)$. It represents $X$ as a ``generalized space''. (By Construction \ref{topos:etale_adjunction} the objects in a petit topos are the \'etal\'e spaces over the given base space.) However, one can also build a topos whose objects are themselves generalized spaces. To this end, choose a site $S$ of ``probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. See Section \ref{section:smooth_spaces} for more information.
+        Consider a topological space $X$ together with its category of opens $\mathbf{Open}(X)$. The petit topos over $X$ is defined as the sheaf topos $\mathbf{Sh}(X)\equiv\mathbf{Sh}(\mathbf{Open}(X))$. It represents $X$ as a ``generalized space''. (By Construction \ref{topos:etale_adjunction} the objects in a petit topos are the \'etal\'e spaces over the given base space.) Topoi equivalent to such petit topoi are sometimes said to be \textbf{spatial}. However, one can also build a topos whose objects are themselves generalized spaces. To this end, choose a site $S$ of ``probes'' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. See Section \ref{section:smooth_spaces} for more information.
     }
 
     \begin{property}[Localic reflection]\index{localic reflection}
@@ -375,6 +387,28 @@
         Generalizing to locales even gives a reflective inclusion \ref{cat:reflective_inclusion}.
 
         This property states that no information is lost when regarding (sober) topological spaces as sheaf topoi. This also explains the name ``petit topos''.
+    \end{property}
+
+    \newdef{Localic topos}{\index{localic!topos}
+        Multiple equivalent definitions exist:
+        \begin{enumerate}
+            \item A topos equivalent to a sheaf topos over a locale \ref{topology:locale} equipped with the topology of jointly surjective morphisms.
+            \item A topos generated under colimits of subobjects of the terminal object $1$.
+            \item A topos $\mathcal{E}$ for which the global sections functor $\Gamma:\mathcal{E}\rightarrow\mathbf{Set}$ is localic, i.e.~every object in $\mathcal{E}$ is a subquotient of an object in the inverse image $\Gamma^*$
+        \end{enumerate}
+        Given a geometric morphism to some base topos $\mathcal{S}$, one can define $\mathcal{S}$-localic topoi by generalizing the third point.
+    }
+    The following property shows that the locale in the first definition has a specific meaning:
+    \begin{property}
+        By Property \ref{topos:heyting_algebra}, for every topos the poset $\mathrm{Sub}(1)$ is a locale. Every localic topos $\mathcal{E}$ satisfies $\mathcal{E}\cong\mathrm{Sh}\big(\mathrm{Sub}(1)\big)$, where $\mathrm{Sub}(1)$ is equipped with the topology of jointly surjective morphisms.
+    \end{property}
+
+    The equivalence between localic topoi and locales carries over to the notion of $\mathcal{S}$-localic topoi:
+    \begin{property}
+        The (2-)category of localic topoi over a base topos $\mathcal{S}$ is equivalent to the (2-)category $\mathbf{Loc}(\mathcal{S})$ of locales internal to $\mathcal{S}$.
+    \end{property}
+    \begin{property}\label{topos:slice_locale}
+        Given a locale $X$, the category $\mathbf{Loc}\big(\mathbf{Sh}(X)\big)$ is equivalent to the slice category $\mathbf{Loc}_{/X}$.
     \end{property}
 
 \subsection{Lawvere-Tierney topology}
@@ -505,7 +539,7 @@
             \item $F$ is called a \textbf{separated prestack} if for each covering family $\mathcal{U}$ on $x\in\ob{C}$, the functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$ is fully faithful.
             \item $F$ is called a \textbf{stack} if for each covering family $\mathcal{U}$ on $x\in\ob{C}$ the functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$ is an equivalence.
         \end{itemize}
-        This is a generalization of the descent condition \ref{topos:local_object_sheaf}. This can be seen by observing that $\mathrm{Descent}(\mathcal{U},F)\cong\mathbf{Psh}_2(S(\mathcal{U}),F)$, where $S(\mathcal{U})$ is the sieve generated by $\mathcal{U}$ regarded as a fibred category.
+        This is a generalization of the descent condition \ref{topos:local_object_sheaf}. This can be seen by observing that $\mathrm{Descent}(\mathcal{U},F)\cong\mathbf{Psh}_2(S(\mathcal{U}),F)$, where $S(\mathcal{U})$ is the sieve generated by $\mathcal{U}$ regarded as a fibred category. When $F$ is fibred over groupoids, it is called a \textbf{stack of groupoids}. This forms the category $\mathbf{Sh}_{(2,1)}(\mathbf{C})$ of $(2,1)$-sheaves. In fact, it is this subcategory that is usually meant when considering stacks.
     }
 
     A more conceptual (although completely equivalent) generalization from (1-)sheaves to 2-sheaves can be obtained by starting from Property \ref{topos:cech_matching_families}. There it was shown that matching families for (1-)presheaves can be obtained as natural transformations from the \v{C}ech groupoid.

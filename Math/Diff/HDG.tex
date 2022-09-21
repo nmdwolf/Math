@@ -99,11 +99,13 @@
     \newdef{Smooth algebra}{\index{smooth!algebra}
         \nomenclature[S_CSmAlg]{$\mathbf{C^\infty Ring},\mathbf{C^\infty Alg}$}{category of smooth algebras}
         For any smooth manifold $M$ the algebra of smooth functions can be obtained as a hom-object: \[C^\infty(M)\equiv C^\infty(M,\mathbb{R}) = \mathbf{Diff}(M,\mathbb{R}).\] Since hom-functors are (finite) product-preserving, one can see that the multiplication $C^\infty(M)\times C^\infty(M)\rightarrow C^\infty(M)$ is induced by the multiplication on $\mathbb{R}$: \[C^\infty(M, \mathbb{R}\times\mathbb{R})\cong C^\infty(M)\times C^\infty(M).\] Furthermore, the hom-functor is covariant in the second argument and, hence, a copresheaf on the category $\mathbf{CartSp_{diff}}$ of Euclidean (Cartesian) spaces and smooth morphisms is obtained. Generalizing this situation, smooth algebras are defined as finite product-preserving copresheaves on $\mathbf{CartSp_{diff}}$. This (functor) category is denoted by $\mathbf{C^\infty Alg}$.
-
-        Given a smooth algebra $R$, its \textbf{underlying algebra} $U(R)$ is defined as the set $R(\mathbb{R})$ equipped with the canonically induced ring operations.
     }
+    \newdef{Underlying algebra}{
+        Given a smooth algebra $R\in\mathbf{C^\infty Alg}$, its underlying algebra $U(R)$ is defined as the set $R(\mathbb{R})$ equipped with the canonically induced ring operations.
+    }
+
     \newdef{Finitely generated smooth algebra}{
-        Since ordinary $R$-algebras are finitely generated if and only if they are of the form $R[x_1,\ldots,x_k]/J$ for some integer $k\in\mathbb{N}$ and some ideal $J$, a smooth algebra is said to be finitely generated if it is of the form $C^\infty(\mathbb{R}^n)/J$ for some $n\in\mathbb{N}$ and some ideal $J$ in the ordinary ring underlying the smooth algebra.
+        Since ordinary $R$-algebras are finitely generated if and only if they are of the form $R[x_1,\ldots,x_k]/I$ for some integer $k\in\mathbb{N}$ and some ideal $I$, a smooth algebra is said to be finitely generated if it is of the form $C^\infty(\mathbb{R}^n)/I$ for some $n\in\mathbb{N}$ and some ideal $I$ in the underlying algebra.
     }
     \newdef{Smooth locus}{\index{smooth!locus}
         Let $\mathbf{C^\infty Alg^{fin}}$ denote the category of finitely generated smooth algebras. The category of \textbf{smooth loci} is defined as $(\mathbf{C^\infty Alg^{fin}})^{op}$. The smooth locus corresponding to a smooth algebra $R$ is often denoted by $\ell R$.
@@ -112,7 +114,15 @@
 \subsection{Supergeometry}
 
     In this section the definition of smooth spaces (and sets) is generalized to the odd (fermionic) sector, i.e.~``super smooth sets'' will be defined.
-    \newdef{Infinitesimally thickened space}{\index{thickened space}
+
+    \newdef{Superscheme}{\index{scheme!super-}
+        The category of affine superschemes is defined as the opposite of the category of supercommutative superalgebras, i.e.~the commutative monoids internal to $\mathbf{sVect}$. More generally, one can define affine schemes internal to any symmetric monoidal category.
+    }
+    \begin{property}
+        The category $\mathbf{CAlg}$ is a full subcategory of $\mathbf{sCAlg}$. Moreover, this inclusion is part of an adjoint triple, where the left and right adjoints are given by projection onto the even part and quotienting by the odd part.
+    \end{property}
+
+    \newdef{Infinitesimally thickened space}{\index{thickened space}\label{hdg:infinitesimal_thickening}
         \nomenclature[S_FormalCartSp]{$\mathbf{FormalCartSp_{diff}}$}{category of infinitesimally thickened Euclidean spaces}
         First, consider a point $\mathbb{R}^0$. Its infinitesimal thickening should be a space such that every function that vanishes at the origin is actually nilpotent (this is essentially a version of the Kock-Lawvere axiom \ref{synth:kock_lawvere_axiom}). The straightforward definition is the following one:
         \begin{gather}
@@ -133,20 +143,22 @@
     \newdef{Formal smooth set}{\index{formal set}\index{smooth|seealso{formal}}\index{Cahiers topos}\index{plot}
         A sheaf on the site of infinitesimally thickened Euclidean spaces (covers are of the form $\{U_i\times\mathrm{Spec}(A)\mid U_i\hookrightarrow\mathbb{R}^n\}$). The category of formal smooth sets or, equivalently, the sheaf topos on $\mathbf{FormalCartSp_{diff}}$ is also called the \textbf{Cahiers topos}. The sets in the image of a formal smooth set $X$ are called the sets of \textbf{plots} of $X$ and can be interpreted as sets of functions into $X$ (in analogy with the definition of smooth spaces).
     }
+
+    The following definition is dual to \ref{algebra:reduction}:
     \newdef{Reduction}{\index{reduction}\index{infinitesimal}
-        Given an infinitesimally thickened space $\mathbb{R}^n\times\mathbb{D}$, its reduction $\mathfrak{R}$ is defined to be $\mathbb{R}^n$. Every reduction induces a canonical morphism $\mathbb{R}^n\hookrightarrow\mathbb{R}^n\times\mathbb{D}$. Plots can be reduced by ``precomposing'' with a reduction morphism.
+        Given an infinitesimally thickened space $\mathbb{R}^n\times\mathbb{D}$, its reduction $\mathfrak{R}$ is defined to be $\mathbb{R}^n$. Every reduction induces a canonical morphism $\mathbb{R}^n\hookrightarrow\mathbb{R}^n\times\mathbb{D}$. Plots can be reduced by precomposing with a reduction morphism.
 
         The \textbf{infinitesimal neighbourhood} (to arbitrary order) of a formal smooth subset $Y\hookrightarrow X$ is defined by taking its plots to be those plots of $X$ for which the reductions factorize through plots of $Y$.
     }
-    \newdef{Shape modality}{\index{shape}\index{de Rham!shape}
-        The infinitesimal shape or \textbf{de Rham shape} $\mathfrak{J}X$ of a formal smooth set $X$ is defined as the formal smooth set obtained by reducing the plots of $X$:
+    \newdef{Shape modality}{\index{modality!shape}\index{shape}\index{de Rham!shape}
+        The \textbf{(infinitesimal) shape} or \textbf{de Rham shape} $\mathfrak{J}X$ of a formal smooth set $X$ is defined as the formal smooth set obtained by reducing the plots of $X$:
         \begin{gather}
             \mathfrak{J}X(U) := X(\mathfrak{R}(U)).
         \end{gather}
-        For its incarnation as a modal operator, see Section \ref{section:modal_type_theory}.
+        For its incarnation as a modal operator, see Section \ref{section:modal_type_theory}. This modality is sometimes also denoted by $\int$.
     }
 
-    In analogy to Definition \ref{topology:etale_morphism} one can also define local diffeomorphisms between formal smooth sets:
+    In analogy to Definitions \ref{topology:etale_morphism} and \ref{alggeom:etale_morphism} one can also define local diffeomorphisms/\'etale morphisms between formal smooth sets:
     \newdef{Local diffeomorphism\footnotemark}{\index{local!diffeomorphism}
         \footnotetext{Also called a \textbf{(formally) \'etale morphism}.}
         A morphism of formal smooth sets $f:X\rightarrow Y$ such that the thickened plots of $X$ can be identified with those of $Y$ whose reduction comes from a Euclidean plot of $X$. More elegantly (or abstractly) this means that the naturality square of the shape modality (interpreted as a monad) forms a pullback square:
@@ -163,6 +175,22 @@
                 \draw[->] (JX) -- node[right]{$\mathfrak{J}f$} (JY);
             \end{tikzpicture}
         \end{gather*}
+        This can be related to the definition in commutative algebra (and dually, that in algebraic geometry) as follows. The shape modality is right adjoint to the reduction modality. Sending a ring (extension) to its representable presheaf and using the Yoneda lemma gives
+        the diagram
+        \begin{gather*}
+            \begin{tikzpicture}
+                \node (PB) at (0, 0) {pb};
+                \node (X) at (-2, 1) {$\mathbf{CRing}(A,B)$};
+                \node (JX) at (2, 1) {$\mathbf{CRing}(A,B/I)$};
+                \node (Y) at (-2, -1) {$\mathbf{CRing}(R,B)$};
+                \node (JY) at (2, -1) {$\mathbf{CRing}(R,B/I)$};
+                \draw[->] (X) -- (JX);
+                \draw[->] (Y) -- (JY);
+                \draw[->] (X) -- (Y);
+                \draw[->] (JX) -- (JY);
+            \end{tikzpicture}
+        \end{gather*}
+        This square being a pullback exactly corresponds to the lifting condition in Definition \ref{algebra:formally_etale}.
     }
 
     \newadef{Smooth manifold}{\index{manifold}
@@ -422,6 +450,16 @@
         In fact, by suitably generalizing the smoothness properties of the homotopies and paths, one can extend this definition to surfaces, volumes and so on. This results in the $n$-path $n$-groupoid $\mathcal{P}_n(M)$.
     }
     \remark{The restriction to lazy paths is required to ensure the smoothness of composite paths. The quotient by thin homotopies is required to ensure the validity of the associativity and invertibility properties.}
+
+    The following definition generalized Definition \ref{alggeom:algebraic_space}:
+    \newdef{Algebraic stack}{\index{algebraic!stack}\index{Deligne-Mumford stack}\index{Artin!stack}
+        A stack $X\in\mathbf{Sh}_{(2,1)}(\mathbf{Sch}_\text{fppf})$ on the big fppf-site such that
+        \begin{enumerate}
+            \item The diagonal $\Delta_X:X\rightarrow X\times X$ is representable by an algebraic space \ref{alggeom:algebraic_space}.
+            \item There exists a scheme $S\in\mathbf{Sch}$ and a morphism $h_S\rightarrow X$ that is surjective and smooth.
+        \end{enumerate}
+        If the covering morphism is \'etale and not just smooth, the notion of \textbf{Deligne-Mumford stacks} is obtained. To distinguish these cases, algebraic stacks are sometimes called \textbf{Artin stack}.
+    }
 
     ?? COMPLETE ??
 

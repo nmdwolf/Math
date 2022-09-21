@@ -519,15 +519,15 @@
         Let $S$ be any set of cardinality $\kappa$. The power set $P(S)$ has cardinality greater than $\kappa$.
     \end{theorem}
 
-\subsection{Lattices}
+\subsection{Lattices}\index{lattice}
 
     \newdef{Semilattice}{\index{join}\index{meet}
-        A poset $(P,\leq)$ for which every 2-element subset has a supremum (also called a \textbf{join}) in $P$ is called a join-semillatice. Similarly, a poset $(P,\leq)$ for which every 2-element subset has an infimum (also called a \textbf{meet}) in $P$ is called a meet-semilattice.
+        A poset $(P,\leq)$ for which every 2-element subset has a supremum, called the \textbf{join}, is called a join-semillatice. Similarly, a poset $(P,\leq)$ for which every 2-element subset has an infimum, called the \textbf{meet}, called a meet-semilattice.
     }
     \begin{notation}
         The join of $\{x,y\}$ is denoted by $x\land y$. The meet of $\{x,y\}$ is denoted by $x\lor y$.
     \end{notation}
-    \newdef{Lattice}{\index{lattice}
+    \newdef{Lattice}{
         A poset $(P,\leq)$ is called a lattice if it is both a join- and a meet-semilattice.
     }
     The above definition also allows for a purely algebraic formulation (in this case some authors might speak about \textbf{lattice-ordered sets}):
@@ -544,6 +544,10 @@
         To go from this definition to the order-theoretic one, define the partial order \[x\leq y\iff x\land y=x.\] There exists an equivalent relation for the join.
     }
 
+    \newdef{Complete lattice}{\index{complete!lattice}
+        A lattice is said to be $\sigma$-complete (resp.~complete) if it admits all\footnote{When working with categories this has to be restricted to ``all small joins/meets'' or, equivalently, the index category should be a set.} countable (resp.~all) joins. It can be proven that complete lattices also admit all meets (as a special case of the \textit{adjoint functor theorem}).
+    }
+
     \newdef{Bounded lattice}{
         A lattice $(P,\leq)$ that contains a greatest element (denoted by $\top$ or 1) and a smallest element (denoted by $\bot$ or 0) such that
         \begin{gather}
@@ -556,7 +560,7 @@
     }
 
     \newdef{Frame}{\index{frame!set theory}\label{set:frame}
-        A complete lattice\footnote{When working with categories this has to be restricted to ``all small joins/meets'' or, equivalently, the index category should be a set.} $(P,\leq)$ for which the \textbf{infinite distributivity law} is satisfied:
+        A complete lattice $(P,\leq)$ for which the \textbf{infinite distributivity law} is satisfied:
         \begin{gather}
             y\wedge\left(\bigvee_{i\in I}x_i\right) = \bigvee_{i\in I}\left(y\wedge x_i\right).
         \end{gather}
@@ -579,6 +583,50 @@
             \forall x\in X:x\lor\neg x=\top.
         \end{gather}
     }
+
+\section{Limits}
+
+    \newdef{Direct system}{\index{direct!system}
+        Let $(I,\leq)$ be a directed set \ref{set:directed_set} and let $\{A_i\}_{i\in I}$ be a family of objects. Consider a collection of morphisms $\{f_{ij}:A_i\rightarrow A_j\}_{i,j\in I}$ between these objects with the following properties:
+        \begin{enumerate}
+            \item for every $i\in I$: $f_{ii} = \mathbbm{1}_{A_i}$, and
+            \item for every $i\leq j\leq k\in I$: $f_{ik} = f_{jk}\circ f_{ij}$.
+        \end{enumerate}
+        The pair $(A_i,f_{ij})$ is called a direct system (over $I$).
+    }
+
+    \newdef{Direct limit\footnotemark}{\index{direct!limit}\index{inductive!limit}\label{set:direct_limit}
+        \footnotetext{Also called an \textbf{inductive limit}.}
+        Consider a direct system $(A_i,f_{ij})$ over a directed set $I$. The direct limit $A$ of this direct system is defined as follows:
+        \begin{gather}
+            \varinjlim A_i := \left.\bigsqcup_{i\in I}A_i\right/\!\sim
+        \end{gather}
+        where the equivalence relation is given by $x\in A_i\sim y\in A_j\iff\exists k\in I: f_{ik}(x) = f_{jk}(y)$. Informally put: two elements are equivalent if they eventually become the same.
+
+        The operations on $A$ are defined such that the inclusion maps $\phi_i:A_i\rightarrow A$ are morphisms.
+    }
+
+    \newdef{Inverse system}{\index{inverse!system}
+        Let $(I,\leq)$ be a directed set \ref{set:directed_set} and let $\{A_i\}_{i\in I}$ be a family of objects. Consider a collection of morphisms $\{f_{ij}:A_j\rightarrow A_i\}_{i,j\in I}$ between these objects with the following properties:
+        \begin{enumerate}
+            \item for every $i\in I$: $f_{ii} = \mathbbm{1}_{A_i}$, and
+            \item for every $i\leq j\leq k\in I$: $f_{ik} = f_{ij}\circ f_{jk}$.
+        \end{enumerate}
+        The pair $(A_i,f_{ij})$ is called an inverse system (over $I$).
+    }
+
+    \newdef{Inverse limit\footnotemark}{\index{inverse!limit}\index{projective!limit}\label{set:inverse_limit}
+        \footnotetext{Also called a \textbf{projective limit}.}
+        Consider an inverse system $(A_i,f_{ij})$ over a directed set $I$. The inverse limit $A$ of this inverse system is defined as follows:
+        \begin{gather}
+            \varprojlim A_k := \left\{\vec{a}\in\prod_{i\in I}A_i\,\middle\vert\,a_i=f_{ij}(a_j), \forall i\leq j\right\}.
+        \end{gather}
+        For all $i\in I$ there exists a natural projection $\pi_i:\varprojlim A_k\rightarrow A_i$.
+    }
+
+    \begin{remark}
+        The direct and inverse limit are each other's (categorical) dual. The former is a colimit while the latter is a limit in category theory.
+    \end{remark}
 
 \section{Partitions}
 \subsection{Partition}\label{section:partition}

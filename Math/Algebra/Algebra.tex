@@ -45,8 +45,8 @@
     \newnot{Identity element}{
         The identity element of a general group will be denoted by $e$. In certain cases, where this makes sense, the identity element will be denoted by 0 or 1 (additive and multiplicative conventions).
     }
-    \newdef{Abelian group}{\index{commutativity}\index{Abelian group}
-        \nomenclature[S_Ab]{$\text{Ab}$}{category of Abelian groups}
+    \newdef{Abelian group}{\index{commutativity}\index{Abelian!group}
+        \nomenclature[S_Ab]{$\mathbf{Ab}$}{category of Abelian groups}
         Let $(G,\star)$ be a group. If $\star$ is commutative, then $G$ is said to be an Abelian or \textbf{commutative} group.
     }
 
@@ -117,7 +117,14 @@
         \begin{gather}
             [g,h] := g^{-1}h^{-1}gh\,,
         \end{gather}
-        where $g,h\in G$.
+        where $g,h\in G$. The \textbf{derived series} of a group $G$ is defined as the following sequence:
+        \begin{gather}
+            G\subseteq[G,G]\subseteq[[G,G],[G,G]]\subseteq\cdots
+        \end{gather}
+        To ease the notation these groups are often denoted by $G^{(i)}$ such that $G^{(0)}:=G$ and $G^{(i)}:=[G^{(i-1)},G^{(i-1)}]$.
+    }
+    \newdef{Solvable group}{\index{group!solvable}
+        A group whose derived series ends in the trivial group.
     }
 
     \begin{property}[Abelianization]\index{Abelianization}
@@ -146,6 +153,12 @@
             |G| = |G:H||H|.
         \end{gather}
     }
+    \begin{property}[Tower property]\index{tower law}\label{group:tower_rule_groups}
+        Consider the subgroup inclusions $G\subset H\subset I$.
+        \begin{gather}
+            [I:G]=[I:H][H:G]
+        \end{gather}
+    \end{property}
 
     \newadef{Normal subgroup}{\index{normal!subgroup}\index{conjugacy class}\label{group:normal_subgroup}
         Let $G$ be a group and let $H$ be a subgroup. Consider the \textbf{conjugacy classes} $gHg^{-1}$ for all $g\in G$. If all classes coincide with $H$ itself, then $H$ is said to be a normal subgroup.
@@ -522,78 +535,14 @@
         \begin{enumerate}
             \item\textbf{$G$-equivariance}:
             \begin{gather}
-                t(\alpha(g)h) = gt(h)g^{-1}.
+                t\big(\alpha(g)h\big) = gt(h)g^{-1}.
             \end{gather}
             \item\textbf{Peiffer identity}:
             \begin{gather}
-                \alpha(t(h))h' = hh'h^{-1}.
+                \alpha\big(t(h)\big)h' = hh'h^{-1}.
             \end{gather}
         \end{enumerate}
     }
-
-\section{Group cohomology}\index{cohomology!group}
-
-    \newdef{Group cohomology}{\label{group:cohomology}
-        Consider a group $G$ together with a $G$-module $A$. Define the $k^{th}$ \textbf{chain group} as
-        \begin{gather}
-            C^k(G;A) := \big\{\text{all set-theoretic functions from }G^k\text{ to }A\big\}.
-        \end{gather}
-        The coboundary map $d^k:C^k(G;A)\rightarrow C^{k+1}(G;A)$ is defined as follows:
-        \begin{align}
-            d^kf(g_1,\ldots,g_k,g_{k+1}) = g_1\cdot f(g_2,\ldots,&g_k,g_{k+1}) + (-1)^{k+1}f(g_1,\ldots,g_k)\nonumber\\ &+\sum_{i=1}^k(-1)^{i+1} f(g_1,\ldots,g_ig_{i+1},\ldots,g_k,g_{k+1}).
-        \end{align}
-        The cohomology groups are defined as the following quotient groups:
-        \begin{gather}
-            H^k(G;A) := \frac{\ker(d^k)}{\im(d^k)}.
-        \end{gather}
-    }
-
-    ?? COMPLETE (ADD e.g. classification of extensions) ??
-
-\section{\difficult{Hochschild and cyclic homology}}\index{homology!Hochschild}
-
-    \newdef{Hochschild homology groups}{\label{algebra:hochschild_homology}
-        Let $A$ be an associative algebra and consider an $A$-bimodule $M$. For all $n\geq0$ define
-        \begin{gather}
-            HC_n(A;M) := M\otimes A^{\otimes n}.
-        \end{gather}
-        The boundary operator $d:HC_n(A;M)\rightarrow HC_{n-1}(A;M)$ is defined as follows:
-        \begin{align}
-            d_n:m\otimes a_1\otimes\cdots\otimes a_n\mapsto ma_1\otimes\cdots\otimes a_n + \sum_{i=1}^{n-1}(-1)^im\otimes a_1&\otimes\cdots\otimes a_ia_{i+1}\otimes\cdots\otimes a_n\\
-            &+(-1)^na_1m\otimes\cdots\otimes a_n.\nonumber
-        \end{align}
-        The Hochschild homology is then given by the homology of this chain complex:
-        \begin{gather}
-            H\!H_\bullet(A;M) := \ker(d_n)/\im(d_{n+1}).
-        \end{gather}
-        This complex can be turned into a graded-commutative algebra by equipping it with the \textit{shuffle product}.
-    }
-    \begin{remark}[Cohomology]
-        Hochschild cohomology of $A$ can be obtained by dualizing: $HC^n(A):=\hom(HC_n(A),K)$, where $K$ is the field over which $A$ is defined.
-    \end{remark}
-
-    \begin{theorem}[Hochschild-Kostant-Rosenberg]\index{Hochschild-Kostant-Rosenberg}
-        Let $A=C^\infty(M)$ for $M$ a smooth manifold (Definition \ref{diff:manifold}).
-        \begin{gather}
-            H\!H_\bullet(A)\cong\Omega^n(M).
-        \end{gather}
-    \end{theorem}
-
-    \newdef{Cyclic homology}{\index{cohomology!cyclic}
-        The cyclic chain complex $CC_\bullet(A)$ is the subcomplex of the Hochschild complex $HC_\bullet(A)$ obtained as the kernel of $1-\lambda$, where $\lambda$ is the permutation operator
-        \begin{gather}
-            \lambda:HC_n(A)\rightarrow HC_n(A):a_0\otimes\cdots\otimes a_n\mapsto(-1)^na_n\otimes a_0\otimes\cdots\otimes a_{n-1}.
-        \end{gather}
-        It can be shown that the Hochschild boundary operator commutes with the permutation operator and, hence, descends to the cyclic complex. The resulting homology is called cyclic homology $CH_\bullet(A)$. By dualizing one obtains cyclic cohomology.
-    }
-
-    \begin{example}[Smooth algebras]
-        Consider the case of $A=C^\infty(M)$, where $M$ is a smooth manifold. Then
-        \begin{gather}
-            CH_n(A)\cong Z^n_\text{dR}(M)\oplus\bigoplus_{\substack{i=1\\n-2i\geq0}}H^{n-2i}_\text{dR}(M).
-        \end{gather}
-        For this reason cyclic cohomology will be used in noncommutative geometry to generalize de Rham cohomology.
-    \end{example}
 
 \section{Rings}\label{section:ring}
 
@@ -610,14 +559,29 @@
     }
 
     \newdef{Unit}{\index{unit}
-        An invertible element of a ring $(R,+,\cdot)$. The set of units forms a group under multiplication.
+        An invertible element of a ring $(R,+,\cdot)$. The set of units, denoted by $R^*$, forms a group under multiplication.
     }
 
     \newdef{Integral domain}{\index{domain!integral}\label{algebra:integral_domain}
         A commutative ring $R$ in which the product of two nonzero elements is again nonzero.
     }
+    \newdef{Field of fractions}{\index{field!of fractions}\label{algebra:fraction_field}
+        Let $I$ be an integral domain. Its field of fractions $\mathrm{Frac}(I)$ is the smallest field containing $I$, i.e. every injective ring morphism $I\rightarrow F$ factors uniquely through the embedding $I\rightarrow\mathrm{Frac}(I)$.
+    }
+    \begin{construct}
+        The field of fractions $\mathrm{Frac}(I)$ can be constructed as follows. On the set $I\times I/\{0\}$ one can define the equivalence relation
+        \begin{gather}
+            (i,j)\sim(p,q)\iff nq=pj.
+        \end{gather}
+        The equivalence class of an element $(i,j)$ is often denoted by the fraction $\frac{i}{j}$. The quotient set $\big(I\times I/\{0\}\big)/\sim$ together with the operations
+        \begin{itemize}
+            \item\textbf{Addition}: $\displaystyle\frac{i_1}{j_1} + \frac{i_2}{j_2} = \frac{i_1j_2 + i_2j_1}{j_1j_2}$\,,
+            \item\textbf{Multiplication}: $\displaystyle\frac{i_1}{j_1}\cdot\frac{i_2}{j_2} = \frac{i_1i_2}{j_1j_2}$.
+        \end{itemize}
+        These operations strongly resemble those of ordinary fractions, hence the name.
+    \end{construct}
 
-    \newdef{Reduced ring}{\index{ring!reduced}
+    \newdef{Reduced ring}{\index{reduced!ring}
         A ring that contains no nonzero nilpotents.
     }
 
@@ -628,15 +592,24 @@
         \end{gather}
         The set $S^{-1}R:=(R\times S)/\sim$, called the localization of $R$ with respect to $S$, can now be turned into a ring by defining an addition and a multiplication. By writing $(r,s)\in S^{-1}R$ as the formal fraction $\frac{r}{s}$, these operations are defined in analogy with the those of ordinary fractions:
         \begin{itemize}
-            \item\textbf{Addition}: $\displaystyle\frac{r_1}{s_1} + \frac{r_2}{s_2} = \frac{r_1s_2 + r_2s_1}{s_1s_2}$,
+            \item\textbf{Addition}: $\displaystyle\frac{r_1}{s_1} + \frac{r_2}{s_2} = \frac{r_1s_2 + r_2s_1}{s_1s_2}$\,,
             \item\textbf{Multiplication}: $\displaystyle\frac{r_1}{s_1}\cdot\frac{r_2}{s_2} = \frac{r_1r_2}{s_1s_2}$.
         \end{itemize}
     \end{construct}
-    \remark{The localization of $R$ with respect to the set $S$ can be interpreted as the ring obtained by formally adjoining inverses of $S$.}
+    \begin{remark}
+        The localization of $R$ with respect to the set $S$ can be interpreted as the ring obtained by formally adjoining inverses of $S$. This formalized by Property \ref{algebra:localization_at_element} below.
+    \end{remark}
 
     \begin{notation}\label{algebra:localization_notation}
         For specific cases different notations are sometimes used. For example, choose an element $f\in R$ and let $R_f$ denote the localization of $R$ with respect to the set of powers of $f$, i.e.~$S=\{f^n\mid n\in\mathbb{N}\}$. This is called the \textbf{localization at (the element)} $f$. Another example occurs when working with prime ideals. Let $P$ be a \textit{prime ideal} (see the next section). It is not hard to show that the complement $R\backslash P$ is multiplicatively closed. The localization of $R$ with respect to this set is denoted by $R_P$ and is called the \textbf{localization at (the prime ideal)} $P$.
     \end{notation}
+
+    \begin{property}\label{algebra:localization_at_element}
+        Consider the localization $R_f$ at an element $f\in R$. This localization is isomorphic to the polynomial ring $R[f^{-1}]$.
+    \end{property}
+    \begin{property}[Field of fractions]
+        If $R$ is an integral domain, the localization at the zero ideal coincides with the field of fractions $\mathrm{Frac}(R)$.
+    \end{property}
 
     \newdef{Valuation}{\index{valuation}
         Let $k$ be a field and let $\Gamma$ be a totally ordered\footnote{Definition \ref{set:total_order}.}, Abelian group. The group law and the order relation on $\Gamma$ can be extended to the union $\Gamma\cup\{\infty\}$ in the following way (the notation $\infty$ is only a convention):
@@ -719,11 +692,11 @@
         An ideal that is generated by a single element.
     }
     \newdef{Principal ideal domain}{\index{domain!principal ideal}
-        An integral domain \ref{algebra:integral_domain} in which every ideal is principal.
+        An integral domain \ref{algebra:integral_domain} in which every ideal is principal. These are often abbreviated as \textbf{PID}s.
     }
 
     \newdef{Local ring}{\index{local!ring}\label{algebra:local_ring}
-        A ring for which a unique, maximal, left ideal exists. This also implies that there exists a unique, maximal, right ideal and that these ideals coincide.
+        A ring for which a unique maximal ideal exists.
     }
     \begin{property}[Characterization by invertible complements]\label{algebra:local_ring_invertible}
         A ring $R$ is local if and only if there exists a maximal ideal $M$ such that every element in the complement $R\backslash M$ is invertible.
@@ -736,6 +709,50 @@
     \newdef{Residue field}{\index{residue!field}
         Consider a local ring $R$ and let $I$ be its maximal ideal. The quotient ring $R/I$ forms a field, called the residue field.
     }
+
+    The following definition is similar to the one for groups \ref{group:presentation}:
+     \newdef{Presentation}{\index{presentation}\label{algebra:presentation}
+        Consider a ring morphism $f:R\rightarrow S$. This morphism is said to be of \textbf{finite type} (or $S$ is called an $R$-algebra of finite type) if $S$ is isomorphism to a quotient of $R[x_1,\ldots,x_n]$ for some $n\in\mathbb{N}$. The morphism is said to be \textbf{finitely presented} if there exist integers $m,n\in\mathbb{N}$ such that $S\cong R[x_1,\ldots,x_n]/(f_1,\ldots,f_m)$ for some polynomials $\{f_1,\ldots,f_m\}$ over $R$.
+    }
+
+    \newdef{Reduction}{\index{reduction}\index{reduced!ring}\index{infinitesimal!thickening}\label{algebra:reduction}
+        An \textbf{infinitesimal extension} or \textbf{infinitesimal thickening} is a ring moprhism $R\rightarrow R/I$, where $I\subseteq R$ is a nilpotent ideal. If $I$ is the nilradical of $R$, the quotient is called a \textbf{reduced ring}. The forgetful functor $\func{\mathrm{Red}}{CRing^{ext}}{CRing}$ is called the reduction functor.
+    }
+
+    \newdef{Formally \'etale morphism}{\index{formally!\'etale}\index{formally!smooth}\index{unramified}\label{algebra:formally_etale}
+        A ring morphism $f:R\rightarrow S$ such that for all $R$-rings $A$ and nilpotent ideals $I\subset A$ the map $\hom_R(S,A)\rightarrow\hom_R(S,A/I)$ is a bijection. If this map is merely injective (resp.~surjective), the morphism $f$ is said to be \textbf{formally smooth} (resp.~\textbf{formally unramified}).
+
+        The map $\hom_R(S,A)\rightarrow\hom_R(S,A/I)$ corresponds to lifts of the following form
+        \begin{gather*}
+            \begin{tikzpicture}
+                \node (R) at (0, 1) {$R$};
+                \node (S) at (0, -1) {$S$};
+                \node (A) at (2, 1) {$A$};
+                \node (AI) at (2, -1) {$A/I$};
+                \draw[->] (R) -- node[left]{$f$} (S);
+                \draw[->] (S) -- (AI);
+                \draw[->] (R) -- (A);
+                \draw[->] (A) -- (AI);
+                \draw[->, dashed] (S) -- (A);
+            \end{tikzpicture}
+        \end{gather*}
+        In other words, formally \'etale morphisms have the unique left lifting property with respect to infinitesimal thickenings. Saying that $f:R\rightarrow S$ is formally smooth (resp.~formally unramified) means that there exists at least (resp.~at most) one lift.
+    }
+    \begin{remark}[Topological rings]
+        The previous definition can be generalized to \textit{topological rings} $R$ and $S$. In this case $A$ ranges over discrete algebras and all morphisms are taken to be continuous morphisms.
+    \end{remark}
+
+    \newdef{Completion\footnotemark}{\index{completion!of rings}\label{algebra:ring_completion}\index{formal!completion}\index{adic}
+        \footnotetext{This form of ring completion is sometimes called the \textbf{formal completion} or \textbf{adic completion}.}
+        Consider a commutative ring $R$ together with a proper ideal $I$. The completion $\widehat{R}$ of $R$ with respect to $I$ is the inverse limit $\varprojlim_{n\in\mathbb{N}}(R/I^n)$.
+    }
+    \begin{property}[Adic topology]\index{adic topology}\index{Krull!topology}
+        When the filtration ends in the trivial ideal, for example when $R$ is a Noetherian local ring, the completion $\widehat{R}$ is a topological ring (Chapter \ref{chapter:topology}). The \textbf{Krull topology} or \textbf{$I$-adic topology} is the topology for which a basis of $0$ is given by the powers of $I$.
+    \end{property}
+
+    \begin{example}
+        The completion of $R[x]$ with respect to $(x)$ is given by the ring of formal power series $R[[x]]$. In general one can think of these completions as containing (formal) \textit{Taylor series expansions}.
+    \end{example}
 
 \subsection{Modules}
 
@@ -754,13 +771,13 @@
         The above two formulations can be restated similar to that of group modules \ref{group:module}. Consider the Abelian group $(M,\oplus)$. Its endomorphism set $\End(M,\oplus)$ can be given the structure of a ring where the addition is induced by that on $M$ and the multiplication is given by composition. A left $R$-module structure is then simply a ring morphism $R\rightarrow\End(M,\oplus)$.
     }
 
-    \newdef{Free module}{\index{free!module}
-        An $R$-module $M$ is said to be free if it admits a basis, i.e.~there exists a set $\{x_i\}_{i\in I}$ (where $I$ can be infinite) such that:
+    \newdef{Free module}{\index{free!module}\index{basis}
+        An $R$-module $M$ that admits a \textbf{basis}, i.e.~there exists a set $\{x_i\}_{i\in I}$, where $I$ can be infinite, such that:
         \begin{enumerate}
-            \item Every element $m\in M$ can be written as a linear combination $\sum_{j\in J}r_jx_j$, where $J\subseteq I$ is finite.
+            \item Every element $m\in M$ can be written as a linear combination $\sum_{j\in J_m}r_jx_j$, where $J_m\subseteq I$ is finite.
             \item The set $\{x_i\}_{i\in I}$ is linearly independent in the sense that
                 \begin{gather}
-                    \sum_{j\in J\subseteq I}r_jx_j=0\implies \forall j\in J:r_j=0.
+                    \sum_{j\in J\subseteq I}r_jx_j=0\implies\forall j\in J:r_j=0.
                 \end{gather}
         \end{enumerate}
     }
@@ -776,17 +793,29 @@
     \end{result}
 
     \newdef{Projective module}{\index{projective!module}
-        A module $P$ is said to be projective if $P$ can be expressed as
+        A module $P$ that can be expressed as
         \begin{gather}
             P\oplus M=F\,,
         \end{gather}
-        where $M$ is a module and $F$ is a free module, i.e.~if $P$ is a direct sumand of a free module.
+        where $M$ is a module and $F$ is a free module, i.e.~$P$ is projective if it is a direct sumand of a free module.
     }
+
+    \begin{theorem}[Nakayama lemma\footnotemark]\index{Nakayama lemma}\index{Krull-Azumaya}\label{algebra:nakayama}
+        \footnotetext{Also called the \textbf{Krull-Azumaya lemma}.}
+        Consider a commutative ring $R$. If $I\subset R$ is an ideal and $M$ a finitely-generated $R$-module such that $IM=M$, there exists an element $r\in R$ with $r=1$ in $R/I$ such that $rM=0$.
+    \end{theorem}
+    The following corrolary is also often called Nakayama's lemma:
+    \begin{result}
+        If $M$ is a finitely-generated $R$-module and $J(R)M=M$, then $M=0$.
+    \end{result}
+    \begin{result}
+        If $M$ is a finitely-generated $R$-module and there exist elements $m_1,\ldots,m_k\in M$ whose image in $M/J(R)M$ generate this quotient, the elements generate $M$.
+    \end{result}
 
 \subsection{Semisimplicity}\index{semisimple!module}
 
     \newdef{Simple module}{\index{simple!module}
-        A module over a ring is said to be simple if it contains no nontrivial submodules. A module is said to be \textbf{semisimple} if it admits a decomposition as a direct sum of simple modules. A ring is said to be semisimple if it is semisimple as a module over itself.
+        A module over a ring that contains no nontrivial submodules. A module is said to be \textbf{semisimple} if it admits a decomposition as a direct sum of simple modules. A ring is said to be semisimple if it is semisimple as a module over itself.
     }
     \begin{property}[Jacobson radical]
         A ring is semisimple if and only if it is Artinian and if its Jacobson radical \ref{algebra:jacobson_radical} vanishes.
@@ -796,61 +825,246 @@
         Every semisimple ring is isomorphic to a direct sum of matrix rings over division rings $D_i$ with multiplicity $n_i$. Furthermore, the integers $D_i$ and $n_i$ are unique (up to a permutation of the indices).
     \end{theorem}
 
-\section{Limits of algebraic structures}
+\section{Polynomials}\index{poly-!nomial}\label{section:algebraic_numbers}
+\subsection{Algebraicity}
 
-    \newdef{Direct system}{\index{direct!system}
-        Let $(I,\leq)$ be a directed set \ref{set:directed_set} and let $\{A_i\}_{i\in I}$ be a family of algebraic objects (groups, rings, ...). Consider a collection of morphisms $\{f_{ij}:A_i\rightarrow A_j\}_{i,j\in I}$ between these objects with the following properties:
-        \begin{enumerate}
-            \item for every $i\in I$: $f_{ii} = \mathbbm{1}_{A_i}$, and
-            \item for every $i\leq j\leq k\in I$: $f_{ik} = f_{jk}\circ f_{ij}$.
-        \end{enumerate}
-        The pair $(A_i,f_{ij})$ is called a direct system (over $I$).
+    \newdef{Polynomial ring}{
+        Let $R$ be a (commutative unital) ring and consider a set $X$. The polynomial ring on the indeterminates $X$ is defined as the free commutative $R$-algebra on $X$. Often $X$ will be a finite set: $R[X]\equiv R[x_1,\ldots,x_n]$.
     }
 
-    \newdef{Direct limit\footnotemark}{\index{direct!limit}\index{inductive!limit}\label{algebra:direct_limit}
-        \footnotetext{Also called an \textbf{inductive limit}.}
-        Consider a direct system $(A_i,f_{ij})$ over a directed set $I$. The direct limit $A$ of this direct system is defined as follows:
+    \begin{theorem}[Hilbert's basis theorem]\index{Hilbert!basis theorem}
+        If a ring is Noetherian \ref{algebra:noetherian_ring}, any polynomial ring with finitely many indeterminates over it is also Noetherian.
+    \end{theorem}
+
+    \newdef{Irreducible polynomial}{\index{irreducible!polynomial}
+        A polynomial that cannot be factorized as the product of two nonconstant polynomials. Over a field, a polynomial is irreducible if and only if the ideal it generates is maximal.
+    }
+
+    \newdef{Degree}{\index{degree!of polynomial}
+        \nomenclature[O_deg]{$\deg(f)$}{degree of the polynomial $f$}
+        The degree of a polynomial $f$ is equal to the largest integer $d\in\mathbb{N}$ for which $f$ contains a monomial $x_1^{i_1}\cdots x_n^{i_n}$ such that $i_1+\cdots+i_n=d$. It is denoted by $\deg(f)$.
+    }
+    \newdef{Monic polynomial}{\index{monic}
+        A polynomial for which the highest degree term has coefficient $1$.
+    }
+
+    \newdef{Split}{\index{split}
+        A polynomial $f\in R[x]$ is said to split (over $R$) if it can be factorized as a product of linear factors, i.e.~there exist elements $\lambda,r_1,\ldots r_n$ such that
         \begin{gather}
-            \varinjlim A_i := \left.\bigsqcup_{i\in I}A_i\right/\!\sim
+            f = \lambda(x-r_1)\cdots(x-r_n)\,,
         \end{gather}
-        where the equivalence relation is given by $x\in A_i\sim y\in A_j\iff\exists k\in I: f_{ik}(x) = f_{jk}(y)$. Informally put: two elements are equivalent if they eventually become the same.
-
-        The algebraic operations on $A$ are defined such that the inclusion maps $\phi_i:A_i\rightarrow A$ are morphisms.
+        where $n=\deg(f)$.
     }
 
-    \newdef{Inverse system}{\index{inverse!system}
-        Let $(I,\leq)$ be a directed set \ref{set:directed_set} and let $\{A_i\}_{i\in I}$ be a family of algebraic objects (groups, rings, ...). Consider a collection of morphisms $\{f_{ij}:A_j\rightarrow A_i\}_{i,j\in I}$ between these objects with the following properties:
-        \begin{enumerate}
-            \item for every $i\in I$: $f_{ii} = \mathbbm{1}_{A_i}$, and
-            \item for every $i\leq j\leq k\in I$: $f_{ik} = f_{ij}\circ f_{jk}$.
-        \end{enumerate}
-        The pair $(A_i,f_{ij})$ is called an inverse system (over $I$).
+    \begin{theorem}[Fundamental theorem of algebra]\index{fundamental theorem!of algebra}\label{alggeom:fundamental_theorem_of_algebra}
+        Consider a $\mathbb{C}$-valued polynomial of degree $\geq 1$. It has at least one root in $\mathbb{C}$.
+    \end{theorem}
+    \begin{result}
+        If $f\in \mathbb{C}[x]$ is a monic polynomial with $\deg(f)\geq1$, it can be factorized as follows:
+        \begin{gather*}
+            f(x) = \prod_{i=1}^k(x-a_i)^{n_i},
+        \end{gather*}
+        where $a_1,\ldots, a_k\in\mathbb{C}$ and $n_1,\ldots,n_k\in\mathbb{N}$.
+    \end{result}
+
+    \newdef{Transcendental element}{\index{transcendental}\index{algebraic}
+        Consider a field $K$ and a field extension $L/K$ (Definition \ref{algebra:field_extension}). An element $x\in L$ for which there exist no nontrivial polynomials $p$ over $K$ such that $p(x)=0$, is said to be transcendental, otherwise it is said to be \textbf{algebraic}.
     }
 
-    \newdef{Inverse limit\footnotemark}{\index{inverse!limit}\index{projective!limit}\label{algebra:inverse_limit}
-        \footnotetext{Also called a \textbf{projective limit}.}
-        Consider an inverse system $(A_i,f_{ij})$ over a directed set $I$. The inverse limit $A$ of this inverse system is defined as follows:
-        \begin{gather}
-            \varprojlim A_k := \left\{\vec{a}\in\prod_{i\in I}A_i\,\middle\vert\,a_i=f_{ij}(a_j), \forall i\leq j\right\}.
-        \end{gather}
-        For all $i\in I$ there exists a natural projection $\pi_i:\varprojlim A_k\rightarrow A_i$.
+    \newdef{Algebraic dependence}{
+        Consider a commutative ring $R$ and a subring $S\subset R$. An element $r\in R$ is said to be algebraically dependent on $S$ if it is the root of a polynomial in $S[x]$. If $r$ is the root of a monic polynomial in $S[x]$, it is said to be \textbf{integrally dependent} on $S$.
     }
-
     \begin{remark}
-        The direct and inverse limit are each other's (categorical) dual. The former is a colimit while the latter is a limit in category theory.
+        Since every nonzero element in a field is invertible, one can always turn a general polynomial into a monic polynomial. Hence, over a field the concepts of algebraic and integral dependence coincide.
     \end{remark}
 
-\section{Galois theory}
+\subsection{Roots}
+
+    \begin{formula}[Vieta]\index{Vieta}
+        Consider a polynomial of degree $n$. By the fundamental theorem of algebra this polynomial has $n$ complex roots. Vieta's formulas relate the coefficients of the polynomial to its roots:
+        \begin{gather}
+            \sum_{1\leq i_1\leq\ldots\leq i_k\leq n}\ \prod_{j=1}^kr_{i_j} = (-1)^k\frac{a_{n-k}}{a_n}\,,
+        \end{gather}
+        where $k\leq n$. For $k=1$ and $k=n$ this gives the well-known sum and product formulas:
+        \begin{align}
+            r_1+r_2+\cdots+r_n &= -\frac{a_{n-1}}{a_n}\,,\\
+            r_1r_2\cdots r_n &= (-1)^n\frac{a_0}{a_n}.
+        \end{align}
+    \end{formula}
+    \begin{example}
+        For quadratic polynomials $ax^2+bx+c$ one recovers the following well-known formulas:
+        \begin{align}
+            r_1+r_2 &= -\frac{b}{a},\\
+            r_1r_2 &= \frac{c}{a}.
+        \end{align}
+    \end{example}
+
+\subsection{Ideals}
+
+    \begin{theorem}[Weak Nullstellensatz]\index{Nullstellensatz}
+        Let $K$ be an algebraically closed field and consider the polynomial ring $R=K[x_1,\ldots,x_n]$. An ideal $I\subset R$ is maximal if and only if it is of the form \[(x_1-a_1,\ldots,x_n-a_n)\] with $a_i\in K$ for all $i\leq n$.
+    \end{theorem}
+    \begin{result}
+        There exists a bijection between $K^n$ and the set of maximal ideals of $K[x_1,\ldots,x_n]$.
+    \end{result}
+    \begin{result}
+        Consider a collection of polynomials $\{f_i\}_{i\in I}\subset K[x_1,\ldots,x_n]$. If these polynomials do not have a common root, the ideal they generate is the unit ideal.
+    \end{result}
+
+\section{\difficult{Galois theory}}\index{Galois!theory}
+\subsection{Field extensions}
 
     \newdef{Field extension}{\index{field!extension}\label{algebra:field_extension}
-        Let $k$ be a field. A field extension of $k$ is a field $K$ such that $k\subset K$ and such that the operations of $k$ are the restrictions of those in $K$.
+        Let $K$ be a field. A field extension of $K$ is a field $L$ such that $K\subseteq L$ and such that the operations of $K$ are the restrictions of those in $L$.
     }
     \begin{notation}
-        A field extension $K$ of $k$ is often denoted by $K/k$.
+        A field extension $L$ of $K$ is often denoted by $L/K$.
+    \end{notation}
+
+    \newdef{Algebraic extension}{
+        An extension $L/K$ such that every element of $L$ is algebraic over $K$.
+    }
+
+    \begin{notation}[Generation]\index{simple!extension}
+        Consider a field extension $L/K$ together with a subset $X\subseteq L$. The smallest field extension of $K$ that contains $X$ is denoted by $K(X)$. $L$ is said to be \textbf{simple} if $L=K(a)$ for some $a\in L$.
     \end{notation}
 
     \newdef{Degree}{\index{degree!of extension}
-        If $K+k$ is a field extension, then $K$ can be given the structure of a $k$-vector space \ref{linalgebra:vector_space}. The dimension of this vector space is called the degree of the extension $K$. It is often denoted by $[K:k]$.
+        If $L/K$ is a field extension, $L$ can be given the structure of a $K$-vector space \ref{linalgebra:vector_space}. The dimension of this vector space is called the degree of the extension $K$. It is often denoted by $[L:K]$.
     }
+
+    The following property is very similar to the tower rule for finite groups \ref{group:tower_rule_groups}:
+    \begin{property}[Tower property]\index{tower law}
+        Consider two field extensions $M/L$ and $L/K$.
+        \begin{gather}
+            [M:K]=[M:L][L:K]
+        \end{gather}
+    \end{property}
+    \sremark{Galois theory will show that this is no mere coincidence.}
+
+    \begin{property}
+        Every finite extension is algebraic.
+    \end{property}
+
+    \newdef{Number field}{\index{number field}
+        A finite extension of the rational numbers $\mathbb{Q}$.
+    }
+
+    \newdef{Algebraic closure}{\index{algebraic!closure}
+        A field is said to be \textbf{algebraically closed} if every polynomial over it has a root. This implies that every polynomial splits. An algebraic closure of a field $K$ is an algebraic extension $\overline{K}/K$ such that $\overline{K}$ is algebraically closed.
+    }
+    \newdef{Splitting field}{\index{splitting field}\label{algebra:splitting_field}
+        Consider a field $K$ and a polynomial $f\in K[x]$. The smallest field extension of $K$ over which $f$ splits is called the splitting field of $f$.
+    }
+    \begin{property}
+        A splitting field of a polynomial of degree $n$ has degree at most $n!$.
+    \end{property}
+
+    \newdef{Minimal polynomial}{\index{minimal!polynomial}\index{evaluation}\label{algebra:minimal_polynomial}
+        Consider a field extension $L/K$ with an element $a\in L$ that is algebraic over $K$. The monic polynomial $f^a\in K[x]$ of lowest order such that $f^a(a)=0$ is called the minimal polynomial of $a$. This polynomial is obtained as the generator\footnote{Polynomial rings in one variable are PIDs, so the kernel ideal admits a generator.} of the kernel ideal of the \textbf{evaluation morphism}
+        \begin{gather}
+            K[x]\rightarrow L:x\mapsto a.
+        \end{gather}
+    }
+    \begin{property}\label{algebra:minimal_polynomial_divisor}
+        Let $f^a$ be the minimal polynomial of an algebraic element $a\in L$. If $f(a)=0$ for some polynomial $f\in K[x]$, the minimal polynomial $f^a$ divides $f$.
+    \end{property}
+    \begin{property}
+        The minimal polynomial of every algebraic element is irreducible.
+    \end{property}
+
+    \begin{property}
+        Consider two fields $K,L$ together with an element $a\in L$. The ``polynomial ring'' $K[a]$, the image of the evaluation morphism, coincides with $K(a)$ if and only if $a$ is algebraic over $K$.
+    \end{property}
+
+    \newdef{Separable element}{\index{separable}
+        An element $a\in\overline{K}$ of an algebraic closure $\overline{K}/K$ is said to be separable (over $K$) if the minimal polynomial $f^\alpha\in K[x]$ is separable, i.e.~has no multiple zeros. A subextension $L\subset\overline{K}$ is said to be separable if every element of $L$ is separable over $K$.
+    }
+    \newdef{Separable closure}{\index{separable!closure}\label{algebra:separable_closure}
+        Let $K$ be a field with algebraic closure $\overline{K}$. The separable closure $K_S$ is defined as follows:
+        \begin{gather}
+            K_S := \{x\in\overline{K}\mid x\text{ is separable over }K\}.
+        \end{gather}
+    }
+
+    \begin{property}[Separable splitting field]
+        The splitting field of a separable polynomial is separable.
+    \end{property}
+
+    \newdef{Perfect field}{\index{perfect!field}
+        A field $K$ satisfying any of the following equivalent statements:
+        \begin{enumerate}
+            \item Every irreducible polynomial over $K$ is separable.
+            \item Every algebraic extension of $K$ is separable.
+            \item Every finite extension of $K$ is separable.
+            \item The separable closure $K_S$ is algebraically closed.
+        \end{enumerate}
+    }
+    \begin{example}
+        All finite fields and fields of characteristic zero are perfect.
+    \end{example}
+    \begin{result}
+        For a perfect field, the algebraic closure and separable closure coincide.
+    \end{result}
+
+    \newdef{Normal extension}{\index{normal!extension}
+        A field extension $L/K$ with $L\subseteq\overline{K}$ is said to be \textbf{normal} if every irreducible polynomial in $K[x]$ that has a root in $L$ splits over $L$.
+    }
+    \begin{property}
+        A field extension is normal if and only if it is the splitting field for some set of polynomials. Moreover, it is finite normal if and only if it is the splitting field of a single polynomial.
+    \end{property}
+
+    \newdef{Normal closure}{\index{normal!closure}
+        Consider a field extension $L/K$. The normal closure of $L$ is the smallest normal extension of $L$ over $K$.
+    }
+
+\subsection{Galois extensions}
+
+    \newdef{Galois extension}{\index{Galois!extension}\index{Krull!topology}
+        An algebraic field extension $L/K$ such that there exists a subgroup $G\subseteq\Aut(L)$ satisfying
+        \begin{gather}
+            K\cong L^G\,,
+        \end{gather}
+        where $L^G$ denotes the set of $G$-invariants of $L$. This group, often denoted by $\mathrm{Gal}(L/K)$, is called the \textbf{Galois group} of the extension. If $L$ is the splitting field of a polynomial $f\in K[x]$, the Galois group is sometimes denoted by $\mathrm{Gal}(f)$.
+
+        When $L/K$ is finite, the Galois group is a finite group and, hence, can simply be endowed with the discrete topology. However, when the extension is not finite, one should endow the group with a topology. The \textbf{Krull topology} is defined as the profinite topology \ref{topology:profinite_group} with respect to all finite subgroups of $\mathrm{Gal}(L/K)$.\footnote{One can show that every profinite group arises as a Galois group for some field extension.}
+    }
+
+    \begin{property}
+        Consider a field extension $L/K$. The following statements are equivalent:
+        \begin{itemize}
+            \item $L$ is a Galois extension.
+            \item $L$ is algebraic, normal and separable over $K$.
+        \end{itemize}
+    \end{property}
+    \begin{property}
+        A finite extension $L/K$ is Galois if and only if $|\mathrm{Gal}(L/K)|=[L:K]$.
+    \end{property}
+
+    \begin{theorem}[Fundamental theorem of Galois theory]\index{fundamental theorem!of Galois theory}
+        Consider a Galois extension $L/K$. The intermediate field extensions $K'/K$ are in bijection with the closed subgroups of $\mathrm{Gal}(L/K)$.
+    \end{theorem}
+    \begin{property}
+        Consider a subgroup $H\subset\mathrm{Gal}(L/K)$. The correspondence in the fundamental theorem has the following properties:
+        \begin{itemize}
+            \item $L/L^H$ is Galois.
+            \item If $H$ is open, $L^H/K$ is finite.
+            \item If $H$ is normal, $L^H/K$ is Galois with $\mathrm{Gal}\left(L^H/K\right)\cong\mathrm{Gal}(L/K)/H$.
+        \end{itemize}
+    \end{property}
+
+\subsection{Radicals}
+
+    \newdef{Radical extension}{\index{radical!extension}
+        A simple radical extension $L/K$ is a simple extension $L=K(a)$ such that $a^n=b$ for some $b\in K$ and $n\in\mathbb{N}_0$. A radical extension or radical series is a finite sequence of simple radical extensions.
+    }
+
+    \begin{property}
+        If $L/K$ is radical and $K'$ is an intermediate field extension, $\Aut(K'/K)$ is solvable.
+    \end{property}
+
+    \begin{theorem}[Galois]
+        A polynomial $f\in K[x]$, where $\mathrm{char}(K)$ does not divide $\deg(f)!$\,, can be solved by radicals if and only if its Galois group $\mathrm{Gal}(f)$ is solvable.
+    \end{theorem}
 
     ?? COMPLETE ??

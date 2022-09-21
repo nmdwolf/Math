@@ -5,14 +5,14 @@
 \section{Categories}
 
     \newdef{Category}{\index{category}
-        \nomenclature[S_Hom]{$\hom_\mathbf{C}(V,W)$}{set of homomorphisms from an object $V$ to an object $W$ in a category $\mathbf{C}$}
+        \nomenclature[S_Hom]{$\hom_\mathbf{C}(V,W)$, $\mathbf{C}(V,W)$}{collection of morphisms between objects $V$ and $W$ in the category $\mathbf{C}$}
         \nomenclature[S_End]{$\End(X)$}{endomorphism monoid of a an object $X$}
         \nomenclature[S_Aut]{$\Aut(X)$}{automorphism group of an object $X$}
         A category $\mathbf{C}$ consists of two collections, the objects $\ob{C}$ and the morphisms $\mathrm{hom}(\mathbf{C})$ or $\mathrm{mor}(\mathbf{C})$, that satisfy the following conditions:
         \begin{enumerate}
-            \item\textbf{Source and target}: For every morphism $f\in\mathrm{hom}(\mathbf{C})$ there exist two objects $s(f),t(f)\in\ob{C}$, the source and target. The collection of all morphisms with source $x$ and target $y$ is denoted by $\hom_{\mathbf{C}}(x,y)$ or $\mathbf{C}(x,y)$.
-            \item\textbf{Existence of composition}: For every two morphisms $f\in\mathbf{C}(y,z)$ and $g\in\mathbf{C}(x,y)$, the composite $f\circ g$ is an element of $\mathbf{C}(x,z)$. Moreover, composition is required to be associative.
-            \item\textbf{Existence of identity}: For every $x\in\ob{C}$, there exists an identity morphism $\mathbbm{1}_x\in\mathbf{C}(x,x)$. Identity morphisms are required to satisfy $f\circ\mathbbm{1}_x=f=\mathbbm{1}_y\circ f$ for every morphism $f\in\mathbf{C}(x,y)$.
+            \item\textbf{Source and target}: For every morphism $f\in\mathrm{hom}(\mathbf{C})$ there exist two objects $s(f),t(f)\in\ob{C}$, the source and the target. The collection of all morphisms with source $x$ and target $y$ is denoted by $\hom_\mathbf{C}(x,y)$ or $\mathbf{C}(x,y)$.
+            \item\textbf{Composition}: For every two morphisms $f\in\mathbf{C}(y,z)$ and $g\in\mathbf{C}(x,y)$, the composite $f\circ g$ is an element of $\mathbf{C}(x,z)$. Moreover, composition is required to be associative.
+            \item\textbf{Identity}: For every $x\in\ob{C}$, there exists an identity morphism $\mathbbm{1}_x\in\mathbf{C}(x,x)$. Identity morphisms are required to satisfy $f\circ\mathbbm{1}_x=f=\mathbbm{1}_y\circ f$ for all morphisms $f\in\mathbf{C}(x,y)$.
         \end{enumerate}
     }
     \begin{remark}
@@ -25,6 +25,10 @@
             \mathbf{S}(x,y) = \mathbf{C}(x,y).
         \end{gather}
         A subcategory is said to be \textbf{wide} or \textbf{lluf} if it contains all objects, i.e.~$\ob{S}=\ob{C}$.
+    }
+
+    \newdef{Replete subcategory}{\index{replete}
+        A subcategory $\mathbf{S}\subseteq\mathbf{C}$ such that if $x\in\ob{S}$ and $f:x\cong y\in\mathrm{hom}(\mathbf{C})$, then also $y\in\ob{S}$ and $f\in\mathrm{hom}(\mathbf{S})$. This can be stated even more concisely in terms of \textit{arrow categories} (Definition \ref{cat:arrow_category}).
     }
 
     \newdef{Small category}{\index{small}
@@ -66,7 +70,7 @@
         A contravariant functor can also be defined as a covariant functor from the opposite category and, accordingly, from now on the word ``covariant'' will be dropped when talking about functors.
     }
 
-    \newdef{Endofunctor}{\index{endo-!functor}
+    \newdef{Endofunctor}{\index{endo-!functor}\label{cat:endofunctor}
         A functor of the form $F:\mathbf{C}\rightarrow\mathbf{C}$.
     }
 
@@ -100,12 +104,12 @@
 
     \newdef{Profunctor\footnotemark}{\index{pro-!functor}\index{heteromorphism}\index{distributor}
         \footnotetext{Sometimes called a \textbf{distributor}.}
-        A functor of the form $F:\mathbf{B}^{op}\times\mathbf{A}\rightarrow\mathbf{Set}$. Such a functor is often denoted by $\profunc{F}{A}{B}$.\footnote{This is the convention by \textit{Borceux}. Some other authors, such as \cite{johnstone}, use the opposite convention.} Elements of the set $F(x,y)$ are sometimes called \textbf{heteromorphisms} (between $x$ and $y$).
+        A functor of the form $F:\mathbf{B}^{op}\times\mathbf{A}\rightarrow\mathbf{Set}$. Such a functor is often denoted by $\profunc{F}{A}{B}$.\footnote{This is the convention by \textit{Borceux}. Some other authors, such as \cite{johnstone}, use the opposite convention.} Elements of the set $F(x,y)$ are called \textbf{heteromorphisms} (between $x$ and $y$).
 
         It should be noted that presheafs on $\mathbf{C}$ are profunctors of the form $1\slashedrightarrow\mathbf{C}$.
     }
 
-    \newdef{Reflection}{\index{reflect}
+    \newdef{Reflection}{\index{reflection}
         A functor $\func{F}{A}{B}$ is said to \textbf{reflect} a property if whenever the property holds for $Fa$, it also holds for $a$. (Here, $a$ could also be a morphism.)
     }
 
@@ -155,7 +159,7 @@
         \end{figure}
     }
 
-    \newdef{Representable functor}{\index{functor!representable}\index{representation}
+    \newdef{Representable functor}{\index{representable}\index{representation}
         Let $\mathbf{C}$ be a locally small category. A functor $\func{F}{C}{Set}$ is said to be representable if there exists an object $x\in\ob{C}$ such that $F$ is naturally isomorphic to $h^x$. The pair $(x,\psi:F\Rightarrow h^x)$ is called a \textbf{representation} of $F$.
     }
 
@@ -166,7 +170,7 @@
         \end{gather}
     \end{theorem}
 
-    \begin{result}[Yoneda embedding]
+    \begin{result}[Yoneda embedding]\index{Yoneda!embedding}
         When $F$ is another hom-functor $h^y$, the following result is obtained:
         \begin{gather}
             \mathrm{Nat}(h^x,h^y)\cong\mathbf{C}(y,x).
@@ -251,12 +255,15 @@
         Conversely, every unit-counit adjunction induces a hom-set adjunction. Consider a morphism $f:Fx\rightarrow y$. The (right) adjunct is defined as the composition \[\widetilde{f}:=Gf\circ\eta_x:x\rightarrow (G\circ F)x\rightarrow Gy.\] To construct a (left) adjunct, consider a morphism $\widetilde{g}:x\rightarrow Gy$: \[g:=\varepsilon_y\circ F\tilde{g}:Fx\rightarrow(F\circ G)y\rightarrow y.\]
     \end{property}
 
-    \newdef{Reflective subcategory}{\index{category!reflective}\label{cat:reflective_inclusion}
+    \newdef{Reflective subcategory}{\index{reflective!category}\label{cat:reflective_inclusion}
         A full subcategory is said to be reflective (resp.~coreflective) if the inclusion functor admits a left (resp.~right) adjoint.
     }
 
     \begin{property}[Adjoint equivalence]\index{equivalence!adjoint}
         Any equivalence of categories is part of an adjoint equivalence, i.e.~an adjunction for which the unit and counit morphisms are invertible.
+    \end{property}
+    \begin{property}\label{cat:adjoint_equivalence}
+        Given an adjunction $\mathbf{C}:F\dashv G:\mathbf{D}$, one obtains an adjoint equivalence by restricting to the full subcategories on which the unit and counit becomes isomorphisms.
     \end{property}
 
 \section{General constructions}
@@ -279,7 +286,7 @@
         \end{itemize}
         Composition of morphisms is defined componentwise.
     }
-    \newdef{Arrow category}{\index{category!arrow}\index{walking!arrow}\index{interval!category}
+    \newdef{Arrow category}{\index{category!arrow}\index{walking!arrow}\index{interval!category}\label{cat:arrow_category}
         The comma category of the pair of functors $(\mathbbm{1}_{\mathbf{C}},\mathbbm{1}_{\mathbf{C}})$. This is equivalently the functor category $[\mathbf{2},\mathbf{C}]$, where $\mathbf{2}$ is the \textbf{interval category/walking arrow} $\{0\rightarrow1\}$.
     }
     \newdef{Functorial factorization}{\index{factorization!functorial}\label{cat:functorial_factorization}
@@ -712,7 +719,7 @@
     \end{example}
 
     In the case where $\mathbf{C}$ is small, one can characterize the Yoneda embedding through a universal property:
-    \begin{uproperty}[Free cocompletion]\index{co-!completion}\index{Yoneda!embedding}\label{cat:free_cocompletion}
+    \begin{uproperty}[Free cocompletion]\index{co-!completion}\label{cat:free_cocompletion}
         The Yoneda embedding $\mathbf{C}\hookrightarrow\widehat{\mathbf{C}}$ turns the presheaf category $\widehat{\mathbf{C}}$ into the \textbf{free cocompletion} of $\mathbf{C}$, i.e.~there exists an equivalence of categories between the functor category of cocontinuous functors $[\widehat{\mathbf{C}},\mathbf{D}]_\mathrm{cont}$ and the ordinary functor category $[\mathbf{C},\mathbf{D}]$.
     \end{uproperty}
 
@@ -1632,7 +1639,7 @@
     \end{property}
 
 \section{Abelian categories}\label{section:abelian_categories}
-\subsection{Additive and Abelian categories}
+\subsection{Additive categories}
 
     \newdef{Pre-additive category}{
         A (locally small) category enriched over $\mathbf{Ab}$, i.e.~a category in which every hom-set is an Abelian group and composition is bilinear.
@@ -1830,11 +1837,11 @@
         The classical examples of a 1-category and 2-category are $\mathbf{Set}$ and $\mathbf{Cat}$, respectively.
     \end{example}
 
-    \begin{property}[Composition in 2-categories]\index{interchange law}
+    \begin{property}[Composition in 2-categories]\index{Godement product}\index{interchange law}
         2-morphisms can be composed in two different ways:
         \begin{itemize}
             \item\textbf{Horizontal composition}:
-                Consider two 2-morphisms $\alpha:f\Rightarrow g$ and $\beta:f'\Rightarrow g'$ where $f'\circ f$ and $g'\circ g$ are well-defined. These 2-morphisms can be composed as \[\beta\circ\alpha: f'\circ f\Rightarrow g'\circ g.\]
+                Consider two 2-morphisms $\alpha:f\Rightarrow g$ and $\beta:f'\Rightarrow g'$ where $f'\circ f$ and $g'\circ g$ are well-defined. These 2-morphisms can be composed as \[\beta\circ\alpha: f'\circ f\Rightarrow g'\circ g.\] This is sometimes called their \textbf{Godement product}.
             \item\textbf{Vertical composition}:
                 Consider two 2-morphisms $\alpha:f\Rightarrow g$ and $\beta:g\Rightarrow h$ where $f,g$ and $h$ have the same domain and codomain. These 2-morphisms can be composed as \[\beta\cdot\alpha:f\Rightarrow h.\]
         \end{itemize}

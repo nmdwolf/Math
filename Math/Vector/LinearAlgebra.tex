@@ -154,10 +154,242 @@
 
     Grassmannians are a specific instance of the following object:
     \newdef{Flag variety}{\label{linalgebra:flag_manifold}
-        The set of all flags of a given signature is called the (generalized) flag variety (of that signature). If the underlying field is the field of real (or complex) numbers, the flag variety is a smooth (or complex) manifold (Chapter \ref{chapter:manifolds}), called the \textbf{flag manifold}.
+        The set of all flags of a given signature is called the (generalized) flag variety (of that signature). If the underlying field is the field of real (or complex) numbers, the flag variety is a \textit{smooth (or complex) manifold} (Chapter \ref{chapter:manifolds}), called the \textbf{flag manifold}.
     }
 
     Property \ref{linalgebra:grassmannian_construction} generalizes as follows:
     \begin{property}[Parabolic subgroups]\index{para-!bolic subgroup}\index{Borel!subgroup}
         Every flag variety has the structure of a homogeneous space: $\mathrm{Fl}_{n,\underline{d}}=\GL(V)/P_{n,\underline{d}}$, where $\underline{d}$ denotes the signature of the flags. The subgroups $P_{n,\underline{d}}$ are called \textbf{parabolic subgroups}. The maximal parabolic subgroups are those that define the Grassmannian variaties. The flag variety of all complete flags defines the \textbf{Borel subgroup} $B_n$. It can be shown that every parabolic subgroup contains the Borel subgroup.
     \end{property}
+
+\section{Graded vector spaces}\label{section:graded_spaces}
+
+    \newdef{Graded vector space}{\index{degree!of vector}\index{graded!vector space}\label{hda:graded_vector_space}
+        A vector space $V$ that can be decomposed as
+        \begin{gather}
+            V = \bigoplus_{i\in I}V_i
+        \end{gather}
+        for a collection of vector spaces $\{V_i\}_{i\in I}$, where $I$ can be both finite or countable. The index $i$ is often called the \textbf{degree} of the subspace $V_i$ in $V$. One writes $\deg(v)=i$ if $v\in V_i$.
+    }
+    \newdef{Finite type}{\index{finite!type}
+        A graded vector space is said to be of finite type if it is finite-dimensional in each degree.
+    }
+
+    \begin{example}[Super vector space]\index{super-!vector space}\label{hda:superspace}
+        A $\mathbb{Z}_2$-graded vector space.
+    \end{example}
+
+    \newdef{Graded algebra}{\index{graded!algebra}
+        A $\mathbb{Z}$-graded vector space $V$ with the additional structure of an algebra $(V,\star)$ such that $V_k\star V_l\subseteq V_{k+l}$ for all $k,l\in\mathbb{Z}$.\footnote{The grading can be relaxed to any commutative monoid.}
+    }
+    \newdef{Graded-commutative algebra}{\index{graded!commutativity}\label{hda:graded_commutative}
+        A graded algebra $(V,\star)$ such that
+        \begin{gather}
+            v\star w = (-1)^{\deg(v)\deg(w)}w\star v
+        \end{gather}
+        holds for all homogeneous elements $v,w\in V$.
+    }
+
+    \begin{example}[Superalgebra]\index{super-!algebra}\label{hda:superalgebra}
+        A $\mathbb{Z}_2$-graded algebra
+        \begin{gather}
+            A = A_0\oplus A_1\,,
+        \end{gather}
+        such that for all $i,j\in\{0,1\}$:
+        \begin{gather}
+            A_i\star A_j \subseteq A_{i+j\bmod2}.
+        \end{gather}
+    \end{example}
+
+    \newdef{Parity and suspension}{\index{parity!functor}\index{suspension}\label{hda:suspension}
+        Consider the category $\mathbf{sVect}$ of super vector spaces. One can define the \textbf{parity functor} $\func{\Pi}{sVect}{sVect}$ as the functor that interchanges even and odd subspaces:
+        \begin{align}
+            (\Pi V)_0 &:= V_1\,,\\
+            (\Pi V)_1 &:= V_0.
+        \end{align}
+        A more general construction exists in $\mathbb{Z}$-$\mathbf{Vect}$. For every graded vector space $V$, the $k$-\textbf{shifted} vector space or $k$-\textbf{suspension} $V[k]$ is defined as follows (some authors use the opposite convention):
+        \begin{gather}
+            V[k]_i := V_{i-k}.
+        \end{gather}
+    }
+
+    \begin{example}[Free GCA]\index{word!length}\label{hda:symmetric_algebra}
+        Let $V$ be a graded vector space. The free GCA $\Sym^\bullet V$ on $V$ is defined as the quotient of the tensor algebra $T(V)$ by the relations
+        \begin{gather}
+            x\otimes y-(-1)^{\deg(x)\deg(y)}y\otimes x=0
+        \end{gather}
+        ranging over all homogeneous elements $x,y\in V$. (The notation stems from the fact that it is inherited from the symmetric monoidal structure on $\mathbf{Ch}_\bullet(\mathbf{Vect})$.) This algebra can equivalently be obtained as the tensor product
+        \begin{gather}
+            \Sym^\bullet V = \Sym(V_\mathrm{even})\otimes\Alt(V_\mathrm{odd})\,,
+        \end{gather}
+        where $\Sym$ and $\Lambda$ denote the symmetric and exterior algebras of ordinary vector spaces. It it not hard to see that this definition combines the definitions of $\Sym$ and $\Alt$. A similar definition gives a graded alternating algebra:
+        \begin{gather}
+            \Alt^\bullet V = T(V)/\big(x\otimes y+(-1)^{\deg(x)\deg(y)}y\otimes x\big).
+        \end{gather}
+        Note that both of these algebras actually carry a bigrading, the total degree coming from $V$ and the \textbf{word length}:
+        \begin{align}
+            \deg(v_1\cdots v_n) &:= \deg(v_1)+\cdots+\deg(v_n)\,,\\
+            \mathrm{wl}(v_1\cdots v_n) &:= n.
+        \end{align}
+        In general, only the word length is made explicit when writing down the space, i.e.~$v\in\Alt^{\mathrm{wl}(v)}V$.
+    \end{example}
+    \begin{remark}[Different conventions and d\'ecalage]\index{d\'calage}\index{Koszul!sign}\label{hda:decalage}
+        Some authors use the notation $\Lambda^\bullet V$ for the free graded-commutative algebra on $V$. However, this might be confused with the notation for the Grassmann (exterior) algebra of an ordinary vector space.\footnote{This inconvenient change of conventions can be found everywhere in the literature, so one should pay close attention to the conventions that are used.} In fact, there is a good reason why these notations are used in a seemingly interchangeable way for graded vector spaces. The suspension functor $V\rightarrow V[1]$ gives a way to relate the Grassmann algebra over an ordinary vector space $V$ to the free GCA on the shifted space $V[1]$, i.e.~$\Alt^\bullet V\cong\Sym^\bullet V[1]$. However, at this point, the \textbf{d\'ecalage isomorphism}
+        \begin{gather}
+            \mathrm{dec}_k:\Lambda^kV[k]\cong\Sym^kV[1]
+        \end{gather}
+        is only a linear isomorphism. There are two ways to see that it can be extended to an algebra isomorphism.
+
+        The first one defines the suspension functor as an intertwiner between the symmetrization and antisymmetrization operations to define $\Sym$ and $\Alt$. Define the symmetric and antisymmetric Koszul signs of a permutation $\sigma\in S_n$ as follows:
+        \begin{align}
+            \varepsilon(\sigma;v_1,\ldots,v_n) &:= (-1)^{\#\text{ odd-odd neighbour transpositions in }\sigma}\,,\\
+            \chi(\sigma;v_1,\ldots,v_n) &:= \sgn(\sigma)\varepsilon(\sigma;v_1,\ldots,v_n).
+        \end{align}
+        D\'ecalage then says that the suspension functor should satisfy
+        \begin{gather}
+            \varepsilon(\sigma;v_1,\ldots,v_n)\sigma\circ[1]^{\otimes n} = [1]^{\otimes n}\circ\chi(\sigma;v_1,\ldots,v_n)\sigma.
+        \end{gather}
+        Since both $\Sym$ and $\Alt$ can be defined in terms of the projectors
+        \begin{gather}
+            p_{\Sym}:=\sum_{\sigma\in S_n}\varepsilon(\sigma)\sigma\qquad\text{and}\qquad p_{\Alt}:=\sum_{\sigma\in S_n}\chi(\sigma)\sigma\,,
+        \end{gather}
+        d\'ecalage interchanges symmetric and antisymmetric tensors. The most common choice is the following one:
+        \begin{gather}
+            [1]:V^{\otimes n}\rightarrow V[1]^{\otimes n}:v_1\otimes\cdot\otimes v_n\mapsto(-1)^{\sum_{i=1}^n(n-i)\deg(v_i)}v_1[1]\otimes\cdots\otimes v_n[1].
+        \end{gather}
+        This choice is induced by the following definition of the suspension functor (one could also choose the convention where $V$ is tensored on the right):
+        \begin{gather}
+            [1]:\mathbb{Z}\text{-}\mathbf{Vect}_k\rightarrow\mathbb{Z}\text{-}\mathbf{Vect}_k:V\mapsto k[1]\otimes V.
+        \end{gather}
+        This definition also directly induces an algebra isomorphism in the following way. Consider two homogeneous elements $v,w\in V$. In $\Sym^2V$ their product satisfies \[vw = (-1)^{\deg(v)\deg(w)}wv.\] After applying the suspension functor, the product on the left-hand side becomes: \[v[1]w[1]=(\underline{1}\otimes v)(\underline{1}\otimes w) \cong (-1)^{\deg(w)}\underline{\underline{1}}\otimes(vw)=(-1)^{\deg(w)}vw[2].\] To calculate the suspension of the right-hand side, the braiding in $\mathbb{Z}\text{-}\mathbf{Vect}_k$ is used:
+        \begin{align*}
+            v[1]w[1]=(v\otimes\underline{1})(w\otimes\underline{1})\mapsto&(-1)^{\deg(v)+\deg(w)+\deg(v)\deg(w)+1}(w\otimes\underline{1})(v\otimes\underline{1})\\
+            =&(-1)^{\deg(w)+\deg(v)\deg(w)+1}(wv)\otimes\underline{\underline{1}}\\
+            =&(-1)^{\deg(w)+\deg(v)\deg(w)+1}wv[2].
+        \end{align*}
+        The difference in signs is $(-1)^{\deg(v)\deg(w)+1}$. If either $v$ or $w$ is even, this final sign is $-1$ or, equivalently, the product is antisymmetric, while if both $v$ and $w$ are odd, the product is symmetric. This is exactly the opposite situation of that in $\Sym^2V$. The most thorough review of these issues was found in \cite{MitiAntonioMichele2021Hcmi}.
+    \end{remark}
+
+\subsection{Supermatrices}
+
+    For this section the requirement that all algebraic structures are defined over a field $K$ is relaxed to working over a supercommutative ring. This means that the objects will be (graded) modules instead of proper vector spaces.
+
+    \newdef{Supermatrix}{\index{parity!of matrix}
+        Every linear transformation between super vector spaces $(V_0,V_1)$ and $(W_0,W_1)$ can be decomposed as the sum of 4 linear transformations between the even/odd subspaces:
+        \begin{itemize}
+            \item $A:V_0\rightarrow W_0$,
+            \item $B:V_1\rightarrow W_0$,
+            \item $C:V_0\rightarrow W_1$, and
+            \item $D:V_1\rightarrow W_1$.
+        \end{itemize}
+        If these components are represented as matrices, the full transformation can be represented as a block matrix \[X=\begin{pmatrix}A&B\\C&D\end{pmatrix}.\]
+
+        These matrices can be classified according to their \textbf{parity}. Not all supermatrices preserve the grading or, equivalently, not all linear transformations of super vector spaces are morphisms of super vector spaces. The ones that are, are said to have even parity and they are of the form \[X=\begin{pmatrix}\mathrm{even}&\mathrm{odd}\\\mathrm{odd}&\mathrm{even}\end{pmatrix},\] where even/odd means that the entries in these blocks have even/odd parity as elements of the underlying (graded) ring. It should be clear that these matrices indeed preserve the grading, since acting with an odd scalar on an odd vector gives an even vector (and similarly for the other combinations). The matrices that do not preserve the grading are said to have odd parity and are of the form \[X=\begin{pmatrix}\mathrm{odd}&\mathrm{even}\\\mathrm{even}&\mathrm{odd}\end{pmatrix}.\]
+    }
+
+    \newdef{Supertrace}{\index{super-!trace}
+        The supertrace of a supermatrix generalizes the trace of an ordinary matrix. Given the block matrix form from the previous definition, the supertrace is defined as follows:
+        \begin{gather}
+            \mathrm{str}(X) := \tr(A)-\tr(D).
+        \end{gather}
+    }
+    \begin{property}
+        As was the case for the ordinary trace, the supertrace is invariant under basis transformations. Furthermore, the cyclicity property also still holds after a slight modification to make it compatible with the grading:
+        \begin{gather}
+            \mathrm{str}(XY) = (-1)^{\deg(X)\deg(Y)}\mathrm{str}(YX).
+        \end{gather}
+    \end{property}
+
+    \newdef{Berezinian}{\label{hda:berezinian}
+        The Berezinian or \textbf{superdeterminant} generalizes the determinant of an ordinary matrix. It is (uniquely) defined through the following two conditions:
+        \begin{enumerate}
+            \item $\mathrm{Ber}(XY) = \mathrm{Ber}(X)\mathrm{Ber}(Y)$, and
+            \item $\mathrm{Ber}(e^X) = e^{\mathrm{str}(X)}$.
+        \end{enumerate}
+        An explicit formula is given by
+        \begin{gather}
+            \mathrm{Ber}(X) = \det(A - BD^{-1}C)\det(D)^{-1} = \det(A)\det(D-CA^{-1}B)^{-1}\,,
+        \end{gather}
+        where the last expression involves the \textit{Schur complement} of $A$ relative to $X$. It should be noted that the Berezinian is only well-defined for invertible even matrices.
+    }
+
+\subsection{Berezin calculus}\label{section:berezin}
+
+    This section is an application of the concept of exterior algebras \ref{vector:exterior_algebra}. Grassmann numbers/variables are used in quantum field theory when performing calculations in e.g.~the fermionic sector or \textit{Faddeev-Popov quantization}.
+
+    \newdef{Grassmann numbers}{\index{Grassmann!number}\label{hda:grassmann_number}
+        Let $V$ be a vector space spanned by a set of elements $\theta_i$. The Grassmann algebra with Grassmann variables $\theta_i$ is the exterior algebra over $V$. In this setting the wedge symbol of Grassmann variables is often ommitted when writing the product: \[\theta_i\wedge\theta_j \equiv \theta_i\theta_j.\]
+    }
+    \begin{remark}
+        From the (anti)commutativity it follows that one can regard the Grassmann variables as being nonzero square roots of zero.
+    \end{remark}
+
+    \begin{notation}[Parity]\index{parity}
+        In the case of superalgebras and, in particular, that of Grassmann numbers, the degree of an element is often called the (Grassmann) parity of the element. It is also often denoted by $\varepsilon(x)$ or $\varepsilon_x$ instead of $\deg(x)$. In this text this convention is only adopted for graded algebras where there is both a supergrading and a (co)homological $\mathbb{Z}$-grading.
+    \end{notation}
+
+    \begin{property}[Polynomials]
+        Consider a one-dimensional Grassmann algebra (with generator $\theta$). When constructing the polynomial ring $\mathbb{C}[\theta]$ generated by $\theta$, it can be seen that, due to the anticommutativity, $\mathbb{C}[\theta]$ is spanned only by $1$ and $\theta$. All higher-degree terms vanish because $\theta^2 = 0$. This implies that the most general polynomial over a one-dimensional Grassmann algebra is of the form
+        \begin{gather}
+            p(\theta) = a + b\theta.
+        \end{gather}
+    \end{property}
+
+    \begin{definition}\index{DeWitt!convention}
+        One can equip the exterior algebra $\Lambda$ with Grassmann variables $\theta_i$ with an involution:
+        \begin{gather}
+            (\theta_i\theta_j\ldots\theta_k)^* := \theta_k\ldots\theta_j\theta_i.
+        \end{gather}
+        Elements $z\in\Lambda$ that satisfy $z^*=z$ are said to be \textbf{(super)real} and elements thar satisfy $z^*=-z$ are said to be \textbf{(super)imaginary}. This convention is called the \textbf{DeWitt convention}.
+    \end{definition}
+
+    To keep the discussion about Grassmann variables self-contained, the calculus of Grassmann variables is introduced here:
+    \newdef{Derivative of Grassmann variables}{
+        Consider the polynomial algebra $\mathbb{C}[\theta_1,\ldots,\theta_n]$ on $n$ Grassmann variables (more general functions would be defined through a series expansion, but given that $\theta^2=0$, these always reduce to a simple polynomial). Differentiation on this ring is defined through the following relations:
+        \begin{gather}
+            \pderiv{}{\theta_j}\theta_i = \delta_i^j\qquad\qquad\qquad\theta_i\pderiv{}{\theta_j}+\pderiv{}{\theta_j}\theta_i = 0.
+        \end{gather}
+        The second relation implies that the partial derivatives are also Grassmann-odd. The odd parity in fact allows to introduce two distinct differentiation operations. One is the left derivative, this is the one that was just introduced. The other is the right derivative that acts as
+        \begin{gather}
+            \theta_i\pderiv{^R}{\theta^j} = \delta_i^j.
+        \end{gather}
+        The left and right derivatives are also sometimes denoted by \[\overset{\rightarrow}{\pderiv{}{\theta^i}} \qquad\qquad\text{and}\qquad\qquad \overset{\leftarrow}{\pderiv{}{\theta^i}}\,,\] respectively.
+    }
+
+    Next, one also needs some kind of integration theory. Instead of working with a definition \`a la Riemann, the integral will be defined purely axiomatically:
+    \newdef{Berezin integral: axiomatic}{\index{Berezin!integral}
+        Consider a function $f$ of $n$ Grassmann variables $\{\theta_i\}_{i\leq n}$. The Berezin integral $\int_B$ is defined by the following conditions:
+        \begin{enumerate}
+            \item The map $f\mapsto\int_Bf(\theta)\,d\theta$ is linear.
+            \item The result $\int_Bf(\theta)\,d\theta$ is independent of the variable(s) $\theta$, i.e.~it is a number.
+            \item The result is invariant under a translation of the integration variable.
+        \end{enumerate}
+    }
+    \begin{remark}
+        Multiple integrals can be defined by adding the Fubini theorem as an additional axiom.
+    \end{remark}
+
+    It can be shown that this definition is equivalent to the following one:
+    \newadef{Berezin integral: analytic}{
+        First consider functions in one Grassmann variable, i.e.~$f(\theta) = a+b\theta$. The Berezin integral is then defined as follows:\footnote{Technically the axioms only imply this formula up to some multiplicative constant. The original convention by \textit{Berezin} will be adopted, i.e.~this constant is chosen to be $1$.}
+        \begin{gather}
+            \int_B(a+b\theta)\,d\theta := b.
+        \end{gather}
+        This means that the integral is equal to the coefficient of the highest-degree term. As a simple generalization, define
+        \begin{gather}
+            \int_Bf(\theta_1,\ldots,\theta_n)\,d\theta := \text{coefficient of }\theta_1\cdots\theta_n.
+        \end{gather}
+        Some authors reverse the order of the variables in the above definition. Depending on the number of variables, this might introduce an additional minus sign.
+    }
+    \begin{remark}
+        It is interesting to see that the (one-dimensional) Berezin integral is equal to the (Grassmann) derivative. This is completely different from the usual integral in calculus. It also gives some intuition for the distinct transformation behaviour of the Berezin integral as explained in the following property.
+    \end{remark}
+
+    \begin{formula}[Change of variables]
+        Consider a general Berezin integral $\int_Bf(\theta)\,d\theta$. Now, suppose that a transformation $\theta\rightarrow\xi(\theta)$ is applied to the Grassmann variables. If $J$ is the Jacobian matrix associated to this transformation, the integral transforms according to the following formula:
+        \begin{gather}
+            \int_Bf(\xi)\,d\xi = \int_Bf(\theta)(\det J)^{-1}\,d\theta.
+        \end{gather}
+    \end{formula}
+
+    Berezin calculus can easily be unified with ordinary calculus by using the fact that ordinary coordinates (even parity) commute with Grassmann numbers (odd parity). A mixed derivative (resp. integral) can always be factorized as the composition of a Berezin derivative (resp. integral) and an ordinary one. The transformation behaviour is then generalized to this case by using the Berezinian \ref{hda:berezinian}.

@@ -331,3 +331,36 @@
             \item m-projection: $\pi_m(p) := \arg\min_{q\in S} D_\mathrm{KL}(p\|q)$.
         \end{itemize}
     }
+
+\subsection{Functional descent}
+
+    The content of this section will be the derivation of an update scheme for probability measures using the functional analytic framework in the spirit of gradient descent. % This is based on the paper \cite{PFD}.
+
+    Consider the space of finite Borel measures $M(X)$ on a compact Polish space $X$ (compactness will be assumed to freely apply the Riesz-Markov theorem \ref{distributions:riesz_markov}).
+    \newdef{Probability functional}{
+        A linear fuctional $J:M(X)\rightarrow\mathbb{R}$. By Riesz-Markov this is equivalent to a functional $J:C(X)^*\rightarrow\mathbb{R}$.
+    }
+
+    \newdef{Instance function}{
+        Consider a probability functional $J\in M(X)^*$. An instance function for $J$ at $\mu\in M(X)$ is a function $\psi_\mu:X\rightarrow\mathbb{R}$ such that
+        \begin{gather}
+            \dr J(\mu;\nu) = \int_X\psi_\mu\,d\nu
+        \end{gather}
+        for all $\nu\in M(X)$.
+    }
+    \sremark{Note that the G\^ateaux differential \ref{functional:gateaux} only makes sense for functions on vector spaces, which is why $M(X)$ was used instead of $\mathbb{P}(X)$.}
+
+    Locally around $\mu_0\in M(X)$ one can write down the Taylor expansion
+    \begin{gather*}
+        J(\mu)\approx J(\mu_0) + \dr J(\mu_0;\mu-\mu_0).
+    \end{gather*}
+    If $J$ admits an instance function at $\mu_0$, this can be rewritten as
+    \begin{align*}
+        J(\mu)&\approx J(\mu_0) + \int_X\psi_{\mu_0}(x)\,d\mu - \int_X\psi_{\mu_0}\,d\mu_0\\
+        &= J(\mu_0) - \mathrm{E}_{x\sim\mu_0}[\psi_{\mu_0}] + \mathrm{E}_{x\sim\mu}[\psi_{\mu_0}].
+    \end{align*}
+    The first two terms are constants, so only the last expectation matters during minimization. An expression of this form is sometimes called a \textbf{von Mises representation}.\index{von Mises representation} The probability functional descent algorithm tries to improve the current estimate $\mu_0$ of the true distribution $\widehat{\mu}$ by iterately decreasing the expectation $\mathrm{E}_{x\sim\mu}[\psi_{\mu_0}]$.
+
+    A different approach could be followed to define the probability functional and its G\^ateaux derivative. The set $\mathbb{P}(X)$ has the structure of a manifold inside $M(X)$ modelled on a locally convex space. Definition \ref{hdg:kinematic_tangent_bundle} then gives rise to the tangent bundle $T\mathbb{P}(X)$.
+
+    ?? FORMALIZE THIS IDEA ??

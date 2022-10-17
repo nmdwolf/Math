@@ -927,10 +927,10 @@
     One of the simplest ways to express uncertainty about predictions or parameter estimates is to give a set of possible values instead of a single value. However, to be meaningful, these sets should satisfy some conditions.
 
     \newdef{Validity}{\index{validity}\index{significance}\label{data:validity}
-        Consider a measurable function $\Gamma:X\rightarrow P(Y)$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
+        Consider a measurable function $\Gamma:X\rightarrow2^Y$ and let $P$ be the joint distribution on the instance space $Z\equiv X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
         \begin{gather}
             \label{data:validity_condition}
-            P(y\in\Gamma^\alpha(x))\geq 1-\alpha.
+            P\big(y\in\Gamma^\alpha(x)\big)\geq 1-\alpha.
         \end{gather}
         One sometimes also distinguishes between exact validity and \textbf{conservative} validity, where the former is the subcase of the latter for which the inequality becomes an equality.
 
@@ -1140,12 +1140,6 @@
         Because temperature scaling does not change the maximum of the softmax function, the eventual predictions do not change.
     \end{remark}
 
-\subsection{Normalizing flows}
-
-    One of the main problems for obtaining valid uncertainty estimates is that the underlying distribution of a given data set is often unknown. Except for the conformal prediction framework, all other methods make some assumptions about the underlying data generating process (even CP makes the exchangeability assumption). One way around this problem is by first transforming the data such that it is sampled according to a well-known distribution.
-
-
-
 \subsection{Conditionality}
 
     The above sections considered confidence predictors that were valid in a global sense, i.e.~averaged over the whole instance space $X\times Y$. However, as in ordinary probability theory, in many settings it makes more sense to consider conditional statements:
@@ -1165,11 +1159,11 @@
     \begin{property}[No-go theorem]
         Let $X$ be a separable metric space equipped with its canonical Borel $\sigma$-algebra and consider a confidence predictor $\Gamma^\alpha$ at conditional significance level $\alpha\in[0,1]$. For every probability distribution $P$ on $X\times Y$ and $P_X$-almost all non-atoms $x\in X$ one has
         \begin{gather}
-            \mathrm{Pr}(\lambda(\Gamma^\alpha(x))=+\infty)\geq 1-\alpha
+            P\big(\lambda(\Gamma^\alpha(x))=+\infty\big)\geq 1-\alpha
         \end{gather}
         and
         \begin{gather}
-            \mathrm{Pr}(\mathrm{co}(\Gamma^\alpha(x))=\mathbb{R})\geq 1-2\alpha\,,
+            P\big(\mathrm{co}(\Gamma^\alpha(x))=\mathbb{R}\big)\geq 1-2\alpha\,,
         \end{gather}
         where $\lambda$ and $\mathrm{co}$ denote the Lebesgue measure and convex hull, respectively.
     \end{property}
@@ -1229,3 +1223,37 @@
 
         By using this nonconformity measure in combination with the above plug-in approach, one can obtain a likelihood-based changepoint detection algorithm. If the initial distribution is not known, it can be estimated based on the bag $\mathcal{B}$.
     \end{example}
+
+\section{Generative models}
+
+    Most models considered in classical statistics and data analysis are of the inferential type, i.e.~given a data set a model is constructed to estimate some property of the data generating distribution. In statistics this usually is either a moment or the distribution itself, in data analysis it is often the conditional mean or conditional distribution.
+
+    However, in certain cases it is often desirable to have a model that can sample new data points from the data generating distribution. Models of this type are called generative models. (Note that fully distributional estimators can be considered both inferential and generative.)
+
+    ?? ADD (e.g. GANs) ??
+
+\subsection{Normalizing flows}
+
+    One of the main problems for obtaining valid uncertainty estimates is that the underlying distribution of a given data set is in general unknown. Except for the conformal prediction framework, all other methods make some assumptions about the underlying data generating process (even CP makes the exchangeability assumption). One way around this problem is by first transforming the data such that it is sampled according to a well-known distribution.
+
+    A general normalizing flow for a distribution $P\in\mathbb{P}(\mathbb{R}^n)$ consists of a sequence of invertible (and measurable) transformations\footnote{This makes normalizing flows a subclass of general \textit{transformation models}.} $\{\Phi\}_{i\leq k}:\mathbb{R}^n\rightarrow\mathbb{R}^n$ such that $(\Phi_k\circ\ldots\circ\Phi_1)_*P$ is (multi)normal.
+
+    Consider now the specific case of regression problems. The usefulness of normalizing flows is supported by the following theorem:
+    \begin{theorem}[Bogachev et al.]
+        Any two absolutely continuous distributions on $\mathbb{R}^n$ are related by an increasing triangular Borel transformations.
+    \end{theorem}
+    Triangular means that the transformation can be expressed as follows:
+    \begin{gather}
+        \psi(x_1,\ldots,x_n)\equiv
+        \begin{pmatrix}
+            \psi_1(x_1)\\
+            \psi_2(x_2\mid x_2)\\
+            \vdots\\
+            \psi_n(x_n\mid x_1,\ldots,x_{n-1})
+        \end{pmatrix}\,,
+    \end{gather}
+    with $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ for all $i\leq n$. Increasing means that each of the functions $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ is increasing with respect to its first argument $x_i$. This is sufficient for the transformation to be invertible, since one can invert the functions stepwise, keeping the variables $x_1,\ldots,x_{i-1}$ fixed in the $i^{th}$ step (hence the suggestive conditional notation).
+
+    The general construction for normalizing flow regression is to train a model $\rho:\mathcal{Y}\rightarrow\mathbb{R}^m$ that parametrizes a normalizing flow $\Psi(\cdot\,;\cdot):\mathbb{R}^n\times\mathbb{R}^m\rightarrow\mathbb{R}^n$ in such a way that for every $y\in\mathcal{Y}$, $\Psi\big(\cdot\,;\rho(y)\big)$ is triangular and increasing. Hence, one passes to ``conditional'' normalizing flows
+
+    ?? COMPLETE ??

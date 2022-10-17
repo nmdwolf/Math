@@ -1,4 +1,4 @@
-\chapter{Measure Theory and Lebesgue Integration}\label{chapter:measure}
+\chapter{Measure \& Integration Theory}\label{chapter:measure}
 
     The main references for this chapter are \cite{measure, AMP1}.
 
@@ -8,8 +8,8 @@
     \newdef{Measure}{\index{measure}\index{outer!measure}\index{$\sigma$!additivity}\label{lebesgue:measure}
         Let $X$ be a set and let $\Sigma$ be a $\sigma$-algebra over $X$. A function $\mu:\Sigma\rightarrow\overline{\mathbb{R}}$ is called a measure if it satisfies the following conditions:
         \begin{enumerate}
-            \item\textbf{Nonnegativity}: $\forall E\in\Sigma:\mu(E) \geq0$,
-            \item\textbf{Empty set is null}: $\mu(\emptyset) = 0$, and
+            \item\textbf{Nonnegativity}: $\forall E\in\Sigma:\mu(E)\geq0$,
+            \item\textbf{Empty set is null}: $\mu(\emptyset)=0$, and
             \item\textbf{$\sigma$-additivity}: $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
         \end{enumerate}
         When $\mu$ is defined on all of $P(X)$ and only satisfies countable subadditivity, i.e.~the equality in the last condition becomes an inequality $\leq$, it is called an \textbf{outer measure}.
@@ -39,47 +39,54 @@
         A measure space $(X,\Sigma,\mu)$ is said to be complete if for every $E\in\Sigma$ with $\mu(E)=0$ the implication $A\subset E\implies A\in\Sigma$ holds. Additivity then necessarily implies that $\mu(A)=0$.
     }
     \newdef{Completion}{
-        Let $\mathcal{F}\subseteq\mathcal{G}$ be $\sigma$-algebras over a set $X$. $(X,\mathcal{G},\overline{\mu})$ is called the completion of $(X,\mathcal{F},\mu)$ if:
+        Let $\Sigma\subseteq\overline{\Sigma}$ be $\sigma$-algebras on a set $X$. $(X,\overline{\Sigma},\overline{\mu})$ is called the completion of $(X,\Sigma,\mu)$ if:
         \begin{enumerate}
-            \item $\forall A\in\mathcal{F}:\overline{\mu}(A)=\mu(A)$,
-            \item $(X,\mathcal{G},\overline{\mu})$ is complete, and
-            \item $\mathcal{G}$ is the smallest $\sigma$-algebra for which the foregoing conditions hold.
+            \item $\forall A\in\Sigma:\overline{\mu}(A)=\mu(A)$,
+            \item $(X,\overline{\Sigma},\overline{\mu})$ is complete, and
+            \item $\overline{\Sigma}$ is the smallest $\sigma$-algebra with these properties.
         \end{enumerate}
+    }
+
+    \newdef{\texorpdfstring{$\sigma$-}{sigma-}finite measure}{\index{$\sigma$!finite}\label{lebesgue:sigma_finite_measure}
+        Let $(X,\Sigma,\mu)$ be a measure space. The measure $\mu$ is said to be $\sigma$-finite if there exists a sequence $\seq{A}$ of measurable sets such that $\bigcup_{n=1}^\infty A_n = X$ with $\forall n\in\mathbb{N}:\mu(A_n)<\infty$.
     }
 
     \newdef{Borel measure}{\index{Borel!measure}
         Consider a topological space together with its Borel $\sigma$-algebra \ref{topology:borel_set}. Any measure defined on this measurable space is called a Borel measure.
     }
 
+    \newdef{Locally finite measure}{
+        A measure on a Hausdorff space whose measurable sets contain the Borel sets such that every point has an open neighbourhood of finite measure. On locally compact spaces, this is equivalent to requiring that every compact subset has finite measure.
+    }
+
     Given a Borel measure on a topological space, there are different ways of how one can approximate the measure of Borel sets by those of open or closed sets. Sadly, different distinct definitions can be found in the literature all under the name of ``regular'' measure. The next definition gives the most widely used ones:
     \newdef{Regular measure}{\label{lebesgue:regular_measure}
-        If $\mu$ is an outer measure on a topological space $X$ whose completion contains the Borel sets, it is said to be \textbf{Borel regular} if for every set $A\subset X$, there exists a Borel set $B\subseteq A$ such that $\mu(A)=\mu(B)$.
+        An outer measure $\mu$ on a topological space $X$ whose completion contains the Borel sets is said to be \textbf{Borel regular} if for every set $A\subset X$, there exists a Borel set $B\subseteq A$ such that $\mu(A)=\mu(B)$.
 
         Let $\mu$ be a measure on $(X,\Sigma)$, where $X$ is a topological space. It is said to be \textbf{regular} if if it satisfies the following conditions for every measurable set $B$:
         \begin{enumerate}
-            \item\textbf{Outer regularity}: $\mu(B)=\inf\big\{\mu(O)\,\big\vert\,O\text{ open},O\supset B\big\}$, and
+            \item\textbf{Outer regularity}: $\mu(B)=\inf\big\{\mu(O)\,\big\vert\,O\text{ open and measurable},O\supset B\big\}$, and
             \item\textbf{Inner regularity}: $\mu(B)=\sup\big\{\mu(K)\,\big\vert\,K\text{ closed and measurable},K\subset B\big\}$.
         \end{enumerate}
-        If $X$ is locally compact Hausdorff, the measure is said to be \textbf{regular} if it satisfies the following conditions for every measurable set $B$:
+        If $X$ is Hausdorff, the measure is said to be \textbf{regular} if it satisfies the following conditions for every measurable set $B$:
         \begin{enumerate}
-            \item\textbf{Outer regularity}: $\mu(B)=\inf\big\{\mu(O)\,\big\vert\,O\text{ open},O\supset B\big\}$, and
-            \item\textbf{Inner regularity}: $\mu(B)=\sup\big\{\mu(K)\,\big\vert\,K\text{ compact and measurable},K\subset B\big\}$.
+            \item\textbf{Outer regularity}: $\mu(B)=\inf\big\{\mu(O)\,\big\vert\,O\text{ open and measurable},O\supset B\big\}$, and
+            \item\textbf{Inner regularity} or \textbf{tightness}: $\mu(B)=\sup\big\{\mu(K)\,\big\vert\,K\text{ compact and measurable},K\subset B\big\}$.
         \end{enumerate}
-        Note that for locally compact spaces, inner regularity uses compact subsets. Authors that use the second definition of regularity often call these latter measures \textbf{tight}. Note that since compact subsets of Hausdorff spaces are closed, tight measures are in particular regular.
+        Note that since compact subsets of Hausdorff spaces are closed, tight measures are in particular regular.
     }
 
     By slightly modifying the definition of tight Borel measures, one can obtain yet another type of regularity:
     \newdef{Radon measure}{\index{Radon!measure}\index{locally!finite}\label{lebesgue:radon_measure}
-        A Borel measure on a Hausdorff space that is outer regular, inner regular on open sets and \textbf{locally finite}, i.e.~every point has a neighbourhood of finite measure. When restricted to locally-compact Hausdorff spaces, this is equivalent to requiring that every compact subset has finite measure.
+        A Borel measure on a Hausdorff space that is outer regular on Borel sets, inner regular on open sets and locally finite. (For locally compact spaces, outer regularity is superfluous.)
     }
 
-    \begin{property}
-        Let $X$ be either a locally compact, separable metric space or a Polish space. Every finite Borel measure on $X$ is tight. Slightly weaker, every finite Borel measure on a metric space is regular.
-    \end{property}
-
-    \newdef{\texorpdfstring{$\sigma$-}{sigma-}finite measure}{\index{$\sigma$!finite}\label{lebesgue:sigma_finite_measure}
-        Let $(X,\Sigma,\mu)$ be a measure space. The measure $\mu$ is said to be $\sigma$-finite if there exists a sequence $\seq{A}$ of measurable sets such that $\bigcup_{n=1}^\infty A_n = X$ with $\forall n\in\mathbb{N}:\mu(A_n)<\infty$.
+    \newdef{Radon space}{\index{Radon!space}
+        A topological space on which every finite Borel measure is Radon. It is sometimes called \textbf{strongly Radon} if every locally finite Borel measure is Radon.
     }
+    \begin{example}
+        Locally compact, separable metric space, Polish spaces and even Suslin spaces \ref{metric:suslin} are Radon. Slightly weaker, every finite Borel measure on a metric space is regular.
+    \end{example}
 
 \subsection{Lebesgue measure}
 
@@ -93,11 +100,12 @@
     \begin{property}[Intervals]
         The outer measure of an interval $I$ equals its length: $\lambda^*(I) = l(I)$.
     \end{property}
-    \begin{property}[Translation]\label{lebesgue:translation_invariant}
-        The outer measure is translation-invariant: $\lambda^*(A+t) = \lambda^*(A)$ for all $A\subset\mathbb{R}$ and $t\in\mathbb{R}$.
-    \end{property}
-    \begin{property}
-        The Lebesgue outer measure is an outer measure in the sense of Definition \ref{lebesgue:measure}.
+    \begin{property}[Translation-invariance]\label{lebesgue:translation_invariant}
+        The outer measure is translation-invariant:
+        \begin{gather}
+            \lambda^*(A+t) = \lambda^*(A)
+        \end{gather}
+        for all $A\subset\mathbb{R}$ and $t\in\mathbb{R}$.
     \end{property}
 
     \begin{theorem}[Carath\'eodory's criterion]\index{Carath\'eodory!criterion}\index{Lebesgue!measure}\index{measurable!set}\label{lebesgue:lebesgue_measure}
@@ -107,11 +115,6 @@
         \end{gather}
         The collection of all Lebesgue-measurable sets is denoted by $\mathcal{M}$ and the outer measure $\lambda^*(X)$, now denoted by $\lambda$, is called the \textbf{Lebesgue measure} of $X$.
     \end{theorem}
-    The construction of Lebesgue measurable sets from the Lebesgue outer measure can be generalized to arbitrary sets:
-    \begin{construct}[Carath\'eodory's extension theorem\footnotemark]\index{pre-!measure}\index{Hahn-Kolmogorov}\label{lebesgue:caratheodory}
-        \footnotetext{Also called the \textbf{Hahn-Kolmogorov theorem}.}
-        Every outer measure $\mu^*$ gives rise to a $\sigma$-algebra consisting of those sets that satisfy Carath\'eodory's criterion \ref{lebesgue:lebesgue_measure} with respect to $\mu^*$. Furthermore, consider a \textbf{premeasure} $\mu_0$, i.e.~a $\sigma$-additive function defined on an algebra of sets \ref{set:algebra_of_sets} such that $\mu_0(\emptyset) = 0$. Definition \ref{lebesgue:outer_measure} can be used to define an outer measure $\mu^*$ in terms of the premeasure $\mu_0$ by replacing intervals with elements from the given algebra of sets. The $\sigma$-algebra generated by this outer measure contains the given algebra of sets and $\mu^*$ restricts to $\mu_0$. This shows that any premeasure can be extended to a genuine measure, uniquely if $\mu_0$ is $\sigma$-finite. Moreover, it can be shown that this measure is complete.
-    \end{construct}
     \begin{result}\label{lebesgue:completion_remark}
         The Lebesgue $\sigma$-algebra $\mathcal{M}$ is the completion of the Borel $\sigma$-algebra $\mathcal{B}$. (This is how the Lebesgue $\sigma$-algebra was introduced historically.)
     \end{result}
@@ -121,7 +124,7 @@
     \end{property}
 
     \begin{property}[Regularity]
-        The Lebesgue measure is a regular Borel measure. For every $A\subset\mathbb{R}$ there exists a sequence $\seq{O}$ of open sets such that
+        The Lebesgue measure is a regular Borel measure. For every $A\subseteq\mathbb{R}$ there exists a sequence $\seq{O}$ of open sets such that
         \begin{gather}
             \label{lebesgue:open_cover_existence}
             A\subset\bigcap_{n=1}^\infty O_n\qquad\text{and}\qquad\lambda\left(\bigcap_{n=1}^\infty O_n\right) = \lambda^*(A),
@@ -154,13 +157,24 @@
         It can be shown that the measure space $(A,\mathcal{M}_A,\lambda_A)$ is complete.
     \end{construct}
 
+    The construction of Lebesgue measurable sets from the Lebesgue outer measure can be generalized to arbitrary sets and outer measures:
+    \begin{construct}[Carath\'eodory's extension theorem\footnotemark]\index{pre-!measure}\index{Hahn-Kolmogorov}\label{lebesgue:caratheodory}
+        \footnotetext{Also called the \textbf{Hahn-Kolmogorov theorem}.}
+        Every outer measure $\mu^*$ gives rise to a $\sigma$-algebra consisting of those sets that satisfy Carath\'eodory's criterion \ref{lebesgue:lebesgue_measure} with respect to $\mu^*$. Furthermore, consider a \textbf{premeasure} $\mu_0$, i.e.~a $\sigma$-additive function defined on an algebra of sets \ref{set:algebra_of_sets} such that $\mu_0(\emptyset) = 0$. Definition \ref{lebesgue:outer_measure} can be used to define an outer measure $\mu^*$ in terms of the premeasure $\mu_0$ by replacing intervals with elements from the given algebra of sets. The $\sigma$-algebra generated by this outer measure contains the given algebra of sets and $\mu^*$ restricts to $\mu_0$. This shows that any premeasure can be extended to a genuine measure, uniquely if $\mu_0$ is $\sigma$-finite. Moreover, it can be shown that this measure is complete.
+    \end{construct}
+
 \subsection{Measurable functions}
 
     \newdef{Measurable function}{\index{measurable!function}
         Consider two measurable spaces $(X,\Sigma_X)$ and $(Y,\Sigma_Y)$. A function $f:X\rightarrow Y$ is said to be measurable if for every measurable set $A\in\Sigma_Y$ the preimage $f^{-1}(A)$ is also measurable. Equivalently, the $\sigma$-algebra generated by the preimages of measurable sets in $\Sigma_Y$ should be a sub-$\sigma$-algebra of $\Sigma_X$.
     }
-    \newdef{Measurable}{
-        Sometimes an equivalence class of real- or complex-valued measurable functions up to functions that are zero a.e. is called a measurable.
+    \begin{property}
+        \nomenclature[S_Meas]{$\mathbf{Meas}$}{Category of measurable spaces and measurable functions.}
+        Mesurability is closed under composition. This turns the collection of measurable spaces and measurable functions into a category $\mathbf{Meas}$. (This notation is also used for the subcategory on \textit{measure spaces} \ref{lebesgue:measure_preserving}.)
+    \end{property}
+
+    \newdef{Measurable}{\index{measurable}
+        Sometimes an equivalence class of real- or complex-valued measurable functions up to functions that are zero a.e.~is called a measurable.
     }
 
     Two important examples are given below:
@@ -180,13 +194,12 @@
         The following types of functions are Lebesgue-measurable:
         \begin{itemize}
             \item monotonic functions,
-            \item continuous functions,
-            \item indicator functions, and
-            \item compositions of measurable functions.
+            \item continuous functions, and
+            \item indicator functions.
         \end{itemize}
     \end{example}
     \begin{result}
-        Let $f,g$ be (Lebesgue-)measurable functions and let $F:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ be a continuous function. The composition $F(f(x),g(x))$ is also measurable.
+        Let $f,g$ be Lebesgue-measurable functions and let $F:\mathbb{R}\times\mathbb{R}\rightarrow\mathbb{R}$ be a continuous function. The composition $F\big(f(x),g(x)\big)$ is also measurable.
     \end{result}
 
     \begin{property}
@@ -225,7 +238,7 @@
         \begin{gather}
             T_\ast\mu = \mu.
         \end{gather}
-        These functions form the morphisms in the category $\mathbf{Meas}$ of measure spaces.\footnote{The notation $\mathbf{Meas}$ is also sometimes used to denote the larger category of measurable spaces and measurable functions.}
+        These functions form the morphisms in the category $\mathbf{Meas}$ of measure spaces.
     }
 
     \newdef{Ergodic function}{\index{ergodic}
@@ -311,8 +324,45 @@
             \item $\lim\inf\mu_n(U)\geq\mu(U)$ for all open sets $U$.
             \item $\lim\sup\mu_n(V)\leq\mu(V)$ for all closed sets $V$.
         \end{enumerate}
-        If $X=\mathbb{R}$ with its canonical topology, the sequence $\seq{\mu}$ converges weakly to $\mu$ if and only if $\mu_n(\{x\in\mathbb{R}:x\leq y\})\longrightarrow\mu(\{x\in\mathbb{R}:x\leq y\})$ for all points $y\in\mathbb{R}$ where these functions are continuous.
+        If $X=\mathbb{R}$ with its standard topology, the sequence $\seq{\mu}$ converges weakly to $\mu$ if and only if $\mu_n(\{x\in\mathbb{R}:x\leq y\})\longrightarrow\mu(\{x\in\mathbb{R}:x\leq y\})$ for all points $y\in\mathbb{R}$ where these functions are continuous.
     }
+
+    \begin{remark}[\difficult{Relation to functional weak convergence}]
+        Consider Definition \ref{functional:weak_topology} of weak convergence in functional analysis. By the Riesz-Markov theorem \ref{distributions:riesz_markov} one can identify measures with functionals on functions vanishing at infinity. By noting that bounded continuous functions on $X$ are equivalent to functions of compact support on the \textit{Stone-$\check{C}ech$ compactification} $\beta X$, one obtains that a sequence of measures converges weakly if and only if the associated sequence of functionals converges weakly.
+
+        ?? CHECK THIS STATEMENT ??
+    \end{remark}
+
+\subsection{Polish spaces}
+
+    The content of this section heavily relies on that of Chapters \ref{chapter:topology} and \ref{chapter:metric}.
+
+    \newdef{Polish space}{\index{Polish space}\label{measure:polish_space}
+        A separable, completely metrizable space.
+    }
+    \newdef{Standard Borel space}{\index{Borel!space}
+        A Borel space associated to a Polish space.
+    }
+
+    \begin{theorem}[Kuratowski]\index{Kuratowski}
+        Every standard Borel space is (Borel) isomorphic to either $\mathbb{R}$, $\mathbb{Z}$ or a finite set. Hence, it is completely characterized by its cardinality.
+    \end{theorem}
+
+    \begin{property}
+        All open and closed subsets of a Polish space are Polish. So are $G_\delta$-subsets \ref{top:g_delta}.
+    \end{property}
+
+    \newdef{Lusin space}{\index{Lusin space}
+        A topological space that is homeomorphic to a Borel subset of a compact metric space. Equivalently, a topological space that admits a stronger topology that is Polish or, in other words, it is the image of a Polish space under a continuous bijection. In particular, every Polish space is Lusin.
+    }
+    \newdef{Suslin space\footnotemark}{\index{Suslin space}\label{metric:suslin}
+        \footnotetext{Sometimes written as ``Souslin''.}
+        The image of a Polish space under a continuous function. In particular, every Lusin space is Suslin.
+    }
+
+    \begin{theorem}[Lusin-Suslin]
+        A subset of a Polish space is Lusin if and only if it is Borel.
+    \end{theorem}
 
 \section{Lebesgue integral}
 \subsection{Simple functions}
@@ -480,7 +530,7 @@
     \begin{theorem}[Birkhoff ergodicity]\index{ergodic!theorem}\index{Birkhoff|seealso{ergodic}}\label{lebesgue:ergodic}
         Let $(X,\Sigma,\mu)$ be a measure space and let $T$ be a $\mu$-ergodic map. For every measurable function $f$ and for $\mu$-almost every element $x\in X$ the integral of $f$ can be computed as an average over the orbit of $x$:
         \begin{gather}
-            \lim_{n\rightarrow\infty}\frac{1}{n+1}\sum_{t=0}^nf(T^n(x)) = \int_Xf\,d\mu.
+            \lim_{n\rightarrow\infty}\frac{1}{n+1}\sum_{t=0}^nf\big(T^n(x)\big) = \int_Xf\,d\mu.
         \end{gather}
     \end{theorem}
 
@@ -673,7 +723,7 @@
     \end{theorem}
 
     \begin{result}[Fubini]\index{Fubini}
-        Let $f\in L^1(X_1\times X_2)$. The sections of $f$ are integrable in the appropriate spaces. Furthermore, the functions $x_1\mapsto\int_{X_2}f(x_1,x_2)\,d\mu_2(x_2)$ and $x_2\mapsto\int_{X_1}f(x_1,x_2)\,d\mu_1(x_1)$ are in $L^1(X_1)$ and $L^1(X_2)$ respectively and Tonelli's theorem holds.
+        Let $f\in L^1(X_1\times X_2)$. The sections of $f$ are integrable in the appropriate spaces. Furthermore, the functions \[x_1\mapsto\int_{X_2}f(x_1,x_2)\,d\mu_2(x_2)\] and \[x_2\mapsto\int_{X_1}f(x_1,x_2)\,d\mu_1(x_1)\] are in $L^1(X_1)$ and $L^1(X_2)$, respectively, and Tonelli's theorem holds.
     \end{result}
     \remark{The previous construction and theorems also apply to higher-dimensional product spaces. These theorems provide a way to construct higher-dimensional measures by defining them (as the completion of) the product of measures.}
 
@@ -707,14 +757,22 @@
     \end{definition}
 
     \begin{theorem}[Radon-Nikodym theorem for dominated measures]\index{Radon-Nikodym}
-        Let $\mu$ be a finite measure on a measurable space $(X,\Sigma)$ and let $\nu$ be a measure dominated by $\mu$. There exists a nonnegative, measurable function $f$ such that $\nu(A) = \int_Af\,d\mu$ for all $A\in\Sigma$.
+        Let $\mu$ be a finite measure on a measurable space $(X,\Sigma)$ and let $\nu$ be a measure dominated by $\mu$. There exists a nonnegative, measurable function $f$ such that
+        \begin{gather}
+            \nu(A) = \int_Af\,d\mu
+        \end{gather}
+        for all $A\in\Sigma$.
     \end{theorem}
     \newdef{Radon-Nikodym derivative}{\index{Radon-Nikodym!derivative}\index{derivative|seealso{Radon-Nikodym}}
         The function $f$ in the previous theorem is called the Radon-Nikodym derivative of $\nu$ with respect to $\mu$. It is generally denoted by $\deriv{\nu}{\mu}$.
     }
 
     \begin{theorem}[Radon-Nikodym theorem]\index{Radon-Nikodym}\label{lebesgue:radon_nikodym}
-        Let $(X,\Sigma)$ be a measurable space and let $\mu,\nu$ be two $\sigma$-finite measures defined on $\Sigma$ such that $\nu\ll\mu$. There exists a nonnegative, measurable function $f:X\rightarrow\mathbb{R}$ such that $\nu(A) = \int_Af\,d\mu$ for all $A\in\Sigma$.
+        Let $(X,\Sigma)$ be a measurable space and let $\mu,\nu$ be two $\sigma$-finite measures defined on $\Sigma$ such that $\nu\ll\mu$. There exists a nonnegative, measurable function $f:X\rightarrow\mathbb{R}$ such that
+        \begin{gather}
+            \nu(A) = \int_Af\,d\mu
+        \end{gather}
+        for all $A\in\Sigma$.
     \end{theorem}
     \remark{The function $f$ in this theorem is unique up to a $\mu$-null (and thus $\nu$-null) set.}
     \begin{property}[Integrability]
@@ -799,7 +857,7 @@
     \begin{remark}
         For $\mathbb{R}$ the Borel function $T$ is obtained by first mapping $\mu$ to the Lebesgue measure on $[0,1]$ and then mapping it to $\nu$. Explicitly, let $F_\mu$ be the \textit{cumulative dsitribution} of $\mu$:
         \begin{gather}
-            F_\mu(x) := \mu\big(]-\infty,x]\big),
+            F_\mu(x) := \mu\big(]-\infty,x]\big)\,,
         \end{gather}
         and let $G_\nu$ be the \textit{quantile function} of $\nu$:
         \begin{gather}
@@ -868,7 +926,7 @@
     \begin{theorem}[Fundamental theorem of calculus]\index{fundamental theorem!of calculus}
         Let $F$ be an absolutely continuous function on the closed interval $[a,b]$. Then $F$ is differentiable $\lambda$-a.e. ($\lambda$ being the Lebesgue measure) and its associated Lebesgue-Stieltjes measure $\mu_F$ has Radon-Nikodym derivative $\deriv{\mu_F}{\lambda}=F'$ $\lambda$-a.e. Furthermore, for all $x\in[a,b]$ one has
         \begin{gather}
-            F(x) - F(a) = \mu_F([a,x]) = \int_a^xF'(t)dt.
+            F(x) - F(a) = \mu_F([a,x]) = \int_a^xF'(t)\,dt.
         \end{gather}
     \end{theorem}
     \begin{result}

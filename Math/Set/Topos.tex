@@ -42,10 +42,11 @@
     \end{example}
 
     \newdef{Elementary topos}{\index{topos!elementary}
-        An elementary topos is a finitely complete, Cartesian closed category admitting a subobject classifier. Equivalently, one can define an elementary topos as a finitely complete category that has all power objects exist.
+        An elementary topos is a finitely complete, Cartesian closed category \ref{cat:closed} admitting a subobject classifier. Equivalently, one can define an elementary topos as a finitely complete category that has all power objects exist.
 
         The power object $Px$ of $x\in\ob{\mathcal{E}}$ is related to the subobject classifier $\Omega$ by the following relation:
         \begin{gather}
+            \label{topos:power_exponential}
             Px = \Omega^x.
         \end{gather}
     }
@@ -54,7 +55,7 @@
     \end{remark}
 
     \begin{theorem}[Fundamental theorem of topos theory]\index{fundamental theorem!of topos theory}
-        Let $\mathcal{E}$ be an elementary topos. The slice category $\mathcal{E}_{/x}$ is also a topos for every object $x\in\ob{\mathcal{E}}$. The subobject classifier is given by $\pi_2:\Omega\times x\rightarrow x$.
+        Let $\mathcal{E}$ be an elementary topos. The slice category $\mathcal{E}/x$ is also a topos for every object $x\in\ob{\mathcal{E}}$. The subobject classifier is given by $\pi_2:\Omega\times x\rightarrow x$.
     \end{theorem}
 
     \begin{property}[Balanced]
@@ -69,25 +70,43 @@
         The mono is called the \textbf{image} of $f$.
     \end{property}
 
-\section{Internal logic}\label{section:internal_logic}
-
-    In this subsection finitely complete categories that admit a subobject classifier are considered (they do not have to be elementary topoi).
-
-    \newdef{Truth value}{\index{truth value}
-        A global element of the subobject classifier, i.e.~a morphism $1\rightarrow\Omega$. The subobject classifier $\Omega$ is also sometimes called the \textbf{object of truth values}.
-    }
-
-    \begin{property}[Heyting algebra]\label{topos:heyting_algebra}
-        For all objects $x$ in an elementary topos, the poset of subobjects $\mathrm{Sub}(x)$ has the structure of a Heyting algebra \ref{set:heyting} and, in particular, that of a locale \ref{topology:locale}. Hence, every topos canonically gives an external Heyting algebra, namely $\mathrm{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
-    \end{property}
-
-    ?? COMPLETE ??
-
 \section{Morphisms}
 
-    \newdef{Base change}{\index{base change}
-        Consider a category $\mathbf{C}$ with pullbacks. For every morphism $f:x\rightarrow y$ one can define a functor $f^*:\mathbf{C}_{/y}\rightarrow\mathbf{C}_{/x}$. This functor acts by pullback along $f$.
+    \newdef{Base change}{\index{base change}\label{topos:base_change}
+        Consider a category $\mathbf{C}$ with pullbacks. For every morphism $f:x\rightarrow y$ one can define a functor $f^*:\mathbf{C}/y\rightarrow\mathbf{C}/x$. This functor acts by pullback along $f$.
     }
+    \newdef{Dependent sum and product}{\index{dependent!sum/product}\label{topos:dependent_functors}
+        Consider a base change functor $f^*$. The dependent sum and product functors are given by the right and left adjoints (if they exist):
+        \begin{gather}
+            \label{topos:dependent_adjoint_triple}
+            \sum_f\dashv f^*\dashv \prod_f.
+        \end{gather}
+    }
+    \begin{remark}
+        The dependent sum can be shown to exist over any category. In fact, as a functor, it is simply given by postcomposition with $f$. However, the interpretation is much less trivial. Any morphism can be interpreted as a ``space'' with fibres the preimages. For example, in $\mathbf{Set}$, a morphism $g:Z\rightarrow X$ represents $Z$ as follows: \[Z\cong\bigsqcup_{x\in X}g^{-1}(x)\equiv\sum_{x:X}g^{-1}(x).\] The dependent sum generalizes this construction in a fibrewise manner, i.e.~the fibre over a point $y\in Y$ is given by
+        \begin{gather}
+            \sum_fg\,\Big|_y = \bigsqcup_{x\in f^{-1}(y)}g^{-1}(x).
+        \end{gather}
+        Instead of combining all fibres into a single space, it combines those that lie in a single fibre of $f$.
+    \end{remark}
+
+    Although the dependent sum always exists, the dependent product requires more structure (see e.g.~\cite{huang2022locally}):
+    \begin{property}[Locally Cartesian closed categories]
+        In a locally Cartesian closed category \ref{cat:closed}, all dependent products exist. In fact, the existence of the adjoint triple \eqref{topos:dependent_adjoint_triple} is equivalent to $\mathbf{C}$ being locally Cartesian closed. For example, in $\mathbf{Set}$, the dependent product is given by
+        \begin{gather}
+            \label{topos:dependent_product_sets}
+            \prod_fg\,\Big|_y=\prod_{x\in f^{-1}(y)}g^{-1}(x).
+        \end{gather}
+        When $f$ is the terminal morphism, this represents the space of sections $X\rightarrow Z\equiv\sum_{x:X}g^{-1}(x)$ of $g$.
+
+        More generally, the functor is obtained through the product-exponential adjunction in slice categories. The pullback is equal to a product in a slice category. Since $\mathbf{C}$ is locally Cartesian, one obtains for all $p:a\rightarrow y$ and $q:b\rightarrow y$:
+        \begin{gather}
+            \mathbf{C}/x(p\times f,q)\cong\mathbf{C}/y(p,q^f)
+        \end{gather}
+        for some morphism $q^f:b^f\rightarrow y$. Applying this exponential functor to the identity morphism $\mathbbm{1}_f$ gives a morphism $s:\mathbbm{1}_y\rightarrow f^f$ or $s:y\rightarrow x^f$ (this simply picks out the identity morphism in the exponential object internally). The dependent product is then defined as the pullback $\prod_fg:=s^*g^f$, where $g^f$ is interpreted as the morphism $(f\circ g)^f\rightarrow f^f$ in $\mathbf{C}/y$.
+
+        The idea behind this pullback construction is that in $\mathbf{Set}$, the pullback of $g^X:Z^X\rightarrow X^X$ along $s:\mathbbm{1}_X\rightarrow X^X$ is equal to the set \[\{h\in Z^X\mid h\circ g=\mathbbm{1}_Z\}\,,\] i.e.~it consists of all sections of $g$. Hence, the pullback construction generalizes \eqref{topos:dependent_product_sets}.
+    \end{property}
 
     \newdef{Logical morphism}{\index{morphism!logical}
         A functor $f:\mathcal{E}\rightarrow\mathcal{F}$ between elementary topoi is said to be logical if it preserves finite limits, exponential objects and the subobject classifier.
@@ -99,11 +118,11 @@
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
         A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ of elementary topoi consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\] where the left adjoint is left exact. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint $f^*$ is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
     }
-    \newdef{Geometric embedding}{\index{embedding}
-        A geometric morphism for which the direct image part is fully faithful.
+    \newdef{Geometric embedding}{\index{embedding}\index{sub-!topos}\index{level}
+        A geometric morphism for which the direct image part is fully faithful. If $\mathcal{E}\hookrightarrow\mathcal{F}$ is a geometric embedding, $\mathcal{E}$ is sometimes called a \textbf{subtopos} of $\mathcal{F}$. Moreover, if it is an essential geometric morphisms, the subtopos is itself said to be \textbf{essential}. Essential subtopoi $\mathcal{E}\hookrightarrow\mathcal{F}$ are also called \textbf{levels} of $\mathcal{F}$.
     }
     \begin{property}[Characterization of geometric embeddings]\label{topos:characterization_embedding}
-        Let $f:\mathcal{E}\rightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\mathrm{hom}(\mathcal{F})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{E}$ is both equivalent to the full subcategory of $\mathcal{F}$ on $W$-local objects (Definition \ref{cat:local_object}) and the localization $\mathcal{F}[W^{-1}]$ at $W$ (Definition \ref{model:localization}).
+        Let $f:\mathcal{E}\hookrightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\mathrm{hom}(\mathcal{F})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{E}$ is both equivalent to the full subcategory of $\mathcal{F}$ on $W$-local objects (Definition \ref{cat:local_object}) and the localization $\mathcal{F}[W^{-1}]$ at $W$ (Definition \ref{model:localization}).
     \end{property}
 
     \begin{property}[Base change]
@@ -134,18 +153,72 @@
         However, to obtain the structure of a 2-category, one needs to define an appropriate notion of 2-morphism. Because a geometric morphism consists of an adjunction, one can consider two distinct conventions. Either one can choose the 2-morphisms in $\mathbf{Topos}$ to be the natural transformations $f^*\Rightarrow g^*$ (with associated transformations $g_*\Rightarrow f_*$) or one can choose them to be the natural transformations $f_*\Rightarrow g_*$ (and associated transformations $g^*\Rightarrow f^*$). This chapter follows \cite{johnstone} and the ``inverse image convention'' is used, i.e.~a 2-morphism $f\Rightarrow g$ consists of natural transformations $f^*\Rightarrow g^*$ and $g_*\Rightarrow f_*$.
     }
 
-\section{Grothendieck topos}\label{section:grothendieck_topos}
+\section{Internal logic}\label{section:internal_logic}
+
+    In this subsection finitely complete categories that admit a subobject classifier are considered (they do not have to be elementary topoi).
+
+    \newdef{Truth value}{\index{truth value}
+        A global element of the subobject classifier, i.e.~a morphism $1\rightarrow\Omega$. The subobject classifier $\Omega$ is also sometimes called the \textbf{object of truth values}.
+    }
+
+    \begin{property}[Heyting algebra]\label{topos:heyting_algebra}
+        For all objects $x$ in an elementary topos, the poset of subobjects $\mathrm{Sub}(x)$ has the structure of an internal meet-semilattice since forming pullbacks of monos gives a natural transformation
+        \begin{gather}
+            \cap_X:\hom(X,\Omega\times\Omega)\rightarrow\hom(X,\Omega).
+        \end{gather}
+        By the Yoneda lemma this induces an internal map
+        \begin{gather}
+            \land:\Omega\times\Omega\rightarrow\Omega.
+        \end{gather}
+        In fact it can be shown that this gives the structure of an internal
+        Heyting algebra \ref{set:heyting} and, in particular, that of an internal locale \ref{topology:locale}. Hence, every topos canonically gives an external Heyting algebra, namely $\mathrm{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
+    \end{property}
+
+    \newdef{Mitchell-B\'enabou language}{\index{Mitchell-B\'enabou language}\index{proposition}\index{type}\index{variable}\index{term}
+        Let $\mathcal{E}$ be an elementary topos with subobject classifier $\Omega$.
+        \begin{enumerate}
+            \item\textbf{Type}: An object $x\in\ob{\mathcal{E}}$.
+            \item\textbf{Variable} (of type $x$): An identity morphism $\mathbbm{1}_x$.
+            \item\textbf{Term} (of type $x$ in variables $\alpha_i$ of type $x_i$): a morphism $\prod_{i\in I}x_i\rightarrow x$.
+            \item\textbf{Formula} or \textbf{proposition}: a term of type $\Omega$. Moreover, a formula is deemed true if it factors through $\mathtt{true}:1\rightarrow\Omega$.
+        \end{enumerate}
+        The logical connectives are induced by the internal Heyting structure on $\Omega$. Quantifiers are induced by the (internal) completeness of $\Omega$.
+
+        Every type also comes equipped with two binary relations:
+        \begin{enumerate}
+            \item $=_x$ is obtained from the characteristic morphism of the diagonal inclusion.
+            \item $\in_x$ is obtained by using the evalution map of the exponential object together with relation \eqref{topos:power_exponential}.
+        \end{enumerate}
+        Since the slices of an elementary topos are themselves elementary topoi, one can also define dependent types. An \textbf{indexed type} is an object of a slice category. \textbf{(Dependent) sums} and \textbf{products} of type families are goven by the left and right adjoints to the base change functor.
+    }
+
+    An interpretation of the Mitchell-B\'enabou language in an elementary topos $\mathcal{E}$ goes as follows:
+    \newdef{Kripke-Joyal semantics}{\index{Kripke-Joyal semantics}\index{entailment}
+        The \textbf{entailment} $U\vdash\phi(\alpha)$ for a term $\alpha:U\rightarrow X$ and a proposition $\phi(x):X\rightarrow\Omega$ is said to hold if $\alpha$ factors through the pullback $\{x\in X\mid\phi(x)\}$.
+    }
+
+    \begin{property}[Monotonicity]
+        If $V\vdash\phi(\alpha)$ and $f:U\rightarrow V$, then $U\vdash\phi(\alpha\circ f)$.
+    \end{property}
+    \begin{property}[Locality]
+        If $f:U\rightarrow V$ is epic and $V\vdash\phi(\alpha\circ f)$, then $U\vdash\phi(\alpha)$.
+    \end{property}
+
+    ?? COMPLETE ??
+
+\section{Grothendieck topoi}\label{section:grothendieck_topos}
+\subsection{Grothendieck topologies}
 
     \newdef{Sieve}{\index{sieve}
         Let $\mathbf{C}$ be a small category. A sieve $S$ on $\mathbf{C}$ is a fully faithfull discrete fibration $S\hookrightarrow\mathbf{C}$.
 
-        A sieve $S$ on an object $x\in\mathbf{C}$ is a sieve in the slice category $\mathbf{C}_{/x}$. This means that $S$ is a subset of $\mathrm{ob}(\mathbf{C}_{/x})$ that is closed under precomposition, i.e.~if $y\rightarrow x\in S$ and $z\rightarrow y\in\mathrm{hom}(\mathbf{C})$, then $z\rightarrow y\rightarrow x\in S$.
+        A sieve $S$ on an object $x\in\mathbf{C}$ is a sieve in the slice category $\mathbf{C}/x$. This means that $S$ is a subset of $\mathrm{ob}(\mathbf{C}/x)$ that is closed under precomposition, i.e.~if $y\rightarrow x\in S$ and $z\rightarrow y\in\mathrm{hom}(\mathbf{C})$, then $z\rightarrow y\rightarrow x\in S$.
 
         All of this can be summarized by saying that a sieve on an object $x\in\ob{C}$ is a subfunctor of the hom-functor $\mathbf{C}(-,x)$.
     }
 
     \begin{example}[Maximal sieve]
-        Let $\mathbf{C}$ be a category. The maximal sieve on $x\in\ob{C}$ is the collection of all morphisms $\{f\in\mathrm{hom}(\mathbf{C})\mid\cod(f)=x\}$ or, equivalently, all of $\mathrm{ob}(\mathbf{C}_{/x})$.
+        Let $\mathbf{C}$ be a category. The maximal sieve on $x\in\ob{C}$ is the collection of all morphisms $\{f\in\mathrm{hom}(\mathbf{C})\mid\cod(f)=x\}$ or, equivalently, all of $\mathrm{ob}(\mathbf{C}/x)$.
     \end{example}
     \begin{example}[Pullback sieve]
         Consider a morphism $f:x\rightarrow y$. Given a sieve $S$ on $y$, one can construct the pullback sieve $f^*S$ on $x$ as the sieve of morphisms in $S$ that factor through $f$:
@@ -322,7 +395,7 @@
         A category $\mathbf{Sh(C)}$ equipped with a geometric embedding into $\mathbf{Psh(C)}$.
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Proof of equivalence]
-            By Property \ref{topos:characterization_embedding} such a category is equivalent to the full subcategory on $S$-local presheaves for some system of local isomorphisms $S$ and, therefore, also to a sheaf topos in the sense of Grothendieck by the property above.
+            By Property \ref{topos:characterization_embedding} such a category is equivalent to the full subcategory on $S$-local presheaves for some system of local isomorphisms $S$ and, therefore, also to a sheaf topos in the sense of Grothendieck by the property above.\qed
             \end{proof}
         \end{mdframed}
     }
@@ -414,11 +487,11 @@
 \subsection{Lawvere-Tierney topology}
 
     \newdef{Lawvere-Tierney topology}{\index{Lawvere-Tierney}
-        As noted in Section \ref{section:internal_logic} on the internal logic of elementary topoi, the subobject classifier $\Omega$ has the structure of an internal Heyting algebra and, in particular, that of a meet-semilattice, where the meet is given by the pullback of morphisms. This internal poset, viewed as an internal category, admits the construction of a closure operator $j:\Omega\rightarrow\Omega$ (Definition \ref{cat:closure_operator}) satisfying the following condition:
+        As noted in Section \ref{section:internal_logic} on the internal logic of elementary topoi, the subobject classifier $\Omega$ has the structure of an internal Heyting algebra and, in particular, that of a (bounded) meet-semilattice. This internal poset, viewed as an internal category, admits the construction of a closure operator $j:\Omega\rightarrow\Omega$ (Definition \ref{cat:closure_operator}) satisfying the following condition:
         \begin{gather}
             j\circ\land = \land\circ(j\times j).
         \end{gather}
-        This condition states (in a nontrivial way) that $j$ is (internally) order-preserving.
+        This condition states (in a nontrivial way) that $j$ is (internally) order-preserving. More concisely, a Lawvere-Tierney topology is internally a left exact modality on $\Omega$.
     }
     \begin{remark}
         The condition satisfied by the unit morphism in the definition of a closure operator can also be reformulated in this context as follows:
@@ -436,12 +509,17 @@
     }
 
     \begin{property}
-        For the presheaf topos on a small category $\mathbf{C}$, the Grothendieck topologies on $\mathbf{C}$ are equivalent to Lawvere-Tierney topologies on $\mathbf{Psh(C)}$.
-        \begin{proof}[Sketch of proof]
-            Since a Grothendieck topology assigns to every object a collection of sieves, Property \ref{topos:presheaf_topos} implies that $J(x)\subseteq\Omega_\mathbf{Psh}(x)$ for all $x\in\ob{C}$. By the base change condition of Grothendieck topologies, this relation is natural in $x$ and, hence, $J$ is a subobject of $\Omega_\mathbf{Psh}$. One thus finds a characteristic morphism $j:\Omega_\mathbf{Psh}\rightarrow\Omega_\mathbf{Psh}$ that can be proven (by the other conditions of Grothendieck topologies) to define a Lawvere-Tierney topology on $\mathbf{Psh(C)}$. Conversely, a Lawvere-Tierney topology is a morphism $j:\Omega\rightarrow\Omega$ and, hence, determines a unique subobject of $\Omega_\mathbf{Psh}$, i.e.~a unique collection of sieves for every object $x\in\ob{C}$. From the conditions of Lawvere-Tierney topologies one can then prove that this collection satisfies the conditions of a Grothendieck topology.
-        \end{proof}
+        Lawvere-Tierney topologies on $\mathcal{E}$ are in correspondence with subtopoi of $\mathcal{E}$.
     \end{property}
-    \remark{It follows that Lawvere-Tierney topologies generalize Grothendieck topologies from presheaf topoi to arbitrary elementary topoi.}
+    In the case of (pre)sheaf topoi, Lawvere-Tierney topologies recover Grothendieck topologies:
+    \begin{result}
+        For the presheaf topos on a small category $\mathbf{C}$, the Grothendieck topologies on $\mathbf{C}$ are equivalent to Lawvere-Tierney topologies on $\mathbf{Psh(C)}$.
+        \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
+            \begin{proof}[Sketch of proof]
+                Since a Grothendieck topology assigns to every object a collection of sieves, Property \ref{topos:presheaf_topos} implies that $J(x)\subseteq\Omega_\mathbf{Psh}(x)$ for all $x\in\ob{C}$. By the base change condition of Grothendieck topologies, this relation is natural in $x$ and, hence, $J$ is a subobject of $\Omega_\mathbf{Psh}$. One thus finds a characteristic morphism $j:\Omega_\mathbf{Psh}\rightarrow\Omega_\mathbf{Psh}$ that can be proven (by the other conditions of Grothendieck topologies) to define a Lawvere-Tierney topology on $\mathbf{Psh(C)}$. Conversely, a Lawvere-Tierney topology is a morphism $j:\Omega\rightarrow\Omega$ and, hence, determines a unique subobject of $\Omega_\mathbf{Psh}$, i.e.~a unique collection of sieves for every object $x\in\ob{C}$. From the conditions of Lawvere-Tierney topologies one can then prove that this collection satisfies the conditions of a Grothendieck topology.
+            \end{proof}
+        \end{mdframed}
+    \end{result}
 
 \section{Stacks}\index{stack}
 \subsection{2-sheafs}
@@ -666,55 +744,3 @@
             \mathbf{H}_{/\mathbf{BAut}(A)}(\chi,\rho_A).
         \end{gather}
     }
-
-\section{Cohesion}\index{cohesion}
-
-    In this section the terminology ``(Grothendieck) topos \textbf{over} a topos $\mathcal{S}$'' will mean a topos equipped with a geometric morphism to $\mathcal{S}$.
-
-    \newdef{Local topos}{\index{local!topos}\label{topos:local_topos}
-        Consider a topos $\mathcal{E}$ over a base topos $\mathcal{S}$. $\mathcal{E}$ is said to be ($\mathcal{S}$-)local if the geometric morphism $(f^*\dashv f_*):\mathcal{E}\leftrightarrows\mathcal{S}$ admits a right adjoint $f^!$ such that one of the following equivalent statements holds:
-        \begin{itemize}
-            \item $f^!$ is fully faithful.
-            \item $f^*$ is fully faithful.
-            \item $f^!$ is an $\mathcal{S}$-indexed functor \ref{cat:indexed_category}.
-            \item $f^!$ is Cartesian closed \ref{cat:cartesian_closed_functor}.
-        \end{itemize}
-        If one takes $\mathcal{S}=\mathbf{Set}$, the conditions are automatically satisfied since all functors are $\mathbf{Set}$-indexed. The triple of functors $f^*\dashv f_*\dashv f^!$ is also called a \textbf{local geometric morphism}.
-
-        The right adjoint is sometimes called the \textbf{codiscrete object functor} $\mathrm{coDisc}$ (in fact, this terminology is applied more generally when $\mathcal{E}$ is just any category). If this functor exists, $\mathcal{E}$ is said to have \textbf{codiscrete objects}.
-    }
-    \begin{property}
-        A topos is local if and only if $1$ is tiny \ref{cat:tiny}.
-    \end{property}
-
-    \newdef{Locally connected topos}{\index{locally!connected topos}\index{fundamental!groupoid}\label{topos:locally_connected}
-        An object in a category is said to be \textbf{connected} if its representable functor preserves finite coproducts. A topos is said to be \textbf{locally connected} if all objects can be written as coproducts of connected objects. This defines a functor
-        \begin{gather}
-            \Pi_0:\mathcal{E}\rightarrow\mathbf{Set}:\bigsqcup_{i\in I}X_i\mapsto I
-        \end{gather}
-        left adjoint to the discrete object functor (which is itself left adjoint to the global section functor). This functor is suitably called the \textbf{connected components functor}.
-
-        A topos is locally connected if and only if its global section geometric morphism is essential. More generally, a topos over some base topos $\mathcal{S}$ is said to be \textbf{locally connected} if its associated geometric morphism is essential and the left adjoint is $\mathcal{S}$-indexed. In the case of $(\infty,1)$-topoi, the image of the functor $\Pi_0$ is called the \textbf{fundamental $\infty$-groupoid}.
-    }
-    \newdef{Connected topos}{\index{connected!topos}
-        A topos over a base topos is said to be \textbf{connected} if the inverse image part of the associated geometric morphism is fully faithful. For sheaf topoi over a topological space $X$ this is exactly the requirement that $X$ is connected.
-
-        For locally connected topoi this amounts to the property that the left adjoint in its adjoint triple preserves the terminal object. Furthermore, a locally connected topos is said to be \textbf{strongly connected} if the left adjoint in its adjoint triple preserves finite products (in particular turning it into a connected topos).
-    }
-    \begin{property}
-        Every local topos is connected.
-    \end{property}
-
-    \newdef{Cohesive topos}{\index{topos!cohesive}
-        A local, strongly connected topos. This implies the existence of an adjoint quadruple $(\Pi_0,\mathrm{Disc},\Gamma,\mathrm{coDisc})$ where both $\mathrm{Disc}$ and $\mathrm{coDisc}$ are fully faithful.
-    }
-
-    \begin{property}[Cohesive modalities]\index{flat!modality}\index{sharp!modality}\index{shape!modality}\index{discrete!object}\label{topos:cohesive_modalities}
-        The adjoint quadruple on a cohesive topos induces an adjoint triple of modalities \ref{cat:closure_operator}, i.e.~idempotent (co)monads (see Section \ref{section:modal_type_theory} for a formal introduction in the context of type theory):
-        \begin{gather}
-            (\smallint\dashv\flat\dashv\sharp):=(\mathrm{Disc}\circ\Pi_0\dashv\mathrm{Disc}\circ\Gamma\dashv\mathrm{coDisc}\circ\Gamma).
-        \end{gather}
-        These are respectively called the \textbf{shape}, \textbf{flat} and \textbf{sharp} modalities. The modal types of the flat and sharp modalities are called the \textbf{discrete} and \textbf{codiscrete objects}, respectively.
-    \end{property}
-
-    ?? COMPLETE (e.g.~work by Schreiber) ??

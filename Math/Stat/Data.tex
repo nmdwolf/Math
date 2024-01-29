@@ -625,7 +625,7 @@
 
     ?? COMPLETE (e.g.~geometry)??
 
-\section{Vapnik-Chervonenkis theory}
+\section{Complexity theory}
 \subsection{VC dimension}
 
     \newdef{Shatter coefficient}{\index{shatter}
@@ -647,7 +647,7 @@
     }
 
     \newdef{Vapnik-Chervonenkis dimension}{\index{Vapnik-Chervonenkis!dimension}
-        The Vapnik-Chervonenkis dimension of a collection of functions $\mathcal{F}$ is defined as follows:
+        The Vapnik-Chervonenkis dimension of a collection of binary functions $\mathcal{F}$ is defined as follows:
         \begin{gather}
             \mathrm{VC}(\mathcal{F}) := \max\{k\in\mathbb{N}\mid S_k(\mathcal{F})=2^k\}.
         \end{gather}
@@ -676,7 +676,7 @@
     \begin{property}[Generalization bound]
         The expected risk of the empirical risk minimizer $\hat{f}$ is bounded as follows:
         \begin{gather}
-            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(e\,n/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
+            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(en/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
         \end{gather}
         with probability at least $1-\delta$.
     \end{property}
@@ -703,7 +703,7 @@
         The set of translations of a real-valued function has VC dimension 1.
     \end{example}
 
-    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that the VC bounds obtained before above make sense in this setting. To obtain useful bounds, it is important to introduce a new notion of effective size:
+    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that the VC bounds obtained before make sense in this setting. To obtain useful bounds, it is necessary to introduce a new notion of effective size:
     \newdef{Rademacher complexity}{\index{Rademacher!complexity}
         Consider a collection of functions $\mathcal{F}:=\{f:X\rightarrow\mathbb{R}\}$. The Rademacher complexity is defined as follows:
         \begin{gather}
@@ -957,20 +957,25 @@
     }
 
     \newdef{Nonconformity measure}{\index{measure!conformity}
-        Consider a bag $\mathcal{B}$ together with a new element $z^*$ in a probability space $(Z,\Sigma,P)$. A noncomformity measure $A:Z^\infty\times Z\rightarrow\mathbb{R}$ is a measurable function that gives a number indicating how different $z^*$ is from the content of $\mathcal{B}$.
+        A noncomformity measure $A:Z^\infty\times Z\rightarrow\mathbb{R}$ is a measurable function that gives a number indicating how ``different'' $z^*$ is.
     }
     \sremark{One could restate all statements in this section in terms of ``conformity measures'' and, hence, look at similarities instead of dissimilarities. It will become clear that the procedure is invariant under monotone transformations and, hence, everything can be multiplied by $-1$.}
     \begin{example}[Point predictors]
-        A general class of nonconformity measures is obtained from point predictors for a metric space $(Y,d)$ . Given a point predictor $\rho:X\rightarrow Y$ trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
+        A general class of nonconformity measures is obtained from point predictors on a metric space $(Y,d)$ . Given a point predictor $\rho:X\rightarrow Y$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_\rho\big(\mathcal{B},(x,y)\big) := d\big(\rho(x),y\big).
+            A_\rho(x,y) := d\big(\rho(x),y\big).
         \end{gather}
     \end{example}
     \begin{example}[Interval predictors]
-        For every interval predictor $(l,u):X\rightarrow\mathbb{R}^2$, i.e.~a pair of functions $u,l:X\rightarrow\mathbb{R}$ such that $\forall x\in X:l(x)\leq u(x)$, trained on a bag $\mathcal{B}$, one can define a nonconformity measure as follows:
+        For every interval predictor $(l,u):X\rightarrow\mathbb{R}^2$, i.e.~a pair of functions $u,l:X\rightarrow\mathbb{R}$ such that $\forall x\in X:l(x)\leq u(x)$, one can define a nonconformity measure as follows:
         \begin{gather}
-            A_{u,l}\big(\mathcal{B},(x,y)\big) := \max\big(l(x)-y,y-u(x)\big).
+            A_{u,l}(x,y) := \max\big(l(x)-y,y-u(x)\big).
         \end{gather}
+        Together with the previous example, this are cases of the more general nonconformity measure
+        \begin{gather}
+            A_C(x,y) := \max_{p\in\partial C(x)}d(p,y)\,,
+        \end{gather}
+        where $C:X\rightarrow Y$ is a general set predictor. For point-predictors $C(x)$ is simply a one-element set.
     \end{example}
 
     It should be noted that although common, nonconformity measures and, by extension, conformal prediction are also applicable to nonmetric spaces:
@@ -986,9 +991,9 @@
     \end{example}
 
     \begin{construct}[Conformal predictor]\label{data:cp}
-        Consider a data sample given as a bag $\mathcal{B}\in Z^\infty$ together with a nonconformity measure $A$ and let $\alpha$ denote the confidence level of the prediction region to be constructed. For any new element $z^*\in Z$ the algorithm proceeds as follows:
+        Consider a data sample given as a bag $\mathcal{B}\in Z^\infty$ together with a nonconformity measure $A$ derived from $\mathcal{B}$ and let $\alpha$ denote the confidence level of the prediction region to be constructed. For any new element $z^*\in Z$ the algorithm proceeds as follows:
         \begin{enumerate}
-            \item Denote the nonconformity score $A(\mathcal{B},z^*)$ by $\mu_{z^*}$.
+            \item Denote the nonconformity score $A(z^*)$ by $\mu_{z^*}$.
             \item For every element $z$ in $\mathcal{B}$, define $\mu_z$ by replacing $z$ by $z^*$ in the bag and calculating the nonconformity score as in the previous step.
             \item Calculate the conformal $p$-value as the fraction of ``nonconforming'' elements:\footnote{The reason for the $+1$ in this formula is that one considers the extended data set $\mathcal{B}\cup\{z^*\}$.}
                 \begin{gather}
@@ -1009,7 +1014,7 @@
                 \end{gather}
                 and thus also
                 \begin{gather}
-                    P\big(y^*\in\Gamma^\alpha(x^*,\mathcal{B})\big)\geq1-\alpha\,,
+                    P\big(y^*\in\Gamma^\alpha(\mathcal{B},x^*)\big)\geq1-\alpha\,,
                 \end{gather}
                 where the probability is taken over both the bag $\mathcal{B}$ and the point $(x^*,y^*)$.
             \item Regions are nested, i.e.~$\alpha\leq\beta\implies\forall x\in X:\Gamma^\alpha(x)\subseteq\Gamma^\beta(x)$.
@@ -1035,10 +1040,10 @@
 
     At last a computationally efficient modification of the original CP algorithm is introduced. For most applications, especially those in machine learning and big data, the computational inefficiency of conformal predictors would make them hard to use. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification:
     \begin{construct}[Inductive CP]
-        Consider a data set $\mathcal{D}\subset Z$ and a nonconformity measure $A$ based on an underlying predictor. First, split $\mathcal{D}$ into a training set $\mathcal{T}$ and a calibration set $\mathcal{C}$. Using $\mathcal{T}$, train the underlying predictor of $A$. Then, for every point $z\equiv(x,y)\in\mathcal{C}$, construct the nonconformity score $\mu_z := A(z)$. As before, for every new element $z^*\in Z$ the conformal $p$-value is defined as the fraction of ``nonconforming'' elements:
+        Consider a data set $\mathcal{D}\subset Z$ and a nonconformity measure $A$ based on an underlying predictor. First, split $\mathcal{D}$ into a training set $\mathcal{T}$ and a calibration set $\mathcal{C}$. Using $\mathcal{T}$, train the underlying predictor of $A$. Then, for every point $z\equiv(x,y)\in\mathcal{C}$, construct the nonconformity score $A(z)$. As before, for every new element $z^*\in Z$ the conformal $p$-value is defined as the fraction of ``nonconforming'' elements:
         \begin{gather}
             \label{data:icp}
-            p^* := \frac{|\{z\in\mathcal{C}\mid\mu_z\geq\mu_{z^*}\}|+1}{|\mathcal{C}|+1}.
+            p^* := \frac{|\{z\in\mathcal{C}\mid A(z)\geq A(z^*)\}|+1}{|\mathcal{C}|+1}.
        \end{gather}
         As in the original CP algorithm, a new observation $z^*$ is included in the prediction region if and only if $p^*>\alpha$:
         \begin{gather}
@@ -1054,30 +1059,30 @@
     \begin{property}[Validity]
         Although the above ICP algorithm is already computationally much more efficient than its transductive counterpart, one can go even further. However, in this case one needs to pay attention in order not to ruin the validity. To use Equation \eqref{data:icp} one does not have to retrain the model every time, but one still needs to reevaluate the nonconformity score for possible $y^*\in Y$. It would be even better if one could extract the boundaries of the prediction region straight from the calibration data.
 
-        If the data is exchangeable (and the resulting nonconformity score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{\mu_z\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly sampled from $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\beta$, the probability of finding a new nonconformity score smaller than or equal to the $\beta$-quantile of $A(\mathcal{C})$ is
+        If the data is exchangeable (and the resulting nonconformity score are too) it is not hard to see that the rank of any new nonconformity score among the calibration scores $A(\mathcal{C}):=\{A(z)\in\mathbb{R}\mid z\in\mathcal{C}\}$ is uniformly sampled from $\{1,\ldots,|\mathcal{C}|+1\}$. So, given a quantile level $\beta$, the probability of finding a new nonconformity score smaller than or equal to the $\beta$-quantile of $A(\mathcal{C})$ is
         \begin{gather}
-            P\big(\mu_{z^*}\leq q_\beta(A(\mathcal{C}))\big) = \frac{\left\lceil\beta|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+            P\left(A(z^*)\leq q_\beta\big(A(\mathcal{C})\big)\right) = \frac{\left\lceil\beta|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
         \end{gather}
         If one constructs a prediction region by including all points $(x^*,y^*)\in Z$ such that the associated nonconformity score is smaller than the $(1-\alpha)$-quantile, one immediately obtains
         \begin{gather}
-            P\big(y^*\in\Gamma^\alpha(x^*,\mathcal{C})\big) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
+            P\big(y^*\in\Gamma^\alpha(\mathcal{C},x^*)\big) = \frac{\left\lceil(1-\alpha)|\mathcal{C}|\right\rceil}{|\mathcal{C}|+1}.
         \end{gather}
         However, this is where the TCP and ICP algorithms differ. When using Equation \eqref{data:tcp} for the transductive algorithm, the above probabilities would contain a factor $|\mathcal{C}|+1$ in both the numerator and the denominator, so the coverage condition is satisfied. However, for this quantile-based reformulation of the inductive algorithm, a minimal modification also leads to validity:
         \begin{gather}
-            \Gamma^\alpha(x)\longrightarrow\Gamma^\alpha(x) := \left\{y\in Y\mid A(x,y)\leq q_{(1+1/|\mathcal{C}|)(1-\alpha)}(A(\mathcal{C}))\right\}\,,
+            \Gamma^\alpha(\mathcal{C},x)\longrightarrow\Gamma^\alpha(\mathcal{C},x) := \left\{y\in Y\mid A(x,y)\leq q_{(1+1/|\mathcal{C}|)(1-\alpha)}\big(A(\mathcal{C})\big)\right\}\,,
         \end{gather}
         i.e.~the empirical quantiles are replaced by ``inflated'' quantiles. When using Equations \eqref{data:icp} and \eqref{data:icp2} to determine the ICP region, one is essentially including all points $(x^*,y^*)$ such that the nonconformity score is smaller than or equal to the $(1-\alpha)$-quantile of the enhanced calibration curve $A(\mathcal{C})\cup\{A(x^*,y^*)\}$. It is not hard to show that this quantile is equivalent to the inflated quantile of the ordinary calibration curve.
 
         The smoothing of Property \ref{data:smooth_cp} can also be applied in this case. If one does not use a smoothened conformal predictor but assumes that all calibration scores are distinct, the following property is obtained:
         \begin{gather}
-            P\big(y^*\in\Gamma^\alpha(x,\mathcal{C})\big)\geq 1 - \alpha + \frac{1}{|\mathcal{C}|}.
+            P\big(y^*\in\Gamma^\alpha(\mathcal{C},x^*)\big)\geq 1 - \alpha + \frac{1}{|\mathcal{C}|}.
         \end{gather}
         So, in the limit of large calibration sets, the exact validity is recovered.
     \end{property}
     \begin{remark}
         One does have to pay attention when interpreting the above statement. The validity property holds in probability with respect to both the new instance $(x^*,y^*)$ and the calibration set $\mathcal{C}$. However, this does not not mean that for a fixed calibration set $\mathcal{C}$ the error fraction
         \begin{gather}
-            \frac{|\{1\leq i\leq k\mid y_i\in\Gamma^\alpha(x_i,\mathcal{C})\}|}{k}
+            \frac{|\{1\leq i\leq k\mid y_i\in\Gamma^\alpha(\mathcal{C},x_i)\}|}{k}
         \end{gather}
         is bounded by $\alpha$ for $k\longrightarrow\infty$. Because the events are not independent, the error can be much larger than $\alpha$.
     \end{remark}
@@ -1102,22 +1107,74 @@
 
     ?? COMPLETE ??
 
+\subsection{Conformal predictive systems}
+
+    \newdef{Randomized predictive system}{
+        A function $Q:Z^n\times X\times\mathbb{R}\times[0,1]\rightarrow[0,1]$ satisfying:
+        \begin{enumerate}
+            \item For all $(z_1,\ldots,z_n,x)\in Z^n\times X$ the function $(y,\tau)\mapsto Q(z_1,\ldots,z_n,x,y,\tau)$ is increasing in both $y$ and $\tau$.
+            \item $\ds\lim_{y\rightarrow-\infty}Q(z_1,\ldots,z_n,x,y,0)=0$ and $\ds\lim_{y\rightarrow\infty}Q(z_1,\ldots,z_n,x,y,1)=1$ for all $(z_1,\ldots,z_n,x)\in Z^n\times X$.
+            \item If $\{z_1,\ldots,z_n,(x,y)\}$ are IID and independent of $\tau\sim\mathrm{U}$, the distribution of $Q$ is uniform.
+        \end{enumerate}
+        Through currying one obtains a \textbf{randomized predictive distribution (function)} $Q:\mathbb{R}\times[0,1]\rightarrow[0,1]$ for all $(z_1,\ldots,z_n,x)\in Z^n\times X$.
+    }
+
+    The defining properties of an RPS are very similar to the properties of a cumulative distribution function and in fact, under suitable continuity conditions, Result \ref{prob:cdf_axioms} says exactly that an RPS defines a cumulative distribution function.
+
+    \newdef{Inductive CPS}{
+        An RPS that is also an inductive conformal predictor.
+    }
+
+    \begin{property}
+        A nonconformity measure $A:Z\rightarrow\mathbb{R}$ is monotone increasing in $y$ and \textbf{balanced}, i.e.~the convex hull of $\left\{A\big((x,y)\big)\mid y\in\mathbb{R}\right\}$ does not depend on $x\in X$, if and only if the inductive conformal predictor based on $A$ is an RPS.
+    \end{property}
+
+    \begin{formula}
+        The output of an inductive CPS is given by
+        \begin{gather}
+            Q\big(\mathcal{C},(x,y),\tau\big) := \frac{|\{z\in\mathcal{C}\mid A(z)>A(x,y)\}|}{|\mathcal{C}|+1}+\tau\frac{|\{z\in\mathcal{C}\mid A(z)=A(x,y)\}|+1}{|\mathcal{C}|+1}\,,
+        \end{gather}
+        where $n:=|\mathcal{C}|$. If the nonconformity measure is strictly monotonic, the ICPS can be implemented as follows. For all $i\in\{1,\ldots,n\}$ define $C_i:X\rightarrow\mathbb{R}$ by solving
+        \begin{gather}
+            A(z_i)=A\big(x,C_i(x)\big)
+        \end{gather}
+        and set $C_0:=-\infty$ and $C_{n+1}:=+\infty$. For every $x\in X$, sort the set $\{C_i(x)\mid i=0,\ldots,n+1\}$ and construct $Q\big(\mathcal{C},(x,y),\tau\big)$ as follows:
+        \begin{gather}
+            Q\big(\mathcal{C},(x,y),\tau\big) :=
+            \begin{cases}
+                \frac{i+\tau}{n+1}&y\in\;]C_i(x),C_{i+1}(x)[\,,i\in\{0,\ldots,n\}\\
+                \frac{j_i-1+(k_i-j+2)\tau}{n+1}&y=C_i(x),i\in\{1,\ldots,n\}
+            \end{cases}\,,
+        \end{gather}
+        where $j_i:=\min\{m=1,\ldots,n\mid C_i(x)=C_m(x)\}$ and $k_i:=\max\{m=1,\ldots,n\mid C_i(x)=C_m(x)\}$.
+    \end{formula}
+    \begin{example}[$z$-score]
+        Consider the normalized residual measure
+        \begin{gather}
+            A_\sigma(x,y) := \frac{y-\mu(x)}{\sigma(x)}.
+        \end{gather}
+        The thresholds $C_i$ for the associated ICPS are given by
+        \begin{gather}
+            C_i(x) = \mu(x) + \frac{\sigma(x)}{\sigma(x_i)}\big(y_i-\mu(x_i)\big).
+        \end{gather}
+    \end{example}
+
 \subsection{Classifier calibration}
 
     A specific instance of regression problems are classification tasks, where the one tries to model a function $f:X\rightarrow Y$ with $Y$ finite (or discrete). For the case of probabilistic classifiers, the notion of validity \ref{data:validity} admits the following formulation:
     \newdef{Calibration}{\index{calibration}
-        A probabilistic (multiclass) classifier $\hat{P}(\cdot\mid\cdot):Y\times X\rightarrow[0,1]$ is said to be (well-)calibrated if
+        A probabilistic (multiclass) classifier $\widehat{P}(\cdot\mid\cdot):Y\times X\rightarrow[0,1]$ is said to be (well-)calibrated if
         \begin{gather}
-            \mathrm{Pr}\left(y\,\middle\vert\,\hat{P}(y\mid x)=p\right)=p
+            P\left(y\,\middle\vert\,\widehat{P}(y\mid x)=p\right)=p
         \end{gather}
-        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\hat{P}$, i.e.~instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class. A possible way to visually investigate the calibration of a probabilistic classifier is to draw \textbf{calibration plots} or \textbf{reliability diagrams} for all classes, where for every class label $y$ and for a suitable partition $\mathcal{P}:=\{0=p_1,p_2,\ldots,p_n=1\}$ of the interval $[0,1]$ the $i^{th}$ point is the proportion of instances for which $y$ was predicted with probability between $p_i$ and $p_{i+1}$. For a calibrated model, these points should lie on the diagonal.
+        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\widehat{P}$, i.e.~instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class. A possible way to visually investigate the calibration of a probabilistic classifier is to draw \textbf{calibration plots} or \textbf{reliability diagrams} for all classes, where for every class label $y$ and for a suitable partition $\mathcal{P}:=\{0=p_1,p_2,\ldots,p_n=1\}$ of the interval $[0,1]$ the $i^{th}$ point is the proportion of instances for which $y$ was predicted with probability between $p_i$ and $p_{i+1}$. For a calibrated model, these points should lie on the diagonal.
     }
 
     Consider now the case of binary classification: $X\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
     \begin{gather}
-        A_\text{binary}\big(\mathcal{B},(x,y)\big) := 1 - \hat{P}(y\mid x;\mathcal{B})\,,
+        A_\text{binary}\big((x,y)\big) := 1 - \widehat{P}(y\mid x).
     \end{gather}
-    where the classifier is possibly estimated on $\mathcal{B}$. At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
+    At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
 
     In fact, for classification tasks, where the codomain is finite (or at least discrete), it makes sense to slightly change the approach. Instead of fixing the significance level $\alpha$, one could (or should) consider some specific values:\index{confidence}\index{credibility}
     \begin{itemize}
@@ -1126,15 +1183,15 @@
     \end{itemize}
     The former is the highest probability with which the model can predict a single class. If one wants a higher probability, more than one class has to be considered. The latter gives a measure of how ``credible'' the predictions are. The smaller this number, i.e.~the greater the confidence with which the model predicts a vacuously false result (every sample necessarily belongs to a class), the less reliable the model is for a given sample.
 
-    Various othe approaches exist to calibrate existing probabilistic classifiers. In practice it has been observed that many models show sigmoidal distortions in their calibration plots. A possible approach is then to modify the final sigmoidal layer in these models (or add an extra sigmoidal layer if the model did not use one). This gives rise to \textbf{Platt scaling} and \textbf{temperature scaling}. For the former one takes the output $\hat{P}$ and fits a sigmoidal layer of the form
+    Various othe approaches exist to calibrate existing probabilistic classifiers. In practice it has been observed that many models show sigmoidal distortions in their calibration plots. A possible approach is then to modify the final sigmoidal layer in these models (or add an extra sigmoidal layer if the model did not use one). This gives rise to \textbf{Platt scaling} and \textbf{temperature scaling}. For the former one takes the output $\widehat{P}$ and fits a sigmoidal layer of the form
     \begin{gather}
-        \hat{P}_\text{Platt}(y\mid x;A,B) = \frac{1}{1+\exp\big(-A\hat{P}(y\mid x)-B\big)}.
+        \widehat{P}_\text{Platt}(y\mid x;A,B) = \frac{1}{1+\exp\big(-A\widehat{P}(y\mid x)-B\big)}.
     \end{gather}
     For the latter one modifies the existing logits as follows for some parameter $T>0$:
     \begin{gather}
-        \hat{P}_\text{temp}(y\mid x;T) = \frac{1}{1+\exp\big(-\hat{z}(y\mid x)/T\big)}\,,
+        \widehat{P}_\text{temp}(y\mid x;T) = \frac{1}{1+\exp\big(-\widehat{z}(y\mid x)/T\big)}\,,
     \end{gather}
-    where $\hat{z}$ represents the logits of the estimator $\hat{P}$.
+    where $\widehat{z}$ represents the logits of the estimator $\widehat{P}$.
 
     \begin{remark}[Accuracy]
         Because temperature scaling does not change the maximum of the softmax function, the eventual predictions do not change.
@@ -1198,11 +1255,11 @@
     \end{method}
     However, not all distribution shifts will give rise to such behaviour. For example, it is possible that, although the $p$-values are not distributed uniformly anymore (since the data is not exchangeable), they are concentrated in the upper half of the unit interval and, hence, do not let the ``martingale'' grow strongly. For this reason it is convenient to construct betting functions that take into account the distribution of the $p$-values.
     \begin{method}[Plug-in martingale]
-        Let $\hat{\rho}_i(p)$ denote an estimate of the probability density constructed using the $p$-values $\{p_1,\ldots,p_i\}$. The plug-in martingale is defined by the betting functions
+        Let $\widehat{\rho}_i(p)$ denote an estimate of the probability density constructed using the $p$-values $\{p_1,\ldots,p_i\}$. The plug-in martingale is defined by the betting functions
         \begin{gather}
-            f_i := \hat{\rho}_{i-1}.
+            f_i := \widehat{\rho}_{i-1}.
         \end{gather}
-        Now, if the empirical distribution functions of the $p$-values converge weakly \ref{lebesgue:weak_convergence} to an absolutely continuous distribution and $\log(\hat{\rho}_i(p))\longrightarrow\log(\rho(p))$ uniformly, where $\rho$ is the limit density of the empirical distributions, it can be shown that plug-in martingale grows quicker than the martingale associated to any other (continuous) betting function.
+        Now, if the empirical distribution functions of the $p$-values converge weakly \ref{lebesgue:weak_convergence} to an absolutely continuous distribution and $\log(\widehat{\rho}_i(p))\longrightarrow\log(\rho(p))$ uniformly, where $\rho$ is the limit density of the empirical distributions, it can be shown that plug-in martingale grows quicker than the martingale associated to any other (continuous) betting function.
     \end{method}
 
     A different approach is to use $p$-values that are constructed directly from disitributional data. For inspiration, consider the following property:
@@ -1217,11 +1274,9 @@
     \begin{example}[Likelihood nonconformity]
         For every two probability densities $f,g$ one can define a nonconformity measure as follows:
         \begin{gather}
-            A_\mathrm{NP}(\mathcal{B},z) := \log f(z)-\log g(z)\,,
+            A_\mathrm{NP}(z) := \log f(z)-\log g(z)\,,
         \end{gather}
-        i.e.~the log-likelihood ratio.\footnote{The subscript refers to the Neyman-Pearson lemma \ref{statistics:neyman_pearson} for which this function gives the (logarithm) of the test statistic.}
-
-        By using this nonconformity measure in combination with the above plug-in approach, one can obtain a likelihood-based changepoint detection algorithm. If the initial distribution is not known, it can be estimated based on the bag $\mathcal{B}$.
+        i.e.~the log-likelihood ratio.\footnote{The subscript refers to the Neyman-Pearson lemma \ref{statistics:neyman_pearson} for which this function gives the (logarithm) of the test statistic.} By using this nonconformity measure in combination with the above plug-in approach, one can obtain a likelihood-based changepoint detection algorithm.
     \end{example}
 
 \section{Generative models}

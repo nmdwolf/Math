@@ -10,7 +10,7 @@
         \begin{enumerate}
             \item\textbf{Nonnegativity}: $\forall E\in\Sigma:\mu(E)\geq0$,
             \item\textbf{Empty set is null}: $\mu(\emptyset)=0$, and
-            \item\textbf{$\sigma$-additivity}: $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
+            \item\textbf{$\sigma$-additivity}: $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^{+\infty}\mu(E_n)$.
         \end{enumerate}
         When $\mu$ is defined on all of $P(X)$ and only satisfies countable subadditivity, i.e.~the equality in the last condition becomes an inequality $\leq$, it is called an \textbf{outer measure}.
     }
@@ -93,7 +93,7 @@
     \newdef{Lebesgue outer measure}{\index{Lebesgue!outer measure}\label{lebesgue:outer_measure}
         Let $X\subseteq\mathbb{R}$ be a set. The (Lebesgue) outer measure of $X$ is defined as follows:
         \begin{gather}
-            \lambda^*(X) := \inf\left\{\sum_{n=1}^\infty l(I_n)\,\middle\vert\,\seq{I}\text{ a sequence of open intervals that covers }X\right\}.
+            \lambda^*(X) := \inf\left\{\sum_{n=1}^{+\infty}l(I_n)\,\middle\vert\,\seq{I}\text{ a sequence of open intervals that covers }X\right\}.
         \end{gather}
     }
 
@@ -510,21 +510,21 @@
     \begin{property}
         Let $\seq{f}$ be a sequence of nonnegative measurable functions
         \begin{gather}
-            \int_A\sum_{n=1}^\infty f_n\,d\mu = \sum_{n=1}^\infty\int_Af_n\,d\mu.
+            \int_A\sum_{n=1}^{+\infty}f_n\,d\mu = \sum_{n=1}^{+\infty}\int_Af_n\,d\mu.
         \end{gather}
         One cannot conclude that the right-hand side is finite a.e., so the series on the left-hand side need not be integrable.
     \end{property}
 
     \begin{theorem}[Beppo Levi\footnotemark]\index{Beppo Levi}\label{lebesgue:beppo_levi}
         \footnotetext{Various other theorems and variants of this theorem can be found in the literature under the same name.}
-        Suppose that \[\sum_{i=1}^\infty\int_A|f_n|\,d\mu\] is finite. The series $\sum_{i=1}^\infty f_n(x)$ converges a.e. Furthermore, the series is integrable and
+        Suppose that \[\sum_{i=1}^{+\infty}\int_A|f_n|\,d\mu\] is finite. The series $\sum_{i=1}^{+\infty}f_n(x)$ converges a.e. Furthermore, the series is integrable and
         \begin{gather}
-            \int_A\sum_{i=1}^\infty f_n\,d\mu = \sum_{i=1}^\infty\int_Af_n\,d\mu.
+            \int_A\sum_{i=1}^{+\infty}f_n\,d\mu = \sum_{i=1}^{+\infty}\int_Af_n\,d\mu.
         \end{gather}
     \end{theorem}
 
     \begin{theorem}[Riemann-Lebesgue lemma]\index{Riemann-Lebesgue lemma}\label{lebesgue:riemann_lebesue_lemma}
-        Let $f\in\mathcal{L}^1(\mathbb{R})$. The sequences \[s_k = \int_\mathbb{R}f(x)\sin(kx)\,dx\] and \[c_k = \int_\mathbb{R}f(x)\cos(kx)\,dx\] both converge to 0.
+        Let $f\in\mathcal{L}^1(\mathbb{R})$. The sequences \[s_k=\int_\mathbb{R}f(x)\sin(kx)\,dx\] and \[c_k=\int_\mathbb{R}f(x)\cos(kx)\,dx\] both converge to 0.
     \end{theorem}
 
     \begin{theorem}[Birkhoff ergodicity]\index{ergodic!theorem}\index{Birkhoff|seealso{ergodic}}\label{lebesgue:ergodic}
@@ -595,7 +595,7 @@
         This norm is induced by the following inner product:
         \begin{gather}
             \label{lebesgue:L2_inner_product}
-            \langle f|g \rangle := \int_X\overline{f}g\,d\mu.
+            \langle f\mid g \rangle := \int_X\overline{f}g\,d\mu.
         \end{gather}
     \end{property}
 
@@ -727,7 +727,7 @@
     \end{result}
     \remark{The previous construction and theorems also apply to higher-dimensional product spaces. These theorems provide a way to construct higher-dimensional measures by defining them (as the completion of) the product of measures.}
 
-\section{Radon-Nikodym theorem}\label{section:Radon-Nikodym}
+\section{Radon-Nikodym theorem}\index{Radon-Nikodym}\label{section:Radon-Nikodym}
 
     \begin{definition}[Absolute continuity]\index{continuity!absolute}\label{lebesgue:absolute_continuity}
         Let $(X,\Sigma)$ be a measurable space and let $\mu,\nu$ be two measures defined on this space. Then $\nu$ is said to be absolutely continuous with respect to $\mu$ if
@@ -756,24 +756,17 @@
         Let $\mu,\nu$ be two measures defined on a measurable space $(X,\Sigma)$. Then $\mu$ is said to \textbf{dominate} $\nu$ if $0\leq\nu(F)\leq\mu(F)$ for every $F\in\Sigma$.
     \end{definition}
 
-    \begin{theorem}[Radon-Nikodym theorem for dominated measures]\index{Radon-Nikodym}
-        Let $\mu$ be a finite measure on a measurable space $(X,\Sigma)$ and let $\nu$ be a measure dominated by $\mu$. There exists a nonnegative, measurable function $f$ such that
-        \begin{gather}
-            \nu(A) = \int_Af\,d\mu
-        \end{gather}
-        for all $A\in\Sigma$.
-    \end{theorem}
-    \newdef{Radon-Nikodym derivative}{\index{Radon-Nikodym!derivative}\index{derivative|seealso{Radon-Nikodym}}
-        The function $f$ in the previous theorem is called the Radon-Nikodym derivative of $\nu$ with respect to $\mu$. It is generally denoted by $\deriv{\nu}{\mu}$.
-    }
-
-    \begin{theorem}[Radon-Nikodym theorem]\index{Radon-Nikodym}\label{lebesgue:radon_nikodym}
+    \begin{theorem}[Radon-Nikodym theorem]\label{lebesgue:radon_nikodym}
         Let $(X,\Sigma)$ be a measurable space and let $\mu,\nu$ be two $\sigma$-finite measures defined on $\Sigma$ such that $\nu\ll\mu$. There exists a nonnegative, measurable function $f:X\rightarrow\mathbb{R}$ such that
         \begin{gather}
             \nu(A) = \int_Af\,d\mu
         \end{gather}
         for all $A\in\Sigma$.
     \end{theorem}
+    \newdef{Radon-Nikodym derivative}{\index{derivative|seealso{Radon-Nikodym}}
+        The function $f$ in the previous theorem is called the Radon-Nikodym derivative of $\nu$ with respect to $\mu$. It is generally denoted by $\deriv{\nu}{\mu}$.
+    }
+
     \remark{The function $f$ in this theorem is unique up to a $\mu$-null (and thus $\nu$-null) set.}
     \begin{property}[Integrability]
         In general the Radon-Nikodym derivative is not integrable (unless the measures are finite). However, it is always locally integrable \ref{lebesgue:locally_integrable}. Together with Property \ref{lebesgue:measure_by_integral} this implies that (densities of) absolutely continuous measures are in bijection with locally integrable functions.
@@ -810,7 +803,7 @@
     \newdef{$F$-outer measure}{\index{outer!measure}\label{lebesgue:lebesgue_stieltjes_measure}
         Let $X\subseteq\mathbb{R}$ be a set. The $F$-outer measure of $X$ is defined as follows:
         \begin{gather}
-            \mu_F^*(X) := \inf\left\{\sum_{n=1}^\infty l_F(I_n)\,\middle\vert\,\seq{I}\text{ a sequence of half-open intervals that cover }X\right\}.
+            \mu_F^*(X) := \inf\left\{\sum_{n=1}^{+\infty}l_F(I_n)\,\middle\vert\,\seq{I}\text{ a sequence of half-open intervals that cover }X\right\}.
         \end{gather}
     }
     Using this outer measure one can define the $\mu_F$-measurable sets as those sets satisfying Carath\'eodory's criterion (with respect to $\mu_F^*$). The main difference with the Lebesgue measure is that $\mu_F$ is not necessarily translation-invariant and that singletons are not necessarily null:
@@ -875,7 +868,7 @@
         Consider a measurable space $(X,\Sigma)$. A function $\mu:\Sigma\rightarrow\overline{\mathbb{R}}$ is called a signed measure if it satisfies the following conditions:
         \begin{enumerate}
             \item\textbf{Measure zero}: $\mu(\emptyset) = 0$, and
-            \item\textbf{$\sigma$-additivity} : $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^\infty\mu(E_n)$.
+            \item\textbf{$\sigma$-additivity} : $\forall i\neq j:E_i\cap E_j=\emptyset\implies\mu\left(\bigcup_{n=1}^\infty E_n\right) = \sum_{i=n}^{+\infty}\mu(E_n)$.
         \end{enumerate}
         Note that these requirements are the same as for an ordinary measure \ref{lebesgue:measure}, except that now the function is allowed to become negative. The function is, however, not allowed to attain $-\infty$ to exclude undefined expressions such as $\infty-\infty$.
     }
@@ -932,3 +925,25 @@
     \begin{result}
         If $F$ is absolutely continuous and $F'=0$ $\lambda$-a.e., then $F$ is constant.
     \end{result}
+
+\section{Bochner integral}\index{Bochner!integral}
+
+    In this section the Lebesgue integral is generalized to functions taking values in general \textit{Banach space} (see Section \ref{section:banach}). Since addition still makes sense in these space, Definition \ref{lebesgue:integral_simple_function} can also still be used:
+    \newdef{Bochner integral of simple functions}{\index{Lebesgue!integral}\label{lebesgue:bochner_integral_simple_function}
+        Consider a simple function $\varphi$ on a measure space $(X,\Sigma,\mu)$ taking values in a Banach space $V$. The Lebesgue integral of $\varphi$ over a measurable set $A\in\Sigma$ with respect to $\mu$ is given by
+        \begin{gather}
+            \int_A\varphi\,d\mu := \sum_{i=1}^na_i\mu(A\cap A_i).
+        \end{gather}
+        As usual, if the domain of integration is not mentioned explicitly, an integral over the whole space $X$ is implied. If the above integral is finite, the simple function is said to be integrable.
+    }
+
+    \newdef{Bochner integrability}{
+        A Banach-space valued measurable function $f:(X,\Sigma)\rightarrow(V,\Omega)$ is said to be Bochner integrable if there exists a sequence $\seq{\varphi}$ of integrable simple functions such that
+        \begin{gather}
+            \lim_{n\rightarrow\infty}\int_X\|f-\varphi_n\|_V\,d\mu=0.
+        \end{gather}
+        The Bochner integral of such a function is given by
+        \begin{gather}
+            \int_Xf\,d\mu:=\lim_{n\rightarrow\infty}\int_X\varphi_n\,d\mu.
+        \end{gather}
+    }

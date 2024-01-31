@@ -1,8 +1,8 @@
 \chapter{Logic and Type Theory}\label{chapter:type_theory}
 
-    The main reference for this chapter is \cite{hott}. For a formal introduction to $\lambda$-calculus see \cite{lambda_notes}.
+    The main reference for this chapter is~\citet{program_homotopy_2013}. For a formal introduction to $\lambda$-calculus, see~\citet{selinger_lecture_2008}.
 
-    In almost every section of this chapter (at least the ones about type theory) some cross-references to analogous definitions and propositions in other parts of this compendium could have been inserted (in particular the chapter on category theory \ref{chapter:cat}). However, to reduce the number of references, these relations will only be mentioned and the reader is encouraged to take a look at the relevant chapters whilst or after reading this chapter.
+    In almost every section of this chapter (at least the ones about type theory) some cross-references to analogous definitions and propositions in other parts of this compendium could have been inserted (\cref{chapter:cat} on category theory in particular). However, to reduce the number of references, these relations will only be mentioned and the reader is encouraged to take a look at the relevant chapters whilst or after reading this chapter.
 
 \section{Logic}
 \subsection{Languages}
@@ -16,7 +16,7 @@
         Consider an alphabet $A$ and a language $L$. A signature is a tuple $(F,R,\mathrm{ar})$ that assigns a syntactic meaning to the symbols in $A$. $F$ and $R$ are respectively the sets of function symbols and relation symbols $(A=F\sqcup R)$. The function $\mathrm{ar}:A\rightarrow\mathbb{N}$ assigns to every symbol its arity \textbf{arity}. Nullary function symbols are also called \textbf{constants}.
     }
 
-    To give meaning to a language, some extra structure needs to be introduced:
+    To give meaning to a language, some extra structure needs to be introduced.
     \newdef{$L$-structure}{\index{universe}
         Consider a (formal) language $L$. An $L$-structure consists of the following data:
         \begin{enumerate}
@@ -93,7 +93,9 @@
     \begin{remark}[Intuitionistic logic]
         The above axioms (together with modus ponens) define a specific type of propositional logic, called intuitionistic or \textbf{constructive} (propositional) logic. The main difference with classic logic is that the \textit{law of the excluded middle} or, equivalently, the \textit{double negation elimination} principle was not added. The reason why this makes the logic \textit{constructive} is that to prove a statement it is not sufficient anymore to exclude the possibility of the statement being false. One has to explicitly construct evidence for the truth of the statement.
 
-        As was remarked in the chapter on topoi, intuitionistic logic can be defined internal to any elementary topos. All one needs is a Heyting algebra \ref{set:heyting}. ?? EXPLAIN THIS ??
+        As was remarked in the chapter on topoi, intuitionistic logic can be defined internal to any elementary topos. All one needs is a Heyting algebra (\cref{set:heyting}).
+        
+        ?? EXPLAIN THIS ??
     \end{remark}
 
 \subsection{Predicate logic}
@@ -102,7 +104,7 @@
 
 \section{Introduction to type theory}
 
-    In ordinary set theory the main objects are sets and their elements (and derived concepts such as functions). The framework in which to state and prove propositions is (in general) given by first-order logic. See Section \ref{section:axiomatization} for more on this. In type theory, however, one puts all these notions on the same footing. That is, one considers all concepts such as functions, propositions, sets, etc.~as specific instances of the general notion of \textit{type}. A specific function, proof or element can then be seen as an \textit{inhabitant} of a given type.
+    In ordinary set theory the main objects are sets and their elements (and derived concepts such as functions). The framework in which to state and prove propositions is (in general) given by first-order logic. See \cref{section:axiomatization} for more on this. In type theory, however, one puts all these notions on the same footing. That is, one considers all concepts such as functions, propositions, sets, etc.~as specific instances of the general notion of \textit{type}. A specific function, proof or element can then be seen as an \textit{inhabitant} of a given type.
 
     \newdef{Type judgement}{\index{type!judgement}\index{term}
         A statement of the form $a:A$, saying that $a$ has the type $A$, is called a type judgement. Objects having a certain type are in general called \textbf{terms} (of that type).
@@ -117,7 +119,7 @@
         \end{enumerate}
     \end{method}
 
-    As in \cite{hott}, a universe hierarchy \`a la Russell will be adopted, i.e.~a sequence of universes $\seq{\mathcal{U}}$ will be used where the terms of every universe are types and every universe is cumulative in the sense that $A:\mathcal{U}_n\implies A:\mathcal{U}_{n+1}$. In general the subscripts will be omitted. However, one should take into account that every well-typed judgement should admit a formulation in which subscripts can be assigned in a consistent way.
+    As in~\citet{program_homotopy_2013}, a universe hierarchy \`a la Russell will be adopted, i.e.~a sequence of universes $\seq{\mathcal{U}}$ will be used where the terms of every universe are types and every universe is cumulative in the sense that $A:\mathcal{U}_n\implies A:\mathcal{U}_{n+1}$. In general the subscripts will be omitted. However, one should take into account that every well-typed judgement should admit a formulation in which subscripts can be assigned in a consistent way.
 
     In contrast to ordinary set theory, two kinds of equality will be introduced. First, there is the \textbf{judgemental} or \textbf{definitional equality}. This says, as the name implies, that two judgements are equal by definition and as such its validity lives in the metatheory (it is not a proposition and, hence, cannot be proven). For example, if $f(x)$ is defined as $x^2$, then $f(5)$ is by definition equal to $5^2$. Equalities of this sort will be denoted by the $\equiv$ symbol (and in definitions $:\equiv$ will be used instead of $:=$). The second equality is the \textbf{propositional equality}. This states that two judgements are provably equal. Again, consider the function $f(x):\equiv x^2$. In this case the proposition $f(5)=25$ is not true by definition and can be proven (it would depend on the definition of the natural numbers). This sort of equality will be denoted by an ordinary equals sign $=$.\index{equality}
 
@@ -132,17 +134,17 @@
             \item \textbf{Formation rule}: Given two types $\type{A,B}$, one can form the function type $\type{A\rightarrow B}$.
             \item \textbf{Introduction rule}: One can either define a function by an explicit definition $f(x):\equiv\Phi$, where $\Phi$ is an expression possibly involving $x$, or by $\lambda$-abstraction $f:\equiv\lambda x.\Phi$.
             \item \textbf{Elimination rule}: If $a:A$ and $\lambda x.\Phi:A\rightarrow B$, then $\lambda x.\Phi(a):B$.
-            \item \textbf{Computation rule}\footnote{In $\lambda$-calculus this is often called $\beta$-reduction. (See the next section.)}: $\lambda x.\Phi(a):\equiv\Phi(a)$, i.e.~function application is equivalent to the subsitution of $a$ for the variable $x$ in the expression $\Phi$. (To be completely correct one should require the substitution to be \textit{capture-avoiding}, i.e.~free variables should remain free and dinstinct variables should not be assigned the same symbol.)
+            \item \textbf{Computation rule}\footnote{In $\lambda$-calculus, this is often called $\beta$-reduction. (See the next section.)}: $\lambda x.\Phi(a):\equiv\Phi(a)$, i.e.~function application is equivalent to the subsitution of $a$ for the variable $x$ in the expression $\Phi$. (To be completely correct one should require the substitution to be \textit{capture-avoiding}, i.e.~free variables should remain free and dinstinct variables should not be assigned the same symbol.)
         \end{itemize}
         The \textbf{uniqueness principle} for function types should also be included in the definition, i.e.~$\lambda x.f(x)\equiv f$. This says that every function is uniquely defined by its image.
     }
 
-    An important generalization is obtained when the type of the output of a function is allowed to depend on the type of the input:
+    An important generalization is obtained when the type of the output of a function is allowed to depend on the type of the input.
     \newdef{Dependent function types}{
-        Given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent function type \[\type{\prod_{a:A}B(a)}.\] When $B$ is a constant family, this type reduces to the ordinary function type $A\rightarrow B$. All other defining rules remain (formally) the same as in the nondependent setting.
+        Given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent function type \[\type{\prod_{a:A}B(a)}\,.\] When $B$ is a constant family, this type reduces to the ordinary function type $A\rightarrow B$. All other defining rules remain (formally) the same as in the nondependent setting.
     }
     \begin{remark}[Scope]
-        The $\Pi$-symbol scopes over all expressions to the right of the symbol, unless delimited (similar to $\lambda$-calculus), e.g.~\[\prod_{a:A}B(a)\rightarrow C(a)\equiv\prod_{a:A}\big(B(a)\rightarrow C(a)\big).\]
+        The $\Pi$-symbol scopes over all expressions to the right of the symbol, unless delimited (similar to $\lambda$-calculus), e.g.~\[\prod_{a:A}B(a)\rightarrow C(a)\equiv\prod_{a:A}\bigl(B(a)\rightarrow C(a)\bigr)\,.\]
     \end{remark}
 
     \begin{example}[Polymorphic functions]\index{poly-!morphic}
@@ -158,7 +160,7 @@
 
 \subsection{\texorpdfstring{$\lambda$-calculus}{Lambda-calculus}}
 
-    ?? COMPLETE (e.g.~Curry-Howard or even Curry-Howard-Lambek, typed vs. untyped calculus, ...)??
+    ?? COMPLETE (e.g.~Curry--Howard or even Curry--Howard--Lambek, typed vs. untyped calculus, ...)??
 
 \subsection{Products}
 
@@ -175,7 +177,7 @@
             \end{gather}
             with the constraint
             \begin{gather}
-                \mathrm{rec}_{A\times B}\big(C,f,(a,b)\big):\equiv f(a)(b).
+                \mathrm{rec}_{A\times B}\big(C,f,(a,b)\big):\equiv f(a)(b)\,.
             \end{gather}
         \end{itemize}
     }
@@ -195,20 +197,20 @@
             \item \textbf{Introduction rule}: There is a unique nullary constructor $\ast:\mathbf{1}$.
             \item \textbf{Elimination and computation rules}: Since the constructor is a nullary operation, one does not expect to have projection maps and, likewise, one also does not expect function definition to be based on binary currying. Instead the recursor is defined as follows:
             \begin{gather}
-                \mathrm{rec}_{\mathbf{1}}:\prod_{\type{C}}C\rightarrow\mathbf{1}\rightarrow C.
+                \mathrm{rec}_{\mathbf{1}}:\prod_{\type{C}}C\rightarrow\mathbf{1}\rightarrow C\,.
             \end{gather}
             On the constructor $\ast:\mathbf{1}$ it is required to act trivially:
             \begin{gather}
-                \mathrm{rec}_{\mathbf{1}}(C,c_0,\ast):\equiv c_0.
+                \mathrm{rec}_{\mathbf{1}}(C,c_0,\ast):\equiv c_0\,.
             \end{gather}
         \end{itemize}
     }
     \newdef{Dependent functions}{
-        One can easily generalize the above recursors to ``inductors'' functions, to allow for the definition of dependent functions out of product types (these functions are then said to be defined by an \textbf{induction principle}). In fact, one only has to change the type judgement of $\mathrm{rec}_{A\times B}$. This is accomplished by replacing $\type{C}$ by a type family $\typef{C}{A\times B}$ and by replacing nondependent function types by dependent function types (the form of the computation rules virtually remain the same):
+        One can easily generalize the above recursors to `inductors', to allow for the definition of dependent functions out of product types (these functions are then said to be defined by an \textbf{induction principle}). In fact, one only has to change the type judgement of $\mathrm{rec}_{A\times B}$. This is accomplished by replacing $\type{C}$ by a type family $\typef{C}{A\times B}$ and by replacing nondependent function types by dependent function types (the form of the computation rules virtually remain the same):
         \begin{align}
-            \mathrm{ind}_{A\times B}&:\prod_{\typef{C}{A\times B}}\left(\prod_{a:A,b:B}C(a,b)\rightarrow\prod_{x:A\times B}C(x)\right),\\
+            \mathrm{ind}_{A\times B}&:\prod_{\typef{C}{A\times B}}\left(\prod_{a:A,b:B}C(a,b)\rightarrow\prod_{x:A\times B}C(x)\right)\,,\\
             &\nonumber\\
-            \mathrm{ind}_{\mathbf{1}}&:\prod_{\typef{C}{\mathbf{1}}}C(\ast)\rightarrow\prod_{x:\mathbf{1}}C(x).
+            \mathrm{ind}_{\mathbf{1}}&:\prod_{\typef{C}{\mathbf{1}}}C(\ast)\rightarrow\prod_{x:\mathbf{1}}C(x)\,.
         \end{align}
     }
 
@@ -216,9 +218,9 @@
         Using the induction principle, one can prove that every term $x:A\times B$ is necessarily of the form $(a,b)$ for some $a:A,b:B$. Furthermore, one can also prove that $\ast:\mathbf{1}$ is the unique term in $\mathbf{1}$.
     \end{property}
 
-    One can also generalize products such that the type of the second factor depends on the type of the first one (in classical set theory this would correspond to an indexed disjoint union):
+    One can also generalize products such that the type of the second factor depends on the type of the first one (in classical set theory this would correspond to an indexed disjoint union).
     \newdef{Dependent pair type}{\index{pair}\index{$\Sigma$-type}
-        As with function types the definition is not given as explicit as for nondependent types. Suffice it to say that given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent pair type \[\type{\sum_{a:A}B(a)}.\] When $B$ is a constant family, the type reduces to the ordinary product type $A\times B$. The recursion and induction functions are defined as in the product case, except for the obvious replacements, such as $A\times B\longrightarrow\sum_{a:A}B(a)$, needed to make everything consistent.
+        As with function types the definition is not given as explicit as for nondependent types. Suffice it to say that given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent pair type \[\type{\sum_{a:A}B(a)}\,.\] When $B$ is a constant family, the type reduces to the ordinary product type $A\times B$. The recursion and induction functions are defined as in the product case, except for the obvious replacements, such as $A\times B\longrightarrow\sum_{a:A}B(a)$, needed to make everything consistent.
     }
     \remark{Dependent pair types are often called \textbf{$\Sigma$-types} (due to the notation).}
     \begin{remark}[Scope]
@@ -233,12 +235,12 @@
             \item \textbf{Elimination rules}: Similar to the use of currying for the definition of functions out of a product, functions out of a coproduct are defined in steps. To this intent the recursor and inductor are defined as follows:
             \begin{align}
                 \mathrm{rec}_{A+B}&:\prod_{\type{C}}(A\rightarrow C)\rightarrow(B\rightarrow C)\rightarrow A+B\rightarrow C\,,\\
-                \mathrm{ind}_{A+B}&:\prod_{\typef{C}{A+B}}\left(\prod_{a:A}C\big(\iota_1(a)\big)\right)\rightarrow\left(\prod_{b:B}C\big(\iota_2(b)\big)\right)\rightarrow\prod_{x:A+B}C(x).
+                \mathrm{ind}_{A+B}&:\prod_{\typef{C}{A+B}}\left(\prod_{a:A}C\big(\iota_1(a)\big)\right)\rightarrow\left(\prod_{b:B}C\big(\iota_2(b)\big)\right)\rightarrow\prod_{x:A+B}C(x)\,.
             \end{align}
             \item \textbf{Computation rules}: The recursor acts on the constructors as follows (the inductor virtually has the same action):
             \begin{align}
                 \mathrm{rec}_{A+B}\big(C,f_1,f_2,\iota_1(a)\big)&:\equiv f_1(a)\,,\\
-                \mathrm{rec}_{A+B}\big(C,f_1,f_2,\iota_2(b)\big)&:\equiv f_2(b).
+                \mathrm{rec}_{A+B}\big(C,f_1,f_2,\iota_2(b)\big)&:\equiv f_2(b)\,.
             \end{align}
         \end{itemize}
     }
@@ -249,14 +251,14 @@
             \item \textbf{Introduction rule}: There is no constructor for $\mathbf{0}$.
             \item \textbf{Elimination and computation rules}: Since there is no constructor for $\mathbf{0}$, one can always trivially ``construct'' a function out of $\mathbf{0}$:
             \begin{align}
-                \mathrm{rec}_{\mathbf{0}}&:\prod_{\type{C}}\mathbf{0}\rightarrow C\\
-                \mathrm{rec}_{\mathbf{0}}&:\prod_{\typef{C}{\mathbf{0}}}\prod_{x:\mathbf{0}}C(x).
+                \mathrm{rec}_{\mathbf{0}}&:\prod_{\type{C}}\mathbf{0}\rightarrow C\,,\\
+                \mathrm{rec}_{\mathbf{0}}&:\prod_{\typef{C}{\mathbf{0}}}\prod_{x:\mathbf{0}}C(x)\,.
             \end{align}
             This trivial function corresponds to the logical principle \textit{ex falso quodlibet} as introduced in the section on logic above.
         \end{itemize}
     }
 
-    Since coproducts in set theory occur as binary disjoint unions, one could expect that there is a way to express coproducts in terms of dependent pair types:
+    Since coproducts in set theory occur as binary disjoint unions, one could expect that there is a way to express coproducts in terms of dependent pair types.
     \begin{construct}[Coproducts as $\Sigma$-types]
         First, introduce the type $\type{\mathbf{2}}$ (in set theory this would be the 2-element set). The introduction rule constructs two terms $0,1:\mathbf{2}$. The elimination and computation rules say that one can use this type for binary indexing:
         \begin{gather}
@@ -265,14 +267,14 @@
         with
         \begin{align}
             \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 0)&:\equiv c_0\,,\\
-            \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 1)&:\equiv c_1.
+            \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 1)&:\equiv c_1\,.
         \end{align}
-        Using this type one can prove that $A+B$ is judgementally equal to $\sum_{x:\mathbf{2}}\mathrm{rec}_{\mathbf{2}}(\mathcal{U},A,B,x)$. The injections are given by pairing, i.e.~$\iota_1(a)\equiv(0,a)$ and $\iota_2(b)\equiv(1,b)$. In a similar way one can obtain binary products as dependent function types over $\mathbf{2}$.
+        Using this type, one can prove that $A+B$ is judgementally equal to $\sum_{x:\mathbf{2}}\mathrm{rec}_{\mathbf{2}}(\mathcal{U},A,B,x)$. The injections are given by pairing, i.e.~$\iota_1(a)\equiv(0,a)$ and $\iota_2(b)\equiv(1,b)$. In a similar way one can obtain binary products as dependent function types over $\mathbf{2}$.
     \end{construct}
 
 \subsection{Propositions as types}
 
-    To conclude this section an overview of all the concepts introduced above is given from a propositions-as-types perspective. In intuitionistic logic this is often called the \textit{Brouwer-Heyting-Kolmogorov interpretation} and, more specifically, it should be seen as an incarnation of the Curry-Howard correspondence.
+    To conclude this section an overview of all the concepts introduced above is given from a propositions-as-types perspective. In intuitionistic logic this is often called the \textit{Brouwer--Heyting--Kolmogorov interpretation} and, more specifically, it should be seen as an incarnation of the Curry--Howard correspondence.
 
     \begin{itemize}
         \item Types and their terms correspond to propositions and their proofs, respectively. In a proof-relevant context the fact that a type can have multiple terms makes it clear that, although distinct proofs eventually have the same result, the difference in their content can be important as well.
@@ -294,10 +296,10 @@
             \item \textbf{Formation rule}: Given terms $a,b:A$, one can form the equality type $\type{a=_Ab}$. When the type $A$ is clear from the context, this is also often written as $\type{a=b}$.
             \item \textbf{Introduction rule}: For every term $a:A$, there is a canonical identity element
             \begin{gather}
-                \mathrm{refl}_a:a=a.
+                \mathrm{refl}_a:a=a\,.
             \end{gather}
             The notation points to the fact that this term can be seen as a proof of the reflexivity of equalities.
-            \item \textbf{Elimination and computation rules}: Here, the so-called \textbf{path induction principle} for equality types is presented, for the equivalent \textit{based path induction principle} see\cite{hott}.
+            \item \textbf{Elimination and computation rules}: Here, the so-called \textbf{path induction principle} for equality types is presented, for the equivalent \textit{based path induction principle} see~\citet{program_homotopy_2013}.
 
             Given a type family \[C:\prod_{a,b:A}a=b\rightarrow\mathcal{U}\] and a term \[I:\prod_{a:A}C(a,a,\mathrm{refl}_a)\,,\] there exists a function
             \begin{gather}
@@ -309,7 +311,7 @@
             \end{gather}
             for all $a:A$.
         \end{itemize}
-        Informally this principle says that all terms of the form $(a,b,p)$, with $p:a=b$, are inductively generated by the ``constant'' terms $(a,a,\mathrm{refl}_a)$. (See the section on homotopy type theory for a more geometric perspective).
+        Informally this principle says that all terms of the form $(a,b,p)$, with $p:a=b$, are inductively generated by the `constant' terms $(a,a,\mathrm{refl}_a)$. (See the section on homotopy type theory for a more geometric perspective).
     }
 
     Using the notion of identity types one can say when a given type resembles a proposition:
@@ -334,7 +336,7 @@
         The homotopy level or \textbf{$h$-level} of a type $A:\mathcal{U}$ is recursively defined as follows:
         \begin{align}
             \mathrm{hasHLevel}(0,A) &:\equiv\mathrm{isContr}(A)\\
-            \mathrm{hasHLevel}(n+1,A) &:\equiv\prod_{a,b:A}\mathrm{hasHLevel}(n,a=b).
+            \mathrm{hasHLevel}(n+1,A) &:\equiv\prod_{a,b:A}\mathrm{hasHLevel}(n,a=b)\,.
         \end{align}
         A type of homotopy level $n+2$ is also called a \textbf{homotopy $n$-type}.
     }
@@ -348,13 +350,13 @@
         \end{enumerate}
     \end{example}
 
-    Because of the inductive nature of identity types, any homotopy $n$-type can be truncated to a homotopy $k$-type for $k<n$. In the case of a $(-1)$-truncation, the following notion is obtained:
+    Because of the inductive nature of identity types, any homotopy $n$-type can be truncated to a homotopy $k$-type for $k<n$. In the case of a $(-1)$-truncation, the following notion is obtained.
     \newdef{Bracket type}{\index{bracket}
         \nomenclature[S_Bracket]{$\|A\|,[A]$}{bracket type}
         Consider a type $A:\mathcal{U}$. The bracket $[A]:\mathcal{U}$ or $[A]:\mathcal{U}$ is inhabited (and uniquely so) if and only if $A$ is inhabited. It is defined by the following rules:
         \begin{align}
-            \mathrm{isInhab}&:A\mapsto[A]\\
-            \mathrm{propTrunc}&:\prod_{a,b:A}\mathrm{isInhab}(a)=\mathrm{isInhab}(b).
+            \mathrm{isInhab}&:A\mapsto[A]\,,\\
+            \mathrm{propTrunc}&:\prod_{a,b:A}\mathrm{isInhab}(a)=\mathrm{isInhab}(b)\,.
         \end{align}
         The term $\mathrm{propTrunc}$ exactly says that $[A]$ is a mere proposition.
     }
@@ -362,19 +364,19 @@
     \newdef{Homotopy fibre}{\index{homotopy!fibre}
         Consider a function $f:A\rightarrow B$. For every term $b:B$, the homotopy fibre of $f$ is defined as follows:
         \begin{gather}
-            \mathrm{hfibre}(b,f) :\equiv \sum_{a:A}f(a)=b.
+            \mathrm{hfibre}(b,f) :\equiv \sum_{a:A}f(a)=b\,.
         \end{gather}
     }
     \newdef{Equivalence}{\index{equivalence}\index{homotopy!equivalence}
         A function $f:A\rightarrow B$ such that
         \begin{gather}
-            \mathrm{isEquiv}(f) :\equiv \prod_{b:B}\mathrm{isContr}\big(\mathrm{hfibre}(b,f)\big)
+            \mathrm{isEquiv}(f) :\equiv \prod_{b:B}\mathrm{isContr}\bigl(\mathrm{hfibre}(b,f)\bigr)
         \end{gather}
         is inhabited.
 
         Slightly different notions exist. A \textbf{homotopy equivalence} is a function $f:A\rightarrow B$ such that there exists a function $g:B\rightarrow A$ and homotopies
         \begin{gather}
-            p:\prod_{a:A}g\big(f(a)\big)=a \qquad\text{and}\qquad q:\prod_{b:B}f\big(g(b)\big)=b.
+            p:\prod_{a:A}g\bigl(f(a)\bigr)=a \qquad\text{and}\qquad q:\prod_{b:B}f\bigl(g(b)\bigr)=b.
         \end{gather}
         It is called an \textbf{adjoint equivalence} if it is a homotopy equivalence equipped with higher homotopies representing triangle identities for $f$ and $g$.
     }
@@ -385,7 +387,7 @@
 \section{Categorical semantics}
 \subsection{Inductive types}
 
-    Inductive types also admit semantics in category theory. The right concept for these is that of algebras over endofunctors \ref{cat:endofunctor_algebra}. The recursion principle and accompanying computation rule of inductive types exactly state for every other $F$-algebra $A$ there exists a morphism $T\rightarrow A$ and that this is a unique algebra morphism, i.e.~inductive types are initial algebras over endofunctors. An induction principle assigns to every algebra morphism $B\rightarrow T$, where $B$ should be interpreted as the total space $\sum_{x:T}B(t)$, a section $T\rightarrow B$. The computation rule then again says that this section is an algebra morphism.
+    Inductive types also admit semantics in category theory. The right concept for these is that of algebras over endofunctors (\cref{cat:endofunctor_algebra}). The recursion principle and accompanying computation rule of inductive types exactly state for every other $F$-algebra $A$ there exists a morphism $T\rightarrow A$ and that this is a unique algebra morphism, i.e.~inductive types are initial algebras over endofunctors. An induction principle assigns to every algebra morphism $B\rightarrow T$, where $B$ should be interpreted as the total space $\sum_{x:T}B(t)$, a section $T\rightarrow B$. The computation rule then again says that this section is an algebra morphism.
 
     \begin{property}
         When working in sets, the recursion and induction principles are equivalent.
@@ -400,7 +402,7 @@
     \newdef{Polynomial}{\index{polynomial}
         A diagram of the form
         \begin{gather}
-            W\xleftarrow{f}X\xrightarrow{g}Y\xrightarrow{h}Z.
+            W\xleftarrow{f}X\xrightarrow{g}Y\xrightarrow{h}Z\,.
         \end{gather}
         In terms of ordinary polynomials, $Y$ gives the index set of the terms, $X$ as a subset of $\mathbb{N}$ gives the degrees of the terms and $W$ gives the coefficients. If $g$ is an identity morphism, one often speaks of \textbf{linear functors}.
 
@@ -408,7 +410,7 @@
         \begin{gather}
             \mathbf{C}/W\xrightarrow{f^*}\mathbf{C}/X\xrightarrow{\prod_g}\mathbf{C}/Y\xrightarrow{\sum_h}\mathbf{C}/Z\,,
         \end{gather}
-        where $\prod_g$ and $\sum_h$ are dependent product and sum functors \ref{topos:dependent_functors}.
+        where $\prod_g$ and $\sum_h$ are dependent product and sum functors (\cref{topos:dependent_functors}).
     }
 
     \newdef{$W$-type}{\index{W-type}
@@ -418,11 +420,11 @@
 \section{Homotopy type theory}\nomenclature[A_HOTT]{HoTT}{Homotopy Type Theory}
 \subsection{Introduction}
 
-    This section gives a reformulation or extension of the concept introduced before using the language of homotopy theory (and, more generally, algebraic topology). The relevant concepts can be found in Sections \ref{section:homotopy} and \ref{section:groupoids}. The resulting theory is called homotopy type theory or \textbf{HoTT}.
+    This section gives a reformulation or extension of the concept introduced before using the language of homotopy theory (and, more generally, algebraic topology). The relevant concepts can be found in \cref{section:homotopy} and \cref{section:groupoids}. The resulting theory is called homotopy type theory or \textbf{HoTT}.
 
     The general idea is to associate types with topological spaces and terms with points in those spaces. The main novelty is given by the identification of (propositional) equalities with paths between points. Since everything happens in a proof-relevant context, two equalities $p,q:a=_Ab$ are not necessarily equal themselves and, hence, one can consider equalities between equalities (and so on). In the topological picture this gives rise to homotopies between paths. By going all the way and working out all coherence laws, one obtains the structure of a (weak) $\infty$-groupoid.\footnote{This characterization is strongly related to the homotopy hypothesis (or theorem when using the right model for $\infty$-categories).}
 
-    It is also this interpretation that explains the name ``path induction'' for the induction principle of equality types. Namely, what this induction principle says is that the free path space $\Omega A$ is \textit{inductively generated} by constant loops (ranging over all possible points). This principle, however, sounds quite crazy. How can one build a path between two distinct points from (constant) loops? Here it is important to remind that everything only has to be equal up to homotopy and any path is indeed homotopy-equivalent to a constant loop if one retracts one of the endpoints along the path. It is thus important that one does not require the homotopies to act rel endpoints (as is often done in classical homotopy theory).
+    It is also this interpretation that explains the name `path induction' for the induction principle of equality types. Namely, what this induction principle says is that the free path space $\Omega A$ is \textit{inductively generated} by constant loops (ranging over all possible points). This principle, however, sounds quite crazy. How can one build a path between two distinct points from (constant) loops? Here it is important to remind that everything only has to be equal up to homotopy and any path is indeed homotopy-equivalent to a constant loop if one retracts one of the endpoints along the path. It is thus important that one does not require the homotopies to act rel endpoints (as is often done in classical homotopy theory).
 
     \newdef{Pointed type}{\index{pointed!type}
         A type $\type{A}$ together with a distinguished term $a:A$, called the \textbf{base point}. Pointed types are often denoted by a pair $(A,a)$. It should be clear that the type of pointed types $\mathcal{U}_\bullet$ is equal to $\sum_{\type{A}}A$.
@@ -431,7 +433,7 @@
         The loop space $\Omega(A,a)$ of a pointed type $(A,a)$ is the pointed type $(a=_Aa,\mathrm{refl}_a)$.
     }
 
-    Now, the important aspect of HoTT is that the $\infty$-groupoid structure of a type can be derived solely from the (path) induction principle of the equality types. Some examples are given:
+    Now, the important aspect of HoTT is that the $\infty$-groupoid structure of a type can be derived solely from the (path) induction principle of the equality types. Some examples are given.
     \begin{property}[Inversion]
         For every type $\type{A}$ and terms $a,b:A$, there exists a function
         \begin{gather}
@@ -462,15 +464,15 @@
     \begin{property}
         Given a function $f:A\rightarrow B$, there exists an \textbf{application function}
         \begin{gather}
-            \mathrm{ap}_f:(a=_Ab)\rightarrow\big(f(a)=_Bf(b)\big)
+            \mathrm{ap}_f:(a=_Ab)\rightarrow\bigl(f(a)=_Bf(b)\bigr)
         \end{gather}
-        such that $\mathrm{ap}_f(\mathrm{refl}_a):\equiv\mathrm{refl}_{f(a)}$ for all $a,b:A$. Furthermore, this function behaves functorially in that it preserves concatenation, inverses and identities (again this should be interpreted in the full weak $\infty$-sense). From the topological perspective this can be interpreted as if all functions are ``continuous''.
+        such that $\mathrm{ap}_f(\mathrm{refl}_a):\equiv\mathrm{refl}_{f(a)}$ for all $a,b:A$. Furthermore, this function behaves functorially in that it preserves concatenation, inverses and identities (again this should be interpreted in the full weak $\infty$-sense). From the topological perspective this can be interpreted as if all functions are `continuous'.
     \end{property}
     \begin{notation}
         Because functors in category theory are generally given the same notation when acting on objects or morphisms, the application function $\mathrm{ap}_f$ is also often denoted by $f$.
     \end{notation}
 
-    For dependent functions one can obtain a similar result. However, for this generalization, one needs some kind of ``parallel transport'' since for two terms with $a=b$, it does not necessarily hold that $f(a)$ and $f(b)$ have the same type.
+    For dependent functions one can obtain a similar result. However, for this generalization, one needs some kind of `parallel transport' since for two terms with $a=b$, it does not necessarily hold that $f(a)$ and $f(b)$ have the same type.
     \begin{property}[Transport]\index{fibration}\index{transport}\index{lift}\index{section}
         Given a type family $\typef{P}{A}$ and an equality $p:a=_Ab$, there exists a \textbf{transport function}
         \begin{gather}
@@ -478,30 +480,31 @@
         \end{gather}
         such that $(\mathrm{refl}_a)_*:\equiv\mathrm{id}(a)$ for all $a:A$. The pushforward notation is used since $p_*$ can be (informally) interpreted as the pushforward of $p$ along $P$.
 
-        From a topological perspective, this transport function allows to regard type families as fibrations \ref{topology:fibration}. For every type family $\typef{P}{A}$, term $\alpha:P(a)$ and equality $p:a=b$, there exists a \textbf{lift}
+        From a topological perspective, this transport function allows to regard type families as fibrations (\cref{topology:fibration}). For every type family $\typef{P}{A}$, term $\alpha:P(a)$ and equality $p:a=b$, there exists a \textbf{lift}
         \begin{gather}
-            \mathrm{lift}(p,\alpha):(a,\alpha) = \big(b,p_*(\alpha)\big)
+            \mathrm{lift}(p,\alpha):(a,\alpha) = \bigl(b,p_*(\alpha)\bigr)
         \end{gather}
         such that
         \begin{gather}
-            \pi_1\big(\mathrm{lift}(p,u)\big)=p.
+            \pi_1\bigl(\mathrm{lift}(p,u)\bigr)=p\,.
         \end{gather}
         The equality $\mathrm{lift}(p,u)$ acts between terms of the $\Sigma$-type $\sum_{a:A}P(a)$, which can be interpreted as the total space of a \textbf{fibration} $\pi_1:\sum_{a:A}P(a)\rightarrow A$. To take this terminology even further, one can could call functions $\sigma:\prod_{a:A}P(a)$ \textbf{sections} (of $\pi_1$).
     \end{property}
-    Now, as mentioned before, for dependent functions one cannot just compare $f(a)$ and $f(b)$ if $a\not\equiv b$. However, the function $\mathrm{lift}(p,\cdot)$ gives a canonical path from one fibre to the other and every path between these fibres should factor through this canonical path essentially uniquely. Hence, one can define a path between $\alpha$ and $\beta$ in the total space $\sum_{a:A}P(a)$, lying over $p:a=b$, to be a path $p_*(\alpha)=\beta$ (up to equivalence):
+
+    Now, as mentioned before, for dependent functions one cannot just compare $f(a)$ and $f(b)$ if $a\not\equiv b$. However, the function $\mathrm{lift}(p,\cdot)$ gives a canonical path from one fibre to the other and every path between these fibres should factor through this canonical path essentially uniquely. Hence, one can define a path between $\alpha$ and $\beta$ in the total space $\sum_{a:A}P(a)$, lying over $p:a=b$, to be a path $p_*(\alpha)=\beta$ (up to equivalence).
     \begin{property}
         Given a dependent function $f:\prod_{a:A}P(a)$, there exists a function
         \begin{gather}
-            \mathrm{apd}_f:\prod_{p:a=b}p_*\big(f(a)\big)=_{P(b)}f(b).
+            \mathrm{apd}_f:\prod_{p:a=b}p_*\big(f(a)\big)=_{P(b)}f(b)\,.
         \end{gather}
         Again, with some abuse of notation, this function is also denoted by $f$
     \end{property}
 
-    Since an ordinary function is a specific instance of a $\Pi$-type, one might expect that the application functions $\mathrm{ap}_f$ and $\mathrm{apd}_f$ are related in this case. The following property shows that this intuition is not unreasonable:
+    Since an ordinary function is a specific instance of a $\Pi$-type, one might expect that the application functions $\mathrm{ap}_f$ and $\mathrm{apd}_f$ are related in this case. The following property shows that this intuition is not unreasonable.
     \begin{property}
         Consider two types $\type{A,B}$ and a function $f:A\rightarrow B$. For every equality $p:a=_Ab$ and term $\alpha:P(b)$, there exists an equality $\widetilde{p}:p_*(\alpha)=_{P(b)}\alpha$. Using this equality one can relate the application functions as follows:
         \begin{gather}
-            \mathrm{apd}_f(p) = \widetilde{p}\big(f(a)\big)\sqdot\mathrm{ap}_f(p).
+            \mathrm{apd}_f(p) = \widetilde{p}\big(f(a)\big)\sqdot\mathrm{ap}_f(p)\,.
         \end{gather}
     \end{property}
 
@@ -509,31 +512,31 @@
 
     In this paragraph the notions of equivalences and isomorphisms are considered in more detail. As is known from the chapter on category theory, the distinction between the various notions of similarity (or equality) is important yet subtle.
 
-    Lead by the intuition from topology a \textbf{homotopy} between functions is defined:
+    Lead by the intuition from topology a \textbf{homotopy} between functions is defined.
     \newdef{Homotopy}{\index{homotopy}
         Consider two sections $f,g:\prod_{a:A}P(a)$. A homotopy between $f$ and $g$ is a term of the type
         \begin{gather}
-            f\sim g:\equiv\prod_{a:A}f(a)=g(a).
+            f\sim g:\equiv\prod_{a:A}f(a)=g(a)\,.
         \end{gather}
         It can be shown that homotopies induce equivalence relations on function types.
     }
-    It has already been noted that functions can be regarded as functors between $\infty$-groupoids. Since homotopies act between functions, one might expect that these can be regarded as (weak) natural transformations between the ($\infty$-)functors:
+    It has already been noted that functions can be regarded as functors between $\infty$-groupoids. Since homotopies act between functions, one might expect that these can be regarded as (weak) natural transformations between the ($\infty$-)functors.
     \begin{property}
         Consider two sections $f,g:\prod_{a:A}P(a)$ and an equality $p:a=b$. If $H$ is a homotopy between $f$ and $g$, then
         \begin{gather}
-            H(a)\sqdot g(p) = f(p)\sqdot H(b).
+            H(a)\sqdot g(p) = f(p)\sqdot H(b)\,.
         \end{gather}
     \end{property}
 
-    Using the notion of homotopy one can introduce a first kind of ``equivalence'':
+    Using the notion of homotopy one can introduce a first kind of `equivalence'.
     \newdef{Quasi-inverse}{\index{inverse!quasi}
         Given a function $f:A\rightarrow B$, a quasi-inverse of $f$ is a triple $(g,\alpha,\beta)$, where $g:B\rightarrow A$ and
         \begin{gather}
-            \alpha:f\circ g\sim\mathrm{id}_B\qquad\qquad\qquad\beta:g\circ f\sim\mathrm{id}_B.
+            \alpha:f\circ g\sim\mathrm{id}_B\qquad\qquad\qquad\beta:g\circ f\sim\mathrm{id}_B\,.
         \end{gather}
         From a homotopy theoretical perspective one would call the pair $(f,g)$ a homotopy equivalence. The corresponding type is given by
         \begin{gather}
-            \mathrm{qInv}(f):\equiv\sum_{g:B\rightarrow A}(f\circ g\sim\mathrm{id}_B)\times(g\circ f\sim\mathrm{id}_A).
+            \mathrm{qInv}(f):\equiv\sum_{g:B\rightarrow A}(f\circ g\sim\mathrm{id}_B)\times(g\circ f\sim\mathrm{id}_A)\,.
         \end{gather}
     }
     Now, although this type may seem to give the right notion of equivalence, it is better to generalize it since it is in general not very well-behaved. (This is similar to the fact that adjoint equivalences between categories are better behaved than ordinary equivalences.)
@@ -548,27 +551,27 @@
 
 \subsection{Equality types: revisited}
 
-    In the section on (intensional) type theory equality types were introduced in a general and uniform way. The defining rules did not assume any specific structure on the underlying types. Although this made the technique of path induction widely applicable, it has the downside that one cannot leverage the internal structure of specific types to get more useful characterizations.
+    In the section on (intensional) type theory, equality types were introduced in a general and uniform way. The defining rules did not assume any specific structure on the underlying types. Although this made the technique of path induction widely applicable, it has the downside that one cannot leverage the internal structure of specific types to get more useful characterizations.
 
     First, consider binary products (and by extension $\Sigma$-types). Can one express the equality of two elements $x,y:A\times B$ in terms of their projections? The answer is yes: there exists an equivalence
     \begin{gather}
-        (x=_{A\times B}y)\simeq\big(\pi_1(x)=_A\pi_1(y)\big)\times\big(\pi_2(a)=_B\pi_2(y)\big).
+        (x=_{A\times B}y)\simeq\bigl(\pi_1(x)=_A\pi_1(y)\bigr)\times\bigl(\pi_2(a)=_B\pi_2(y)\bigr)\,.
     \end{gather}
-    However, one should bear in mind that this is merely an equivalence. A term (resp. proof) of one side gives a term (resp. proof) of the other side, but it is not a judgemental equality (it is not even a propositional one). One could see this as a problem or defect of the theory and to resolve this kind of (apparent) issue the univalence axiom will be introduced at the end of this section. Still, one can leverage this equivalence to give a practical alternative\footnote{Note that this is not a judgementally equal alternative. It is merely a convenient interpretation.} for the defining rules of the equality type in the case of product types:
+    However, one should bear in mind that this is merely an equivalence. A term (resp.~proof) of one side gives a term (resp.~proof) of the other side, but it is not a judgemental equality (it is not even a propositional one). One could see this as a problem or defect of the theory and to resolve this kind of (apparent) issue the univalence axiom will be introduced at the end of this section. Still, one can leverage this equivalence to give a practical alternative\footnote{Note that this is not a judgementally equal alternative. It is merely a convenient interpretation.} for the defining rules of the equality type in the case of product types:
     \begin{remark}
-        The function $\big(\pi_1(a)=\pi_1(b)\big)\times\big(\pi_2(a)=\pi_2(b)\big)\rightarrow(a=b)$ associated to the above equivalence can be interpreted as an introduction rule of the equality type for binary products. At the same time one can take the application functions induced by the projections on $A\times B$ as elimination rules for the equality type. The homotopies associated to the equivalence in their turn induce the propositional computation rules and uniqueness principle.
+        The function $\bigl(\pi_1(a)=\pi_1(b)\bigr)\times\bigl(\pi_2(a)=\pi_2(b)\bigr)\rightarrow(a=b)$ associated to the above equivalence can be interpreted as an introduction rule of the equality type for binary products. At the same time one can take the application functions induced by the projections on $A\times B$ as elimination rules for the equality type. The homotopies associated to the equivalence in their turn induce the propositional computation rules and uniqueness principle.
     \end{remark}
 
     One can also express the transport of properties along an equality $p:x=_{A\times B}y$ in terms of transport in the individual spaces:
     \begin{property}
-        Consider two types $\type{A, B}$ together with type families $\typef{P}{A}$ and $\typef{Q}{B}$. For every term $\alpha$ of the product family $(P\times Q)(x):\equiv P\big(\pi_1(x)\big)\times Q\big(\pi_2(x)\big)$ the following equality is inhabited:
+        Consider two types $\type{A, B}$ together with type families $\typef{P}{A}$ and $\typef{Q}{B}$. For every term $\alpha$ of the product family $(P\times Q)(x):\equiv P\bigl(\pi_1(x)\bigr)\times Q\bigl(\pi_2(x)\bigr)$, the following equality type is inhabited:
         \begin{gather}
-            p_*(\alpha) = \big(p_*(\pi_1(\alpha)), p_*(\pi_2(\alpha))\big).
+            p_*(\alpha) = \bigl(p_*(\pi_1(\alpha)), p_*(\pi_2(\alpha))\bigr)\,.
         \end{gather}
         Note that all three occurrences of the pushforward $p_*$ denote a different operation or, more precisely, the same operation but applied to different types.
     \end{property}
 
-    One would intuitively expect that given two functions $f,g:A\rightarrow B$ that take the same value at all points, i.e.~$f(a)=g(a)$ for all $a:A$, there exists an equality $f=_{A\rightarrow B}g$. However, this cannot be proven within the frame work of intensional type theory. This issue should also not come as a shock, since two functions that are defined differently might still take the same value at all points. To resolve this apparent gap in the theory, the following axiom is introduced:
+    One would intuitively expect that given two functions $f,g:A\rightarrow B$ that take the same value at all points, i.e.~$f(a)=g(a)$ for all $a:A$, there exists an equality $f=_{A\rightarrow B}g$. However, this cannot be proven within the frame work of intensional type theory. This issue should also not come as a shock, since two functions that are defined differently might still take the same value at all points. To resolve this apparent gap in the theory, the following axiom is introduced.
     \begin{axiom}[Function extensionality]
         Given two functions $f,g:\prod_{a:A}P(a)$, there exists an equivalence $(f=g)\rightarrow\prod_{a:A}f(a)=g(a)$ that sends $\mathrm{refl}_f$ to $f(\mathrm{refl}_x)$.
     \end{axiom}
@@ -578,26 +581,26 @@
 
     ?? COMPLETE ??
 
-\section{Modal logic}
-\subsection{Modalities}
+\section{Modal logic}\index{logic!modal}
+\subsection{Modalities}\index{possibility}\index{necessity}
 
-    The two most important or most well-known modalities are ``neccesity'' and ``possibility''. For any proposition $p$, $\square p$ means that $p$ is necessarily true and $\Diamond p$ means that $p$ is possibly true. To formalize these modalities a few axioms can be introduced.
+    The two most important or most well-known modalities are `neccesity' and `possibility'. For any proposition $p$, $\square p$ means that $p$ is necessarily true and $\Diamond p$ means that $p$ is possibly true. To formalize these modalities a few axioms can be introduced.
 
     \begin{axiom}[K]
         $\square$ preserves implications:
         \begin{gather}
-            \square(p\rightarrow q)\rightarrow(\square p\rightarrow\square q).
+            \square(p\rightarrow q)\rightarrow(\square p\rightarrow\square q)\,.
         \end{gather}
         In intuitionistic logic, a similar axiom has to be introduced for $\Diamond$:
         \begin{gather}
-            \square(p\rightarrow q)\rightarrow(\Diamond p\rightarrow\Diamond q).
+            \square(p\rightarrow q)\rightarrow(\Diamond p\rightarrow\Diamond q)\,.
         \end{gather}
     \end{axiom}
 
     \begin{axiom}[Necessitation]
         If $p$ is true, then $\square p$ is true or, equivalently:
         \begin{gather}
-            \mathtt{true}\rightarrow\square\mathtt{true}.
+            \mathtt{true}\rightarrow\square\mathtt{true}\,.
         \end{gather}
     \end{axiom}
 
@@ -607,7 +610,7 @@
         \end{gather}
         As for Axiom K, a separate axiom has to be introduced for $\Diamond$:
         \begin{gather}
-            p\rightarrow\diamond p.
+            p\rightarrow\diamond p\,.
         \end{gather}
     \end{axiom}
 
@@ -617,26 +620,26 @@
         \end{gather}
         and
         \begin{gather}
-            \Diamond\Diamond p\rightarrow\Diamond p.
+            \Diamond\Diamond p\rightarrow\Diamond p
         \end{gather}
     \end{axiom}
 
-    The categorical semantics for intuitionistic (propositional) logic is given by the internal language of Cartesian closed categories \ref{cat:closed}. When passing to S4 modal logic, one has to specialize these categories. The three axioms above imply that $\square$ is a monoidal comonad. The analogous axioms for $\Diamond$ imply that it is a $\square$-strong monad, i.e.~it is a monad equipped with a natural transformation
+    The categorical semantics for intuitionistic (propositional) logic is given by the internal language of Cartesian closed categories (\cref{cat:closed}). When passing to S4 modal logic, one has to specialize these categories. The three axioms above imply that $\square$ is a monoidal comonad. The analogous axioms for $\Diamond$ imply that it is a $\square$-strong monad, i.e.~it is a monad equipped with a natural transformation
     \begin{gather}
-        \eta_{x,y}:\square x\otimes\Diamond y\rightarrow\Diamond(\square x\otimes y).
+        \eta_{x,y}:\square x\otimes\Diamond y\rightarrow\Diamond(\square x\otimes y)\,.
     \end{gather}
 
 \subsection{Type theory}\label{section:modal_type_theory}
 
     \newdef{Modality}{\index{modality}\index{modal!operator}
-        Consider an $(\infty,1)$-topos $\mathbf{H}$. A modality or \textbf{modal operator} on $\mathbf{H}$ is an idempotent\footnote{Sometimes, idempotency is not required.} (co)monad on $\mathbf{H}$ (see also Definition~\ref{cat:closure_operator}).
+        Consider an $(\infty,1)$-topos $\mathbf{H}$. A modality or \textbf{modal operator} on $\mathbf{H}$ is an idempotent\footnote{Sometimes, idempotency is not required.} (co)monad on $\mathbf{H}$ (see also \cref{cat:closure_operator}).
     }
 
     \newdef{Modal type}{\index{modal!type}
         A type $X\in\mathbf{H}$ is said to be modal for a modality $\Diamond$ if the unit $\eta_X:X\rightarrow\Diamond X$ or counit $\varepsilon_X:\Diamond X\rightarrow X$ is an equivalence.
     }
     \begin{property}
-        The modal types of a (co)modality $\Diamond$ on $\mathbf{H}$ are exactly the $\Diamond$-(co)algebras or, equivalently, the objects of the Eilenberg-Moore category $\mathbf{H}^\Diamond$ (Definition \ref{cat:eilenberg_moore}). This property allows to define modal types for (co)monads that are not idempotent as their (co)algebras. It also means that one can recover the (co)monad objectwise as the composition of the (co)unit and the inclusion.
+        The modal types of a (co)modality $\Diamond$ on $\mathbf{H}$ are exactly the $\Diamond$-(co)algebras or, equivalently, the objects of the Eilenberg--Moore category $\mathbf{H}^\Diamond$ (\cref{cat:eilenberg_moore}). This property allows to define modal types for (co)monads that are not idempotent as their (co)algebras. It also means that one can recover the (co)monad objectwise as the composition of the (co)unit and the inclusion.
     \end{property}
 
     \newdef{Opposite}{\index{opposite}
@@ -646,15 +649,16 @@
         \end{gather}
         where the inclusions are the inclusions of modal types. Analogously, a right opposite is given by an adjunction $\Diamond\dashv\bigcirc$ together with an adjoint triple
         \begin{gather}
-            \mathbf{H}^\bigcirc\cong\mathbf{H}^\Diamond\overset{\leftarrow}{\underset{\leftarrow}{\hookrightarrow}}\mathbf{H}.
+            \mathbf{H}^\bigcirc\cong\mathbf{H}^\Diamond\overset{\leftarrow}{\underset{\leftarrow}{\hookrightarrow}}\mathbf{H}\,.
         \end{gather}
         This, in particular, implies that the modalities $\Diamond$ and $\bigcirc$ are themselves adjoint.
     }
     \begin{remark}[Interpretation]
         Note that the adjoint triples in this definition have a slightly different interpretation due to there only being one inclusion arrow in the second case. If one interprets a modality as projecting out some kind of property of objects, the first opposition embodies the case where two related properties are considered, while the second case involves only one property but projected out in two different ways.
     \end{remark}
+
     \begin{property}[Extra structure]
-        Since for idempotent (co)monads the forgetful functor $\mathbf{H}^\Diamond\hookrightarrow\mathbf{H}$ is fully faithful, the above adjoint triples also induce extra structure on the Eilenberg-Moore category $\mathbf{H}^\Diamond$. In the case where $\Diamond$ is a monad, the adjoint triple is also called an \textbf{adjoint cylinder} and $\mathbf{H}^\Diamond$ has the structure of an essential subtopos. For comonads, $\mathbf{H}^\Diamond$ obtains the structure of a bireflective subcategory \ref{cat:reflective_inclusion}.
+        Since for idempotent (co)monads the forgetful functor $\mathbf{H}^\Diamond\hookrightarrow\mathbf{H}$ is fully faithful, the above adjoint triples also induce extra structure on the Eilenberg--Moore category $\mathbf{H}^\Diamond$. In the case where $\Diamond$ is a monad, the adjoint triple is also called an \textbf{adjoint cylinder} and $\mathbf{H}^\Diamond$ has the structure of an essential subtopos. For comonads, $\mathbf{H}^\Diamond$ obtains the structure of a bireflective subcategory (\cref{cat:reflective_inclusion}).
     \end{property}
 
     \begin{notation}
@@ -674,9 +678,9 @@
     \end{notation}
 
     \newdef{Negative}{\index{negative}
-        Consider a comodality $\bigcirc:\mathbf{H}\rightarrow\mathbf{H}$. The negative of a modal type $X$ is obtained by removing its ``pure $\bigcirc$-part'', i.e.~its projection under $\bigcirc$. Categorically this means that one takes the cofibre:
+        Consider a comodality $\bigcirc:\mathbf{H}\rightarrow\mathbf{H}$. The negative of a modal type $X$ is obtained by removing its `pure $\bigcirc$-part', i.e.~its projection under $\bigcirc$. Categorically this means that one takes the cofibre:
         \begin{gather}
-            \overline{\bigcirc}X := \mathrm{cofib}(\bigcirc X\rightarrow X).
+            \overline{\bigcirc}X := \mathrm{cofib}(\bigcirc X\rightarrow X)\,.
         \end{gather}
     }
 

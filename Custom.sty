@@ -1,15 +1,39 @@
-\usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[margin=1in, marginparwidth=0.6in]{geometry}
-\usepackage{tocbibind, cite}
-\usepackage{imakeidx}
-\usepackage[unicode]{hyperref}
-\usepackage[title, titletoc]{appendix}
-\usepackage{color, xcolor, graphicx, float, enumerate, manfnt, empheq, cancel, fp, units, subcaption, tikz-cd}
-\usepackage{gensymb, textcomp, amsmath, amssymb, tabu, esint, bbm, dsfont, ytableau, simplewick, slashed, mathrsfs, tabularx}
+\usepackage{color, graphicx, float, enumerate, manfnt, empheq, cancel, fp, units, subcaption, tikz-cd}
+\RequirePackage[dvipsnames]{xcolor}
+\definecolor{UGent}{RGB}{30,100,200}
+\usepackage{textcomp, amsmath, amssymb, tabu, esint, bbm, dsfont, ytableau, simplewick, slashed, mathrsfs, tabularx}
 \usepackage[amsthm]{ntheorem}
 \usepackage[normalem]{ulem}
 \usepackage[framemethod=TikZ]{mdframed}
+
+\usepackage[T1]{fontenc}
+\usepackage[bold-style=ISO, nabla=upright]{unicode-math}
+\setmainfont[Ligatures=TeX]{TeX Gyre Pagella}
+\setmathfont{TeX Gyre Pagella Math}
+\setmathfont[range={bb}, Scale=MatchUppercase]{Euler Math}
+\setmathfont[range={scr}, Scale=MatchUppercase]{XITS Math}
+\setmathfont[range={cal}, Scale=MatchUppercase]{Latin Modern Math}
+% \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
+\setmathrm{Latin Modern Sans}
+\setmathfont[range={"005B,"005D,"0028,"0029,"007B,"007D}]{XITS Math}
+
+% This code makes * equivalent to \ast in math mode
+\begingroup\lccode`~=`* \lowercase{\endgroup\def~}{\ast}
+\mathcode`*="8000
+\begingroup\lccode`~=`P \lowercase{\endgroup\def~}{\mitP}
+\mathcode`P="8000
+\begingroup\lccode`~=`X \lowercase{\endgroup\def~}{\mitX}
+\mathcode`X="8000
+\begingroup\lccode`~=`f \lowercase{\endgroup\def~}{\mitf}
+\mathcode`f="8000
+\begingroup\lccode`~=\Delta \lowercase{\endgroup\def~}{\mupDelta}
+\mathcode\Delta="8000
+
+\setmathfont[range={\mitP}]{TeX Gyre Termes Math}
+\setmathfont[range={\mitf,\ast,"2208, "2209,\mitX}]{Latin Modern Math}
+\setmathfont[range={\bigcup,\bigcap,\bigsqcup,"2205,\sum}]{Euler Math}
 
 %This package creates a list of symbols and abbreviations
 \usepackage[intoc]{nomencl}
@@ -17,7 +41,6 @@
 \renewcommand{\nompreamble}{The following symbols are used throughout the summary:}
 \setlength{\nomlabelwidth}{2.5cm}
 \setlength{\nomitemsep}{-0.7\parsep}
-\usepackage{etoolbox}
 
 \renewcommand\nomgroup[1]{
     \ifthenelse{\equal{#1}{U}}{\item[\bfseries Units]}{
@@ -35,11 +58,7 @@
   \nopagebreak
 }
 
-%This packages makes it possible to separate paragraphs by just adding white line instead of double back-slashes
 \usepackage{parskip}
-
-\usepackage{microtype}
-\DisableLigatures{encoding = *, family = * }
 
 \usepackage{tikz}
 \usetikzlibrary{matrix,arrows}
@@ -83,7 +102,7 @@
 \newcommand{\pderiv}[2]{\ds\frac{\partial#1}{\partial#2}}
 \newcommand{\smallpderiv}[2]{{\partial#1}/{\partial#2}}
 \newcommand{\mpderiv}[3]{\ds\frac{\partial^{#1}#2}{\partial{#3}^{#1}}}
-\renewcommand{\vector}[1]{\vec{\boldsymbol{#1}}}
+\renewcommand{\vector}[1]{\vec{\symbf{#1}}}
 \newcommand{\comm}[2]{\left[\hat{#1},\hat{#2}\right]}
 \newcommand{\vecnabla}{\vector{\nabla}}
 \DeclareMathOperator{\esssup}{ess\,sup}
@@ -128,10 +147,12 @@
 \newcommand{\pbundle}{\pi:P\rightarrow M}
 \newcommand{\bundle}{\pi:E\rightarrow M}
 \newcommand{\intmul}{\mathbin{\raisebox{1.3\depth}{\scalebox{1.2}[-1]{$\lnot$}}}}
-\newcommand{\simplex}{\mathbf{\Delta}}
+\newcommand{\simplex}{\symbf{\Delta}}
 \newcommand{\expect}[1]{\mathrm{E}\left[#1\right]}
 \newcommand{\variance}[1]{\mathrm{Var}\left[#1\right]}
 \newcommand{\indep}{\perp \!\!\! \perp}
+\newcommand{\Prob}{\mathrm{Prob}}
+\newcommand{\prin}[3]{#1\hookrightarrow #2\rightarrow #3}
 
 \newcommand{\newdef}[2]{\begin{definition}[#1]#2\end{definition}}
 \newcommand{\newadef}[2]{\begin{adefinition}[#1]#2\end{adefinition}}
@@ -237,3 +258,33 @@
      \vcenter{\hbox{$#2#3$}}\kern-.5\wd0}}
 \def\ddashint{\Xint=}
 \def\dashint{\Xint-}
+
+\usepackage[natbibapa, nodoi]{apacite}
+\renewenvironment{APACrefURL}[1][]{}{}
+\usepackage{tocbibind}
+\usepackage{imakeidx}
+\usepackage[title, titletoc]{appendix}
+\usepackage[colorlinks, unicode]{hyperref}
+\hypersetup{final}
+
+\usepackage[capitalise]{cleveref}
+\crefname{definition}{Definition}{Definitions}
+\Crefname{definition}{Definition}{Definitions}
+\crefname{example}{Example}{Examples}
+\Crefname{example}{Example}{Examples}
+\crefname{method}{Method}{Methods}
+\Crefname{method}{Method}{Methods}
+\crefname{remark}{Remark}{Remarks}
+\Crefname{remark}{Remark}{Remarks}
+\crefname{result}{Corollary}{Corollaries}
+\Crefname{result}{Corollary}{Corollaries}
+\crefname{property}{Property}{Properties}
+\Crefname{property}{Property}{Properties}
+\crefname{extra}{Extra}{Extras}
+\Crefname{extra}{Extra}{Extras}
+\crefname{formula}{Formula}{Formulas}
+\Crefname{formula}{Formula}{Formulas}
+\crefname{subappendix}{Appendix}{Appendices}
+\Crefname{subappendix}{Appendix}{Appendices}
+
+% \newcommand{\temp}[1]{\textcolor{orange}{@@ #1 @@}}

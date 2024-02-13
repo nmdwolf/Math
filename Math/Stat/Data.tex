@@ -1,6 +1,6 @@
 \chapter{Data Analysis}
 
-    The main reference for the sections on optimization problems is~\citet{shewchuk_introduction_1994}. For the geometry of clustering methods, see~\citet{boissonnat_bregman_2010}. The main references for the section on \textit{conformal prediction} are~\citet{shafer_tutorial_2008,vovk_algorithmic_2005}. Although a part of this chapter is a continuation of the previous one, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason the chapter starts with some sections on applied linear algebra (for a refresher see \cref{chapter:linear_algebra}).
+    The main reference for the sections on optimization problems is~\citet{shewchuk_introduction_1994}. For the geometry of clustering methods, see~\citet{boissonnat_bregman_2010}. The main references for the section on \textit{conformal prediction} are~\citet{shafer_tutorial_2008,vovk_algorithmic_2005}. Although a part of this chapter is a continuation of the previous one, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason the chapter starts with some sections on applied linear algebra (for a refresher, see \cref{chapter:linear_algebra}).
 
 \section{Data sampling}
 \subsection{Inverse CDF sampling}
@@ -21,20 +21,23 @@
         Consider an interval $[a,b]$ such that $f_X$ vanishes outside this interval and let $q_0$ be an upper bound for $f_X$. Now, sample a point $x'$ uniformly on $[a,b]$ and sample a point $q$ uniformly on $[0,q_0]$. If $f_X(x')\geq q$, then $x'$ is a good sample. If not, repeat this procedure.
     \end{method}
 
-    The proof of that this algorithm works is quite easy and mainly depends on the fact that \[\mathrm{Pr}(Q\leq f_X(X))=\frac{1}{q_0(b-a)}.\] This value is often called the \textbf{acceptance probability}. From this expression it is clear that if one chooses $q_0$ too large, the acceptance probability becomes very small and the algorithm will take a long time to produce a sample.
+    The proof of that this algorithm works is quite easy and mainly depends on the fact that \[\Prob\bigl(Q\leq f_X(X)\bigr)=\frac{1}{q_0(b-a)}\,.\] This value is often called the \textbf{acceptance probability}. From this expression it is clear that if one chooses $q_0$ too large, the acceptance probability becomes very small and the algorithm will take a long time to produce a sample.
 
 \subsection{Monte Carlo sampling}
 
     The general idea of (Markov chain) Monte Carlo methods is to construct a sequence of points such that (starting from a given index) all points represent good samples and such that the sequence forms a Markov chain.
 
-    The first Monte Carlo algorithm uses an acceptance threshold:
+    The first Monte Carlo algorithm uses an acceptance threshold.
     \begin{method}[Metropolis--Hastings]
         Assume that a normal distribution $\mathcal{N}(\mu,\sigma^2)$ is given. The first element is given by $x_0=\mu$. Subsequent points are constructed as follows:
         \begin{itemize}
             \item Sample a point $x'$ from the normal distribution.
-            \item Calculate the \textbf{acceptance ratio} \[\lambda := \frac{f_X(x')}{f_X(x_{i-1})}.\]
-            \item If $\lambda\geq1$, $x_i=x'$.
-            \item If not, sample a point $q$ uniformly on $[0,1]$. If $\lambda\geq q$, $x_i=x'$, else $x_i=x_{i-1}$.\footnote{This step could be merged with the previous one since $\lambda\geq1$ always implies $\lambda\geq q$.}
+            \item Calculate the \textbf{acceptance ratio}
+            \begin{gather}
+                \lambda := \frac{f_X(x')}{f_X(x_{i-1})}\,.
+            \end{gather}
+            \item If $\lambda\geq1$, take $x_i=x'$.
+            \item If not, sample a point $q$ uniformly from $[0,1]$. If $\lambda\geq q$, take $x_i=x'$, else $x_i=x_{i-1}$.\footnote{This step could be merged with the previous one since $\lambda\geq1$ always implies $\lambda\geq q$.}
         \end{itemize}
         To obtain an efficient algorithm, it is helpful to choose $\mu=\expect{X}$ and $\sigma^2=\variance{X}$. This ensures that the points are sampled in a region that resembles the form of $f_X$.
 
@@ -66,7 +69,7 @@
     \remark{It is easy to see that the above linear problem is obtained when trying to extremize the quadratic form associated to a symmetric matrix.}
 
     \begin{method}[Tikhonov regularization]{\index{Tikhonov regularization}\index{ill-conditioned}
-        Consider a linear (regression) problem \[Ax = b.\] The most straightforward way to solve for $x$ is the least squares method introduced in \cref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case a regularization term can be added to the minimization problem:
+        Consider a linear (regression) problem \[Ax = b\,.\] The most straightforward way to solve for $x$ is the least squares method introduced in \cref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case a regularization term can be added to the minimization problem:
         \begin{gather}
             \|Ax-b\|^2+\|\Gamma x\|^2\,,
         \end{gather}
@@ -78,7 +81,7 @@
 
         The minimization procedures for $p\leq1$ have the important property that they not only shrink the coefficients, but even perform feature selection, i.e.~some coefficients become identically zero. However, it can be shown that the optimization problem for $p<1$ is nonconvex and, hence, is harder to solve. In general it is found that lasso regression gives the best results.
 
-        A benefit of $\ell^2$-regularization is that it can be derived from a Bayesian approach. By choosing a Gaussian prior $\mathcal{N}(0,\lambda^{-1})$, Bayesian inference immediately gives the $\ell^2$-regularized cost function as the posterior distribution. Accordingly the $\ell^2$-regularized linear regressor is equivalent to the maximum a posteriori estimator with Gaussian priors. One can obtain $\ell^p$-regularization in a similar way by replacing the Gaussian priors with generalized normal distributions (such as the Laplace distribution for $p=1$).
+        A benefit of $\ell^2$-regularization is that it can be derived from a Bayesian argument. A Gaussian prior $\mathcal{N}(0,\lambda^{-1})$ gives rise to the $\ell^2$-regularized cost function as the posterior (log)likelihood. Accordingly the $\ell^2$-regularized linear regressor is equivalent to the maximum a posteriori estimator with Gaussian priors. One can obtain $\ell^p$-regularization in a similar way by replacing the Gaussian priors with generalized normal distributions (such as the Laplace distribution for $p=1$).
     \end{remark}
 
     \newdef{Multicollinearity}{\index{collinearity}
@@ -241,7 +244,7 @@
         A sufficient condition for convergence is strict diagonal dominance, i.e.~$|D_{ii}|>\sum_{j\neq i}|E_{ij}|$.
     \end{method}
 
-    ?? COMPLETE (e.g.~Lanczos)??
+    @@ COMPLETE (e.g.~Lanczos)@@
 
 \section{Constrained optimization}
 \subsection{Lagrange multipliers}
@@ -336,7 +339,7 @@
 
     The first point that we have to treat is the occurence of the gradient in these algorithms. In ordinary Euclidean space, one simply takes the gradient to be the vector of partial derivatives. However, on general smooth manifolds this object is actually given by the de Rham differential, which is a covariant vector. However, a short proof shows that the Riemannian gradient from \cref{bundle:vector_calculus} actually gives the direction of steepest ascent. So even on Riemannian manifolds the gradient is the correct direction to work with. However, as mentioned above, the form of the update will be a problem in general.
 
-    ?? COMPLETE ??
+    @@ COMPLETE @@
 
 \section{Approximation theory}
 \subsection{Bayes optimality}
@@ -351,7 +354,7 @@
     \newdef{Bayes classifier}{\index{Bayes!classifier}
         Given a joint probability distribution $P$ over the instance space $\mathcal{X}\times\mathcal{Y}$ and a loss function $l:\mathcal{Y}\times\mathcal{Y}\rightarrow\mathbb{R}$, the pointwise Bayes predictor is defined as follows:
         \begin{gather}
-            f^*:x\mapsto\arg\min_{y\in\mathcal{Y}}\int_{\mathcal{Y}}l(y,y')\,dP(y'\mid x)\,.
+            f^*:x\mapsto\arg\min_{y\in\mathcal{Y}}\Int_{\mathcal{Y}}l(y,y')\,dP(y'\mid x)\,.
         \end{gather}
     }
     \begin{property}[Bayes optimality]
@@ -462,11 +465,11 @@
 
 \subsection{Nearest neighbour search}
 
-    ?? COMPLETE ??
+    @@ COMPLETE @@
 
 \section{Garden}
 
-    ?? ADD (e.g.~trees, forests) ??
+    @@ ADD (e.g.~trees, forests) @@
 
 \section{Support-vector machines}
 \subsection{Kernel methods}
@@ -479,9 +482,10 @@
     }
     \newdef{Reproducing kernel Hilbert space}{\index{Hilbert!space}
         \nomenclature[A_RKHS]{RKHS}{reproducing kernel Hilbert space}
-        A Hilbert space $\mathcal{H}\subset\mathrm{Map}(X,\mathbb{C})$ of functions over a set $X$ for which all evaluation functionals $\delta_x:f\mapsto f(x)$ are bounded (or continuous by \cref{functional:bounded_continuous}). Reproducing kernel Hilbert spaces are often abbreviated as \textbf{RKHS}s.
+        A Hilbert space $\mathcal{H}\subset\mathrm{Map}(X,\mathbb{C})$ of functions on a set $X$ for which all evaluation functionals $\delta_x:f\mapsto f(x)$ are bounded (or continuous by \cref{functional:bounded_continuous}). Reproducing kernel Hilbert spaces are often abbreviated as \textbf{RKHS}s.
     }
-    Using the Riesz representation theorem \ref{functional:riesz} one can express every evaluation functional $\delta_x$ on $\mathcal{H}$ as a function $K_x\in\mathcal{H}$. This allows for the introduction of a kernel on $X$.
+
+    Using the Riesz representation theorem~\ref{functional:riesz} one can express every evaluation functional $\delta_x$ on $\mathcal{H}$ as a function $K_x\in\mathcal{H}$. This allows for the introduction of a kernel on $X$.
     \newdef{Reproducing kernel}{
         Let $\mathcal{H}$ be an RKHS on a set $X$. The (reproducing) kernel $k$ on $X$ is defined as follows:
         \begin{gather}
@@ -530,11 +534,11 @@
     \begin{theorem}[Mercer]\index{Mercer}
         Let $X$ be a finite measure space and consider a (conjugate) symmetric function $k\in L^2(X\times X,\mathbb{C})$. If $k$ satisfies the \textbf{Mercer condition}
         \begin{gather}
-            \iint_{X\times X}k(x,y)\overline{f(x)}f(y)\,dxdy\geq0
+            \Iint_{X\times X}k(x,y)\overline{f(x)}f(y)\,dxdy\geq0
         \end{gather}
         for all $f\in L^2(X,\mathbb{C})$, the Hilbert--Schmidt operator
         \begin{gather}
-            T_k:L^2(X,\mathbb{C})\rightarrow L^2(X,\mathbb{C}):f\mapsto\int_Xk(\cdot,x)f(x)\,dx
+            T_k:L^2(X,\mathbb{C})\rightarrow L^2(X,\mathbb{C}):f\mapsto\Int_Xk(\cdot,x)f(x)\,dx
         \end{gather}
         admits a countable orthonormal basis $\{e_i\}_{i\in\mathbb{N}}$ with nonnegative eigenvalues $\{\lambda_i\}_{i\in\mathbb{N}}$ such that
         \begin{gather}
@@ -545,7 +549,7 @@
         A continuous function satisfies the Mercer condition if and only if it is a kernel.
     \end{theorem}
 
-    \newadef{Kernel}{
+    \newadef{Kernel}{\index{kernel}
         Consider a set $X$. A function $k:X\times X\rightarrow\mathbb{C}$ is called a (Mercer) kernel on $X$ if there exists a Hilbert space $\mathcal{H}$ together with a function $\phi:X\rightarrow\mathcal{H}$ such that
         \begin{gather}
             k(x,y) = \langle\phi(x)\mid\phi(y)\rangle_{\mathcal{H}}\,.
@@ -626,7 +630,7 @@
         \beta_i\in\,]0,C[&\implies y_i(w^Tx_i+b)=1\,.
     \end{align}
 
-    ?? COMPLETE (e.g.~geometry)??
+    @@ COMPLETE (e.g.~geometry)@@
 
 \section{Complexity theory}
 \subsection{VC dimension}
@@ -649,7 +653,7 @@
         The shatter coefficients give a notion of the effective size of $\mathcal{F}$, since they say how many different results the functions can produce given a data set of $n$ points.
     }
 
-    \newdef{Vapnik--Chervonenkis dimension}{\index{Vapnik--Chervonenkis!dimension}
+    \newdef{VC dimension}{\index{Vapnik--Chervonenkis!dimension}
         \nomenclature[A_VC]{VC}{Vapnik--Chervonenkis}
         The Vapnik--Chervonenkis (VC) dimension of a collection of binary functions $\mathcal{F}$ is defined as follows:
         \begin{gather}
@@ -685,7 +689,7 @@
         with probability at least $1-\delta$.
     \end{property}
 
-    ?? CHECK ALL THESE BOUNDS ??
+    @@ CHECK ALL THESE BOUNDS @@
 
 \subsection{Rademacher complexity}
 
@@ -781,22 +785,22 @@
 \subsection{Correlation}
 
     \newdef{Autocorrelation function}{\index{autocorrelation}\index{correlation|seealso{autocorrelation}}
-        Consider a time series $\seq{X}$. The autocovariance (resp.~autocorrelation) function of this time series is defined as the covariance (resp.~autocorrelation) function of the random variables $\seq{X}$.
+        Consider a stochastic process $\seq{X}$. The autocovariance (resp.~autocorrelation) function of this process is defined as the covariance (resp.~autocorrelation) function of the random variables $\seq{X}$.
     }
 
     \newdef{Spectral density}{\index{spectral!density}\index{memory}
-        Consider a (weakly) stationary time series $\seq{X}$. If the associated autocovariance is in $\ell^1$, one can define the spectral density as the discrete Fourier transform of the autocovariance function:
+        Consider a (weakly) stationary stochastic process $\seq{X}$. If the associated autocovariance is in $\ell^1$, one can define the spectral density as the discrete Fourier transform of the autocovariance function:
         \begin{gather}
             f(\omega) = \frac{1}{2\pi} \sum_{k=-\infty}^\infty\gamma(k)e^{i\omega k}\,,
         \end{gather}
         where $\gamma(k)$ is the autocovariance function at lag $k$.
 
-        Under the assumption that the spectral density exists, the time series is said to have \textbf{short memory} if $f(0)$ is finite. Otherwise the series is said to have \textbf{long memory}.
+        Under the assumption that the spectral density exists, the process is said to have \textbf{short memory} if $f(0)$ is finite. Otherwise, the series is said to have \textbf{long memory}.
     }
 
     \newdef{Lag operator\footnotemark}{\index{lag}\index{backshift|see{lag}}
         \footnotetext{Also called the \textbf{backshift operator}.}
-        The lag operator sends a variable in a time series to the preceding value:
+        The lag operator sends a variable in a $\mathbb{Z}$-indexed stochastic process to the preceding value:
         \begin{gather}
             BX_t = X_{t-1}\,.
         \end{gather}
@@ -817,8 +821,8 @@
         \end{gather}
     }
 
-    \begin{method}[Ljung--Box test]\index{test!Ljung-Box}
-        A test to see if a given set of autocorrelations of a time series is different from zero. Consider a time series of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k$ lagged autocorrelation functions. The test statistic is defined as
+    \begin{method}[Ljung--Box test]\index{test!Ljung--Box}
+        A test to see if a given set of autocorrelations of a stochastic process is different from zero. Consider a process of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k$ lagged autocorrelation functions. The test statistic is defined as
         \begin{gather}
             Q = n(n+2)\sum_{i=1}^k\frac{\rho_k}{n-k}\,.
         \end{gather}
@@ -826,7 +830,7 @@
     \end{method}
 
     \begin{method}[Augmented Dickey--Fuller test]\index{test!Dickey--Fuller}
-        Consider a time series $\tseq{X}$. The (augmented) Dickey--Fuller test checks if the time series is (trend) stationary. For this test one considers the following regression model (similar to the ARIMA\textit{-models} discussed in the next section):
+        Consider a stochastic process $\tseq{X}$. The (augmented) Dickey--Fuller test checks if the process is (trend) stationary. For this test, one considers the following regression model (similar to the ARIMA\textit{-models} discussed in the next section):
         \begin{gather}
             \Delta X_t = \alpha + \beta t + \gamma X_{t-1} + \sum_{i=1}^{p-1} \theta_i\Delta X_{t-i} + \varepsilon_t\,.
         \end{gather}
@@ -840,7 +844,7 @@
 \subsection{Autoregressive models}
 
     \newdef{$\mathrm{AR}(p)$-model}{\index{autoregressive model}
-        Consider a time series $\tseq{X}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1},\ldots,X_{t-p}$ of the time series:
+        Consider a stochastic process $\tseq{X}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1},\ldots,X_{t-p}$ of the process:
         \begin{gather}
             X_t = \beta_0 + \beta_1X_{t-1} + \cdots + \beta_pX_{t-p} + \varepsilon_t\,.
         \end{gather}
@@ -852,11 +856,11 @@
     \remark{The optimal order $p$ of an autoregressive model is the one for which all higher partial autocorrelation functions (almost) vanish.}
 
     \newdef{$\mathrm{MA}(p)$-model}{\index{moving average}
-        Consider a time series $\tseq{X}$ where every $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0,\sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1},\ldots,\varepsilon_{t-p}$ of the error term:
+        Consider a stochastic process $\tseq{X}$ where every variable $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0,\sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1},\ldots,\varepsilon_{t-p}$ of the error term:
         \begin{gather}
             X_t = \beta_0 + \beta_1\varepsilon_{t-1} + \cdots + \beta_p\varepsilon_{t-p} + \varepsilon_t\,.
         \end{gather}
-        Since the error terms are assumed to have mean zero, one can see that the intercept term $\beta_0$ gives the mean of the time series.
+        Since the error terms are assumed to have mean zero, one can see that the intercept term $\beta_0$ gives the mean of the process.
     }
     \remark{The optimal order $p$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
 
@@ -864,7 +868,7 @@
         An $\mathrm{MA}(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e.~$1/\theta(B)$ can be written as a convergent series in the operator $B$. This in turn implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the $\mathrm{MA}(q)$-model as an $\mathrm{AR}(p)$-model, where possibly $p=\infty$. The analogous property for $\mathrm{AR}(p)$-models leads to a definition of \textbf{stationarity}.
     }
 
-    In practice it is not always possible to describe a data set using either an autoregressive or a moving average model. However, these two types of models can be combined:
+    In practice, it is not always possible to describe a data set using either an autoregressive or a moving average model. However, these two types of models can be combined.
     \newdef{$\mathrm{ARMA}(p,q)$-model}{
         \nomenclature[A_ARMA]{ARMA}{autoregressive moving-average model}
         \begin{gather}
@@ -881,25 +885,26 @@
     \begin{gather}
         \varphi(B)(1-B)^dX_t = \alpha_0 + \theta(B)\varepsilon_t.\,
     \end{gather}
-    The interpretation of this additional factor $(1-B)^d$ is related to the stationarity of the time series. The operator $1-B$ is a finite difference operator:
+    The interpretation of this additional factor $(1-B)^d$ is related to the stationarity of the process. The operator $1-B$ is a finite difference operator:
     \begin{align*}
         (1-B)X_t &= X_t - X_{t-1}\\
         (1-B)^2X_t &= (X_t-X_{t-1}) - (X_{t-1}-X_{t-2})\\
         &\cdots
     \end{align*}
-    By successive applications, one can obtain a stationary time series from a nonstationary time series. This combination of differencing, autoregression and moving averages is called the \textbf{ARIMA}-model\footnote{The 'I' stands for integrated.}.
+    By successive applications, one can obtain a stationary process from a nonstationary one. This combination of differencing, autoregression and moving averages is called the \textbf{ARIMA}-model\footnote{The 'I' stands for integrated.}.
 
     \remark{Including so-called \textit{exogenous} variables, i.e.~external predictors, leads to an \textbf{ARIMA\underline{X}}-model.}
 
     \begin{remark}[Fitting AR- and MA-models]
-        As is clear from the definition of an $\mathrm{AR}(p)$-model, the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However, in contrast to AR-models where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are by definition unknown.
+        As is clear from the definition of an $\mathrm{AR}(p)$-model, the parameters $\theta_i$ can easily be found using standard techniques for multivariate linear regression such as ordinary least squares. However, in contrast to AR-models, where the predictors are known, the estimation of coefficients in MA-models is harder since the error terms $\varepsilon_t$ are, by definition, unknown.
     \end{remark}
-    To estimate the coefficients in a MA-model, people have introduced multiple techniques (see for example \cite{MA_fit}). One of the most famous ones is the method by \textit{Durbin}.
+
+    To estimate the coefficients in an MA-model, people have introduced multiple techniques (see for example~\citet{sandgren_moving_2006}). One of the most famous ones is the following method.
     \begin{method}[Durbin]\index{Durbin method}
         By restricting to invertible $\mathrm{MA}(q)$-models (or by approximating a noninvertible model by an invertible one), one can first fit an $\mathrm{AR}(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$ and then, in a second step, use a least squares-method to solve for the coefficients in the MA-model.
     \end{method}
 
-    As a last modification one can introduce seasonal components. Simple trends such as a linear growth are easily removed from the time series by detrending or differencing. However, a periodic pattern is harder to remove and, in general, ARIMA-models are not suited to accompany this type of features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations. The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model, where the lag operator $B$ is replaced by the seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation):
+    As a last modification, one can introduce seasonal components. Simple trends such as a linear growth are easily removed from the process by detrending or differencing. However, a periodic pattern is harder to remove and, in general, ARIMA-models are not suited to accompany this type of features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations. The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model, where the lag operator $B$ is replaced by the seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation).
     \newdef{$\mathrm{ARIMA}(p,q,d)(P,Q,D)_s$-model}{
         \begin{gather}
             \Phi(B^s)\varphi(B)\Delta_s^D\Delta^dX_t = \theta(B)\Theta(B^s)\varepsilon_t
@@ -909,7 +914,7 @@
 \subsection{Causality}
 
     \newdef{Granger causality}{\index{causality!Granger}
-        Consider two time series $\seq{X}$ and $\seq{Y}$. The time series $X_n$ is said to (Granger-)cause $Y_n$ if past values of $X_n$ help to predict future values of $Y_n$. More formally this can be stated as follows:
+        Consider two stochastic processes $\seq{X}$ and $\seq{Y}$. The process $X_n$ is said to (Granger-)cause $Y_n$ if past values of $X_n$ help to predict future values of $Y_n$. More formally, this can be stated as follows:
         \begin{gather}
             P[Y_{t+k}\in A\mid\Omega(t)]\neq P[Y_{t+k}\in A\mid\Omega\backslash X(t)]
         \end{gather}
@@ -921,10 +926,10 @@
             \item The cause carries unique information about the effect.
         \end{itemize}
     }
-    \remark{A slightly different but for computational purposes often more useful\footnote{In fact this was the original definition by \textit{Granger}.} notion of Granger-causality is as follows. A time series $\seq{X}$ is said to \textbf{(Granger-)cause} a time series $\seq{Y}$ if the variance of predictions of $Y_n$ becomes smaller when the information contained in $X_n$ is taken into account.}
+    \remark{A slightly different, but for computational purposes often more useful\footnote{In fact, this was the original definition by \textit{Granger}.} notion of Granger-causality, is as follows. A stochastic process $\seq{X}$ is said to \textbf{(Granger-)cause} a stochastic process $\seq{Y}$ if the variance of predictions of $Y_n$ becomes smaller when the information contained in $X_n$ is taken into account.}
 
     \begin{remark}[Testing]\index{test!Diebold--Mariano}
-        Assume that two uncorrelated models giving predictions of a time series are given. One way to check if they have the same accuracy is the \textit{Diebold--Mariano test}. However, when testing for Granger-causality one should pay attention. This test is not valid for nested models and, hence, is not applicable to two models that only differ by a set of extra predictors (in this case an external time series).
+        Assume that two uncorrelated models giving predictions of a stochastic process are given. One way to check if they have the same accuracy is the \textit{Diebold--Mariano test}. However, when testing for Granger-causality one should pay attention. This test is not valid for nested models and, hence, is not applicable to two models that only differ by a set of extra predictors (in this case an external process).
     \end{remark}
 
 \section{Uncertainty modelling}
@@ -1042,7 +1047,7 @@
     \end{gather}
     where $\vector{z}:=(z_1,\ldots,z_N,z^*)$. Using these explicit permutations, one can generalize the construction of conformal predictors to arbitrary randomization schemes, i.e.~to subgroups of $S_{N+1}$. However, in general this will ruin the validity of the procedure.
 
-    ?? FINISH (is this even relevant for this compendium) ??
+    @@ FINISH (is this even relevant for this compendium) @@
 
     At last a computationally efficient modification of the original CP algorithm is introduced. For most applications, especially those in machine learning and big data, the computational inefficiency of conformal predictors would make them hard to use. To overcome this issue \textit{Papadopoulos et al.} introduced the following modification.
     \begin{construct}[Inductive CP]
@@ -1111,7 +1116,7 @@
         It is clear that for $k\ll|\mathcal{C}|$ the offline ICP algorithm approximates the online version. The major benefit of the online algorithm is that one does not need to use the inflated quantiles to obtain valid prediction regions, because the calibration set grows every time new data is observed and, hence, the finite-size fluctuations get supressed.
     \end{construct}
 
-    ?? COMPLETE ??
+    @@ COMPLETE @@
 
 \subsection{Conformal predictive systems}
 
@@ -1231,7 +1236,7 @@
         where $\lambda$ and $\mathrm{co}$ denote the Lebesgue measure and convex hull, respectively.
     \end{property}
 
-    ?? FINISH ??
+    @@ FINISH @@
 
 \subsection{Distribution-shift}
 
@@ -1245,7 +1250,7 @@
     \end{gather}
     where $p_k$ is the $p$-value of the $k^{th}$ data point as produced by some conformal predictor. The functions $f_k$ are called the \textbf{betting functions}. For $\seq{X}$ to be a martingale with respect to the natural filtration of the $p_k$'s, the betting functions should satisfy
     \begin{gather}
-        \int_0^1f_k(p)\,dp = 1\,.
+        \Int_0^1f_k(p)\,dp = 1\,.
     \end{gather}
 
     \begin{method}[Power martingale]
@@ -1255,10 +1260,11 @@
         \end{gather}
         One can also construct a \textbf{simple mixture} martingale by integrating over $\varepsilon$:
         \begin{gather}
-            X_i := \int_0^1X^\varepsilon_i\,d\varepsilon\,.
+            X_i := \Int_0^1X^\varepsilon_i\,d\varepsilon\,.
         \end{gather}
         Because $\varepsilon-1\leq0$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e.~when unlikely values are observed.
     \end{method}
+
     However, not all distribution shifts will give rise to such behaviour. For example, it is possible that, although the $p$-values are not distributed uniformly anymore (since the data is not exchangeable), they are concentrated in the upper half of the unit interval and, hence, do not let the martingale grow strongly. For this reason it is convenient to construct betting functions that take into account the distribution of the $p$-values.
     \begin{method}[Plug-in martingale]
         Let $\widehat{\rho}_i(p)$ denote an estimate of the probability density constructed using the $p$-values $\{p_1,\ldots,p_i\}$. The plug-in martingale is defined by the betting functions
@@ -1276,7 +1282,8 @@
         \end{gather}
         is a martingale.
     \end{property}
-    So likelihood ratios already give rise to test martingales. However, this martingale cannot be used to check for distribution shifts, since it is only a martingale when the true density is used.
+
+    So, likelihood ratios already give rise to test martingales. However, this martingale cannot be used to check for distribution shifts, since it is only a martingale when the true density is used.
     \begin{example}[Likelihood nonconformity]
         For every two probability densities $f,g$ one can define a nonconformity measure as follows:
         \begin{gather}
@@ -1291,7 +1298,7 @@
 
     However, in certain cases it is often desirable to have a model that can sample new data points from the data generating distribution. Models of this type are called generative models. (Note that fully distributional estimators can be considered both inferential and generative.)
 
-    ?? ADD (e.g. GANs) ??
+    @@ ADD (e.g. GANs) @@
 
 \subsection{Normalizing flows}
 
@@ -1317,4 +1324,4 @@
 
     The general construction for normalizing flow regression is to train a model $\rho:\mathcal{Y}\rightarrow\mathbb{R}^m$ that parametrizes a normalizing flow $\Psi(\cdot\,;\cdot):\mathbb{R}^n\times\mathbb{R}^m\rightarrow\mathbb{R}^n$ in such a way that for every $y\in\mathcal{Y}$, $\Psi\bigl(\cdot\,;\rho(y)\bigr)$ is triangular and increasing. Hence, one passes to `conditional' normalizing flows.
 
-    ?? COMPLETE ??
+    @@ COMPLETE @@

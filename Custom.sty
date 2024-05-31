@@ -3,8 +3,8 @@
 \usepackage{graphicx, float, enumerate, manfnt, empheq, cancel, fp, units, subcaption, tikz-cd}
 \RequirePackage[dvipsnames]{xcolor}
 \definecolor{UGent}{RGB}{30,100,200}
-\usepackage{textcomp, amsmath, amssymb, tabu, esint, bbm, dsfont, ytableau, simplewick, slashed, mathrsfs, tabularx}
-\usepackage[amsthm]{ntheorem}
+\usepackage{amsmath, amssymb, tabu, bigints, exscale, relsize, bbm, dsfont, ytableau, simplewick, slashed, mathrsfs, tabularx}
+\usepackage[amsthm, thmmarks]{ntheorem}
 \usepackage[normalem]{ulem}
 \usepackage[framemethod=TikZ]{mdframed}
 
@@ -14,49 +14,25 @@
 \setmathfont{TeX Gyre Pagella Math}
 \setmathfont[range={bb}, Scale=MatchUppercase]{Euler Math}
 \setmathfont[range={scr}, Scale=MatchUppercase]{XITS Math}
-\setmathfont[range={cal}, Scale=MatchUppercase]{Latin Modern Math}
+\setmathfont[range={cal,\symbfcal}, Scale=MatchUppercase]{Libertinus Math}
 % \DeclareMathAlphabet{\mathcal}{OMS}{cmsy}{m}{n}
 \setmathrm{Latin Modern Sans}
-\setmathfont[range={"005B,"005D,"0028,"0029,"007B,"007D}]{XITS Math}
 
 % This code makes * equivalent to \ast in math mode
 \begingroup\lccode`~=`* \lowercase{\endgroup\def~}{\ast}
 \mathcode`*="8000
-\begingroup\lccode`~=`P \lowercase{\endgroup\def~}{\mitP}
-\mathcode`P="8000
+% \begingroup\lccode`~=`P \lowercase{\endgroup\def~}{\mitP}
+% \mathcode`P="8000
 \begingroup\lccode`~=`X \lowercase{\endgroup\def~}{\mitX}
 \mathcode`X="8000
 \begingroup\lccode`~=`f \lowercase{\endgroup\def~}{\mitf}
 \mathcode`f="8000
-\begingroup\lccode`~=\Delta \lowercase{\endgroup\def~}{\mupDelta}
-\mathcode\Delta="8000
 
+\setmathfont[range={"005B,"005D,"0028,"0029,"007B,"007D,\pitchfork, "2ADB}]{XITS Math}
 \setmathfont[range={\mitP}]{TeX Gyre Termes Math}
-\setmathfont[range={\mitf,\ast,"2208, "2209,\mitX}]{Latin Modern Math}
-\setmathfont[range={\bigcup,\bigcap,\bigsqcup,"2205,\sum}]{Euler Math}
-
-%This package creates a list of symbols and abbreviations
-\usepackage[intoc]{nomencl}
-\renewcommand{\nomname}{List of Symbols}
-\renewcommand{\nompreamble}{The following symbols are used throughout the summary:}
-\setlength{\nomlabelwidth}{2.5cm}
-\setlength{\nomitemsep}{-0.7\parsep}
-
-\renewcommand\nomgroup[1]{
-    \ifthenelse{\equal{#1}{U}}{\item[\bfseries Units]}{
-	\ifthenelse{\equal{#1}{O}}{\item[\bfseries Operations]}{
-	\ifthenelse{\equal{#1}{S}}{\item[\bfseries Objects]}{
-	\ifthenelse{\equal{#1}{A}}{\item[\bfseries Abbreviations]}{}}}}
-}
-
-\pagestyle{headings}
-\reversemarginpar
-\setcounter{tocdepth}{2}
-
-\providecommand*\lettergroup[1]{
-  \par\textbf{#1}\par
-  \nopagebreak
-}
+\setmathfont[range={\mitf,\ast,"2208, "2209, \mitX, \mitpi}]{Latin Modern Math}
+\setmathfont[range={\bigcup, \bigcap, \bigsqcup, "2205, \sum, \mitOmega}]{Euler Math}
+% \setmathfont[range={\mitOmega}]{Libertinus Math}
 
 \usepackage{parskip}
 
@@ -67,6 +43,10 @@
 \let\originalright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
 \renewcommand{\right}{\aftergroup\egroup\originalright}
+
+\theoremsymbol{\ensuremath\square}
+\renewtheorem*{proof}{\normalfont\textit{Proof}}
+\theoremsymbol{}
 
 \newtheorem{dummy}{Dummy}[section]
 \newtheorem{exercise}[dummy]{Exercise}
@@ -93,7 +73,7 @@
 \newcommand{\cul}[2]{\color{#1}\underline{{\color{black}#2}}\color{black}}
 \newcommand{\ds}{\displaystyle}
 \newcommand{\zbar}{\overline{z}}
-\newcommand{\qed}{\hspace*{0pt}\hfill\proofSymbol}
+% \newcommand{\qed}{\hspace*{0pt}\hfill\proofSymbol}
 \newcommand{\sderiv}[1]{\partial_{#1}}
 \newcommand{\delbar}{\overline{\partial}}
 \newcommand{\deriv}[2]{\frac{\dr#1}{\dr#2}}
@@ -123,6 +103,8 @@
 \DeclareMathOperator{\ad}{ad}
 \DeclareMathOperator{\coker}{coker}
 \DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 \renewcommand{\hom}{\mathrm{Hom}}
 \newcommand{\dr}{\mathrm{d}}
 \newcommand{\drx}{\mathrm{d}x}
@@ -131,8 +113,9 @@
 \newcommand{\cod}{\mathrm{cod}}
 \newcommand{\ob}[1]{\mathrm{ob}(\mathbf{#1})}
 \newcommand{\seq}[1]{(#1_n)_{n\in\mathbb{N}}}
-\newcommand{\net}[1]{(#1_\alpha)_{\alpha\in I}}
 \newcommand{\tseq}[1]{(#1_t)_{t\in T}}
+\newcommand{\rseq}[1]{(#1_t)_{t\in\mathbb{R}^+}}
+\newcommand{\net}[1]{(#1_\alpha)_{\alpha\in I}}
 \newcommand{\adj}[2]{\underset{#2}{\overset{#1}{\underset{\xrightarrow{\qquad}}{\overset{\xleftarrow{\qquad}}{\perp}}}}}
 \newcommand{\func}[3]{#1:\mathbf{#2}\rightarrow\mathbf{#3}}
 \newcommand{\cfunc}[3]{#1:\mathbf{#2}^{op}\rightarrow\mathbf{#3}}
@@ -153,6 +136,9 @@
 \newcommand{\indep}{\perp \!\!\! \perp}
 \newcommand{\Prob}{\mathrm{Prob}}
 \newcommand{\prin}[3]{#1\hookrightarrow #2\rightarrow #3}
+\newcommand{\tpitchfork}{\char"2ADB}
+\newcommand{\cdlg}{c\`adl\`ag\ }
+\newcommand{\cdlgg}{c\`adl\`ag}
 
 \newcommand{\newdef}[2]{\begin{definition}[#1]#2\end{definition}}
 \newcommand{\newadef}[2]{\begin{adefinition}[#1]#2\end{adefinition}}
@@ -248,16 +234,23 @@
 }
 \makeatother
 
-\def\Xint#1{\mathchoice
-   {\XXint\displaystyle\textstyle{#1}}%
-   {\XXint\textstyle\scriptstyle{#1}}%
-   {\XXint\scriptstyle\scriptscriptstyle{#1}}%
-   {\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
-   \!\int}
-\def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$}
-     \vcenter{\hbox{$#2#3$}}\kern-.5\wd0}}
-\def\ddashint{\Xint=}
-\def\dashint{\Xint-}
+\newcommand{\Int}{\mathlarger{\mathlarger{\int}}}
+\newcommand{\Intt}[2]{\mathlarger{\mathlarger{\int}}_{\scriptscriptstyle #1}^{\scriptscriptstyle #2}}
+\newcommand{\Iint}{\mathlarger{\mathlarger{\iint}}}
+\newcommand{\Iiint}{\mathlarger{\mathlarger{\iiint}}}
+\newcommand{\Oint}{\mathlarger{\mathlarger{\oint}}}
+\newcommand{\Oiint}{\mathlarger{\mathlarger{\oiint}}}
+
+% \def\Xint#1{\mathchoice
+%    {\XXint\displaystyle\textstyle{#1}}%
+%    {\XXint\textstyle\scriptstyle{#1}}%
+%    {\XXint\scriptstyle\scriptscriptstyle{#1}}%
+%    {\XXint\scriptscriptstyle\scriptscriptstyle{#1}}%
+%    \!\int}
+% \def\XXint#1#2#3{{\setbox0=\hbox{$#1{#2#3}{\int}$}
+%      \vcenter{\hbox{$#2#3$}}\kern-.5\wd0}}
+% \def\ddashint{\Xint=}
+% \def\dashint{\Xint-}
 
 \usepackage[natbibapa, nodoi]{apacite}
 \renewenvironment{APACrefURL}[1][]{}{}
@@ -267,9 +260,38 @@
 \usepackage[colorlinks, unicode]{hyperref}
 \hypersetup{final}
 
+%This package creates a list of symbols and abbreviations
+\usepackage[intoc]{nomencl}
+\renewcommand{\nomname}{List of Symbols}
+\renewcommand{\nompreamble}{The following symbols are used throughout the summary:}
+\setlength{\nomlabelwidth}{2.5cm}
+\setlength{\nomitemsep}{-0.7\parsep}
+
+\renewcommand\nomgroup[1]{
+    \ifthenelse{\equal{#1}{U}}{\item[\bfseries Units]}{
+	\ifthenelse{\equal{#1}{O}}{\item[\bfseries Operations]}{
+	\ifthenelse{\equal{#1}{S}}{\item[\bfseries Objects]}{
+	\ifthenelse{\equal{#1}{A}}{\item[\bfseries Abbreviations]}{}}}}
+}
+
+\pagestyle{headings}
+\reversemarginpar
+\setcounter{tocdepth}{2}
+
+\providecommand*\lettergroup[1]{
+  \par\textbf{#1}\par
+  \nopagebreak
+}
+
 \usepackage[capitalise]{cleveref}
 \crefname{definition}{Definition}{Definitions}
 \Crefname{definition}{Definition}{Definitions}
+\crefname{adefinition}{Definition}{Definitions}
+\Crefname{adefinition}{Definition}{Definitions}
+\crefname{notation}{Notation}{Notations}
+\Crefname{notation}{Notation}{Notations}
+\crefname{construct}{Construction}{Constructions}
+\Crefname{construct}{Construction}{Constructions}
 \crefname{example}{Example}{Examples}
 \Crefname{example}{Example}{Examples}
 \crefname{method}{Method}{Methods}
@@ -280,11 +302,15 @@
 \Crefname{result}{Corollary}{Corollaries}
 \crefname{property}{Property}{Properties}
 \Crefname{property}{Property}{Properties}
+\crefname{uproperty}{Universal Property}{Universal Properties}
+\Crefname{uproperty}{Universal Property}{Universal Properties}
 \crefname{extra}{Extra}{Extras}
 \Crefname{extra}{Extra}{Extras}
 \crefname{formula}{Formula}{Formulas}
 \Crefname{formula}{Formula}{Formulas}
 \crefname{subappendix}{Appendix}{Appendices}
 \Crefname{subappendix}{Appendix}{Appendices}
+\crefname{axiom}{Axiom}{Axioms}
+\Crefname{axiom}{Axiom}{Axioms}
 
 % \newcommand{\temp}[1]{\textcolor{orange}{@@ #1 @@}}

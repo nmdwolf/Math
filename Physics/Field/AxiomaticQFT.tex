@@ -1,14 +1,68 @@
 \chapter{\difficult{Axiomatic QFT}}
 
-    For the sections on the Haag--Kastler framework and its extensions, the reader is referred to the work of \textit{Brunetti, Fredenhagen et al}. A reference for the remaining sections on algebraic QFT is~\citet{baez_introduction_2014}. The sections on cohomological quantization and quantization from a sheaf point of view are based on~\citet{nuiten_cohomological_2013}. For the sections on TQFTs and \textit{open-closed} TQFTs, the reader is referred to the original papers~\citet{atiyah_topological_1988,lauda_openclosed_2008}, respectively.
+    For the sections on TQFTs and \textit{open-closed} TQFTs, the reader is referred to the original papers~\citet{atiyah_topological_1988} and~\citet{lauda_openclosed_2008}, respectively. For the sections on the Haag--Kastler framework and its extensions, the reader is referred to the work of \textit{Brunetti, Fredenhagen et al}. A reference for the remaining sections on algebraic QFT is~\citet{baez_introduction_2014}. The sections on cohomological quantization and quantization from a sheaf point of view are based on~\citet{nuiten_cohomological_2013}.
+
+\section{Topological QFT}
+
+    For convenience, the reader is reminded of some of the notations that are used. $\mathbf{FinVect}$ denotes the category of finite-dimensional vector spaces over $\mathbb{C}$ and $\mathbf{Bord}^d_{d-1}$ denotes the category of $d$-dimensional (framed\footnote{A framing in this context means a framing of the $d$-stabilized tangent bundles $TM\oplus\mathbb{R}^{d-\dim(M)}$.}) cobordisms (\cref{manifold:cobordism}).
+
+\subsection{Atiyah--Segal axioms}\index{Atiyah--Segal axioms}
+
+    \begin{axiom}[Atiyah--Segal]\index{field!theory}
+        \nomenclature[A_TQFT]{TQFT}{topological quantum field theory}
+        A $d$-dimensional \textbf{topological quantum field theory} (TQFT) is a symmetric monoidal functor $F:\mathbf{Bord}_{d-1}^d\rightarrow\mathbf{FinVect}$. This means (among other things) that $F$ is a map satisfying the following axioms:
+        \begin{enumerate}
+            \item\textbf{Normalization}: $F(\emptyset)=\mathbb{C}$.
+            \item\textbf{Stacking}: $F(M\sqcup M') = F(M)\otimes F(M')$.
+            \item\textbf{Composition}: If $N=M\cup M'$, where $\partial M$ and $\partial M'$ have opposite orientations, then \[F(N) = F(M)\circ F(M')\,.\]
+            \item\textbf{Invariance}: If $f: M\rightarrow M'$ is a diffeomorphism rel boundary, then $F\circ f = F$.
+        \end{enumerate}
+    \end{axiom}
+
+    \begin{example}[1D]
+        In $d=1$, the Atiyah--Segal axioms give rise to the following correspondence:
+        \begin{gather*}
+            \begin{array}{l|l}
+                \text{point with orientation } + & \text{vector space } V\\
+                \text{point with reversed orientation } - & \text{dual space }V^*\\
+                \text{line between points} & \text{linear map }f:V\rightarrow V\\
+                \text{cap between $\emptyset$ and points } +,- & \text{coevaluation } \mathbb{C}\rightarrow V\otimes V^*\\
+                \text{cup between points $-,+$ and }\emptyset & \text{evaluation }V^*\otimes V\rightarrow\mathbb{C}
+            \end{array}
+        \end{gather*}
+        Essentially, this gives the structure of a (finite-dimensional) vector space and its dual.
+    \end{example}
+
+    \begin{example}[2D]\index{Frobenius!algebra}
+        In $d=2$, one can obtain a similar result by drawing all possible configurations. However, the existence and combination of `pair of pants'-diagrams gives a richer structure. For 2D TQFTs, the corresponding object is a (finite-dimensional) commutative and cocommutative Frobenius algebra (\cref{linalgebra:frobenius}).
+    \end{example}
+
+    In dimensions 3 and higher, the definition above is intractable. To allow the construction to be generalized to higher dimensions, one considers the following (extended) definition.
+    \newdef{Extended TQFT}{
+        A $d$-dimensional extended TQFT is a symmetric monoidal $(\infty,d)$-functor $F:\mathbf{Bord}^d\rightarrow\mathbf{FinVect}$ satisfying the Atiyah--Segal axioms, where the invariance axiom is required only at the highest level of $k$-morphisms.
+    }
+    \begin{remark}
+        One can replace the category $\mathbf{FinVect}$ by any other symmetric monoidal category $\mathbf{C}$.
+    \end{remark}
+
+    The following conjecture by~\citet{baez_higherdimensional_1995}, later (potentially) proven by~\citet{lurie_classification_2009,grady_geometric_2022}, states that every extended TQFT is defined by a single object. This is motivated by the fact that all cobordisms between smooth manifolds can be obtained from gluing together (the geometric representation) of identity morphisms and taking disjoint unions of them.
+    \begin{theorem}[Cobordism hypothesis]\index{cobordism!hypothesis}
+        $\mathbf{Bord}^d$ is the free symmetric monoidal $(\infty,n)$-category with all duals on a single object $\mathrm{pt}$. In particular, every symmetric monoidal $(\infty,n)$-functor $F:\mathbf{Bord}^d\rightarrow\mathbf{C}$ is characterized by a single fully dualizable object $F(\mathrm{pt})\in\ob{C}$.
+    \end{theorem}
+
+\subsection{Open-closed TQFT}
+
+    In the case of ordinary TQFTs as defined in the previous section, one considers cobordisms between closed manifolds. Hence, the relevant objects in this category are manifolds with boundary. A generalization is obtained by relaxing the constraint on the cobordisms and allowing for the notion of manifolds with corners (\cref{section:manifold_boundary}). For simplicity, only the case of 2D TQFTs (as in the original definition) will be considered.
+
+    \todo{COMPLETE}
 
 \section{Algebraic QFT}
 \subsection{Haag--Kastler axioms}\label{section:haag_kastler}
 
     \begin{axiom}[Local net of observables]\index{microcausality|seealso{locality}}\index{Einstein!causality}\index{locality}\label{aqft:microcausality}
-        To every causally closed set (\cref{relativity:causal_closure}), one associates a $C^*$-algebra. This assignment is required to satisfy the following conditions:
+        To every causally closed set (\cref{relativity:causal_closure}), one associates a $C^*$-algebra (\cref{operators:c_star}). This assignment is required to satisfy the following conditions:
         \begin{enumerate}
-            \item\textbf{Isotony}: If $O_1\subset O_2$, then $\mathcal{A}(O_1)\hookrightarrow\mathcal{A}(O_2)$.
+            \item\textbf{Isotony}: If $O_1\subset O_2$, then $\mathcal{A}(O_1)\hookrightarrow\mathcal{A}(O_2)$ and compositions are preserved.
             \item\textbf{(Causal) locality}\footnote{Also called \textbf{microcausality} or \textbf{Einstein causality}.}: If $O_1$ and $O_2$ are spacelike separated, then
             \begin{gather}
                 \bigl[\mathcal{A}(O_1),\mathcal{A}(O_2)\bigr]=0
@@ -46,7 +100,7 @@
         \end{gather}
         for all causally closed sets $O$.
     \end{axiom}
-    \remark{Haag duality is known to hold for all free theories and even for some interacting theories. However, it is also known to fail in the case of symmetry breaking~\citet{roberts_spontaneously_1974}.}
+    \remark{Haag duality is known to hold for all free theories and even for some interacting theories. However, it is also known to fail in the case of symmetry breaking~\citep{roberts_spontaneously_1974}.}
 
     To generalize the above axiom system to globally hyperbolic space times, one must enter the realm of category theory. The notation\footnote{This could potentially cause confusion with other notations used in this text. $\mathbf{Loc}$ here has nothing to do with the category of locales from \cref{chapter:topology}.} of~\citet{calaque_mathematical_2015} will be adopted. Let $\mathbf{Loc}$ be the category of globally hyperbolic space times with orientation- and causal structure-preserving isometries. Let $\mathbf{Obs}$ be the category of relevant algebras (commutative algebras for classical physics and $C^*$-algebras for quantum physics) together with suitable algebra morphisms. The assignment of algebras is then given by a functor $\func{\mathfrak{U}}{Loc}{Obs}$. The Haag--Kastler framework is recovered when $\mathfrak{U}$ is restricted to the subcategory of globally hyperbolic subsets of some manifold (with inclusions as morphisms).
 
@@ -57,22 +111,22 @@
         \begin{gather}
             W(z)W(z') = e^{\frac{i}{2}\omega(z,z')}W(z+z')
         \end{gather}
-        for all $z,z'\in L$.
+        for all $z,z'\in L$, i.e.~$W$ is a projective representation of the Abelian group $L$ and $\omega$ is, up to rescaling, the group cocycle inducing it (\cref{section:projective_representation}).
     }
     \remark{This is a generalization of the Weyl form of the canonical commutation relations~\ref{qm_formalism:CCR}.}
 
     \newdef{Heisenberg system}{\index{Heisenberg!system}
-        The generators $\phi(z)$ of the maps $t\mapsto W(tz)$, which exist by Stone's theorem \ref{functional:stone}, are said to form a Heisenberg system. These operators satisfy the following properties:
-        \begin{itemize}
-            \item $\lambda\phi(z) = \phi(\lambda z)$ for all $\lambda>0$,
-            \item $[\phi(z),\phi(z')] = -i\omega(z,z')$, and
-            \item $\phi(z+z')$ is the closure \ref{functional:closure} of $\phi(z)+\phi(z')$.
-        \end{itemize}
+        The generators $\phi(z)$ of the maps $t\mapsto W(tz)$, where $W$ determines a Weyl system, which exist by Stone's theorem~\ref{functional:stone}, are said to form a Heisenberg system. These operators satisfy the following properties:
+        \begin{enumerate}
+            \item\textbf{Positive homogeneity}: $\lambda\phi(z) = \phi(\lambda z)$ for all $\lambda>0$,
+            \item\textbf{Commutator}: $[\phi(z),\phi(z')] = -i\omega(z,z')$, and
+            \item\textbf{Weak additivity}: $\phi(z+z')$ is the closure \ref{functional:closure} of $\phi(z)+\phi(z')$.
+        \end{enumerate}
     }
 
 \section{Perturbative AQFT}
 
-    Perturbative algebraic quantum field theory (pAQFT) tries to formalize the notion of perturbation theory in QFT, as it is nowadays used in particle physics and high energy physics, by combining the formalism of AQFT with the causal perturbation theory as introduced by \textit{Epstein} and \textit{Glaser}.
+    Perturbative algebraic quantum field theory (pAQFT) tries to formalize the notion of perturbation theory in QFT, as it is nowadays used in particle physics and high energy physics, by combining the formalism of AQFT with the causal perturbation theory as introduced by~\citet{epstein_role_1973}.
 
     In this section, the main object of interest will be the space of fields. In almost all cases, this will be the space of sections $\mathcal{E}$ of a (graded) vector bundle $\bundle$. Such spaces are always (graded) Fr\'echet spaces by generalizing the construction in \cref{distribution:distribution}. Here, one can use the fact that every manifold is $\sigma$-compact and admits a connection. Moreover, as before, the spacetime manifolds $M$ will always be assumed to be globally hyperbolic, i.e.~admit a Cauchy surface.
 
@@ -92,14 +146,14 @@
     \end{gather}
     This approach has two benefits. First of all, one does not have to restrict to compact sets to have a well-defined integration-by-parts formula, since all functions under the integral sign are now automatically compactly supported on $M$. Secondly, one has a straightforward way to implement adiabatic switching, an important ingredient for perturbation theory, since the function $f$ can be treated as a position-dependent coupling constant.
 
-    \begin{remark}[Functional approach vs variational bicomplex]\index{local!functional}
+    \begin{remark}[Variational bicomplex]\index{local!functional}
         In \cref{chapter:classical_fields}, the variational bicomplex was implicitly assumed as the framework for doing variational calculus. The main assumption of this framework, however, is locality. The functional approach, on the other hand, does allow for nonlocal functionals. For completeness, algebraically, a local functional is characterized by the following conditions:
         \begin{enumerate}
             \item For all $\phi,\psi$ and $\chi\in\mathcal{E}$ such that $\supp(\phi)\cap\supp(\chi)=\emptyset$:
                 \begin{gather}
                     F(\phi+\psi+\chi)=F(\phi+\psi)-F(\psi)+F(\psi+\chi)\,.
                 \end{gather}
-            \item The wave front set of $F^{(n)}$ is orthogonal to the tangent bundle $T\Delta_n$ of the diagonal of $M$ for all $n\in\mathbb{N}$.
+            \item The wave front set (\cref{riemann:wave_front_set}) of $F^{(n)}$ is orthogonal to the tangent bundle $T\Delta_n$ of the diagonal of $M$ for all $n\in\mathbb{N}$.
         \end{enumerate}
         For $n=1$, this implies that $F'(\phi)$ is a smooth function. Moreover, this also implies that derivatives of local functionals are supported on the diagonals $\Delta_n$.
     \end{remark}
@@ -351,61 +405,6 @@
         \langle X\!&\ast_H\!Y(\phi),v_1\otimes\cdots\otimes v_{p+q} \rangle := \\
         &\sum_{i=0}^\infty\frac{\hbar^i}{i!p!q!}\sum_{\sigma\in S_{p+q}}\left\langle\!\!\left\langle\frac{\delta^iX}{\delta\phi^i}(\phi),v_{\sigma(1)}\otimes\cdots\otimes v_{\sigma(p)}\right\rangle,(\Delta^H_{S_0})^{\otimes i}\left\langle\frac{\delta^iY}{\delta\phi^i}(\phi),v_{\sigma(p+1)}\otimes\cdots\otimes v_{\sigma(p+q)}\right\rangle\!\!\right\rangle\,.\nonumber
     \end{align}
-
-    @@ COMPLETE @@
-
-\section{Topological QFT}
-
-    For convenience, the reader is reminded of some of the notations that are used. $\mathbf{FinVect}$ will denote the category of finite-dimensional vector spaces over $\mathbb{C}$ and $\mathbf{Bord}^d_{d-1}$ denotes the category of $d$-dimensional (framed\footnote{A framing in this context means a framing of the $d$-stabilized tangent bundles $TM\oplus\mathbb{R}^{d-\dim(M)}$.}) cobordisms (\cref{manifold:cobordism}).
-
-\subsection{Atiyah--Segal axioms}
-
-    \begin{axiom}[Atiyah--Segal]\index{Atiyah--Segal axioms}\index{field!theory}
-        \nomenclature[A_TQFT]{TQFT}{topological quantum field theory}
-        A $d$-dimensional \textbf{topological quantum field theory} (TQFT) is a symmetric monoidal functor $F:\mathbf{Bord}_{d-1}^d\rightarrow\mathbf{FinVect}$. This means (among other things) that $F$ is a map satisfying the following axioms:
-        \begin{enumerate}
-            \item\textbf{Normalization}: $F(\emptyset)=\mathbb{C}$.
-            \item\textbf{Disjoint union}: $F(M\sqcup M') = F(M)\otimes F(M')$.
-            \item\textbf{Composition}: If $N=M\cup M'$, where $\partial M$ and $\partial M'$ have opposite orientations, then \[F(N) = F(M)\circ F(M').\]
-            \item\textbf{Invariance}: If $f: M\rightarrow M'$ is a diffeomorphism rel boundary, then $F\circ f = F$.
-        \end{enumerate}
-        In the above conditions $M,M'$ are $d$-dimensional cobordisms between $(d-1)$-dimensional (closed) smooth manifolds.
-    \end{axiom}
-
-    \begin{example}[1D]
-        In $d=1$, a TQFT functor gives rise to the following correspondence:
-        \begin{gather*}
-            \begin{array}{l|l}
-                \text{point with orientation } + & \text{vector space } V\\
-                \text{point with reversed orientation } - & \text{dual space }V^*\\
-                \text{line between points} & \text{linear map }f:V\rightarrow V\\
-                \text{cap between $\emptyset$ and points } +,- & \text{coevaluation } \mathbb{C}\rightarrow V\otimes V^*\\
-                \text{cup between points $-,+$ and }\emptyset & \text{evaluation }V^*\otimes V\rightarrow\mathbb{C}
-            \end{array}
-        \end{gather*}
-        Essentially, this gives the structure of a (finite-dimensional) vector space and its dual.
-    \end{example}
-
-    \begin{example}[2D]
-        In $d=2$, one can obtain a similar result by drawing all possible configurations. However, the existence and combination of `pair of pants'-diagrams gives a richer structure. For 2D TQFTs the corresponding object is a (finite-dimensional) commutative and cocommutative Frobenius algebra (\cref{linalgebra:frobenius}).
-    \end{example}
-
-    In dimensions 3 and higher, the definition above is intractable. To allow the construction to be generalized to higher dimensions one considers the following (extended) definition.
-    \newdef{Extended TQFT}{
-        A $d$-dimensional extended TQFT is a symmetric monoidal $(\infty,d)$-functor $F:\mathbf{Bord}^d\rightarrow\mathbf{FinVect}$ satisfying the Atiyah-Segal axioms, where the invariance axiom is required only at the highest level of $k$-morphisms.
-    }
-    \begin{remark}
-        One can replace the category $\mathbf{FinVect}$ by any other symmertric monoidal category $\mathbf{C}$.
-    \end{remark}
-
-    The following conjecture by \textit{Baez} and \textit{Dolan}, later proven by \textit{Lurie}, states that every extended TQFT is defined by a single object. This is motivated by the fact that all cobordisms between smooth manifolds can be obtained from gluing together (the geometric representation) of identity morphisms and taking disjoint unions of them.
-    \begin{theorem}[Cobordism hypothesis]\index{cobordism!hypothesis}
-        $\mathbf{Bord}^d$ is the free symmetric monoidal $(\infty,n)$-category with all duals on a single object $\mathrm{pt}$. In particular, every symmetric monoidal $(\infty,n)$-functor $F:\mathbf{Bord}^d\rightarrow\mathbf{C}$ is characterized by a single fully dualizable object $F(\mathrm{pt})\in\ob{C}$.
-    \end{theorem}
-
-\subsection{Open-closed TQFT}
-
-    In the case of ordinary TQFTs as defined in the previous section, one considers cobordisms between closed manifolds. Hence, the relevant objects in this category are manifolds with boundary. A generalization is obtained by relaxing the constraint on the cobordisms and allowing for the notion of manifolds with corners (\cref{section:manifold_boundary}). For simplicity, only the case of 2D TQFTs (as in the original definition) will be considered.
 
     @@ COMPLETE @@
 

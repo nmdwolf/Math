@@ -2,7 +2,7 @@
 
     This chapter heavily uses the concepts introduced in \cref{chapter:nca}.
 
-\section{Noncommutative measure theory}
+\section{Noncommutative measure theory}\label{section:noncommutative_measure_theory}
 
     In this section, the content of \namecrefs{chapter:measure}~\ref{chapter:measure} and~\ref{chapter:probability} is generalized to noncommutative spaces using the content of \cref{chapter:operator_algebras}. A good reference is~\citet{segal_algebraic_1965}.
 
@@ -26,7 +26,8 @@
         Then, $(A,E)$ is isomorphic to a dense subalgebra of $L^\infty(M)$ for some finite measure space $M$, where the integral operator is given by $E$.
     \end{property}
 
-    \begin{result}\label{ncg:spectral_resolution}
+    The following result extends the diagonalization property for self-adjoint operators to the infinite-dimensional setting.
+    \begin{result}[Diagonalization]\label{ncg:spectral_resolution}
         For any bounded self-adjoint operator $Q$ on a Hilbert space $\mathcal{H}$, there exists a unique projection-valued measure $\mu$ on $\mathbb{R}$ such that
         \begin{gather}
             Q = \Int_{\mathbb{R}}\lambda\,d\mu\,.
@@ -56,6 +57,50 @@
             \end{gather}
             for all $a\in A$.
         \end{enumerate}
+    }
+
+    \newdef{Distribution}{\index{distribution}\index{measurable}\label{ncg:distribution}
+        Consider a locally convex vector space (\cref{functional:locally_convex}) $V$. A \textbf{predistribution} on $V$ is a linear map from $V^*$ to the space of \textbf{measurables} on a finite measure space $(\Omega,\Sigma,\mu)$, i.e.~the space of equivalence classes of measurable functions modulo null functions.
+
+        A distribution on $V$ is an equivalence class of predistributions, where two distributions $d,d'$ are deemed equivalent if
+        \begin{gather}
+            \bigl(d(x_1),\ldots,d(x_n)\bigr)\overset{d}{=}\bigl(d'(x_1),\ldots,d'(x_n)\bigr)
+        \end{gather}
+        for all $n\in\mathbb{N}$ and random variables $\{x_1,\ldots,x_n\}$.
+    }
+    \begin{remark}
+        For finite-dimensional $V$, this definition is equivalent to the definition of ordinary finite measures. For, infinite-dimensional $V$, however, distributions (as defined here) are strictly more general. Distributions induced by ordinary measures will be called \textbf{strict}. 
+    \end{remark}
+
+    \begin{example}[Normal distribution]\index{distribution!normal}\index{distribution!isonormal}
+        Let $\mathcal{H}$ be a (real) Hilbert space and consider a bounded, positive operator $C$ on $\mathcal{H}$. There exists a unique distribution on $\mathcal{H}$ such that:
+        \begin{itemize}
+            \item $\bigl(d(x_1),\ldots,d(x_n)\bigr)$ are jointly normally distributed for all $n\in\mathbb{N}$ and $x_1,\ldots,x_n\in\mathcal{H}$.
+            \item For all $x\in\mathcal{H}$: $E\bigl(d(x)\bigr)=0$.
+            \item For all $x,y\in\mathcal{H}$: $E\bigl(d(x)d(y)\bigr)=\langle Cx\mid y\rangle$.
+        \end{itemize}
+        Such a distribution is strict if and only if $C\in\mathcal{B}_1(\mathcal{H})$. An important example of nonstrict distributions induced by self-adjoint operators are the \textbf{isonormal distributions}, where $C=\lambda\mathbbm{1}_{\mathcal{H}}$.
+    \end{example}
+
+    The relation between (noncommutative) integration algebras and measure theory is given by the following property.
+    \begin{property}\index{tame}
+        Consider an integration algebra $(A,E)$ such that $E(1)=1$, where $A$ is given by the space of all \textbf{tame functions} on a TVS $V$, i.e.~all functions $f:V\rightarrow\mathbb{R}$ such that
+        \begin{gather}
+            f(x) = F\bigl(\lambda_1(x),\ldots,\lambda_n(x)\bigr)
+        \end{gather}
+        for some $n\in\mathbb{N}$, $\{\lambda_1,\ldots,\lambda_n\}\subset V^*$ and Borel-measurable $F:\mathbb{R}^n\rightarrow\mathbb{R}$. There exists a (pre)distribution $d$ on $V$ with respect to some measure space $(\Omega,\Sigma,\mu)$ such that:
+        \begin{itemize}
+            \item $d$ extends to a $\ast$-morphism from $A$ mapping a tame function $f$ to
+            \begin{gather}
+                d(f) := F\bigl(d(\lambda_1),\ldots,d(\lambda_n)\bigr)\,.
+            \end{gather}
+            \item $E(f)=\Int_\Omega d(f)\,d\mu$.
+        \end{itemize}
+        Moreover, $\Omega$ can be chosen such that $d(A)$ is dense in $L^p(\Omega)$. Up to isomorphism, this choice is unique.
+    \end{property}
+
+    \newdef{Random variable}{\index{random!variable}
+        Consider a predistribution $d$ (with respect to a measure space $\Omega$) extended to a $\ast$-morphism on the space $A$ of tame functions on some TVS $V$. The space of random variables $M(V,d)$ is defined as the minimal subspace of measurables on $\Omega$ that contains $d(A)$ and is closed with respect to (sequential) pointwise a.e.~limits.
     }
 
 \section{Quantum geometry}\index{quantum!geometry}

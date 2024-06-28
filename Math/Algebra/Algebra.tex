@@ -1,6 +1,6 @@
 \chapter{Algebra}
 
-    For the later sections on (co)homology theory, some terminology from \cref{chapter:hom_alg} is used.
+    For the later sections on (co)homology theory, some terminology from \cref{chapter:hom_alg} is used. Basic introductions to group theory can be found in~\citet{jeevanjee_introduction_2015,wigner_group_2012}.
 
 \section{Algebraic structures}
 
@@ -8,7 +8,7 @@
         A set $G$ equipped with a binary operation $\star$ such that the following axioms are satisfied:
         \begin{enumerate}
             \item\textbf{Closure}: $G$ is closed under $\star$.
-            \item\textbf{Associativity}: $\star$ is asssociative.
+            \item\textbf{Associativity}: $\star$ is associative.
         \end{enumerate}
         If the associativity axiom is dropped, a \textbf{magma} is obtained.
     }
@@ -18,44 +18,50 @@
         \begin{enumerate}
             \item\textbf{Closure}: $M$ is closed under $\star$.
             \item\textbf{Associativity}: $\star$ is associative.
-            \item\textbf{Unitality}: $M$ has an identity element with respect to $\star$.
+            \item\textbf{Unitality}: $M$ has an identity element $e$ with respect to $\star$.
         \end{enumerate}
     }
     \newdef{Nilpotent}{\index{nilpotent}\label{algebra:nilpotent}
-        An element $x$ of a monoid for which there exists an integer $k\in\mathbb{N}$ such that $x^k=e$, where $e$ is the identity element.
+        An element $x$ of a monoid $(M,\star,e)$ for which there exists an integer $k\in\mathbb{N}$ such that $x^k=e$.
     }
-    \begin{property}[Eckmann--Hilton argument]\index{Eckmann--Hilton!argument}\label{algebra:eckmann_hilton}
+    \begin{property}[Eckmann--Hilton argument]\index{Eckmann--Hilton!argument}\index{commutativity}\index{Abel|seealso{commutativity}}\label{algebra:eckmann_hilton}
         Let $(M,\circ),(M,\otimes)$ be two monoid structures (or even unital magma structures) on the same set $M$ such that
         \begin{gather}
             (a\circ b)\otimes(c\circ d) = (a\otimes c)\circ(b\otimes d)
         \end{gather}
-        for all $a,b,c,d\in M$. The two monoid structures coincide and are in fact Abelian. (This property admits a vast generalization, see \cref{cat:eckmann_hilton}.)
+        for all $a,b,c,d\in M$. The two monoid structures coincide and are in fact \textbf{Abelian}, i.e.~they are \textbf{commutative}:
+        \begin{gather}
+            a\circ b = b\circ a
+        \end{gather}
+        for all $a,b\in M$.
     \end{property}
+    \begin{remark}
+        This property admits a vast generalization. See \cref{cat:eckmann_hilton} for more information.
+    \end{remark}
 
     \newdef{Group}{\index{group}
-        \nomenclature[S_Grp]{$\mathbf{Grp}$}{category of groups and group homomorphisms}
         A set $G$ equipped with a binary operation $\star$ such that the following axioms are satisfied:
         \begin{enumerate}
             \item\textbf{Closure}: $G$ is closed under $\star$.
-            \item\textbf{Associativity}: $\star$ is asssociative.
-            \item\textbf{Unitality}: $G$ has an identity element with respect to $\star$.
+            \item\textbf{Associativity}: $\star$ is associative.
+            \item\textbf{Unitality}: $G$ has an identity element $e$ with respect to $\star$.
             \item\textbf{Inverses}: Every element in $G$ has an inverse with respect to $\star$.
         \end{enumerate}
     }
     \newnot{Identity element}{
-        The identity element of a general group will be denoted by $e$. In certain cases, where this makes sense, the identity element will be denoted by 0 or 1 (additive and multiplicative conventions).
+        Although the identity element of a group is generally denoted by $e$, in certain cases, whenever this makes sense, the identity element will be denoted by 0 or 1 (additive and multiplicative conventions).
     }
+
     \newdef{Abelian group}{\index{commutativity}\index{Abelian!group}
-        \nomenclature[S_Ab]{$\mathbf{Ab}$}{category of Abelian groups}
         Let $(G,\star)$ be a group. If $\star$ is commutative, then $G$ is said to be an Abelian or \textbf{commutative} group.
     }
 
     \newdef{Morphism}{\index{morphism!of groups}
-        A group \textbf{(homo)morphism} $\Phi:(G,\star)\rightarrow(H,\cdot)$ is a function $\Phi:G\rightarrow H$ such that
+        A group \textbf{(homo)morphism} $\Phi:(G,\star,e_G)\rightarrow(H,\cdot,e_H)$ is a function $\Phi:G\rightarrow H$ such that
         \begin{gather}
             \Phi(g\star g') = \Phi(g)\cdot\Phi(g')
         \end{gather}
-        for all $g,g'\in G$.
+        for all $g,g'\in G$. Note that this also implies that $\Phi(e_G)=e_H$.
     }
 
     \newdef{Kernel}{\index{kernel}\label{group:kernel}
@@ -95,14 +101,14 @@
     \end{result}
 
     \begin{construct}[Grothendieck completion]\index{Grothendieck!completion}\label{group:grothendieck_completion}
-        Let $(A,\oplus)$ be a commutative monoid. From this monoid one can construct an Abelian group $G(A)$, called the Grothendieck completion of $A$, as the quotient of $A\times A$ by the equivalence relation
+        Let $(A,\oplus)$ be a commutative monoid. From this monoid, one can construct an Abelian group $G(A)$, called the Grothendieck completion of $A$, as the quotient of $A\times A$ by the equivalence relation
         \begin{gather}
             (a_1,a'_1)\sim (a_2,a'_2)\iff\exists c\in A:a_1\oplus a'_2\oplus c = a'_1\oplus a_2\oplus c\,.
         \end{gather}
         The identity element, denoted by 0, is given by the equivalence class of $(0,0)$. By the definition of $G(A)$, this class contains all elements in $\Delta_A$. In particular, $[(a,b)]$ is the additive inverse of $[(b,a)]$: $[(a,b)] + [(b,a)] = 0$.
     \end{construct}
     \begin{uproperty}
-        Let $G(A)$ be the Grothendieck completion of $A$. Every monoid morphism $m:A\rightarrow B$ between an Abelian monoid and an Abelian group factors uniquely through a group morphism $\varphi:G(A)\rightarrow B$.
+        Let $G(A)$ be the Grothendieck completion of the Abelian monoid $A$. Every monoid morphism $m:A\rightarrow B$ between $A$ and an Abelian group factors uniquely through a group morphism $\varphi:G(A)\rightarrow B$.
     \end{uproperty}
 
     \begin{example}[Integers]
@@ -111,9 +117,8 @@
 
 \subsection{Abelian groups}
 
-    \newdef{Commutator subgroup\footnotemark}{\index{commutator!subgroup}\index{derived!subgroup}
-        \footnotetext{Also called the \textbf{derived subgroup}.}
-        The commutator subgroup $[G,G]$ of $G$ is defined as the group generated by the \textbf{commutators}
+    \newdef{Commutator subgroup}{\index{commutator!subgroup}\index{derived!subgroup}\index{derived!series}
+        The commutator subgroup or \textbf{derived subgroup} $[G,G]$ of $G$ is defined as the group generated by the \textbf{commutators}
         \begin{gather}
             [g,h] := g^{-1}h^{-1}gh\,,
         \end{gather}
@@ -121,9 +126,9 @@
         \begin{gather}
             G\subseteq[G,G]\subseteq[[G,G],[G,G]]\subseteq\cdots
         \end{gather}
-        To ease the notation these groups are often denoted by $G^{(i)}$ such that $G^{(0)}:=G$ and $G^{(i)}:=[G^{(i-1)},G^{(i-1)}]$.
+        To ease the notation, these groups are often denoted by $G^{(i)}$: $G^{(0)}:=G$ and $G^{(i)}:=[G^{(i-1)},G^{(i-1)}]$.
     }
-    \newdef{Solvable group}{\index{group!solvable}
+    \newdef{Solvable group}{\index{group!solvable}\label{group:solvable}
         A group whose derived series ends in the trivial group.
     }
 
@@ -136,12 +141,12 @@
 
 \subsection{Cosets}\index{co-!set}
 
-    \newdef{Coset}{\index{normal!subgroup}\index{invariant!subgroup|see{normal subgroup}}\label{group:coset}
+    \newdef{Coset}{\index{normal!subgroup}\index{invariant!subgroup|see{normal subgroup}}\index{divisor}\label{group:coset}
         Let $G$ be a group and let $H$ be a subgroup. The left coset of $H$ with respect to $g\in G$ is defined as the set
         \begin{gather}
             gH := \{gh\mid h\in H\}\,.
         \end{gather}
-        The right coset is defined analogously. If for all $g\in G$ the left and right cosets coincide, the subgroup $H$ is said to be a \textbf{normal subgroup}, \textbf{normal divisor} or \textbf{invariant subgroup}.
+        The right coset is defined analogously. If for all $g\in G$, the left and right cosets coincide, the subgroup $H$ is said to be a \textbf{normal subgroup}, \textbf{normal divisor} or \textbf{invariant subgroup}.
     }
     \begin{notation}
         The set of left (resp.~right) cosets is denoted by $G/H$ (resp.~$H\backslash G$).
@@ -153,7 +158,7 @@
             |G| = |G:H||H|\,.
         \end{gather}
     }
-    \begin{property}[Tower property]\index{tower law}\label{group:tower_rule_groups}
+    \begin{property}[Tower law]\index{tower law}\label{group:tower_rule_groups}
         Consider the subgroup inclusions $G\subset H\subset I$.
         \begin{gather}
             [I:G]=[I:H][H:G]
@@ -167,7 +172,7 @@
         If $N$ is a normal subgroup of $G$, this is often denoted by $N\vartriangleleft G$.
     \end{notation}
 
-    \newdef{Quotient group}{\index{quotient!group}\label{group:quotient_group}
+    \newprop{Quotient group}{\index{quotient!group}\label{group:quotient_group}
         Let $G$ be a group and let $N$ be a normal subgroup. The coset space $G/N$ can be turned into a group by equipping it with the product induced by that on $G$.
     }
 
@@ -195,8 +200,7 @@
 \subsection{Sylow theorems}\index{Sylow}
 
     \newdef{Sylow $p$-subgroup}{\index{Sylow!subgroup}
-        \nomenclature[S_Syl]{$\mathrm{Syl}_p(G)$}{set of Sylow $p$-subgroups of a finite group $G$}
-        Consider a finite group $G$. For every prime $p$, a Sylow $p$-subgroup of $G$ is defined as a maximal $p$-group in $G$, i.e.~every element has order a power of $p$ and the subgroup is maximal with respect to this property. The set of all Sylow $p$-subgroups of $G$ is denoted by $\mathrm{Syl}_p(G)$.
+        Consider a finite group $G$. For every prime $p$, a Sylow $p$-subgroup of $G$ is defined as a maximal \textbf{$p$-group} in $G$, i.e.~every element has order a power of $p$ and the subgroup is maximal with respect to this property. The set of all Sylow $p$-subgroups of $G$ is denoted by $\mathrm{Syl}_p(G)$.
     }
 
     \begin{theorem}[Sylow I]
@@ -206,10 +210,10 @@
         Consider a finite group $G$ and a prime factor $p$ of $|G|$. All Sylow $p$-subgroups are conjugate and, in particular, isomorphic.
     \end{theorem}
     \begin{theorem}[Sylow III]
-        Consider a finite group $G$ together with a prime factor $p$ of $|G|$ of multiplicity $n$ such that $|G|=p^nm$ for some $m\in\mathbb{N}$ and write $n_p:=|\mathrm{Syl}_p(G)|$.
+        Consider a finite group $G$ and a prime factor $p$ of $|G|$ of multiplicity $n$ such that $|G|=p^nm$ for some $m\in\mathbb{N}$ and write $n_p:=|\mathrm{Syl}_p(G)|$.
         \begin{itemize}
             \item $m=|G:H|$ for every Sylow $p$-subgroup $H$ of $G$.
-            \item $n_p|m$, i.e.~$n_p$ divides $m$.
+            \item $n_p\mid m$, i.e.~$n_p$ divides $m$.
             \item $n_p=1\bmod p$.
             \item $n_p=|G:N_G(H)|$ for any Sylow $p$-subgroup $H$ of $G$.
         \end{itemize}
@@ -220,37 +224,37 @@
     \newdef{Symmetric group}{\index{symmetric!group}\index{degree!of symmetric group}\label{group:permutation_group}
         \nomenclature[S_symgr]{$S_n$}{symmetric group of degree $n$}
         \nomenclature[S_symgrX]{$\Sym(X)$}{symmetric group on the set $X$}
-        The symmetric group $S_n$ (on $n$ elements) is defined as the set of all permutations of $\{1,\ldots,n\}$. The number $n$ is called the \textbf{degree} of the symmetric group. The symmetric group $\Sym(X)$ on a finite set $X$ is defined similarly (by first enumerating the elements and then acting by $S_n$)\footnote{Two such choices are related through conjugation by a unique permutation and, hence, the resulting groups are isomorphic.}.
+        The symmetric group $S_n$ (on $n$ elements) is defined as the set of all permutations of $\{1,\ldots,n\}$. The integer $n\in\mathbb{N}$ is called the \textbf{degree} of the symmetric group. The symmetric group $\Sym(X)$ on a finite set $X$ is defined similarly (by enumerating the elements)\footnote{Two such choices are related through conjugation by a unique permutation and, hence, the resulting groups are isomorphic.}.
 
-        When including infinite sets the symmetric group $\Sym(X)$ is defined as the group of all bijections from $X$ to itself (the multiplication is given by function composition).
+        For infinite sets $X$, the symmetric group $\Sym(X)$ is defined as the group of all bijections from $X$ to itself (where the multiplication is given by function composition).
+    }
+    \newdef{Automorphism group}{\index{automorphism}\label{algebra:automorphism}
+        Consider a set $X$ with some extra structure (see \cref{chapter:cat} for a more formal treatment), e.g.~a monoid structure or group structure. The subset of $\Sym(X)$ consisting of bijections that preserve this structure, the \textbf{automorphisms} of $X$, inherits the group structure of $\Sym(X)$ and is denoted by $\Aut(X)$.
     }
 
     \begin{theorem}[Cayley]\index{Cayley}
-        Every group is isomorphic to a subgroup of the permutation group $\Sym(G)$.
+        Every group $G$ is isomorphic to a subgroup of the permutation group $\Sym(G)$.
     \end{theorem}
 
     \newdef{Cycle}{\index{cycle}
-        A $k$-cycle is a permutation of the form $(a_1\ a_2\ \ldots\ a_k)$ sending $a_i$ to $a_{i+1}$ (and $a_k$ to $a_1$). A \textbf{cycle decomposition} of an arbitrary permutation is the decomposition into a product of disjoint cycles.
+        A $k$-cycle is a permutation of the form $(a_1\ a_2\ \cdots\ a_k)$ sending $a_i$ to $a_{i+1}$ (and $a_k$ to $a_1$). A \textbf{cycle decomposition} of an arbitrary permutation is the decomposition into a product of disjoint cycles.
     }
     \begin{property}[Cycles are cyclic]
-        Let $\tau$ be a $k$-cycle. Then $\tau$ is $k$-cyclic (hence the name):
-        \begin{gather}
-            \tau^k = e.
-        \end{gather}
+        Let $\tau$ be a $k$-cycle. Then $\tau$ is $k$-cyclic (hence the name): $\tau^k = e$.
     \end{property}
     \begin{example}
-        Consider the set $\{1,2,3,4,5,6\}$. The permutation $\sigma:x\mapsto x+2\bmod6$ can be decomposed as $\sigma = (1\ 3\ 5)(2\ 4\ 6)$.
+        Consider the set $\{1,2,3,4,5,6\}$. The permutation $\sigma:x\mapsto(x+2)\bmod6$ can be decomposed as $\sigma = (1\ 3\ 5)(2\ 4\ 6)$.
     \end{example}
 
     \newdef{Transposition}{\index{transposition}
         A permutation that exchanges two elements but leaves the other ones unchanged.
     }
-    \begin{property}[Decomposition]
+    \begin{property}[Decomposition]\index{parity}
         Any permutation can be decomposed as a product of transpositions. A permutation is said to be \textbf{even} (resp.~\textbf{odd}) if the number of transpositions in its decomposition is even (resp.~odd). One can prove that the parity of a permutation is well-defined, i.e.~it is independent of the choice of decomposition.
     \end{property}
 
     \newdef{Alternating group}{\index{group!alternating}
-        The alternating group $A_n$ is the subgroup of $S_n$ containing all even permutations, i.e.~those permutations that can be decomposed as an even number of transpositions.
+        The alternating group $A_n$ is the subgroup of $S_n$ containing all even permutations.
     }
 
     \newdef{Shuffle}{\index{shuffle}\label{group:shuffle}
@@ -283,7 +287,7 @@
         If $G$ is finite, the inverses can themselves be expressed as powers, so inverses are only required for infinite groups.
     \end{remark}
 
-    \newdef{Relations}{\index{relation}
+    \newdef{Relation}{\index{relation}
         Let $G$ be a group. If the product of a number of elements $g\in G$ is equal to the identity $e$, this product is said to be a relation on $G$.
     }
     \newdef{Complete set of relations}{
@@ -294,17 +298,19 @@
         Let $G$ be a group with generators $S$ and let $R$ be a complete set of relations. The pair $(S,R)$ is called a presentation of $G$.
 
         If $R$ is finite, $G$ is said to be \textbf{finitely related}, while if $S$ is finite, $G$ is said to be \textbf{finitely generated}. If both $S$ and $R$ are finite, $G$ is said to be \textbf{finitely presented}.
-
-        It is clear that every group can have many different presentations and that it is (very) difficult to tell if two groups are isomorphic by just looking at their presentations.
     }
     \begin{notation}
-        The presentation of a group $G$ is often denoted by $\langle S|R \rangle$, where $S$ is the set of generators and $R$ the set of relations.
+        The presentation of a group $G$ is often denoted by $\langle S\mid R \rangle$, where $S$ is the set of generators and $R$ the set of relations.
     \end{notation}
+
+    \begin{remark}
+        It should be clear that a group can have many different presentations and that it is (very) difficult to tell if two groups are isomorphic by just looking at their presentations.
+    \end{remark}
 
 \subsection{Direct products}
 
-    \newdef{Direct product}{\index{direct product!of groups}\label{group:direct_product}
-        Let $G,H$ be two groups. The direct product $G\times H$ is defined as the set-theoretic Cartesian product $G\times H$ equipped with a group operation $\cdot$ defined as
+    \newdef{Direct product}{\index{direct product!of groups}\index{component}\label{group:direct_product}
+        Let $G,H$ be two groups. The direct product $G\times H$ is defined as the set-theoretic Cartesian product $G\times H$ equipped with a group operation defined as
         \begin{gather}
             (g_1,h_1)\cdot(g_2,h_2) = (g_1g_2,h_1h_2)\,,
         \end{gather}
@@ -314,27 +320,25 @@
     }
 
     \newdef{Weak direct product}{\index{direct sum!of groups}
-        Consider the direct product of groups. The subgroup consisting of all elements for which all components, except finitely many of them, are the identity, is called the weak direct product. In the case of Abelian groups this is often called the \textbf{direct sum}. For a finite number of groups, the direct product and direct sum coincide.
+        Consider the direct product of groups. The subgroup consisting of all elements for which all components, except finitely many of them, are the identity, is called the weak direct product. In the case of Abelian groups, this is often called the \textbf{direct sum}. For a finite number of groups, the direct product and direct sum coincide.
     }
     \begin{notation}
         The direct sum is often denoted by $\oplus$ (in accordance with the notation for \textit{vector spaces} and other algebraic structures that will be introduced further on).
     \end{notation}
 
     \newdef{Inner semidirect product}{\index{semi-!direct product}\index{split!product}
-        Let $G$ be a group, $H\leq G$ a subgroup and $N\vartriangleleft G$ a normal subgroup. $G$ is said to be the inner semidirect product of $H$ and $N$, denoted by $N\rtimes H$, if it satifies the following equivalent statements:
+        Let $G$ be a group, $H\leq G$ a subgroup and $N\vartriangleleft G$ a normal subgroup. $G$ is said to be the inner semidirect product of $H$ and $N$, denoted by $N\rtimes H$, if it satisfies the following equivalent statements:
         \begin{itemize}
             \item $G = NH := \{nh\mid n\in N,h\in H\}$, where $N\cap H = \{e\}$.
-            \item For every $g\in G$ there exist a unique $n\in N,h\in H$ such that $g=nh$.
-            \item For every $g\in G$ there exist a unique $n\in N,h\in H$ such that $g=hn$.
+            \item For every $g\in G$, there exist a unique $n\in N,h\in H$ such that $g=nh$.
+            \item For every $g\in G$, there exist a unique $n\in N,h\in H$ such that $g=hn$.
             \item There exists a group morphism $\rho:G\rightarrow H$ that satisfies $\rho|_H = e$ and $\ker(\rho)=N$.
             \item The composition of the natural embedding $i:H\rightarrow G$ and the projection $\pi:G\rightarrow G/N$ gives an isomorphism between $H$ and $G/N$.
         \end{itemize}
         Whenever $G$ is isomorphic to $N\rtimes H$, it is said to \textbf{split} over $N$.
     }
     \begin{property}[Normal subgroups]
-        If both $H$ and $N$ in the above definition are normal, the inner semidirect product coincides with the direct product. In particular this includes the case of direct products. For a finite number of groups the direct product is generated by the elements of the groups.
-
-        If the subgroups $H$ and $N$ have presentations $\langle S_H\mid R_H \rangle$ and $\langle S_N\mid R_N \rangle$, the direct product is given by
+        If both $H$ and $N$ in the above definition are normal, the inner semidirect product coincides with the direct product. If the subgroups $H$ and $N$ have presentations $\langle S_H\mid R_H \rangle$ and $\langle S_N\mid R_N \rangle$, the direct product is given by
         \begin{gather}
             \label{group:direct_product_presentation}
             H\times N = \langle S_H\cup S_N\mid R_H\cup R_N\cup R_C \rangle\,,
@@ -359,9 +363,13 @@
     Semidirect products can even be generalized further:
     \newdef{Bicrossed product of groups\footnotemark}{\index{bicrossed product}\index{matched pair}\index{Zappa--Sz\'ep product}\label{group:bicrossed_product}
         \footnotetext{Also called the \textbf{Zappa--Sz\'ep product}.}
-        Consider a group $G$ with two subgroups $K,H\leq G$, with $K\cap H=\{e\}$, such that every element $g\in G$ can be uniquely decomposed as a product of an element in $H$ and an element in $K$. This implies that for $k\in K,h\in H$ there exists a unique decomposition of $kh$ of the form \[kh = (k\cdot h)k^h\] where $k\cdot h\in H$ and $k^h\in K$.
+        Consider a group $G$ with two subgroups $K,H\leq G$, with $K\cap H=\{e\}$, such that every element $g\in G$ can be uniquely decomposed as the product of an element in $H$ and an element in $K$. This implies that for $k\in $ and $h\in H$, there exists a unique decomposition of $kh$ of the form
+        \begin{gather}
+            kh = (k\cdot h)k^h\,,
+        \end{gather}
+        where $k\cdot h\in H$ and $k^h\in K$.
 
-        It can be checked that the associativity of the product implies that $-\cdot-:K\times H\rightarrow H$ defines a left action of $K$ on $H$ and that $-^-:K\times H\rightarrow K$ defines a right action of $H$ on $K$. Some other properties are obtained in the same way:
+        It can be checked that the associativity of the product implies that $-\cdot-:K\times H\rightarrow H$ defines a \textit{left action} of $K$ on $H$ and that $-^-:K\times H\rightarrow K$ defines a \textit{right action} of $H$ on $K$ (see \cref{section:group_actions} further on). Some other properties are obtained in the same way:
         \begin{itemize}
             \item $e^h = e$,
             \item $k\cdot e = e$,
@@ -379,7 +387,7 @@
     \newdef{Free group}{\index{free!group}\index{word}\label{group:free_group}
         Consider a set $S$. The free group on $S$ is the group generated by \textbf{words} in $S$, i.e.~finite sequences of elements in $S$.
     }
-    The definition of a group presentation (\cref{group:presentation}) can now be restated:
+    The definition of a group presentation (\cref{group:presentation}) can now be restated.
     \newadef{Presentation}{\index{presentation}
         A group $G$ is said to have a presentation $\langle S\mid R \rangle$ if it is isomorphic to the quotient of the free group on $S$ by the normal subgroup generated by $R$.
     }
@@ -388,10 +396,10 @@
         Consider two groups $G,H$. The free product $G\ast H$ is defined as the set consisting of all words composed of elements in $G$ and $H$ together with the concatenation (and reduction\footnote{Two elements of the same group, written next to each other, are replaced by their product.}) as multiplication. Due to the reduction, every element in $G\ast H$ has a unique expression of the form $g_1h_1g_2h_2\cdots g_nh_n$.
     }
     \begin{remark}[Cardinality]
-        For nontrivial groups the free product is always infinite.
+        For nontrivial groups, the free product is always infinite.
     \end{remark}
     \newadef{Free product}{\index{free!product}
-        The free product of two groups $G$ and $H$ can equivalently be defined as the free group on the set $G\cup H$. It follows that if $G,H$ have presentations $\langle S_G\mid R_G \rangle$ and $\langle S_H\mid R_H \rangle$ respectively, the free product is given by
+        The free product of two groups $G$ and $H$ can equivalently be defined as the free group on the set $G\cup H$. It follows that if $G,H$ have presentations $\langle S_G\mid R_G \rangle$ and $\langle S_H\mid R_H \rangle$, respectively, the free product is given by
         \begin{gather}
             G\ast H = \langle S_G\cup S_H\mid R_G\cup R_H \rangle.
         \end{gather}
@@ -414,31 +422,31 @@
         \begin{gather}
             G = \left\{\sum_{i\in J}a_ig_i\,\middle\vert\,a_i\in\mathbb{Z}, J\subseteq I\text{ is finite}\right\}\,.
         \end{gather}
-        The set of generators is called a \textbf{basis}\footnote{In analogy with the basis of a \textit{vector space}.} of $G$. The number of elements in the basis is called the \textbf{rank} of $G$.
+        The set of generators is called a \textbf{basis}\footnote{In analogy with the basis of a \textit{vector space} (see \cref{section:vector_spaces}).} of $G$. The number of elements in the basis is called the \textbf{rank} of $G$.
     }
     \begin{property}[Nielsen--Schreier]\index{Nielsen--Schreier}
         Every subgroup of a free group is free.
     \end{property}
 
-    \begin{theorem}[Fundamental theorem of finitely generated groups]\index{fundamental theorem!of finitely generated groups}\index{torsion!group}\label{group:theorem:free_group}
-        Every finitely generated Abelian group $G$ of rank $n$ can either be decomposed as a quotient of two free, finitely generated Abelian groups
+    By definition, every finitely generated Abelian group can be decomposed as a quotient of two free, finitely generated Abelian groups. In fact, more is true.
+    \begin{theorem}[Fundamental theorem of finitely generated Abelian groups]\index{fundamental theorem!of finitely generated Abelian groups}\index{torsion!group}\index{rank!of a group}\index{invariant!factor}\label{group:theorem:free_group}
+        Every finitely generated Abelian group $G$ can be decomposed as a direct sum of a free, finitely generated Abelian group and a torsion group (\cref{group:torsion_group}):
         \begin{gather}
-            G = F/F'
+            G = \mathbb{Z}^n\oplus T \qquad\text{with}\qquad T\equiv \mathbb{Z}_{h_1}\oplus\cdots\oplus \mathbb{Z}_{h_m}\,,
         \end{gather}
-        or as a direct sum of a free, finitely generated Abelian group and a torsion group (\cref{group:torsion_group}):
-        \begin{gather}
-            G = A\oplus T \qquad\text{with}\qquad T\equiv Z_{h_1}\oplus\cdots\oplus Z_{h_m}\,.
-        \end{gather}
-        In the second decomposition $A$ has rank $n-m$ and all $Z_{h_i}$ are cyclic groups of order $h_i$, where $h_i$ is a prime power. The group $T$ is called the \textbf{torsion subgroup}.
+        where $n\in\mathbb{N}$ is called the \textbf{rank} of $G$ and all $h_i\in\mathbb{N}$ are prime powers. The group $T$ is called the \textbf{torsion subgroup}.
+
+        In fact, a unique (up to isomorphism) decomposition can be obtained by requiring the prime powers to satisfy $h_{i+1}\mid h_i$ for all $i<m$. This decomposition is called the \textbf{invariant factor decomposition} and the prime factors $h_i$ are then called the \textbf{invariant factors} of $G$.
     \end{theorem}
-    \begin{property}[Uniqueness]
-        The rank $n-m$ and the numbers $h_i$ from previous theorem are unique.
+
+    \begin{property}
+        A free Abelian group $G$ is finitely generated if and only if its rank $n$ is finite, in which case $G\cong\mathbb{Z}^n$. On the other hand, a finitely generated Abelian group is finite if and only if its rank is 0.
     \end{property}
 
 \section{Group actions}\label{section:group_actions}
 
     \newdef{Group action}{\index{group!action}\label{group:group_action}
-        Let $G$ be a group and let $X$ be a set. A map $\rho:G\times X \rightarrow X$ is called an action of $G$ on $X$ if it satisfies the following conditions for all $g,h\in G$ and $x\in X$:
+        Let $G$ be a group with identity element $e\in G$ and let $X$ be a set. A map $\rho:G\times X \rightarrow X$ is called an action of $G$ on $X$ if it satisfies the following conditions for all $g,h\in G$ and $x\in X$:
         \begin{enumerate}
             \item \textbf{Identity}: $\rho(e,x)=x$.
             \item \textbf{Compatibility}: $\rho(gh,x) = \rho(g,\rho(h,x))$.
@@ -450,7 +458,7 @@
         A group action can equivalently be defined as a group morphism $\rho:G\rightarrow\Sym(X)$. It assigns a permutation of $X$ to every element $g\in G$. If the set $X$ is equipped with some extra algebraic structure, one should replace $\Sym(X)$ by $\Aut(X)$, i.e.~the action of $G$ should respect the structure.
     \end{adefinition}
     \begin{notation}
-        The action $\rho(g,x)$ is often denoted by $g\cdot x$ or even $gx$ if no confusion can arise.
+        The action $\rho(g,x)$ is often denoted by $g\cdot x$ or $g\vartriangleright x$, or even $gx$ if no confusion can arise.
     \end{notation}
 
     \newdef{Equivariant map}{\index{equivariant!map}\index{morphism!of $G$-sets}\label{group:equivariant}
@@ -468,10 +476,15 @@
     \newdef{Orbit}{\index{orbit}\label{group:orbit}
         The orbit of an element $x\in X$ with respect to the action a group $G$ is defined as the set
         \begin{gather}
-            G\cdot x\equiv\{g\cdot x\mid g\in G\}\,.
+            G\cdot x := \{g\cdot x\mid g\in G\}\,.
         \end{gather}
-        The relation \[p\sim q\iff\exists g\in G:p = g\cdot q\] induces an equivalence relation for which the equivalence classes coincide with the orbits of the $G$-action. The set of equivalence classes $X/\!\sim$, often denoted by $X/G$, is called the \textbf{orbit space}.
+        The relation
+        \begin{gather}
+            p\sim q\iff\exists g\in G:p = g\cdot q
+        \end{gather}
+        induces an equivalence relation on $X$ for which the equivalence classes coincide with the orbits of the $G$-action. The set of equivalence classes $X/\!\sim$, often denoted by $X/G$, is called the \textbf{orbit space}.
     }
+
     \newdef{Stabilizer}{\index{stabilizer}\index{iso-!tropy group}\index{little!group}
         The stabilizer group (also called \textbf{isotropy group} or \textbf{little group}) of an element $x\in X$ with respect to the action of a group $G$ is defined as the set
         \begin{gather}
@@ -479,6 +492,7 @@
         \end{gather}
         This is a subgroup of $G$ for all $x\in X$.
     }
+
     \begin{theorem}[Orbit-stabilizer theorem]
         Let $G$ be a group acting on a set $X$ and let $G_x$ be the stabilizer of some $x\in X$. The following relation holds:
         \begin{gather}
@@ -487,21 +501,21 @@
     \end{theorem}
 
     \newdef{Free action}{\index{free}\label{group:free_action}
-        A group action is said to be free if $g\cdot x=x$ implies $g=e$ for any $x\in X$. Equivalently, a group action is free if the stabilizer groups of all elements is trivial.
+        A group action is said to be free if $g\cdot x=x$ implies $g=e$ for any $x\in X$. Equivalently, a group action is free if the stabilizer group of all elements is trivial.
     }
     \newdef{Faithful action}{\index{faithful!action}\index{effective!action|see{faithful}}\label{group:faithful_action}
-        A group action is said to be faithful or \textbf{effective} if the morphism $G\rightarrow\Aut(X)$ is injective. Alternatively, a group action is faithful if for every two group elements $g,h\in G$ there exists an element $x\in X$ such that $g\cdot x\neq h\cdot x$.
+        A group action is said to be faithful or \textbf{effective} if the morphism $G\rightarrow\Aut(X)$ is injective. Alternatively, a group action is faithful if for every two group elements $g,h\in G$, there exists an element $x\in X$ such that $g\cdot x\neq h\cdot x$.
     }
 
     \newdef{Transitive action}{\index{transitive!action}\label{group:transitive}
-        A group action is said to be transitive if for every two elements $x, y\in X$ there exists a group element $g\in G$ such that $g\cdot x = y$. Equivalently, a group action is transitive if there is only one orbit.
+        A group action is said to be transitive if for every two elements $x,y\in X$, there exists a group element $g\in G$ such that $g\cdot x = y$. Equivalently, a group action is transitive if there is only one orbit.
     }
     \begin{property}\label{group:transitive_action_property}
         Let $X$ be a set equipped with a transitive action of a group $G$. There exists a bijection $X\cong G/G_x$, where $G_x$ is the stabilizer of any element $x\in X$.
 
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}
-                Choose an element $x\in X$. The stabilizer of $x$ with respect to $G$ is the set \[S_x := \{g\in G\mid g\cdot x = x\}\,.\] Due to the transitivity of the group action one obtains that \[\forall x, y\in X: \exists h\in G: h\cdot x = y\,.\] So, for every $z\in X$ one can choose a group element $g_z$ such that $g_z\cdot x = z$. For all elements in the coset $g_zS_x = \{g_zs\in G\mid s\in S_x\}$ the following equality is satisfied: \[(g_zs)\cdot x = g_z\cdot (s\cdot x) = g_z\cdot x = z\,.\] This implies that the map $\Phi:G/S_x \rightarrow X$ is surjective.
+                Choose an element $x\in X$. The stabilizer of $x$ with respect to $G$ is the set \[S_x = \{g\in G\mid g\cdot x = x\}\,.\] Due to the transitivity of the group action one obtains that \[\forall x, y\in X: \exists h\in G: h\cdot x = y\,.\] So, for every $z\in X$, one can choose a group element $g_z$ such that $g_z\cdot x = z$. For all elements in the coset $g_zS_x = \{g_zs\in G\mid s\in S_x\}$, the following equality is satisfied: \[(g_zs)\cdot x = g_z\cdot (s\cdot x) = g_z\cdot x = z\,.\] This implies that the map $\Phi:G/S_x \rightarrow X$ is surjective.
 
                 Now, one needs to prove that $\Phi$ is also injective. A proof by contradiction is given. Choose two distinct cosets $gS_x$ and $hS_x$. There exist two elements $G,H\in X$ such that $g\cdot x = G$ and $h\cdot x = H$. Assume that $G = H$. This means that
                 \begin{align*}
@@ -510,7 +524,7 @@
                     \iff&h^{-1}g\in S_x\\
                     \iff&hS_x\ni h(h^{-1}g) = g\,.
                 \end{align*}
-                This would imply that $gS_x = hS_x$, which is in contradiction with the assumptions. It follows that $G\neq H$ and, hence, that $\Phi$ is injective.\qed
+                This would imply that $gS_x = hS_x$, which is in contradiction with the assumptions. It follows that $G\neq H$ and, hence, that $\Phi$ is injective.
             \end{proof}
         \end{mdframed}
     \end{property}
@@ -525,7 +539,7 @@
         The $n$-dimensional affine space $\mathbb{A}^n$ is an $\mathbb{R}^n$-torsor.
     \end{example}
 
-    \newdef{Crossed module}{\index{module!crossed}\index{Peiffer}\label{group:crossed_module}
+    \newdef{Crossed module}{\index{module!crossed}\index{Peiffer identity}\label{group:crossed_module}
         A crossed module is a quadruple $(G,H,t,\alpha)$ where:
         \begin{itemize}
             \item $G,H$ are two groups,
@@ -826,11 +840,12 @@
         Every semisimple ring is isomorphic to a direct sum of matrix rings over division rings $D_i$ with multiplicity $n_i$. Furthermore, the integers $D_i$ and $n_i$ are unique (up to a permutation of the indices).
     \end{theorem}
 
-\section{Polynomials}\index{poly-!nomial}\label{section:algebraic_numbers}
-\subsection{Algebraicity}
+\section{\difficult{Galois theory}}\index{Galois!theory}
 
-    \newdef{Polynomial ring}{
-        Let $R$ be a (commutative unital) ring and consider a set $X$. The polynomial ring on the indeterminates $X$ is defined as the free commutative $R$-algebra on $X$. Often $X$ will be a finite set: $R[X]\equiv R[x_1,\ldots,x_n]$.
+\subsection{Polynomials}
+
+    \newdef{Polynomial ring}{\index{poly-!nomial}\index{indeterminate}
+        Let $R$ be a (commutative unital) ring and consider a set $X$. The polynomial ring on the \textbf{indeterminates} $X$ is defined as the free commutative $R$-algebra on $X$. Often, $X$ will be a finite set: $R[X]\equiv R[x_1,\ldots,x_n]$.
     }
 
     \begin{theorem}[Hilbert's basis theorem]\index{Hilbert!basis theorem}
@@ -842,19 +857,18 @@
     }
 
     \newdef{Degree}{\index{degree!of polynomial}
-        \nomenclature[O_deg]{$\deg(f)$}{degree of the polynomial $f$}
         The degree of a polynomial $f$ is equal to the largest integer $d\in\mathbb{N}$ for which $f$ contains a monomial $x_1^{i_1}\cdots x_n^{i_n}$ such that $i_1+\cdots+i_n=d$. It is denoted by $\deg(f)$.
     }
     \newdef{Monic polynomial}{\index{monic}
         A polynomial for which the highest degree term has coefficient $1$.
     }
 
-    \newdef{Split}{\index{split}
+    \newdef{Split}{\index{split}\index{root}
         A polynomial $f\in R[x]$ is said to split (over $R$) if it can be factorized as a product of linear factors, i.e.~there exist elements $\lambda,r_1,\ldots r_n$ such that
         \begin{gather}
             f = \lambda(x-r_1)\cdots(x-r_n)\,,
         \end{gather}
-        where $n=\deg(f)$.
+        where $n=\deg(f)$. The numbers $r_i\in R$ are called the \textbf{roots} of the polynomial.
     }
 
     \begin{theorem}[Fundamental theorem of algebra]\index{fundamental theorem!of algebra}\label{alggeom:fundamental_theorem_of_algebra}
@@ -868,51 +882,29 @@
         where $a_1,\ldots, a_k\in\mathbb{C}$ and $n_1,\ldots,n_k\in\mathbb{N}$.
     \end{result}
 
-    \newdef{Transcendental element}{\index{transcendental}\index{algebraic}
-        Consider a field $K$ and a field extension $L/K$ (Definition \ref{algebra:field_extension}). An element $x\in L$ for which there exist no nontrivial polynomials $p$ over $K$ such that $p(x)=0$, is said to be transcendental, otherwise it is said to be \textbf{algebraic}.
-    }
-
-    \newdef{Algebraic dependence}{
-        Consider a commutative ring $R$ and a subring $S\subset R$. An element $r\in R$ is said to be algebraically dependent on $S$ if it is the root of a polynomial in $S[x]$. If $r$ is the root of a monic polynomial in $S[x]$, it is said to be \textbf{integrally dependent} on $S$.
-    }
-    \begin{remark}
-        Since every nonzero element in a field is invertible, one can always turn a general polynomial into a monic polynomial. Hence, over a field the concepts of algebraic and integral dependence coincide.
-    \end{remark}
-
-\subsection{Roots}
-
     \begin{formula}[Vieta]\index{Vieta}
-        Consider a polynomial of degree $n$. By the fundamental theorem of algebra this polynomial has $n$ complex roots. Vieta's formulas relate the coefficients of the polynomial to its roots:
+        Consider a polynomial of degree $n$. By the fundamental theorem of algebra, this polynomial has $n$ complex roots. Vieta's formulas relate the coefficients of the polynomial to its roots $r_i$:
         \begin{gather}
             \sum_{1\leq i_1\leq\ldots\leq i_k\leq n}\ \prod_{j=1}^kr_{i_j} = (-1)^k\frac{a_{n-k}}{a_n}\,,
         \end{gather}
-        where $k\leq n$. For $k=1$ and $k=n$ this gives the well-known sum and product formulas:
+        where $k\leq n$. For $k=1$ and $k=n$, this gives the well-known sum and product formulas:
         \begin{align}
             r_1+r_2+\cdots+r_n &= -\frac{a_{n-1}}{a_n}\,,\\
             r_1r_2\cdots r_n &= (-1)^n\frac{a_0}{a_n}\,.
         \end{align}
     \end{formula}
     \begin{example}
-        For quadratic polynomials $ax^2+bx+c$ one recovers the following well-known formulas:
+        For quadratic polynomials
+        \begin{gather}
+            f(x) = ax^2+bx+c\,,
+        \end{gather}
+        one recovers the following well-known formulas:
         \begin{align}
             r_1+r_2 &= -\frac{b}{a},\\
             r_1r_2 &= \frac{c}{a}\,.
         \end{align}
     \end{example}
 
-\subsection{Ideals}
-
-    \begin{theorem}[Weak Nullstellensatz]\index{Nullstellensatz}
-        Let $K$ be an algebraically closed field and consider the polynomial ring $R=K[x_1,\ldots,x_n]$. An ideal $I\subset R$ is maximal if and only if it is of the form \[(x_1-a_1,\ldots,x_n-a_n)\] with $a_i\in K$ for all $i\leq n$.
-    \end{theorem}
-    \begin{result}
-        There exists a bijection between $K^n$ and the set of maximal ideals of $K[x_1,\ldots,x_n]$.
-    \end{result}
-    \begin{result}
-        Consider a collection of polynomials $\{f_i\}_{i\in I}\subset K[x_1,\ldots,x_n]$. If these polynomials do not have a common root, the ideal they generate is the unit ideal.
-    \end{result}
-
-\section{\difficult{Galois theory}}\index{Galois!theory}
 \subsection{Field extensions}
 
     \newdef{Field extension}{\index{field!extension}\label{algebra:field_extension}
@@ -922,19 +914,15 @@
         A field extension $L$ of $K$ is often denoted by $L/K$.
     \end{notation}
 
-    \newdef{Algebraic extension}{
-        An extension $L/K$ such that every element of $L$ is algebraic over $K$.
-    }
-
     \begin{notation}[Generation]\index{simple!extension}
         Consider a field extension $L/K$ together with a subset $X\subseteq L$. The smallest field extension of $K$ that contains $X$ is denoted by $K(X)$. $L$ is said to be \textbf{simple} if $L=K(a)$ for some $a\in L$.
     \end{notation}
 
-    \newdef{Degree}{\index{degree!of extension}
-        If $L/K$ is a field extension, $L$ can be given the structure of a $K$-vector space (\cref{linalgebra:vector_space}). The dimension of this vector space is called the degree of the extension $K$. It is often denoted by $[L:K]$.
+    \newdef{Degree}{\index{degree!of field extension}\index{extension!finite}
+        If $L/K$ is a field extension, $L$ can be given the structure of a $K$-\textit{vector space} (see \cref{linalgebra:vector_space}). The dimension of this vector space is called the degree of the extension $K$. It is often denoted by $[L:K]$. If the degree is finite, the extension is also said to be \textbf{finite}.
     }
 
-    The following property is very similar to the tower rule for finite groups \ref{group:tower_rule_groups}:
+    The following property is very similar to the tower rule for finite groups (\cref{group:tower_rule_groups}).
     \begin{property}[Tower property]\index{tower law}
         Consider two field extensions $M/L$ and $L/K$.
         \begin{gather}
@@ -943,13 +931,30 @@
     \end{property}
     \sremark{Galois theory will show that this is no mere coincidence.}
 
-    \begin{property}
-        Every finite extension is algebraic.
-    \end{property}
-
     \newdef{Number field}{\index{number!field}
         A finite extension of the rational numbers $\mathbb{Q}$.
     }
+
+\subsection{Algebraicity}\label{section:algebraic_numbers}
+
+    \newdef{Transcendental element}{\index{transcendental}\index{algebraic}
+        Consider a field extension $L/K$. An element $x\in L$ for which there exist no nontrivial polynomials $p\in K[x]$ such that $p(x)=0$, is said to be transcendental, otherwise it is said to be \textbf{algebraic}.
+    }
+
+    \newdef{Algebraic dependence}{
+        Consider a commutative ring $R$ and a subring $S\subset R$. An element $r\in R$ is said to be algebraically dependent on $S$ if it is the root of a polynomial in $S[x]$. If $r$ is the root of a monic polynomial in $S[x]$, it is said to be \textbf{integrally dependent} on $S$.
+    }
+    \begin{remark}
+        Since every nonzero element in a field is invertible, one can always turn a general polynomial into a monic polynomial. Hence, over a field, the concepts of algebraic and integral dependence coincide.
+    \end{remark}
+
+    \newdef{Algebraic extension}{\index{extension!algebraic}
+        An extension $L/K$ such that every element of $L$ is algebraic over $K$.
+    }
+
+    \begin{property}
+        Every finite extension is algebraic.
+    \end{property}
 
     \newdef{Algebraic closure}{\index{algebraic!closure}
         A field is said to be \textbf{algebraically closed} if every polynomial over it has a root. This implies that every polynomial splits. An algebraic closure of a field $K$ is an algebraic extension $\overline{K}/K$ such that $\overline{K}$ is algebraically closed.
@@ -960,19 +965,22 @@
     \begin{property}
         A splitting field of a polynomial of degree $n$ has degree at most $n!$.
     \end{property}
+    \begin{example}
+        \Cref{alggeom:fundamental_theorem_of_algebra} implies that $\mathbb{C}$ is an algebraic closure of $\mathbb{R}$. In fact, it is also the splitting field over $\mathbb{R}$.
+    \end{example}
 
     \newdef{Minimal polynomial}{\index{minimal!polynomial}\index{evaluation}\label{algebra:minimal_polynomial}
         Consider a field extension $L/K$ with an element $a\in L$ that is algebraic over $K$. The monic polynomial $f^a\in K[x]$ of lowest order such that $f^a(a)=0$ is called the minimal polynomial of $a$. This polynomial is obtained as the generator\footnote{Polynomial rings in one variable are PIDs, so the kernel ideal admits a generator.} of the kernel ideal of the \textbf{evaluation morphism}
         \begin{gather}
-            K[x]\rightarrow L:x\mapsto a\,.
+            K[x]\rightarrow L:f\mapsto f(a)\,.
         \end{gather}
     }
     \begin{property}\label{algebra:minimal_polynomial_divisor}
         Let $f^a$ be the minimal polynomial of an algebraic element $a\in L$. If $f(a)=0$ for some polynomial $f\in K[x]$, the minimal polynomial $f^a$ divides $f$.
     \end{property}
-    \begin{property}
-        The minimal polynomial of every algebraic element is irreducible.
-    \end{property}
+    \begin{result}
+        The minimal polynomial of an algebraic element is irreducible.
+    \end{result}
 
     \begin{property}
         Consider two fields $K,L$ together with an element $a\in L$. The `polynomial ring' $K[a]$, the image of the evaluation morphism, coincides with $K(a)$ if and only if $a$ is algebraic over $K$.
@@ -987,10 +995,9 @@
             K_S := \{x\in\overline{K}\mid x\text{ is separable over }K\}\,.
         \end{gather}
     }
-
-    \begin{property}[Separable splitting field]
+    \begin{example}[Separable splitting field]
         The splitting field of a separable polynomial is separable.
-    \end{property}
+    \end{example}
 
     \newdef{Perfect field}{\index{perfect!field}
         A field $K$ satisfying any of the following equivalent statements:
@@ -1008,7 +1015,7 @@
         For a perfect field, the algebraic closure and separable closure coincide.
     \end{result}
 
-    \newdef{Normal extension}{\index{normal!extension}
+    \newdef{Normal extension}{\index{extension!normal}
         A field extension $L/K$ with $L\subseteq\overline{K}$ is said to be \textbf{normal} if every irreducible polynomial in $K[x]$ that has a root in $L$ splits over $L$.
     }
     \begin{property}
@@ -1021,14 +1028,14 @@
 
 \subsection{Galois extensions}
 
-    \newdef{Galois extension}{\index{Galois!extension}\index{Krull!topology}
+    \newdef{Galois extension}{\index{Galois!extension}\index{Krull!topology}\index{group!profinite}
         An algebraic field extension $L/K$ such that there exists a subgroup $G\subseteq\Aut(L)$ satisfying
         \begin{gather}
             K\cong L^G\,,
         \end{gather}
         where $L^G$ denotes the set of $G$-invariants of $L$. This group, often denoted by $\mathrm{Gal}(L/K)$, is called the \textbf{Galois group} of the extension. If $L$ is the splitting field of a polynomial $f\in K[x]$, the Galois group is sometimes denoted by $\mathrm{Gal}(f)$.
 
-        When $L/K$ is finite, the Galois group is a finite group and, hence, can simply be endowed with the discrete topology. However, when the extension is not finite, one should endow the group with a topology. The \textbf{Krull topology} is defined as the profinite topology (\cref{topology:profinite_group}) with respect to all finite subgroups of $\mathrm{Gal}(L/K)$.\footnote{One can show that every profinite group arises as a Galois group for some field extension.}
+        When $L/K$ is finite, the Galois group is a finite group and, hence, can simply be endowed with the discrete topology. However, when the extension is not finite, one should endow the group with a topology. The \textbf{Krull topology} is defined as the \textit{profinite topology} (see \cref{topology:profinite_group}) with respect to all finite subgroups of $\mathrm{Gal}(L/K)$.\footnote{One can show that every \textit{profinite group} arises as a Galois group for some field extension.}
     }
 
     \begin{property}
@@ -1056,7 +1063,7 @@
 
 \subsection{Radicals}
 
-    \newdef{Radical extension}{\index{radical!extension}
+    \newdef{Radical extension}{\index{extension!radical}\index{radical|seealso{extension}}
         A simple radical extension $L/K$ is a simple extension $L=K(a)$ such that $a^n=b$ for some $b\in K$ and $n\in\mathbb{N}_0$. A radical extension or radical series is a finite sequence of simple radical extensions.
     }
 
@@ -1065,7 +1072,23 @@
     \end{property}
 
     \begin{theorem}[Galois]
-        A polynomial $f\in K[x]$, where $\mathrm{char}(K)$ does not divide $\deg(f)$, can be solved by radicals if and only if its Galois group $\mathrm{Gal}(f)$ is solvable.
+        A polynomial $f\in K[x]$, where $\mathrm{char}(K)$ does not divide $\deg(f)$, can be solved by radicals if and only if its Galois group $\mathrm{Gal}(f)$ is solvable (\cref{group:solvable}).
     \end{theorem}
 
-    @@ COMPLETE @@
+    \todo{COMPLETE}
+
+\subsection{Nullstellensatz}\index{Nullstellensatz}
+
+    For the geometric incarnation, see \cref{chapter:alggeom}.
+
+    \begin{theorem}[Weak Nullstellensatz]
+        Let $K$ be an algebraically closed field and consider the polynomial ring $R=K[x_1,\ldots,x_n]$. An ideal $I\subset R$ is maximal if and only if it is of the form \[(x_1-a_1,\ldots,x_n-a_n)\] with $a_i\in K$ for all $i\leq n$.
+    \end{theorem}
+    \begin{result}
+        There exists a bijection between $K^n$ and the set of maximal ideals of $K[x_1,\ldots,x_n]$.
+    \end{result}
+    \begin{result}
+        Consider a collection of polynomials $\{f_i\}_{i\in I}\subset K[x_1,\ldots,x_n]$. If these polynomials do not have a common root, the ideal they generate is the unit ideal.
+    \end{result}
+
+    \todo{COMPLETE}

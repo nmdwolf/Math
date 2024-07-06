@@ -1,5 +1,7 @@
 \chapter{Ordinary differential equations}
 
+    This chapter is concerned with the study of equations involving univariate functions $f:\mathbb{R}\rightarrow\mathbb{R}$ and their derivatives.
+
 \section{Boundary conditions}\index{boundary!condition}
 
     Unique solutions of a differential equation are obtained by supplying additional conditions. These are called \textbf{boundary conditions}.
@@ -7,14 +9,14 @@
     \newdef{Periodic boundary condition}{\label{ode:periodic_conditions}
         A condition of the following form:
         \begin{gather}
-            y(x) = y(x+a)\,.
+            f(x) = f(x+a)\,.
         \end{gather}
     }
 
     \newdef{Dirichlet boundary condition}{\label{ode:conditions:dirichlet}
         A condition of the form
         \begin{gather}
-            y(x) = f(x)
+            f(x) = g(x)
         \end{gather}
         for all $x\in\partial\Omega$, where $\Omega$ is the domain on which the problem is defined.
     }
@@ -22,37 +24,38 @@
     \newdef{Neumann boundary condition}{\label{ode:neumann_conditions}
         A condition of the form
         \begin{gather}
-            \pderiv{y}{\hat{n}}(x) = f(x)
+            \pderiv{f}{\hat{n}}(x) = f(x)
         \end{gather}
         for all $x\in\partial\Omega$, where $\Omega$ is the domain on which the problem is defined.
     }
 
-    @@ CHECK (aren't some of these meant for PDEs) @@
+    \todo{CHECK (these make more sense for PDEs)}
 
 \section{Existence and uniqueness}
 
     \begin{theorem}[Picard--Lindel\"of]\index{Picard--Lindel\"of}\label{ode:picard_lindelof}
         Consider an ordinary differential equation of the form
         \begin{gather}
-            \dot{x}(t) = f\bigl(t,x(t)\bigr)\,,
+            \dot{f}(x) = g\bigl(x,f(x)\bigr)\,,
         \end{gather}
-        where $f$ is defined on a subset $I\times U\subset\mathbb{R}\times\mathbb{R}^n$.\footnote{Generalizations to arbitrary \textit{Banach spaces} exist, see e.g.~\citet{choquet-bruhat_analysis_1991}.} If $f$ is continuous on $I$ and locally Lipschitz on $U$, then for every point $(t_0,x_0)\in I\times U$ there exists a maximal interval $J\supseteq I$ and a unique solution $x:J\rightarrow\mathbb{R}^n$ of the differential equation with initial condition $(t_0,x_0)$.
+        where $g$ is defined on a subset $I\times U\subset\mathbb{R}\times\mathbb{R}^n$.\footnote{Generalizations to arbitrary \textit{Banach spaces} exist (to be introduced in \cref{section:banach}), see e.g.~\citet{choquet-bruhat_analysis_1991}.} If $g$ is continuous on $I$ and locally Lipschitz on $U$, then, for every point $(x_0,y_0)\in I\times U$, there exists a maximal interval $J\supseteq I$ and a unique solution $f:J\rightarrow\mathbb{R}^n$ of the differential equation with initial condition $(x_0,y_0)$.
     \end{theorem}
 
 \section{First-order ODEs}
 
-    \newdef{First-order ODE}{\label{ode:first_order_ODE}
+    \newdef{First-order ODE}{\index{homogeneous!equation}
         \begin{gather}
-            y'(t) + a(t)y(t) = R(t)
+            \label{ode:first_order_ODE}
+            f'(x) + a(x)f(x) = R(x)
         \end{gather}
-        If the function $R$ is identically zero, the ODE is said to be \textbf{homogenous}.
+        If the function $R$ is identically zero, the ODE is said to be \textbf{homogeneous}.
     }
     \begin{formula}\label{ode:first_order_general_solution}
-        Let $U\subseteq\mathbb{R}$ be an open set and let the functions $a, R:U\rightarrow\mathbb{R}$ be continuous. The solutions $\varphi:U\rightarrow\mathbb{R}$ of \cref{ode:first_order_ODE} are given by\footnote{The integrals represent indefinite integrals/primitives.}
+        Let $U\subseteq\mathbb{R}$ be an open set and let the functions $a, R:U\rightarrow\mathbb{R}$ be continuous. The solutions $f:U\rightarrow\mathbb{R}$ of \cref{ode:first_order_ODE} are given by\footnote{The integrals represent indefinite integrals or primitives.}
         \begin{gather}
-            \varphi(t) = e^{-\int\!a(t)\,dt}\left(c + \Int\!R(t)e^{\int\!a(t)\,dt}\,dt\right)\,,
+            f(x) = e^{-\int\!a(x)\,dx}\left(c + \Int\!R(x)e^{\int\!a(s)\,ds}\,dx\right)\,,
         \end{gather}
-        where $c$ is a constant (in general determined by some kind of boundary condition).
+        where $c\in\mathbb{R}$ is a constant (which is, in general, determined by a choice of boundary condition).
     \end{formula}
 
 \section{Second-order ODEs}
@@ -60,9 +63,9 @@
     \newdef{Second-order ODE}{
         \begin{gather}
             \label{ode:second_order_ODE}
-            y''(t) + a(t)y'(t) + b(t)y(t) = R(t)
+            f''(x) + a(x)f'(x) + b(x)f(x) = R(x)
         \end{gather}
-        If the function $R$ is identically zero, the ODE is said to be \textbf{homogenous}.
+        If the function $R$ is identically zero, the ODE is again said to be \textbf{homogeneous}.
     }
 
 \subsection{General solution}
@@ -70,17 +73,20 @@
     \begin{formula}\label{ode:second_order_general_solution}
         Let $\varphi:U\rightarrow\mathbb{R}$ be a nowhere zero solution of the homogeneous equation. The general solution of \cref{ode:second_order_ODE} is given by
         \begin{gather}
-            y(t) = c_1\varphi + c_2\varphi\Int\frac{e^{-\int\!a(s)\,ds}}{\varphi^2(t)}\,dt + \psi_0\,,
+            f(x) = c_1\varphi(x) + c_2\varphi(x)\Int\frac{e^{-\int\!a(s)\,ds}}{\varphi^2(x)}\,dx + \psi_0(x)\,,
         \end{gather}
         where $\psi_0$ is a particular solution of \cref{ode:second_order_ODE}.
     \end{formula}
 
     \begin{property}
-        Let $\psi_0$ be a solution of \cref{ode:second_order_ODE}. The set of all solutions is given by the affine space
+        Let $\psi_0$ be a particular solution of \cref{ode:second_order_ODE}. The set of all solutions is given by the affine space
         \begin{gather}
             \bigl\{\psi_0 + \chi\bigm\vert\chi\text{ is a solution of the homogeneous equation}\bigr\}\,.
         \end{gather}
+
+        \todo{CHECK HOW THIS MATCHES WITH THE PREVIOUS PROPERTY}
     \end{property}
+
     \begin{property}[Wronskian]\index{Wronskian}\label{ode:wronskian}
         Two solutions of the homogeneous equation are independent if the \textbf{Wronskian}
         \begin{gather}
@@ -93,7 +99,7 @@
         is nonzero.
     \end{property}
 
-    \newformula{Abel's identity}{\index{Abel}\label{ode:abels_identity}
+    \newformula{Abel's identity}{\index{Abel!identity}\label{ode:abels_identity}
         An explicit formula for the Wronskian is given by
         \begin{gather}
             W(x) = W(x_0)\exp\left(-\Int_{x_0}^xa(x')\,dx'\right)\,.
@@ -110,38 +116,42 @@
         When studying an ODE of the form\footnote{Any other form of homogeneous, second-order ODEs with constant coefficients can be rewritten like this.}
         \begin{gather}
             \label{ode:homogeneous_2_ODE_constant_coeff}
-            y''(t) + py'(t) + qy(t) = 0\,,
+            f''(x) + pf'(x) + qf(x) = 0\,,
         \end{gather}
-        where $p$ and $q$ are constants, the characteristic equation is defined as follows:
+        where $p,q\in\mathbb{R}$ are constants, the characteristic equation is defined as follows:
         \begin{gather}
             \label{ode:characteristic_equation}
             \lambda^2 + p\lambda + q = 0\,.
         \end{gather}
-        By the Fundamental Theorem of Algebra~\ref{alggeom:fundamental_theorem_of_algebra}, this polynomial equation has two (complex) roots $\lambda_1$ and $\lambda_2$. From these roots one can derive the solutions of \cref{ode:homogeneous_2_ODE_constant_coeff} using the following rules ($c_1$ and $c_2$ are constants):
+        By the Fundamental Theorem of Algebra~\ref{alggeom:fundamental_theorem_of_algebra}, this polynomial equation has two (complex) roots $\lambda_1$ and $\lambda_2$. From these roots, one can derive the solutions of \cref{ode:homogeneous_2_ODE_constant_coeff} using the following rules ($c_1,c_2\in\mathbb{R}$ are constants):
         \begin{itemize}
-            \item $\lambda_1\neq\lambda_2$ with $\lambda_1,\lambda_2\in\mathbb{R}$: $y(t) = c_1e^{\lambda_1t} + c_2e^{\lambda_2t}$,
-            \item $\lambda_1=\lambda_2$: $y(t) = c_1e^{\lambda t} + c_2te^{\lambda t}$, and
-            \item $\lambda_1=\lambda_2^*$ with $\lambda_1 = a + ib$: $y(t) = c_1e^{at}\cos(bt) + c_2e^{at}\sin(bt)$.
+            \item $\lambda_1\neq\lambda_2$ with $\lambda_1,\lambda_2\in\mathbb{R}$: $f(x) = c_1e^{\lambda_1x} + c_2e^{\lambda_2x}$,
+            \item $\lambda_1=\lambda_2$: $f(x) = c_1e^{\lambda x} + c_2xe^{\lambda x}$, and
+            \item $\lambda_1=\lambda_2^*$ with $\lambda_1 = a + ib$: $f(x) = c_1e^{ax}\cos(bx) + c_2e^{ax}\sin(bx)$.
         \end{itemize}
     }
 
-\subsection{Method of Frobenius}\index{Frobenius!series}
+\subsection{Frobenius' method}\index{Frobenius!series}
 
-    To find a solution of the homogeneous equation one can assume a solution of the form
+    To find a solution of the homogeneous equation, one can assume a solution of the form
     \begin{gather}
         \label{ode:frobenius_power_series}
-        y(x) = \sum_{i=0}^\infty a_i(x-x_0)^{i+k}\,,
+        y(x) = \sum_{i=0}^{+\infty}a_i(x-x_0)^{i+k}\,,
     \end{gather}
-    where $k\in\mathbb{Z}$ is a constant.
+    where $k\in\mathbb{R}$ is a constant.
 
     \newdef{Indicial equation}{\index{indicial equation}
-        After inserting the ansatz~\eqref{ode:frobenius_power_series} into the homogeneous equation and collecting all terms in $x^i$, an equation of the form $\sum_{i=n}^\infty H_i(k)x^i=0$ is obtained, where $n\in\mathbb{N}$ and the $H_i(k)$ are polynomials in $k$. This means that for every $i\in\mathbb{N}$, one obtains an equation of the form $H_i(k) = 0$, due to the independence of polynomial terms. The equation for the lowest-degree term will be quadratic in $k$ and is called the indicial equation.
+        After inserting the ansatz~\eqref{ode:frobenius_power_series} into the homogeneous equation and collecting all terms in $x^i$, an equation of the form
+        \begin{gather}
+            \sum_{i=n}^{+\infty}H_i(k)x^i=0
+        \end{gather}
+        is obtained, where $n\in\mathbb{N}$ and the $H_i(k)$ are polynomials in $k$. This means that for every $i\in\mathbb{N}$, one obtains an equation of the form $H_i(k) = 0$, due to the independence of polynomial terms. The equation for the lowest-degree term will be quadratic in $k$ and is called the indicial equation.
     }
 
     \begin{property}
         The indicial equation generally has two roots $k_1,k_2$.
         \begin{itemize}
-            \item $k_1=k_2$: Only one solution will be found with the method of Frobenius (another one can be found as in the second term of \cref{ode:second_order_general_solution}).
+            \item $k_1=k_2$: Only one solution will be found with Frobenius' method (another one can be found as in the second term of \cref{ode:second_order_general_solution}).
             \item $k_1-k_2 \in\mathbb{Z}$: A second independent solution might be obtained using this method. If not, a second solution can be found as mentioned in the previous case.
             \item $k_1-k_2\not\in\mathbb{Z}$: Two independent solutions can be found using this method.
         \end{itemize}
@@ -215,7 +225,7 @@
     \end{property}
 
     \begin{theorem}[Oscillation theorem]\index{oscillation theorem}
-        The $n^{th}$ eigenfunction of a Sturm-Liouville problem has $n-1$ roots.
+        The $n^{\text{th}}$ eigenfunction of a Sturm--Liouville problem has $n-1$ roots.
     \end{theorem}
 
 \section{Applications}
@@ -223,10 +233,10 @@
 
     A Bessel's differential equation is an ordinary differential equation of the following form:
     \begin{gather}
-        \label{ode:differential_equation}
-        x^2y''(x) + xy'(x) + (x^2 - n^2)y(x) = 0\,,
+        \label{ode:bessel_ode}
+        x^2f''(x) + xf'(x) + (x^2 - n^2)f(x) = 0\,,
     \end{gather}
-    where $n$ can be any complex number. The solutions of this ODE are the Bessel functions of the first and second kind (also called \textbf{Bessel} and \textbf{Neumann functions}, respectively):
+    where $n$ can actually be any complex number. The solutions of this ODE are the Bessel functions of the first and second kind (also called \textbf{Bessel} and \textbf{Neumann functions}, respectively):
     \begin{align}
         \label{ode:bessel_function}
         J_n(x) &= \sum_{m=0}^{+\infty}\frac{(-1)^m}{m!(m+n)!}\left(\frac{x}{2}\right)^{2m+n}\,,\\\nonumber\\
@@ -258,22 +268,5 @@
         \end{gather}
         One can show that these functions are exactly the Bessel functions~\eqref{ode:bessel_function}. For this reason, $g(x,t)$ is called the generating function of the Bessel functions.
 
-        @@ SHOW THAT THESE ARE REALLY THE BESSEL FUNCTIONS @@
+        \todo{SHOW THAT THESE ARE REALLY THE BESSEL FUNCTIONS}
     }
-
-\subsection{Laplace equation}\index{Laplace!equation}
-
-    When solving the Laplace equation in cylindrical coordinates, one obtains Bessel's ODE with integer $n$, which has the cylindrical Bessel functions~\eqref{ode:bessel_function} and~\eqref{ode:neumann_function} as solutions.
-
-\subsection{Helmholtz equation}\index{Helmholtz!equation}
-
-    When solving the Helmholtz equation in spherical coordinates, one obtains a variant of Bessel's ODE for the radial part:
-    \begin{gather}
-        x^2y''(x) + 2xy'(x) + \bigl(x^2 - n(n+1)\bigr)y(x) = 0\,,
-    \end{gather}
-    where $n$ is an integer. The solutions, called the \textbf{spherical Bessel functions}, are related to the cylindrical Bessel functions in the following way (similarly for the Neumann functions):
-    \begin{gather}
-        j_n(r) = \sqrt{\frac{\pi}{2x}}J_{n + \frac{1}{2}}(r)\,.
-    \end{gather}
-
-    @@ COMPLETE @@

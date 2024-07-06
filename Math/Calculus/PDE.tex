@@ -3,15 +3,35 @@
     For a rigorous treatment of partial differential equations, the language of distributions is required. For an introduction, see \cref{chapter:distributions}.
 
 \section{Important examples}
+\subsection{Laplace equation}
 
-    \begin{example}[Laplace equation]\index{Laplace!equation}\index{harmonic!function}\label{pde:laplace_equation}
+    \begin{example}[Laplace equation]\index{Laplace!equation}\index{harmonic!function}\index{harmonic!cylindrical}\label{pde:laplace_equation}
         \begin{gather}
             \Delta f = \sum_{i=1}^d\mpderiv{2}{f}{x_i}=0
         \end{gather}
         Functions satisyfing this equation are said to be \textbf{harmonic}.
     \end{example}
 
-    \todo{ADD (Helmholtz, Poisson, heat, ...)}
+    When solving the Laplace equation in cylindrical coordinates, one obtains Bessel's ODE~\eqref{ode:bessel_ode} with integer $n$. The solutions are the Bessel functions~\eqref{ode:bessel_function} and~\eqref{ode:neumann_function}. For this reason, Bessel functions for integer $n$ are also called \textbf{cylinder functions} or \textbf{cylindrical harmonics}.
+
+\subsection{Helmholtz equation}
+
+    \begin{example}[Helmholtz equation]\index{Helmholtz!equation}\index{Bessel!function}\label{pde:helmholtz_equation}
+        \begin{gather}
+            \Delta f = -k^2f
+        \end{gather}
+    \end{example}
+
+    When solving the Helmholtz equation in spherical coordinates, one obtains a variant of the Bessel ODE~\eqref{ode:bessel_ode} for the radial part:
+    \begin{gather}
+        r^2y''(r) + 2ry'(r) + \bigl(r^2 - n(n+1)\bigr)y(r) = 0\,,
+    \end{gather}
+    where $n$ is an integer. The solutions, called the \textbf{spherical Bessel functions}, are related to the cylindrical Bessel functions in the following way (similarly for the Neumann functions):
+    \begin{gather}
+        j_n(r) = \sqrt{\frac{\pi}{2x}}J_{n + \frac{1}{2}}(r)\,.
+    \end{gather}
+
+    \todo{ADD (Poisson, heat, ...)}
 
 \section{General linear equations}
 
@@ -19,7 +39,9 @@
         A curve along which the highest-order partial derivatives are discontinuous. Equivalently, a curve along which the partial differential equation reduces to an ordinary differential equation (see the next sections).
     }
 
-\section{First order PDE}
+    \todo{COMPLETE or RESTRUCTURE}
+
+\section{First-order PDE}
 
     \newformula{First-order quasilinear PDE}{\label{pde:first_order_pde}
         \begin{gather}
@@ -27,20 +49,22 @@
         \end{gather}
     }
 
-    \newformula{Characteristic curve}{\index{Pfaff!system}
-        Nonunique highest-order partial derivatives means that the following \textit{Pfaffian system} has no unique solution:
+    \newformula{Characteristic curve}{\index{Pfaff!system}\index{integral!curve}
+        Consider a first-order quasilinear PDE as above. The idea of the method of the characteristics is to obtain a new coordinate system $(s,t)$ such that the PDE becomes an ODE in the coordinate $s$ and, accordingly, that the solution has an arbitrary dependence on $t$. The curves of constant $t$ are called the \textbf{characteristics} of the PDE.
+
+        To this end, the coefficients of the PDE are interpreted as the coefficients of a vector field $X\equiv(P,Q,R):\mathbb{R}^3\rightarrow\mathbb{R}^3$. By \cref{vector:normal_vector}, it can be shown that this vector field is tangent to the surface $u(x,y)$. The characteristic curves then correspond to the \textit{integral curves} of $X$ (see \cref{bundle:integral_curve}), which foliate $u$. Along a general curve, one obtains two linear equations for the partial derivatives $u_{,x},u_{,y}$, expressed as the following \textit{Pfaffian system}\footnote{Formalized in \cref{bundle:pfaff}.}:
         \begin{gather}
             \begin{cases}
                 P\pderiv{u}{x}+Q\pderiv{u}{y} = R\,,\\
-                \pderiv{u}{x}dx+\pderiv{u}{y}dy = du\,.
+                \pderiv{u}{x}\dr x+\pderiv{u}{y}\dr y = \dr u\,.
             \end{cases}
         \end{gather}
-        Algebraically, this gives the following condition:
+        For characteristics, the derivatives with respect to the new coordinate $s$, should correspond with the coefficients of $X$, i.e.~the coefficients of the PDE. It follows that the above system should degenerate. Algebraically, this gives the following condition:
         \begin{gather}
             \det
             \begin{pmatrix}
                 P&Q\\
-                dx&dy
+                \dr x&\dr y
             \end{pmatrix}
             =0\,.
         \end{gather}
@@ -49,19 +73,19 @@
             \det
             \begin{pmatrix}
                 P&R\\
-                dx&du
+                \dr x&\dr u
             \end{pmatrix}
             =0\,.
         \end{gather}
         The characteristic curves are thus defined by
         \begin{gather}
-            \frac{dx}{P} = \frac{dy}{Q}
+            \frac{\dr x}{P} = \frac{\dr y}{Q}
         \end{gather}
         and along these curves the condition
         \begin{gather}
-            \frac{dx}{P} = \frac{du}{R}
+            \frac{\dr x}{P} = \frac{\dr u}{R}
         \end{gather}
-        should hold as a consistency condition.
+        should hold as a consistency condition. The solution of the ODEs for the integral curves are given by the Picard--Lindel\"of theorem~\ref{ode:picard_lindelof}, provided that initial conditions are known.
     }
 
     \begin{formula}[Lagrange--Charpit equations]\index{Lagrange--Charpit equations}
@@ -73,7 +97,7 @@
     \end{formula}
     \remark{Looking at the defining equations of the characteristic curve, it is clear that these fix the general solution of the PDE.}
 
-\section{Method of the characteristics}\label{section:characteristics}
+\section{Second-order PDE}\label{section:characteristics}
 
     \newformula{Second order quasilinear PDE}{\label{pde:general_2order_pde}
         Consider the following pseudolinear differential equation for a function $u:\mathbb{R}^2\rightarrow\mathbb{R}$:
@@ -89,8 +113,8 @@
             \det
             \begin{pmatrix}
                 R&S&T\\
-                dx&dy&0\\
-                0&dx&dy\\
+                \dr x&\dr y&0\\
+                0&\dr x&\dr y\\
             \end{pmatrix}
             =0\,.
         \end{gather}
@@ -99,10 +123,10 @@
             \label{pde:defining_equation_characteristic_curves}
             R\left(\deriv{y}{x}\right)^2 - S\left(\deriv{y}{x}\right) + T = 0\,.
         \end{gather}
-        Accordingly this equation is often called the \textbf{characteristic equation} of the PDE in \cref{pde:general_2order_pde}. The PDE has been reduced to an ODE (as before, Cramer's rule gives rise to additional ODEs).
+        Accordingly, this equation is often called the \textbf{characteristic equation} of the PDE in \cref{pde:general_2order_pde}. The PDE has been reduced to an ODE (as before, Cramer's rule gives rise to additional ODEs).
     }
 
-    \newdef{Types of characteristics}{\index{elliptic!PDE}\index{hyper-!bolic equation}
+    \newdef{Types of characteristics}{\index{elliptic!PDE}\index{hyperbolic equation}
         \Cref{pde:defining_equation_characteristic_curves} is quadratic in $\deriv{y}{x}$. If this equation has two distinct real roots, the PDE is said to be \textbf{hyperbolic}. If the equation has only one root, the PDE is said to be \textbf{parabolic}. In the remaining case, where the equation has two distinct complex roots, the PDE is said to be \textbf{elliptic}.
     }
 
@@ -111,7 +135,7 @@
         \begin{gather}
             A(\xi_x,\xi_y)\mpderiv{2}{\zeta}{\xi} + B(\xi_x,\xi_y,\eta_x,\eta_y)\frac{\partial^2\zeta}{\partial\xi\partial\eta} + A(\eta_x,\eta_y)\mpderiv{2}{\zeta}{\eta} = F(\xi,\eta,\zeta,\zeta_\xi,\zeta_\eta)\,,
         \end{gather}
-        where
+        where:
         \begin{itemize}
             \item $A(a,b) = Ra^2 + Sab + Tb^2$, and
             \item $B(a,b,c,d) = 2Rac + S(bc+ad) + 2Tbd$.
@@ -166,8 +190,8 @@
         Substituting a solution of the form $u(x,t) = X(x)T(t)$ gives \[X(x)\deriv{T(t)}{t} - aT(t)\mderiv{2}{X(x)}{x} = 0\,,\] which can be rewritten as (the arguments are dropped for convenience) \[\frac{1}{aT}\deriv{T}{t} = \frac{1}{X}\mderiv{2}{X}{x}\,.\] Because both sides are independent, they must be equal to a constant $\lambda$. This results in the following system of ordinary differential equations:
         \begin{gather}
             \begin{cases}
-                X''(x) = \lambda X(x)\,,&\\
-                T'(t) = a\lambda T(t)\,.&
+                X''(x) &= \lambda X(x)\,,\\
+                T'(t) &= a\lambda T(t)\,.
             \end{cases}
         \end{gather}
     \end{example}
@@ -182,14 +206,18 @@
     }
 
     \newmethod{Steady-state solution}{\index{steady-state!method for boundary conditions}
-        Assume that the function $h$ is constant. In this case it is useful to rewrite the solution as \[u(x,t) = v(x) + w(x,t)\,.\] The `time-independent' function $v$ is called the steady-state solution and the function $w$ represents the deviation of this steady-state scenario.
+        Assume that the function $h$ is constant. In this case, it is useful to rewrite the solution as
+        \begin{gather}
+            u(x,t) = v(x) + w(x,t)\,.
+        \end{gather}
+        The `time-independent' function $v$ is called the steady-state solution and the function $w$ represents the deviation of this steady-state scenario.
 
         Because the PDE is linear, the partial solutions $v$ and $w$ are required to individually satisfy the equation. Furthermore, the function $v$ is also required too satisfy the given inhomogeneous boundary conditions. This results in $w$ being the solution of a homogeneous PDE with homogeneous boundary conditions. This can be seen in the following proof.
         \begin{proof}
             Assume a boundary condition of the form \[\alpha u(a,t) + \beta\pderiv{u}{x}(a,t) = u_0\,.\] Due to the requirements of a steady-state solution, one also has \[\alpha v(a) + \beta\pderiv{v}{x}(a) = u_0\,.\] Combining these two conditions gives \[\alpha\left[v(a) + w(a,t)\right] + \beta\left[\pderiv{v}{x}(a) + \pderiv{w}{x}(a,t)\right] = \alpha v(a) + \beta\pderiv{v}{x}(a)\,.\] Using the conditions, this can be rewritten as \[\alpha w(a,t) + \beta\pderiv{w}{x}(a,t) = 0\,.\] The steady-state deviation $w(x,t)$ thus satisfies the homogeneous boundary conditions.
         \end{proof}
 
-        @@ CHECK (is this proof relevant) @@
+        \todo{CHECK (is this proof relevant)}
     }
 
     \begin{method}
@@ -198,20 +226,31 @@
 
     A third, sometimes useful method is the following.
     \begin{method}
-        If the problem consists of three homogeneous and one inhomogeneous boundary conditions, the problem can be solved by first using the homogeneous conditions to restrict the values of the separation constant and then obtain a series expansion. Afterwards the obtained series can be fitted to the inhomogeneous condition to obtain the final remaining coefficients.
+        If the problem consists of three homogeneous and one inhomogeneous boundary conditions, the problem can be solved by first using the homogeneous conditions to restrict the values of the separation constant and then obtain a series expansion. Afterwards, the obtained series can be matched to the inhomogeneous condition to obtain the final remaining coefficients.
 
-        If there is more than one inhomogeneous boundary condition, the method can be extended. Let there be $k$ boundary conditions. Rewrite the general solution as $u(x,t) = \sum_{i=1}^kv_i(x,t)$, where $v_i$ satisfies the $i^{th}$ inhomogeneous condition and the homogeneous versions of the other conditions. This way the general solution still satisfies all conditions and the first part of the method can be applied to all functions $v_i$ to obtain a series expansion.
+        If there is more than one inhomogeneous boundary condition, the method can be extended. Let there be $k$ boundary conditions. Rewrite the general solution as $u(x,t) = \sum_{i=1}^kv_i(x,t)$, where $v_i$ satisfies the $i^{\text{th}}$ inhomogeneous condition and the homogeneous versions of the other conditions. This way, the general solution still satisfies all conditions and the first part of the method can be applied to all functions $v_i$ to obtain a series expansion.
     \end{method}
 
     \begin{method}[Inhomogeneous PDE]\index{PDE!inhomogeneous}
-        A possible way to solve inhomogeneous second order partial differential equations of the form \[Du(x,t) = f(x,t)\] given a set of homogeneous boundary conditions and initial value conditions $w(x,0)=\psi(x)$, is the following method (where all involved functions are assumed to admit a generalized Fourier expansion):
+        A possible way to solve inhomogeneous second order partial differential equations of the form
+        \begin{gather}
+            Du(x,t) = f(x,t)\,,
+        \end{gather}
+        given a set of homogeneous boundary conditions and initial value conditions $w(x,0)=\psi(x)$, is the following method (where all involved functions are assumed to admit a generalized Fourier expansion):
         \begin{enumerate}
-            \item Solve the homogeneous version of the PDE. This will result in a series expansion \[\sum_iw_i(t)e_i(x)\,,\] where the $e_i$ are a complete set of eigenfunctions in the variable $x$. This solution should satisfy the (homogeneous\footnote{Inhomogeneous boundary conditions can be turned into homogeneous ones by the previous two methods.}) boundary conditions.
-            \item Expand the function $f$ in the same way as $u$. The coefficients $f_n$ can be found by using the orthogonality relations of the functions $e_n$.
+            \item Solve the homogeneous version of the PDE. This will result in a series expansion
+            \begin{gather}
+                \sum_iw_i(t)e_i(x)\,,
+            \end{gather}
+            where the $e_i$ are a complete set of eigenfunctions in the variable $x$. This solution should satisfy the (homogeneous\footnote{Inhomogeneous boundary conditions can be turned into homogeneous ones by the previous two methods.}) boundary conditions.
+            \item Expand the function $f$ in the same way as $u$. The coefficients $f_n$ can be found using the orthogonality relations of the functions $e_n$.
             \item Inserting these expansions in the original PDE and rewriting the equation will lead to a summation of the form
-            \[\sum_i\big(\widetilde{D}w_i(t)\big)e_i(x) = 0\,,\] where $\widetilde{D}$ is a linear first-order differential operator. Because all terms are independent, this gives $n$ first order ODEs for the functions $w_i$. These can generally be solved by using \cref{ode:first_order_general_solution}.
+            \begin{gather}
+                \sum_i\bigl(\widetilde{D}w_i(t)\bigr)e_i(x) = 0\,,
+            \end{gather}
+            where $\widetilde{D}$ is a linear first-order differential operator. Because all terms are independent, this gives $n$ first order ODEs for the functions $w_i$. These can generally be solved by using \cref{ode:first_order_general_solution}.
             \item Initial value conditions for the functions $w_i$ are applied by setting $t=0$ in the series expansion of $u$ and equating it with the series expansion of $\psi$. This results in conditions $w_i(0) = \Psi_i$.
-            \item The obtained ODEs together with the found boundary conditions $w_i(0) = \Psi_i$ will give the general solutions for $w_i$.
+            \item The obtained ODEs, together with the found boundary conditions $w_i(0) = \Psi_i$, will give the general solutions for $w_i$.
             \item Inserting these solutions in the series expansion of $u$ will give the general solution of the inhomogeneous PDE.
         \end{enumerate}
     \end{method}
@@ -234,7 +273,7 @@
 \subsection{Symbols}
 
     \newdef{Symbol}{\index{symbol}
-        Consider a general $k^{th}$-order differential operator (multi-indices $\alpha$ are used)
+        Consider a general $k^{\text{th}}$-order differential operator (multi-indices $\alpha$ are used)
         \begin{gather}
             D := \sum_{|\alpha|\leq k}c_\alpha(x)D^\alpha\,.
         \end{gather}
@@ -244,7 +283,7 @@
         \end{gather}
     }
     \newdef{Principal symbol}{\index{principal!symbol}\label{pde:principal_symbol}
-        The principal symbol of a $k^{th}$-order differential operator $D$ is defined as the highest-degree component of $p(D,\xi)$:
+        The principal symbol of a $k^{\text{th}}$-order differential operator $D$ is defined as the highest-degree component of $p(D,\xi)$:
         \begin{gather}
             \sigma_D(\xi) := \sum_{|\alpha|=k}c_\alpha(x)\xi^\alpha\,.
         \end{gather}
@@ -270,7 +309,7 @@
         \begin{gather}
             \|f\| := \left(\sum_{|\alpha|\leq m}\|f^{(\alpha)}\|_{L^p}\right)^{1/p}\,.
         \end{gather}
-        Using the fact that the Fourier transform $\mathcal{F}$ defines an (isometric) isomorphism on $L^2$, one can also define $H^m$ in a different way:
+        Using the fact that the Fourier transform $\mathcal{F}$ defines an isometry on $L^2$, one can also define $H^m$ in a different way:
         \begin{gather}
             \label{pde:sobolev_fourier}
             H^m(\mathbb{R}^n) := \left\{f\in L^2(\mathbb{R}^n)\,\middle\vert\,(1+\|x\|^2)^{-m/2}\mathcal{F}f\in L^2(\mathbb{R}^2)\right\}\,.
@@ -290,9 +329,9 @@
         Consider two integers $m,n\in\mathbb{N}$. If $f\in H^m(\mathbb{R}^n)$ and $m>n/2$, then $f$ vanishes at infinity.
     \end{property}
 
-    The Sobolev norm is not always easy to work with, especially in practical applications. Luckily there exists a lemma showing that one can equivalently restrict to partial derivatives of order $m$:
+    The Sobolev norm is not always easy to work with, especially in practical applications. Luckily there exists a lemma showing that one can equivalently restrict to partial derivatives of order $m$.
     \begin{theorem}[Friedrich]\index{Friedrich}
-        For all bounded $U$ one can introduce an equivalent norm on $H^m_0(U)$ as follows:
+        For all bounded $U$, one can introduce an equivalent norm on $H^m_0(U)$ as follows:
         \begin{gather}
             \langle f\mid g \rangle := \sum_{|\alpha|=m}\bigintsss_U f^{(\alpha)}\overline{g^{(\alpha)}}\,dx\,.
         \end{gather}
@@ -307,4 +346,4 @@
         where $f_\alpha\in L^{p'}(U)$ with $p'$ the H\"older conjugate of $p$.
     \end{definition}
 
-    @@ COMPLETE (continue in AMP1) @@
+    \todo{COMPLETE (continue in AMP1)}

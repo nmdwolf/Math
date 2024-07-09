@@ -1,6 +1,6 @@
 \chapter{Canonical Quantization}
 
-    The main reference for this chapter is~\citet{peskin_introduction_1995}. For the section on the Connes--Kreimer algebra, see the original paper by~\citet{connes_hopf_1998}.
+    The main reference for this chapter is~\citet{peskin_introduction_1995}. For the section on the Connes--Kreimer algebra, see the original paper by~\citet{connes_hopf_1998} or the paper by~\citet{ebrahimi-fard_hopf_2005}. The main references for the section on entanglement are~\citet{tuybens_entanglement_2017,rangamani_holographic_2017}.
 
 \section{Klein--Gordon field}\index{Klein--Gordon equation}
 \subsection{Lagrangian and Hamiltonian}
@@ -250,6 +250,64 @@
         Because the two legs can be interchanged, this diagram has \textbf{symmetry factor} 2 and, hence, it gives the analytic expression $-\frac{i\lambda}{2}\int d^4z\,\Delta_F(\mathbf{z}-\mathbf{z})$.
     \end{remark}
 
+\subsection{Graph theory}\index{graph}
+
+    Given a decorated graph $\Gamma$, representing a Feynman diagram, collapsing all vertices leads to its residue $\mathrm{res}(\Gamma)$. Such a one-vertex graph $\underline{r}$ is sometimes also called the \textbf{external leg structure} of all graphs $\Gamma$ with $\mathrm{res}(\Gamma)=\underline{r}$. Two other important properties of a graph $\Gamma$ are its degree and its symmetry factor.
+
+    \newdef{Degree}{\index{degree}
+        Consider a graph $\Gamma$. Its degree $|\Gamma|\in\mathbb{N}$ is given by the number of independent loops in $\Gamma$ or, equivalently, the rank of its first homology group $H_1(\Gamma;\mathbb{Z})$ (\cref{topology:simplicial_homology_group}).
+    }
+
+    \newdef{Symmetry factor}{\index{symmetry!factor}
+        \todo{COMPLETE}
+    }
+
+\subsection{Degree of divergence}
+
+    \newdef{Mass dimension}{\index{dimension!mass}
+        Through the Compton wavelength
+        \begin{gather}
+            \lambda = \frac{h}{mc}\,,
+        \end{gather}
+        the dimensions of length and mass are related. In particular, in natural units $\hbar=c=1$, one obtains $[m]=[\lambda]^{-1}$. This dimension is called the mass dimension. \todo{ADD Compton and de Broglie wavelength to [QM]}
+
+        Now, consider a general Lagrangian density $\mathcal{L}$. Since this density is integrated against a volume form to obtain the dimensionless action, the mass dimension of $\mathcal{L}$ has to equal the spacetime dimension:
+        \begin{gather}
+            [\mathcal{L}] = d\,.
+        \end{gather}
+        To obtain the mass dimension of a field $\phi$, the general procedure, is to look at the mass term in the Lagrangian. For example, for scalar theories:
+        \begin{align*}
+            [\mathcal{L}_{\text{mass}}] &= \left[\frac{1}{2}m^2\phi^2\right]\\
+            &= 2 + 2[\phi]
+        \end{align*}
+        and, hence
+        \begin{gather}
+            [\phi] = \frac{d-2}{2}\,.
+        \end{gather}
+    }
+
+    \newdef{Degree of divergence}{\index{degree!of divergence}
+        Consider a general Feynman diagram $\Gamma$ and its associated integral $I_\Gamma$. The (superficial) degree of divergence of $\Gamma$ is defined as
+        \begin{gather}
+            D_\Gamma := \text{power of momenta in numerator} - \text{power of momenta in denominator}\,.
+        \end{gather}
+        This can also be calculated at the level of the graph $\Gamma$:
+        \begin{gather}
+            D_\Gamma = dL - 2I_b - I_f - \sum_{i\in I}n_id_i\,,
+        \end{gather}
+        where $L$ is the number of loops in $\Gamma$, $n_i$ is the number of vertices of type $i\in I$, $d_i$ is the number of derivatives in the interaction term corresponding to the vertex type $i\in I$ and $I_b,I_f$ are the number of internal boson and fermion lines, respectively.
+
+        A relation between the mass dimension $[\Gamma]$ and the degree of divergence $D_\Gamma$ is given by the following relation:
+        \begin{gather}
+            \label{qft:mass_dimension_degree}
+            D_\Gamma = [\Gamma] - \sum_{n=3}^{+\infty}k_n[g_n]\,,
+        \end{gather}
+        where $k_n$ denotes the number of vertices of valence $n\in\mathbb{N}$.\todo{CHECK THIS (e.g. Peskin)}
+    }
+    \begin{property}[Renormalizability]\index{renormalizability}
+        A Feynman diagram $\Gamma$ is UV divergent if $D_\Gamma\geq0$, with $D_\Gamma=0$ corresponding to logarithmic divergences, and, hence, $D_\Gamma<0$ implies a UV-convergent diagram. If the maximal degree of divergence that occurs for a given theory is finite, the theory is said to be \textbf{renormalizable}. By \cref{qft:mass_dimension_degree}, a necessary condition for renormalizability is that the mass dimension of all coupling constants is positive (or zero). 
+    \end{property}
+
 \section{Renormalization}
 
     One of the biggest issues in (quantum) field theory are the divergences that arise everywhere in calculations involving loop diagrams. Renormalization theory tries to find a way around these (nonphysical) divergences.
@@ -353,7 +411,7 @@
             \end{pgfonlayer}
         \end{tikzpicture}
         \caption{First four rooted trees.}
-        \label{fig:rooted_trees_subdivergences}
+        \label{fig:rooted_tree_subdivergences}
     \end{figure}
 
 
@@ -369,6 +427,7 @@
     \begin{itemize}
         \item Counit:
         \begin{gather}
+            \label{qft:connes_kreimer_counit}
             \varepsilon(\mathbf{1}):=1 \qquad\qquad\qquad \varepsilon(T):=0\,.
         \end{gather}
         \item Coproduct:
@@ -378,6 +437,7 @@
         where the last term is a sum over all possible combinations of cuts for which any path from a vertex to the root only passes through at most one cut, i.e.~the \textbf{admissible cuts}.\footnote{Although, in theory, the two trivial cuts, where either $R_c(T)=\emptyset$ or $R_c(T)=T$, are also admissible, these are not included.} Given a cut $c$, the \textbf{trunk} $R_c(T)$ is the part of the tree that was attached to the root and the \textbf{branches} $P_c(T)$ is the forest given by all remaining components (this forest will consist of more than one tree if and only if $c$ contained multiples cuts).\index{trunk}\index{branch}
         \item Antipode (defined recursively):
         \begin{gather}
+            \label{qft:antipode}
             S(\mathbf{1}) := \mathbf{1} \qquad\qquad\qquad S(T) := -T-\sum_cS\bigl(P_c(T)\bigr)R_c(T)\,.
         \end{gather}
     \end{itemize}
@@ -386,23 +446,46 @@
         \Delta(T) = T\otimes\mathbf{1} + (\mathbb{1}\otimes B_+)\circ\Delta\circ B_+(T)\,.
     \end{gather}
 
-    The recursive expression for the antipode is the equation that ties in the Connes--Kreimer algebra with the substraction of subdivergent integrals from the previous section. The renormalized integrals are obtained through the antipode as follows:
+    So, now, how to proceed? A Hopf algebra structure on Feynman graphs has been provided, but this does not say how the resulting Feynman amplitudes should be handled. These amplitudes, usually expressed through \textit{Feynman rules}, are given by \textbf{characters} of $\mathcal{H}_R$, i.e.~elements of $\mathbb{C}\mathbf{Alg}(\mathcal{H}_R,\mathbb{C})$.\index{character} These form a group under the convolution product (\cref{nca:hopf_algebra_morphisms}):
     \begin{gather}
-        f_T^R(\theta) := \lim_{\varepsilon\rightarrow0}\bigl([f_{S(T)}(\theta)] - f_{S(T)}(\theta)\bigr)\,,
+        \phi_1\ast\phi_2 = \mu_{\mathbb{C}}\circ(\phi_1\otimes\phi_2)\circ\Delta\,.
     \end{gather}
-    where the antipode on functions also incorporates the `bracket':
+    Now, when regularizing these amplitudes, the characters do not take values anymore in $\mathbb{C}$ but in the Laurent series $\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ and, hence, one obtains the group of regularized characters $\mathbb{C}\mathbf{Alg}\bigl(\mathcal{H}_R,\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]\bigr)$.
+
+    The recursive expression for the antipode is the equation that ties in the Connes--Kreimer algebra with the substraction of subdivergent integrals from the previous section. The renormalized integrals are obtained through a recursive formula, akin to that of the antipode.
     \begin{gather}
-        f_{S(T)} := -f_T - \sum_c\bigl[f_{S\left(P_c(T)\right)}\bigr]f_{R_c(T)}\,.
+        \phi^R(T) := \lim_{\varepsilon\rightarrow0} S_\Phi^R\ast\phi(T)\,,
     \end{gather}
-    The `bracket' corresponds to the choice of renormalization scheme, e.g.:
+    where $S_\phi^R$ is a deformation of $\phi\circ S$ obtained recursively as follows:
+    \begin{gather}
+        S_\phi^R(T) := -R\bigl[m\circ(S_\phi^R\otimes\pi)\circ\Delta\bigr]\,,
+    \end{gather}
+    where $R:\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]\rightarrow\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ is a linear operator, $m$ is the multiplication on $\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ and $\pi:=\mathbbm{1}_{\mathcal{H}_R}-\eta\circ\varepsilon$ is the augmentation projection (the projection that kills nontrivial forests), or, more explicitly:
+    \begin{gather}
+        S_\phi^R(T) = -R\bigl[\phi(T)\bigr] - R\left[\sum_cS_\phi^R\bigl(P_c(T)\bigr)\phi\bigl(R_c(T)\bigr)\right]\,.
+    \end{gather}
+    The assignment $\mathcal{R}:\phi\mapsto m\circ(S_\phi^R\otimes\pi)\circ\Delta$ is \textbf{Bogoliubov's $R$-operation}.\index{Bogoliubov!$R$-operation} Using the bialgebra laws, this can be rewritten as follows:
+    \begin{gather}
+        \phi^R(T) = \lim_{\varepsilon\rightarrow0}\mathcal{R}[\phi](\Gamma)+S_\phi^R(\Gamma)\,.
+    \end{gather}
+    Now, consider a monomial in the Lagrangian or, equivalently, an external leg structure $\underline{r}$. The total Green's function corresponding to $\underline{r}$ is given by the formal sum of Feynman diagrams
+    \begin{gather}
+        \Gamma^{\underline{r}} := 1 + \sum_{\mathrm{res}(\Gamma)=\underline{r}}\alpha^{|\Gamma|}\frac{\Gamma}{\mathrm{sym}(\Gamma)}\,.
+    \end{gather}
+    The renormalized term in the Lagrangian is then given by
+    \begin{gather}
+        Z^{\underline{r}} = S_\phi^R(\Gamma^{\underline{r}})\,.
+    \end{gather}
+    
+    The $R$-operation corresponds to the choice of renormalization scheme and isolates the singular part of the Feynman diagram, e.g.:
     \begin{itemize}
         \item On-shell renormalization:\index{renormalization!on-shell}
         \begin{gather}
-            [f(\theta)] := f(1)\,.
+            R[f(\theta)] := f(1)\,.
         \end{gather}
-        \item BPHZ\footnote{\textit{Bogoliubov, Parasiuk, Hepp} and \textit{Zimmermann}} renormalization:\index{renormalization!BPHZ}
+        \item BPHZ\footnote{\textit{Bogoliubov, Parasiuk, Hepp} and \textit{Zimmermann}}/MS\footnote{minimal subtraction} renormalization:\index{renormalization!BPHZ}\index{renormalization!minimal subtraction}
         \begin{gather}
-            [f(\theta)] := \mathrm{PolePart}_\varepsilon[f(1)]\,.
+            R[f(\theta)] := \mathrm{PolePart}_\varepsilon[f(1)]\,.
         \end{gather}
     \end{itemize}
 
@@ -418,11 +501,11 @@
 
 \section{Entanglement in QFT}
 
-    The main references are~\citet{tuybens_entanglement_2017,rangamani_holographic_2017}. This section should be seen as a generalization of \cref{chapter:quantum_computing} to the continuum setting, in particular the characterization and computation of entanglement.
+    This section should be seen as a generalization of \cref{chapter:quantum_computing} to the continuum setting and, in particular, of the characterization and computation of entanglement.
 
 \subsection{Lattice theories}
 
-    In this section the most important definitions and constructions in ordinary quantum information theory are recalled and applied to a lattice theory. Taking the lattice spacing to zero will (formally) allow to extend the definitions to continuum field theories (up to some technicalities that will be explained when necessary). For simplicity, it will be assumed that the local Hilbert space is finite-dimensional.
+    In this section, the most important definitions and constructions in ordinary quantum information theory are recalled and applied to a lattice theory. Taking the lattice spacing to zero will (formally) allow to extend the definitions to continuum field theories (up to some technicalities that will be explained when necessary). For simplicity, it will be assumed that the local Hilbert space is finite-dimensional.
 
     Consider a bipartite subdivision $A\cup A^c$ of the lattice, given by a codimension-1 hypersurface $\partial A$ called the \textbf{entangling surface}.\index{entangling surface} This induces a binary factorization of the total Hilbert space (all degrees of freedom are assumed to be confined to individual vertices) and, hence, one can compute the reduced density matrix for both $A$ and its complement $A^c$. The eigenvalues, which solely depend on the entangling surface $\partial A$, allow to calculate the von Neumann entropy:\footnote{Certain assumption ought to be made as to keep the entropy finite whenever the state-space is infinite-dimensional since it can be shown that the set of states with infinite von Neumann entropy is trace norm-dense (see~\citet{eisert_quantification_2002}).}
     \begin{gather}

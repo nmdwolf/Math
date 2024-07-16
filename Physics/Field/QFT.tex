@@ -1,6 +1,6 @@
-\chapter{Canonical Quantization}
+\chapter{Quantum Field Theory}
 
-    The main reference for this chapter is~\citet{peskin_introduction_1995}. For the section on the Connes--Kreimer algebra, see the original paper by~\citet{connes_hopf_1998} or the paper by~\citet{ebrahimi-fard_hopf_2005}. The main references for the section on entanglement are~\citet{tuybens_entanglement_2017,rangamani_holographic_2017}.
+    The main reference for this chapter is~\citet{peskin_introduction_1995}. For the section on the Connes--Kreimer algebra, see the original paper by~\citet{connes_hopf_1998} or the paper by~\citet{ebrahimi-fard_hopf_2005}. Another good reference on the formal structure of Feynman diagrams is~\citet{yeats_combinatorial_2017}. The main references for the section on entanglement are~\citet{tuybens_entanglement_2017,rangamani_holographic_2017}.
 
 \section{Klein--Gordon field}\index{Klein--Gordon equation}
 \subsection{Lagrangian and Hamiltonian}
@@ -252,15 +252,40 @@
 
 \subsection{Graph theory}\index{graph}
 
-    Given a decorated graph $\Gamma$, representing a Feynman diagram, collapsing all vertices leads to its residue $\mathrm{res}(\Gamma)$. Such a one-vertex graph $\underline{r}$ is sometimes also called the \textbf{external leg structure} of all graphs $\Gamma$ with $\mathrm{res}(\Gamma)=\underline{r}$. Two other important properties of a graph $\Gamma$ are its degree and its symmetry factor.
+    Given a decorated graph $\Gamma$, representing a Feynman diagram, collapsing all vertices leads to its residue $\mathrm{res}(\Gamma)$. Such a one-vertex graph $\underline{r}$, where $r\in\mathbb{N}$ is the number or remaining edges, is sometimes also called the \textbf{external leg structure} of all graphs $\Gamma$ with $\mathrm{res}(\Gamma)=\underline{r}$. Two other important properties of a graph $\Gamma$ are its degree and its symmetry factor.
 
     \newdef{Degree}{\index{degree}
         Consider a graph $\Gamma$. Its degree $|\Gamma|\in\mathbb{N}$ is given by the number of independent loops in $\Gamma$ or, equivalently, the rank of its first homology group $H_1(\Gamma;\mathbb{Z})$ (\cref{topology:simplicial_homology_group}).
     }
 
+    Several different ways exist to determine the number of relevant permutations of the Feyman diagram. One is to directly use Wick's theorem and get the combinatorics out of that result. However, two other useful approaches exist.
     \newdef{Symmetry factor}{\index{symmetry!factor}
-        \todo{COMPLETE}
+        Consider a Feynman diagram $\Gamma$ consisting of $n\in\mathbb{N}$ internal vertices of valence $\nu\in\mathbb{N}_{\geq3}$.\footnote{It is here assumed that all vertices are of the same valence and type. The definition is easily extended to more complex diagrams.} The symmetry factor is given by:
+        \begin{gather}
+            \mathrm{sym}(\Gamma) := \frac{1}{n!}\left(\frac{1}{\nu!}\right)^nC\,,
+        \end{gather}
+        where $C\in\mathbb{N}$ denotes the number of different ways that the vertices can be contracted while resulting in the same diagram.
     }
+    A more structured way is to consider the suitable notion of graph automorphism for Feynman diagrams. For ordinary graphs, two common definitions are either through an \textit{adjacency matrix} or through a relation on edges.\index{matrix!adjacency} A third, equivalent, way, however, is through the notion of `half-edge'.
+    \newadef{Graph}{\index{graph}\index{half-!edge}\index{vertex}\index{edge}
+        Consider a set of \textbf{half-edges} $\Gamma$. A graph structure on $\Gamma$ consists of a partition $\mathcal{E}$ by subsets of cardinality 2, called the \textbf{edge} set, and a partition $\mathcal{V}$, the \textbf{vertex} set.
+    }
+    By slightly modifying this definition, a Feynman diagram is obtained.
+    \newadef{Symmetry factor}{\index{symmetry!factor}\index{Feynman!diagram}
+        Consider a set of \textbf{half-edges} $\Gamma$. A Feynman diagram structure on $\Gamma$ consists of a disjoint collection $\mathcal{E}$ of cardinality-2 subsets, called the \textbf{internal edge} set, and a partition $\mathcal{V}$ by subsets of cardinality at least 3, the \textbf{vertex} set. Half-edges not part of the internal edge set are called external edges. These determine the residue $\mathrm{res}(\Gamma)$.
+
+        An automorphism of a Feynman diagram consists of a bijection $\Gamma\rightarrow\Gamma$ that fixes the external edges and $\mathcal{E},\mathcal{V}$. The symmetry factor of $\Gamma$ is then given by:
+        \begin{gather}
+            \mathrm{sym}(\Gamma) = |\Aut(\Gamma)|\,.
+        \end{gather}
+    }
+
+    Aside from the obvious algebra structure on Feynman diagrams, given by formal linear combinations and juxtaposition, there also exists a pre-Lie algebra structure (\cref{lie:pre_lie_algebra}):
+    \begin{gather}
+        \label{qft:pre_lie_algebra}
+        (\Gamma_1,\Gamma_2) = \sum_\Gamma n(\Gamma_1,\Gamma_2;\Gamma)\Gamma\,,
+    \end{gather}
+    where $n(\Gamma_1,\Gamma_2;\Gamma)\in\mathbb{N}$ counts the number of ways that, if $\Gamma_2$ is a subgraph of $\Gamma$, $\Gamma/\Gamma_2\cong\Gamma_1$ and $\Gamma$ ranges over 1PI diagrams.
 
 \subsection{Degree of divergence}
 
@@ -441,6 +466,15 @@
             S(\mathbf{1}) := \mathbf{1} \qquad\qquad\qquad S(T) := -T-\sum_cS\bigl(P_c(T)\bigr)R_c(T)\,.
         \end{gather}
     \end{itemize}
+
+    \begin{remark}[Sweedler notation]\label{qft:sweedler_notation}
+        If the set of admissible cuts would be enlarged with the trivial options, the coproduct could be rewritten in Sweedler notation (\cref{nca:sweedler_notation}) as
+        \begin{gather}
+            \Delta(T) = \sum_{(T)}T_1\otimes T_2\,.
+        \end{gather}
+        For clarity's sake, this will not be done in this section unless explicitly noted.
+    \end{remark}
+
     Now, consider the operator $B_-:\mathcal{H}_R\rightarrow\mathcal{H}_R$ that removes the root from a tree (resulting in a forest) and the operator $B_+:\mathcal{H}_R\rightarrow\mathcal{H}_R$ that takes a forest of trees and grafts all of them to a new root. These can easily seen to be inverses. With these operators, the coproduct can be rewritten as follows:
     \begin{gather}
         \Delta(T) = T\otimes\mathbf{1} + (\mathbb{1}\otimes B_+)\circ\Delta\circ B_+(T)\,.
@@ -450,23 +484,23 @@
     \begin{gather}
         \phi_1\ast\phi_2 = \mu_{\mathbb{C}}\circ(\phi_1\otimes\phi_2)\circ\Delta\,.
     \end{gather}
-    Now, when regularizing these amplitudes, the characters do not take values anymore in $\mathbb{C}$ but in the Laurent series $\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ and, hence, one obtains the group of regularized characters $\mathbb{C}\mathbf{Alg}\bigl(\mathcal{H}_R,\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]\bigr)$.
+    Now, when regularizing these amplitudes, the characters do not take values anymore in $\mathbb{C}$ but in some $\mathbb{C}$-algebra $A$, such as the Laurent series $\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ in the case of dimensional regularization, and, hence, one obtains the group of regularized characters $\mathbb{C}\mathbf{Alg}\bigl(\mathcal{H}_R,A\bigr)$.
 
     The recursive expression for the antipode is the equation that ties in the Connes--Kreimer algebra with the substraction of subdivergent integrals from the previous section. The renormalized integrals are obtained through a recursive formula, akin to that of the antipode.
     \begin{gather}
-        \phi^R(T) := \lim_{\varepsilon\rightarrow0} S_\Phi^R\ast\phi(T)\,,
+        \phi^R(T) := S_\Phi^R\ast\phi(T)\,,
     \end{gather}
     where $S_\phi^R$ is a deformation of $\phi\circ S$ obtained recursively as follows:
     \begin{gather}
         S_\phi^R(T) := -R\bigl[m\circ(S_\phi^R\otimes\pi)\circ\Delta\bigr]\,,
     \end{gather}
-    where $R:\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]\rightarrow\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ is a linear operator, $m$ is the multiplication on $\mathbb{C}[[\varepsilon,\varepsilon^{-1}]]$ and $\pi:=\mathbbm{1}_{\mathcal{H}_R}-\eta\circ\varepsilon$ is the augmentation projection (the projection that kills nontrivial forests), or, more explicitly:
+    where $R:A\rightarrow A$ is a linear operator, $m$ is the multiplication on $A$ and $\pi:=\mathbbm{1}_{\mathcal{H}_R}-\eta\circ\varepsilon$ is the augmentation projection (the projection that kills nontrivial forests), or, more explicitly:
     \begin{gather}
         S_\phi^R(T) = -R\bigl[\phi(T)\bigr] - R\left[\sum_cS_\phi^R\bigl(P_c(T)\bigr)\phi\bigl(R_c(T)\bigr)\right]\,.
     \end{gather}
     The assignment $\mathcal{R}:\phi\mapsto m\circ(S_\phi^R\otimes\pi)\circ\Delta$ is \textbf{Bogoliubov's $R$-operation}.\index{Bogoliubov!$R$-operation} Using the bialgebra laws, this can be rewritten as follows:
     \begin{gather}
-        \phi^R(T) = \lim_{\varepsilon\rightarrow0}\mathcal{R}[\phi](\Gamma)+S_\phi^R(\Gamma)\,.
+        \phi^R(T) = \mathcal{R}[\phi](\Gamma)+S_\phi^R(\Gamma)\,.
     \end{gather}
     Now, consider a monomial in the Lagrangian or, equivalently, an external leg structure $\underline{r}$. The total Green's function corresponding to $\underline{r}$ is given by the formal sum of Feynman diagrams
     \begin{gather}
@@ -483,11 +517,53 @@
         \begin{gather}
             R[f(\theta)] := f(1)\,.
         \end{gather}
-        \item BPHZ\footnote{\textit{Bogoliubov, Parasiuk, Hepp} and \textit{Zimmermann}}/MS\footnote{minimal subtraction} renormalization:\index{renormalization!BPHZ}\index{renormalization!minimal subtraction}
+        \item BPHZ\footnote{\textit{Bogoliubov, Parasiuk, Hepp} and \textit{Zimmermann}}/MS\footnote{minimal subtraction} renormalization:\index{renormalization!BPHZ}\index{renormalization!minimal subtraction}\todo{IS THIS CORRECT (or is this for DimReg?)}
         \begin{gather}
             R[f(\theta)] := \mathrm{PolePart}_\varepsilon[f(1)]\,.
         \end{gather}
     \end{itemize}
+
+    \begin{property}[Butcher group]\index{Butcher group}\index{Runge--Kutta method}
+        The Lie group $\mathbb{C}\mathbf{Alg}(\mathcal{H}_R,\mathbb{C}[[\varepsilon,\varepsilon^{-1}]])$ of regularized characters has a Lie algebra the space of Feynman diagrams with the bracket induced by the pre-Lie algebra operation~\eqref{qft:pre_lie_algebra}. This group is known as the (complex) Butcher group.\footnote{This group first arose in the combinatorial study of \textit{Runga--Kutta method} in numerical analysis.}
+    \end{property}
+
+    \begin{theorem}[Birkhoff decomposition]\index{Birkhoff!decomposition}
+        Let $\mathcal{H}_R$ be the Hopf algebra of Feynman diagrams for a renormalizable pQFT and consider a commutative, unital Rota--Baxter algebra $(A,R)$ of weight $1$ (\cref{algebra:rota_baxter}) such that $R$ is idempotent. Denote the space of $A$-regularized characters by $\mathcal{G}_A:=\mathrm{Char}(\mathcal{H}_R,A)$ with unit $e:=\eta_A\circ\varepsilon_{\mathcal{H}_R}$. The following statements hold:
+        \begin{itemize}
+            \item $\bigl(\mathbf{Vect}_{\mathbb{C}}(\mathcal{H}_R,A),\mathcal{R}\bigr)$ is a (complete filtered) Rota--Baxter algebra of weight 1, where $\mathcal{R}(\phi):=R\circ\phi$.
+            \item For every $\phi\in e+\mathcal{G}_A$, there exists a unique decomposition
+            \begin{gather}
+                \phi = \phi_-^{-1}\ast\phi_+\,,
+            \end{gather}
+            where $\phi_-\in e+\mathcal{R}(\mathcal{A}_1)$ and $\phi_+\in e+\widetilde{\mathcal{R}}(\mathcal{A}_1)$, with $\widetilde{\mathcal{R}}:=\mathbbm{1}-\mathcal{R}$ as in \cref{nca:opposite_rota_baxter}.
+            \item The Birkoff decomposition of $\phi$ is obtained recursively as
+            \begin{gather}
+                \phi_- = e - \mathcal{R}\bigl(\phi_-\ast(\phi-e)\bigr) \qquad\qquad \phi_+=e - \widetilde{\mathcal{R}}\bigl(\phi_+\ast(\phi^{-1}-e)\bigr)\,.
+            \end{gather}
+            These can be rewritten as follows when acting on a nontrivial Feynman diagram $\Gamma$:
+            \begin{gather}
+                \begin{aligned}
+                    \phi_-(\Gamma) &= -R\left(\phi(\Gamma) + \sum_{(\Gamma)}\phi_-(\Gamma_1)\phi(\Gamma_2)\right)\,,\\
+                    \phi_+(\Gamma) &= \widetilde{R}\left(\phi(\Gamma) + \sum_{(\Gamma)}\phi_-(\Gamma_1)\phi(\Gamma_2)\right)\,,
+                \end{aligned}
+            \end{gather}
+            where Sweedler's notation (\cref{qft:sweedler_notation}) was used.
+            \item Spitzer's identity for noncommutative Rota--Baxter algebra (cf.~\cref{algebra:spitzer_identity}) implies that $\phi_-,\phi_+$ are algebra morphisms and that\index{Spitzer's identity}
+            \begin{gather}
+                \phi_- = \exp^*\left(-\mathcal{R}\bigl(\chi(Z)\bigr)\right) \qquad\qquad \phi_+ = \exp^*\left(\widetilde{\mathcal{R}}\bigl(\chi(Z)\bigr)\right)\,,
+            \end{gather}
+            where $Z\in\mathfrak{g}_A$ is the generator of $\phi$ and $\chi:\mathcal{A}_1\rightarrow\mathcal{A}_1$ is recursively defined as follows:
+            \begin{gather}
+                \chi(Z) := Z - \mathrm{BCH}\bigl(\mathcal{R}(\chi(Z)),\widetilde{\mathcal{R}}(\chi(Z))\bigr)\,,
+            \end{gather}
+            with $\mathrm{BCH}$ the Baker--Campbell--Hausdorff operator (cf.~\cref{lie:bch_formula})\index{Baker--Campbell--Hausdorff formula}
+            \begin{gather}
+                \exp(x)\exp(y) = \exp\bigl(x+y+\mathrm{BCH}(x,y)\bigr)\,.
+            \end{gather}
+        \end{itemize}
+    \end{theorem}
+
+    This theorem implies that the form of the regularized character $\phi_+\equiv\phi^R$ and the counterterm $\phi_-\equiv S_\phi^R$ are completely fixed by the decomposable nature of (noncommutative) idempotent Rota--Baxter algebras of weight 1. The freedom in the choice of renormalization scheme only corresponds to the freedom in the exact choice of Rota--Baxter algebra $A$.
 
     \todo{COMPLETE}
 
@@ -499,6 +575,8 @@
 		Decay processes for which the corresponding Feynman diagrams become disconnected (initial states and final states are disconnected) when removing internal gluon lines, are suppressed with respect to other processes.
 	}
 
+    \todo{COMPLETE or REMOVE}
+
 \section{Entanglement in QFT}
 
     This section should be seen as a generalization of \cref{chapter:quantum_computing} to the continuum setting and, in particular, of the characterization and computation of entanglement.
@@ -507,16 +585,16 @@
 
     In this section, the most important definitions and constructions in ordinary quantum information theory are recalled and applied to a lattice theory. Taking the lattice spacing to zero will (formally) allow to extend the definitions to continuum field theories (up to some technicalities that will be explained when necessary). For simplicity, it will be assumed that the local Hilbert space is finite-dimensional.
 
-    Consider a bipartite subdivision $A\cup A^c$ of the lattice, given by a codimension-1 hypersurface $\partial A$ called the \textbf{entangling surface}.\index{entangling surface} This induces a binary factorization of the total Hilbert space (all degrees of freedom are assumed to be confined to individual vertices) and, hence, one can compute the reduced density matrix for both $A$ and its complement $A^c$. The eigenvalues, which solely depend on the entangling surface $\partial A$, allow to calculate the von Neumann entropy:\footnote{Certain assumption ought to be made as to keep the entropy finite whenever the state-space is infinite-dimensional since it can be shown that the set of states with infinite von Neumann entropy is trace norm-dense (see~\citet{eisert_quantification_2002}).}
+    Consider a bipartite subdivision $A\cup A^c$ of the lattice, given by a codimension-1 hypersurface $\partial A$, called the \textbf{entangling surface}.\index{entangling surface} This induces a binary factorization of the total Hilbert space (all degrees of freedom are assumed to be confined to individual vertices) and, hence, one can compute the reduced density matrix for both $A$ and its complement $A^c$. The eigenvalues, which solely depend on the entangling surface $\partial A$, allow to calculate the von Neumann entropy:\footnote{Certain assumptions ought to be made as to keep the entropy finite whenever the state-space is infinite-dimensional, since it can be shown that the set of states with infinite von Neumann entropy is trace norm-dense (see~\citet{eisert_quantification_2002}).}
     \begin{gather}
         S(\rho_A) := -\tr(\rho_A\ln\rho_A) = -\sum_i\rho_i\ln\rho_i\,.
     \end{gather}
-    In the same way one can also introduce the R\'enyi $q$-entropy:\index{entropy!R\'enyi}
+    In the same way, one can also introduce the R\'enyi $q$-entropy:\index{entropy!R\'enyi}
     \begin{gather}
         S_q(\rho_A) := \frac{1}{1-q}\ln\Bigl(\sum_i\rho_i^q\Bigr)\,.
     \end{gather}
     \begin{property}[Limiting case]
-         First of all one can analytically continue the definition of the $q$-entropy to arbitrary positive real numbers. The limit $q\longrightarrow1$ coincides with the von Neumann entropy.
+         First of all, one can analytically continue the definition of the $q$-entropy to arbitrary positive real numbers. The limit $q\longrightarrow1$ coincides with the von Neumann entropy.
     \end{property}
 
-    @@ COMPLETE @@
+    \todo{COMPLETE (Ryu--Takayanagi, MERAs, ...)}

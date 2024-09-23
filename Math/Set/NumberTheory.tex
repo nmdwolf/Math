@@ -1,0 +1,110 @@
+\chapter{Number Theory}
+
+\section{Adic numbers}
+
+    This section will make use of the content of \cref{section:stone_spaces}.
+
+    \newdef{$p$-adic numbers}{\index{adic numbers}
+        Consider a prime number $p\in\mathbb{N}$. For every $m,n\in\mathbb{N}$, one has that $\mathbb{Z}/p^n\mathbb{Z}\subseteq\mathbb{Z}/p^m\mathbb{Z}$ whenever $m\leq n$. The group $\mathbb{Z}_p$ of \textbf{$p$-adic integers} is given by the profinite group (\cref{topology:profinite_group}) obtained from this system of inclusions.
+
+        Just like $\mathbb{Q}$ is the field of fractions (\cref{algebra:fraction_field}) of $\mathbb{Z}$ as in \cref{algebra:integers_rationals}, the $p$-adic numbers $\mathbb{Q}_p$ can be obtained as the field of fractions of $\mathbb{Z}_p$.
+    }
+
+    An alternative definition makes use of the notion of valuations (\cref{algebra:valuation}).
+    \newadef{$p$-adic numbers}{\index{absolute value}
+        Consider a prime number $p\in\mathbb{N}$. The $p$-adic valuation of an integer $z\in\mathbb{Z}$ is defined as follows:
+        \begin{gather}
+            \nu_p(z) :=
+            \begin{cases}
+                \max\{n\in\mathbb{N}:p^n\mid z\}&\cif z\neq0\,,\\
+                +\infty&\cif z=0\,.
+            \end{cases}
+        \end{gather}
+        This valuation extends to the rational numbers by taking
+        \begin{gather}
+            \nu_p\left(\frac{a}{b}\right) := \nu_p(a)-\nu_p(b)\,.
+        \end{gather}
+        In turn, the $p$-adic valuation also induces an \textit{absolute value} on $\mathbb{Z}$ (and on $\mathbb{Q}$) given by
+        \begin{gather}
+            |z|_p := p^{-\nu_p(z)}\,.
+        \end{gather}
+        The metric completions of $\mathbb{Z}$ and $\mathbb{Q}$ by these absolute values are the rings of $p$-adic integers and numbers, respectively.
+    }
+    \begin{remark}
+        The $p$-adic valuation of a rational number $q\in\mathbb{Q}$ can also be defined as the (unique) integer $k\in\mathbb{Z}$ such that
+        \begin{gather}
+            q = p^k\frac{m}{n}
+        \end{gather}
+        for some integers $m,n\in\mathbb{Z}$ such that $p^k$, $m$ and $n$ are all coprime.
+    \end{remark}
+
+    \begin{theorem}[Ostrowski]\index{Ostrowski}
+        The only nontrivial absolute values on $\mathbb{Q}$ are either the ordinary absolute value $|\cdot|$ or the $p$-adic absolute values $|\cdot|_p$.
+    \end{theorem}
+
+    \newdef{Profinite integers}{\index{integer!profinite}
+        Similar to the construction of the $p$-adic integers, one can also construct the profinite completion (\cref{topology:profinite_completion}) of $\mathbb{Z}$. Instead of taking the inverse limit over the integers module a prime power, one simply takes the inverse limit over all finite cyclic groups:
+        \begin{gather}
+            \widehat{\mathbb{Z}} := \varprojlim_{n\in\mathbb{N}}\mathbb{Z}/n\mathbb{Z}\,.
+        \end{gather}
+        It can be shown that this is equivalent to taking the product of all $p$-adic integers:
+        \begin{gather}
+            \widehat{\mathbb{Z}}\cong\prod_{p\text{ is prime}}\mathbb{Z}_p\,.
+        \end{gather}
+    }
+
+    \newdef{Adeles}{\index{adele}
+        The ring of integral adeles is defined as the product
+        \begin{gather}
+            \mathbb{A}_{\mathbb{R}} := \mathbb{R}\times\widehat{\mathbb{Z}}\,.
+        \end{gather}
+        To obtain the proper ring of adeles, the above ring is rationalized:
+        \begin{gather}
+            \mathbb{A}_{\mathbb{Q}} := \mathbb{Q}\otimes_{\mathbb{Z}}\mathbb{A}_{\mathbb{R}}\,.
+        \end{gather}
+    }
+
+\section{\difficult{Algebraic geometry}}
+
+    This section gives a relation between number theory and (algebraic) geometry (\cref{chapter:alggeom}). The content of \namecrefs{chapter:complexcalculus}~\ref{chapter:algebra} and~\ref{chapter:complexcalculus} will also be used throughout this section.
+
+\subsection{Modular forms}
+
+    \newdef{Modular group}{\index{modular!group}\index{M\"obius transformation}\label{alggeom:modular_group}
+        In the setting of number theory, the projective special linear group $\mathrm{PSL}(2,\mathbb{Z})$ is often called the modular group. The modular group acts on the complex plane by \textbf{M\"obius transformations}:
+        \begin{gather}
+            \begin{pmatrix}
+                a&b\\
+                c&d
+            \end{pmatrix}
+            z := \frac{az+b}{cz+d}\,.
+        \end{gather}
+        For this reason, $\mathrm{PSL}(2,\mathbb{C})$ is sometimes also called the \textbf{M\"obius group}.
+    }
+
+    \newdef{Modular form}{\index{modular!form}\index{cusp form}
+        A modular form of weight $k\in\mathbb{R}$ is a holomorphic function on the upper-half plane $f:\mathcal{H}\rightarrow\mathbb{C}$ satisfying the following two conditions:
+        \begin{enumerate}
+            \item\textbf{Automorphicity}: For all $g\equiv\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\mathrm{PSL}(2,\mathbb{Z})$, one has $f\bigl(g(z)\bigr)=(cz+d)^kf(z)$, and
+            \item\textbf{Bounded growth}: $f(z)$ is bounded for $z\longrightarrow i\infty$.
+        \end{enumerate}
+        If the modular form satisfies the stronger condition $f(z)\longrightarrow0$ when $z\longrightarrow i\infty$, it is said to be \textbf{cuspidal} or it is simply called a \textbf{cusp form}.
+    }
+    \begin{remark}[Arithmetic group]\index{arithmetic group}
+        Modular forms can also be defined for subgroups of $\mathrm{PSL}(2,\mathbb{Z})$ with finite index, the so-called \textbf{arithmetic groups}.
+    \end{remark}
+
+    \begin{property}
+        The generators of the modular group are given by
+        \begin{gather}
+            z\mapsto-\frac{1}{z}\qquad\text{and}\qquad z\mapsto z+1\,.
+        \end{gather}
+        Invariance under the second generator shows that modular forms are, in particular, periodic and, hence, admit a Fourier expansion. Cusp forms are exactly those modular forms with vanishing constant Fourier coefficient.
+    \end{property}
+
+\subsection{Algebraic functions}
+
+    \Cref{algebra:algebraic_element} can be generalized to the functional setting.
+    \newdef{Algebraic function}{\index{algebraic!function}\index{transcendental!function}
+        Let $R$ be a commutative ring. A function $f:R^n\rightarrow R$ is said to be algebraic if it is the solution of a polynomial equation with coefficients in $R[x_1,\ldots,x_n]$.\footnote{Often, the polynomial is required to be irreducible.} If $f$ is not algebraic, it is said to be \textbf{transcendental}.
+    }

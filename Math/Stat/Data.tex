@@ -1,6 +1,6 @@
 \chapter{Data Analysis}
 
-    The main reference for the sections on optimization problems is~\citet{shewchuk_introduction_1994}. For the geometry of clustering methods, see~\citet{boissonnat_bregman_2010}. The main references for the section on \textit{conformal prediction} are~\citet{shafer_tutorial_2008,vovk_algorithmic_2005}. Although a part of this chapter is a continuation of the previous one, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason the chapter starts with some sections on applied linear algebra (for a refresher, see \cref{chapter:linear_algebra}).
+    The main reference for the sections on optimization problems is~\citet{shewchuk_introduction_1994}. For the geometry of clustering methods, see~\citet{boissonnat_bregman_2010}. The main references for the section on \textit{conformal prediction} are~\citet{shafer_tutorial_2008,vovk_algorithmic_2005}. Although a part of this chapter is a continuation of \cref{chapter:statistics}, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason, the chapter starts with some sections on applied linear algebra (for a refresher, see \cref{chapter:linear_algebra}).
 
 \section{Data sampling}
 \subsection{Inverse CDF sampling}
@@ -8,9 +8,9 @@
     Although one of the most straightforward sampling algorithms, this approach makes the strong assumption that the cumulative distribution function (\cref{prob:cdf}) is invertible.
 
     \begin{method}
-        Sample a point $\lambda$ uniformly from the unit interval $[0,1]$. This number gives the cumulative distribution of the point to be sampled. (The CDF $F_X(X)$ is itself uniformly distributed.) The new point $x'$ is simply given by $F^{-1}_X(\lambda)$.
+        Sample a point $\lambda$ uniformly from the unit interval $[0,1]$. This value gives the cumulative distribution of the point to be sampled. (The CDF $F_X(X)$ is itself uniformly distributed.) The new point $x'$ is simply given by $F^{-1}_X(\lambda)$.
 
-        In the case where $F_X$ is discrete $\lambda$ might not lie in the image of $F_X$ and the inverse might not admit an algorithmically useful expression, so one should use a different approach. Given a point $x\in\mathbb{R}$ and its associated cumulative probability $F_X(x)$ one can sample a new point $x'$ as follows. One increases (or decreases) $x$ until the unique point $x'$ is found such that $F_X(x'-1)<\lambda\leq F_X(x')$.
+        In the case where $F_X$ is discrete, $\lambda$ might not lie in the image of $F_X$ and the inverse might not admit an algorithmically useful expression, so one should use a different approach. Given a point $x\in\mathbb{R}$ and its associated cumulative probability $F_X(x)$, one can sample a new point $x'$ as follows. One increases (or decreases) $x$ until the unique point $x'$ is found such that $F_X(x'-1)<\lambda\leq F_X(x')$.
     \end{method}
 
 \subsection{Uniform rejection sampling}
@@ -21,7 +21,11 @@
         Consider an interval $[a,b]$ such that $f_X$ vanishes outside this interval and let $q_0$ be an upper bound for $f_X$. Now, sample a point $x'$ uniformly on $[a,b]$ and sample a point $q$ uniformly on $[0,q_0]$. If $f_X(x')\geq q$, then $x'$ is a good sample. If not, repeat this procedure.
     \end{method}
 
-    The proof of that this algorithm works is quite easy and mainly depends on the fact that \[\Prob\bigl(Q\leq f_X(X)\bigr)=\frac{1}{q_0(b-a)}\,.\] This value is often called the \textbf{acceptance probability}. From this expression it is clear that if one chooses $q_0$ too large, the acceptance probability becomes very small and the algorithm will take a long time to produce a sample.
+    The proof that this algorithm works is quite easy and mainly depends on the fact that
+    \begin{gather}
+        \Prob\bigl(Q\leq f_X(X)\bigr)=\frac{1}{q_0(b-a)}\,.
+    \end{gather}
+    This value is often called the \textbf{acceptance probability}. From this expression, it is clear that if one chooses $q_0$ too large, the acceptance probability becomes very small and the algorithm will take a long time to produce a sample.
 
 \subsection{Monte Carlo sampling}
 
@@ -41,7 +45,7 @@
         \end{itemize}
         To obtain an efficient algorithm, it is helpful to choose $\mu=\expect{X}$ and $\sigma^2=\variance{X}$. This ensures that the points are sampled in a region that resembles the form of $f_X$.
 
-        In fact, this method can be drastically generalized. First of all it is possible to replace the normal distribution by any symmetric transition probability:
+        In fact, this method can be drastically generalized. First of all, it is possible to replace the normal distribution by any symmetric transition probability:
         \begin{gather}
             g(x'\mid x) = g(x\mid x')\,.
         \end{gather}
@@ -58,7 +62,7 @@
     \begin{method}[Normal equation]\index{normal!equation}\label{data:normal_equation}
         Given the equation \[Ax=b\] as in \cref{section:system_of_equations}, one can try to numerically solve for $x$ by minimizing the $\ell^2$-norm $\|Ax-b\|^2$:
         \begin{gather}
-            \hat{x}:=\arg\min_x(Ax-b)^T(Ax-b)\,.
+            \widehat{x}:=\arg\min_x(Ax-b)^T(Ax-b)\,.
         \end{gather}
         This leads to the so-called normal equation\footnote{The name stems from the fact that the equation $A^TAx = A^Tb$ implies that the residual is orthogonal (normal) to the range of $A$.}
         \begin{gather}
@@ -69,7 +73,7 @@
     \remark{It is easy to see that the above linear problem is obtained when trying to extremize the quadratic form associated to a symmetric matrix.}
 
     \begin{method}[Tikhonov regularization]{\index{Tikhonov regularization}\index{ill-conditioned}
-        Consider a linear (regression) problem \[Ax = b\,.\] The most straightforward way to solve for $x$ is the least squares method introduced in \cref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case a regularization term can be added to the minimization problem:
+        Consider a linear (regression) problem \[Ax = b\,.\] The most straightforward way to solve for $x$ is the least squares method introduced in \cref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case, a regularization term can be added to the minimization problem:
         \begin{gather}
             \|Ax-b\|^2+\|\Gamma x\|^2\,,
         \end{gather}
@@ -77,22 +81,23 @@
     }
     \end{method}
     \begin{remark}\index{lasso}\index{ridge}
-        The $\ell^2$-regularization can be generalized by replacing the 2-norm by any $p$-norm $\|\cdot<|_p$. For $p=1$ and $p=2$ the names \textbf{lasso} and \textbf{ridge} regression are often used. For general $p\geq0$ one sometimes speaks of \textbf{bridge} regression.
+        The $\ell^2$-regularization can be generalized by replacing the 2-norm by any $p$-norm $\|\cdot<|_p$. For $p=1$ and $p=2$, the names \textbf{lasso} and \textbf{ridge} regression are often used. For general $p\geq0$, one sometimes speaks of \textbf{bridge} regression.
 
-        The minimization procedures for $p\leq1$ have the important property that they not only shrink the coefficients, but even perform feature selection, i.e.~some coefficients become identically zero. However, it can be shown that the optimization problem for $p<1$ is nonconvex and, hence, is harder to solve. In general it is found that lasso regression gives the best results.
+        The minimization procedures for $p\leq1$ have the important property that they not only shrink the coefficients, but even perform feature selection, i.e.~some coefficients become identically zero. However, it can be shown that the optimization problem for $p<1$ is nonconvex and, hence, is harder to solve. In general, it is found that lasso regression gives the best results.
 
-        A benefit of $\ell^2$-regularization is that it can be derived from a Bayesian argument. A Gaussian prior $\mathcal{N}(0,\lambda^{-1})$ gives rise to the $\ell^2$-regularized cost function as the posterior (log)likelihood. Accordingly the $\ell^2$-regularized linear regressor is equivalent to the maximum a posteriori estimator with Gaussian priors. One can obtain $\ell^p$-regularization in a similar way by replacing the Gaussian priors with generalized normal distributions (such as the Laplace distribution for $p=1$).
+        A benefit of $\ell^2$-regularization is that it can be derived from a Bayesian argument. A Gaussian prior $\mathcal{N}(0,\lambda^{-1})$ gives rise to the $\ell^2$-regularized cost function as the posterior (log)likelihood. Accordingly, the $\ell^2$-regularized linear regressor is equivalent to the maximum-a-posteriori estimator with Gaussian priors. One can obtain $\ell^p$-regularization in a similar way by replacing the Gaussian priors with other distributions such as the Laplace distribution for $p=1$.
     \end{remark}
 
     \newdef{Multicollinearity}{\index{collinearity}
-        Consider a finite set of random variables $\{X_i\}_{1\leq i\leq n}$. These random variables are said to be perfectly (multi)collinear if there exists an affine relation between them, i.e.~there exist variables $\{\lambda_i\}_{0\leq i\leq n}$ such that
+        Let $\{X_i\}_{1\leq i\leq n}$ be a finite set of random variables. These random variables are said to be perfectly (multi)collinear if there exists an affine relation between them, i.e.~there exist variables $\{\lambda_i\}_{0\leq i\leq n}$ such that
         \begin{gather}
             \lambda_0 + \lambda_1X_1 + \cdots + \lambda_nX_n = 0\,.
         \end{gather}
-        The same concept can be applied to data samples. The data is said to be (multi)collinear if the above equation holds for all entries of the data set. However, in this case one also define `near multicollinearity' if the variables $X_i$ are related as above up to some error term $\varepsilon$. If the variance of $\varepsilon$ is small, the matrix $X^TX$ might have an ill-conditioned inverse which might render the algorithms unstable.
+        The same concept can be applied to data samples. The data is said to be (multi)collinear if the above equation holds for all entries of the data set. However, in this case, one also define `near multicollinearity' if the variables $X_i$ are related as above up to some error term $\varepsilon$. If the variance of $\varepsilon$ is small, the matrix $X^TX$ might have an ill-conditioned inverse which might render the algorithms unstable.
     }
+
     \newdef{Variance inflation factor}{\index{variance!inflation factor}
-        The VIF is an estimate for how much the variance of a coefficient is inflated by multicollinearity. The VIF of a coefficient $\beta_i$ is defined as follows:
+        The VIF is an estimate of how much the variance of a coefficient is inflated by multicollinearity. The VIF of a coefficient $\beta_i$ is defined as follows:
         \begin{gather}
             \mathrm{VIF}_i := \frac{1}{1-R_i^2}\,,
         \end{gather}
@@ -101,7 +106,7 @@
 
 \subsection{Gradient descent}
 
-    The gradient descent algorithm is first introduced in the case of quadratic forms:
+    The gradient descent algorithm is first introduced in the case of quadratic forms.
     \begin{method}[Steepest descent]\index{residual}
         Consider the quadratic form
         \begin{gather}
@@ -117,16 +122,20 @@
         \begin{gather}
             \alpha_i = \frac{r_i^Tr_i}{r_i^TAr_i}\,.
         \end{gather}
-        This choice forces the descent direction to be orthogonal to the previous one since \[\deriv{}{\alpha}f(x_i) = -\nabla f(x_i)\cdot\nabla f(x_{i-1}).\] As a consequence this minimization scheme often results in a chaotic zigzag trajectory through the configuration space. The higher the \textbf{condition number} $\kappa=\frac{|\lambda_{\max}|}{|\lambda_{\min}|}$, the worse the zigzag motion will be. A very narrow valley (or some higher-dimensional analogue) will make the trajectory bounce back and forth between the walls, instead of moving towards the minimum.
+        This choice forces the descent direction to be orthogonal to the previous one since
+        \begin{gather}
+            \deriv{}{\alpha}f(x_i) = -\nabla f(x_i)\cdot\nabla f(x_{i-1})\,.
+        \end{gather}
+        As a consequence, this minimization scheme often results in a chaotic zigzag trajectory through the configuration space. The higher the \textbf{condition number} $\kappa=\frac{|\lambda_{\max}|}{|\lambda_{\min}|}$, the worse the zigzag motion will be. A very narrow valley (or some higher-dimensional analogue) will make the trajectory bounce back and forth between the walls, instead of moving towards the minimum.
     \end{method}
 
 \subsection{Conjugate gradient}\index{conjugate!gradient}
 
     As noted in the previous section, a common problem with gradient descent is that the direction of steepest descent is often not the same as the direction pointing to the optimal solution and, hence, convergence might only occur after a long time.
 
-    A simple solution can be obtained by considering multiple orthogonal directions and taking a suitable step once in every direction. This way one obtains an algorithm that converges in $n$ steps, where $n$ is the dimension of the coefficient matrix $A$. By requiring that the error at step $i+1$ is orthogonal to the direction $d_i$, it is assured that no direction is used twice. However, the main problem with this idea is that the exact error $e_i$ is not known and, hence, one cannot calculate the required steps.
+    A simple solution can be obtained by considering multiple orthogonal directions and taking a suitable step once in every direction. This way, one obtains an algorithm that converges in $n$ steps, where $n\in\mathbb{N}$ is the dimension of the coefficient matrix $A$. By requiring that the error at step $i+1$ is orthogonal to the direction $d_i$, it is assured that no direction is used twice. However, the main problem with this idea is that the exact error $e_i$ is not known and, hence, one cannot calculate the required steps.
 
-    By modifying the orthogonality condition one can avoid this problem. This is the idea behind conjugate direction methods:
+    By modifying the orthogonality condition, one can avoid this problem. This is the idea behind conjugate direction methods.
     \newdef{Conjugate vectors}{\index{Arnoldi method}
         Consider a symmetric positive-definite matrix $A$. Any such matrix induces an inner product as follows:
         \begin{gather}
@@ -157,7 +166,7 @@
         for some matrix $A$, vector $v$ and natural number $n\in\mathbb{N}$. Given such an $A$ and $v$, one often denotes the associated Krylov subspace of dimension $n$ by $\mathcal{K}_n(A,v)$.
     }
 
-    The fact that the spaces $\mathcal{D}_i$ are Krylov spaces also has an import implication for the numerical complexity of the CG algorithm. The residual $r_{i+1}$ can be shown to be orthogonal to the space $\mathcal{D}_{i+1}$ (this is generally called the \textbf{Galerkin condition}\index{Galerkin condition}). But since $A\mathcal{D}_i\subset\mathcal{D}_{i+1}$, this also implies that $r_{i+1}$ is $A$-conjugate to $\mathcal{D}_i$. It follows that the only relevant contribution in the Arnoldi method is given by the last direction $d_i$. This reduces the complexity (both time-wise and memory-wise) per iteration from $O(n^2)$ to $O(n)$.
+    The fact that the spaces $\mathcal{D}_i$ are Krylov spaces also has an import implication for the numerical complexity of the CG algorithm. The residual $r_{i+1}$ can be shown to be orthogonal to the space $\mathcal{D}_{i+1}$ (this is generally called the \textbf{Galerkin condition}\index{Galerkin condition}). But, since $A\mathcal{D}_i\subset\mathcal{D}_{i+1}$, this also implies that $r_{i+1}$ is $A$-conjugate to $\mathcal{D}_i$. It follows, that the only relevant contribution in the Arnoldi method is given by the last direction $d_i$. This reduces the complexity (both timewise and memorywise) per iteration from $O(n^2)$ to $O(n)$.
 
     The steps in the CG algorithm are summarized below.
     \begin{method}[Conjugate gradient]
@@ -171,30 +180,32 @@
     \end{method}
 
     \begin{remark}
-        In exact arithmetic, the above optimization scheme would result in an exact solution after $n$ iterations (in fact, the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, in real life, one is not working in exact arithmetic and one has to take into account the occurrence of floating-point errors. These not only ruin the accuracy of the residual recursion relation~\eqref{data:residual_recurrence}, but, more importantly\footnote{The residual problem can be solved by computing the residual `exactly', i.e.~by the formula $r_i=b-Ax_i$, every $k$ iterations.}, it might result in the search directions not being $A$-conjugate.
+        In exact arithmetic, the above optimization scheme would result in an exact solution after $n\in\mathbb{N}$ iterations (in fact, the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, in real life, one is not working in exact arithmetic and one has to take into account the occurrence of floating-point errors. These not only ruin the accuracy of the residual recursion relation~\eqref{data:residual_recurrence}, but, more importantly\footnote{The residual problem can be solved by computing the residual `exactly', i.e.~by the formula $r_i=b-Ax_i$, every $k$ iterations.}, they might result in the search directions not being $A$-conjugate.
     \end{remark}
 
-    Now, what about general coefficient matrices $A$, for example those resulting in under- or overdetermined systems? For nonsymmetric or nondefinite square matrices, one can still solve the normal equation (\cref{data:normal_equation}) using the same methods, since $A^T\!A$ is both symmetric and positive-definite. For underdetermined systems an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems $A^T\!A$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^T\!A$ is the square of that of $A$ and, hence, the algorithms will convergence much slower.
+    Now, what about general coefficient matrices $A$, for example those resulting in under- or overdetermined systems? For nonsymmetric or nondefinite square matrices, one can still solve the normal equation using the same methods (\cref{data:normal_equation}), since $A^T\!A$ is both symmetric and positive-definite. For underdetermined systems, an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems, $A^T\!A$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^T\!A$ is the square of that of $A$ and, hence, the algorithms will convergence much slower.
 
-    A different approach exists where the CG algorithm is not applied to the matrix $A^T\!A$, but the individual matrices are used $A,A^T$ directly. This way not one Krylov space is generated, but two dual `copies' are constructed.
-    \begin{align*}
-        \mathcal{D}_i &:= \mathrm{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\,,\\
-        \widetilde{\mathcal{D}}_i &:= \mathrm{span}\left\{\widetilde{r}_0,A^T\widetilde{r}_0,\ldots,(A^T)^{i-1}\widetilde{r}_0\right\}\,,
-    \end{align*}
-    where $\widetilde{r}_0$ does not have to be related to $r_0$. In this case there are two Galerkin conditions $r_i\perp\mathcal{D}_i$ and $\widetilde{r}_i\perp\widetilde{\mathcal{D}}_i$ (only the first one is relevant). The residuals form biorthogonal bases of the Krylov subspaces:
+    A different approach exists where the CG algorithm is not applied to the matrix $A^T\!A$, but the individual matrices are used $A,A^T$ directly. This way, not one Krylov space is generated, but two dual `copies' are constructed.
+    \begin{gather}
+        \begin{aligned}
+            \mathcal{D}_i &:= \mathrm{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\,,\\
+            \widetilde{\mathcal{D}}_i &:= \mathrm{span}\left\{\widetilde{r}_0,A^T\widetilde{r}_0,\ldots,(A^T)^{i-1}\widetilde{r}_0\right\}\,,
+        \end{aligned}
+    \end{gather}
+    where $\widetilde{r}_0$ does not have to be related to $r_0$. In this case, there are two Galerkin conditions $r_i\perp\mathcal{D}_i$ and $\widetilde{r}_i\perp\widetilde{\mathcal{D}}_i$ (only the first one is relevant). The residuals form biorthogonal bases of the Krylov subspaces:
     \begin{gather}
         \langle r_i\mid r_j \rangle = \|r_i\|^2\delta_{ij}\,.
     \end{gather}
-    As a consequence the search directions also form biconjugate bases:
+    As a consequence, the search directions also form biconjugate bases:
     \begin{gather}
         \langle d_i\mid d_j \rangle_A = \|d_i\|_A^2\delta_{ij}\,.
     \end{gather}
 
 \subsection{Nonlinear conjugate gradients}\index{conjugate!gradient}
 
-    Of course, many real-world applications are determined by nonlinear equations and, hence, it would be pleasant if one could salvage some of the above ideas even when linear algebra is not the natural language. The main requirement would be that one can calculate the gradient of the function to be minimized.
+    Of course, many real-world applications are determined by nonlinear equations and, hence, it would be pleasant if one could salvage some of the above ideas, even when linear algebra is not the natural language. The main requirement would be that one can calculate the gradient of the function to be minimized.
 
-    On the level of the implementation, the structure of the algorithm remains more or less the same. What does change is the form of the Arnoldi method, in particular, the prefactor in \cref{data:beta}. For linear CG there are multiple equivalent formulas, but for nonlinear CG these do not lead to the same algorithm. The two most common choices are given below.
+    On the level of the implementation, the structure of the algorithm remains more or less the same. What does change is the form of the Arnoldi method, in particular, the prefactor in \cref{data:beta}. For linear CG, there are multiple equivalent formulas, but for nonlinear CG these do not lead to the same algorithm. The two most common choices are given below.
     \begin{method}[Nonlinear CG]\index{Fletcher--Reeves formula}\index{Polak--Ribi\`ere formula}
         Since there is no linear equation related to the minimization problem, the residuals are always defined as $r_i:=-\nabla f(x_i)$. The algorithm consists of the following iterations:
         \begin{align}
@@ -219,10 +230,10 @@
 
     Some general remarks have to be made concerning the nonlinear CG algorithm.
     \begin{remark}
-        As was already mentioned for the linear version, floating-point errors might lead to a loss of conjugacy. For the nonlinear extension this becomes worse. The more $f$ deviates from a quadratic function, the quicker conjugacy is lost (for quadratic formulas the Hessian is exactly the matrix $A$, but for higher-degree functions the Hessian varies from point to point). Another problem, one that did not occur for quadratic functions, is that nonlinear functions might have multiple local minima. The CG method does not care about local vs. global and, hence, it will not necessarily converge to the global minimum. A last remark concerns the fact that there is no theoretical guarantee that the method will converge in $n$ steps. Since the Gram-Schmidt procedure can only construct $n$ conjugate vectors, the simplest solution is to perform a restart of the algorithm every $n$ iterations.\footnote{The $\max$ operation in \cref{data:polak_ribiere} is already a form of restarting, due to the fact that the Polak--Ribi\`ere version of nonlinear CG sometimes results in cyclic behaviour.}
+        As was already mentioned for the linear version, floating-point errors might lead to a loss of conjugacy. For the nonlinear extension, this becomes worse. The more $f$ deviates from a quadratic function, the faster conjugacy is lost (for quadratic formulas the Hessian is exactly the matrix $A$, but for higher-degree functions, the Hessian varies from point to point). Another problem, one that did not occur for quadratic functions, is that nonlinear functions might have local minima. The CG method does not care about the difference between local and global minima and, hence, it will not necessarily converge to the global minimum. A last remark concerns the fact that there is no theoretical guarantee that the method will converge in $n$ steps. Since the Gram--Schmidt procedure can only construct $n$ conjugate vectors, the simplest solution is to perform a restart of the algorithm every $n$ iterations.\footnote{The $\max$ operation in \cref{data:polak_ribiere} is already a form of restarting, due to the fact that the Polak--Ribi\`ere version of nonlinear CG sometimes results in cyclic behaviour.}
     \end{remark}
 
-    For linear CG a simple formula for finding the optimal value of $\alpha_i$ was obtained. However, for nonlinear CG one cannot solve \cref{data:argmin} as easily. The main idea, i.e.~that $f'$ should be orthogonal to the previous search direction remains, is still valid. Here, only the \textbf{Newton--Raphson approach} is considered:\footnote{Another common method is the \textit{secant method}.}\index{Newton--Raphson alogrithm}
+    For linear CG, a simple formula for finding the optimal value of $\alpha_i$ was obtained. However, for nonlinear CG, one cannot solve \cref{data:argmin} as easily. The main idea, i.e.~that $f'$ should be orthogonal to the previous search direction remains, is still valid. Here, only the \textbf{Newton--Raphson approach} is considered:\footnote{Another common method is the \textit{secant method}.}\index{Newton--Raphson alogrithm}
     \begin{gather}
         \alpha_i = \frac{\nabla f(x_i)^Td_i}{d_i^T\mathrm{Hess}f(x_i)d_i}\,.
     \end{gather}
@@ -230,7 +241,7 @@
 
 \subsection{Krylov methods}
 
-    Generally one starts from an iterative fixed-point based technique to solve the linear equation $Ax=b$ as before, i.e.~one iterates $x_{i+1} = b + (\mathbbm{1}-A)x_i$. Using the residuals $r_i = b - Ax_i$ this can be rewritten as
+    Generally, one starts from an iterative fixed-point based technique to solve the linear equation $Ax=b$ as before, i.e.~one iterates $x_{i+1} = b + (\mathbbm{1}-A)x_i$. Using the residuals $r_i = b - Ax_i$ this can be rewritten as
     \begin{gather}
         x_i = x_0 + \sum_{k=0}^{i-1}r_k = x_0 + \sum_{k=0}^{i-1}(\mathbbm{1}-A)^kr_0\,.
     \end{gather}
@@ -244,7 +255,7 @@
         A sufficient condition for convergence is strict diagonal dominance, i.e.~$|D_{ii}|>\sum_{j\neq i}|E_{ij}|$.
     \end{method}
 
-    @@ COMPLETE (e.g.~Lanczos)@@
+    \todo{COMPLETE (e.g.~Lanczos)}
 
 \section{Constrained optimization}
 \subsection{Lagrange multipliers}
@@ -254,7 +265,7 @@
         \label{data:constrained_problem}
         \arg\min_x f(x) \qquad\text{such that}\qquad g_i(x)=0\qquad\forall 1\leq i\leq n\,.
     \end{gather}
-    The general approach to solving such constrained problems is by extending the optimization loss:
+    The general approach to solving such constrained problems is by extending the optimization loss.
     \begin{method}[Lagrange multipliers]\index{Lagrange!multipliers}
         Given a constrained optimization problem of the form~\eqref{data:constrained_problem}, one can construct the enhanced loss function
         \begin{gather}
@@ -273,7 +284,7 @@
         \label{data:constrained_optimization}
         \arg\min_xf(x)\qquad\text{such that}\qquad
         \begin{cases}
-            g_i(x)=0&\forall 1\leq i\leq m\\
+            g_i(x)=0&\forall 1\leq i\leq m\,,\\
             h_j(x)\leq0&\forall 1\leq j\leq n\,.
         \end{cases}
     \end{gather}
@@ -285,8 +296,8 @@
     \begin{gather}
         \max_{\alpha,\beta;\beta_j\geq0}\mathcal{L}(x,\alpha,\beta) =
         \begin{cases}
-            \infty&\text{if a constraint is violated}\\
-            f(x)&\text{if all constraints are satisfied}.
+            +\infty&\cif\text{a constraint is violated}\\
+            f(x)&\cif\text{all constraints are satisfied}.
         \end{cases}
     \end{gather}
     \newdef{Primal optimization problem}{
@@ -295,13 +306,14 @@
             p^* := \min_x\theta_P(x) = \min_x\max_{\alpha,\beta;\beta_i\geq0}\mathcal{L}(x,\alpha,\beta)\,.
         \end{gather}
     }
-    By interchanging the max and min operators in the primal formulation, another problem is obtained:
+
+    By interchanging the max and min operators in the primal formulation, another problem is obtained.
     \newdef{Dual optimization problem}{
         \begin{gather}
             d^* := \max_{\alpha,\beta;\beta_i\geq0}\theta_D(\alpha,\beta) = \max_{\alpha,\beta;\beta_i\geq0}\min_x\mathcal{L}(x,\alpha,\beta)\,.
         \end{gather}
     }
-    From basic calculus it is known that $\max\min\leq\min\max$ and, hence, that $d^*\leq p^*$. The difference $p^*-d^*$ is called the \textbf{duality gap}\index{duality gap} and, if $d^*=p^*$, one says that \textbf{strong duality} holds. The real question then becomes: ``\textit{When does strong duality hold?}''.
+    From basic calculus, it is known that $\max\min\leq\min\max$ and, hence, that $d^*\leq p^*$. The difference $p^*-d^*$ is called the \textbf{duality gap}\index{duality gap} and, if $d^*=p^*$, one says that \textbf{strong duality} holds. The real question then becomes: ``\textit{When does strong duality hold?}''.
     \newdef{Slater conditions}{\index{Slater!conditions}
         Consider a convex optimization problem, i.e.~a problem of the form~\eqref{data:constrained_optimization} where $f$ is convex, the $g_i$ are convex and the $h_j$ are affine. This problem is said to satisfy the Slater condition(s) if there exists an $x$ that is strictly \textbf{feasible}, i.e.~$h_j(x)<0$ for all $1\leq j\leq n$.
     }
@@ -334,11 +346,11 @@
 
 \subsection{Riemannian gradient descent}
 
-    In many situations the full parameter space of an optimization problem is constrained in such a way that the resulting admissible subset admits the structure of a smooth manifold and, in particular that of a Riemannian manifold. When trying to extend gradient descent algorithms to this setting, one has to take into account that most manifolds are not linear spaces and, hence, that linear updates will often lead outside the manifold.
+    In many situations, the full parameter space of an optimization problem is constrained in such a way that the resulting admissible subset admits the structure of a smooth manifold and, in particular, that of a Riemannian manifold. When trying to extend gradient descent algorithms to this setting, one has to take into account that most manifolds are not linear spaces and, hence, that linear updates will often lead outside the manifold.
 
-    The first point that we have to treat is the occurence of the gradient in these algorithms. In ordinary Euclidean space, one simply takes the gradient to be the vector of partial derivatives. However, on general smooth manifolds this object is actually given by the de Rham differential, which is a covariant vector. However, a short proof shows that the Riemannian gradient from \cref{bundle:vector_calculus} actually gives the direction of steepest ascent. So even on Riemannian manifolds the gradient is the correct direction to work with. However, as mentioned above, the form of the update will be a problem in general.
+    The first point that have to be treated is the occurrence of the gradient in these algorithms. In ordinary Euclidean space, one simply takes the gradient to be the vector of partial derivatives. However, on general smooth manifolds, this object is actually given by the de Rham differential, which acts on covariant vectors. However, a short proof shows that the Riemannian gradient from \cref{bundle:vector_calculus} actually gives the direction of steepest ascent. So, even on Riemannian manifolds, the gradient is the correct direction to work with. However, as mentioned above, the form of the update will be a problem in general.
 
-    @@ COMPLETE @@
+    \todo{COMPLETE}
 
 \section{Approximation theory}
 \subsection{Bayes optimality}
@@ -346,7 +358,7 @@
     \newdef{Bayes risk}{\index{Bayes!risk}
         The minimal risk over all models:
         \begin{gather}
-            R^* := \inf_{f:\mathcal{X}\rightarrow\mathcal{Y}}R(f).
+            R^* := \inf_{f:\mathcal{X}\rightarrow\mathcal{Y}}R(f)\,.
         \end{gather}
     }
 
@@ -363,33 +375,33 @@
     \newdef{Approximation error}{\index{error}
         Given a data set $\mathcal{D}\subset\mathcal{X}\times\mathcal{Y}$, the empirical risk $R_{\text{emp}}$ is defined as follows:
         \begin{gather}
-            R_{\text{emp}}:\hat{y}\mapsto\frac{1}{|\mathcal{D}|}\sum_{(x,y)\in\mathcal{D}}l(\hat{y}(x),y).
+            R_{\text{emp}}:\widehat{y}\mapsto\frac{1}{|\mathcal{D}|}\sum_{(x,y)\in\mathcal{D}}l(\widehat{y}(x),y).
         \end{gather}
-        Consider a hypothesis space $\mathcal{H}\subseteq\mathcal{Y}^{\mathcal{X}}$ (e.g.~selected by a choice of model architecture). The minimizer of the true risk in $\mathcal{H}$ is denoted by $h^*$, while the empirical risk minimizer is denoted by $\hat{h}$. The \textbf{approximation error/uncertainty} is defined as the difference $R(\hat{h})-R(h^*)$, while the \textbf{model uncertainty} is defined as the difference $R(h^*)-R^*$. The total error made by $\hat{h}$ (with respect to the Bayes optimum) is then simply the sum of these two.
+        Consider a hypothesis space $\mathcal{H}\subseteq\mathcal{Y}^{\mathcal{X}}$ (e.g.~selected by a choice of model architecture). The minimizer of the true risk in $\mathcal{H}$ is denoted by $h^*$, while the empirical risk minimizer is denoted by $\widehat{h}$. The \textbf{approximation error/uncertainty} is defined as the difference $R(\widehat{h})-R(h^*)$, while the \textbf{model uncertainty} is defined as the difference $R(h^*)-R^*$. The total error made by $\widehat{h}$ (with respect to the Bayes optimum) is then simply the sum of these two.
     }
 
 \subsection{PAC theory and empirical risk minimization}\index{PAC theory}\label{section:pac}
 
     \begin{property}
-        Note that by the (strong) law of large numbers (\cref{prob:strong_lln}), the empirical risk converges to the true risk almost surely whenever the data poitns are sampled i.i.d. However, in practice, the true question becomes how fast this convergence happens.
+        Note that, by the (strong) law of large numbers (\cref{prob:strong_lln}), the empirical risk converges to the true risk almost surely whenever the data points are sampled i.i.d. However, in practice, the true question becomes how fast this convergence happens.
     \end{property}
 
     \newdef{Probably approximately correct}{
-        A model $\hat{f}$ is said to be $\varepsilon$-accurate at the confidence level $1-\delta$ (with respect to the hypothesis space $\mathcal{H}$), or simply $(\varepsilon,\delta)$-PAC, if it satisfies
+        A model $\widehat{f}$ is said to be $\varepsilon$-accurate at the confidence level $1-\delta$ (with respect to the hypothesis space $\mathcal{H}$), or simply $(\varepsilon,\delta)$-PAC, if it satisfies
         \begin{gather}
-            \Prob\left(R(\hat{f})-\inf_{f\in\mathcal{H}}R(f)>\varepsilon\right)<\delta\,.
+            \Prob\left(R(\widehat{f})-\inf_{f\in\mathcal{H}}R(f)>\varepsilon\right)<\delta\,.
         \end{gather}
     }
     \begin{result}
         If one can prove a PAC bound, one gets the following bound for free:
         \begin{gather}
-            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+2\varepsilon
+            R(\widehat{f})\leq\inf_{f\in\mathcal{H}}R(f)+2\varepsilon
         \end{gather}
-        with probability $1-\delta$, i.e.~with high probability the true risk for the minimizer is only slightly higher than the empirical risk and, hence, the minimizer is a reasonbaly good estimate.
+        with probability $1-\delta$, i.e.~with high probability the true risk for the minimizer is only slightly higher than the empirical risk and, hence, the minimizer is a reasonably good estimate.
     \end{result}
 
     \begin{property}[Bounded losses]
-        Consider a hypothesis space $\mathcal{H}$ with a bounded loss function. The probability that for a given number of data points $n\in\mathbb{N}_0$ their exists at least one model $f\in\mathcal{H}$ for which the empirical risk deviates significantly from the true risk is bounded as follows:
+        Consider a hypothesis space $\mathcal{H}$ with a bounded loss function. The probability that, for a given number of data points $n\in\mathbb{N}_0$, their exists at least one model $f\in\mathcal{H}$ for which the empirical risk deviates significantly from the true risk is bounded as follows:
         \begin{align}
             \Prob(\exists f\in\mathcal{H}:|R_{\text{emp}}(f)-R(f)|\geq\varepsilon) &= \Prob(\sup_{f\in\mathcal{H}}|R_{\text{emp}}(f)-R(f)|\geq\varepsilon)\nonumber\\
             &\leq\sum_{f\in\mathcal{H}}\Prob(|R_{\text{emp}}(f)-R(f)|\geq\varepsilon)\nonumber\\
@@ -398,18 +410,18 @@
         \end{align}
         where the second inequality comes from Hoeffding's inequality~\ref{prob:hoeffding_inequality} (the empirical risk is an average). In combination with a similar expression for the one-sided tails, using the one-sided Hoeffding inequality, the PAC bound becomes
         \begin{gather}
-            R(f)\leq R_{\text{emp}}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}\,,
+            R(f)\leq R_{\text{emp}}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}
         \end{gather}
         with probability at least $1-\delta$. Note that this bound is distribution-free, i.e.~it does not depend on the data-generating distribution.
 
-        This bound on the empirical risk also implies a bound on the expected risk of the minimizer $\hat{f}$:
+        This bound on the empirical risk also implies a bound on the expected risk of the minimizer $\widehat{f}$:
         \begin{gather}
-            \expect{R(\hat{f})}\leq\inf_{f\in\mathcal{H}}R(f)+\sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}+\delta\,,
+            \expect{R(\widehat{f})}\leq\inf_{f\in\mathcal{H}}R(f)+\sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}+\delta\,,
         \end{gather}
         where $\delta>0$ is now arbitrary.
     \end{property}
 
-    The issue with the above two bounds is that they only apply to the case where the hypothesis space $\mathcal{H}$ is finite. To obtain useful bounds for countable hypothesis spaces, a new tool is required:
+    The issue with the above two bounds is that they only apply to the case where the hypothesis space $\mathcal{H}$ is finite. To obtain useful bounds for countable hypothesis spaces, a new tool is required.
     \newdef{Complexity regularizer}{
         A function $c:X\rightarrow\mathbb{R}^+$ such that
         \begin{gather}
@@ -425,11 +437,11 @@
 \section{Classification problems}
 \subsection{Clustering}\index{clustering}
 
-    Probably the most well-known and simplest algorithm for clustering in the unsupervised setting is the $k$-means algorithm.
+    Probably the most well known and simplest algorithm for clustering in the unsupervised setting is the $k$-means algorithm.
     \begin{method}[$k$-means algorithm]
         Assume that an unlabelled dataset $\mathcal{D}\subset\mathbb{R}^n$ is given. For every integer $k\in\mathbb{N}$, usually satisfying $k\ll|\mathcal{D}|$, and any choice of $k$ distinct \textbf{centroids} $\{c_i\in\mathbb{R}^n\}_{i\leq k}$, the $k$-means algorithm is defined through the following iterative scheme:
         \begin{enumerate}
-            \item To every point $d\in\mathcal{D}$ assign a cluster $C_i$ based on the following criterion:
+            \item To every point $d\in\mathcal{D}$, assign a cluster $C_i$ based on the following criterion:
             \begin{gather}
                 i = \arg\min_{j\leq k}\|d-c_j\|^2\,.
             \end{gather}
@@ -440,10 +452,10 @@
         \end{enumerate}
         This algorithm optimizes the following global cost function with respect to the centroids $c_i$:
         \begin{gather}
-            \mathcal{L}_{k\text{-means}}(c_1,\ldots,c_k) = \sum_{i=1}^k\sum_{d\in C_i}\|d - c_i\|^2.
+            \mathcal{L}_{k\text{-means}}(c_1,\ldots,c_k) = \sum_{i=1}^k\sum_{d\in C_i}\|d - c_i\|^2\,.
         \end{gather}
     \end{method}
-    Given the above idea, one could ask for a more general algorithm where clustering is performed with respect to a divergence function (\cref{info:divergence}). In the case of Bregman divergences (\cref{info:bregman_divergence}) it can be shown that all one needs to do is replace the Euclidean distance by the divergence $D_f$.
+    Given the above idea, one could ask for a more general algorithm where clustering is performed with respect to a divergence function (\cref{info:divergence}). In the case of Bregman divergences (\cref{info:bregman_divergence}), it can be shown that all one needs to do is replace the Euclidean distance by the divergence $D_f$.
     \begin{property}[Centroid position]
         Let $D_f$ be a Bregman divergence. The minimizer
         \begin{gather}
@@ -453,7 +465,7 @@
         \begin{gather}
             \kappa = \frac{1}{k}\sum_{i=1}^kx_i\,.
         \end{gather}
-        If instead of a cluster $C=\{x_i\in\mathbb{R}^n\}_{i\leq k}$, one is given a probability distribution $p$, one simply has to replace the arithmetic average by the expectation value with respect to $p$. It can be furthermore be shown that for any Bregman divergence the $k$-means algorithm always converges in a finite number of steps (however, the clustering is not necessarily optimal).
+        If, instead of a cluster $C=\{x_i\in\mathbb{R}^n\}_{i\leq k}$, one is given a probability distribution $p$, one simply has to replace the arithmetic average by the expectation value with respect to $p$. Furthermore, it can be shown that, for any Bregman divergence, the $k$-means algorithm always converges in a finite number of steps (however, the clustering is not necessarily optimal).
     \end{property}
 
     The cluster boundaries $H(c_1, c_2)=\{x\in\mathbb{R}^n\mid D_f(x\,\|\,c_1)=D_f(x\,\|\,c_2)\}$ admit a simple geometric construction.
@@ -463,7 +475,7 @@
 
 \subsection{Nearest neighbour search}
 
-    @@ COMPLETE @@
+    \todo{COMPLETE}
 
 \section{Support-vector machines}
 \subsection{Kernel methods}
@@ -472,13 +484,13 @@
 
     \newdef{Kernel\footnotemark}{\index{kernel}\index{Mercer|seealso{kernel}}\label{data:kernel}
         \footnotetext{Also called a \textbf{Mercer kernel}. See Mercer's theorem below for more information.}
-        A function $k:X\times X\rightarrow\mathbb{C}$ that is (conjugate) symmetric and for which the Gram matrix $K_{ij}:=K(x_i,x_j)$ is positive-definite for all $n\in\mathbb{N}$ and $\{x_i\in X\}_{i\leq n}$.
+        A function $k:X\times X\rightarrow\mathbb{C}$ that is (conjugate) symmetric and for which the Gram matrix $K_{ij}:=K(x_i,x_j)$ is positive definite for all $n\in\mathbb{N}$ and $\{x_i\in X\}_{i\leq n}$.
     }
     \newdef{Reproducing kernel Hilbert space}{\index{Hilbert!space}
         A Hilbert space $\mathcal{H}\subset\mathrm{Map}(X,\mathbb{C})$ of functions on a set $X$ for which all evaluation functionals $\delta_x:f\mapsto f(x)$ are bounded (or continuous by \cref{functional:bounded_continuous}). Reproducing kernel Hilbert spaces are often abbreviated as \textbf{RKHS}s.
     }
 
-    Using the Riesz representation theorem~\ref{functional:riesz} one can express every evaluation functional $\delta_x$ on $\mathcal{H}$ as a function $K_x\in\mathcal{H}$. This allows for the introduction of a kernel on $X$.
+    Using Riesz's representation theorem~\ref{functional:riesz}, one can express every evaluation functional $\delta_x$ on $\mathcal{H}$ as a function $K_x\in\mathcal{H}$. This allows for the introduction of a kernel on $X$.
     \newdef{Reproducing kernel}{
         Let $\mathcal{H}$ be an RKHS on a set $X$. The (reproducing) kernel $k$ on $X$ is defined as follows:
         \begin{gather}
@@ -505,12 +517,10 @@
         There exists a bijection between RKHSs and kernels.
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}
-                One direction of the theorem is, as mentioned before, rather simple to see. The other direction is constructive:
-
-                Given a kernel $k$, one defines the function $K_x:=k(\cdot,x)$ for all $x\in X$. The RKHS is then constructed as the Hilbert completion of $\mathrm{span}\{K_x\mid x\in X\}$, where the inner product is defined as follows
+                One direction of the theorem is, as mentioned before, rather simple to see. The other direction is constructive. Given a kernel $k$, one defines the function $K_x:=k(\cdot,x)$ for all $x\in X$. The RKHS is then constructed as the Hilbert completion of $\mathrm{span}\{K_x\mid x\in X\}$, where the inner product is defined as follows
                 \begin{gather}
                     \left\langle\sum_{x\in X}a_xK_x\,\middle\vert\,\sum_{y\in X}b_yK_y\right\rangle := \sum_{x,y\in X}\overline{a_x}b_yk(x,y)\,.
-                \end{gather}
+                \end{gather}$ $
             \end{proof}
         \end{mdframed}
     \end{theorem}
@@ -556,12 +566,12 @@
     \begin{remark}
         The kernel expressions in the Mercer and Moore--Aronszajn theorems are related by the fact that the RKHSs induced by kernels satisfying the assumptions of the Mercer theorem are of the form
         \begin{gather}
-            \mathcal{H} = \left\{f\in L^2(X,\mathbb{C})\,\middle\vert\,\sum_{i=1}^\infty\frac{\langle f,e_i \rangle^2_{L^2}}{\lambda_i}<+\infty\right\}\,.
+            \mathcal{H} = \left\{f\in L^2(X,\mathbb{C})\,\middle\vert\,\sum_{i=1}^{+\infty}\frac{\langle f,e_i \rangle^2_{L^2}}{\lambda_i}<+\infty\right\}\,.
         \end{gather}
     \end{remark}
 
     \begin{remark}[Vector-valued functions]
-        Much of this section can be generalized to the setting of vector-valued functions $f:X\rightarrow\mathbb{C}^d$. In this case the kernels $k:X\times X\rightarrow\mathbb{C}$ are generalized to a matrix-valued functions $k:X\times X\rightarrow\mathbb{C}^{d\times d}$.
+        Much of this section can be generalized to the setting of vector-valued functions $f:X\rightarrow\mathbb{C}^d$. In this case, the kernels $k:X\times X\rightarrow\mathbb{C}$ are generalized to a matrix-valued functions $k:X\times X\rightarrow\mathbb{C}^{d\times d}$.
     \end{remark}
 
 \subsection{Decision boundaries}
@@ -570,11 +580,11 @@
     \begin{gather}
         \sgn(y) =
         \begin{cases}
-            1&y>0\\
-            -1&y<0
+            1&\cif y>0\\
+            -1&\cif y<0
         \end{cases}
     \end{gather}
-    to the linear model. The \textbf{decision boundary} $y=0$, where the decision becomes ambiguous, forms a hyperplane in the feature space. However, it should be clear that in generic situations there are multiple hyperplanes that can separate the two classes for a finite number of data points. The problem then becomes to obtain the hyperplane with the maximal separation, i.e.~the hyperplane for which the distance to the nearest data point is maximal.
+    to the linear model. The \textbf{decision boundary} $y=0$, where the decision becomes ambiguous, forms a hyperplane in the feature space. However, it should be clear that, in generic situations, there are multiple hyperplanes that can separate the two classes for a finite number of data points. The problem then becomes to obtain the hyperplane with the maximal separation, i.e.~the hyperplane for which the distance to the nearest data point is maximal.
 
     The unit vector $\frac{w}{\|w\|}$ defines the normal to the hyperplane and, therefore, one can obtain the distance $d(x)$ from a data point $x$ to the decision boundary by projecting onto this unit vector. The point $x - d(x)\frac{w}{\|w\|}$ is an element of the decision boundary and, hence, satisfies the hyperplane equation. Rewriting this gives an expression for the distance
     \begin{gather}
@@ -598,13 +608,13 @@
     \begin{gather}
         \sum_{i=1}^n\beta_iy_i = 0\,,
     \end{gather}
-    where the quantities $\beta_i$ are the KKT multipliers for the affine constraints $1-y_i(w^Tx_i+b)\leq0$. Using these relations the quantity $y$ can be expressed for a new data point as follows:
+    where the quantities $\beta_i$ are the KKT multipliers for the affine constraints $1-y_i(w^Tx_i+b)\leq0$. Using these relations, the quantity $y$ can be expressed for a new data point as follows:
     \begin{gather}
         y \equiv w^Tx + b = \sum_{i=1}^n\beta_iy_i\langle x_i\mid x \rangle + b\,.
     \end{gather}
     Two observations can be made at this point. First of all, complementary slackness (\cref{data:slackness}) implies that the only relevant vectors $x_i$ in this calculation are the ones that satisfy $\gamma(x_i)=0$. These are called the \textbf{support vectors} and they give their name to a class of models called \textbf{support-vector machines} (SVMs)\index{support-vector machine}. These are the models that are trained using the above optimization problem. Furthermore, $y$ can be written in terms of an inner product. It is exactly this last observation that allows for the generalization of the above model to nonlinear decision boundaries. The previous section showed that inner products are equivalent to (Mercer) kernels. Hence, by choosing a nonlinear kernel function, one can implicitly work with nonlinear feature maps. This is often called the \textbf{kernel trick}\index{kernel!trick}. As an example, polynomial kernels represent feature maps from $x$ to monomials in the coefficients of $x$.
 
-    However, as often happens with data analysis algorithms, this procedure is sensitive to outliers. This is especially the case for kernels that are based on feature maps to infinite-dimensional spaces (e.g.~the \textit{RBF kernel}). To solve this problem one can introduce a regularization term in the cost function. The simplest such term for support-vector machines is a simple $\ell^1$-penalty:
+    However, as often happens with data analysis algorithms, this procedure is sensitive to outliers. This is especially the case for kernels that are based on feature maps to infinite-dimensional spaces (e.g.~the \textit{RBF kernel}). To solve this problem, one can introduce a regularization term in the cost function. The simplest such term for support-vector machines is a simple $\ell^1$-penalty:
     \begin{gather}
         \min_w\|w\|^2 + C\sum_{i=1}^n\xi \qquad\text{such that}\qquad
         \begin{cases}
@@ -617,25 +627,27 @@
         0\leq\beta_i\leq C
     \end{gather}
     and
-    \begin{align}
-        \beta_i = 0&\implies y_i(w^Tx_i+b)\geq1\\
-        \beta_i = C&\implies y_i(w^Tx_i+b)\leq1\\
-        \beta_i\in\,]0,C[&\implies y_i(w^Tx_i+b)=1\,.
-    \end{align}
+    \begin{gather}
+        \begin{aligned}
+            \beta_i = 0&\implies y_i(w^Tx_i+b)\geq1\\
+            \beta_i = C&\implies y_i(w^Tx_i+b)\leq1\\
+            \beta_i\in\,]0,C[&\implies y_i(w^Tx_i+b)=1\,.
+        \end{aligned}
+    \end{gather}
 
-    @@ COMPLETE (e.g.~geometry)@@
+    \todo{COMPLETE (e.g.~geometry)}
 
 \section{Complexity theory}
 \subsection{VC dimension}
 
     \newdef{Shatter coefficient}{\index{shatter}
-        Let $\Omega$ denote the universe of discours and consider a set $C\subset P(\Omega)$. $C$ \textbf{shatters} a set $A\subset\Omega$ if for every subset $a\subseteq A$ there exists a subset $c\in C$ such that
+        Let $\Omega$ denote the universe of discours and consider a set $C\in P(\Omega)$. $C$ \textbf{shatters} a set $A\in\Omega$ if, for every subset $a\subseteq A$, there exists a $c\in C$ such that
         \begin{gather}
             a = c\cap A\,.
         \end{gather}
         The shatter(ing) coefficients of $C$ are defined as follows:
         \begin{gather}
-            S_n(C) := \max_{x_1,\ldots,x_n\in\Omega}\left|\bigl\{\{x_1,\ldots,x_n\}\cap c\,\bigm\vert\,c\in C\bigr\}\right|.
+            S_n(C) := \max_{x_1,\ldots,x_n\in\Omega}\left|\bigl\{\{x_1,\ldots,x_n\}\cap c\,\bigm\vert\,c\in C\bigr\}\right|\,.
         \end{gather}
         It should be clear that every shatter coefficient $S_n$ is bounded above by $2^n$. If $S_n(C)=2^n$, then $C$ shatters some set of cardinality $n$.
 
@@ -649,9 +661,9 @@
     \newdef{VC dimension}{\index{Vapnik--Chervonenkis!dimension}
         The Vapnik--Chervonenkis (VC) dimension of a collection of binary functions $\mathcal{F}$ is defined as follows:
         \begin{gather}
-            \mathrm{VC}(\mathcal{F}) := \max\{k\in\mathbb{N}\mid S_k(\mathcal{F})=2^k\}.
+            \mathrm{VC}(\mathcal{F}) := \max\{k\in\mathbb{N}\mid S_k(\mathcal{F})=2^k\}\,.
         \end{gather}
-        Note that if a collection shatters $n$ points, it also necessarily shatters a subset of these points, therefore, one also has
+        Note that, if a collection shatters $n\in\mathbb{N}$ points, it also necessarily shatters a subset of these points, therefore, one also has
         \begin{gather}
             S_n(\mathcal{F})=2^n
         \end{gather}
@@ -667,21 +679,21 @@
         \end{gather}
         for all $n\in\mathbb{N}$. For $n\leq\mathrm{VC}(\mathcal{F})$, the right-hand side is just the full binomial expansion for $2^n$ and, accordingly, the shatter coefficients grow exponentially. For $n\geq d$, the binomial series is truncated and polynomial behaviour is obtained:
         \begin{gather}
-            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{e\,n}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})}\,,
+            \forall n\geq\mathrm{VC}(\mathcal{F}):S_n(\mathcal{F})\leq\left(\frac{en}{\mathrm{VC}(\mathcal{F})}\right)^{\mathrm{VC}(\mathcal{F})}\,,
         \end{gather}
         where $e$ is the Euler number.
     \end{property}
 
-    The generalization bounds of \cref{section:pac} on empirical risk minimization can be extended to uncountable hypothesis spaces as follows:
+    The generalization bounds of \cref{section:pac} on empirical risk minimization can be extended to uncountable hypothesis spaces as follows.
     \begin{property}[Generalization bound]
-        The expected risk of the empirical risk minimizer $\hat{f}$ is bounded as follows:
+        The expected risk of the empirical risk minimizer $\widehat{f}$ is bounded as follows:
         \begin{gather}
-            R(\hat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(en/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
+            R(\widehat{f})\leq\inf_{f\in\mathcal{H}}R(f)+4\sqrt{2\frac{\mathrm{VC}(\mathcal{H})\ln(en/\mathrm{VC}(\mathcal{H})) + \ln(2/\delta)}{n}}
         \end{gather}
         with probability at least $1-\delta$.
     \end{property}
 
-    @@ CHECK ALL THESE BOUNDS @@
+    \todo{CHECK ALL THESE BOUNDS}
 
 \subsection{Rademacher complexity}
 
@@ -703,7 +715,7 @@
         The set of translations of a real-valued function has VC dimension 1.
     \end{example}
 
-    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that the VC bounds obtained before make sense in this setting. To obtain useful bounds, it is necessary to introduce a new notion of effective size:
+    Although this remark says that one can in theory extend ordinary VC theory to arbitrary (real-valued) functions, this does not mean that the VC bounds obtained before make sense in this setting. To obtain useful bounds, it is necessary to introduce a new notion of effective size.
     \newdef{Rademacher complexity}{\index{Rademacher!complexity}
         Consider a collection of functions $\mathcal{F}:=\{f:X\rightarrow\mathbb{R}\}$. The Rademacher complexity is defined as follows:
         \begin{gather}
@@ -771,13 +783,13 @@
         \begin{gather}
             \lim_{T\rightarrow\infty}\frac{1}{2T+1}\sum_{k=-T}^Tf(X_k) = \expect{f(X_t)}\,.
         \end{gather}
-        Intuitively this means that state space averages can be evaluated as time averages.
+        Intuitively, this means that state space averages can be evaluated as time averages.
     }
 
 \subsection{Correlation}
 
     \newdef{Autocorrelation function}{\index{autocorrelation}\index{correlation|seealso{autocorrelation}}
-        Consider a stochastic process $\seq{X}$. The autocovariance (resp.~autocorrelation) function of this process is defined as the covariance (resp.~correlation) function of the random variables $\seq{X}$.
+        Consider a stochastic process $\seq{X}$. The associated autocovariance (resp.~autocorrelation) process is defined as the covariance (resp.~correlation) function of the random variables $\seq{X}$.
     }
     \begin{remark}
         Note that some authors use a different approach and omit the standardization of the variables, i.e.~they take the autocorrelation (and, by, extension, the cross-correlation) at lag $k\in\mathbb{N}$ to be the inner product $\expect{X_n\cdot X_{n+k}}$.
@@ -786,7 +798,7 @@
     \newdef{Spectral density}{\index{spectral!density}\index{memory}
         Consider a (weakly) stationary stochastic process $\seq{X}$. If the associated autocovariance is in $\ell^1$, one can define the spectral density as the discrete Fourier transform of the autocovariance function:
         \begin{gather}
-            f(\omega) = \frac{1}{2\pi} \sum_{k=-\infty}^\infty\gamma(k)e^{i\omega k}\,,
+            f(\omega) = \frac{1}{2\pi} \sum_{k=-\infty}^{+\infty}\gamma(k)e^{i\omega k}\,,
         \end{gather}
         where $\gamma(k)$ is the autocovariance function at lag $k$.
 
@@ -817,7 +829,7 @@
     }
 
     \begin{method}[Ljung--Box test]\index{test!Ljung--Box}
-        A test to see if a given set of autocorrelations of a stochastic process is different from zero. Consider a process of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k$ lagged autocorrelation functions. The test statistic is defined as
+        A test to see if a given set of autocorrelations of a stochastic process is different from zero. Consider a process of $n$ elements and let $\{\rho_i\}_{1\leq i\leq k}$ be the first $k\in\mathbb{N}$ lagged autocorrelation functions. The test statistic is defined as
         \begin{gather}
             Q = n(n+2)\sum_{i=1}^k\frac{\rho_k}{n-k}\,.
         \end{gather}
@@ -839,28 +851,28 @@
 \subsection{Autoregressive models}
 
     \newdef{$\mathrm{AR}(p)$-model}{\index{autoregressive model}
-        Consider a stochastic process $\tseq{X}$. The autogressive model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1},\ldots,X_{t-p}$ of the process:
+        Consider a stochastic process $\tseq{X}$. The autogressive model of order $p\in\mathbb{N}$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $X_{t-1},\ldots,X_{t-p}$ of the process:
         \begin{gather}
             X_t = \beta_0 + \beta_1X_{t-1} + \cdots + \beta_pX_{t-p} + \varepsilon_t\,.
         \end{gather}
     }
 
     \newdef{Partial autocorrelation function}{
-        The $p^{th}$ autocorrelation function is defined as the $p^{th}$ coefficient in the $\mathrm{AR}(p)$-model.
+        The $p^{\text{th}}$ autocorrelation function is defined as the $p^{\text{th}}$ coefficient in the $\mathrm{AR}(p)$-model.
     }
     \remark{The optimal order $p$ of an autoregressive model is the one for which all higher partial autocorrelation functions (almost) vanish.}
 
     \newdef{$\mathrm{MA}(p)$-model}{\index{moving average}
-        Consider a stochastic process $\tseq{X}$ where every variable $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0,\sigma^2)$. The moving average model of order $p$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1},\ldots,\varepsilon_{t-p}$ of the error term:
+        Consider a stochastic process $\tseq{X}$ where every variable $X_t$ contains a white noise contribution $\varepsilon_t\sim\mathcal{N}(0,\sigma^2)$. The moving average model of order $p\in\mathbb{N}$ is defined as the multiple linear regression model of $X_t$ with respect to the first $p$ lagged values $\varepsilon_{t-1},\ldots,\varepsilon_{t-p}$ of the error term:
         \begin{gather}
             X_t = \beta_0 + \beta_1\varepsilon_{t-1} + \cdots + \beta_p\varepsilon_{t-p} + \varepsilon_t\,.
         \end{gather}
         Since the error terms are assumed to have mean zero, one can see that the intercept term $\beta_0$ gives the mean of the process.
     }
-    \remark{The optimal order $p$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
+    \remark{The optimal order $p\in\mathbb{N}$ of an autoregressive model is the one for which all higher autocorrelation functions (almost) vanish.}
 
     \newdef{Invertibility}{\index{invertibility}\index{stationarity}
-        An $\mathrm{MA}(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e.~$1/\theta(B)$ can be written as a convergent series in the operator $B$. This in turn implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the $\mathrm{MA}(q)$-model as an $\mathrm{AR}(p)$-model, where possibly $p=\infty$. The analogous property for $\mathrm{AR}(p)$-models leads to a definition of \textbf{stationarity}.
+        An $\mathrm{MA}(q)$-model is said to be invertible if all roots of its associated lag polynomial $\theta(B)$ lie outside the unit circle. This condition implies that the polynomial is invertible, i.e.~$1/\theta(B)$ can be written as a convergent series in the operator $B$. This in turn implies\footnote{Sometimes this is used as a definition of invertibility.} that one can write the $\mathrm{MA}(q)$-model as an $\mathrm{AR}(p)$-model, where possibly $p=+\infty$. The analogous property for $\mathrm{AR}(p)$-models leads to a definition of \textbf{stationarity}.
     }
 
     In practice, it is not always possible to describe a data set using either an autoregressive or a moving average model. However, these two types of models can be combined.
@@ -871,20 +883,22 @@
         As above, one can find the optimal values for $p$ and $q$ by analyzing the autocorrelation and partial autocorrelation functions.
     }
 
-    Using the lag polynomials one can rewrite the $\mathrm{ARMA}(p,q)$-model as follows:
+    Using the lag polynomials, one can rewrite the $\mathrm{ARMA}(p,q)$-model as follows:
     \begin{gather}
-        \varphi(B)X_t = \alpha_0 + \theta(B)\varepsilon_t.\,
+        \varphi(B)X_t = \alpha_0 + \theta(B)\varepsilon_t\,.
     \end{gather}
     By considering the special case where the polynomial $\mathcal{B}^-_\alpha$ has a unit root $1-B$ with multiplicity $d$, one can obtain a generalization of the model:
     \begin{gather}
-        \varphi(B)(1-B)^dX_t = \alpha_0 + \theta(B)\varepsilon_t.\,
+        \varphi(B)(1-B)^dX_t = \alpha_0 + \theta(B)\varepsilon_t\,.
     \end{gather}
     The interpretation of this additional factor $(1-B)^d$ is related to the stationarity of the process. The operator $1-B$ is a finite difference operator:
-    \begin{align*}
-        (1-B)X_t &= X_t - X_{t-1}\\
-        (1-B)^2X_t &= (X_t-X_{t-1}) - (X_{t-1}-X_{t-2})\\
-        &\cdots
-    \end{align*}
+    \begin{gather}
+        \begin{aligned}
+            (1-B)X_t &= X_t - X_{t-1}\\
+            (1-B)^2X_t &= (X_t-X_{t-1}) - (X_{t-1}-X_{t-2})\\
+            &\cdots
+        \end{aligned}
+    \end{gather}
     By successive applications, one can obtain a stationary process from a nonstationary one. This combination of differencing, autoregression and moving averages is called the \textbf{ARIMA}-model\footnote{The 'I' stands for integrated.}.
 
     \remark{Including so-called \textit{exogenous} variables, i.e.~external predictors, leads to an \textbf{ARIMA\underline{X}}-model.}
@@ -898,21 +912,21 @@
         By restricting to invertible $\mathrm{MA}(q)$-models (or by approximating a noninvertible model by an invertible one), one can first fit an $\mathrm{AR}(p)$-model with $p>q$ to obtain estimates for the errors $\varepsilon_t$ and then, in a second step, use a least squares-method to solve for the coefficients in the MA-model.
     \end{method}
 
-    As a last modification, one can introduce seasonal components. Simple trends such as a linear growth are easily removed from the process by detrending or differencing. However, a periodic pattern is harder to remove and, in general, ARIMA-models are not suited to accompany this type of features. Luckily one can easily modify the ARIMA-model to incorporate seasonal variations. The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model, where the lag operator $B$ is replaced by the seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation).
+    As a last modification, one can introduce seasonal components. Simple trends such as a linear growth are easily removed from the process by detrending or differencing. However, a periodic pattern is harder to remove and, in general, ARIMA-models are not suited to accompany this type of features. Luckily, one can easily modify the ARIMA-model to incorporate seasonal variations. The multiplicative SARIMA-model is obtained by inserting operators similar to the ones of the ordinary ARIMA-model, where the lag operator $B$ is replaced by the seasonal lag operator $B^s$ (where $s$ is the period of the seasonal variation).
     \newdef{$\mathrm{ARIMA}(p,q,d)(P,Q,D)_s$-model}{
         \begin{gather}
             \Phi(B^s)\varphi(B)\Delta_s^D\Delta^dX_t = \theta(B)\Theta(B^s)\varepsilon_t
         \end{gather}
     }
 
-\subsection{Causality}
+\subsection{Granger causality}
 
     \newdef{Granger causality}{\index{causality!Granger}
         Consider two stochastic processes $\seq{X}$ and $\seq{Y}$. The process $X_n$ is said to (Granger-)cause $Y_n$ if past values of $X_n$ help to predict future values of $Y_n$. More formally, this can be stated as follows:
         \begin{gather}
-            P[Y_{t+k}\in A\mid\Omega(t)]\neq P[Y_{t+k}\in A\mid\Omega\backslash X(t)]
+            P\bigl(Y_{t+k}\in A\mid\Omega(t)\bigr)\neq P\bigl(Y_{t+k}\in A\mid\Omega\backslash X(t)\bigr)
         \end{gather}
-        for some $k$, where $\Omega(t)$ and $\Omega\backslash X(t)$ denote the available information at time $t$ with and without removing the variable $X$ from the universe.
+        for some $k\in\mathbb{N}$, where $\Omega(t)$ and $\Omega\backslash X(t)$ denote the available information at time $t$ with and without removing the variable $X$ from the universe.
 
         This formulation of causality was introduced by \textit{Granger} under the following two assumptions:
         \begin{itemize}
@@ -920,10 +934,10 @@
             \item The cause carries unique information about the effect.
         \end{itemize}
     }
-    \remark{A slightly different, but for computational purposes often more useful\footnote{In fact, this was the original definition by \textit{Granger}.} notion of Granger-causality, is as follows. A stochastic process $\seq{X}$ is said to \textbf{(Granger-)cause} a stochastic process $\seq{Y}$ if the variance of predictions of $Y_n$ becomes smaller when the information contained in $X_n$ is taken into account.}
+    \remark{A slightly different, but, for computational purposes often more useful\footnote{In fact, this was the original definition by \textit{Granger}.} notion of Granger causality, is as follows. A stochastic process $\seq{X}$ is said to \textbf{Granger-cause} a stochastic process $\seq{Y}$ if the variance of predictions of $Y_n$ becomes smaller when the information contained in $X_n$ is taken into account.}
 
     \begin{remark}[Testing]\index{test!Diebold--Mariano}
-        Assume that two uncorrelated models giving predictions of a stochastic process are given. One way to check if they have the same accuracy is the \textit{Diebold--Mariano test}. However, when testing for Granger causality one should pay attention. This test is not valid for nested models and, hence, is not applicable to two models that only differ by a set of extra predictors (in this case an external process).
+        Assume that two uncorrelated models giving predictions of a stochastic process are given. One way to check if they have the same accuracy is the \textit{Diebold--Mariano test}. However, when testing for Granger causality, one should pay attention. This test is not valid for nested models and, hence, is not applicable to two models that only differ by a set of extra predictors (in this case, an external process).
     \end{remark}
 
 \section{Uncertainty modelling}
@@ -932,10 +946,10 @@
     One of the simplest ways to express uncertainty about predictions or parameter estimates is to give a set of possible values instead of a single value. However, to be meaningful, these sets should satisfy some conditions.
 
     \newdef{Validity}{\index{validity}\index{significance}\label{data:validity}
-        Consider a measurable function $\Gamma:X\rightarrow P(Y)$ and let $P$ be the joint distribution on the instance space $Z= X\times Y$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
+        Consider a measurable function $\Gamma:\mathcal{X}\rightarrow P(\mathcal{Y})$ and let $P$ be the joint distribution on the instance space $\mathcal{Z}=\mathcal{X}\times\mathcal{Y}$. $\Gamma$ is said to be valid (at \textbf{significance level} $\alpha\in[0,1]$ or \textbf{confidence level} $1-\alpha$) if it satisfies
         \begin{gather}
             \label{data:validity_condition}
-            P\bigl(y\in\Gamma^\alpha(x)\bigr)\geq 1-\alpha\,.
+            P\bigl(Y\in\Gamma^\alpha(X)\bigr)\geq 1-\alpha\,.
         \end{gather}
         One sometimes also distinguishes between exact validity and \textbf{conservative} validity, where the former is the subcase of the latter for which the inequality becomes an equality.
 
@@ -943,42 +957,42 @@
         \begin{gather}
             \lim_{n\rightarrow\infty}\frac{\mathrm{Err}_n(\Gamma)}{n}\leq\alpha\,,
         \end{gather}
-        where $\mathrm{Err}_n(\Gamma)$ is the number of errors made by $\Gamma$ after $n$ trials. It should be clear that pointwise validity (both exact and conservative) implies asymptotic validity.
+        where $\mathrm{Err}_n(\Gamma)$ is the number of errors made by $\Gamma$ after $n\in\mathbb{N}$ trials. It should be clear that pointwise validity (both exact and conservative) implies asymptotic validity.
     }
 
     \begin{remark}[Confidence regions]\index{confidence}
-        The definition of valid confidence predictors above is similar to the definition of confidence regions (\cref{section:confidence}). However, in contrast to confidence regions for population parameters, the size of confidence regions for predictive distributions does not go towards zero in the infinite data limit. This follows from the fact that in general all observations are subject to noise and, hence, even with perfect knowledge about the data generating distribution, an exact prediction is impossible.\footnote{Note that when observations are not sampled according to a distribution, but are perfectly predictable, this is of course not true.}
+        The definition of (valid) confidence predictors above is similar to the definition of confidence regions (\cref{section:confidence}). However, in contrast to confidence regions for population parameters, the size of confidence regions for predictive distributions does not go towards zero in the infinite data limit. This follows from the fact that, in general, all observations are subject to noise and, hence, even with perfect knowledge about the data-generating distribution, an exact prediction is impossible.\footnote{Note that when observations are sampled deterministically, this is of course not true.}
     \end{remark}
 
 \subsection{Classifier calibration}
 
-    A specific instance of regression problems are classification tasks, where the one tries to model a function $f:X\rightarrow Y$ with $Y$ finite (or discrete). For the case of probabilistic classifiers, the notion of validity (\cref{data:validity}) admits the following formulation:
+    A specific instance of regression problems are classification tasks, where the one tries to model a function $f:\mathcal{X}\rightarrow\mathcal{Y}$ with $\mathcal{Y}$ finite (or discrete). For the case of probabilistic classifiers, the notion of validity (\cref{data:validity}) admits the following formulation:
     \newdef{Calibration}{\index{calibration}
-        A probabilistic (multiclass) classifier $\widehat{P}(\cdot\mid\cdot):Y\times X\rightarrow[0,1]$ is said to be (well-)calibrated if
+        A probabilistic (multiclass) classifier $\widehat{P}(\cdot\mid\cdot):\mathcal{Y}\times\mathcal{X}\rightarrow[0,1]$ is said to be (well-)calibrated if
         \begin{gather}
-            P\left(y\,\middle\vert\,\widehat{P}(y\mid x)=p\right)=p
+            P\left(Y\,\middle\vert\,\widehat{P}(Y\mid X)=p\right)=p
         \end{gather}
-        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\widehat{P}$, i.e.~instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class. A possible way to visually investigate the calibration of a probabilistic classifier is to draw \textbf{calibration plots} or \textbf{reliability diagrams} for all classes, where for every class label $y$ and for a suitable partition $\mathcal{P}:=\{0=p_1,p_2,\ldots,p_n=1\}$ of the interval $[0,1]$ the $i^{th}$ point is the proportion of instances for which $y$ was predicted with probability between $p_i$ and $p_{i+1}$. For a calibrated model, these points should lie on the diagonal.
+        for all $p\in[0,1]$. Here, the confidence level $1-\alpha$ is the output of the classifier $\widehat{P}$, i.e.~instead of asking for a region satisfying a given confidence level, the model yields the confidence level required to include a given class. A possible way to visually investigate the calibration of a probabilistic classifier is to draw \textbf{calibration plots} or \textbf{reliability diagrams} for all classes, where, for every class label $Y$ and for a suitable partition $\mathcal{P}:=\{0=p_1,p_2,\ldots,p_n=1\}$ of the interval $[0,1]$, the $i^{\text{th}}$ point is the proportion of instances for which $Y$ was predicted with probability between $p_i$ and $p_{i+1}$. For a calibrated model, these points should lie on the diagonal.
     }
 
-    Consider now the case of binary classification: $X\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
+    Consider now the case of binary classification: $\mathcal{X}\rightarrow\{0,1\}$. Here one can easily apply the conformal prediction framework from the previous section. To this end, define the following nonconformity measure:
     \begin{gather}
         A_{\text{binary}}\bigl((x,y)\bigr) := 1 - \widehat{P}(y\mid x)\,.
     \end{gather}
     At significance $\alpha$, the model predicts all classes such that the conformal $p$-value is greater than $\alpha$. As before, one can adopt an inductive framework and use the $(1-\alpha)$-quantile of the calibration scores as a threshold.
 
-    In fact, for classification tasks, where the codomain is finite (or at least discrete), it makes sense to slightly change the approach. Instead of fixing the significance level $\alpha$, one could (or should) consider some specific values:\index{confidence}\index{credibility}
+    In fact, for classification tasks, where the codomain is finite (or at least discrete), it makes sense to slightly alter the approach. Instead of fixing the significance level $\alpha$, one could (or should) consider some specific values:\index{confidence}\index{credibility}
     \begin{itemize}
         \item\textbf{Confidence}: $\sup\{1-\alpha\mid|\Gamma^\alpha(x)|\leq1\}$, and
         \item\textbf{Credibility}: $\inf\{\alpha\mid|\Gamma^\alpha(x)|=0\}$.
     \end{itemize}
-    The former is the highest probability with which the model can predict a single class. If one wants a higher probability, more than one class has to be considered. The latter gives a measure of how ``credible'' the predictions are. The smaller this number, i.e.~the greater the confidence with which the model predicts a vacuously false result (every sample necessarily belongs to a class), the less reliable the model is for a given sample.
+    The former is the highest probability with which the model can predict a single class. If one wants a higher probability, more than one class has to be considered. The latter gives a measure of how `credible' the predictions are. The smaller this number, i.e.~the greater the confidence with which the model predicts a vacuously false result (every sample necessarily belongs to a class), the less reliable the model is for a given sample.
 
-    Various othe approaches exist to calibrate existing probabilistic classifiers. In practice it has been observed that many models show sigmoidal distortions in their calibration plots. A possible approach is then to modify the final sigmoidal layer in these models (or add an extra sigmoidal layer if the model did not use one). This gives rise to \textbf{Platt scaling} and \textbf{temperature scaling}. For the former one takes the output $\widehat{P}$ and fits a sigmoidal layer of the form
+    Various other approaches exist to calibrate existing probabilistic classifiers. In practice, it has been observed that many models show sigmoidal distortions in their calibration plots. A possible approach is then to modify the final sigmoidal layer in these models (or add an extra sigmoidal layer if the model did not use one). This gives rise to \textbf{Platt scaling} and \textbf{temperature scaling}. For the former, one takes the output $\widehat{P}$ and fits a sigmoidal layer of the form
     \begin{gather}
         \widehat{P}_{\text{Platt}}(y\mid x;A,B) = \frac{1}{1+\exp\bigl(-A\widehat{P}(y\mid x)-B\bigr)}\,.
     \end{gather}
-    For the latter one modifies the existing logits as follows for some parameter $T>0$:
+    For the latter, one modifies the existing logits as follows for some parameter $T>0$:
     \begin{gather}
         \widehat{P}_{\text{temp}}(y\mid x;T) = \frac{1}{1+\exp\bigl(-\widehat{z}(y\mid x)/T\bigr)}\,,
     \end{gather}
@@ -990,33 +1004,33 @@
 
 \subsection{Conditionality}
 
-    The above sections considered confidence predictors that were valid in a global sense, i.e.~averaged over the whole instance space $X\times Y$. However, as in ordinary probability theory, in many settings it makes more sense to consider conditional statements:
+    The above sections considered confidence predictors that were valid in a global sense, i.e.~averaged over the whole instance space $\mathcal{X}\times\mathcal{Y}$. However, as in ordinary probability theory, in many settings it makes more sense to consider conditional statements:
     \begin{gather}
         \label{data:conditional_validity_condition}
-        \Prob\bigl(y\in\Gamma^\alpha(x)\mid\kappa(x,y)\bigr)\geq 1-\alpha\,,
+        \Prob\bigl(Y\in\Gamma^\alpha(X)\mid\kappa(X,Y)\bigr)\geq 1-\alpha\,,
     \end{gather}
-    where the function $\kappa:X\times Y\rightarrow K$ represents the conditioning statement (the set $K$ can be any set). In the conformal prediction literature it is often called a \textbf{taxonomy function}.\index{taxonomy}
+    where the function $\kappa:\mathcal{X}\times\mathcal{Y}\rightarrow K$ represents the conditioning statement (the set $K$ can be any set). In the conformal prediction literature it is often called a \textbf{taxonomy function}.\index{taxonomy}
 
-    In practice, the label set $K$ is often finite and discrete, i.e.~one considers a finite subdivision of $X\times Y$. The simplest solution to obtain conditional validity in this case is to apply any known algorithm to every conditional class individually. In the case of conformal prediction this gives rise to the notion of \textbf{Mondrian conformal predictors}.\index{Mondrian}
+    In practice, the label set $K$ is often finite and discrete, i.e.~one considers a finite subdivision of $\mathcal{X}\times\mathcal{Y}$. The simplest solution to obtain conditional validity in this case is to apply any known algorithm to every conditional class individually. In the case of conformal prediction, this gives rise to the notion of \textbf{Mondrian conformal predictors}.\index{Mondrian}
 
     In a perfect world, the ultimate goal should be to have exact objectwise validity:
     \begin{gather}
-        \Prob(y\in\Gamma^\alpha(x)\mid x)\geq 1-\alpha\,.
+        \Prob(Y\in\Gamma^\alpha(X)\mid X)\geq 1-\alpha\,.
     \end{gather}
     However, in general, one can show that this cannot be attained:
     \begin{property}[No-go theorem]
-        Let $X$ be a separable metric space equipped with its canonical Borel $\sigma$-algebra and consider a confidence predictor $\Gamma^\alpha$ at conditional significance level $\alpha\in[0,1]$. For every probability distribution $P$ on $X\times Y$ and $P_X$-almost all non-atoms $x\in X$ one has
+        Let $\mathcal{X}$ be a separable metric space equipped with its canonical Borel $\sigma$-algebra and consider a confidence predictor $\Gamma^\alpha$ at conditional significance level $\alpha\in[0,1]$. For every probability distribution $P$ on $\mathcal{X}\times\mathcal{Y}$ and $P_X$-almost all non-atoms $x\in\mathcal{X}$, one has
         \begin{gather}
-            \Prob\bigl(\lambda(\Gamma^\alpha(x))=+\infty\bigr)\geq 1-\alpha
+            \Prob\bigl(\lambda(\Gamma^\alpha(X))=+\infty\bigr)\geq 1-\alpha
         \end{gather}
         and
         \begin{gather}
-            \Prob\bigl(\mathrm{co}(\Gamma^\alpha(x))=\mathbb{R}\bigr)\geq 1-2\alpha\,,
+            \Prob\bigl(\mathrm{co}(\Gamma^\alpha(X))=\mathbb{R}\bigr)\geq 1-2\alpha\,,
         \end{gather}
         where $\lambda$ and $\mathrm{co}$ denote the Lebesgue measure and convex hull, respectively.
     \end{property}
 
-    @@ FINISH @@
+    \todo{FINISH}
 
 \subsection{Distribution shift}
 
@@ -1028,7 +1042,7 @@
     \begin{gather}
         X_i\equiv\prod_{k=0}^if_k(p_k)\,,
     \end{gather}
-    where $p_k$ is the $p$-value of the $k^{th}$ data point as produced by some conformal predictor. The functions $f_k$ are called the \textbf{betting functions}. For $\seq{X}$ to be a martingale with respect to the natural filtration of the $p_k$'s, the betting functions should satisfy
+    where $p_k$ is the $p$-value of the $k^{\text{th}}$ data point as produced by some conformal predictor. The functions $f_k$ are called the \textbf{betting functions}. For $\seq{X}$ to be a martingale with respect to the natural filtration of the $p_k$'s, the betting functions should satisfy
     \begin{gather}
         \Int_0^1f_k(p)\,dp = 1\,.
     \end{gather}
@@ -1042,10 +1056,10 @@
         \begin{gather}
             X_i := \Int_0^1X^\varepsilon_i\,d\varepsilon\,.
         \end{gather}
-        Because $\varepsilon-1\leq0$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e.~when unlikely values are observed.
+        Because $\varepsilon\leq1$, the above martingales will start to become very large if the conformal predictor produces small $p$-values, i.e.~when unlikely values are observed.
     \end{method}
 
-    However, not all distribution shifts will give rise to such behaviour. For example, it is possible that, although the $p$-values are not distributed uniformly anymore (since the data is not exchangeable), they are concentrated in the upper half of the unit interval and, hence, do not let the martingale grow strongly. For this reason it is convenient to construct betting functions that take into account the distribution of the $p$-values.
+    However, not all distribution shifts will give rise to such behaviour. For example, it is possible that, although the $p$-values are not distributed uniformly anymore (since the data is not exchangeable), they are concentrated in the upper half of the unit interval and, hence, do not let the martingale grow strongly. For this reason, it is convenient to construct betting functions that take into account the distribution of the $p$-values.
     \begin{method}[Plug-in martingale]
         Let $\widehat{\rho}_i(p)$ denote an estimate of the probability density constructed using the $p$-values $\{p_1,\ldots,p_i\}$. The plug-in martingale is defined by the betting functions
         \begin{gather}
@@ -1076,9 +1090,9 @@
 
     Most models considered in classical statistics and data analysis are of the inferential type, i.e.~given a data set a model is constructed to estimate some property of the data generating distribution. In statistics this usually is either a moment or the distribution itself, in data analysis it is often the conditional mean or conditional distribution.
 
-    However, in certain cases it is often desirable to have a model that can sample new data points from the data generating distribution. Models of this type are called generative models. (Note that fully distributional estimators can be considered both inferential and generative.)
+    However, in certain cases, it is often desirable to have a model that can sample new data points from the data generating distribution. Models of this type are called generative models. (Note that fully distributional estimators can be considered both inferential and generative.)
 
-    @@ ADD (e.g. GANs) @@
+    \todo{ADD (e.g. GANs)}
 
 \subsection{Normalizing flows}
 
@@ -1100,8 +1114,8 @@
             \psi_n(x_n\mid x_1,\ldots,x_{n-1})
         \end{pmatrix}\,,
     \end{gather}
-    with $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ for all $i\leq n$. Increasing means that each of the functions $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ is increasing with respect to its first argument $x_i$. This is sufficient for the transformation to be invertible, since one can invert the functions stepwise, keeping the variables $x_1,\ldots,x_{i-1}$ fixed in the $i^{th}$ step (hence the suggestive conditional notation).
+    with $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ for all $i\leq n$. Increasing means that each of the functions $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ is increasing with respect to its first argument $x_i$. This is sufficient for the transformation to be invertible, since one can invert the functions stepwise, keeping the variables $x_1,\ldots,x_{i-1}$ fixed in the $i^{\text{th}}$ step (hence the suggestive conditional notation).
 
     The general construction for normalizing flow regression is to train a model $\rho:\mathcal{Y}\rightarrow\mathbb{R}^m$ that parametrizes a normalizing flow $\Psi(\cdot\,;\cdot):\mathbb{R}^n\times\mathbb{R}^m\rightarrow\mathbb{R}^n$ in such a way that for every $y\in\mathcal{Y}$, $\Psi\bigl(\cdot\,;\rho(y)\bigr)$ is triangular and increasing. Hence, one passes to `conditional' normalizing flows.
 
-    @@ COMPLETE @@
+    \todo{COMPLETE}

@@ -5,15 +5,15 @@
 \section{Data samples}
 \subsection{Moment estimators}
 
-    \newformula{$r^{th}$ sample  moment}{\index{moment}\label{statistics:sample_moment}
+    \newformula{$r^{\text{th}}$ sample  moment}{\index{moment}\label{statistics:sample_moment}
         \begin{gather}
-            \overline{x^r} := \frac{1}{N}\sum_{i=1}^Nx_i^r
+            \overline{x^r} := \frac{1}{n}\sum_{i=1}^nx_i^r
         \end{gather}
     }
     \begin{example}[Arithmetic mean]\index{mean}\label{statistics:arithmetic_mean}
         The arithmetic mean is used to average out differences between measurements. It is defined as the first sample moment:
         \begin{gather}
-            \overline{x} := \frac{1}{N}\sum_{i=1}^Nx_i\,.
+            \overline{x} := \frac{1}{n}\sum_{i=1}^nx_i\,.
         \end{gather}
     \end{example}
 
@@ -27,9 +27,9 @@
     \end{theorem}
     \begin{theorem}[Strong law of large numbers\footnotemark]\index{law!of large numbers}\index{Kolmogorov!law}\index{Kolmogorov!criterion}\label{prob:strong_lln}
         \footnotetext{Also called \textbf{Kolmogorov's law}.}
-        Assume that the sequence $\seq{X}$ of random variables is i.i.d.~with finite expectation $mu$. The sample average converges almost surely (\cref{measure:almost_everywhere}) to the expectation value:
+        Assume that the sequence $\seq{X}$ of random variables is i.i.d.~with finite expectation $\mu$. The sample average converges almost surely (\cref{measure:almost_everywhere}) to the expectation value:
         \begin{gather}
-            \Prob\left(\lim_{n\rightarrow\infty}\overline{X}_n=\mu\right)=0\,.
+            \Prob\left(\lim_{n\rightarrow\infty}\overline{X}_n=\mu\right)=1\,.
         \end{gather}
         In fact, the i.i.d.~assumption can be weakened. The convergence
         \begin{gather}
@@ -37,36 +37,37 @@
         \end{gather}
         holds as long as the random variables are independent and satisfy the \textbf{Kolmogorov criterion}
         \begin{gather}
-            \sum_{k=1}^\infty\frac{1}{k^2}\variance{X_k}<+\infty\,.
+            \sum_{i=1}^{+\infty}\frac{1}{i^2}\variance{X_i}<+\infty\,.
         \end{gather}
     \end{theorem}
 
-    \newformula{$r^{th}$ central sample moment}{\label{statistics:central_sample_moment}
+    \newformula{$r^{\text{th}}$ central sample moment}{\label{statistics:central_sample_moment}
         \begin{gather}
-            m_r := \frac{1}{N}\sum_{i=1}^N(x_i-\overline{x})^r
+            m_r := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})^r
         \end{gather}
     }
 
     \newdef{Weighted mean}{\label{statistics:weighted_mean}
-        Let $f:\mathbb{R}\rightarrow\mathbb{R}^+$ be a weight function. The weighted mean is given by:
+        Let $f:\mathbb{R}\rightarrow\mathbb{R}^+$ be a weight function. The $f$-weighted mean is given by:
         \begin{gather}
             \overline{x} := \frac{\sum_if(x_i)x_i}{\sum_if(x_i)}\,.
         \end{gather}
     }
     \begin{example}[Binned mean]\label{statistics:binned_arithmetic_mean}
-        If the data has been grouped in bins, the weight function is given by the number of elements in each bin.
+        If the data has been grouped in $b\in\mathbb{N}$ bins, the weight function is given by the number of elements in each bin.
         \begin{gather}
-            \overline{x} = \frac{1}{N}\sum_{i=1}n_ix_i\,.
+            \overline{x} = \frac{1}{n}\sum_{i=1}^bn_ix_i\,,
         \end{gather}
+        where $n_i\in\mathbb{N}_0$ is the number of observations is the bin $b_i$.
     \end{example}
     \begin{remark}
         In the above definitions, the measurements $x_i$ can be replaced by function values $f(x_i)$ to calculate the mean of the function $f(x)$. This follows from \cref{prob:unconscious_statistician}. However, it is also important to keep in mind that $\overline{f(x)} \neq f(\overline{x})$. The equality only holds for linear functions.
     \end{remark}
 
     \newdef{Geometric mean}{\label{statistics:geometric_mean}
-        Let $\{x_i\}_{i\leq N}$ be a data set taking values in $\mathbb{R}_+$. The geometric mean is used to average out \textit{normalized} measurements, i.e.~ratios with respect to a reference value.
+        Let $\{x_i\}_{i\leq n}$ be a data set taking values in $\mathbb{R}_+$. The geometric mean is used to average out \textit{normalized} measurements, i.e.~ratios with respect to a reference value.
         \begin{gather}
-            g := \left(\prod_{i=1}^Nx_i\right)^{1/N}
+            g := \left(\prod_{i=1}^nx_i\right)^{1/n}
         \end{gather}
         The following relation exists between the arithmetic and geometic mean:
         \begin{gather}
@@ -76,16 +77,16 @@
 
     \newdef{Harmonic mean}{\label{statistics:harmonic_mean}
         \begin{gather}
-            h := \left(\frac{1}{N}\sum_{i=1}^Nx_i^{-1}\right)^{-1}
+            h := \left(\frac{1}{n}\sum_{i=1}^nx_i^{-1}\right)^{-1}
         \end{gather}
         The following relation exists between the arithmetic and harmonic mean:
         \begin{gather}
-            \frac{1}{h} = \overline{x^{-1}}\,.
+            h^{-1} = \overline{x^{-1}}\,.
         \end{gather}
     }
 
     \begin{property}
-        Let $\{x_i\}$ be a data set taking values in $\mathbb{R}_+$.
+        Let $\{x_i\}_{i\leq n}$ be a data set taking values in $\mathbb{R}_+$.
         \begin{gather}
             h\leq g\leq\overline{x}
         \end{gather}
@@ -96,7 +97,7 @@
         The most occurring value in a data set.
     }
     \newdef{Median}{\index{median}\label{statistics:median}
-        The element $x_i$ in a data set such that half of the values is greater than $x_i$ and half of the values is smaller than $x_i$.
+        The element $x_{(0.5)}$ in a data set such that half of the values is greater than $x_{(0.5)}$ and half of the values is smaller than $x_{(0.5)}$.
     }
 
 \subsection{Dispersion}
@@ -111,13 +112,13 @@
 
     \newdef{Mean absolute difference}{
         \begin{gather}
-            \mathrm{MD} := \frac{1}{N}\sum_{i=1}^N|x_i - \overline{x}|
+            \mathrm{MD} := \frac{1}{n}\sum_{i=1}^n|x_i - \overline{x}|
         \end{gather}
     }
 
     \newdef{Sample variance}{\index{variance}\label{statistics:sample_variance}
         \begin{gather}
-            \mathrm{Var}(x) := \frac{1}{N}\sum_{i=1}^N(x_i-\overline{x})^2
+            \mathrm{Var}(x) := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})^2
         \end{gather}
     }
     \begin{formula}\label{statistics:variance_without_sum}
@@ -129,13 +130,13 @@
     \begin{remark}[Bessel corection]\index{Bessel!correction}\label{statistics:bessel_correction}
         A better estimator for the variance of a sample is given by the following formula:
         \begin{gather}
-            \hat{s}^2 := \frac{1}{N-1}\sum_{i=1}^N(x_i - \overline{x})^2\,.
+            \hat{s}^2 := \frac{1}{n-1}\sum_{i=1}^n(x_i - \overline{x})^2\,.
         \end{gather}
         See \cref{statistics:variance_bessel_correction} for more information.
     \end{remark}
 
     \newdef{Skewness}{\index{skewness}\label{statistics:skewness}
-        The skewness $\gamma$ describes the asymmetry of a distribution. It is defined as the proportionality constant relating the third central moment and the standard deviation:
+        The skewness $\gamma$ describes the `asymmetry' of a distribution. It is defined as the proportionality constant relating the third central moment and the standard deviation:
         \begin{gather}
             m_3 = \gamma\sigma^3\,.
         \end{gather}
@@ -158,15 +159,14 @@
     }
 
     \newdef{Interquartile range}{\index{range}
-        The difference between the upper and lower quartile (75- and 25-percentiles respectively).
+        The difference between the upper and lower quartile (i.e.~the 75- and 25-percentiles, respectively).
     }
 
     \newdef{Full Width at Half Maximum}{\index{FWHM}
-        \nomenclature[A_FWHM]{FWHM}{full width at half maximum}
         The difference between the two values of the independent variable where the dependent variable is half of its maximum. This quantity is often denoted by the abbreviation \textbf{FWHM}.
     }
     \begin{property}
-        For Gaussian distributions the following relation exists between the FWHM and the standard deviation:
+        For Gaussian distributions, the following relation exists between the FWHM and the standard deviation:
         \begin{gather}
             \mathrm{FWHM} = 2.35\sigma\,.
         \end{gather}
@@ -174,12 +174,12 @@
 
 \subsection{Multivariate data sets}
 
-    When working with bivariate (or even multivariate) distributions it is useful to describe the relationship between the different random variables.
+    When working with bivariate (or even multivariate) distributions, it is useful to describe the relationship between the different random variables.
 
     \newdef{Covariance}{\index{covariance}\label{statistics:covariance}
         The covariance of two data sequences is defined as follows:
         \begin{gather}
-            \mathrm{cov}(x,y) := \frac{1}{N}\sum_{i=1}^N(x_i-\overline{x})(y_i - \overline{y}) = \overline{xy} - \overline{x}\ \overline{y}\,.
+            \mathrm{cov}(x,y) := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})(y_i - \overline{y}) = \overline{xy} - \overline{x}\ \overline{y}\,.
         \end{gather}
         The covariance is also often denoted by $\sigma_{xy}$ because of the next property:
     }
@@ -197,7 +197,7 @@
         The correlation coefficient is bounded to the interval $[-1,1]$. It should be noted that its magnitude is only an indicator for the linear dependence.
     }
     \begin{remark}
-        For multivariate distributions the above definitions can be generalized using matrices:
+        For multivariate distributions, the above definitions can be generalized using matrices:
         \begin{align}
             \label{statistics:covariance_matrix}
             V_{ij} &= \mathrm{cov}(x_{(i)},x_{(j)})\,,\\
@@ -213,9 +213,9 @@
     \begin{definition}[Percentile]\index{percentile}
         The $p$-percentile of a cumulative distribution $F$ is defined as follows:
         \begin{gather}
-            c_p := F^{-1}(p)\,.
+            x_{(p)} := F^{-1}(p)\,.
         \end{gather}
-        The $p$-percentile $c_p$ is, hence, such that it is greater than $p\%$ of the measurements. The median (\cref{statistics:median}) is the 50-percentile.
+        The $p$-percentile is, hence, such that it is greater than $p\%$ of the measurements. The median (\cref{statistics:median}) is the 50-percentile.
     \end{definition}
 
     \newdef{Parametric family}{\index{parametric family}
@@ -250,9 +250,9 @@
         \end{gather}
     \end{result}
 
-    The law of large numbers can also be phrased in terms of the empirical distribution function:
+    The law of large numbers can also be phrased in terms of the empirical distribution function.
     \begin{theorem}[Glivenko--Cantelli]\index{Glivenko--Cantelli}\label{statistics:glivenko_cantelli}
-        Consider a cumulative distribution function $F$ and denote the empirical distribution function of $n$ random variables by $F_n$. If the random variables are i.i.d.~according to $F$, then
+        Consider a cumulative distribution function $F$ and denote the empirical distribution function of $n\in\mathbb{N}$ random variables by $F_n$. If the random variables are i.i.d.~according to $F$, then
         \begin{gather}
             \sup_{x\in\mathbb{R}}|F(x)-F_n(x)|\overset{\text{a.s.}}{\longrightarrow}0\,.
         \end{gather}
@@ -263,17 +263,17 @@
 
     The quantity in the Glivenko--Cantelli theorem is important enough to get its own name.
     \newdef{Kolmogorov--Smirnov statistic}{\label{statistics:kolmogorov_smirnov_statistic}
-        Let $F$ be a given cumulative distribution function. The $n^{th}$ Kolmogorov--Smirnov statistic is defined as follows:
+        Let $F$ be a given cumulative distribution function. The $n^{\text{th}}$ Kolmogorov--Smirnov statistic is defined as follows:
         \begin{gather}
             D_n := \sup_{x\in\mathbb{R}}|F_n(x) - F(x)|\,.
         \end{gather}
     }
 
-    @@ ADD KS METRIC AND TV METRIC @@
+    \todo{DD KS METRIC AND TV METRIC}
 
     \newdef{Kolmogorov distribution}{\index{distribution!Kolmogorov}\label{statistics:kolmogorov_distribution_cumulative}
         \begin{gather}
-            F_{\text{Kol}}(x) := 1 - 2\sum_{i=1}^\infty(-1)^{i-1}e^{-2i^2x^2} = \frac{\sqrt{2\pi}}{x}\sum_{i=1}^\infty e^{-(2i-1)^2\pi^2/(8x^2)}
+            F_{\text{Kol}}(x) := 1 - 2\sum_{i=1}^{+\infty}(-1)^{i-1}e^{-2i^2x^2} = \frac{\sqrt{2\pi}}{x}\sum_{i=1}^{+\infty} e^{-(2i-1)^2\pi^2/(8x^2)}
         \end{gather}
     }
 
@@ -297,7 +297,7 @@
         where $P_n$ is the empirical measure.\footnote{If the convergence only holds in probability, the class is said to be \textbf{weakly GC}.} The Glivenko--Cantelli theorem~\ref{statistics:glivenko_cantelli} says that the indicator functions of the sets $]-\infty,x]$ form a GC class.\footnote{Because every indicator function is uniquely associated to a set, one can also speak of GC classes of measurable sets.} In fact, they are \textbf{universally GC} because this theorem applies to all probability measures on $\Omega$. A class is said to be \textbf{uniformally GC} if the convergence holds uniformly over all probability measures.
     }
     \begin{remark}
-        Note that by the law of large numbers every singleton class is Glivenko--Cantelli (also universally and uniformly). The above definition strengthens the convergence of all elements of $\mathcal{F}$ to uniform convergence.
+        Note that, by the law of large numbers, every singleton class is Glivenko--Cantelli (also universally and uniformly). The above definition strengthens the convergence of all elements of $\mathcal{F}$ to uniform convergence.
     \end{remark}
 
     \begin{property}[Bracketing number]
@@ -340,7 +340,7 @@
         \begin{align}
             f(x;a,b) &:=
             \begin{cases}
-                \frac{1}{b-a}&a\leq x\leq b\\
+                \frac{1}{b-a}&\cif a\leq x\leq b\\
                 0&\text{elsewhere}
             \end{cases}\\\nonumber\\
             \expect{x} &= \frac{a+b}{2}\\\nonumber\\
@@ -372,7 +372,7 @@
     \end{remark}
 
     \begin{theorem}[Central limit theorem]\index{central!limit theorem}\label{statistics:CLT}
-        A sum of $n$ i.i.d. random variables $X_i$ distributed according to a distribution with mean $\mu$ and variance $\sigma^2$ satisfies the following property:
+        A sum of $n\in\mathbb{N}$ i.i.d. random variables $X_i$ distributed according to a distribution with mean $\mu$ and variance $\sigma^2$ satisfies the following property:
         \begin{gather}
             \sqrt{n}\left(\sum_{i=1}^nX_i - \mu\right)\overset{d}{\longrightarrow}\mathcal{N}(0,\sigma^2)\,.
         \end{gather}
@@ -402,7 +402,7 @@
     \end{property}
 
     \newdef{Bernoulli distribution}{\index{distribution!Bernoulli}\index{Bernoulli|seealso{distribution}}\label{statistics:bernoulli_distr}
-        A random variable that can only take 2 possible values is described by a Bernoulli distribution. When the possible values are 0 and 1, with respective chances $\rho$ and $1-\rho$, the distribution is given by
+        A random variable that can only take 2 possible values is described by a Bernoulli distribution. When the possible values are 0 and 1, with respective probabilities $\rho$ and $1-\rho$, the distribution is given by
         \begin{align}
             p(k;\rho) &:= \rho^k(1-\rho)^{1-k}\,,\\\nonumber\\
             \expect{k} &= \rho\,,\\\nonumber\\
@@ -411,7 +411,7 @@
     }
 
     \newdef{Binomial distribution}{\index{distribution!binomial}\label{statistics:binomial_distr}
-        A process with $n$ i.i.d.~Bernoulli trials with probability $\rho$, is described by a binomial distribution:
+        A process with $n\in\mathbb{N}$ i.i.d.~Bernoulli trials with probability $\rho$, is described by a binomial distribution:
         \begin{align}
             \mathrm{Binom}(k;\rho,n) &:= \binom{n}{k}\rho^k(1-\rho)^{n-k}\,,\\\nonumber\\
             \expect{k} &= n\rho\,,\\\nonumber\\
@@ -420,28 +420,28 @@
     }
 
     \newdef{Poisson distribution}{\index{distribution!Poisson}\label{statistics:poisson_distr}
-        A process with known possible outcomes but an unknown number of events is described by a Poisson distribution with average expected number of events $\lambda$.
+        A process with known possible outcomes but an unknown number of events is described by a Poisson distribution with average expected number of events $\lambda\in\mathbb{N}$.
         \begin{align}
             \mathrm{Poisson}(r;\lambda) &:= \frac{e^{-\lambda}\lambda^r}{r!}\\\nonumber\\
             \expect{r} &= \variance{r} = \lambda\
         \end{align}
     }
     \begin{formula}
-        If multiple independent Poisson processes occur simultaneously, the probability of $r$ events is also described by a Poisson distribution:
+        If multiple independent Poisson processes occur simultaneously, the probability of $r\in\mathbb{N}$ events is also described by a Poisson distribution:
         \begin{gather}
             \forall i\in I:X_i\sim\mathrm{Poisson}(\lambda_i)\implies\sum_{i\in I}X_i\sim\mathrm{Poisson}\left(\sum_{i\in I}\lambda_i\right)\,.
         \end{gather}
         The number of events coming from the process described by $\lambda_i\mid r=\sum_{i\in I}\lambda_i$ is given by a binomial distribution $\mathrm{Binom}(r_i;\Lambda_i,r)$ with $\Lambda_i = \frac{\lambda_i}{\sum_{i\in I}\lambda_i}$.
     \end{formula}
     \begin{remark}
-        For $\lambda\longrightarrow\infty$, the Poisson distribution $\mathrm{Poisson}(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{N}(x;\lambda,\sqrt{\lambda})$.
+        For $\lambda\longrightarrow+\infty$, the Poisson distribution $\mathrm{Poisson}(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{N}(x;\lambda,\sqrt{\lambda})$.
     \end{remark}
     \begin{theorem}[Raikov]\index{Raikov}
         If the sum of two independent random variables is Poisson, the individual random variables are also Poisson.
     \end{theorem}
 
     \newdef{$\chi^2$-distribution}{\index{distribution!$\chi^2$}\label{statistics:chi_squared_distr}
-        The sum of $k$ squared independent (standard) normally distributed random variables $Y_i$ defines the random variable:
+        The sum of $k\in\mathbb{N}$ squared independent (standard) normally distributed random variables $Y_i$ defines the random variable
         \begin{gather}
             \chi^2_k := \sum_{i=1}^kY_i^2\,,
         \end{gather}
@@ -451,7 +451,7 @@
         \end{gather}
     }
     \begin{property}
-        Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n$:
+        Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n\in\mathbb{N}$:
         \begin{gather}
             f(\chi^2;n)\overset{n>30}{\longrightarrow}\mathcal{N}(\sqrt{2\chi^2};\sqrt{2n-1},1)\,.
         \end{gather}
@@ -494,7 +494,7 @@
 
         These problems can be resolved by the using the weighted mean (\cref{statistics:weighted_mean}):
         \begin{gather}
-            \overline{x} := \frac{\sum_i\frac{x_i}{\sigma_i^2}}{\sum_i\frac{1}{\sigma_i^2}}\,.
+            \overline{x} := \frac{\sum_ix_i\sigma_i^{-2}}{\sum_i\sigma_i^{-2}}\,.
         \end{gather}
         The variation of the weighted mean is given by
         \begin{gather}
@@ -503,7 +503,7 @@
         \end{gather}
     \end{formula}
 
-    \newformula{Error propagation}{\index{propagation!of errors}\label{statistics:error_propagation};
+    \newformula{Error propagation}{\index{propagation!of errors}\label{statistics:error_propagation}
         Let $X$ be a vector random variable such that functions of $X$ admit a good first-order Taylor approximation around the mean (this usually means that the covariance is small). The variance of a general function of $X$ is given by
         \begin{gather}
             \variance{f(X)} \approx \sum_{i=1}^n\left(\pderiv{f}{X_i}\right)^2\variance{X_i} + \sum_{i\neq j}\left(\pderiv{f}{X_i}\right)\left(\pderiv{f}{X_j}\right)\mathrm{cov}[X_i,X_j]\,.
@@ -542,28 +542,28 @@
 \subsection{General properties}
 
     \newdef{Consistency}{\index{consistency}\label{statistics:consistency}
-        An estimator $\hat{a}$ is said to be consistent if it is asymptotically equal to the true parameter:
+        An estimator $\widehat{a}$ is said to be consistent if it is asymptotically equal to the true parameter:
         \begin{gather}
-            \lim_{N\rightarrow\infty}\hat{a} = a\,.
+            \lim_{n\rightarrow\infty}\widehat{a} = a\,.
         \end{gather}
     }
     \newdef{Unbiased estimator}{\label{statistics:unbiased_estimator}
-        An estimator $\hat{a}$ is said to be unbiased if its expectation value is equal to the true parameter:
+        An estimator $\widehat{a}$ is said to be unbiased if its expectation value is equal to the true parameter:
         \begin{gather}
-            \langle\hat{a}\rangle = a\,.
+            \langle\widehat{a}\rangle = a\,.
         \end{gather}
         Note that neither consistency, nor unbiasedness implies the other.
     }
 
     \newdef{Bias}{\index{bias}\label{statistics:bias}
         \begin{gather}
-            B(\hat{a}) := |\langle\hat{a}\rangle - a|\,.
+            B(\widehat{a}) := |\langle\widehat{a}\rangle - a|\,.
         \end{gather}
     }
 
     \newdef{Mean squared error}{\label{statistics:mean_squared_error}
         \begin{gather}
-            \mathrm{MSE}(\hat{a}) := B(\hat{a})^2 + \mathrm{Var}(\hat{a})\,.
+            \mathrm{MSE}(\widehat{a}) := B(\widehat{a})^2 + \mathrm{Var}(\widehat{a})\,.
         \end{gather}
     }
     \remark{If an estimator is unbiased, the MSE is equal to the variance of the estimator.}
@@ -576,7 +576,7 @@
     \begin{formula}[Standard error of the mean]\index{standard!error}\label{statistics:standard_error}
         Using the Bienaym\'e formula~\ref{prob:bienayme}, one can show that the standard error of the mean, i.e.~the standard deviation of the sample mean, is given by the following formula:
         \begin{gather}
-            \variance{\overline{x}} = \frac{\sigma^2}{N}\,.
+            \variance{\overline{X}} = \frac{\sigma^2}{n}\,.
         \end{gather}
     \end{formula}
 
@@ -589,9 +589,9 @@
     \newformula{Variance estimator for unknown mean}{\index{Bessel!correction}\label{statistics:variance_bessel_correction}
         If the true mean is unknown and the sample mean has been used to estimate it, a consistent and unbiased estimator is given by
         \begin{gather}
-            \hat{s}^2 = \frac{1}{N-1}\sum_{i=1}^N(x_i-\overline{x})^2\,.
+            \widehat{s}^2 = \frac{1}{n-1}\sum_{i=1}^n(x_i-\overline{x})^2\,.
         \end{gather}
-        The modified factor $\frac{1}{N-1}$ is called the \textbf{Bessel correction}. It corrects the bias of the estimator given by the sample variance (\cref{statistics:sample_variance}). The consistency is guaranteed by the CLT.
+        The modified factor $\frac{1}{n-1}$ is called the \textbf{Bessel correction}. It corrects the bias of the estimator given by the sample variance (\cref{statistics:sample_variance}). The consistency is guaranteed by the CLT.
     }
 
     \begin{property}[Characterization of normal distributions]
@@ -602,12 +602,12 @@
 
     \newformula{Variance of the estimator of the variance}{
         \begin{gather}
-            \mathrm{Var}\left(\widehat{\variance{X}}\right) =  \frac{(N-1)^2}{N^3}\langle(x - \langle x \rangle)^4\rangle - \frac{(N-1)(N-3)}{N^3}\langle(x - \langle x \rangle)^2\rangle^2
+            \mathrm{Var}\left(\widehat{\variance{X}}\right) =  \frac{(n-1)^2}{n^3}\langle(x - \langle x \rangle)^4\rangle - \frac{(n-1)(n-3)}{n^3}\langle(x - \langle x \rangle)^2\rangle^2
         \end{gather}
     }
     \newformula{Variance of the estimator of the standard deviation}{
         \begin{gather}
-            \mathrm{Var}(\widehat{\sigma}) = \frac{1}{4\sigma^2}\mathrm{Var}\left(\widehat{\variance{X}}\right)
+            \variance{\widehat{\sigma}} = \frac{1}{4\sigma^2}\variance{\widehat{\variance{X}}}
         \end{gather}
     }
     \begin{remark}
@@ -617,21 +617,21 @@
 \subsection{Likelihood function}
 
     \newdef{Likelihood}{\index{likelihood}\label{statistics:likelihood}
-        The likelihood $\mathcal{L}(a;\mathbf{x})$ is the joint density of a set of measurements $\mathbf{x} := \{x_1,\ldots,x_N\}$:
+        The likelihood $\mathcal{L}(a;\mathbf{x})$ is the joint density of a set of measurements $\mathbf{x} := \{x_1,\ldots,x_n\}$:
         \begin{gather}
-            \mathcal{L}(a;\mathbf{x}) = \prod_{i=1}^Nf(x_i;a)\,.
+            \mathcal{L}(a;\mathbf{x}) = \prod_{i=1}^nf(x_i;a)\,.
         \end{gather}
     }
 
     \begin{theorem}[Cramer--Rao bound]\index{Cramer--Rao bound}\index{minimum!variance bound}\label{statistics:minimum_variance_bound}
-        The variance of an \textbf{unbiased} estimator has a lower bound called the Cramer--Rao bound or \textbf{minimum variance bound (MVB)}:
+        The variance of an unbiased estimator has a lower bound called the Cramer--Rao bound or \textbf{minimum variance bound (MVB)}:
         \begin{gather}
-            \mathrm{Var}(\hat{a})\geq\frac{1}{\left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle}\,.
+            \variance{\widehat{a}}\geq\frac{1}{\left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle}\,.
         \end{gather}
         For a biased estimator with bias $b$, the MVB takes on the following form:
         \begin{gather}
             \label{statistics:biased_minimum_variance_bound}
-            \mathrm{Var}(\hat{a})\geq\frac{\left(1+\deriv{b}{a}\right)^2}{\left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle}\,.
+            \variance{\widehat{a}}\geq\frac{\left(1+\deriv{b}{a}\right)^2}{\left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle}\,.
         \end{gather}
     \end{theorem}
     \begin{remark}
@@ -642,37 +642,37 @@
 
     \newdef{Fisher information}{\index{Fisher!information}\label{statistics:fisher_information}
         \begin{gather}
-            I_X(a) := \left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle = N\int\left(\deriv{\ln f}{a}\right)^2f\,d\mu
+            I_X(a) := \left\langle\left(\deriv{\ln\mathcal{L}}{a}\right)^2\right\rangle = n\Int\left(\deriv{\ln f}{a}\right)^2f\,d\mu
         \end{gather}
         Using this definition one can rewrite the Cramer--Rao inequality as follows:
         \begin{gather}
-            \mathrm{Var}(\hat{a})\geq I_X(a)\,.
+            \variance{\widehat{a}}\geq I_X(a)\,.
         \end{gather}
     }
 
     \newdef{Finite-sample efficiency}{\index{efficient}
         An unbiased estimator is said to be (finite-sample) efficient if it saturates the Cramer--Rao bound. In general the \textbf{efficiency} of (unbiased) estimators is defined through the Cramer--Rao bound as follows:
         \begin{gather}
-            e(\hat{a}) := \frac{I_X(a)^{-1}}{\mathrm{Var}(\hat{a})}\,.
+            e(\widehat{a}) := \frac{I_X(a)^{-1}}{\variance{\widehat{a}}}\,.
         \end{gather}
     }
 
 \subsection{Maximum likelihood estimation}
 
-    From \cref{statistics:likelihood} it follows that the estimator $\hat{a}_{\text{MLE}}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is therefore not the most probable estimator.
+    From \cref{statistics:likelihood}, it follows that the estimator $\widehat{a}_{\text{MLE}}$ that makes the given measurements most probable is the value of $a$ for which the likelihood function is maximal. It is, therefore, not the most probable estimator.
 
-    Using Bayes' theorem one finds $f(a\mid x) = f(x\mid a)\frac{f(a)}{f(x)}$. The prior density $f(x)$ is fixed since the values $x_i$ are given by the measurement and, hence, does not vary. The density $f(a)$ is generally assumed to be uniform if there is no prior knowledge about $a$. It follows that $f(a\mid x)$ and $f(x\mid a)$ are proportional and, hence, the logarithms of these functions differ only by an additive constant. This leads to following method for finding an estimator $\hat{a}$:
+    Using Bayes' theorem, one finds $f(a\mid x) = f(x\mid a)\frac{f(a)}{f(x)}$. The prior density $f(x)$ is fixed since the values $x_i$ are given by the measurement and, hence, do not vary. The density $f(a)$ is generally assumed to be uniform if there is no prior knowledge about $a$. It follows, that $f(a\mid x)$ and $f(x\mid a)$ are proportional and, hence, the logarithms of these functions differ only by an additive constant. This leads to following method for finding an estimator $\widehat{a}$:
     \newmethod{Maximum likelihood estimator}{\index{likelihood!estimator}\label{statistics:maximum_likelihood_estimator}
-        The maximum likelihood estimator $\hat{a}$ is obtained by solving the following equation:
+        The maximum likelihood estimator $\widehat{a}$ is obtained by solving the following equation:
         \begin{gather}
-            \left.\deriv{\ln\mathcal{L}}{a}\right|_{a=\hat{a}} = 0\,.
+            \left.\deriv{\ln\mathcal{L}}{a}\right|_{a=\widehat{a}} = 0\,.
         \end{gather}
     }
     \remark{MLE estimators are mostly consistent but often biased.}
     \begin{property}
         MLE estimators are invariant under parameter transformations.
     \end{property}
-    \result{The invariance implies that the two estimators $\hat{a}$ and $\widehat{f(a)}$ cannot both be unbiased at the same time.}
+    \result{The invariance implies that the two estimators $\widehat{a}$ and $\widehat{f(a)}$ cannot both be unbiased at the same time.}
 
     \begin{property}
         Every consistent estimator asymptotically becomes unbiased and efficient.
@@ -681,10 +681,10 @@
     \begin{property}[Minimizing KL-divergence]\label{statistics:minimizing_KL}
         It can be shown that maximizing the log-likelihood is equivalent to minimizing the Kullback--Leibler divergence (\cref{prob:kullback_leibler}) between the would-be density $f(x;\theta)$ and the true density $q(x)$:
         \begin{align*}
-            \arg\max_\theta\ln\mathcal{L} &= \arg\max_\theta\sum_{i\in I}\ln f(x_i;\theta)\\
-            &= \arg\max_\theta\sum_{i\in I}\ln f(x_i;\theta) - \ln q(x_i)\\
-            &= \arg\min_\theta\frac{1}{n}\sum_{i\in I}\ln\frac{q(x_i)}{f(x_i;\theta)}\\
-            &\longrightarrow\arg\min_\theta\int q(x;\theta)\ln\frac{q(x)}{f(x;\theta)}\,dx = \arg\min_\theta D_{\text{KL}}(q\,\|\,f_\theta)\,,
+            \arg\max_\theta\ln\mathcal{L} &= \arg\max_\theta\sum_{i=1}^n\ln f(x_i;\theta)\\
+            &= \arg\max_\theta\sum_{i=1}^n\ln f(x_i;\theta) - \ln q(x_i)\\
+            &= \arg\min_\theta\frac{1}{n}\sum_{i=1}^n\ln\frac{q(x_i)}{f(x_i;\theta)}\\
+            &\longrightarrow\arg\min_\theta\Int q(x;\theta)\ln\frac{q(x)}{f(x;\theta)}\,dx = \arg\min_\theta D_{\text{KL}}(q\,\|\,f_\theta)\,,
         \end{align*}
         where the law of large numbers was used in the last line.
     \end{property}
@@ -694,53 +694,53 @@
     To fit a (parametric) function $y = f(x;a)$ to a set of 2 variables $(x,y)$, where the $x$ values are exact and the $y$ values have an uncertainty $\sigma_i$, one can use the following method.
     \newmethod{Least squares}{\index{least squares}$ $
         \begin{enumerate}
-            \item For every event $(x_i,y_i)$ define the residual $d_i := y_i - f(x_i;a)$.
+            \item For every event $(x_i,y_i)$, define the residual $d_i := y_i - f(x_i;a)$.
             \item Determine the $\chi^2$-statistic (analytically):
                 \begin{gather}
                     \chi^2 := \sum_i\frac{d_i^2}{f_i}\,,
                 \end{gather}
                 where $f_i:=f(x_i;a)$.
-            \item Find the most probable value of $\hat{a}$ by solving the equation
+            \item Find the most probable value of $\widehat{a}$ by solving the equation
                 \begin{gather}
                     \deriv{\chi^2}{a} = 0\,.
                 \end{gather}
         \end{enumerate}
     }
     \begin{property}
-        The optimal $\chi^2$-value is asymptotically distributed according to a $\chi^2$-distribution with $n$ degrees of freedom. The parameter $n$ is equal to the number of events $N$ minus the number of fitted parameters $k$. (See more in \cref{section:chi_squared_test}.)
+        The optimal $\chi^2$-value is asymptotically distributed according to a $\chi^2$-distribution with $N\in\mathbb{N}$ degrees of freedom. The parameter $N$ is equal to the number of events $n\in\mathbb{N}$ minus the number of fitted parameters $k\in\mathbb{N}$. (See more in \cref{section:chi_squared_test}.)
     \end{property}
 
     \newformula{Linear fit}{\index{linear!fit}
-        When all uncertainties $\sigma_i$ are equal, the slope $\hat{m}$ and intercept $\hat{c}$ are given by the following formulas:
+        When all uncertainties $\sigma_i$ are equal, the slope $\widehat{m}$ and intercept $\widehat{c}$ are given by the following formulas:
         \begin{align}
             \label{statistics:least_squares_slope}
-            \hat{m} &:= \frac{\overline{xy} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2} = \frac{\mathrm{cov}(x,y)}{\variance{x}}\,,\\
+            \widehat{m} &:= \frac{\overline{xy} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2} = \frac{\mathrm{cov}(x,y)}{\mathrm{Var}(x)}\,,\\
             \label{statistics:least_squares_intercept}
-            \hat{c} &:= \overline{y} - \hat{m}\overline{x} = \frac{\overline{x^2} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2}\,.
+            \widehat{c} &:= \overline{y} - \widehat{m}\overline{x} = \frac{\overline{x^2} - \overline{x}\ \overline{y}}{\overline{x^2} - \overline{x}^2}\,.
         \end{align}
     }
-    \remark{The equation $\overline{y} = \hat{c} + \hat{m}\overline{x}$ says that the linear fit passes through the center of mass $(\overline{x},\overline{y})$.}
+    \remark{The equation $\overline{y} = \widehat{c} + \widehat{m}\overline{x}$ says that the linear fit passes through the center of mass $(\overline{x},\overline{y})$.}
 
     \newformula{Errors of linear fit}{
         \begin{align}
             \label{statistics:least_squares_slope_variance}
-            \variance{\hat{m}} &= \frac{1}{N(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
+            \variance{\widehat{m}} &= \frac{1}{n(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
             \label{statistics:least_squares_intercept_variance}
-            \variance{\hat{c}} &= \frac{\overline{x^2}}{N(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
+            \variance{\widehat{c}} &= \frac{\overline{x^2}}{n(\overline{x^2} - \overline{x}^2)}\sigma^2\\&\nonumber\\
             \label{statistics:least_squares_linear_fit_covariance}
-            \mathrm{cov}(\hat{m},\hat{c}) &= \frac{-\overline{x}}{N(\overline{x^2} - \overline{x}^2)}\sigma^2
+            \mathrm{cov}(\widehat{m},\widehat{c}) &= \frac{-\overline{x}}{n(\overline{x^2} - \overline{x}^2)}\sigma^2
         \end{align}
     }
 
-    The least squares method is very useful to fit data that has been grouped in bins (histograms):
+    The least squares method is very useful to fit data that has been grouped in bins (histograms).
     \newmethod{Binned least squares}{$ $
         \begin{enumerate}
-            \item $N$ i.i.d.~events with density $f(X;a)$ divided in $N_B$ intervals, where the interval $j$ is centered on the value $x_j$, has a width $W_j$ and contains $n_j$ events.
-            \item The ideally expected number of events in the $j^{th}$ interval: $f_j = NW_jf(x_j;a)$.
+            \item $n\in\mathbb{N}$ i.i.d.~events with density $f(X;a)$ divided in $N_B\in\mathbb{N}$ bins, where the interval $j$ is centered on the value $x_j$, has a width $W_j$ and contains $n_j\in\mathbb{N}$ events.
+            \item The ideally expected number of events in the $j^{\text{th}}$ interval: $f_j = NW_jf(x_j;a)$.
             \item The real number of events has a Poisson distribution: $\overline{n}_j = \sigma_j^2 = f_j$.
             \item Define the binned $\chi^2$ as
                 \begin{gather}
-                    \chi^2 := \sum_i^{N_B}\frac{(n_i - f_i)^2}{f_i^2}\,.
+                    \chi^2 := \sum_{i=1}^{N_B}\frac{(n_i - f_i)^2}{f_i^2}\,.
                 \end{gather}
         \end{enumerate}
     }
@@ -751,10 +751,10 @@
     \begin{gather}
         \eta = \frac{1}{n}\sum_{i=1}^nx_i = \overline{x}\,.
     \end{gather}
-    The optimal value for $\theta$ can be found by maximizing the log-likelihood as before. In \cref{statistics:minimizing_KL}, it was shown that this is equivalent to minimizing the Kullback-Leibler divergence between the `true' distribution $p(x;\xi)$ and the variational solution $f(x;\theta)$. However, in practice the true distribution is not known. Luckily one can replace the true distribution by the empirical distribution in the proof of \cref{statistics:minimizing_KL}. Minimization then corresponds to $m$-projecting the observed point $\eta$ on the submanifold $S$ of `admissible' distributions.
+    The optimal value for $\theta$ can be found by maximizing the log-likelihood as before. In \cref{statistics:minimizing_KL}, it was shown that this is equivalent to minimizing the Kullback--Leibler divergence between the `true' distribution $p(x;\xi)$ and the variational solution $f(x;\theta)$. However, in practice, the true distribution is not known. Luckily, one can replace the true distribution by the empirical distribution in the proof of \cref{statistics:minimizing_KL}. Minimization then corresponds to $m$-projecting the observed point $\eta$ on the submanifold $S$ of `admissible' distributions.
 
     \begin{theorem}[Sanov]\index{Sanov}
-        Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d. samples. Let $P_n$ be the empirical distribution function of the samples (\cref{statistics:empirical_distribution}). Further, let $\Gamma$ be a collection of probability distributions such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
+        Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d.~samples. Let $P_n$ be the empirical distribution function of the samples (\cref{statistics:empirical_distribution}). Furthermore, let $\Gamma$ be a collection of probability distributions such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
         \begin{gather}
             q^n(P_n\in\Gamma) \leq (n+1)^{|S|}2^{-n D_{\text{KL}}(p^*\,\|\,q)}\,,
         \end{gather}
@@ -770,46 +770,46 @@
         Consider a prior distribution $F(\theta)$ and a posterior distribution $F(\theta\mid X)$. If these distributions belong to the same family, e.g.~they are both Gaussians, they are said to be conjugate. In this case, the prior $F(\theta)$ is said to be a \textbf{conjugate prior} for the likelihood $F(X\mid\theta)$.
     }
     \begin{example}
-        The simplest example is the case of binomial distributions, where the conjugate prior is the \textit{$\beta$-distribution}. This can be generalized to multi-class situations. The conjugate prior of a categorical (or even \textit{multinomial}) distribution is the \textit{Dirichlet distribution}.
+        A common example is the case of binomial distributions, where the conjugate prior is the \textit{$\beta$-distribution}. This can be generalized to multi-class situations. The conjugate prior of a categorical (or even \textit{multinomial}) distribution is the \textit{Dirichlet distribution}.
     \end{example}
 
 \section{Confidence intervals}\index{confidence}\label{section:confidence}
 
     The true value of a parameter $\varepsilon$ can never be known exactly. However, it is possible to construct an interval $I$ in which this value should lie with a certain confidence $C$.
     \begin{example}[Prediction interval]
-        Let $X$ be a normally distributed random variable. A measurement will lie in the interval $[\mu - 1.96\sigma,\mu+1.96\sigma]$ with 95\% \underline{probability}. The true value $\mu$ lies in the interval $[x - 2\sigma, x+2\sigma]$ with 95\% \underline{confidence}.
+        Let $X$ be a normally distributed random variable. An observation of $X$ will lie in the interval $[\mu - 1.96\sigma,\mu+1.96\sigma]$ with 95\% \underline{probability}. The true value $\mu$ lies in the interval $[x - 2\sigma, x+2\sigma]$ with 95\% \underline{confidence}.
     \end{example}
     \begin{remark*}
-        In the previous example some assumptions were made. All possible values (left or right side of peak) are given the same probability due to the Gaussian distribution. If one removes this symmetry condition, a more careful approach is required. Furthermore, the apparent symmetry between the uncertainty and confidence levels is only valid for Gaussian distributions.
+        In the previous example, some assumptions were made. All possible values (left or right side of peak) are given the same probability due to the Gaussian distribution. If one removes this symmetry condition, a more careful approach is required. Furthermore, the apparent symmetry between the uncertainty and confidence levels is only valid for Gaussian distributions.
     \end{remark*}
 
 \subsection{Interval types}
 
     \newdef{Two-sided confidence interval}{\label{statistics:two_sided_interval}
         \begin{gather}
-            \Prob(x_-\leq X\leq x_+) = \bigintsss_{x_-}^{x_+}f(x)\,dx = C
+            \Prob(x_-\leq X\leq x_+) = \Int_{x_-}^{x_+}f(x)\,dx = C
         \end{gather}
         There are three possible (often used) two-sided intervals:
         \begin{itemize}
             \item\textbf{symmetric interval}: $x_+ - \mu = \mu - x_-$,
             \item\textbf{shortest interval}: $|x_+ - x_-|$ is minimal, or
-            \item\textbf{central interval}: $\bigintsss_{-\infty}^{x_-}f(x)\,dx = \bigintsss_{x_+}^\infty f(x)\,dx = \frac{1-C}{2}$.
+            \item\textbf{central interval}: $\Int_{-\infty}^{x_-}f(x)\,dx = \Int_{x_+}^\infty f(x)\,dx = \frac{1-C}{2}$.
         \end{itemize}
         The central interval is the most widely used confidence interval.
     }
-    \remark{For Gaussian distributions these three definitions are equivalent.}
+    \remark{For Gaussian distributions, these three definitions are equivalent.}
 
     \newdef{One-sided confidence interval}{
         \begin{align}
             \label{statistics:one_sided_interval1}
-            \Prob(x\geq x_-) &= \bigintsss_{x_-}^\infty f(x)\,dx = C\\
+            \Prob(x\geq x_-) &= \Int_{x_-}^\infty f(x)\,dx = C\\
             \label{statistics:one_sided_interval2}
-            \Prob(x\leq x_+) &= \bigintsss_{-\infty}^{x_+}f(x)\,dx = C
+            \Prob(x\leq x_+) &= \Int_{-\infty}^{x_+}f(x)\,dx = C
         \end{align}
     }
 
     \newdef{Discrete central confidence interval}{
-        For a discrete distribution it is often impossible to find integers $x_{\pm}$ such that the real value lies with exact confidence $C$ in the interval $[x_-,x_+]$.
+        For a discrete distribution, it is often impossible to find integers $x_{\pm}$ such that the real value lies with exact confidence $C$ in the interval $[x_-,x_+]$.
         \begin{align}
             \label{statistics:central_discreteInterval_lower_bound}
             x_- &= \argmin_\theta\left[\frac{1-C}{2} - \sum_{x=0}^{\theta - 1}p(x)\right]\\
@@ -822,34 +822,34 @@
 
     For every value of the true parameter $X$ it is possible to construct a confidence interval. This leads to the construction of two functions $x_-(X)$ and $x_+(X)$. The 2D diagram obtained by plotting $x_-(X)$ and $x_+(X)$ with the $x$-axis horizontally and $X$-axis vertically is called the \textbf{confidence region}.
     \begin{method}
-        Let $x_0$ be a point estimate of the parameter $X$. From the confidence region it is possible to infere a confidence interval $[X_-(x),X_+(x)]$, where the upper limit $X_+$ is not the limit such that there is only a $\frac{1-C}{2}$ chance of having a true parameter $X\geq X_+$, but the limit such that if the true parameter $X\geq X_+$ then there is a chance of $\frac{1-C}{2}$ to have a measurement $x_0$ or smaller.
+        Let $x_0$ be a point estimate of the parameter $X$. From the confidence region it is possible to infer a confidence interval $[X_-(x),X_+(x)]$, where the upper limit $X_+$ is not the limit such that there is only a $\frac{1-C}{2}$ chance of having a true parameter $X\geq X_+$, but the limit such that if the true parameter $X\geq X_+$ then there is a chance of $\frac{1-C}{2}$ to have a measurement $x_0$ or smaller.
     \end{method}
 
 \subsection{Interval for a sample mean}
 
     \newformula{Interval with known variance}{
-        If the sample size is large enough, the real distribution is unimportant, because the CLT ensures a Gaussian distribution of the sample mean $\overline{X}$. The $\alpha$-level confidence interval such that $\Prob(-z_{\alpha/2}<Z<z_{\alpha/2})$ with $Z = \frac{\overline{X} - \mu}{\sigma/\sqrt{N}}$ is given by
+        If the sample size is large enough, the true distribution is unimportant, since the CLT ensures a Gaussian distribution of the sample mean $\overline{X}$. The $\alpha$-level confidence interval such that $\Prob(-z_{\alpha/2}<Z<z_{\alpha/2})$ with $Z = \frac{\overline{X} - \mu}{\sigma/\sqrt{n}}$ is given by
         \begin{gather}
-            \left[\overline{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{N}},\overline{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{N}}\right]\,.
+            \left[\overline{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}},\overline{X} + z_{\alpha/2}\frac{\sigma}{\sqrt{n}}\right]\,.
         \end{gather}
     }
     \remark{If the sample size is not sufficiently large, the measured quantity must follow a normal distribution.}
 
     \newformula{Interval with unknown variance}{
-        To account for the uncertainty of the estimated standard deviation $\hat{\sigma}$, the student-$t$ distribution (\cref{statistics:student_t_distr}) is used instead of a Gaussian distribution to describe the sample mean $\overline{X}$. The $\alpha$-level confidence interval is given by
+        To account for the uncertainty of the estimated standard deviation $\widehat{\sigma}$, the student-$t$ distribution (\cref{statistics:student_t_distr}) is used instead of a Gaussian distribution to describe the sample mean $\overline{X}$. The $\alpha$-level confidence interval is given by
         \begin{gather}
-            \left[\overline{X} - t_{\alpha/2;(n-1)}\frac{s}{\sqrt{N}},\overline{X} + t_{\alpha/2;(n-1)}\frac{s}{\sqrt{N}}\right]\,,
+            \left[\overline{X} - t_{\alpha/2;(n-1)}\frac{s}{\sqrt{n}},\overline{X} + t_{\alpha/2;(n-1)}\frac{s}{\sqrt{n}}\right]\,,
         \end{gather}
         where $s$ is the estimated standard deviation (\cref{statistics:variance_bessel_correction}).
     }
 
     \newformula{Wilson score interval}{\index{Wilson score interval}
-        For a sufficiently large sample, a sample proportion $\hat{P}$ is approximately Gaussian distributed with expectation value $\pi$ and variance $\frac{\pi(\pi-1)}{N}$. The $\alpha$-level confidence interval is given by
+        For a sufficiently large sample, a sample proportion $\widehat{P}$ is approximately Gaussian distributed with expectation value $\pi$ and variance $\frac{\pi(\pi-1)}{n}$. The $\alpha$-level confidence interval is given by
         \begin{gather}
-            \left[\frac{(2N\hat{P} + z^2_{\alpha/2}) - z_{\alpha/2}\sqrt{z^2_{\alpha/2} + 4N\hat{P}(1 - \hat{P})}}{2(N + z^2_{\alpha/2})},\frac{(2N\hat{P} + z^2_{\alpha/2}) + z_{\alpha/2}\sqrt{z^2_{\alpha/2} + 4N\hat{P}(1 - \hat{P})}}{2(N + z^2_{\alpha/2})}\right]\,.
+            \left[\frac{(2n\widehat{P} + z^2_{\alpha/2}) - z_{\alpha/2}\sqrt{z^2_{\alpha/2} + 4n\widehat{P}(1 - \widehat{P})}}{2(n + z^2_{\alpha/2})},\frac{(2n\widehat{P} + z^2_{\alpha/2}) + z_{\alpha/2}\sqrt{z^2_{\alpha/2} + 4n\widehat{P}(1 - \widehat{P})}}{2(n + z^2_{\alpha/2})}\right]\,.
         \end{gather}
     }
-    \sremark{The expectation value and variance are these of a binomial distribution (\cref{statistics:binomial_distr}) with $r = X/N$.}
+    \sremark{The expectation value and variance are these of a binomial distribution (\cref{statistics:binomial_distr}) with $r=X/n$.}
 
 \section{Hypothesis testing}\index{hypothesis}
 
@@ -875,7 +875,7 @@
     \begin{property}
         Let $\alpha_1>\alpha_2$. An $\alpha_2$-level test is also significant at the $\alpha_1$-level.
     \end{property}
-    \remark{For discrete distributions it is not always possible to achieve an exact level of significance.}
+    \remark{For discrete distributions, it is not always possible to achieve an exact level of significance.}
     \sremark{Type-I errors occur occasionally. They cannot be prevented, one can only try to control them.}
 
     \newdef{Power}{\index{power}
@@ -886,7 +886,7 @@
     \end{remark}
 
     \newdef{Shapiro-Wilk test}{\index{test!Shapiro-Wilk}
-        After obtaining a data sample it is often interesting to see if the data is distributed normally, since many other tests and methods assume a normal distribution. The Shapiro-Wilk test considers the following test statistic:
+        After obtaining a data sample, it is often interesting to see if the data is distributed normally, since many other tests and methods assume a normal distribution. The Shapiro--Wilk test considers the following test statistic:
         \begin{gather}
             W := \frac{\sum_{i=1}^n(a_ix_{(i)})^2}{\sum_{i=1}^n(x_i-\overline{x})^2}\,,
         \end{gather}
@@ -897,7 +897,7 @@
             \item $m\equiv(m_1,\ldots,m_n)$ are the expectation values of the order statistics of i.i.d.~standard normal distributions, and
             \item $V$ is the covariance matrix of $m$.
         \end{itemize}
-        The test statistic does not follow a known distribution and all critical values are calculated with Monte-Carlo simulations.
+        The test statistic does not follow a known distribution and all critical values are calculated with Monte Carlo simulations.
     }
 
     \begin{definition}[Likelihood ratio test]\index{test!likelihood ratio}\index{likelihood|seealso{test}}\label{statistics:likelihood_ratio}
@@ -912,8 +912,8 @@
         The likelihood ratio test is the most powerful test at significance level $\alpha$.
     \end{theorem}
 
-    \newdef{Family-wise error}{\index{error}
-        Given a collection of hypothesis tests, the family-wise error is defined as the probability of making at least one type-I error.
+    \newdef{Familywise error}{\index{error}
+        Given a collection of hypothesis tests, the familywise error is defined as the probability of making at least one type-I error.
     }
     \begin{construct}[Bonferroni correction]\index{Bonferroni correction}
         Consider a set of hypotheses $\{H_i\}_{1\leq i\leq n}$. The higher the number of tests, the higher the chance that by statistical fluctuations at least one of these hypotheses will be rejected. To avoid this problem of multiple comparisons, one can try to control the family-wise error rate, i.e.~the probability of falsely rejecting at least one hypothesis. The easiest way to control this error rate is by modifying the individual significance levels:
@@ -977,13 +977,13 @@
     \end{remark}
 
     \newdef{Friedman test}{\index{test!Friedman}
-        Consider $k$ models tested on $N$ data sets. For every data set one ranks the models according to decreasing performance. For every $i\leq k$ one defines the average rank $R_i=\frac{1}{N}\sum_{j\leq N}r^j_i$, where $r^j_i$ is the rank of the $i^{th}$ model on the $j^{th}$ data set. Under the null hypothesis ``all models perform equally well'', the average ranks should be the same for all models.
+        Consider $k\in\mathbb{N}$ models tested on $N$ data sets. For every data set, one ranks the models according to decreasing performance. For every $i\leq k$, one defines the average rank $R_i=\frac{1}{N}\sum_{j\leq N}r^j_i$, where $r^j_i$ is the rank of the $i^{\text{th}}$ model on the $j^{\text{th}}$ data set. Under the null hypothesis ``all models perform equally well'', the average ranks should be the same for all models.
 
         The Friedman statistic
         \begin{gather}
             \chi^2_F := \frac{12N}{k(k+1)}\left(\sum_{i\leq k}R_i^2 - \frac{k(k+1)^2}{4}\right)
         \end{gather}
-        follows a $\chi^2$-distribution with $k-1$ degrees of freedom when $N>10$ and $k>5$. For smaller values of these parameters one can look up the exact critical values in the literature.
+        follows a $\chi^2$-distribution with $k-1$ degrees of freedom when $N>10$ and $k>5$. For smaller values of these parameters, one can look up the exact critical values in the literature.
     }
     \begin{remark}
         It was shown that the original Friedman test is rather conservative and that a better statistic is
@@ -995,7 +995,7 @@
 
 \subsection{Post-hoc tests}
 
-    After successfully using one of the multi-model tests from the previous section to reject the null hypothesis of equal performance, one is often interested in exactly which model outperforms the others. For this one can use one of the following pairwise tests:
+    After successfully using one of the multi-model tests from the previous section to reject the null hypothesis of equal performance, one is often interested in exactly which model outperforms the others. For this one can use one of the following pairwise tests.
 
     \newdef{Nemenyi test}{\index{test!Nemenyi}
         Consider the average ranks $R_i$ from the Friedman test. As a test statistic one uses
@@ -1008,9 +1008,9 @@
         If all one wants to do is see if a particular model performs better than a given baseline model, the Nemenyi test is too conservative since it corrects for $k(k-1)/2$ model comparisons instead of $k-1$. Therefore it is better to use a general method to control the family-wise error for multiple measurements. The Bonferroni--Dunn test modifies the Nemenyi test by performing a Bonferroni correction with $n-1$ degrees of freedom.
     \end{remark}
 
-    A more powerful test is given by the following strategy:
+    A more powerful test is given by the following strategy.
     \newdef{Holm test}{\index{test!Holm}
-        Consider the $p$-values of the Nemenyi test. Instead of comparing all values to a single Bonferroni-corrected significance, one can use a so-called `step-down' method. First one orders the $p$-values in ascending order and compares the smallest one to $\frac{\alpha}{k-1}$. If this value is significant, i.e.~the hypothesis that the associated models perform equally well is rejected, one compares $p_2$ to $\frac{\alpha}{k-2}$ and so on until one finds a hypothesis that cannot be rejected. All remaining hypotheses are retained as well.
+        Consider the $p$-values of the Nemenyi test. Instead of comparing all values to a single Bonferroni-corrected significance, one can use a so-called `step-down' method. First, one orders the $p$-values in ascending order and compares the smallest one to $\frac{\alpha}{k-1}$. If this value is significant, i.e.~the hypothesis that the associated models perform equally well is rejected, one compares $p_2$ to $\frac{\alpha}{k-2}$ and so on until one finds a hypothesis that cannot be rejected. All remaining hypotheses are retained as well.
     }
 
     \begin{remark}[Power]\index{power}
@@ -1020,8 +1020,7 @@
 \section{Goodness of fit}\index{goodness of fit}
 
     \newdef{Akaike information criterion}{\index{Akaike information criterion}
-        \nomenclature[A_Ak]{AIC}{Akaike information criterion}
-        Consider a model $f(x;\theta)$ with $k$ parameters fitted to a given data sample and let $\mathcal{L}_0$ be the maximum of the associated likelihood function. The Akaike information criterion is defined a follows:
+        Consider a model $f(x;\theta)$ with $k\in\mathbb{N}$ parameters fitted to a given data sample and let $\mathcal{L}_0$ be the maximum of the associated likelihood function. The Akaike information criterion is defined a follows:
         \begin{gather}
             \mathrm{AIC} := 2k - 2\ln(\mathcal{L}_0)\,.
         \end{gather}
@@ -1035,12 +1034,12 @@
     \begin{property}\label{statistics:chi_square}
         If there are $N-n$ fitted parameters one has:
         \begin{gather}
-            \bigintsss_{\chi^2}^\infty f_{\chi^2}(x\mid n)\,dx\approx 1\implies
+            \Int_{\chi^2}^{+\infty}f_{\chi^2}(x\mid n)\,dx\approx 1\implies
             \begin{cases}
-                \bullet\text{ good fit}\\
-                \bullet\text{ errors were overestimated}\\
-                \bullet\text{ selected measurements}\\
-                \bullet\text{ lucky shot}
+                \circ\text{  good fit}\\
+                \circ\text{  errors were overestimated}\\
+                \circ\text{  selected measurements}\\
+                \circ\text{  lucky shot}
             \end{cases}
         \end{gather}
     \end{property}
@@ -1049,7 +1048,7 @@
         \begin{gather}
             \chi^2_{\text{red}} := \chi^2/n\,,
         \end{gather}
-        where $n$ is the number of degrees of freedom. Depending on the value of this statistic one can draw the following conclusions (under the right assumptions):
+        where $n\in\mathbb{N}$ is the number of degrees of freedom. Depending on the value of this statistic, one can draw the following conclusions (under the right assumptions):
         \begin{itemize}
             \item $\chi^2_{\text{red}}\gg1$: poor modelling,
             \item $\chi^2_{\text{red}}>1$: bad modelling or underestimation of the uncertainties,
@@ -1067,15 +1066,17 @@
     \end{remark}
 
     \newformula{Runs distribution}{\index{distribution!runs}\label{statistics:runs_distribution}
-        Let $N_+$ and $N_-$ denote the number of points above and below the fit. Under the hypothesis that all points were independently drawn from the same distribution the number of runs is distributed as follows (approximately Gaussian):
+        Let $N_+$ and $N_-$ denote the number of points above and below the fit. Under the hypothesis that all points were independently drawn from the same distribution, the number of runs is distributed as follows (approximately Gaussian):
         \begin{gather}
             P(r_{\text{even}}) = 2\frac{\binom{N_+ - 1}{\frac{r}{2} - 1}\binom{N_- - 1}{\frac{r}{2} - 1}}{\binom{N}{N_+}}\qquad
             P(r_{\text{odd}}) = \frac{\binom{N_+ - 1}{\frac{r - 3}{2}}\binom{N_- - 1}{\frac{r - 1}{2}} + \binom{N_- - 1}{\frac{r - 3}{2}}\binom{N_+ - 1}{\frac{r - 1}{2}}}{\binom{N}{N_+}}\,,
         \end{gather}
         where $C^n_k$ is the binomial coefficient $\binom{n}{k}$. The first two moments of this distribution are given by the following formulas:
-        \begin{align}
-            \expect{r} &= 1 + 2\frac{N_+ N_-}{N}\,,\\
-            \variance{r} &= 2\frac{N_+ N_-}{N}\frac{2N_+ N_- - N}{N(N-1)}\,.
-        \end{align}
+        \begin{gather}
+            \begin{aligned}
+                \expect{r} &= 1 + 2\frac{N_+ N_-}{N}\,,\\
+                \variance{r} &= 2\frac{N_+ N_-}{N}\frac{2N_+ N_- - N}{N(N-1)}\,.
+            \end{aligned}
+        \end{gather}
     }
     \remark{For $r>15$, the runs distribution approximates a Gaussian distribution.}

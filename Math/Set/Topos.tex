@@ -1,6 +1,6 @@
-\chapter{\difficult{Topos theory}}\label{chapter:topos}
+\chapter{Topos theory}\label{chapter:topos}
 
-    The main reference for this chapter is~\citet{johnstone_topos_2014,caramello_lectures_2019}. For an introduction to stacks and descent theory, see~\cite{vistoli_notes_2004}.
+    The main reference for this chapter is~\citet{johnstone_topos_2014,caramello_lectures_2019,caramello_topos-theoretic_2018,mac_lane_sheaves_1994}. For an introduction to stacks and descent theory, see~\cite{vistoli_notes_2004}.
 
 \section{Elementary topoi}
 
@@ -35,8 +35,8 @@
         \begin{gather}
             \chi_S(x)=
             \begin{cases}
-                \texttt{true}&x\in S\,,\\
-                \texttt{false}&x\not\in S\,.
+                \texttt{true}&\cif x\in S\,,\\
+                \texttt{false}&\cif x\not\in S\,.
             \end{cases}
         \end{gather}
     \end{example}
@@ -55,14 +55,14 @@
     \end{remark}
 
     \begin{theorem}[Fundamental theorem of topos theory]\index{fundamental theorem!of topos theory}
-        Let $\mathcal{E}$ be an elementary topos. The slice category $\mathcal{E}/x$ is also a topos for every object $x\in\ob{\mathcal{E}}$. The subobject classifier is given by $\pi_2:\Omega\times x\rightarrow x$.
+        Let $\mathcal{E}$ be an elementary topos. The slice category $\mathcal{E}_{/x}$ is also a topos for every object $x\in\ob{\mathcal{E}}$. The subobject classifier is given by $\pi_2:\Omega\times x\rightarrow x$.
     \end{theorem}
 
     \begin{property}[Balanced]
-        All monos in a topos are regular. Hence, every mono arises as an equalizer. Since every epic equalizer is necessarily an isomorphism (\cref{cat:regular_iso}), it follows that every topos is balanced (\cref{cat:balanced}).
+        All monos in a topos are regular. Hence, every mono arises as an equalizer. Since, by \cref{cat:regular_iso}, every epic equalizer is necessarily an isomorphism, it follows that every topos is balanced (\cref{cat:balanced}).
     \end{property}
 
-    \begin{property}[Epi-mono factorization]\index{image}
+    \begin{property}[Epi/mono factorization]\index{image}
         Every morphism $f:x\rightarrow y$ in a topos factorizes uniquely as an epi followed by a mono:
         \begin{gather}
             x\overset{e}{\twoheadrightarrow}z\overset{m}{\hookrightarrow}y\,.
@@ -101,31 +101,40 @@
 
         More generally, the functor is obtained through the product-exponential adjunction in slice categories. The pullback is equal to a product in a slice category. Since $\mathbf{C}$ is locally Cartesian, one obtains for all $p:a\rightarrow y$ and $q:b\rightarrow y$:
         \begin{gather}
-            \mathbf{C}/x(p\times f,q)\cong\mathbf{C}/y(p,q^f)
+            \mathbf{C}_{/x}(p\times f,q)\cong\mathbf{C}_{/y}(p,q^f)
         \end{gather}
-        for some morphism $q^f:b^f\rightarrow y$. Applying this exponential functor to the identity morphism $\mathbbm{1}_f$ gives a morphism $s:\mathbbm{1}_y\rightarrow f^f$ or $s:y\rightarrow x^f$ (this simply picks out the identity morphism in the exponential object internally). The dependent product is then defined as the pullback $\prod_fg:=s^*g^f$, where $g^f$ is interpreted as the morphism $(f\circ g)^f\rightarrow f^f$ in $\mathbf{C}/y$.
+        for some morphism $q^f:b^f\rightarrow y$. Applying this exponential functor to the identity morphism $\mathbbm{1}_f$, gives a morphism $s:\mathbbm{1}_y\rightarrow f^f$ or $s:y\rightarrow x^f$ (this simply picks out the identity morphism in the exponential object internally). The dependent product is then defined as the pullback $\prod_fg:=s^*g^f$, where $g^f$ is interpreted as the morphism $(f\circ g)^f\rightarrow f^f$ in $\mathbf{C}_{/y}$.
 
-        The idea behind this pullback construction is that in $\mathbf{Set}$, the pullback of $g^X:Z^X\rightarrow X^X$ along $s:\mathbbm{1}_X\rightarrow X^X$ is equal to the set \[\{h\in Z^X\mid h\circ g=\mathbbm{1}_Z\}\,,\] i.e.~it consists of all sections of $g$. Hence, the pullback construction generalizes \cref{topos:dependent_product_sets}.
+        The idea behind this pullback construction is that in $\mathbf{Set}$, the pullback of $g^X:Z^X\rightarrow X^X$ along $s:\mathbbm{1}_X\rightarrow X^X$ is equal to the set
+        \begin{gather}
+            \{h\in Z^X\mid h\circ g=\mathbbm{1}_Z\}\,,
+        \end{gather}
+        i.e.~it consists of all sections of $g$. Hence, the pullback construction generalizes \cref{topos:dependent_product_sets}.
     \end{property}
 
     \newdef{Logical morphism}{\index{morphism!logical}
         A functor $f:\mathcal{E}\rightarrow\mathcal{F}$ between elementary topoi is said to be logical if it preserves finite limits, exponential objects and the subobject classifier.
     }
     \begin{property}
-        If a logical morphism has a left adjoint, it also has a right adjoint.
+        If a logical morphism has a left adjoint if and only if it has a right adjoint.
     \end{property}
 
     \newdef{Geometric morphism}{\index{morphism!geometric}\index{direct!image}\index{inverse!image}
         A geometric morphism $f:\mathcal{E}\rightarrow\mathcal{F}$ of elementary topoi consists of an adjunction \[\mathcal{E}\adj{f^*}{f_*}\mathcal{F}\,,\] where the left adjoint is left exact. The right adjoint $f_*$ is called the \textbf{direct image} part of $f$ and the left adjoint $f^*$ is called the \textbf{inverse image} part. If $f^*$ itself has a left adjoint, then $f$ is said to be \textbf{essential}.
     }
+
+    \newdef{Geometric surjection}{\index{surjective}
+        A geometric morphism for which the inverse image part is faithful or, equivalently, reflects isomorphisms, is said to be \textbf{surjective} or is called a geometric surjection.
+    }
+
     \newdef{Geometric embedding}{\index{embedding}\index{sub-!topos}\index{level}
         A geometric morphism for which the direct image part is fully faithful. If $\mathcal{E}\hookrightarrow\mathcal{F}$ is a geometric embedding, $\mathcal{E}$ is sometimes called a \textbf{subtopos} of $\mathcal{F}$. Moreover, if it is an essential geometric morphisms, the subtopos is itself said to be \textbf{essential}. Essential subtopoi $\mathcal{E}\hookrightarrow\mathcal{F}$ are also called \textbf{levels} of $\mathcal{F}$.
     }
     \begin{property}[Characterization of geometric embeddings]\label{topos:characterization_embedding}
-        Let $f:\mathcal{E}\hookrightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\mathrm{hom}(\mathcal{F})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{E}$ is both equivalent to the full subcategory of $\mathcal{F}$ on $W$-local objects (\cref{cat:local_object}) and the localization $\mathcal{F}[W^{-1}]$ at $W$ (\cref{model:localization}).
+        Let $f:\mathcal{E}\hookrightarrow\mathcal{F}$ be a geometric embedding and let $W\subset\mathrm{hom}(\mathcal{F})$ be the collection of morphisms that are mapped to isomorphisms under $f^*$. $\mathcal{E}$ is both equivalent to the full subcategory of $\mathcal{F}$ on $W$-local objects (\cref{cat:local_object}) and the \textit{localization} $\mathcal{F}[W^{-1}]$ at $W$ (see \cref{model:localization}).
     \end{property}
 
-    \begin{property}[Base change]
+    \begin{property}[Base change]\index{base change}
         The base change functors on a topos are logical and admit a left adjoint, the postcomposition functor. This implies that these functors can be refined to essential geometric morphisms.
     \end{property}
 
@@ -147,15 +156,22 @@
     }
 
     \newnot{Category of topoi}{
-        \nomenclature[S_Topos]{$\mathbf{Topos}$}{the 2-category of (elementary) topoi and geometric morphisms}
         The category of elementary topoi and geometric morphisms is a 2-category. It is denoted by $\mathbf{Topos}$.
 
-        However, to obtain the structure of a 2-category, one needs to define an appropriate notion of 2-morphism. Because a geometric morphism consists of an adjunction, one can consider two distinct conventions. Either one can choose the 2-morphisms in $\mathbf{Topos}$ to be the natural transformations $f^*\Rightarrow g^*$ (with associated transformations $g_*\Rightarrow f_*$) or one can choose them to be the natural transformations $f_*\Rightarrow g_*$ (and associated transformations $g^*\Rightarrow f^*$). This chapter follows~\cite{johnstone_topos_2014} and the ``inverse image convention'' is used, i.e.~a 2-morphism $f\Rightarrow g$ consists of natural transformations $f^*\Rightarrow g^*$ and $g_*\Rightarrow f_*$.
+        To obtain the structure of a 2-category, one needs to define an appropriate notion of 2-morphism. Because a geometric morphism consists of an adjunction, one can consider two distinct conventions. Either, one can choose the 2-morphisms in $\mathbf{Topos}$ to be the natural transformations $f^*\Rightarrow g^*$ (with associated transformations $g_*\Rightarrow f_*$) or, one can choose them to be the natural transformations $f_*\Rightarrow g_*$ (and associated transformations $g^*\Rightarrow f^*$). This chapter follows~\cite{johnstone_topos_2014} and the `inverse image convention' is used, i.e.~a 2-morphism $f\Rightarrow g$ consists of natural transformations $f^*\Rightarrow g^*$ and $g_*\Rightarrow f_*$.
     }
+
+    \begin{property}[Balanced]
+        The category $\mathbf{Topos}$ is balanced (\cref{cat:balanced}), i.e.~every geometric morphism that is both a geometric embedding and a geometric surjection is an equivalence. 
+    \end{property}
+
+    \begin{theorem}[Factorization]\index{factorization}
+        Every geometric morphisms can be factorized as a geometric surjection followed by a geometric embedding.
+    \end{theorem}
 
 \section{Internal logic}\label{section:internal_logic}
 
-    In this subsection finitely complete categories that admit a subobject classifier are considered (they do not have to be elementary topoi).
+    In this subsection, finitely complete categories that admit a subobject classifier are considered (they do not have to be elementary topoi).
 
     \newdef{Truth value}{\index{truth value}
         A global element of the subobject classifier, i.e.~a morphism $1\rightarrow\Omega$. The subobject classifier $\Omega$ is also sometimes called the \textbf{object of truth values}.
@@ -164,14 +180,13 @@
     \begin{property}[Heyting algebra]\label{topos:heyting_algebra}
         For all objects $x$ in an elementary topos, the poset of subobjects $\mathrm{Sub}(x)$ has the structure of an internal meet-semilattice since forming pullbacks of monos gives a natural transformation
         \begin{gather}
-            \cap_X:\hom(X,\Omega\times\Omega)\rightarrow\hom(X,\Omega)\,.
+            \cap_x:\hom(x,\Omega\times\Omega)\rightarrow\hom(x,\Omega)\,.
         \end{gather}
-        By the Yoneda lemma this induces an internal map
+        By the Yoneda lemma, this induces an internal map
         \begin{gather}
             \land:\Omega\times\Omega\rightarrow\Omega\,.
         \end{gather}
-        In fact it can be shown that this gives the structure of an internal
-        Heyting algebra (\cref{set:heyting}) and, in particular, that of an internal locale (\cref{topology:locale}). Hence, every topos canonically gives an external Heyting algebra, namely $\mathrm{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
+        In fact, it can be shown that this gives the structure of an internal Heyting algebra (\cref{set:heyting}) and, in particular, that of an internal locale (\cref{topology:locale}). Hence, every topos canonically gives an external Heyting algebra, namely $\mathrm{Sub}(1)$. Furthermore, every power object is an internal Heyting algebra. This in particular includes the subobject classifier $\Omega=P1$.
     \end{property}
 
     \newdef{Mitchell--B\'enabou language}{\index{Mitchell--B\'enabou language}\index{proposition}\index{type}\index{variable}\index{term}
@@ -204,7 +219,7 @@
         If $f:U\rightarrow V$ is epic and $V\vdash\phi(\alpha\circ f)$, then $U\vdash\phi(\alpha)$.
     \end{property}
 
-    @@ COMPLETE @@
+    \todo{COMPLETE}
 
 \section{Grothendieck topoi}\label{section:grothendieck_topos}
 \subsection{Grothendieck topologies}
@@ -212,13 +227,13 @@
     \newdef{Sieve}{\index{sieve}
         Let $\mathbf{C}$ be a small category. A sieve $S$ on $\mathbf{C}$ is a fully faithfull discrete fibration $S\hookrightarrow\mathbf{C}$.
 
-        A sieve $S$ on an object $x\in\mathbf{C}$ is a sieve in the slice category $\mathbf{C}/x$. This means that $S$ is a subset of $\mathrm{ob}(\mathbf{C}/x)$ that is closed under precomposition, i.e.~if $y\rightarrow x\in S$ and $z\rightarrow y\in\mathrm{hom}(\mathbf{C})$, then $z\rightarrow y\rightarrow x\in S$.
+        A sieve $S$ on an object $x\in\mathbf{C}$ is a sieve in the slice category $\mathbf{C}_{/x}$. This means that $S$ is a subset of $\mathrm{ob}(\mathbf{C}_{/x})$ that is closed under precomposition, i.e.~if $y\rightarrow x\in S$ and $z\rightarrow y\in\mathrm{hom}(\mathbf{C})$, then $z\rightarrow y\rightarrow x\in S$.
 
         All of this can be summarized by saying that a sieve on an object $x\in\ob{C}$ is a subfunctor of the hom-functor $\mathbf{C}(-,x)$.
     }
 
     \begin{example}[Maximal sieve]
-        Let $\mathbf{C}$ be a category. The maximal sieve on $x\in\ob{C}$ is the collection of all morphisms $\{f\in\mathrm{hom}(\mathbf{C})\mid\cod(f)=x\}$ or, equivalently, all of $\mathrm{ob}(\mathbf{C}/x)$.
+        Let $\mathbf{C}$ be a category. The maximal sieve on $x\in\ob{C}$ is the collection of all morphisms $\{f\in\mathrm{hom}(\mathbf{C})\mid\cod(f)=x\}$ or, equivalently, all of $\mathrm{ob}(\mathbf{C}_{/x})$.
     \end{example}
     \begin{example}[Pullback sieve]
         Consider a morphism $f:x\rightarrow y$. Given a sieve $S$ on $y$, one can construct the pullback sieve $f^*S$ on $x$ as the sieve of morphisms in $S$ that factor through $f$:
@@ -242,21 +257,22 @@
     }
 
     The following definition is due to \textit{Giraud} (for the original definition using the notion of a \textit{cover}, see the end of this section).
-    \newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}
-        A Grothendieck topology on a category is a map $J$ assigning to every object a collection of sieves satisfying the following conditions:
+    \newdef{Grothendieck topology}{\index{Grothendieck!topology}\index{covering!sieve}\label{topos:grothendieck_topology}
+        A Grothendieck topology on a category $\mathbf{C}$ is a map $J$ assigning to every object a collection of sieves satisfying the following conditions:
         \begin{enumerate}
-            \item\textbf{Identity}\footnote{The name itself stems from the fact that the maximal sieve is generated from the identity morphism.}: For every object $x$ the maximal sieve $M_x$ is an element of $J(x)$ or, equivalently, all sieves generated by isomorphisms are in $J(x)$.
+            \item\textbf{Identity}\footnote{The name itself stems from the fact that the maximal sieve is generated from the identity morphism.}: For every object $x\in\ob{C}$, the maximal sieve $M_x$ is an element of $J(x)$ or, equivalently, all sieves generated by isomorphisms are in $J(x)$.
             \item\textbf{Base change}: If $S\in J(x)$, then $f^*S\in J(y)$ for every morphism $f:y\rightarrow x$.
-            \item\textbf{Locality}: Consider a sieve $S$ on $x$. If there exists a sieve $R\in J(x)$, such that for every morphism $(f:y\rightarrow x)\in R$ the pullback sieve $f^*S\in J(y)$, then $S\in J(x)$.
+            \item\textbf{Locality}: Consider a sieve $S$ on $x\in\ob{C}$. If there exists a sieve $R\in J(x)$, such that for every morphism $(f:y\rightarrow x)\in R$ the pullback sieve $f^*S\in J(y)$, then $S\in J(x)$.
         \end{enumerate}
         The sieves in $J$ are called ($J$-)\textbf{covering sieves}. A collection of morphisms with codomain $x\in\ob{C}$ is called a \textbf{cover}\footnote{Sometimes this term is also used to denote any collection of morphism with common codomain $x$, i.e.~without reference to a covering sieve.} of $x$ if the sieve generated by these morphisms is a covering sieve on $x$.
     }
+
     \begin{example}[Topological spaces]
         These conditions have the following interpretation in the case of topological spaces:
         \begin{itemize}
             \item The collection of all open subsets covers a space $U$.
             \item If $\{U_i\}_{i\in I}$ covers $U$, then $\{U_i\cap V\}_{i\in I}$ covers $U\cap V$.
-            \item If $\{U_i\}_{i\in I}$ covers $U$ and if for every $i\in I$ the collection $\{U_{ij}\}_{j\in J_i}$ covers $U_i$, then $\{U_{ij}\}_{i\in I,j\in J_i}$ covers $U$.
+            \item If $\{U_i\}_{i\in I}$ covers $U$ and, if for every $i\in I$ the collection $\{U_{ij}\}_{j\in J_i}$ covers $U_i$, then $\{U_{ij}\}_{i\in I,j\in J_i}$ covers $U$.
         \end{itemize}
         The canonical Grothendieck topology on $\mathbf{Open}(X)$ is given by the sieves $S=\{U_i\hookrightarrow U\}_{i\in I}$, where $\bigcup_{i\in I}U_i=U$. This topology is denoted by $J_{\mathbf{Open}(X)}$.
     \end{example}
@@ -273,7 +289,7 @@
     \newdef{Matching family}{\index{matching!family}\label{topos:matching_family}
         Consider a presheaf $F\in\mathbf{Psh(C)}$ together with a sieve $S$ on $x\in\ob{C}$. A matching family for $S$ with respect to $F$ is a natural transformation $\alpha:S\Rightarrow F$ between $S$, regarded as a subfunctor of $\mathbf{C}(-,x)$, and $F$.
 
-        More explicitly, it is an assignment of an element $x_f\in Fd$ to every morphism $(f:y\rightarrow x)\in S$ such that
+        More explicitly, it is an assignment of an element $x_f\in Fy$ to every morphism $(f:y\rightarrow x)\in S$ such that
         \begin{gather}
             F(g)(x_f) = x_{f\circ g}
         \end{gather}
@@ -286,13 +302,14 @@
         \begin{gather}
             F(f)(a)=x_f
         \end{gather}
-        for all morphisms $f\in S(y)$. The existence of such an element can also be stated in terms of natural transformations. Consider the obvious inclusion $\iota_S$ of $S$ into the the hom-functor $\mathbf{C}(-,x)$. Every morphism with codomain $x$ can be obtained from the identity morphism by precomposition and, hence, a natural transformation $\mathbf{C}(-,x)\Rightarrow F$ is determined by its action on the identity morphisms $\mathbbm{1}_x$. The existence of an amalgamation is thus equivalent to the existence of an extension of $S$ along $\iota_S$.
+        for all morphisms $f\in S(y)$.
+        
+        The existence of such an element can also be stated in terms of natural transformations. Consider the obvious inclusion $\iota_S$ of $S$ into the the hom-functor $\mathbf{C}(-,x)$. Every morphism with codomain $x$ can be obtained from the identity morphism by precomposition and, hence, a natural transformation $\mathbf{C}(-,x)\Rightarrow F$ is determined by its action on the identity morphisms $\mathbbm{1}_x$. The existence of an amalgamation is thus equivalent to the existence of an extension of $S$ along $\iota_S$.
     }
     \remark{If the base category has all pullbacks, for example if it is a topos on its own, one can restrict the above commuting diagrams to the pullback diagrams of morphisms in the sieve $S$.}
 
     \newdef{Sheaf}{\index{sheaf}\index{presheaf!separated}\label{topos:sheaf}
-        \nomenclature[S_Shsite]{$\mathbf{Sh}(\mathbf{C},J)$}{category of $J$-sheaves on a site $(\mathbf{C},J)$}
-        Consider a site $(\mathbf{C},J)$. A presheaf $F$ on $\mathbf{C}$ is called a $J$-sheaf if every matching family for every covering sieve in $J$ admits a unique amalgamation\footnote{If there exists at most one amalgamation, the presheaf is said to be \textbf{separated}.} or, equivalently, if all sieves admit a unique extension to representable presheaves.
+        Consider a site $(\mathbf{C},J)$. A presheaf $F$ on $\mathbf{C}$ is called a $J$-sheaf if every matching family, for every covering sieve in $J$, admits a unique amalgamation\footnote{If there exists at most one amalgamation, the presheaf is said to be \textbf{separated}.} or, equivalently, if all sieves admit a unique extension to representable presheaves.
 
         The category $\mathbf{Sh}(\mathbf{C},J)$ of $J$-sheaves on the site $(\mathbf{C},J)$ is the full subcategory of $\mathbf{Psh(C)}$ on the presheaves that satisfy the above condition.
     }
@@ -354,7 +371,7 @@
     \end{property}
 
     \begin{example}[Canonical topology]\index{topology!canonical}
-        The canonical topology on a category is the largest (finest) Grothendieck topology for which all representable presheaves are sheaves. A subcanonical topology is then defined as a subtopology of the canonical one, i.e.~any Grothendieck topology for which all representable presheaves are sheaves.
+        The canonical topology on a category is the finest Grothendieck topology for which all representable presheaves are sheaves. A \textbf{subcanonical topology} is then defined as a subtopology of the canonical one, i.e.~any Grothendieck topology for which all representable presheaves are sheaves.
     \end{example}
     \begin{example}[Minimal and maximal topologies]
         The minimal Grothendieck topology on a category is the one for which only the maximal sieves are covering sieves. In this topology all presheaves are sheaves. The maximal Grothendieck topology is the one for which all sieves are covering sieves. In this topology only the terminal element of the associated presheaf category is a sheaf.
@@ -368,7 +385,13 @@
     \end{property}
 
     \begin{property}
-        For every Grothendieck topos there exists a site of definition for which the Grothendieck topology is (sub)canonical.
+        For every Grothendieck topos, there exists a (standard) site of definition for which the Grothendieck topology is (sub)canonical.
+    \end{property}
+    \begin{property}
+        Let $\mathcal{E}$ be a Grothendieck topos. The canonical topology $J_{\text{can}}$ on $\mathcal{E}$ is the topology for which the covering sieves are jointly epimorphic families. Moreover,
+        \begin{gather}
+            \mathcal{E}\cong\mathbf{Sh}(\mathcal{E},J_{\text{can}})\,.
+        \end{gather}
     \end{property}
 
     \begin{construct}[Sheafification]\index{sheafification}
@@ -380,12 +403,12 @@
         \begin{gather}
             \Gamma:\mathcal{E}\rightarrow\mathbf{Set}:x\mapsto\mathcal{E}(1,x)\,.
         \end{gather}
-        When $\mathcal{E}$ is the sheaf topos over a topological space, this is exactly the global sections functor (\cref{sheaf:global_sections_functor}). The left adjoint assigns to every set $S$ the copower $S\cdot1\equiv\bigsqcup_{s\in S}1$. When $\mathcal{E}$ is a sheaf topos, this adjoint is exactly the constant sheaf functor. It is sometimes denoted by $\mathrm{LConst}$.
+        When $\mathcal{E}$ is the sheaf topos over a topological space, this is exactly the global sections functor (\cref{sheaf:global_sections_functor}). The left adjoint assigns to every set $S$ the copower $S\cdot1\equiv\bigsqcup_{s\in S}1$. When $\mathcal{E}$ is a sheaf topos, this adjoint is exactly the constant sheaf functor. It is sometimes denoted by $\mathrm{LConst}$ (cf.~\cref{sheaf:constant_sheaf}).
     }
 
     A different approach for defining sheaf topoi is through an embedding of sheaves into presheaves.
     \newdef{Local isomorphism}{\index{local!isomorphism}
-        A system of local isomorphisms in $\mathbf{Psh(C)}$ is a class of morphisms in $\mathbf{Psh(C)}$ forming a system of weak equivalences (\cref{model:weak_equivalence}) closed under pullbacks along morphisms out of representable presheaves.
+        A system of local isomorphisms in $\mathbf{Psh(C)}$ is a class of morphisms in $\mathbf{Psh(C)}$ forming a \textit{system of weak equivalences} (see \cref{model:weak_equivalence}) closed under pullbacks along morphisms out of representable presheaves.
     }
     \begin{property}[Local isomorphisms and Grothendieck topologies]
         A system of local isos induces a \textit{system of local epis} in the following way. $f:X\rightarrow Y$ is a local epi if $\im(f)\rightarrow Y$ is a local iso. A Grothendieck topology is defined by declaring a presheaf $F\in\mathbf{Psh(C)}$ to be a covering sieve at $X\in\ob{C}$ if $F\hookrightarrow\mathcal{Y}X$ is a local epi.
@@ -395,27 +418,28 @@
         A category $\mathbf{Sh(C)}$ equipped with a geometric embedding into $\mathbf{Psh(C)}$.
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Proof of equivalence]
-            By \cref{topos:characterization_embedding} such a category is equivalent to the full subcategory on $S$-local presheaves for some system of local isomorphisms $S$ and, therefore, also to a sheaf topos in the sense of Grothendieck by the property above.\qed
+            By \cref{topos:characterization_embedding}, such a category is equivalent to the full subcategory on $S$-local presheaves for some system of local isomorphisms $S$ and, therefore, also to a sheaf topos in the sense of Grothendieck by the property above.
             \end{proof}
         \end{mdframed}
     }
+
     \begin{remark}[Descent condition]
-        This is essentially a restatement of the descent condition (cf.~\ref{topos:local_object_sheaf}). Covering sieves, regarded as subfunctors, are in particular local isomorphisms. Stability of sieves under pullback together with the co-Yoneda lemma~\ref{cat:ninja_yoneda}, which says that every presheaf is a colimit of representables, generates the full collection of local isomorphisms.
+        This is essentially a restatement of the descent condition (cf.~\ref{topos:local_object_sheaf}). Covering sieves, regarded as subfunctors, are in particular local isomorphisms. Stability of sieves under pullback, together with the co-Yoneda lemma~\ref{cat:ninja_yoneda}, which says that every presheaf is a colimit of representables, generates the full collection of local isomorphisms.
     \end{remark}
 
-    By \cref{model:reflective_localization}, the construction of Grothendieck topoi as localizations of presheaf categories is equivalent to a definition in terms of reflections (this is due to \textit{Street}).
+    The characterization of geometric embeddings and, hence, of Grothendieck topoi in terms of \textit{localizations} (\cref{topos:characterization_embedding}) is equivalent to a definition in terms of reflections (this is due to \textit{Street}).
     \begin{result}
-        Given a small category $\mathbf{C}$, there exists a bijection between the Grothendieck topologies on $\mathbf{C}$ and the equivalence classes of left exact reflective subcategories of $\mathbf{Psh(C)}$.
+        There exists a bijection between the Grothendieck topologies on a small category $\mathbf{C}$ and the equivalence classes of left exact reflective subcategories of $\mathbf{Psh(C)}$.
     \end{result}
 
     \newdef{Representable morphism}{\index{representable}
-        A natural transformation of presheaves $F\rightarrow G$ is said to be representable if for every representable presheaf $h_X$ and every morphism $h_X\rightarrow G$ the pullback $h_X\times_GF$ is representable.
+        A natural transformation of presheaves $F\rightarrow G$ is said to be representable if, for every representable presheaf $h_X$ and every morphism $h_X\rightarrow G$, the pullback $h_X\times_GF$ is representable.
     }
 
     \begin{property}[Diagonals]\label{topos:representable_diagonal}
         The diagonal morphism $\Delta_F:F\rightarrow F\times F$, for $F$ a presheaf on a category with pullbacks, is representable if and only if any of the following two equivalent properties holds:
         \begin{enumerate}
-            \item For every two representable presheaves $h_X,h_Y$ and natural transformations $h_X\rightarrow F,h_Y\rightarrow F$ the pullback $h_X\times_Fh_Y$ is representable.
+            \item For every two representable presheaves $h_X,h_Y$ and natural transformations $h_X\rightarrow F,h_Y\rightarrow F$, the pullback $h_X\times_Fh_Y$ is representable.
             \item Every natural transformation $h_X\rightarrow F$ from a representable presheaf is representable.
         \end{enumerate}
     \end{property}
@@ -425,24 +449,32 @@
     See \cref{chapter:sheaf} for the application of sheaves to topology.
 
     \begin{property}[Presheaf topos]\label{topos:sheaf_topos}
-        Consider the presheaf category \[\mathbf{Psh}(X):=\mathbf{Psh(Open}(X))\] over a topological space $(X,\tau)$. Unpacking \cref{topos:presheaf_topos} shows that this category is an elementary topos where the subobject classifier is given by
+        Consider the presheaf category
+        \begin{gather}
+            \mathbf{Psh}(X):=\mathbf{Psh\bigl(Open}(X)\bigr)
+        \end{gather}
+        over a topological space $(X,\tau)$. Unpacking \cref{topos:presheaf_topos} shows that this category is an elementary topos where the subobject classifier is given by
         \begin{gather}
             \Omega(U) = \{V\in\tau\mid V\subseteq U\}\,.
         \end{gather}
     \end{property}
 
-    \begin{construct}[Sheaves and \'etal\'e bundles]\label{topos:etale_adjunction}
-        Let $X$ be a topological space. The functor \[I:\mathbf{Open}(X)\rightarrow\mathbf{Top}_{/X}:U\mapsto(U\hookrightarrow X)\] induces the following adjunction:
+    \begin{construct}[Sheaves and \'etale bundles]\index{bundle}\label{topos:etale_adjunction}
+        Let $X$ be a topological space. The functor
+        \begin{gather}
+            I:\mathbf{Open}(X)\rightarrow\mathbf{Top}_{/X}:U\mapsto(U\hookrightarrow X)
+        \end{gather}
+        induces the following adjunction:
         \begin{gather}
             \mathbf{Top}_{/X}\adj{E}{\Gamma}\mathbf{Psh}(X)\,.
         \end{gather}
-        The slice category on the left-hand side is the category of (topological) bundles (see \cref{chapter:bundles}) over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of local sections and the left adjoint assigns to every presheaf its bundle of germs.
+        The slice category on the left-hand side is the category of (topological) \textit{bundles} (see \cref{chapter:bundles}) over $X$. Both directions of the adjunction have a clear interpretation. The right adjoint assigns to every bundle its sheaf of local sections and the left adjoint assigns to every presheaf its bundle of germs.
 
-        By restricting to the subcategories on which this adjunction becomes an adjoint equivalence, one obtains the \textbf{\'etal\'e space} and \textbf{sheaf categories} respectively:
+        By restricting to the subcategories on which this adjunction becomes an adjoint equivalence, one obtains the \textbf{\'etale space} and \textbf{sheaf categories} respectively:
         \begin{gather}
             \mathbf{Et}(X)\cong\mathbf{Sh}(X)\,.
         \end{gather}
-        The category on the right-hand side is the category of sheaves on a topological space $X$. The category on the left is the full subcategory on local homeomorphisms, i.e.~the \'etal\'e spaces (\cref{topology:etale_space}).
+        The category on the right-hand side is the category of sheaves on a topological space $X$. The category on the left is the full subcategory on local homeomorphisms, i.e.~the \'etale spaces (\cref{topology:etale_space}).
     \end{construct}
 
     \begin{property}[Associated sheaf]
@@ -452,8 +484,8 @@
     \end{property}
 
     \newdef{Petit and gros topoi\footnotemark}{\index{topos!petit \& gros}\index{topos!spatial}
-        \footnotetext{For those that do not master French, petit and gros mean small and big, respctively.}
-        Consider a topological space $X$ together with its category of opens $\mathbf{Open}(X)$. The petit topos over $X$ is defined as the sheaf topos $\mathbf{Sh}(X)\equiv\mathbf{Sh}(\mathbf{Open}(X))$. It represents $X$ as a `generalized space'. (By \cref{topos:etale_adjunction} the objects in a petit topos are the \'etal\'e spaces over the given base space.) Topoi equivalent to such petit topoi are sometimes said to be \textbf{spatial}. However, one can also build a topos whose objects are themselves generalized spaces. To this end, choose a site $S$ of `probes' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. (See \cref{section:smooth_spaces} for more information.)
+        \footnotetext{For those that do not master French, petit and gros mean small and big, respectively.}
+        Consider a topological space $X$ together with its category of opens $\mathbf{Open}(X)$. The petit topos over $X$ is defined as the sheaf topos $\mathbf{Sh}(X)\equiv\mathbf{Sh}\bigl(\mathbf{Open}(X)\bigr)$. It represents $X$ as a `generalized space'. (By \cref{topos:etale_adjunction}, the objects in a petit topos are the \'etale spaces over the given base space.) Topoi equivalent to such petit topoi are sometimes said to be \textbf{spatial}. However, one can also build a topos whose objects are themselves generalized spaces. To this end, choose a site $S$ of `probes' and call the sheaf topos $\mathbf{Sh}(S)$ a gros topos. (See \cref{section:smooth_spaces} for more information.)
     }
 
     \begin{property}[Localic reflection]\index{localic!reflection}
@@ -486,6 +518,8 @@
 
 \subsection{Lawvere--Tierney topology}
 
+    This section gives an alternative approach to the construction of sheaf topoi, which is more closely linked to the logical aspect of topos theory.
+
     \newdef{Lawvere--Tierney topology}{\index{Lawvere--Tierney}
         As noted in \cref{section:internal_logic} on the internal logic of elementary topoi, the subobject classifier $\Omega$ has the structure of an internal Heyting algebra and, in particular, that of a (bounded) meet-semilattice. This internal poset, viewed as an internal category, admits the construction of a closure operator $j:\Omega\rightarrow\Omega$ (\cref{cat:closure_operator}) satisfying the following condition:
         \begin{gather}
@@ -499,249 +533,135 @@
             j\circ\texttt{true} = \texttt{true}\,.
         \end{gather}
     \end{remark}
-    The Lawvere--Tierney operator also induces a `closure operator' on all posets $\mathrm{Sub}(x)$ in the topos. Given an object $x$ and a subobject $u\in\text{Sub}(x)$, one defines the closure $j_\ast(u)\in\text{Sub}(x)$ as the subobject classified by the characteristic morphism $j\circ\chi_u:x\rightarrow\Omega$.
-
-    \newdef{Dense object}{\index{dense}
-        Given a Lawvere--Tierney topology $j:\Omega\rightarrow\Omega$, a subobject $u\in\text{Sub}(x)$ is said to be dense (in $x$) if it satisfies $j_\ast(u)=x$.
-    }
-    \newadef{Sheaf}{\index{sheaf}
-        Given a Lawvere--Tierney topology $j:\Omega\rightarrow\Omega$ on a topos $\mathcal{E}$, one calls an object $s\in\ob{\mathcal{E}}$ a $j$-sheaf if for all dense morphisms $u\hookrightarrow x$ the induced map \[\mathcal{E}(x,s)\rightarrow\mathcal{E}(u,s)\] is a bijection.
+    
+    As noted above, Lawvere--Tierney operators induce, internally, \textit{universal closure operators} on all posets $\mathrm{Sub}(x)$ in the topos. Given an object $x$ and a subobject $u\in\text{Sub}(x)$, one defines the closure $j_\ast(u)\in\text{Sub}(x)$ as the subobject classified by the characteristic morphism $j\circ\chi_u:x\rightarrow\Omega$.
+    \newdef{Dense object}{\index{dense}\index{closed}
+        Given a Lawvere--Tierney topology $j:\Omega\rightarrow\Omega$, a subobject $u\in\text{Sub}(x)$ is said to be dense (in $x$) if it satisfies $j_\ast(u)\cong x$. An object is said to be \textbf{closed} if $j_\ast(u)\cong u$.
     }
 
-    \begin{property}
-        Lawvere--Tierney topologies on $\mathcal{E}$ are in correspondence with subtopoi of $\mathcal{E}$.
+    \begin{example}
+        On a presheaf topos, objects are dense exactly if they are covering sieves (\cref{topos:grothendieck_topology}).
+    \end{example}
+
+    The following definition allows to generalize sheaves from topoi to finitely complete categories.
+    \newadef{Sheaf}{\index{sheaf}\index{separated}
+        Given a Lawvere--Tierney topology $j:\Omega\rightarrow\Omega$ on a topos $\mathcal{E}$, one calls an object $s\in\ob{\mathcal{E}}$ a $j$-sheaf if it is local with respect to all dense morphisms (\cref{cat:local_object}), i.e.~for all dense morphisms $u\hookrightarrow x$ the induced map \[\mathcal{E}(x,s)\rightarrow\mathcal{E}(u,s)\] is a bijection. If this map is only a monomorphism, the object is said to be \textbf{$j$-separated}.
+    }
+
+    \begin{property}\index{sheafification}
+        Lawvere--Tierney topologies on $\mathcal{E}$ are in correspondence with subtopoi of $\mathcal{E}$, given by the sheaves relative to the chosen topology. As before, the left adjoint to the embedding is the sheafification functor.
     \end{property}
+
     In the case of (pre)sheaf topoi, Lawvere--Tierney topologies recover Grothendieck topologies.
     \begin{result}
         For the presheaf topos on a small category $\mathbf{C}$, the Grothendieck topologies on $\mathbf{C}$ are equivalent to Lawvere--Tierney topologies on $\mathbf{Psh(C)}$.
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Sketch of proof]
-                Since a Grothendieck topology assigns to every object a collection of sieves, \cref{topos:presheaf_topos} implies that $J(x)\subseteq\Omega_\mathbf{Psh}(x)$ for all $x\in\ob{C}$. By the base change condition of Grothendieck topologies, this relation is natural in $x$ and, hence, $J$ is a subobject of $\Omega_\mathbf{Psh}$. One thus finds a characteristic morphism $j:\Omega_\mathbf{Psh}\rightarrow\Omega_\mathbf{Psh}$ that can be proven (by the other conditions of Grothendieck topologies) to define a Lawvere--Tierney topology on $\mathbf{Psh(C)}$. Conversely, a Lawvere--Tierney topology is a morphism $j:\Omega\rightarrow\Omega$ and, hence, determines a unique subobject of $\Omega_\mathbf{Psh}$, i.e.~a unique collection of sieves for every object $x\in\ob{C}$. From the conditions of Lawvere--Tierney topologies one can then prove that this collection satisfies the conditions of a Grothendieck topology.
+                Since a Grothendieck topology assigns to every object a collection of sieves, \cref{topos:presheaf_topos} implies that $J(x)\subseteq\Omega_\mathbf{Psh}(x)$ for all $x\in\ob{C}$. By the base change condition of Grothendieck topologies, this relation is natural in $x$ and, hence, $J$ is a subobject of $\Omega_\mathbf{Psh}$. One thus finds a characteristic morphism $j:\Omega_\mathbf{Psh}\rightarrow\Omega_\mathbf{Psh}$ that can be proven (by the other conditions of Grothendieck topologies) to define a Lawvere--Tierney topology on $\mathbf{Psh(C)}$. Conversely, a Lawvere--Tierney topology is a morphism $j:\Omega\rightarrow\Omega$ and, hence, determines a unique subobject of $\Omega_\mathbf{Psh}$, i.e.~a unique collection of sieves for every object $x\in\ob{C}$. From the conditions of Lawvere--Tierney topologies, one can then prove that this collection satisfies the conditions of a Grothendieck topology.
             \end{proof}
         \end{mdframed}
     \end{result}
 
-\section{Stacks}\index{stack}
-\subsection{2-sheafs}
+\subsection{Diaconescu's theorem}\label{section:diaconescu}\index{Diaconescu}
 
-    An important subject, especially in the context of gauge theories in physics, is that of groupoid-valued (pre)sheaves. To this end, sites are generalized to higher category theory.
-    \newdef{2-presheaf}{\index{presheaf}\index{pre-!stack}
-        Consider a 2-category $\mathbf{C}$. A 2-presheaf on $\mathbf{C}$ is a pseudofunctor $\cfunc{F}{C}{Cat}$. When $\mathbf{C}$ is the categorification of a 1-category, i.e.~when it has discrete hom-categories, 2-presheaves are better known as \textbf{prestacks}.
-    }
-    \newdef{2-coverage}{\index{coverage}\index{site}
-        Virtually the same as an ordinary coverage (\cref{topos:coverage}), but factorization is only required to exist up to an isomorphism. A 2-category equipped with a 2-coverage is called a \textbf{2-site}.
+    The following concept weakens the notion of left exact functors to categories where not all (finite) limits exist.
+    \newdef{Flat functor}{\index{flat!functor}\label{topos:flat_functor}
+        A functor $\func{F}{C}{Set}$ is said to be flat if the opposite of the category of elements $\mathrm{El}(F)^{\text{op}}$ (\cref{cat:category_of_elements}) is filtered (\cref{cat:filtered}). The category of flat functors on $\mathbf{C}$ is denoted by $\mathbf{Flat}(\mathbf{C},\mathbf{Set})$.
 
-        As for 1-sites, every coverage generates a unique sieve. It is the full subcategory on those morphisms that factor through a covering map in the given coverage (again up to isomorphism).
+        A general functor $\func{F}{C}{D}$ is said to be \textbf{(representably) flat} if, for every object $d\in\ob{D}$, the opposite comma category $(d/F)^{\text{op}}$, which is equivalently the opposite category of elements $\mathrm{El}\bigl(\mathbf{D}(d,-)\circ F\bigr)^{\text{op}}$, is filtered.
     }
-    As in the case of ordinary categories (\cref{topos:local_object_sheaf}), one can define 2-sheaves through a descent condition.
-    \newdef{2-sheaf}{\label{topos:2_sheaf}
-        A 2-presheaf $\cfunc{F}{C}{Cat}$ on a 2-site $(\mathbf{C},J)$ is said to be a 2-sheaf with respect to $J$ if for all sieves $S\in J$ the following functor is an equivalence:
-        \begin{gather}
-            Fc\cong\mathbf{Psh}_2(\mathcal{Y}c,F)\rightarrow\mathbf{Psh}_2(S,F)\,,
-        \end{gather}
-        where the fist equivalence is just the 2-Yoneda lemma.
-    }
+
+    The definitions above can be stated more explicitly as follows (cf.~\cref{cat:finitely_complete_alternative}). The functor $\func{F}{C}{D}$ is representably flat if for every $d\in\ob{D}$:
+    \begin{enumerate}
+        \item There is at least one object $c\in\ob{C}$ and a morphism $f:d\rightarrow Fc$. Hence, at least one inhabited set in the image of $F$.
+        \item For every two objects $c,c'\in\ob{C}$ and every two morphisms $f\in\mathbf{D}(d,Fc)$ and $g\in\mathbf{D}(d,Fc')$, there exists an object $x\in\ob{C}$ and morphisms $i\in\mathbf{C}(x,c)$, $j\in\mathbf{C}(x,c')$ and $h\in\mathbf{D}(d,Fx)$ such that $Fi\circ h=f$ and $Fj\circ h=g$.
+        \item For every two parallel morphisms $f,g\in\mathbf{C}(c,c')$ and morphism $h\in\mathbf{D}(d,Fc)$ such that $Ff\circ h=Fg\circ h$, there exists a morphism $i\in\mathbf{C}(x,c)$ and a morphism $j\in\mathbf{D}(d,Fx)$ such that $f\circ i=g\circ i$ and $Fi\circ j=h$.
+    \end{enumerate}
+
     \begin{remark}
-        It should be noted that 2-(pre)sheaves can also be defined on ordinary (1-)sites. Sieves, regarded as subfunctors of the Yoneda embedding, take values in $\mathbf{Set}$. By composing these with the embedding $\mathbf{Set}\hookrightarrow\mathbf{Cat}$ of sets as (discrete) categories, one obtains 2-subfunctors of the 2-Yoneda embedding. Often 2-sheaves over 1-sites are called \textbf{stacks} (although this terminology is also used for general 2-sites).
+        Note that flatness and representable flatness are only equivalent for $\mathbf{Set}$-valued functors when the domain $\mathbf{C}$ is finitely complete.
     \end{remark}
 
-    \newdef{Prestack of groupoids}{
-        Consider a category $\mathbf{C}$. A prestack of groupoids on $\mathbf{C}$ is a $\mathbf{Grpd}$-valued prestack on $\mathbf{C}$.
+    \begin{property}\index{Yoneda!extension}
+        Consider the \textbf{Yoneda extension} that maps a functor $F\in\funccat{C}{Set}$ to a functor $\widetilde{F}:\cfunccat{C}{Set}\rightarrow\mathbf{Set}$ through left Kan extension along the Yoneda embedding. $F$ is flat if and only if $\widetilde{F}$ is left exact.\footnote{By \cref{cat:kan_extension_alternative}, Kan extensions admit an expression is terms of adjoints. In this setting, the right adjoint has the form of a Hom-functor and, accordingly, the Yoneda extension is sometimes written as a tensor product $-\otimes_{\mathbf{C}}F$. The terminology `flat' is then in analogy with \cref{homalg:flat_module}. This essentially coincides with the tensor product of functors \cref{cat:copower_product}.}
+    \end{property}
+    \begin{property}\label{topos:flat_or_ind}
+        A functor $\func{F}{C}{Set}$ is flat if and only if it is the filtered colimit of representable functors or, equivalently, if $F$-weighted filtered colimits commute with finite limits. Note that, by \cref{cat:pro_object_uproperty}, this means that
+        \begin{gather}
+            \mathbf{Flat(\op{C},Set)}\cong\mathbf{Ind(C)}\,.
+        \end{gather}
+    \end{property}
 
-        The category of (groupoid-valued) prestacks becomes $\mathbf{Grpd}$-enriched if one takes the hom-category between two prestacks $F,G$ to consist of the following data:
+    The previous property implies the following statement, which is the $\mathbf{Set}$-valued version of \textit{Diaconescu's theorem}, which will be covered in its internal version below.
+    \begin{theorem}[Diaconescu: Set version]
+        A functor $\func{F}{C}{Set}$ is flat if and only if the induced adjunction $\mathbf{Set}\leftrightarrows\cfunccat{C}{Set}$ is a geometric morphism or, alternatively, if flat functors are equivalent to global points of the presheaf topos $\cfunccat{C}{Set}$.
+    \end{theorem}
+
+    \newdef{Morphism of sites}{\index{morphism!of sites}
+        A representably flat functor preserving covers.
+    }
+
+    Now, for $\mathcal{E}$ a cocomplete topos, a functor $\func{F}{C}{\mathcal{E}}$ is said to be \textbf{(internally) flat} if it representably flat with respect to the internal logic of $\mathcal{E}$ or, equivalently, if the Yoneda extension $\mathrm{Lan}_{\mathcal{Y}}F$ is left exact.
+    \begin{property}\index{flat!functor}
+        A functor $\func{F}{C}{\mathcal{E}}$, with $\mathcal{E}$ a cocomplete topllos, is flat if and only if:
         \begin{itemize}
-            \item\textbf{Objects}: The natural transformations $\alpha:F\Rightarrow G$ (note that the components are themselves functors).
-            \item\textbf{Morphisms}: The ``strict modifications'' in the sense that they map objects in $\mathbf{C}$ to natural transformations satisfying the whiskering condition (see also Definition \ref{cat:modification})
+            \item The family of terminal morphisms in $\mathbf{C}$ is jointly epimorphic.
+            \item For all $c,d\in\ob{C}$, the family of morphisms into $Ac\times Ad$ induced by spans $c\leftarrow b\rightarrow d$ is jointly epimorphic.
+            \item For any two parallel morphisms $f,g$ in $\mathbf{C}$, the family of factorizations of morphisms through their equalizer is jointly epimorphic.
+        \end{itemize}
+        These conditions are equivalent to the following ones:
+        \begin{itemize}
+            \item For every object $x\in\mathcal{E}$, there exists a jointly epimorphic family $\{x_i\rightarrow x\}_{i\in I}$ and and a family $\{x_i\rightarrow F(c_i)\mid c_i\in\ob{C}\}_{i\in I}$.
+            \item For all $c,d\in\ob{C}$ and generalized elements $\lambda:x\rightarrow Fc\times Fd$, there exists an epimorphic family $\{\lambda_i:x_i\rightarrow x\}_{i\in I}$ and a family of spans $\{c\xleftarrow{f}b_i\xrightarrow{g}d\}_{i\in I}$ equipped with a family of generalized elements $\{\kappa_i:x_i\rightarrow Fb_i\}_{i\in I}$ such that
             \begin{gather}
-                \mathbbm{1}_{Ff}\cdot\mathfrak{m}_b = \mathfrak{m}_a\cdot\mathbbm{1}_{Gf}\,.
+                (Ff,Fg)\circ\kappa_i = \lambda\circ\lambda_i\,.
             \end{gather}
-        \end{itemize}
-    }
-
-    For ordinary sites and presheaves, descent was defined in terms of matching families. Since presheaves are now taking values in a 2-category, the matching families are a bit more complex. However, this structure is already familiar from differential geometry and algebraic topology, where it is known under the name of the \textit{\v{C}ech nerve}.
-    \newdef{\v{C}ech groupoid}{\index{Cech!groupoid}
-        Consider a site $(\mathbf{C},J)$. To every covering family $\mathcal{U}\equiv\{f_i:x_i\rightarrow x\}_{i\in I}$ one can assign an internal groupoid in presheaves $C(\mathcal{U})$ consisting of the following data:
-        \begin{itemize}
-            \item\textbf{Objects}: $\bigsqcup_i\mathcal{Y}x_i$, and
-            \item\textbf{Morphisms}: $\bigsqcup_{i,j}\mathcal{Y}x_i\times_{\mathcal{Y}x}\mathcal{Y}x_j$.
-        \end{itemize}
-        This is equivalent to the ($\mathbf{Grpd}$-valued) presheaf that assigns to every object $y\in\ob{C}$ the groupoid consisting of the following data:
-        \begin{itemize}
-            \item\textbf{Objects}: The pairs $(i,g_i:y\rightarrow x_i)$ where $x_i\in\mathcal{U}$, and
-            \item\textbf{Morphisms}: A unique arrow $(i,g_i)\rightarrow(j,g_j)$ if and only if $f_i\circ g_i = f_j\circ g_j$.
-        \end{itemize}
-    }
-    Comparing the definition of morphisms in the \v{C}ech groupoid to the condition for matching families in \cref{topos:matching_family}, shows that one could presume that the \v{C}ech groupoid is related to the matching families. This intuition is indeed correct:
-    \begin{property}[Matching families]\label{topos:cech_matching_families}
-        Any ordinary presheaf $F$ can be considered to be $\mathbf{Grpd}$-valued by postcomposing with the embedding $\mathbf{Set}\hookrightarrow\mathbf{Grpd}$. For any covering family $\mathcal{U}$, there exists an isomorphism
-        \begin{gather}
-            \cfunccat{C}{Grpd}(C(\mathcal{U}),F)\cong\mathbf{Psh}_2(\mathcal{U},F)\,.
-        \end{gather}
-        Because the \v{C}ech groupoid (co)represents a descent object, it is sometimes called a \textbf{codescent object}.
-    \end{property}
-    It is exactly this (co)descent property of the \v{C}ech groupoid that will be used in \cref{chapter:hdg} to define (higher) smooth groupoids.
-
-    People with some experience in algebraic topology will also notice that the \v{C}ech groupoid only contains the first degrees of the \v{C}ech complex. The full \v{C}ech complex can be obtained from the following construction.
-    \newdef{\v{C}ech nerve}{\index{Cech!nerve}
-        Consider a morphism $f:y\rightarrow x$ in a category $\mathbf{C}$. The \v{C}ech nerve $C_\bullet(f)$ is the simplicial object \ref{model:simplicial_object} that is defined as the $(k+1)$-fold pullback of $f$ along itself in degree $k$. For a covering family $\mathcal{U}\equiv\{f_i:x_i\rightarrow x\}$, the \v{C}ech nerve is defined as $C_\bullet(\mathcal{U}):=C_\bullet(\bigsqcup_ix_i\rightarrow x)$.
-    }
-    For $\infty$-sheaves the full \v{C}ech nerve will be used. However, for 2-sheaves and, in particular, stacks, only its 3-coskeleton is necessary. The extra information will encode the \textit{cocycle condition}~\eqref{bundle:G_cocycle_condition} from the study of fibre bundles.
-
-\subsection{Stacks on a 1-site}
-
-    For the definition of stacks, one needs the notions of fibred categories or, equivalently, pseudofunctors as defined in \cref{section:fibred_categories}. The definitions are recalled here.
-    \begin{mdframed}[roundcorner=10pt, linecolor=green, linewidth=1pt]
-        Consider a functor $\func{\Pi}{A}{B}$. A morphism $f$ in $\mathbf{A}$ is said to be $\Pi$-Cartesian if for every morphism $\varphi$ in $\mathbf{A}$ and factorization of $\Pi\varphi$ through $\Pi f$ in $\mathbf{B}$, there exists a unique factorization of $\varphi$ through $f$. $f$ is called the inverse image of $\Pi f$.
-
-        A fibred category consists of a functor $\func{\Pi}{A}{B}$ such that for each morphism in $(f:c\rightarrow d)\mathbf{B}$ with $d\in\im(\Pi)$ and each lift $y\in\mathbf{A}_d$ there exists at least one inverse image in $(\widetilde{f}:x\rightarrow y)\in\mathbf{A}$ of $f$. By the Grothendieck construction every fibred category gives rise to a pseudofunctor $\cfunc{F}{B}{Cat}$ by sending objects to their fibres under $\Pi$ and sending morphisms $f$ to their pullback functors $f^*$.
-    \end{mdframed}
-
-    \newdef{Descent datum}{\index{descent}
-        Consider a category $\mathbf{C}$ with a covering family $\mathcal{U}\equiv\{f_i:x_i\rightarrow x\}$ and a pseudofunctor $\cfunc{F}{C}{Cat}$. The projections associated to the pullback $x_i\cap x_j:=x_i\times_xx_j$ will be denoted by $\pi_i$ and $\pi_j$ (and analogously for iterated pullbacks). A descent datum for $\mathcal{U}$ with respect to $F$ is a pair of families $(\{g_i\},\{f_{ij}\})_{i,j\in I}$, where $\{g_i\}$ is a matching family for $\mathcal{U}$ with respect to $F$ and every $f_{ij}$ is an isomorphism $\pi_i^*x_i\cong \pi_j^*x_j$. This data is required to satisify the following \textbf{cocycle condition}:
-        \begin{gather}
-            \pi_{ik}^*f_{ik} = \pi_{ij}^*f_{ij}\circ\pi_{jk}^*f_{jk}\,.
-        \end{gather}
-        Morphisms $(\{g_i\},\{f_{ij}\})\rightarrow(\{g'_i\},\{f'_{ij}\})$ between descent data are families of morphisms $\{\phi_i:g_i\rightarrow g'_i\}$ that satisfy
-        \begin{gather}
-            \pi_i^*\phi_i\circ f_{ij} = f'_{ij}\circ\pi_j^*\phi_j\,.
-        \end{gather}
-        The category of descent data for $\mathcal{U}$ with respect to $F$ will be denoted by $\mathrm{Descent}(\mathcal{U},F)$.
-    }
-    \begin{construct}
-        Consider an object $\xi$ in $Fx$. From this object one can construct a descent datum as follows. The objects $g_i$ are the pullbacks $f_i^*\xi$ and the isomorphisms $f_{ij}:\pi_i^*f_i^*\xi\cong\pi_j^*f_j^*\xi$ are obtained from the fact that both these objects are (Cartesian) pullbacks of the same morphisms. Arrows in $Fx$ induce morphisms of descent data by (Cartesian) pullbacks along the covering maps. This construction defines a functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$. It can be shown that this construction is independent of a choice of cleavage up to equivalence.
-    \end{construct}
-
-    \newdef{Stack}{\index{pre-!stack}\index{stack}
-        Consider a fibred category $F$ over a site $(\mathbf{C},J)$.
-        \begin{itemize}
-            \item $F$ is called a \textbf{separated prestack} if for each covering family $\mathcal{U}$ on $x\in\ob{C}$, the functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$ is fully faithful.
-            \item $F$ is called a \textbf{stack} if for each covering family $\mathcal{U}$ on $x\in\ob{C}$ the functor $Fx\rightarrow\mathrm{Descent}(\mathcal{U},F)$ is an equivalence.
-        \end{itemize}
-        This is a generalization of the descent condition~\ref{topos:local_object_sheaf}. This can be seen by observing that $\mathrm{Descent}(\mathcal{U},F)\cong\mathbf{Psh}_2(S(\mathcal{U}),F)$, where $S(\mathcal{U})$ is the sieve generated by $\mathcal{U}$ regarded as a fibred category. When $F$ is fibred over groupoids, it is called a \textbf{stack of groupoids}. This forms the category $\mathbf{Sh}_{(2,1)}(\mathbf{C})$ of $(2,1)$-sheaves. In fact, it is this subcategory that is usually meant when considering stacks.
-    }
-
-    A more conceptual (although completely equivalent) generalization from (1-)sheaves to 2-sheaves can be obtained by starting from \cref{topos:cech_matching_families}. There it was shown that matching families for (1-)presheaves can be obtained as natural transformations from the \v{C}ech groupoid.
-    \begin{property}[Descent data and \v{C}ech nerve]
-        Let $C(\mathcal{U})$ denote the 3-coskeleton of the \v{C}ech nerve $C_\bullet(\mathcal{U})$. Pseudonatural transformations $C(\mathcal{U})\Rightarrow F$ can be shown to be equivalent to tuples $(c,\{c_i\},\{c_{ij}\},\{c_{ijk}\})$, where $c_i\in Fx_i$, that fit into cubes lying in the image of $C_2(\mathcal{U})$ in which all edges consist of Cartesian morphisms. Arrows between such cubes are given by arrows between the vertices that make the ``obvious'' diagrams commute.
-
-        By comparing these cubes to the previous definition of descent data, one obtains the following equivalence:
-        \begin{gather}
-            \mathrm{Descent}(\mathcal{U},F)\cong\cfunccat{C}{Cat}\bigl(C(\mathcal{U}),F\bigr)\,.
-        \end{gather}
-        @@ FINISH THIS @@
-    \end{property}
-
-    \begin{remark}[1-sheaves]
-        Although most of the above seems very abstract and complex compared to ordinary sheaves, it is not quite so. In fact, when restricting to pseudofunctors of the form $\mathbf{C}^{op}\rightarrow\mathbf{Set}$, where the embedding $\mathbf{Set}\hookrightarrow\mathbf{Cat}$ sends sets to discrete categories, one obtains ordinary sheaves as a subcategory of stacks. For example, by the equivalence between pseudofunctors and Grothendieck fibrations, it is known that the Cartesian pullbacks $f^*$ are in fact just the images of morphism $f$ under the pseudofunctor $F$. This way the condition $\pi_1^*c_i\cong\pi^*_2c_j$ can be rewritten as $Ff'_i(c_i)=Ff'_j(c_j)$, which is nothing but the matching family condition~\eqref{topos:matching_family_condition}.
-    \end{remark}
-
-\section{Higher topos theory}
-
-    In this section the notion of topos is generalized from ordinary category theory to higher category theory. In particular, $\infty$-sheaves will be defined. This will require a suitable foundation for $\infty$-category theory. To this end the language of (simplicial) model categories as introduced in \cref{chapter:model_theory} will be used.
-
-    \newdef{\texorpdfstring{$\infty$-groupoid}{Infinity-groupoid}}{\index{groupoid}\label{topos:infty_groupoid}
-        Objects of the full simplicial subcategory of $\mathbf{sSet}_\text{Quillen}$ on Kan complexes. From \cref{model:horn_filler}, it is immediately clear how this generalizes the definition of ordinary groupoids. For groupoids one needs unique horn fillers (composition in ordinary categories is unique), while for $\infty$-groupoids this is allowed to be unique up to higher coherence.
-    }
-    \newdef{\texorpdfstring{$(\infty,1)$-category}{(Infinity,1)-category}}{\index{category}
-        An $\infty\mathbf{Grpd}$-enriched category or, equivalently, a simplicially enriched category for which all hom-objects are Kan complexes. The functor category between $(\infty,1)$-categories is defined through the (simplicial) nerve and realization functors (\cref{model:nerve}):
-        \begin{gather}
-            \funccat{C}{D} := |\mathbf{sSet}(N\mathbf{C},N\mathbf{D})|\,.
-        \end{gather}
-    }
-
-    \begin{property}[\v{C}ech model structure]\label{topos:cech_model_structure}
-        For any small category $\mathbf{C}$, the $\infty$-category of $\infty\mathbf{Grpd}$-valued $\infty$-sheaves can be represented by the category $[\mathbf{C}^{op},\mathbf{sSet}]$ of simplicial presheaves on $\mathbf{C}$ by a theorem of \textit{Lurie} (\cref{model:lurie_presentation}), i.e.~there exists an $\infty$-equivalence between $\mathbf{Sh}_{(\infty,1)}(\mathbf{C})$ and the full subcategory on fibrant-cofibrant objects of the (left Bousfield) localization of $[\mathbf{C}^{op},\mathbf{sSet}]$ at the \v{C}ech nerve projections. The resulting model structure is called the \textbf{\v{C}ech model structure}.
-
-        A presheaf $X$ is fibrant in this model structure if the map
-        \begin{gather}
-            \hom(M,X)\rightarrow\hom\bigl(\mathcal{C}(\mathcal{U}),X\bigr)
-        \end{gather}
-        is a weak equivalence for all open covers $\mathcal{U}$, i.e.~exactly if $X$ satisfies the descent condition and, hence, is an $\infty$-stack.
-    \end{property}
-
-    The most straightforward definition of an $\infty$-sheaf generalizes \cref{topos:local_object_sheaf}.
-    \newdef{\texorpdfstring{$\infty$-sheaf}{Infinity-sheaf}}{\index{sheaf}
-        Consider an $\infty$-site $(\mathbf{C},J)$ and let $S$ denote the collection of monomorphisms in $\mathbf{Psh}_\infty(\mathbf{C})$ induced by the covering sieves. An $\infty$-presheaf on $\mathbf{C}$ is called a $J$-sheaf if it is $S$-local. A presheaf with values in an $\infty$-category $\mathbf{D}$ is called a sheaf if the representable presheaf $\mathbf{D}(x,F-)$ is a $J$-sheaf for all $x\in\ob{D}$.
-
-        In terms of the \v{C}ech nerve $\mathcal{C}$, the descent condition can be written as follows:
-        \begin{gather}
-            Fx\simeq\mathbf{Psh}_\infty(\mathcal{C}(\mathcal{U}),F)
-        \end{gather}
-        for all covers $\mathcal{U}$ of $x$, where $\simeq$ denotes a weak equivalence.
-    }
-    \newdef{\texorpdfstring{$\infty$-stack}{Infinity-stack}}{\index{stack}
-        An $(\infty,1)$-sheaf taking values in $\infty\mathbf{Grpd}$.
-    }
-
-    \Cref{topos:global_sections} can be generalized as follows.
-    \begin{property}
-        For every $\infty$-topos $\mathbf{H}$ there exists a geometric morphism $(\mathrm{Disc}\dashv\Gamma):\mathbf{H}\leftrightarrows\infty\mathbf{Grpd}$. Any morphism into a discrete object $\mathrm{Disc}(X)$ is constant.
-
-        The left adjoint is sometimes called the \textbf{discrete object functor}. This terminology stems from the case of the forgetful functor $\func{\Gamma}{Top}{Set}$, where the (fully faithful) left adjoint equips a set with the discrete topology.
-    \end{property}
-    \begin{example}[Sheaves on manifolds]
-        One of the archetypal examples of $\infty$-topoi is the topos of sheaves over smooth manifolds. By the Yoneda embedding one can regard a manifold as a sheaf and the global sections functor maps this representable sheaf to the manifold itself: $\Gamma(M)=M$. For a Lie group one can construct the classifying stack $\mathbf{B}G$. The global sections functor maps this stack to the delooping groupoid $BG$.
-    \end{example}
-
-    \newdef{Mapping stack}{\label{topos:mapping_stack}
-        Consider two $\infty$-stacks $X,Y\in\mathbf{Sh}_{(\infty,1)}(\mathbf{C})$. The mapping stack is defined as follows:
-        \begin{gather}
-            [X,Y](U):=\mathbf{Sh}_{(\infty,1)}(\mathbf{C})(X\times U,Y)\,,
-        \end{gather}
-        where on the right-hand side, $U$ denotes the representable $\infty$-stack.
-    }
-
-    @@ FINISH (PERHAPS MOVE infinity-CATEGORY STUFF TO CHAPTER ON MODEL THEORY) @@
-
-\section{Cohomology}\index{cohomology}
-
-    In this section, cohomology will be generalized to the $\infty$-categorical setting.
-
-    First, take a topological space $X$ and an $\infty$-groupoid $G$. Geometric realization (\cref{model:geometric_realization}) gives an equivalence $\infty\mathbf{Grpd}\cong\mathbf{Top}$ and, therefore, one can define the intrinsic cohomology of $X$ with coefficients in $G$ as follows:
-    \begin{gather}
-        H(X;G) := \pi_0\mathbf{Top}(X,|G|)\,.
-    \end{gather}
-    $X$ can also be identified with its petit ($\infty$-)topos $\mathbf{Sh}_{(\infty,1)}(X)$, in which $X$ sits as the terminal object. From this point of view the intrinsic cohomology of $X$ with coefficients in $G$ is
-    \begin{gather}
-        \overline{H}(X;G) := \pi_0\mathbf{Sh}_{(\infty,1)}(X)(X,\mathrm{LConst}\,G)\cong\pi_0\circ\Gamma\circ\mathrm{LConst}(G)\,.
-    \end{gather}
-    This is the \textbf{cohomology with constant coefficients} of $X$ with coefficients in $G$. If $X$ is paracompact, the two cohomologies coincide: $H(X;G)\cong\overline{H}(X;G)$.
-
-    Now, it is time to pass to general cohomology.
-    \newdef{Intrinsic cohomology}{\index{cohomology}\label{topos:cohomology}
-        Consider a $(\infty,1)$-category $\mathbf{H}$. For every two objects $X,A\in\mathbf{H}$, the hom-space $\mathbf{H}(X,A)$ is an $\infty$-groupoid. Define the following notions:
-        \begin{itemize}
-            \item The objects in $\mathbf{H}(X,A)$ are called \textbf{cocycles}.
-            \item The morphism in $\mathbf{H}(X,A)$ are called \textbf{coboundaries}.
-            \item The set of connected components
+            \item For any two parallel morphisms $f,g:c\rightarrow d$ in $\mathbf{C}$ and any generalized element $\lambda:x\rightarrow Fc$ such that $Ff\circ\lambda=Fg\circ\lambda$, there exists an epimorphic family $\{\lambda_i:x_i\rightarrow x\}_{i\in I}$ and families of morphisms $\{f_i:c_i\rightarrow c\}$ and $\{\kappa_i:x_i\rightarrow Fc_i\}$ such that
             \begin{gather}
-                H(X;A):=\pi_0\mathbf{H}(X,A)=\hom_\mathbf{Ho(H)}(X,A)\,,
+                \begin{aligned}
+                    f\circ f_i &= g\circ f_i\\
+                    Ff_i\circ\kappa_i &= \lambda\circ\lambda_i
+                \end{aligned}
             \end{gather}
-            where $\mathbf{Ho(H)}$ is the homotopy category \ref{model:homotopy_category_2} of $\mathbf{H}$, is called the intrinsic cohomology of $X$ with coefficients in $A$.
+            for all $i\in I$.
         \end{itemize}
-        If the object $A$ admits an $n$-delooping $\mathbf{B}^nA$, the $n^{th}$ cohomology group of $X$ is defined as
+    \end{property}
+
+    \begin{theorem}[Diaconescu: Topos version]
+        Consider a cocomplete topoi $\mathcal{E}$ and a (small) category $\mathbf{C}$. There exists an equivalence
         \begin{gather}
-            H^n(X;A):=H(X;\mathbf{B}^nA)\,.
+            \mathbf{Topos}\bigl(\mathcal{E},[\mathbf{C}^{\mathrm{op}},\mathbf{Set}]\bigr)\leftrightarrows\mathbf{Flat}(\mathbf{C},\mathcal{E})\,,
         \end{gather}
-    }
+        where
+        \begin{itemize}
+            \item flat functors are sent to geometric morphisms whose inverse image part is given by left Kan extension along the Yoneda embedding and direct image part is given by:
+            \begin{gather}
+                F\mapsto\bigl(x\mapsto\mathcal{E}(F-, x)\bigr)\,,
+            \end{gather}
+            and
+            \item geometric morphisms are sent to the precomposition of the inverse image part with the Yoneda embedding.
+        \end{itemize}
+    \end{theorem}
 
-    \begin{example}[Singular cohomology]
-        Consider a topological space $X$. For every group $G$ one can define the first delooping (\cref{cat:group_delooping}), so one can also define the zeroth and first cohomology groups $H^{0,1}(X;G)$. Only when $G$ is Abelian do higher deloopings exists (in fact, if $G$ is Abelian all higher deloopings exist), and so in this case higher cohomology groups $H^{\geq 2}(X;G)$ can be defined. It can be shown that these coincide with the singular cohomology groups of $X$.
-    \end{example}
-
-    \begin{example}[Group cohomology]
-        Consider a (discrete) group $G$ together with its delooping groupoid $\mathbf{B}G$. The cohomology of a group with coefficients in an Abelian group $A$ (\cref{section:group_cohomology}) is given by the intrinsic cohomology of $\infty\mathbf{Grpd}$ of the delooping groupoids:
-        \begin{gather}
-            H(G;A)\cong\pi_0\infty\mathbf{Grpd}(\mathbf{B}G,\mathbf{B}A)\,.
-        \end{gather}
-    \end{example}
-
-    By replacing the topos $\mathbf{H}$ by a slice topos $\mathbf{H}_{/X}$ one obtains twisted cohomology.
-    \newdef{Twisted cohomology}{\index{cohomology!twisted}
-        Consider a $(\infty,1)$-topos $\mathbf{H}$ with some object $X\in\ob{H}$. The mapping space $\mathbf{H}(X,A)$, the cocycles of $X$ with coefficients in $A$, is easily seen to be isomorphic to the mapping space $\mathbf{H}_{/X}(X,X\times A)$, where the second argument is equipped with the canonical projection morphism. Morphisms in this space are just sections of the trivial $A$-$\infty$-bundle over $X$. General twisted cohomology can then be defined as the space of sections of an arbitrary $A$-$\infty$-bundle over $X$.
-
-        By passing to classifying morphisms of bundles one obtains the twist $\chi:X\rightarrow\mathbf{BAut}(A)$ and the universal bundle $\rho_A:A/\!\!/\mathbf{Aut}(A)\rightarrow\mathbf{BAut}(A)$. $\chi$-twisted cohomology is then given by (hte connected components of) the following mapping space:
-        \begin{gather}
-            \mathbf{H}_{/\mathbf{BAut}(A)}(\chi,\rho_A)\,.
-        \end{gather}
+    To pass to the internal logic of topoi, \cref{cat:filtered} needs to be generalized to internal category theory (\cref{section:internal_category_theory}).
+    \newdef{Internally filtered category}{\index{category!filtered}
+        An internal category $\mathbf{C}\in\mathbf{Cat}(\mathcal{E})$ satisfying:\footnote{Some sources require all these morphisms to be regular epis.}
+        \begin{enumerate}
+            \item The terminal morphism $C_0\twoheadrightarrow1$ is an epi.
+            \item For any two generalized elements $\lambda_1,\lambda_2:U\rightarrow C_0$, there is an epi $\theta:V\twoheadrightarrow U$ and corresponding $V$-elements $\gamma_1,\gamma_2:V\rightarrow C_0$ such that
+            \begin{gather}
+                \begin{aligned}
+                    d_1\circ\gamma_1 &= d_1\circ\gamma_2\\
+                    d_0\circ\gamma_i &= \lambda_i\circ\theta
+                \end{aligned}
+            \end{gather}
+            for $i=1,2$.
+            \item For any two parallel generalized elements $\gamma_1,\gamma_2:U\rightarrow C_1$ such that $d_0\circ\gamma_1=d_0\circ\gamma_2$, there exists an epi $\theta:V\twoheadrightarrow U$ and a $V$-element $\kappa:V\rightarrow C_1$ such that
+            \begin{gather}
+                \begin{aligned}
+                    d_1\circ\kappa &= d_0\circ\lambda_1\circ\theta = d_0\circ\lambda_2\circ\theta\\
+                    c(\kappa,\lambda_1\circ\theta) &= c(\kappa,\lambda_2\circ\theta)\,.
+                \end{aligned}
+            \end{gather}
+        \end{enumerate}
     }

@@ -1,7 +1,7 @@
 \chapter{Set Theory}
 
 \section{Axiomatization}\label{section:axiomatization}
-\subsection{ZFC}\nomenclature[A_ZFC]{ZFC}{Zermelo--Frenkel set theory with the axiom of choice}
+\subsection{ZFC}
 
     The following set of axioms and axiom schemata gives a foundation for axiomatic set theory whilst fixing a number of issues in naive set theory, where the notion of a set is taken for granted. This theory is called \textbf{Zermelo--Frenkel} set theory (ZF). When extended with the axiom of choice (see further on), it is called ZFC, where the C stand for `choice'.
 
@@ -30,7 +30,7 @@
     The following axiom is technically not an axiom but an axiom schema, i.e.~for every predicate $\varphi$, one obtains an axiom.
     \begin{axiom}[Specification]\index{specification}
         \begin{gather}
-            \forall w_1,\ldots,w_n,A:\exists B:\forall x\bigl(x\in B\iff(x\in A\land\varphi(x,w_1,\ldots,w_n,A)\bigr)
+            \forall w_1,\ldots,w_n,A:\exists B:\forall x\bigl[x\in B\iff\bigl(x\in A\land\varphi(x,w_1,\ldots,w_n,A)\bigr)\bigr]
         \end{gather}
         This axiom (schema) says that, for every set $x$, one can build another set of elements in $x$ that satisfy a given predicate. By the axiom of extensionality, this subset $B\subseteq A$ is unique.
     \end{axiom}
@@ -67,7 +67,7 @@
 
     \todo{COMPLETE}
 
-\subsection{\texorpdfstring{ETCS $\clubsuit$}{ETCS}}\nomenclature[A_ETCS]{ETCS}{Elementary Theory of the Category of Sets}
+\subsection{\texorpdfstring{ETCS $\clubsuit$}{ETCS}}
 
     \todo{COMPLETE}
 
@@ -213,7 +213,7 @@
     \end{theorem}
 
     \newdef{Involution}{\index{involution}\label{set:involution}
-        A function $f:A\rightarrow A$ such that $f^2=\mathrm{id}_A$, i.e.~$f$ is its own inverse. Every involution is, in particular, a bijection.
+        A function $f:A\rightarrow A$ such that $f^2=\mathbbm{1}_A$, i.e.~$f$ is its own inverse. Every involution is, in particular, a bijection.
     }
 
 \section{Collections}
@@ -261,11 +261,11 @@
     }
 
     \newdef{Filter}{\index{filter}\label{set:filter}
-        Let $X$ be a \textit{partially ordered set} (see \cref{set:poset} below). A family $\mathcal{F}\subseteq P(X)$ is a filter on $X$ if it satisfies the following conditions:
+        Let $X$ be a set. A family $\mathcal{F}\subseteq P(X)$ is a filter on $X$ if it satisfies the following conditions:
         \begin{enumerate}
-            \item\textbf{Empty set}: $\emptyset\not\in\mathcal{F}$.
-            \item\textbf{Closed under intersections}: $\forall A,B \in\mathcal{F}:A\cap B\in\mathcal{F}$.
-            \item\textbf{Closed under inclusions}: if $A\in\mathcal{F}$ and $A\subseteq B$, then $B\in\mathcal{F}$.
+            \item\textbf{Nonemptiness}: $\emptyset\not\in\mathcal{F}$.
+            \item\textbf{Downward closure}: $\forall A,B \in\mathcal{F}:A\cap B\in\mathcal{F}$.
+            \item\textbf{Isotony}: if $A\in\mathcal{F}$ and $A\subseteq B$, then $B\in\mathcal{F}$.
         \end{enumerate}
     }
 
@@ -429,6 +429,22 @@
         \end{itemize}
     }
 
+    The notion of a filter on a set $X$ (\cref{set:filter}) is a specific example of a more general notion, where the underlying poset is the power set of $X$.
+    \newdef{Filter}{\index{filter}\index{ultrafilter}\label{set:ultrafilter}
+        Let $X$ be a poset. A filter on $X$ is a subset $\mathcal{F}\subseteq X$ such that:
+        \begin{enumerate}
+            \item\textbf{Nonemptiness}: $\mathcal{F}\neq\emptyset$.
+            \item\textbf{Downward closure}: $\forall x,y\in\mathcal{F}:\exists z\in\mathcal{F}:z\leq x\land z\leq y$.
+            \item\textbf{Isotony}: If $x\in\mathcal{F}$ and $x\leq y$, then $y\in\mathcal{F}$.
+        \end{enumerate}
+        If there exists no strictly greater filter $\mathcal{F}\subset\mathcal{F}'$, then $\mathcal{F}$ is called an \textbf{ultrafilter}.
+    }
+
+    The following theorem is independent of the ZF axioms, but strictly weaker than the axiom of choice.
+    \begin{theorem}[Ultrafilter lemma]
+        Every proper filter on a set is contained in an ultrafilter.
+    \end{theorem}
+
 \subsection{\difficult{Ordinals}}
 
     \newdef{Well-ordering}{\index{well-!order}\index{well-!founded}
@@ -567,7 +583,7 @@
         \end{gather}
         This element is denoted by $a\rightarrow b$. The \textbf{pseudo-complement} $\neg a$ of an element $a\in H$ is then defined as $a\rightarrow\bot$.
     }
-    \newdef{Boolean algebra}{\index{law!of excluded middle}\index{Boolean!algebra}
+    \newdef{Boolean algebra}{\index{law!of excluded middle}\index{Boolean!algebra}\label{set:boolean}
         A Boolean algebra $X$ is a Heyting algebra in which the \textbf{law of excluded middle} holds:
         \begin{gather}
             \forall x\in X:\neg\neg x=x\,.

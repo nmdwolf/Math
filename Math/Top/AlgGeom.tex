@@ -1,6 +1,6 @@
 \chapter{Algebraic Geometry}\label{chapter:alggeom}
 
-    References for this chapter are~\citet{gathmann_algebraic_2019,mumford_red_1999}. For the basics on ring theory, ideals and algebraic dependence, see \namecrefs{section:ring}~\ref{section:ring} and~\ref{section:algebraic_numbers}. In order to not confuse the letter $k$, often used for fields, with various indices and dimensions, fields will be denoted by the capital letter $K$ in this chapter. Moreover, the base field $K$ will also be assumed to be algebraically closed (unless noted otherwise).
+    References for this chapter are~\citet{gathmann_algebraic_2019,mumford_red_1999}. For the basics on ring theory, ideals and algebraic dependence, see \namecrefs{section:ring}~\ref{section:ring} and~\ref{section:algebraic_numbers}. The section on tropical geometry is mainly based on~\citet{maclagan_aarms_2008}. In order to not confuse the letter $k$, often used for fields, with various indices and dimensions, fields will be denoted by the capital letter $K$ in this chapter. Moreover, the base field $K$ will also be assumed to be algebraically closed (unless noted otherwise).
 
 \section{Varieties}\label{section:varieties}
 
@@ -63,7 +63,7 @@
 
     It should be noted that every morphism of varieties induces a $K$-morphism on the associated affine rings by precomposition. This gives rise to the following property.
     \begin{property}[Finitely generated algebras]\label{alggeom:variety_domain_equivalence}
-        $\Gamma$ gives an equivalence between the category of algebraic sets and the category of finitely-generated (reduced) $K$-algebras. This equivalence passes to an equivalence between the subcategories on affine varieties and integral domains.
+        $\Gamma$ gives an equivalence between the category of algebraic sets and the category of finitely generated (reduced) $K$-algebras. This equivalence passes to an equivalence between the subcategories on affine varieties and integral domains.
     \end{property}
 
     \newdef{Dimension}{\index{dimension!of variety}\index{Krull!dimension}
@@ -608,47 +608,56 @@
 
     \todo{COMPLETE}
 
-\section{\difficult{Number theory}}\index{number!theory}
+\section{Tropical geometry}\index{tropical geometry}
 
-    This section gives a relation between \textit{number theory} and (algebraic) geometry. The content of \namecrefs{chapter:complexcalculus}~\ref{chapter:algebra} and~\ref{chapter:complexcalculus} will be used throughout this section.
-
-\subsection{Modular forms}
-
-    \newdef{Modular group}{\index{modular!group}\index{M\"obius transformation}\label{alggeom:modular_group}
-        In the setting of number theory, the projective special linear group $\mathrm{PSL}(2,\mathbb{Z})$ is often called the modular group. The modular group acts on the complex plane by \textbf{M\"obius transformations}:
-        \begin{gather}
-            \begin{pmatrix}
-                a&b\\
-                c&d
-            \end{pmatrix}
-            z := \frac{az+b}{cz+d}\,.
-        \end{gather}
-        For this reason, $\mathrm{PSL}(2,\mathbb{C})$ is sometimes also called the \textbf{M\"obius group}.
-    }
-
-    \newdef{Modular form}{\index{modular!form}\index{cusp form}
-        A modular form of weight $k\in\mathbb{R}$ is a holomorphic function on the upper-half plane $f:\mathcal{H}\rightarrow\mathbb{C}$ satisfying the following two conditions:
+    The following definition generalizes \cref{group:ring}.
+    \newdef{Rig}{\index{rig}
+        Let $R$ be a set equipped with two binary operations $+,\cdot$ (called\footnote{This might become confusing when looking at the examples below.} \textbf{addition} and \textbf{multiplication}). $(R,+,\cdot)$ is a rig if it satisfies the following axioms:
         \begin{enumerate}
-            \item\textbf{Automorphicity}: For all $g\equiv\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\mathrm{PSL}(2,\mathbb{Z})$, one has $f\bigl(g(z)\bigr)=(cz+d)^kf(z)$, and
-            \item\textbf{Bounded growth}: $f(z)$ is bounded for $z\longrightarrow i\infty$.
+            \item $(R,+)$ is a commutative monoid.
+            \item $(R,\cdot)$ is a monoid.
+            \item Multiplication is distributive with respect to addition.
         \end{enumerate}
-        If the modular form satisfies the stronger condition $f(z)\longrightarrow0$ when $z\longrightarrow i\infty$, it is said to be \textbf{cuspidal} or it is simply called a \textbf{cusp form}.
     }
-    \begin{remark}[Arithmetic group]\index{arithmetic group}
-        Modular forms can also be defined for subgroups of $\mathrm{PSL}(2,\mathbb{Z})$ with finite index, the so-called \textbf{arithmetic groups}.
+    \begin{remark}
+        Whereas a ring is a group object in $\mathbf{CRing}$, a rig is a group object in $\mathbf{CMonoid}$. (The monoidal structures on these categories should not be taken to be the Cartesian ones for this result).
     \end{remark}
 
-    \begin{property}
-        The generators of the modular group are given by
+    \begin{example}[Tropical rig]
+        Consider the set $T:=\mathbb{R}\cup\{+\infty\}$. This set becomes a rig when equipped with the following operations:
+        \begin{enumerate}
+            \item\textbf{Addition}: $x\oplus y=\min(x,y)$.
+            \item\textbf{Multiplication}: $x\cdot y=x+y$.
+        \end{enumerate}
+    \end{example}
+
+    \newdef{Tropicalization}{\index{tropicalization}\index{Puiseux series}
+        In ordinary algebraic geometry, one considers polynomials over $\mathbb{R}$ as the basic building blocks. These also give rise to polynomials over $T$. To every polynomial
         \begin{gather}
-            z\mapsto-\frac{1}{z}\qquad\text{and}\qquad z\mapsto z+1\,.
+            f = a+\sum_{i=1}^k\lambda_ix^{n_i}_i
         \end{gather}
-        Invariance under the second generator shows that modular forms are, in particular, periodic and, hence, admit a Fourier expansion. Cusp forms are exactly those modular forms with vanishing constant Fourier coefficient.
-    \end{property}
+        with $a\in\mathbb{Z}$, one assigns its tropicalization
+        \begin{gather}
+            \mathrm{trop}(f) := \min(0,n_1x_1,\ldots,n_kx_k)\,.
+        \end{gather}
+        Note that the tropicalization of any polynomial is a piecewise linear function.
 
-\subsection{Algebraic functions}
-
-    \Cref{algebra:algebraic_element} can be generalized to the functional setting.
-    \newdef{Algebraic function}{\index{algebraic!function}\index{transcendental!function}
-        Let $R$ be a commutative ring. A function $f:R^n\rightarrow R$ is said to be algebraic if it is the solution of a polynomial equation with coefficients in $R[x_1,\ldots,x_n]$.\footnote{Often, the polynomial is required to be irreducible.} If $f$ is not algebraic, it is said to be \textbf{transcendental}.
+        A more formal definition goes as follows. Let $K_P$ be the ring of \textbf{Puiseux series}, i.e.~of elements of the form
+        \begin{gather}
+            a = \sum_{i=k}^{+\infty}\lambda_ix^{i/n}
+        \end{gather}
+        for some $k,n\in\mathbb{N}$. These generalize Laurent series (\cref{complex:laurent_series}) to fractional exponents in that $K_P=\bigcup_{i\in\mathbb{N}_0}\mathbb{C}((x^{1/i}))$. Then, consider the valuation (\cref{algebra:valuation})
+        \begin{gather}
+            \mathrm{val}:K_P\rightarrow\mathbb{R}:a\mapsto\min\{i/k\mid\lambda_i\neq0\}\,.
+        \end{gather}
+        The tropicalization of
+        \begin{gather}
+            f = \sum_{u\in\mathbb{N}^n}\lambda_ux^u
+        \end{gather}
+        with $n\in\mathbb{N}$ is given by
+        \begin{gather}
+            \mathrm{trop}(f) := \min_{u\in\mathbb{N}^n,\lambda_u\neq 0}\bigl(\mathrm{val}(\lambda_u)+\sum_{i=1}^nu_ix_i\bigr)\,.
+        \end{gather}
     }
+
+    \todo{COMPLETE (link with mirror symmetry \citep{gross_tropical_2011})}

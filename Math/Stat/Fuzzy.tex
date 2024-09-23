@@ -1,26 +1,24 @@
 \chapter{\difficult{Fuzzy Sets \& Imprecise Probabilities}}
 
-    The main reference for the basics on fuzzy sets is the initial paper~\citet{zadeh_fuzzy_1965}. For the basics of (ordered) sets, see \cref{section:ordered_sets} at the beginning of this compendium. The section on imprecise probabilities is mainly based on~\citet{augustin_introduction_2014}.
+    The main reference for fuzzy set theory is the initial paper by~\citet{zadeh_fuzzy_1965}. For the basics of (ordered) sets, see \cref{section:ordered_sets} at the beginning of this compendium. The section on imprecise probabilities is mainly based on~\citet{augustin_introduction_2014}.
 
-    This chapter begins with a small organizational remark. Although the content of the current chapter fits better in the parts on general set theory and logic, it does use more advanced concepts from for example topology and category theory. Furthermore, the main application is the characterization of uncertainty in statistics and machine learning. For that reason it was added here.
+    This chapter begins with a small organizational remark. Although the content of the current chapter fits better in the parts on general set theory and logic, it does use more advanced concepts from, for example, topology and category theory. Furthermore, the main application is the characterization of uncertainty in statistics and machine learning. For that reason, it was added here.
 
 \section{Fuzzy sets}
 
     \newdef{Fuzzy set}{\index{fuzzy!set}\index{empty}
-        Consider a set $X$ (this set corresponds to the universe of discours in e.g.~type theory or category theory). A fuzzy subset of $X$ is a function $A:X\rightarrow[0,1]$. One can interpret the value $A(x)$ at a point $x\in X$ as the grade of membership of $x$ in $A$. If the function $A$ only takes on values in $\{0,1\}$, the indicator function of an ordinary subset is obtained.
-
-        A fuzzy set is said to be \textbf{empty} if its defining function is identically zero.
+        Consider a set $X$ (this set corresponds to the universe of discourse in e.g.~type theory or category theory). A fuzzy subset of $X$ is a function $A:X\rightarrow[0,1]$. One can interpret the value $A(x)$ at a point $x\in X$ as the degree of membership of $x$ in $A$. If the function $A$ only takes on values in $\{0,1\}$, the indicator function of an ordinary subset is recovered. A fuzzy set is said to be \textbf{empty} if its membership function is identically zero.
     }
     \remark{One can generalize this definition by replacing $[0,1]$ by a more general poset (with the necessary properties).}
 
     \newdef{Pullback}{\index{pullback!of a fuzzy set}
-        Consider two sets $X,Y$ and a fuzzy subset $A$ of $Y$. Given a function $f:X\rightarrow Y$ one can define the pullback $f^*A$ as usual:
+        Consider two sets $X,Y$ and a fuzzy subset $A$ of $Y$. Given a function $f:X\rightarrow Y$, one can define the pullback $f^*A$ as usual:
         \begin{gather}
-            f^*A(x) := A(f(x))\,.
+            f^*A := A\circ f\,.
         \end{gather}
     }
 
-    The following definition is an immediate generalization of \cref{set:relation}.
+    The following definition is a straightforward generalization of \cref{set:relation}.
     \newdef{Fuzzy relation}{\index{fuzzy!relation}
         A fuzzy subset of the product set $X\times X$. This definition can be extended to $n$-ary relations by considering fuzzy subsets of the $n$-fold product $X\times\cdots\times X$.
 
@@ -34,13 +32,42 @@
     \newdef{Convex combination}{\index{convex}
         Consider three fuzzy sets $A,B,\Lambda$. The convex combination $C\equiv(A,B;\Lambda)$ is defined as follows in analogy to \cref{calculus:convex}:
         \begin{gather}
-            C(x) := \Lambda(x)A(x) + (1-\Lambda(x))B(x)\,.
+            C(x) := \Lambda(x)A(x) + \bigl(1-\Lambda(x)\bigr)B(x)\,.
         \end{gather}
     }
 
-\section{Fuzzy measure theory}
+\section{Imprecise probabilities}
+\subsection{Gambles}
 
-    In this section some of the content of \cref{chapter:measure} is generalized to fuzzy set theory. Unless explicitly stated, all concepts will be defined over a general measurable space $(X,\Sigma)$.
+    \newdef{Gamble}{\index{gamble}\index{desirable}\index{orthant}
+        Consider a set $X$. The set of gambles over $X$ is the (Banach) space of bounded real-valued functions
+        \begin{gather}
+            \mathcal{B}(X):=\{f:X\rightarrow\mathbb{R}\mid\sup_{x\in X}f(x)<+\infty\}\,.
+        \end{gather}
+        A subset $\mathcal{D}\subset\mathcal{B}(X)$ of `desirable' gambles is said to be \textbf{coherent} if it satisfies the following condition:
+        \begin{enumerate}
+            \item\textbf{Positivity}: $\lambda>0\implies\lambda\mathcal{D}=\mathcal{D}$,
+            \item\textbf{Additivity}: $\mathcal{D}+\mathcal{D}\subseteq\mathcal{D}$,
+            \item\textbf{Accepting partial gains}: $\mathcal{B}^+(X)\subseteq\mathcal{D}$, where $\mathcal{B}^+(X):=\{f\in\mathcal{B}(X)\mid f>0\}$ denotes the \textbf{positive orthant}, and
+            \item\textbf{Avoiding partial losses}: $\mathcal{B}^-(X)\cap\mathcal{D}=\emptyset$, where $\mathcal{B}^-(X):=\{f\in\mathcal{B}(X)\mid f<0\}$ denotes the negative orthant.
+        \end{enumerate}
+        The first two axioms imply that the desirable gambles form a convex cone. It is also clear that the positive orthant $\mathcal{B}^+(X)$ is the smallest coherent set of desirable gambles.
+    }
+    \begin{property}[Order structure]
+        The collection of all coherent sets of desirable gambles over a space $X$ can be given a poset structure by inclusion, with $\mathcal{B}^+(X)$ as its least element. If $\mathcal{D}\subset\mathcal{D}^+$, then $\mathcal{D}$ is said to be less \textbf{committal} than $\mathcal{D}'$.
+    \end{property}
+
+\subsection{Credal sets}
+
+    \newdef{Credal set}{\index{credal set}
+        A subset of the set of probability measures $\mathbb{P}(X)$.
+
+        Credal sets are often used to represent the lack of knowledge about a probability distribution. For this reason, it is natural to assume that credal sets are convex. If one is uncertain about both $P_1,P_2\in K$ with $K\subseteq\mathbb{P}(X)$, one should also be uncertain about the mixtures $\lambda P_1+(1-\lambda)P_2$ for $\lambda\in[0,1]$.
+    }
+
+\subsection{Fuzzy measure theory}
+
+    In this section, some of the content of \cref{chapter:measure} is generalized to imprecise probability theory. Unless explicitly stated, all concepts will be defined over a general measurable space $(X,\Sigma)$.
 
     \newdef{Capacity\footnotemark}{\index{capacity}\index{measure}\index{game}
         \footnotetext{Also called a \textbf{fuzzy measure}.}
@@ -49,7 +76,7 @@
             \item\textbf{Grounded}: $\emptyset\in\Sigma\implies\mu(\emptyset)=0$, and
             \item\textbf{Monotonicity}: $A\subseteq B\implies\mu(A)\leq\mu(B)$ for all $A,B\in\mathcal{C}$.
         \end{enumerate}
-        If one drops the monotonicity condition, the notion of a \textbf{game} is obtained. A capacity is said to be \textbf{normalized} (or \textbf{regular}) if $\mu(X)=1$. For infinite sets $X$, the following two conditions are generally added:
+        If one drops the monotonicity condition, the notion of a \textbf{game} is obtained. A capacity is said to be \textbf{normalized} (or \textbf{regular}) if $\mu(X)=1$. For infinite sets, the following two conditions are generally added:
         \begin{enumerate}
             \item[3]\textbf{Upward continuity}: If $\seq{A}\subset\Sigma$ is an increasing sequence, then
                 \begin{gather}
@@ -77,23 +104,23 @@
     \end{property}
 
     \newdef{Choquet integral}{\index{Choquet!integral}
-        Consider a capacity $\mu$ on $(X,\Sigma)$ and a measurable function $f:\mathcal{U}\rightarrow\mathbb{R}$, i.e.~a function such that $\{y\mid f(y)\geq x\}\in\Sigma$ for all $x\in\mathbb{R}$. The Choquet integral of $f$ is defined as follows:
+        Consider a capacity $\mu$ on $(X,\Sigma)$ and a measurable function $f:X\rightarrow\mathbb{R}$, i.e.~a function such that $\{y\mid f(y)\geq x\}\in\Sigma$ for all $x\in\mathbb{R}$. The Choquet integral of $f$ is defined as follows:
         \begin{gather}
-            \int_Xf\,d\mu := \int_{-\infty}^0\big(\mu(\{y\mid f(y)\geq x\})-\mu(X)\big)\,dx+\int_0^{+\infty}\mu(\{y\mid f(y)\geq x\})\,dx.
+            \Int_Xf\,d\mu := \Int_{-\infty}^0\big(\mu(\{y\mid f(y)\geq x\})-\mu(X)\big)\,dx+\Int_0^{+\infty}\mu(\{y\mid f(y)\geq x\})\,dx.
         \end{gather}
         This integral is not additive, but it is monotonic in $f$. This expression can be obtained as follows, where functions are decomposed in their positive and negative parts: $f=f^+-f^-$. The original definition by \textit{Choquet} was for nonnegative functions:
         \begin{gather}
-            \int_Xf^+\,d\mu := \int_0^{+\infty}\mu(\{y\mid f^+(y)\geq x\})\,dx\,,
+            \Int_Xf^+\,d\mu := \Int_0^{+\infty}\mu(\{y\mid f^+(y)\geq x\})\,dx\,,
         \end{gather}
         which for simple functions reduces to:
         \begin{align}
-            \int_Xf^+\,d\mu &= \int_X\sum_{i=1}^na_i\mathbbm{1}_{\{x\in X\mid f^+(x)=a_i\}}\,d\mu\nonumber\\
-            &= \int_X\sum_{i=1}^n(a_i-a_{i-1})\mathbbm{1}_{\{x\in X\mid f^+(x)\geq a_i\}}\,d\mu\nonumber\\
+            \Int_Xf^+\,d\mu &= \Int_X\sum_{i=1}^na_i\mathbbm{1}_{\{x\in X\mid f^+(x)=a_i\}}\,d\mu\nonumber\\
+            &= \Int_X\sum_{i=1}^n(a_i-a_{i-1})\mathbbm{1}_{\{x\in X\mid f^+(x)\geq a_i\}}\,d\mu\nonumber\\
             &= \sum_{i=1}^n(a_i-a_{i-1})\mu(\{x\in X\mid f(x)\geq a_i\}).
         \end{align}
         The general Choquet integral then takes the form
         \begin{gather}
-            \int_Xf\,d\mu := \int_Xf^+\,d\mu - \int_Xf^-\,d\overline{\mu}\,.
+            \Int_Xf\,d\mu := \Int_Xf^+\,d\mu - \Int_Xf^-\,d\overline{\mu}\,.
         \end{gather}
     }
 
@@ -102,41 +129,19 @@
     \end{property}
 
     \begin{example}[Possibility and necessity]\index{possibility}\index{necessity}
-        A normalized capacity $\mu$ satisfying
+        A possibility measure is a normalized capacity $\mu$ satisfying
         \begin{gather}
             \mu(A\cup B) = \max\bigl\{\mu(A),\mu(B)\bigr\}
         \end{gather}
         for all $A,B\in\Sigma$. If one replaces the maximum by a minimum, the definition of a \textbf{necessity measure} is obtained.
     \end{example}
     \begin{example}[Belief and plausibility]\index{belief}\index{plausibility}
-        Belief and plausibility measures are respectively defined as totally monotone and totally alternating normalized capacities. It is not difficult to show that possibility and necessity measures are particular instances of belief and plausibility measures.
+        Belief and plausibility measures are, respectively, defined as totally monotone and totally alternating normalized capacities. It is not difficult to show that possibility and necessity measures are particular instances of belief and plausibility measures.
     \end{example}
 
     \newdef{Consonant capacity}{\index{focal!set}\index{capacity!consonant}
-        A capacity $\mu:\Sigma\rightarrow\mathbb{R}$ such that the \textbf{focal sets}, the sets $A\in\Sigma$ such that $\mu(A)>0$, admit a total order (i.e.~they are nested).
+        A capacity $\mu:\Sigma\rightarrow\mathbb{R}$ such that the \textbf{focal sets}, i.e.~the sets $A\in\Sigma$ for which $\mu(A)>0$, admit a total order (i.e.~they are nested).
     }
     \begin{example}
         Necessity and possibility measures are exactly the consonant belief and plausibility measures.
     \end{example}
-
-\section{Imprecise probabilities}
-
-    \newdef{Gamble}{\index{gamble}\index{desirable}
-        Consider a set $X$. The set of gambles over $X$ is the (Banach) space of bounded real-valued functions $\mathcal{B}(X):=\{f:X\rightarrow\mathbb{R}\mid\sup_{x\in X}f(x)<+\infty\}$. A subset $\mathcal{D}\subset\mathcal{B}(X)$ of `desirable' gambles is said to be \textbf{coherent} if it satisfies the following condition:
-        \begin{enumerate}
-            \item\textbf{Positivity}: $\lambda>0\implies\lambda\mathcal{D}=\mathcal{D}$,
-            \item\textbf{Additivity}: $\mathcal{D}+\mathcal{D}\subseteq\mathcal{D}$,
-            \item\textbf{Accepting partial gains}: $\mathcal{B}^+(X)\subseteq\mathcal{D}$, where $\mathcal{B}^+(X):=\{f\in\mathcal{B}(X)\mid f>0\}$, and
-            \item\textbf{Avoiding partial losses}: $\mathcal{B}^-(X)\cap\mathcal{D}=\emptyset$, $\mathcal{B}^-(X):=\{f\in\mathcal{B}(X)\mid f<0\}$.
-        \end{enumerate}
-        The first two axioms imply that the desirable gambles form a convex cone. It is also clear that the positive orthant $\mathcal{B}^+(X)$ is the smallest coherent set of desirable gambles.
-    }
-    \begin{property}[Order structure]
-        The collection of all coherent sets of desirable gambles over a space $X$ can be given a poset structure by inclusion, with $\mathcal{B}^+(X)$ as its least element. If $\mathcal{D}\subset\mathcal{D}^+$, then $\mathcal{D}$ is said to be less \textbf{committal} than $\mathcal{D}'$.
-    \end{property}
-
-    \newdef{Credal set}{\index{credal set}
-        A subset of the set of probability measures $\mathbb{P}(X)$.
-
-        Credal sets are often used to represent the lack of knowledge about a probability distribution. For this reason it is natural to assume that credal sets are convex. If one is uncertain about both $P_1,P_2\in K\subseteq\mathbb{P}(X)$, one is also uncertain about the mixtures $\lambda P_1+(1-\lambda)P_2$ for $\lambda\in[0,1]$.
-    }

@@ -1,6 +1,6 @@
 \chapter{\difficult{Axiomatic QFT}}
 
-    For the sections on TQFTs and \textit{open-closed} TQFTs, the reader is referred to the original papers~\citet{atiyah_topological_1988} and~\citet{lauda_openclosed_2008}, respectively. For the sections on the Haag--Kastler framework and its extensions, the reader is referred to the work of \textit{Brunetti, Fredenhagen et al}. A reference for the remaining sections on algebraic QFT is~\citet{baez_introduction_2014}. The sections on cohomological quantization and quantization from a sheaf point of view are based on~\citet{nuiten_cohomological_2013}.
+    For the sections on TQFTs and \textit{open-closed} TQFTs, the reader is referred to the original papers~\citet{atiyah_topological_1988} and~\citet{lauda_openclosed_2008}, respectively. For the sections on the Haag--Kastler framework and its extensions, the reader is referred to the work of \textit{Brunetti, Fredenhagen et al.}~such as~\citet{brunetti_generally_2003}. A reference for the remaining sections on algebraic QFT is~\citet{baez_introduction_2014}. The sections on cohomological quantization and quantization from a sheaf point of view are based on~\citet{nuiten_cohomological_2013}.
 
 \section{Topological QFT}
 
@@ -56,14 +56,15 @@
     \todo{COMPLETE}
 
 \section{Algebraic QFT}
-\subsection{Haag--Kastler axioms}\label{section:haag_kastler}
+\subsection{Haag--Kastler axioms}\index{Haag--Kastler axioms}\label{section:haag_kastler}
 
     \begin{axiom}[Local net of observables]\index{microcausality|seealso{locality}}\index{Einstein!causality}\index{locality}\label{aqft:microcausality}
-        To every causally closed set (\cref{relativity:causal_closure}), one associates a $C^*$-algebra (\cref{operators:c_star}). This assignment is required to satisfy the following conditions:
+        To every bounded open subset of Minkowski space, one associates a $C^*$-algebra (\cref{operators:c_star}). This assignment is required to satisfy the following conditions:
         \begin{enumerate}
             \item\textbf{Isotony}: If $O_1\subset O_2$, then $\mathcal{A}(O_1)\hookrightarrow\mathcal{A}(O_2)$ and compositions are preserved.
             \item\textbf{(Causal) locality}\footnote{Also called \textbf{microcausality} or \textbf{Einstein causality}.}: If $O_1$ and $O_2$ are spacelike separated, then
             \begin{gather}
+                \label{aqft:causal_locality}
                 \bigl[\mathcal{A}(O_1),\mathcal{A}(O_2)\bigr]=0
             \end{gather}
             (as a graded commutator) within a larger algebra $\mathcal{A}(O)$ such that $O_1,O_2\subset O$.
@@ -72,7 +73,7 @@
     \remark{The isotony condition implies that local nets of observables are modelled by copresheaves $\mathbf{Mink}\rightarrow\mathbf{C^*Alg}$ that map (mono)morphisms to monomorphisms.}
 
     \begin{axiom}[Poincar\'e covariance]
-        For all causally closed sets $O$ and Poincar\'e transformations $\Lambda$, there exists an isomorphism $\alpha^O_\Lambda:\mathcal{A}(O)\rightarrow\mathcal{A}(\Lambda O)$ such that the following conditions are satisfied:
+        For all bounded open sets $O$ and Poincar\'e transformations $\Lambda$, there exists an isomorphism $\alpha^O_\Lambda:\mathcal{A}(O)\rightarrow\mathcal{A}(\Lambda O)$ such that the following conditions are satisfied:
         \begin{enumerate}
             \item If $O_1\subset O_2$, then $\alpha_\Lambda\circ\iota_{O_1,O_2} = \iota_{\Lambda O_1,\Lambda O_2}\circ\alpha_\Lambda$.
             \item The isomorphisms satisfy a composition rule: $\alpha^{\Lambda O}_{\Lambda'}\circ\alpha^O_\Lambda = \alpha^O_{\Lambda'\Lambda}$.
@@ -88,7 +89,7 @@
     \end{axiom}
 
     The following axiom is not part of the standard Haag--Kastler framework but can be added to introduce dynamics.
-    \begin{axiom}[Time slice]
+    \begin{axiom}[Time slice]\index{time!slice}
         Consider two spacetime regions $O_1,O_2$. If $O_1$ contains a Cauchy surface of $O_2$, the morphism $\mathcal{A}(O_1\hookrightarrow O_2)$ of $C^*$-algebras is an isomorphism.
     \end{axiom}
 
@@ -101,7 +102,11 @@
     \end{axiom}
     \remark{Haag duality is known to hold for all free theories and even for some interacting theories. However, it is also known to fail in the case of symmetry breaking~\citep{roberts_spontaneously_1974}.}
 
-    To generalize the above axiom system to globally hyperbolic space times, one must enter the realm of category theory. The notation\footnote{This could potentially cause confusion with other notations used in this text. $\mathbf{Loc}$ here has nothing to do with the category of locales from \cref{chapter:topology}.} of~\citet{calaque_mathematical_2015} will be adopted. Let $\mathbf{Loc}$ be the category of globally hyperbolic space times with orientation- and causal structure-preserving isometries. Let $\mathbf{Obs}$ be the category of relevant algebras (commutative algebras for classical physics and $C^*$-algebras for quantum physics) together with suitable algebra morphisms. The assignment of algebras is then given by a functor $\func{\mathfrak{U}}{Loc}{Obs}$. The Haag--Kastler framework is recovered when $\mathfrak{U}$ is restricted to the subcategory of globally hyperbolic subsets of some manifold (with inclusions as morphisms).
+    To generalize the above axiom system to globally hyperbolic space times, one must enter the realm of category theory. The notation\footnote{This could potentially cause confusion with other notations used in this text. Here, $\mathbf{Loc}$ has nothing to do with the category of locales from \cref{chapter:topology}.} of~\citet{calaque_mathematical_2015} will be adopted. Let $\mathbf{Loc}$ be the category of globally hyperbolic space times with orientation- and causal structure-preserving isometries. Let $\mathbf{Obs}$ be the category of relevant algebras (commutative algebras for classical physics and $C^*$-algebras for quantum physics) together with suitable algebra morphisms. The assignment of algebras is then given by a functor $\func{\mathcal{O}}{Loc}{Obs}$.
+
+    \begin{remark}[LCAQFT]\label{aqft:lcaqft}
+        Given this generalized framework, also called \textbf{locally covariant AQFT}, the Haag--Kastler framework, which restricts attention to a given fixed manifold, is recovered when $\mathcal{O}$ is restricted to the subcategory of causally closed, relatively compact open subsets of a globally hyperbolic manifold (with inclusions as morphisms).
+    \end{remark}
 
 \subsection{Weyl systems}
 
@@ -124,7 +129,7 @@
     }
 
     Recall \cref{section:noncommutative_measure_theory}, where the framework of measure theory and distributions was generalized to the noncommutative context.
-    \begin{property}[Schro\"odinger representation]\index{Schr\"odinger!representation}\index{topology!algebraic}
+    \begin{property}[Schr\"odinger representation]\index{Schr\"odinger!representation}\index{topology!algebraic}
         Consider a distribution $d$ on a (real) TVS $V$. There exists a unique unitary representation $U$ of the additive group $V^*$ on $L^2(V,d)$ such that
         \begin{gather}
             U(\lambda)f = e^{id(\lambda)}f
@@ -136,7 +141,36 @@
 
     Perturbative algebraic quantum field theory (pAQFT) tries to formalize the notion of perturbation theory in QFT, as it is nowadays used in particle physics and high energy physics, by combining the formalism of AQFT with the causal perturbation theory as introduced by~\citet{epstein_role_1973}.
 
-    In this section, the main object of interest will be the space of fields. In almost all cases, this will be the space of sections $\mathcal{E}$ of a (graded) vector bundle $\bundle$. Such spaces are always (graded) Fr\'echet spaces by generalizing the construction in \cref{distribution:distribution}. Here, one can use the fact that every manifold is $\sigma$-compact and admits a connection. Moreover, as before, the spacetime manifolds $M$ will always be assumed to be globally hyperbolic, i.e.~admit a Cauchy surface.
+    In this section, the main object of interest will be the space of fields. In almost all cases, this will be the space of sections $\mathcal{E}$ of a (graded) vector bundle $\bundle$. Such spaces are always (graded) Fr\'echet spaces by generalizing the construction in \cref{distribution:distribution}. Here, one can use the fact that every manifold is $\sigma$-compact and admits a connection. Moreover, as before (cf.~\cref{aqft:lcaqft}), the spacetime manifolds $M$ will always be assumed to be globally hyperbolic, i.e.~admit a Cauchy surface.
+
+\subsection{Haag--Kastler axioms}\index{Haag--Kastler axioms}
+
+    The Haag--Kastler axioms (\cref{section:haag_kastler}) can be generalized to the perturbative setting as follows. Instead of considering functors
+    \begin{gather}
+        \func{\mathcal{O}}{Caus}{C^*Alg}\,,
+    \end{gather}
+    one considers functors
+    \begin{gather}
+        \func{\mathcal{O}}{Caus}{\ast Alg}\,,
+    \end{gather}
+    In fact, the category on the right-hand side does not suffice yet. To consider convergence issues, one should look at topological $\ast$-algebras and, to work perturbatively, one should look at formal power series. Moreover, to handle gauge theory, the BV formalism (\cref{section:BV_formalism}) will be used and homological algebra is required. Hence, the full version of the theory is concerned with functors of the form
+    \begin{gather}
+        \func{\mathcal{O}}{Caus}{Ch_\bullet\bigl(Top\!\ast\!Alg}[[\hbar]]\bigr)\,,
+    \end{gather}
+    As such, the isotony condition is still satisfied. However, the locality condition~\eqref{aqft:causal_locality} has to be modified. Requiring this at the level of the full algebra would be too strong due to the presence of auxiliary fields. However, passing to cohomology suffices.
+    \begin{axiom}[Causal locality]\index{locality}
+        Let $O_1,O_2$ be spacelike separated, then
+        \begin{gather}
+            \bigl[H_\bullet(\mathcal{O}(O_1)),H_\bullet(\mathcal{O}(O_2))\bigr] = 0\,.
+        \end{gather}
+        Again, this should be understood within a larger algebra.
+    \end{axiom}
+
+    \begin{axiom}[Time slice]\index{time!slice}
+        If $O_1$ contains a Cauchy surface of $O_2$, the morphism $\mathcal{O}(O_1\hookrightarrow O_2)$ is a quasi-isomorphism.
+    \end{axiom}
+
+    \todo{COMPLETE (Rejzner et al.)}
 
 \subsection{Functional analysis}
 
@@ -185,20 +219,20 @@
 
     Aside from the standard functional derivative, in the sense of Gateaux (\cref{functional:gateaux}), one can now also define a `graded derivative'.
     \begin{formula}[Graded derivative]\index{derivative!graded}\label{aqft:graded_derivative}
-        Denote the functional target space \[\bigoplus_{\substack{l=0\\i_1+\cdots i_l=k}}\Gamma_{i_1|\underline{i_2}|i_3|\ldots}\left(\boxtimes^l_{j=1}E[-j]_0^{\boxtimes i_j}\right)^*\] by $\mathcal{A}^k(\mathcal{E})$ and consider a homogeneous element $F\in\mathcal{A}^k(\mathcal{E})$. The left (graded) derivative is defined as follows:
+        Denote the functional target space \[\bigoplus_{\substack{l=0\\i_1+\cdots i_l=k}}\Gamma_{i_1|\underline{i_2}|i_3|\ldots}\left(\boxtimes^l_{j=1}E[-j]_0^{\boxtimes i_j}\right)^*\] by $\mathcal{O}^k(\mathcal{E})$ and consider a homogeneous element $F\in\mathcal{O}^k(\mathcal{E})$. The left (graded) derivative is defined as follows:
         \begin{gather}
             \begin{cases}
-                \ds\left\langle\frac{\delta^lF}{\delta\phi}(v),w\right\rangle := F(w\wedge v)&k>0\,,\\
+                \ds\left\langle\frac{\delta^lF}{\delta\phi}(v),w\right\rangle := F(w\wedge v)&\cif k>0\,,\\
                 &\\
-                \ds\frac{\delta^lF}{\delta\phi} := 0&k=0\,.
+                \ds\frac{\delta^lF}{\delta\phi} := 0&\cif k=0\,.
             \end{cases}
         \end{gather}
         Similarly, the right (graded) derivative is defined by
         \begin{gather}
             \begin{cases}
-                \ds\left\langle\frac{\delta^rF}{\delta\phi}(v),w\right\rangle := F(v\wedge w)&k>0\,,\\
+                \ds\left\langle\frac{\delta^rF}{\delta\phi}(v),w\right\rangle := F(v\wedge w)&\cif k>0\,,\\
                 &\\
-                \ds\frac{\delta^rF}{\delta\phi} := 0&k=0\,.
+                \ds\frac{\delta^rF}{\delta\phi} := 0&\cif k=0\,.
             \end{cases}
         \end{gather}
     \end{formula}
@@ -355,7 +389,7 @@
     \end{gather}
     where the derivatives with respect to $\phi$ and $\phi^\dagger$ should be interpreted as functional (Gateaux) and graded derivatives (\cref{aqft:graded_derivative}) with respect to the base and fibre coordinates of the odd cotangent bundle $\mathcal{E}\oplus\mathcal{E}^*[1]$.
 
-    @@ ADD SCHOUTEN BRACKET TO CHAPTER ON VECTOR BUNDLES @@
+    \todo{ADD SCHOUTEN BRACKET TO CHAPTER ON VECTOR BUNDLES}
 
 \subsection{Quantization}
 

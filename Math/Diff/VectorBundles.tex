@@ -2,6 +2,8 @@
 
     The main reference for this chapter is~\citet{bott_differential_1995}.
 
+    \minitoc
+
 \section{Tangent bundle}
 
     The tangent space, as introduced in \cref{section:tangent_space}, can also be introduced in a more abstract and general way. Because it is the most important example of a vector bundle, tangent bundles are introduced first.
@@ -328,6 +330,7 @@
         \begin{gather}
             \mathcal{L}_Xf(p) = X_p(f)\,.
         \end{gather}
+
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Explanation]
                 In this derivation, Landau's little-o notation is used:
@@ -382,11 +385,11 @@
             \end{proof}
         \end{mdframed}
     }
-    \begin{property}\index{Lie!bracket}\label{bundle:lie_bracket}
+    \begin{property}[Lie bracket]\index{Lie!bracket}\label{bundle:lie_bracket}
         Let $X,Y\in\mathfrak{X}(M)$ be $C^k$-vector fields. The Lie derivative has the following properties:
         \begin{itemize}
             \item $\mathcal{L}_XY$ is a vector field.
-            \item\textbf{Lie bracket}: The Lie derivative of vector fields coincides with the commutator:
+            \item The Lie derivative of vector fields coincides with the commutator:
                 \begin{gather}
                     \mathcal{L}_XY = [X,Y]\,.
                 \end{gather}
@@ -410,7 +413,31 @@
         For every holonomic basis, there exists a coordinate system on $M$ such that the basis coincides with the coordinate-induced basis.
     \end{property}
 
+\subsection{Multivector fields}
+
+    Similar to the construction of \textit{differential forms} in \cref{section:forms} below, one can also construct products of vector fields.
+
+    \newdef{Multivector field}{
+        A section of the exterior algebra $\Lambda^\bullet TM$.
+    }
+
+    \newdef{Schouten--Nijenhuis bracket}{\index{Schouten--Nijenhuis bracket}\label{bundle:schouten_nijenhuis_bracket}
+        The unique extension of the Lie bracket to multivector fields that turns $\Gamma(\Lambda^\bullet TM)$ into a Gerstenhaber algebra (\cref{hda:gerstenhaber_algebra}).
+
+        A more explicit description is given as follows. Let $f\in C^\infty(M)$ and $\{X_i\}_{i\leq n}\in\mathfrak{X}(M)$ for some $n\in\mathbb{N}$.
+        \begin{gather}
+            [f,X_1\wedge\cdots\wedge X_n] := -\iota_{\dr f}X_1\wedge\cdots X_n\,,
+        \end{gather}
+        where $\dr f$ is the \textit{exterior derivative} (see \cref{bundle:exterior_derivative}) and $\iota$ is defined analogous to \cref{bundle:interior_derivative},
+        and
+        \begin{gather}
+            [X_1\wedge\cdots\wedge X_{i_k}, X_{i_{k+1}}\wedge\cdots\wedge X_n] := \sum_{i,j}[X_i,X_j]X_1\wedge\cdots\wedge\hat{X}_i\wedge\cdots\wedge\hat{X}_j\wedge\cdots\wedge X_n
+        \end{gather}
+        for all $k\leq n$, where the caret indicates that this vector field is omitted.
+    }
+
 \section{Differential \texorpdfstring{$k$}{k}-forms}\label{section:forms}
+\subsection{Definition}
 
     \newdef{Differential form}{\index{differential form}
         A differential $k$-form is a map
@@ -545,7 +572,7 @@
         \begin{gather}
             \iota_X:(\iota_X\omega)(v_1,\ldots,v_{k-1})\mapsto\omega(X,v_1,\ldots,v_{k-1})\,.
         \end{gather}
-        This antiderivation of degree $-1$ is called the \textbf{interior product} or \textbf{interior derivative}. It can be seen as a generalization of the contraction map~\ref{vector:contraction}.
+        This antiderivation of degree $-1$ is called the \textbf{interior product} (or \textbf{interior derivative}). It can be seen as a generalization of the contraction map~\ref{vector:contraction}.
     }
     \begin{notation}
         In certain situations, the above notation might become cumbersome. For this reason, the notation $X\intmul\omega$ is frequently used.
@@ -555,7 +582,7 @@
         \footnotetext{Sometimes called \textbf{Cartan's (infinitesimal) homotopy formula}.}
         Let $X$ be a vector field and let $\omega$ be a differential $k$-form. The Lie derivative of $\omega$ along $X$ is given by the following formula:
         \begin{gather}
-            \mathcal{L}_X\omega = \iota_X(\dr\omega) + \dr(\iota_X\omega)\,.
+            \mathcal{L}_X = \iota_X\circ\dr + \dr\circ\iota_X = [\iota_X,\dr]\,.
         \end{gather}
     }
 
@@ -650,6 +677,29 @@
         \end{gather}
         where $\theta\in\Omega^r(M;\mathfrak{g})$.
     \end{result}
+
+    \newdef{Fr\"olicher--Nijenhuis bracket}{\index{Fr\"olicher--Nijenhuis bracket}\index{derivative!Nijenhuis--Lie}\index{Nijenhuis--Richardson bracket}\label{bundle:frolicher_nijenhuis_bracket}
+        The interior product can also be generalized to vector-valued differential forms. Let $\omega\in\Omega^l(M)$ and $\phi\in\Omega^k(M;TM)$.
+        \begin{gather}
+            \iota_\phi\omega(X_1,\ldots,X_{k+l-1}) := \frac{1}{p!q!}\sum_{\sigma\in S_{p+q}}\sgn(\sigma)\omega\bigl(\phi(X_{\sigma(1)},\ldots,X_{\sigma(k)}),X_{\sigma(k+1)},\ldots,X_{\sigma(k+l-1)}\bigr)
+        \end{gather}
+        for all $X_1,\ldots,X_{k+l-1}\in\mathfrak{X}(M)$. This defines a graded derivation on $\Omega^\bullet(M)$ of degree $k-1$. Mimicking Cartan's magic formula~\ref{bundle:cartan_magic_formula}, one defines the \textbf{Nijenhuis--Lie derivative} as
+        \begin{gather}
+            \mathcal{L}_\phi := [\iota_\phi,\dr]\,.
+        \end{gather}
+        The Fr\"olicher--Nijenhuis bracket is the unique operation
+        \begin{gather}
+            [\cdot,\cdot]_{\text{FN}}:\Omega^k(M;TM)\otimes\Omega^l(M;TM)\rightarrow\Omega^{k+l}(M;TM)
+        \end{gather}
+        such that
+        \begin{gather}
+            \mathcal{L}_{[\phi,\psi]_{\text{FN}}} = [\mathcal{L}_\phi,\mathcal{L}_\psi]\,.
+        \end{gather}
+        A related object, the \textbf{Nijenhuis--Richardson bracket} is obtained by setting
+        \begin{gather}
+            [\phi,\psi]_{\text{NR}} := \iota_\phi\circ\psi-(-1)^{\deg(\phi)\deg(\psi)}\iota_\psi\phi\,.
+        \end{gather}
+    }
 
 \section{Grassmann bundle}
 

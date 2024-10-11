@@ -1,5 +1,7 @@
 \chapter{Calculus}
 
+    \minitoc
+
 \section{General definitions}
 
     \newdef{Domain}{\index{domain}
@@ -188,11 +190,11 @@
     \end{method}
 
     \newdef{Asymptotic expansion}{\index{asymptotic!expansion}\label{calculus:asymptotic_expansion}
-        Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a continuous function. A series $\sum_{i=0}^{+\infty}a_nx^n$ is called an asymptotic expansion of $f$ if there exists an $n\in\mathbb{N}$ such that
+        Let $f:\mathbb{R}\rightarrow\mathbb{R}$ be a continuous function. A series $\sum_{i=0}^{+\infty}a_nx^n$ is called an asymptotic expansion of $f$ if there exists an $N\in\mathbb{N}$ such that
         \begin{gather}
             f(x) - \sum_{i=0}^na_ix^i = O(x^{n+1})
         \end{gather}
-        for all $x\in\mathbb{R}$.
+        for all $x\in\mathbb{R}$ and $n\geq N$.
     }
 
 \section{Differentiation}\index{differentiation}
@@ -223,7 +225,7 @@
     \end{theorem}
 
     \newdef{Differentiablity class}{\label{calculus:differentiablity_class}
-        A function $f:\mathbb{R}\rightarrow\mathbb{R}$ is said to be of class $C^n$ if it is $n$ times continuously differentiable, i.e.~$f^{(i)}$ exists and is continuous for $i=1,\ldots,n$. Multivariate functions are said to be of class $C^n$ if all of their partial derivatives are of class $C^{n-1}$ or, by recursion, if all mixed partial derivatives up to order $n$ exists and are continuous.
+        A function $f:\mathbb{R}\rightarrow\mathbb{R}$ is said to be of class $C^n$ if it is $n\in\mathbb{N}$ times continuously differentiable, i.e.~$f^{(i)}$ exists and is continuous for $i=1,\ldots,n$. Multivariate functions are said to be of class $C^n$ if all of their partial derivatives are of class $C^{n-1}$ or, by recursion, if all mixed partial derivatives up to order $n$ exists and are continuous.
     }
     \newdef{Smooth function}{\index{smooth!function}\label{calculus:smooth}
         A function $f$ is said to be smooth if it is of class $C^\infty$.
@@ -349,10 +351,10 @@
                 \end{gather*}
                 The Borel transform gives:
                 \begin{align*}
-                    \Int_0^{+\infty}F(xt)e^{-t}\,dt&=\sum_{n=0}^N\Int_0^{+\infty}\frac{a_n}{n!}x^nt^ne^{-t}\,dt\\
-                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\Int_0^{+\infty}t^ne^{-t}\,dt\\
-                    &=\sum_{n=0}^N\frac{a_n}{n!}x^n\,\Gamma(n+1)\\
-                    &=\sum_{n=0}^Na_nx^n\,,
+                    \Int_0^{+\infty}F(xt)e^{-t}\,dt&=\sum_{n=0}^{+\infty}\Int_0^{+\infty}\frac{a_n}{n!}x^nt^ne^{-t}\,dt\\
+                    &=\sum_{n=0}^{+\infty}\frac{a_n}{n!}x^n\Int_0^{+\infty}t^ne^{-t}\,dt\\
+                    &=\sum_{n=0}^{+\infty}\frac{a_n}{n!}x^n\,\Gamma(n+1)\\
+                    &=\sum_{n=0}^{+\infty}a_nx^n\,,
                \end{align*}
                where the definition of the Gamma function (\cref{calculus:gamma_function}) was used on line 3, and the relation~\eqref{calculus:gamma_factorial_relation} between the factorial function and the Gamma function was used on line 4.
             \end{proof}
@@ -360,7 +362,7 @@
     }
 
     \begin{theorem}[Watson]\index{Watson}
-        The Borel transform $F$ is unique if the function $f$ is holomorphic (\cref{complexcalculus:holomorphic}) on the domain $\{z\in\mathbb{C}\mid|\arg(z)|<\frac{\pi}{2}+\varepsilon\}$.
+        The Borel transform $F$ is unique if the function $f$ is holomorphic (see \cref{complexcalculus:holomorphic}) on the domain $\{z\in\mathbb{C}\mid|\arg(z)|<\frac{\pi}{2}+\varepsilon\}$.
     \end{theorem}
 
 \subsection{Euler integrals}\index{Euler!integral}
@@ -394,7 +396,7 @@
     \end{property}
 
     \newformula{Factorial}{\label{calculus:gamma_factorial_relation}
-        For integers $n\in\mathbb{N}$ the gamma function can be expressed in terms of the factorial (\cref{calculus:factorial}):
+        For integers $n\in\mathbb{N}$, the gamma function can be expressed in terms of the factorial (\cref{calculus:factorial}):
         \begin{gather}
             \Gamma(n) = (n-1)!\,.
         \end{gather}
@@ -444,11 +446,11 @@
     \begin{method}[Feynman diagrams]\index{Feynman!diagram}
         The expansion of the exponential in the general expression for Gaussian integrals admits a diagrammatic expression. Let $f(\vector{x})$ be a polynomial function of the coordinates.
 
-        If the number of factors in a monomial is odd, the resulting integral will vanish (since the integral of an odd function over an even domain is zero). For an even number of factors one gets the following expression:
+        If the number of factors in a monomial is odd, the resulting integral will vanish (since the integral of an odd function over an even domain is zero). For an even number of factors, one gets the following expression:
         \begin{gather}
             \Int_{\mathbb{R}^n}\exp\left(-\frac{1}{2}\vector{x}\cdot A\vector{x}\right)x^{i_1}\cdots x^{i_k}\,d^nx = \sqrt{\frac{(2\pi)^n}{\det(A)}}\sum_{\sigma\in S_k}A^{-1}_{\sigma(i_1)\sigma(i_2)}\cdots A^{-1}_{\sigma(i_{k-1})\sigma(i_k)}\,.
         \end{gather}
-        To every coordinate dimension one can assign a vertex in the place, i.e.~the object $x_i$ can be interpreted as a real-valued function on the set of $k$ elements. The sum on the right-hand side above can then be expressed as a `sum' over all possible diagrams, where a factor $A^{-1}_{ij}$ is represented by a line connecting the vertices $i$ and $j$.
+        To every coordinate dimension, one can assign a vertex in the plane, i.e.~the object $x_i$ can be interpreted as a real-valued function on the set of $k\in\mathbb{N}$ elements. The sum on the right-hand side above can then be expressed as a `sum' over all possible diagrams, where a factor $A^{-1}_{ij}$ is represented by a line connecting the vertices $i$ and $j$.
     \end{method}
 
     \begin{example}[Feynman diagrams]
@@ -465,7 +467,7 @@
                 \draw (2) -- (4);
             \end{tikzpicture}
         \end{gather*}
-        Higher powers of a given coordinate would then for example give rise to diagrams with loops at a given vertex:
+        Higher powers of a given coordinate would then, for example, give rise to diagrams with loops at a given vertex:
         \begin{gather*}
             A^{-1}_{11}A^{-1}_{12}A^{-1}_{22} =
             \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
@@ -479,7 +481,7 @@
     \end{example}
 
     \begin{remark}[Normalization]
-        In practice one often divides all Gaussian integrals by the quantity $I(A,0)$ to cancel the normalization factor. In the functional setting this even imperative since, as mentioned above, the normalization factor diverges for infinite-dimensional spaces.
+        In practice, one often divides all Gaussian integrals by the quantity $I(A,0)$ to cancel the normalization factor. In the functional setting, this is even imperative since, as mentioned above, the normalization factor diverges for infinite-dimensional spaces.
     \end{remark}
 
 \subsection{Generalizations}
@@ -498,7 +500,7 @@
         \end{gather}
         for subintervals in the partition.\footnote{If the condition $x_i\in[t_{i-1},t_i]$ in the definition of tagged partitions is dropped, the \textbf{McShane integral} is obtained. This can be shown to be equivalent to the \textit{Lebesgue integral} (see \cref{chapter:measure}).}
 
-        If the integral exists, it is given by the number $I\in\mathbb{R}$ such that for all $\varepsilon>0$ there exists a gauge $\delta:[a,b]\rightarrow\mathbb{R}^{>0}$ such that if $P$ is $\delta$-fine, then
+        If the integral exists, it is given by the number $I\in\mathbb{R}$ such that for all $\varepsilon>0$ there exists a gauge $\delta:[a,b]\rightarrow\mathbb{R}^{>0}$ such that, if $P$ is $\delta$-fine, then
         \begin{gather}
             \left\vert I-\sum_Pf(x_i)(t_i-t_{i-1})\right\vert<\varepsilon\,.
         \end{gather}
@@ -533,7 +535,7 @@
     \begin{theorem}[Second fundamental theorem of calculus]
         Let $f:[a,b]\rightarrow\mathbb{R}$ be differentiable, then
         \begin{gather}
-            \Int_a^xf'(x')\,dx' = f(x)-f(a)\text{ a.e.}
+            \Int_a^xf'(x')\,dx' = f(x)-f(a)\text{\ \ a.e.}
         \end{gather}
     \end{theorem}
 
@@ -602,5 +604,30 @@
         uniquely determines the Legendre transformation.
     \end{property}
     \begin{remark}
-        The above definitions can easily be extended to higher dimensions ($n\geq2$).
+        These definitions can easily be extended to higher dimensions ($n\geq2$).
     \end{remark}
+
+\section{Trigonometry}
+
+    \newdef{Trigonometric functions}{\index{sine}\index{cosine}\index{tangent}
+        Consider \cref{fig:right_triangle}. In a right(-angled) triangle, the trigonometric functions of the angle $\theta$ are defined as follows:
+        \begin{gather}
+                \sin(\theta) := \frac{y}{x}\qquad\qquad
+                \cos{\theta} := \frac{z}{x}\qquad\qquad
+                \tan(\theta) := \frac{y}{z}
+        \end{gather}
+    }
+    \begin{result}
+        \begin{gather}
+            \tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)}
+        \end{gather}
+    \end{result}
+
+    \begin{figure}[ht!]
+        \centering
+        \begin{tikzpicture}
+            \draw (0, 0) node[below left]{$A$} -- node[left]{$z$} (0, 2) node[above left]{$B$} node[below = .5cm, right = .1cm]{$\theta$} -- node[above right]{$x$} (5, 0) node[below right]{$C$} -- node[below]{$y$} (0, 0);
+        \end{tikzpicture}
+        \caption{Right(-angled) triangle.}
+        \label{fig:right_triangle}
+    \end{figure}

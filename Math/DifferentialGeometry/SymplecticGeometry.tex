@@ -18,6 +18,19 @@
         A manifold equipped with a symplectic form.
     }
 
+    \newdef{Hamiltonian vector field}{\index{Hamilton!vector field}\label{symplectic:hamilton_vectorfield}
+        Let $(M,\omega)$ be a symplectic manifold. For every function $f\in C^\infty(M)$, the associated Hamiltonian vector field $X_f$ is defined by the following equation\footnote{A lot of different conventions exist in the literature. Here, the one that is compatible with the \textit{Hamiltonian equations}~\ref{lagrange:hamilton_equations} (which are universally accepted) is used.}:
+        \begin{gather}
+            \label{symplectic:hamilton_vectorfield1}
+            \omega(X_f,\cdot) = -\dr f\,.
+        \end{gather}
+        This can be rewritten using $\omega^\sharp$ as
+        \begin{gather}
+            X_f = \omega^\sharp(-\dr f,\cdot)\,.
+        \end{gather}
+        Hamiltonian vector fields form a Lie subalgebra of the Lie algebra of symplectic vector fields. The flow associated to a Hamiltonian vector field is sometimes called a \textbf{Hamiltonian symplectomorphism}.\footnote{The fact that the Hamiltonian flow indeed preserves the symplectic form follows from the closedness of $\omega$.}
+    }
+
     \begin{property}[Dimension]
         From the antisymmetry and the nondegeneracy of the symplectic form, it follows that the manifold is necessarily even-dimensional.
     \end{property}
@@ -138,23 +151,10 @@
         Inspired by \textit{Gromov}'s theorem, one can obtain capacities by taking the largest ball that embeds into the manifold and the smallest cylinder such that the manifolds embeds in it. These define the minimal and maximal capacities, respectively.
     \end{example}
 
-\section{Hamiltonian vector fields}\label{section:hamiltonian_vector_fields}
-
-    \newdef{Hamiltonian vector field}{\index{Hamilton!vector field}\label{symplectic:hamilton_vectorfield}
-        Let $(M,\omega)$ be a symplectic manifold. For every function $f\in C^\infty(M)$, the associated Hamiltonian vector field $X_f$ is defined by the following equation\footnote{A lot of different conventions exist in the literature. Here, the one that is compatible with the \textit{Hamiltonian equations}~\ref{lagrange:hamilton_equations} (which are universally accepted) is used.}:
-        \begin{gather}
-            \label{symplectic:hamilton_vectorfield1}
-            \omega(X_f,\cdot) = -\dr f\,.
-        \end{gather}
-        This can be rewritten using $\omega^\sharp$ as
-        \begin{gather}
-            X_f = \omega^\sharp(-\dr f,\cdot)\,.
-        \end{gather}
-        Hamiltonian vector fields form a Lie subalgebra of the Lie algebra of symplectic vector fields. The flow associated to a Hamiltonian vector field is sometimes called a \textbf{Hamiltonian symplectomorphism}.\footnote{The fact that the Hamiltonian flow indeed preserves the symplectic form follows from the closedness of $\omega$.}
-    }
+\section{Poisson manifolds}\label{section:poisson_manifolds}
 
     \newdef{Poisson bracket}{\index{Poisson!bracket}\index{Lagrange!bracket}\label{symplectic:poisson}
-        Let $(M,\omega)$ be a symplectic manifold. The Poisson bracket of two functions $f,g\in C^\infty(M)$ is defined as
+        Let $(M,\omega)$ be a symplectic manifold. The Poisson bracket of two functions $f,g\in C^\infty(M)$ is defined as\footnote{Note that, as for Hamiltonian vector fields, different conventions are used throughout the literature.}
         \begin{gather}
             \{f,g\} := X_f(g)
         \end{gather}
@@ -168,17 +168,48 @@
         The Poisson bracket induced by the symplectic form turns the structure $(C^\infty(M),\{\cdot,\cdot\})$ into a Lie algebra and the second equation above gives a (surjective\footnote{The kernel is given by the constant functions and, hence, it is not a bijection.}) Lie algebra morphism \[(C^\infty(M),\{\cdot,\cdot\})\rightarrow(\{X\mid X\text{ is a HVF on M}\},[\cdot,\cdot])\,.\] Furthermore, together with the pointwise multiplication, this structure becomes a Poisson algebra (\cref{lie:poisson_algebra}).
     \end{property}
 
-    \newdef{Poisson manifold}{\index{Poisson!manifold}\label{symplectic:poisson_manifold}
-        A smooth manifold $M$ for which $C^\infty(M)$ can be equipped with a Poisson algebra structure. This is equivalently encoded in a bivector field $\Pi\in\Gamma(\Lambda^2TM)$ such that
+    \newdef{Poisson manifold}{\index{Poisson!manifold}\index{Poisson!tensor}\label{symplectic:poisson_manifold}
+        A smooth manifold $M$ for which the Poisson bracket on $C^\infty(M)$ induces a Poisson algebra structure (\cref{lie:poisson_algebra}). This is equivalently encoded in a bivector field $\Pi\in\Gamma(\Lambda^2TM)$, called the \textbf{Poisson tensor}, such that
         \begin{gather}
-            \{f,g\} = \dr f\wedge\dr g(\Pi)\,.
+            \{f,g\} = \dr f\wedge\dr g(\Pi)
         \end{gather}
+        and
+        \begin{gather}
+            \label{symplectic:schouten_nijenhuis}
+            [\Pi,\Pi]=0
+        \end{gather}
+        with respect to the Schouten--Nijenhuis bracket (\cref{bundle:schouten_nijenhuis_bracket}). The first equation can also be rephrased in terms of the Schouten--Nijenhuis bracket:
+        \begin{gather}
+            \{f,g\} = \bigl[[\Pi,f],g\bigr]\,.
+        \end{gather}
+        Every bivector field that satisfies \cref{symplectic:schouten_nijenhuis} arises as the Poisson tensor of some Poisson structure.
     }
     \begin{property}
         Every symplectic manifold is a Poisson manifold. The converse, however, is not true.
     \end{property}
 
-    By generalizing this structure even more, one obtains Jacobi manifolds.
+    \begin{property}[Symplectic foliation]\index{foliation!symplectic}
+        The Poisson tensor $\Pi\in\Gamma(\Lambda^2TM)$ on a Poisson manifold $M$ induces a linear map
+        \begin{gather}
+            \pi^\#:\Omega^1(M)\rightarrow\mathfrak{X}(M)
+        \end{gather}
+        through the interior product. It can be shown that, on \textbf{regular Poisson manifolds}, i.e.~where the fibrewise images of the above map all have the same dimension, $\pi^\#(T^*M)$ is an integrable subbundle. Moreover, the associated foliation is symplectic, i.e.~the restriction of $\Pi$ to each leaf is nondegenerate.
+    \end{property}
+
+    \newdef{Casimir function}{\index{Casimir!function}
+        Let $(M,\{\cdot,\cdot\})$ be a Poisson manifold. A function $C\in C^\infty(M)$ is called a Casimir (function) if it satisfies
+        \begin{gather}
+            \{C,f\}=0
+        \end{gather}
+        for all $f\in C^\infty(M)$.
+    }
+
+    The following property implies that the level sets of a Casimir function retrieve the symplectic foliation of a Poisson manifold.\footnote{To actually obtain the individual leaves, a set of Casimir function is required (similar to the conditions for integrability in \cref{section:integrability}).}
+    \begin{property}
+        On symplectic manifolds, Casimir functions are constant on connected components. Moreover, a function on a Poisson manifold $M$ is Casimir if and only if it is constant on every leaf of the symplectic foliation of $M$.
+    \end{property}
+
+    By generalizing \cref{symplectic:poisson_manifold} even more, one obtains Jacobi manifolds.
     \newdef{Jacobi manifold}{\index{Jacobi!manifold}
         A smooth manifold on which the algebra of smooth functions can be equipped with a Lie algebra structure $\{\cdot,\cdot\}$ such that
         \begin{gather}
@@ -191,7 +222,7 @@
     }
 
     \begin{remark}[Multisymplectic geometry]\label{symplectic:hamiltonian_forms}
-        Most of this section can be generalized to multisymplectic manifolds. For example, the definitions of Hamiltonian vector fields and the induced Lie algebra structure remain virtually the same. However, given a $(n-1)$-form $\zeta$ there might not exist a vector field $X_\zeta$ that satisfies \cref{symplectic:hamilton_vectorfield1}. If one restricts to the subspace $\mathrm{Ham}(M)$ of the \textbf{Hamiltonian forms} that do induce a Hamiltonian vector field, one can define a generalized Poisson structure as follows:
+        Most of this section can be generalized to multisymplectic manifolds. For example, the definitions of Hamiltonian vector fields and the induced Lie algebra structure remain virtually the same. However, given an $(n-1)$-form $\zeta$ there might not exist a vector field $X_\zeta$ that satisfies \cref{symplectic:hamilton_vectorfield1}. If one restricts to the subspace $\mathrm{Ham}(M)$ of the \textbf{Hamiltonian forms} that do induce a Hamiltonian vector field, one can define a generalized Poisson structure as follows:
         \begin{gather}
             \{\zeta,\xi\} := \mathcal{L}_{X_\xi}\zeta\,.
         \end{gather}
@@ -225,10 +256,10 @@
         Let $(M,\omega)$ be a symplectic manifold. An embedded submanifold $\iota:S\hookrightarrow M$ is said to be isotropic if $\iota_*T_pS\subset T^\bot_pS$ or, equivalently, if $\omega|_S=0$. It is said to be coisotropic if $T^\bot_pS\subset\iota_*T_pS$.
     }
     \begin{property}[Characteristic distribution]\label{symplectic:characteristic_distribution}
-        Consider a symplectic manifold $M$ and let $\iota:S\hookrightarrow M$ be a coisotropic submanifold. The orthogonal complement $T^\perp S$ defines an integrable distribution where $S$ is foliated by isotropic leaves. More generally, if $\iota:S\hookrightarrow M$ is an embedded submanifold, the intersection $TS\cap T^\perp S$ defines an isotropic \textit{foliation} of $S$ (if the intersection is of constant rank).
+        Consider a symplectic manifold $M$ and let $\iota:S\hookrightarrow M$ be a coisotropic submanifold. The orthogonal complement $T^\perp S$ defines an integrable distribution where $S$ is foliated by isotropic leaves. More generally, if $\iota:S\hookrightarrow M$ is an embedded submanifold, the intersection $TS\cap T^\perp S$ defines an isotropic foliation of $S$ (if the intersection is of constant rank).
     \end{property}
 
-    \newdef{Lagrangian submanifold}{\index{Lagrange!submanifold}
+    \newdef{Lagrangian submanifold}{\index{Lagrange!submanifold}\label{symplectic:lagrangian}
         Let $(M,\omega)$ be a symplectic manifold. An embedded submanifold $\iota:S\hookrightarrow M$ is said to be Lagrangian if $\iota_*T_pS = T^\bot_pS$. This is equivalent to $S$ being isotropic and satisfying $\dim(S)=\frac{1}{2}\dim(M)$. Therefore, they are sometimes called maximal isotropic submanifolds.
     }
 
@@ -265,7 +296,7 @@
     }
 
     \newdef{Real polarization}{\index{polarization}
-        A (real) polarization of a symplectic manifold $(M,\omega)$ is a \textit{foliation} by Lagrangian submanifolds, i.e.~a subbundle $P\subset TM$ such that the following conditions are satisfied:
+        A (real) polarization of a symplectic manifold $(M,\omega)$ is a foliation by Lagrangian submanifolds, i.e.~a subbundle $P\subset TM$ such that the following conditions are satisfied:
         \begin{enumerate}
             \item\textbf{Maximality}: $\dim(TM)=2\dim(P)$,
             \item\textbf{Isotropy}: $\iota_X\omega = 0$ for all $X\in P$, and
@@ -291,7 +322,7 @@
         Let $\mathcal{P}$ be a polarization of a manifold $M$. This defines two new subbundles $D:=\mathcal{P}\cap\overline{\mathcal{P}}\cap TM$ and $E:=(\mathcal{P}+\overline{\mathcal{P}})\cap TM$ that are each other's symplectic complement. These are sometimes called the \textbf{isotropic} and \textbf{coisotropic} distributions, respectively. Since $\mathcal{P}$ is integrable, $D$ is too. A polarization is said to be (strongly) admissible if $E$ is also integrable and the leaf sets $M/D$ and $M/E$ are smooth manifolds. (Sometimes, the projection $M/D\rightarrow M/E$ is required to be a submersion.)
     }
     \newdef{K\"ahler polarization}{\index{K\"ahler!polarization}
-        A polarization $\mathcal{P}$ such that $\mathcal{P}\cap\overline{\mathcal{P}}=\emptyset$. In this case, $\mathcal{P}$ is always admissible and $E=TM$. Every \textit{K\"ahler manifold} (see Chapter \ref{chapter:complex_geometry}) admits such a polarization, namely its (anti)holomorphic tangent bundle. Conversely, the existence of a K\"ahler polarization implies that the manifold is (pseudo)K\"ahler, where the (anti)holomorphic bundle is given by the polarization. More generally, the (anti)holomorphic tangent bundle of a complex bundle is called the (anti)holomorphic polarization.
+        A polarization $\mathcal{P}$ such that $\mathcal{P}\cap\overline{\mathcal{P}}=\emptyset$. In this case, $\mathcal{P}$ is always admissible and $E=TM$. Every \textit{K\"ahler manifold} (see \cref{chapter:complex_geometry}) admits such a polarization, namely its \textit{(anti)holomorphic tangent bundle}. Conversely, the existence of a K\"ahler polarization implies that the manifold is \textit{(pseudo)K\"ahler}, where the \textit{(anti)holomorphic tangent bundle} is given by the polarization. More generally, the \textit{(anti)holomorphic tangent bundle} of a \textit{complex bundle} is called the \textbf{(anti)holomorphic polarization}.
     }
 
     \newdef{Lagrangian Grassmannian}{\index{Grassmannian!Lagrangian}
@@ -308,7 +339,11 @@
         \end{gather}
         The union $\Sigma(L_0):=\bigcup_{i=1}^n\Lambda_i\cong\overline{\Lambda_1}$ is called the \textbf{Maslov cycle} (with respect to $L_0$). It consists of all subspaces that intersect nontrivially with $L_0$. The Maslov index $\mu$ is the Poincar\'e dual of this codimension-1 cycle. It counts the number of intersections of the given path with the Maslov cycle.
 
-        Another approach passes through relative homology. Because the stratum $\Lambda_0$ is contractible, the long exact sequence in homology implies the existence of an isomorphism $H_1(\mathrm{LGr}(n),\Lambda_0)\cong H_1(\mathrm{LGr}(n))\cong\mathbb{Z}$. Combined with the Hurewicz isomorphism and degree map, one again gets a Maslov index for paths with endpoints in $\Lambda_0$. It immediately follows that a path entirely in $\Lambda_0$ has vanishing Maslov index.
+        Another approach passes through relative homology. Because the stratum $\Lambda_0$ is contractible, the long exact sequence in homology implies the existence of an isomorphism
+        \begin{gather}
+            H_1(\mathrm{LGr}(n),\Lambda_0)\cong H_1(\mathrm{LGr}(n))\cong\mathbb{Z}\,.
+        \end{gather}
+        Combined with the Hurewicz isomorphism and degree map, one again gets a Maslov index for paths with endpoints in $\Lambda_0$. It immediately follows that a path entirely in $\Lambda_0$ has vanishing Maslov index.
     \end{property}
     \begin{remark}
         There exists a generalization~\citep{robbin_maslov_1993}, based on intersection theory, for paths with endpoints in nonzero strata, i.e.~where the endpoints satisfy $\gamma(0)\in\Lambda_{k_0}$ and $\gamma(1)\in\Lambda_{k_1}$ for $k_0,k_1\geq1$. The important difference is that for these paths the Maslov index can be a half-integer:
@@ -363,12 +398,20 @@
     \newdef{Dynamical system}{\index{Hamilton!function}\index{dynamical!system}
         Let $(M,\omega)$ be a symplectic manifold and let $H\in C^\infty(M)$ be a distinguished `observable'. The triple $(M,\omega,H)$ is called a dynamical system with \textbf{Hamiltonian} $H$. The time derivative of any function $F\in C^\infty(M)$ is defined by\footnote{Note that this construction can, in fact, be generalized to Poisson manifolds.}
         \begin{gather}
+            \label{symplectic:time_derivative}
             \dot{F} := \{H,F\}\,,
         \end{gather}
         where $\{\cdot,\cdot\}$ is the Poisson bracket on $M$. The time evolution is completely governed by the Hamiltonian flow $\exp(tX_H)$.
     }
-    \newdef{Conserved quantity}{\index{conserved quantity}
-        Let $(M,\omega,H)$ be a dynamical system. A function $F\in C^\infty(M)$ is said to be conserved if it satisfies $\dot{F}\equiv\{H,F\}=0$.
+    \newdef{Nonautonomous system}{\index{non-!autonomous}\label{symplectic:nonautonomous_system}
+        A `dynamical system' induced by a function $H\in C^\infty(M\times\mathbb{R})$, where $(M,\omega)$ is a symplectic manifold. The additional factor $\mathbb{R}$ indicates that the Hamiltonian is explicitly time dependent. In this case, the time derivative from the previous definition has to be modified:
+        \begin{gather}
+            \dot{f} := \{H,f\} + \partial_tf\,.
+        \end{gather}
+    }
+
+    \newdef{Conserved quantity}{\index{conserved quantity}\index{integral!first}
+        Let $(M,\omega,H)$ be a dynamical system. A function $F\in C^\infty(M)$ is said to be conserved if it satisfies $\dot{F}=0$. Such a function is sometimes called a \textbf{first integral}.
     }
 
     \begin{theorem}[Noether]\index{Noether}\label{symplectic:noether}
@@ -378,7 +421,7 @@
         \end{gather}
     \end{theorem}
 
-    From here on, a specific type of Hamiltonian function, called a \textbf{mechanical Hamiltonian}, is considered. Let $(Q,g)$ be a Riemannian manifold and equip the cotangent bundle $M:=T^*Q\overset{\pi}{\rightarrow}Q$ with its canonical symplectic structure. The Hamiltonians that will be considered are of the form (in local Darboux coordinates)
+    From here on, a specific type of Hamiltonian function, called a \textbf{mechanical Hamiltonian}, is considered. Let $(Q,g)$ be a Riemannian manifold and equip the cotangent bundle $T^*Q\overset{\pi}{\rightarrow}Q$ with its canonical symplectic structure. The Hamiltonians that will be considered are of the form (in local Darboux coordinates)
     \begin{gather}
         H(q,p) = \frac{1}{2}g(p,p) + V(q)\,,
     \end{gather}
@@ -402,7 +445,7 @@
         \end{gather}
         for some $N\in\mathbb{N}$, where the brackets around indices denote symmetrization. For a manifold where the metric $g$ does not depend on $q$, one can rewrite $\{C,T+V\} = 0$ as
         \begin{gather}
-            \sum_{n=1}^N\left[\frac{1}{(k-1)!}a^{n_1\ldots n_{k-1}i}p_{n_1}\ldots p_{n_{k-1}}\pderiv{V}{q^i} - \frac{2}{k!}\pderiv{}{q^i}a^{n_1\ldots n_k}p_{n_1}\cdots p_{n_k}g^{im}p_m\right] = 0\,.
+            \sum_{k=1}^N\left[\frac{1}{(k-1)!}a^{n_1\ldots n_{k-1}i}p_{n_1}\ldots p_{n_{k-1}}\pderiv{V}{q^i} - \frac{2}{k!}\pderiv{}{q^i}a^{n_1\ldots n_k}p_{n_1}\cdots p_{n_k}g^{im}p_m\right] = 0\,.
         \end{gather}
         Because two polynomials are equal if and only if their corresponding coefficients are equal, one obtains the following conditions:
         \begin{itemize}
@@ -410,7 +453,7 @@
                 \begin{gather}
                     a^k\pderiv{V}{q^k} = 0\,,
                 \end{gather}
-            \item $1^{st}$ order:
+            \item $1^{\text{st}}$ order:
                 \begin{gather}
                     a^{(n_1i)}\pderiv{V}{q^i} - 2\pderiv{a}{q^i}g^{in_1} = 0\,,
                 \end{gather}
@@ -453,26 +496,92 @@
     }
     \remark{It can be proven that geometric solutions can locally be described by a solution of the Hamilton--Jacobi equation.}
 
-\subsection{Integrability}
+\subsection{Integrability}\label{section:integrability}
 
-    \newdef{Integrable system}{\index{integrability}\label{symplectic:CIS}
+    \newdef{Integrable system}{\index{integrability!Liouville}\index{integrability!complete}\index{moment!map}\label{symplectic:CIS}
         Consider a smooth vector-valued function \[F\equiv(F_1,\ldots,F_n):M\rightarrow\mathbb{R}^n\] on a symplectic manifold $(M,\omega)$. This map defines a \textbf{completely integrable system} (CIS) if it satisfies the following conditions:
         \begin{enumerate}
             \item The dimension is maximal, i.e.~$\dim(M) = 2n$.
             \item The Hamiltonian vector fields $\{X_{F_i}\}_{i\leq n}$ are almost everywhere linearly independent or, equivalently, the Jacobian $DF$ has full rank almost everywhere.
             \item For all $i,j\leq n:\{F_i,F_j\} = 0$.
         \end{enumerate}
+        The function $F$ is sometimes called the \textbf{moment map} of the system. A Hamiltonian $H:M\rightarrow\mathbb{R}$ is said to be \textbf{completely integrable} or \textbf{Liouville integrable} if there exists a CIS consisting of first integrals of $H$.
     }
 
     \begin{property}
-        Because the Poisson brackets (\cref{symplectic:poisson}) are related to the commutator of Hamiltonian vector fields, a CIS gives rise to a maximal set of mutually commuting vector fields. Frobenius' theorem~\ref{bundle:frobenius} then says that a CIS also gives rise to a maximally integrable distribution and, hence, an $n$-dimensional regular \textit{foliation}.
+        Because the Poisson brackets (\cref{symplectic:poisson}) are related to the commutator of Hamiltonian vector fields, a CIS gives rise to a maximal set of mutually commuting vector fields. Frobenius' theorem~\ref{bundle:frobenius} then says that a CIS also gives rise to a maximally integrable distribution and, hence, an $n$-dimensional regular foliation.
     \end{property}
 
-\section{Symplectic reduction}
+    \newdef{Liouville foliation}{\index{Liouville!foliation}
+        Consider a CIS $F:M\rightarrow\mathbb{R}^n$ on a symplectic manifold $(M,\omega)$. The decomposition $\bigsqcup_{v\in F(M)}F^{-1}(v)$ is called a Liouville foliation of $M$. The regular leaves, i.e.~those containing only regular points, densely fill $M$ and are Lagrangian (\cref{symplectic:lagrangian}). Moreover, the singular leaves, which form a set of measure zero (with respect to the Liouville measure), are still isotropic.
+    }
+
+    \begin{theorem}[Liouville--Arnol'd]\index{Liouville--Arnol'd}
+        Consider a CIS $F:M\rightarrow\mathbb{R}^n$ on a symplectic manifold $(M,\omega)$ and let $v\in\mathbb{R}^n$ be a regular value. If the fibre over $v$ is compact and connected, it is an embedded $n$-torus. Moreover, in this case, there exist
+        \begin{itemize}
+            \item open sets $V,V'\subseteq\mathbb{R}^n$ with $v\in V$ and $0\in V'$,
+            \item a symplectomorphism $\varphi:\mathbb{T}^n\times V'\rightarrow F^{-1}(V)$, and
+            \item a diffeomorphism $\psi:V\rightarrow V'$ with $\psi(v)=0$
+        \end{itemize}
+        satisfying the following relations:
+        \begin{itemize}
+            \item $\varphi$ maps $\omega$ to the standard Darboux form:
+                \begin{gather}
+                    \varphi^*\omega = \sum_{i=1}^n\dr p_i\wedge\dr q^i\,,
+                \end{gather}
+            and
+            \item the composite $\psi^{-1}\circ F\circ\varphi:\mathbb{T}^n\times V'\rightarrow V'$ satisfies
+                \begin{gather}
+                    \label{symplectic:liouville_arnold_hamiltonian}
+                    \psi^{-1}\circ F\circ\varphi = \pi_2\,.
+                \end{gather}
+        \end{itemize}
+    \end{theorem}
+    \begin{remark}
+        Dropping the compactness and connectedness conditions leads to a more general result:
+        \begin{itemize}
+            \item No compactness: fibres can be diffeomorphic to $\mathbb{T}^k\times\mathbb{R}^{n-k}$.
+            \item No connectedness: the fibres can consist of multiple (up to countable infinity) connected components.
+        \end{itemize}
+    \end{remark}
+
+    \newdef{Action-angle coordinates}{\index{action-angle coordinates}
+        Consider the composite Hamiltonian $h:=F\circ\varphi:\mathbb{T}^n\times V'\rightarrow\mathbb{R}^n$ from the Liouville--Arnol'd theorem. Because of \cref{symplectic:liouville_arnold_hamiltonian}, the evolution equations become trivial:
+        \begin{gather}
+            \begin{cases}
+                &\dot{q}^i = \omega^i(p)\,,\\
+                &\dot{p}_i = 0\,.
+            \end{cases}
+        \end{gather}
+        for some '\textbf{frequency}' functions $\omega^i:\mathbb{R}^n\rightarrow\mathbb{R}^n$. The $p_i$'s are called the \textbf{action} coordinates and the $q^i$'s are called the \textbf{angle coordinates} (since they parameterize the tori $\mathbb{T}^n$). The only use of the further map $\psi$ in the Liouville--Arnol'd theorem is to normalize/center the coordinates. Note that, since $\dot{p}_i=0$, the tori are left invariant by the Hamiltonian flow.
+    }
+
+    \newdef{Bifurcation diagram}{\index{bifurcation}
+        Consider a CIS $F:M\rightarrow\mathbb{R}^n$ and denote its critical points by $\mathrm{Crit}(F)$. The image $F\bigl(\mathrm{Crit}(F)\bigr)$ is called the bifurcation diagram of $F$.
+    }
+
+    \begin{property}[Critical orbits]
+        The Hamiltonian flow preserves the rank of critical points. Consequently, aside from fixed points, critical points come in families with dimension given by their rank.
+    \end{property}
+
+    The following property extends \cref{manifold:nondegeneracy}.
+    \begin{property}[Rank-1 singular points]
+        Let $(M,\omega)$ be a four-dimensional symplectic manifold equipped with a CIS $F:M\rightarrow\mathbb{R}^2$. A critical point $p\in\mathrm{Crit}(F)$ is said to be \textbf{nondegenerate} if
+        \begin{enumerate}
+            \item\textbf{Independence}: The Hessians of $F_1$ and $F_2$ are linearly independent.
+            \item There exist coefficients $\alpha,\beta\in\mathbb{R}$ such that
+                \begin{gather}
+                    \alpha\Omega^{-1}\mathrm{Hess}(F_1)+\beta\Omega^{-1}\mathrm{Hess}(F_2)
+                \end{gather}
+            has four distinct eigenvalues, where $\Omega$ is a matrix representation of $\omega$.
+        \end{enumerate}
+    \end{property}
+
+\section{Symplectic reduction}\index{reduction}
 \subsection{Hamiltonian actions}
 
     \newadef{Hamiltonian torus action}{\index{Hamilton!action}
-        Let $(M,\omega)$ be a symplectic manifold. First, consider the case of an action of $G=\mathbb{R}$ or $G=S^1$ on $M$. If $G$ acts by Hamiltonian symplectomorphisms, the action is said to be \textbf{Hamiltonian}. For $G=\mathbb{R}^n$ or $G=T^n$, the action is said to be Hamiltonian if the restriction to every factor $\mathbb{R}$ or $S^1$ is Hamiltonian.
+        Let $(M,\omega)$ be a symplectic manifold. First, consider the case of an action of $G=\mathbb{R}$ or $G=S^1$ on $M$. If $G$ acts by Hamiltonian symplectomorphisms, the action is said to be \textbf{Hamiltonian}. For $G=\mathbb{R}^n$ or $G=\mathbb{T}^n$, the action is said to be Hamiltonian if the restriction to every factor $\mathbb{R}$ or $S^1$ is Hamiltonian.
     }
 
     For general Lie groups, one needs an additional concept.
@@ -503,13 +612,13 @@
         \end{gather}
         satisfies the 2-cocycle condition
         \begin{gather}
-            \tau([\xi,\zeta],\theta) + \tau([\zeta,\theta],\xi) + \tau([\theta,\xi],\zeta) = 0\,,
+            \tau\bigl([\xi,\zeta],\theta\bigr) + \tau\bigl([\zeta,\theta],\xi\bigr) + \tau\bigl([\theta,\xi],\zeta\bigr) = 0\,,
         \end{gather}
         i.e.~this obstruction determines a class $[\tau]\in H^2(\mathfrak{g})$. Furthermore, this class vanishes if and only if the action is Hamiltonian.
     \end{property}
 
     \newdef{Toric manifold}{\index{manifold!toric}
-        A closed, connected, symplectic $2n$-manifold equipped with a faithful, Hamiltonian torus action of $\mathbb{T}^n$.
+        A closed, connected, symplectic $2n$-manifold that comes equipped with a faithful, Hamiltonian torus action of $\mathbb{T}^n$.
     }
     \begin{theorem}[Atiyah--Guillemin--Sternberg]\index{Atiyah--Guillemin--Sternberg}
         Let $(M,\omega)$ be a toric manifold with moment map $\mu:M\rightarrow\mathbb{R}^n$. The image $\mu(M)$ is a convex polytope. More precisely, the fixed point set of the action is a finite disjoint union of connected, symplectic submanifolds $C_i$, the moment map is constant on every component and the image $\mu(M)$ is the convex hull of the points $\mu(C_i)$.
@@ -544,7 +653,7 @@
 
     \todo{COMPLETE}
 
-\subsection{Reduction}
+\subsection{Symplectic reduction}
 
     \begin{property}[Coisotropic reduction]
         If the leaf space of the characteristic distribution (\cref{symplectic:characteristic_distribution}) of a coisotropic submanifold $\iota:S\hookrightarrow(M,\omega)$ is itself a smooth manifold, it admits a symplectic form that pulls back to $\iota_*\omega$. This is, for example, the case when the coisotropic submanifold is \textbf{regular}, i.e.~when there exists a submanifold $W\subset S$ such that $TS=TW\oplus T^\perp S$ and $W$ intersects every leaf of $S$ only once.
@@ -585,14 +694,26 @@
         Let $G$ be a Lie group that acts freely and properly on a Poisson manifold $(M,\{\cdot,\cdot\})$. If the action is canonical, the Poisson bracket on $M$ descends (uniquely) to a Poisson bracket on the quotient manifold $M/G$. Furthermore, the projection $\pi:M\rightarrow M/G$ is a Poisson map with respect to this structure.
     \end{theorem}
     \begin{property}
-        Let $H:M\rightarrow\mathbb{R}$ be a $G$-invariant Hamiltonian function. Its Hamiltonian vector field $X_H$ is also $G$-invariant and the Hamiltonian vector field of the reduced Hamiltonian $h:M/G\rightarrow\mathbb{R}$, defined by $H:=h\circ\pi$, is given by the reduced vector field of $X_H$.
+        Let $H:M\rightarrow\mathbb{R}$ be a $G$-invariant Hamiltonian function. Its Hamiltonian vector field $X_H$ is also $G$-invariant and the Hamiltonian vector field of the reduced Hamiltonian $h:M/G\rightarrow\mathbb{R}$, defined by $H=h\circ\pi$, is given by the reduced vector field of $X_H$.
     \end{property}
 
 \subsection{Lie--Poisson reduction}
 
-    In the case of Lie--Poisson reductions, one considers the cotangent bundle $T^*G$ of a Lie group $G$ as the configuration manifold. It is not too hard to show that $T^*G/G\cong\mathfrak{g}^*$.
+    In the case of Lie--Poisson reductions, one considers the cotangent bundle $T^*G$ of a Lie group $G$ as the configuration manifold $Q$. It is not too hard to show that $T^*G/G\cong\mathfrak{g}^*$.
 
-    \newformula{Lie--Poisson equations}{\index{Lie--Poisson equations}
+    First, one can define a Poisson manifold structure on $\mathfrak{g}^*$.
+    \newdef{Lie--Poisson bracket}{\index{Lie--Poisson!bracket}\label{symplectic:lie_poisson_structure}
+        The Poisson bracket on $\mathfrak{g}^*$ induced by the following Poisson tensor:
+        \begin{gather}
+            \Pi = \frac{1}{2}c^{ij}_{\ \ k}x^k\partial_i\wedge\partial_j\,,
+        \end{gather}
+        where $c^{ij}_{\ \ k}$ are the structure constants of $\mathfrak{g}$ and $x^c\in\mathfrak{g}$ is interpreted as a (linear) function on $\mathfrak{g}^*$. The induced bracket is given by
+        \begin{gather}
+            \{F,G\}(\mu) = \left\langle\mu,\left[\fderiv{F}{\mu},\fderiv{F}{\mu}\right]\right\rangle\,.
+        \end{gather}
+    }
+
+    \newformula{Lie--Poisson equations}{\index{Lie--Poisson!equations}
         First, assign to any vector field $X\in\Gamma(TQ)$ a linear function $\mu_X:T^*Q\rightarrow\mathbb{R}$ by the following formula:
         \begin{gather}
             \mu_X\left(\alpha|_q\right) := \alpha(X)|_q\,.
@@ -619,7 +740,17 @@
         \{F,G\} := \omega(X^F,X^G)\,.
     \end{gather}
 
-    \todo{COMPLETE (e.g.~Palais, cursus Antwerpen)}
+
+    Recall the Lie--Poisson structure on Lie algebras from \cref{symplectic:lie_poisson_structure}.
+    \begin{example}[Poisson--Vlasov bracket]\index{Poisson--Vlasov bracket}
+        Consider a Poisson manifold $(M,\{\cdot,\cdot\})$ and regard $C^\infty(M)$ as a Lie algebra under the Poisson bracket. The induced Lie--Poisson structure, where the dual of $C^\infty(M)$ is identified with the space of densities on $M$ (\cref{bundle:honest_density}), is given as follows:
+        \begin{gather}
+            \{F,G\}(f) := \Int_Mf\left\{\fderiv{F}{f},\fderiv{G}{f}\right\}\vol_M\,.
+        \end{gather}
+        \todo{CHECK IF CORRECT (is this globally defined? does this make sense in general?)}
+    \end{example}
+
+    \todo{COMPLETE (e.g.~Palais, cursus Antwerpen) + VERY INCOHERENT RIGHT NOW}
 
 \section{Metaplectic structures}
 

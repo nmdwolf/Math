@@ -155,7 +155,7 @@
     \newdef{Half-form}{\index{half-!form}
         Consider a smooth manifold $M$ equipped with a metalinear frame bundle $F_{\text{ML}}M$. The bundle of half-forms $\Omega^{1/2}(M)$ is defined as the associated $\mathbb{C}$-line bundle constructed from the action $(g,\lambda)\mapsto z\lambda$, where $g\equiv(A,z)\in\mathrm{ML}_n(\mathbb{C})$.
 
-        This can be seen as a (holomorphic) square root of the determinant line bundle. Consider the bundle of 1-densities $|\Omega^1|(M)$ from \cref{bundle:honest_density}. There exists a map $\Omega^{1/2}(M)\otimes\Omega^{1/2}(M)\rightarrow|\Omega|^1(M)$ defined by sending the pair $(\mu,\nu)$ to the (tensor) product $\mu\otimes\overline{\nu}$ along the covering map $F_{\text{ML}}M\rightarrow FM$. If one does not use the conjugation, a section of the ordinary $n$-form bundle $\Omega^n(M)$ is obtained, where $n\dim(M)$.
+        This can be seen as a (holomorphic) square root of the determinant line bundle. Consider the bundle of 1-densities $|\Omega^1|(M)$ from \cref{bundle:honest_density}. There exists a map $\Omega^{1/2}(M)\otimes\Omega^{1/2}(M)\rightarrow|\Omega|^1(M)$ defined by sending the pair $(\mu,\nu)$ to the (tensor) product $\mu\otimes\overline{\nu}$ along the covering map $F_{\text{ML}}M\rightarrow FM$. If one does not use the conjugation, a section of the determinant line bundle $\Omega^n(M)$ is obtained.
     }
 
     \begin{property}[Metaplectic structure]\index{metaplectic!structure}\label{complex:metaplectic}
@@ -165,7 +165,7 @@
 \section{Complex differential forms}
 
     \begin{property}
-        On a complex manifold, there exist coordinates $\{z^\mu\}_{\mu\leq n}$ such that the almost complex structure $J$ can be written as (when extended to $TM^{\mathbb{C}}$)
+        On a complex manifold, there exist local coordinates $\{z^\mu\}_{\mu\leq n}$ such that the almost complex structure $J$ can be written as (when extended to $TM^{\mathbb{C}}$)
         \begin{gather}
             \label{complex:complex_structure}
             J = i\partial_\mu\otimes\dr z^\mu - i\partial_{\overline\mu}\otimes\dr\overline{z}^\mu\,.
@@ -224,32 +224,60 @@
             \end{aligned}
         \end{gather}
     \end{property}
-    \begin{remark}[Integrability]\index{holomorphic!vector bundle}
+    \begin{remark}[Integrability]
         It can be shown that $J$ is integrable, i.e.~the almost complex structure is complex, if and only if the induced Dolbeault operator $\overline{\partial}$ squares to zero.
-
-        More generally, a complex vector bundle $E$ is said to be \textbf{holomorphic} if it admits a trivialization by holomorphic transition functions or, equivalently, if it admits a Dolbeault operator $\delbar:\Omega^{\bullet,\bullet}(M;E)\rightarrow\Omega^{\bullet,\bullet+1}(M;E)$ that squares to zero. Note that, in contrast to the case of $TM$, a holomorphic vector bundle only admits the natural definition of a $\delbar$-operator. To have a $\partial$-operator, one should consider antiholomorphic vector bundles.
     \end{remark}
 
+\section{Holomorphic vector bundles}\index{holomorphic!vector bundle}
+
+    More generally, a complex vector bundle $E$ is said to be \textbf{holomorphic} if it admits a trivialization by holomorphic transition functions or, equivalently\footnote{Another equivalent definition is a complex vector bundle for which the projection is holomorphic.}, if it admits a Dolbeault operator $\delbar:\Omega^{\bullet,\bullet}(M;E)\rightarrow\Omega^{\bullet,\bullet+1}(M;E)$ that squares to zero. Note that, in contrast to the case of $TM$, a holomorphic vector bundle only admits the natural definition of a $\delbar$-operator. To have a $\partial$-operator, one should consider antiholomorphic vector bundles.
+
     \begin{theorem}[Koszul--Malgrange]\index{Koszul--Malgrange}\label{complex:koszul_malgrange}
-        Let $E\rightarrow M$ be a holomorphic vector bundle. There exists a unique connection $\nabla$ on $E$ such that $\nabla^{0,1}=\delbar$.
+        Holomorphic vector bundles $E\rightarrow M$ are equivalent to complex vector equipped with a (unique) connection $\nabla$ such that $\nabla^{0,1}=\delbar$.
     \end{theorem}
 
+    \begin{property}[Holomorphic sections]\label{complex:holomorphic_sections}
+        Let $E\rightarrow M$ be a holomorphic vector bundle over a compact manifold $M$. The subspace $\Gamma_{\text{hol}}(E)\subset\Gamma(E)$ of holomorphic sections is finite dimensional.
+    \end{property}
+
+    \newdef{Positive line bundle}{\index{positive!line bundle}\label{complex:positive_bundle}
+        A holomorphic line bundle whose curvature form is, after multiplication by $i$, a positive-definite form.
+    }
+
     \begin{formula}
-        Analogous to the definition of the de Rham codifferential (\cref{riemann:codifferential}), one can define the adjoints of the Dolbeault operators:
+        Analogous to the definition of the codifferential in \cref{riemann:codifferential}, one can define the adjoints of the Dolbeault operators:
         \begin{gather}
             \begin{aligned}
-                \partial^\dag &:= -\ast\partial\,\ast\,,\\
-                \overline{\partial}\vphantom{\partial}^\dag &:= -\ast\overline{\partial}\,\ast\,,
+                \partial^\dag &:= -\ast\overline{\partial}\,\ast\,,\\
+                \overline{\partial}\vphantom{\partial}^\dag &:= -\ast\partial\,\ast\,,
             \end{aligned}
         \end{gather}
         where the fact that the real dimension of a complex manifold is even is used: $(-1)^{n(k+1)+1} = -1$.
     \end{formula}
-    \begin{result}
-        Using these definitions, one can write the Hodge Laplacian (\cref{riemann:hodge_laplacian}) as:
+
+    \begin{formula}[K\"ahler identities]\index{K\"ahler!identities}\index{Lefschetz!operator}\index{contraction}
+        Consider the \textbf{Lefschetz operator}
         \begin{gather}
-            \Delta = 2(\partial\partial^\dag + \partial^\dag\partial) = 2(\overline{\partial}\overline{\partial}^\dag + \overline{\partial}^\dag\overline{\partial})\,.
+            L:\Omega^{p,q}(M)\rightarrow\Omega^{p+1,q+1}(M):\alpha\mapsto\omega\wedge\alpha
         \end{gather}
-    \end{result}
+        and its adjoint, sometimes called the \textbf{contraction operator},
+        \begin{gather}
+            L^\dag:\Omega^{p,q}(M)\rightarrow\Omega^{p-1,q-1}(M):\alpha\mapsto\ast L\ast\alpha\,.
+        \end{gather}
+        \begin{itemize}
+            \item $[\partial,L] = [\overline{\partial},L] = 0$
+            \item $[\partial^\dag,L] = -i\overline{\partial}$,
+            \item $[\overline{\partial}\vphantom{\partial}^\dag,L] = i\partial$,
+            \item $[\partial^\dag,L^\dag] = [\overline{\partial}\vphantom{\partial}^\dag,L^\dag] = 0$,
+            \item $[\partial,L^\dag] = -i\overline{\partial}\vphantom{\partial}^\dag$, and
+            \item $[\overline{\partial},L^\dag] = i\partial^\dag$.
+        \end{itemize}
+        Using the adjoint Dolbeault operators, one can also write the Hodge Laplacian (\cref{riemann:hodge_laplacian}) as
+        \begin{gather}
+            \Delta = 2(\partial\partial^\dag + \partial^\dag\partial) = 2(\overline{\partial}\overline{\partial}\vphantom{\partial}^\dag + \overline{\partial}\vphantom{\partial}^\dag\overline{\partial})\,.
+        \end{gather}
+        The Hodge Laplacian commutes with all of the operators above.
+    \end{formula}
 
 \section{K\"ahler manifolds}\label{section:kahler}
 
@@ -352,9 +380,9 @@
     \newdef{Calabi--Yau manifold}{\index{Calabi--Yau!manifold}\label{complex:calabi_yau}
         A K\"ahler manifold with trivial canonical bundle $\Omega^{n,0}(M)$. Equivalently, a $2n$-dimensional Riemannian manifold with special holonomy group in $\mathrm{SU}(n)$. This implies, in particular, that the manifold is Ricci flat.\footnote{The original definition by \textit{Yau} was that of a compact, Ricci-flat K\"ahler manifold with vanishing first Chern class.}
     }
-    \begin{property}[Calabi--Yau conjecture]\index{Calabi--Yau!conjecture}
+    \begin{conjecture}[Calabi--Yau]\index{Calabi--Yau!conjecture}
         For a compact Calabi--Yau manifold, the first Chern class vanishes.
-    \end{property}
+    \end{conjecture}
 
     \newdef{Hypercomplex manifold}{\index{manifold!complex}
         A smooth manifold equipped with three distinct complex structures $I,J,K:TM^{\mathbb{C}}\rightarrow TM^{\mathbb{C}}$ that satisfy the quaternion algebra relation:
@@ -412,7 +440,12 @@
         \begin{gather}
             S\cong\Omega^{0,\bullet}(M)\otimes\sqrt{\Omega^{n,0}}
         \end{gather}
-        and that the Dirac operator can be identified with $\overline{\partial}+\overline{\partial}\vphantom{\partial}^\dag$, where $\overline{\partial}$ is the Dolbeault operator (\cref{complex:dolbeault_operator}). For the action on the $\theta$-characteristic, choose a connection $\nabla$ on the canonical line bundle:
+        and that the Dirac operator can be identified with
+        \begin{gather}
+            \label{complex:dolbeault_dirac_operator}
+            \overline{\partial}+\overline{\partial}\vphantom{\partial}^\dag\,,
+        \end{gather}
+        where $\overline{\partial}$ is the Dolbeault operator (\cref{complex:dolbeault_operator}). For the action on the $\theta$-characteristic, choose a connection $\nabla$ on the canonical line bundle:
         \begin{gather}
             \begin{aligned}
                 \overline{\partial}(\omega\otimes\psi) &:= (\overline{\partial}\omega)\otimes\psi + \sum_{i=1}^{2n}\pi^{0,k+1}(\drx^i\wedge\omega)\otimes\nabla_i\psi\\
@@ -420,6 +453,8 @@
             \end{aligned}
         \end{gather}
         where $\omega\in\Omega^{0,k}(M)$.
+
+        \todo{PERHAPS ADD FOR TWISTED BUNDLES}
     }
 
     \begin{remark}
@@ -655,6 +690,14 @@
     \end{theorem}
     \begin{theorem}[$\partial\overline{\partial}$-lemma]\label{complex:del_delbar_lemma}
         Let $\alpha\in\Omega^{p,q}(M)$. If $\dr\alpha = 0$, then, locally, there exists a complex form $\beta\in\Omega^{p-1,q-1}$ such that $\alpha = \partial\overline{\partial}\beta$.
+    \end{theorem}
+
+    \begin{theorem}[Kodaira vanishing theorem]\label{complex:kodiara_vanishing}
+        Let $L$ be a positive holomorphic line bundle on a compact complex manifold $M$.
+        \begin{gather}
+            H^p(M,L\otimes K_M) = 0
+        \end{gather}
+        for all $p>0$, where $K_M$ is the canonical class of $M$.
     \end{theorem}
 
 \subsection{\difficult{Lagrangian Floer homology}}

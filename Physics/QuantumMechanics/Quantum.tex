@@ -1,6 +1,6 @@
 \chapter{Quantum Mechanics}\label{chapter:qm}
 
-    The main reference for this chapter is~\citet{bransden_quantum_2000}. In the first two sections, the two basic formalisms of quantum mechanics are introduced: wave and matrix mechanics. The main reference for the mathematically rigorous treatment of quantum mechanics, in particular in the infinite-dimensional setting, is~\citet{moretti_mathematical_2016}. The main reference for the generalization to curved backgrounds is~\citet{schuller_lectures_2016}. Relevant chapters in this compendium are, amongst others, \ref{chapter:distributions}, \ref{chapter:functional} and \ref{chapter:operator_algebras}.
+    The main reference for this chapter is~\citet{bransden_quantum_2000}. In the first two sections, the two basic formalisms of quantum mechanics are introduced: wave and matrix mechanics. The main reference for the mathematically rigorous treatment of quantum mechanics, in particular in the infinite-dimensional setting, is~\citet{moretti_mathematical_2016}. The main reference for the generalization to curved backgrounds is~\citet{schuller_lectures_2016}. The section on the WKB approximation is based on~\citet{bates_lectures_1997}. Relevant chapters in this compendium are, amongst others, \ref{chapter:distributions}, \ref{chapter:functional} and \ref{chapter:operator_algebras}.
 
     \minitoc
 
@@ -34,6 +34,7 @@
             \label{wavematrix:TDSE_position}
             i\hbar\pderiv{}{t}\psi(x,t) = \left(\frac{\widehat{p}^2}{2m} + V(x)\right)\psi(x,t)
         \end{gather}
+        \todo{THIS IS NOT THE POSITION REPRESENTATION}
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Derivation of TISE from TDSE]
                 Starting from the one-dimensional TDSE in position space with a time-independent potential
@@ -51,14 +52,14 @@
                 Because the left side only depends on $t$ and the right side only depends on $x$, one can conclude that they are both equal to a constant $E$. This leads to the following system of differential equations:
                 \begin{gather}
                     \begin{cases}
-                        i\hbar T'(t) - ET(t) = 0\,,\\
-                        \left(-\frac{\hbar^2}{2m} + V(x)\right)\psi''(x) = E\psi(x)\,.
+                        &i\hbar T'(t) - ET(t) = 0\,,\\
+                        &\left(-\frac{\hbar^2}{2m} + V(x)\right)\psi''(x) = E\psi(x)\,.
                     \end{cases}
                 \end{gather}
                 The first equation immediately gives a solution for $T$:
                 \begin{gather}
                     \label{derivations_qm:exponential}
-               		T(t) = Ce^{-\frac{i}{\hbar}Et}\,.
+               		T(t) = C\exp\left(-\frac{iE}{\hbar}t\right)\,.
                	\end{gather}
                 Rearranging the second solution in the system gives the TISE:
                 \begin{gather}
@@ -117,25 +118,25 @@
 
 \section{Heisenberg picture}
 
-    This is the right place to reflect on what the wave function is and how it relates to the state of a system. At every point in space it gives the probability of observing a particle (or whatever object is being studied). But what if one wants to express this information in terms of momenta instead of positions? The information about the state should not depend on the chosen `representation'. To this end, a state vector $|\psi\rangle$ that represents the state of the system as an abstract vector in some Hilbert space is introduced.
+    This is the right place to reflect on what the wave function is and how it relates to the state of a system. At every point in space it gives the probability of observing a particle (or whatever object is being studied). But what if one wants to express this information in terms of momenta instead of positions? The information about the state should not depend on the chosen `representation'. To this end, a state vector $\ket{\psi}$ that represents the state of the system as an abstract vector in some Hilbert space is introduced.
     \begin{notation}[Dirac notation]\index{bra-ket notation}\index{Dirac!notation}
-        This notation is often called the \textbf{braket notation}. State vectors $|\psi\rangle$ are called \textbf{ket}'s and their duals $\langle\psi|$ are called \textbf{bra}'s. The inner product of a state $|\phi\rangle$ and a state $|\psi\rangle$ is denoted by $\langle\phi\mid\psi\rangle$.
+        This notation is often called the \textbf{braket notation}. State vectors $\ket{\psi}$ are called \textbf{ket}'s and their duals $\bra{\psi}$ are called \textbf{bra}'s. The inner product of a state $\ket{\phi}$ and a state $\ket{\psi}$ is denoted by $\braket{\phi}{\psi}$.
     \end{notation}
-    But then, how does one recover the position (configuration) representation $\psi(x)$? This is simply the projection of the state vector $|\psi\rangle$ on the `basis function' $\delta(x)$, i.e.~$\psi(x)$ represents an expansion coefficient in terms of a `basis' for the physical Hilbert space. In the same way, one can obtain the momentum representation $\psi(p)$ by projecting on the plane waves $e^{ipx}$.
+    But then, how does one recover the position (configuration) representation $\psi(x)$? This is simply the projection of the state vector $\ket{\psi}$ on the `basis function' $\delta(x)$, i.e.~$\psi(x)$ represents an expansion coefficient in terms of a `basis' for the physical Hilbert space. In the same way, one can obtain the momentum representation $\psi(p)$ by projecting onto the plane waves $e^{ipx}$.
 
     \begin{remark}\index{Hilbert!rigged Hilbert space}
         It should be noted that neither the `basis states' $\delta(x)$, nor the plane waves $e^{ipx}$ are square-integrable and, hence, they are not elements of the Hilbert space $L^2(\mathbb{R},\mathbb{C})$. In the next chapter, this issue will be resolved through the concept of \textit{rigged Hilbert spaces}.
     \end{remark}
 
     \begin{formula}[Matrix representation]
-        The following formula gives the matrix representation of an operator $\widehat{A}$ with respect to the orthonormal basis $\{|\psi_i\rangle\}_{i\leq n}$ cf.~\cref{linalgebra:matrix_representation}:
+        The following formula gives the matrix representation of an operator $\widehat{A}$ with respect to the orthonormal basis $\{\ket{\psi_i}\}_{i\leq n}$ cf.~\cref{linalgebra:matrix_representation}:
         \begin{gather}
             \label{wavematrix:matrix_entry}
             A_{ij} := \langle\psi_i|\widehat{A}|\psi_j\rangle\,.
         \end{gather}
     \end{formula}
     \begin{remark}
-         The basis $\bigl\{|\psi_i\rangle\bigr\}_{i\leq n}$ need not consist out of eigenfunctions of $\widehat{A}$.
+         The basis $\bigl\{\ket{\psi_i}\bigr\}_{i\leq n}$ need not consist out of eigenfunctions of $\widehat{A}$.
     \end{remark}
 
     \todo{COMPLETE}
@@ -147,7 +148,7 @@
     }
 
     \newdef{Expectation value}{
-        The expectation value of an operator $\widehat{A}$ in a state $|\psi\rangle$ is defined as
+        The expectation value of an operator $\widehat{A}$ in a state $\ket{\psi}$ is defined as
         \begin{gather}
             \langle\widehat{A}\rangle_\psi := \langle\psi|\widehat{A}|\psi\rangle\,.
         \end{gather}
@@ -181,9 +182,9 @@
        The mutual eigenbasis of $\widehat{J}^2$ and $\widehat{J}_z$ is defined by the following two eigenvalue equations:
        \begin{align}
            \label{angular_momentum:j}
-           \widehat{J}^2|j,m\rangle &= j(j+1)\hbar^2\,|j,m\rangle\,,\\
+           \widehat{J}^2\ket{j,m} &= j(j+1)\hbar^2\,\ket{j,m}\,,\\
            \label{angular_momentum:m}
-           \widehat{J}_z|j,m\rangle &= m\hbar\,|j,m\rangle\,.
+           \widehat{J}_z\ket{j,m} &= m\hbar\,\ket{j,m}\,.
         \end{align}
     \end{property}
 
@@ -228,11 +229,11 @@
     \end{formula}
 
     \newformula{Matrix elements}{\index{Wigner!$D$-function}
-        Applying a rotation over an angle $\varphi$ about the $z$-axis to a state $|j,m\rangle$ gives
+        Applying a rotation over an angle $\varphi$ about the $z$-axis to a state $\ket{j,m}$ gives
         \begin{gather}
-            \widehat{R}(\varphi\vector{e}_z)|j,m\rangle = \exp\left(-\frac{i}{\hbar}\widehat{J}_z\varphi\right)|j,m\rangle = \exp\left(-\frac{i}{\hbar}m\varphi\right)|j,m\rangle\,.
+            \widehat{R}(\varphi\vector{e}_z)\ket{j,m} = \exp\left(-\frac{i}{\hbar}\widehat{J}_z\varphi\right)\ket{j,m} = \exp\left(-\frac{i}{\hbar}m\varphi\right)\ket{j,m}\,.
         \end{gather}
-        Multiplying these states with a bra $\langle j',m'|$ and using the orthonormality of the eigenstates, gives the matrix elements of the rotation operator:
+        Multiplying these states with a bra $\bra{j',m'}$ and using the orthonormality of the eigenstates, gives the matrix elements of the rotation operator:
         \begin{gather}
             \widehat{R}_{ij}(\varphi\vector{e}_z) = \exp\left(-\frac{i}{\hbar}m\varphi\right)\delta_{jj'}\delta_{mm'}\,.
         \end{gather}
@@ -281,18 +282,22 @@
 
 \subsection{Coupling of angular momenta}
 
-    Due to the tensor product structure of a coupled Hilbert space, the angular momentum operator $\widehat{J}_i$ should now be interpreted as $\mathbbm{1}\otimes\cdots\otimes\widehat{J}_i\otimes\cdots\otimes\mathbbm{1}$ (cf.~\cref{vector:tensor_abuse}). Because the angular momentum operators $\widehat{J}_{k\neq i}$ do not act on the space $\mathcal{H}_i$, one can pull these operators through the tensor product: \[\widehat{J}_i|j_1\rangle\otimes\cdots\otimes|j_n\rangle = |j_1\rangle\otimes\cdots\otimes\widehat{J}_i|j_i\rangle\otimes\cdots\otimes|j_n\rangle.\] The basis used above is called the \textbf{uncoupled basis}.
+    Due to the tensor product structure of a coupled Hilbert space, the angular momentum operator $\widehat{J}_i$ should now be interpreted as $\mathbbm{1}\otimes\cdots\otimes\widehat{J}_i\otimes\cdots\otimes\mathbbm{1}$ (cf.~\cref{vector:tensor_abuse}). Because the angular momentum operators $\widehat{J}_{k\neq i}$ do not act on the space $\mathcal{H}_i$, one can pull these operators through the tensor product:
+    \begin{gather}
+        \widehat{J}_i\ket{j_1}\otimes\cdots\otimes\ket{j_n} = \ket{j_1}\otimes\cdots\otimes\widehat{J}_i\ket{j_i}\otimes\cdots\otimes\ket{j_n}\,.
+    \end{gather}
+    The basis used above is called the \textbf{uncoupled basis}.
 
     For simplicity, the total Hilbert space is, from here on, assumed to be that of a two-particle system. Let $\widehat{J}$ denote the total angular momentum:
     \begin{gather}
         \widehat{J} = \widehat{J}_1 + \widehat{J}_2\,.
     \end{gather}
-    With this operator, one can define a \textbf{coupled} state $|J,M\rangle$, where $M$ is the total magnetic quantum number which ranges from $-J$ to $J$.
+    With this operator, one can define a \textbf{coupled} state $\ket{J,M}$, where $M$ is the total magnetic quantum number which ranges from $-J$ to $J$.
 
     \newformula{Clebsch--Gordan coefficients}{\index{Clebsch--Gordan coefficient}\label{angular_momentum:clebsch-gordan}
         Because both bases (coupled and uncoupled) span the total Hilbert space $\mathcal{H}$, there exists an invertible transformation between them. The transformation coefficients can be found by using the resolution of the identity:
         \begin{gather}
-            |J,M\rangle = \sum_{m_1=-j_1}^{j_1}\sum_{m_2=-j_2}^{j_2}|j_1,j_2,m_1,m_2\rangle\langle j_1,j_2,m_1,m_2\mid J,M \rangle.
+            \ket{J,M} = \sum_{m_1=-j_1}^{j_1}\sum_{m_2=-j_2}^{j_2}\ket{j_1,j_2,m_1,m_2}\braket{j_1,j_2,m_1,m_2}{J,M}\,.
         \end{gather}
         These coefficients are called the Clebsch--Gordan coefficients.
     }
@@ -319,10 +324,10 @@
 \subsection{Observables}
 
     \begin{formula}\index{eigenfunction!expansion}
-        Let $|\Psi\rangle$ be a state vector representing a given system and let $\{|\psi_i\rangle\}_{i\in I}$ be a complete set of eigenvectors of some observable of the system. The state vector $|\Psi\rangle$ can be expressed as a linear combination of the eigenfunctions:
+        Let $\ket{\Psi}$ be a state vector representing a given system and let $\{\ket{\psi_i}\}_{i\in I}$ be a complete set of eigenvectors of some observable of the system. The state vector $\ket{\Psi}$ can be expressed as a linear combination of the eigenfunctions:
         \begin{gather}
             \label{qm_formalism:eigenfunction_expansion}
-            |\Psi\rangle = \sum_ic_i|\psi_i\rangle + \Int c_a|\psi_a\rangle\,da\,,
+            \ket{\Psi} = \sum_nc_n\ket{\psi_n} + \Int c_a\ket{\psi_a}\,da\,,
         \end{gather}
         where the summation ranges over the discrete spectrum and the integral over the continuous spectrum (\cref{section:spectrum}). Note that this expression only makes sense formally, since linear combinations only consist of a finite number of terms, i.e.~$c_a$ should be a finite sum of delta functionals.
     \end{formula}
@@ -331,15 +336,17 @@
         For a complete set of discrete eigenvectors, the closure relation (also called the \textbf{resolution of the identity}) is given by
         \begin{gather}
             \label{qm_formalism:closure}
-            \sum_n|\psi_n\rangle\langle\psi_n| = \mathbbm{1}\,.
+            \sum_n\ket{\psi_n}\bra{\psi_n} = \mathbbm{1}\,.
         \end{gather}
         For a complete set of continuous eigenvectors, the following counterpart holds (see also \cref{ncg:spectral_resolution}):
         \begin{gather}
             \label{qm_formalism:closure_continuous}
-            \Int_X|x\rangle\langle x|\,dx = \mathbbm{1}\,.
+            \Int_X\ket{x}\bra{x}\,dx = \mathbbm{1}\,.
         \end{gather}
         For a mixed set of eigenvectors, a similar relation is obtained by summing over the discrete part and integrating over the continuous part. For simplicity, the notation of \cref{qm_formalism:closure} will also be used for the continuous part.
     \end{formula}
+
+\subsection{Weyl systems}
 
     \newdef{Canonical commutation relations}{\index{canonical!commutation relation}\index{Weyl!relations}\label{qm_formalism:CCR}
         Two observables $\widehat{A},\widehat{B}$ are said to obey a canonical commutation relation (CCR) if they satisfy (up to a constant factor $\hbar$)
@@ -359,34 +366,53 @@
     \end{result}
 
     In fact, one can generalize the Weyl form of the CCRs.
-    \begin{definition}[Weyl system]\index{Weyl!system}
-        Let $(A,\omega)$ be a symplectic vector space and let $\mathcal{H}$ be a Hilbert space equipped with a continuous map $W:A\rightarrow\mathrm{U}(\mathcal{H})$. This data defines a Weyl system if the following equality is satisfied for all $v,v'\in A$:
+    \newdef{Weyl system}{\index{Weyl!system}
+        Let $(L,\omega)$ be a symplectic vector space and let $K$ be a complex vector space. Consider a map $W$ from $L$ to the space of unitary operators on $K$. The pair $(K,W)$ is called a Weyl system over $(L,\omega)$ if it satisfies
         \begin{gather}
-            W(v)w(v')=e^{i\omega(v,v')/2}W(v+v')\,.
+            W(z)W(z') = e^{\frac{i}{2}\omega(z,z')}W(z+z')
         \end{gather}
-        The relation itself is called a \textbf{Weyl relation}.
+        for all $z,z'\in L$, i.e.~$W$ is a projective representation of the Abelian group $L$ and $\omega$ is, up to rescaling, the group cocycle inducing it (\cref{section:projective_representation}). The relation itself is called a \textbf{Weyl relation}.
+    }
 
-        For every vector $v\in A$, the map $t\mapsto W(tv)$ is a continuous unitary one-parameter subgroup, so by Stone's theorem \ref{functional:stone} one obtains a self-adjoint generator $\phi(v)$. The map $v\mapsto\phi(v)$ is called the associated \textbf{Heisenberg system}.
-    \end{definition}
+    \newdef{Heisenberg system}{\index{Heisenberg!system}
+        Let $W$ be a Weyl system. The selfadjoint generators $\phi(z)$, which exist by Stone's theorem~\ref{functional:stone}, of the maps $t\mapsto W(tz)$ are said to form a Heisenberg system. These operators satisfy the following properties:
+        \begin{enumerate}
+            \item\textbf{Positive homogeneity}: $\lambda\phi(z) = \phi(\lambda z)$ for all $\lambda>0$,
+            \item\textbf{Commutator}: $[\phi(z),\phi(z')] = -i\omega(z,z')$, and
+            \item\textbf{Weak additivity}: $\phi(z+z')$ is the closure (\cref{functional:closure}) of $\phi(z)+\phi(z')$.
+        \end{enumerate}
+    }
+
     \begin{remark}
-        It should be noted that the Weyl relations are more fundamental than their infinitesimal counterpart. Only the Weyl relations are well defined on more general spaces and when passing to a relativistic setting.
+        It should be noted that the Weyl relations are more fundamental than their infinitesimal counterparts. Only the Weyl relations are well defined on more general spaces and when passing to a relativistic setting.
     \end{remark}
+
+    Recall \cref{section:noncommutative_measure_theory}, where the framework of measure theory and distributions was generalized to the noncommutative context.
+    \begin{property}[Schr\"odinger representation]\index{Schr\"odinger!representation}\index{topology!algebraic}
+        Consider a distribution $d$ on a (real) TVS $V$. There exists a unique unitary representation $U$ of the additive group $V^*$ on $L^2(V,d)$ such that
+        \begin{gather}
+            U(\lambda)f = e^{id(\lambda)}f
+        \end{gather}
+        for all bounded tame functions $f$ and such that $1$ is cyclic for $U$ in $L^2(V,d)$. Moreover, this representation is continuous with respect to the finest locally convex topology on $V$ (the one generated by all seminorms on $V$)\footnote{This topology is also known as the \textbf{algebraic topology}}. 
+    \end{property}
+
+    \todo{EXPLAIN RELEVANCE e.g.~\citet{baez_introduction_2014}}
 
 \subsection{Symmetries}
 
     \newdef{State space}{\index{state}\index{Fubini--Study metric}
         By the postulates of quantum mechanics, the states in a quantum theory are represented by rays in the projective Hilbert space $\mathbb{P}\mathcal{H}$. Probabilities are defined through the \textit{Fubini--Study metric} on $\mathbb{P}\mathcal{H}$ as follows:
         \begin{gather}
-            \mathcal{P}(\psi,\phi) := \cos^2\bigl(d_{\text{FS}}(\psi,\phi)\bigr) = \frac{|\langle\psi|\phi\rangle|^2}{\langle\psi|\psi\rangle\langle\phi|\phi\rangle}\,,
+            \mathcal{P}(\psi,\phi) := \cos^2\bigl(d_{\text{FS}}(\psi,\phi)\bigr) = \frac{\left|\braket{\psi}{\phi}\right|^2}{\braket{\psi}{\psi}\braket{\phi}{\phi}}\,,
         \end{gather}
-        where $|\psi\rangle,|\phi\rangle$ are representatives of the states $\psi,\phi$ in $\mathbb{P}\mathcal{H}$.
+        where $\ket{\psi},\ket{\phi}$ are representatives of the states $\psi,\phi$ in $\mathbb{P}\mathcal{H}$.
     }
 
     \newdef{Symmetry}{\index{symmetry!quantum}\index{automorphism!quantum}
         A quantum symmetry (or \textbf{quantum automorphism}) is an isometric automorphism of $P\mathcal{H}$. The group of these symmetries is denoted by $\Aut_{\text{QM}}(\mathbb{P}\mathcal{H})$.
     }
 
-    The following theorem due to \textit{Wigner} gives a (linear) characterization of quantum symmetries.\footnote{It is a particular case of a more general theorem in projective geometry.}
+    The following theorem due to \indexauthor{Wigner} gives a (linear) characterization of quantum symmetries.\footnote{It is a particular case of a more general theorem in projective geometry.}
     \begin{theorem}[Wigner]\index{Wigner}
         Every quantum automorphism of $\mathbb{P}\mathcal{H}$ is induced by a unitary or anti-unitary operator on $\mathcal{H}$.
     \end{theorem}
@@ -409,15 +435,15 @@
 \subsection{Symmetric states}
 
     \begin{axiom}[Symmetrization postulate]\index{symmetrization postulate}
-        Let $\mathcal{H}$ be the single-particle Hilbert space. A system of $n\in\mathbb{N}$ identical particles is described by a state $|\Psi\rangle$ belonging to either $S^n\mathcal{H}$ or $\Lambda^n\mathcal{H}$. These \textbf{bosonic} and \textbf{fermionic} states are, respectively, of the form
+        Let $\mathcal{H}$ be the single-particle Hilbert space. A system of $n\in\mathbb{N}$ identical particles is described by a state $\ket{\Psi}$ belonging to either $S^n\mathcal{H}$ or $\Lambda^n\mathcal{H}$. These \textbf{bosonic} and \textbf{fermionic} states are, respectively, of the form
         \begin{gather}
-            |\Psi_B\rangle = \sum_{\sigma\in S_n}|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle
+            \ket{\Psi_B} = \sum_{\sigma\in S_n}\ket{\psi_{\sigma(1)}}\cdots\ket{\psi_{\sigma(n)}}
         \end{gather}
         and
         \begin{gather}
-            |\Psi_F\rangle = \sum_{\sigma\in S_n}\sgn(\sigma)|\psi_{\sigma(1)}\rangle\cdots|\psi_{\sigma(n)}\rangle\,,
+            \ket{\Psi_F} = \sum_{\sigma\in S_n}\sgn(\sigma)\ket{\psi_{\sigma(1)}}\cdots\ket{\psi_{\sigma(n)}}\,,
         \end{gather}
-        where the $|\psi_i\rangle$ are single-particle states and $S_n$ is the permutation group on $n$ elements.
+        where the $\ket{\psi_i}$ are single-particle states and $S_n$ is the permutation group on $n$ elements.
     \end{axiom}
     \begin{remark}\index{spin-statistics theorem}
         In ordinary quantum mechanics, this is a postulate, but in quantum field theory, this is a consequence of the \textit{spin-statistics theorem}.
@@ -437,7 +463,51 @@
          A similar function can be defined for bosonic systems using the concept of \textit{permanents}.
     }
 
+\section{Approximation methods}
+\subsection{WKB approximation}\index{WKB approximation}\index{Green--Liouville method|see{WKB approximation}}
+
+    The Wentzel--Kramers--Brillouin (WKB) approximation\footnote{This approach to solving second-order ODEs was essentially introduced a century earlier by \indexauthor{Green} and \indexauthor{Liouville}.} starts from the ansatz
+    \begin{gather}
+        \psi(\vector{q}) := \exp\left(iS(\vector{q})/\hbar\right)\,,
+    \end{gather}
+    with $S:\mathbb{R}^n\rightarrow\mathbb{R}$ a phase function that is to be determined. Inserting this in the TDSE (in configuration representation) gives:
+    \begin{gather}
+        \left[\frac{\|\vec{\nabla}S(\vector{q})\|^2}{2m} + \bigl(V(\vector{q})-E\bigr) - \frac{i\hbar \Delta S(\vector{q})}{2m}\right]\exp\left(iS(\vector{q})/\hbar\right) = 0\,.
+    \end{gather}
+    To first order, i.e.~for slowly varying potentials, the last term can be ignored. In this case, the phase function satisfies the Hamilton--Jacobi equation~\eqref{classic:time_independent_hje}:
+    \begin{gather}
+        H\bigl(\vector{q},S'(\vector{q})\bigr) = \frac{\|\vec{\nabla}S(\vector{q})\|^2}{2m}+\bigl(V(x)-E\bigr) = 0\,.
+    \end{gather}
+    In physics, the Hamilton--Jacobi equation without time derivative is often called the \textbf{eikonal equation}\footnote{This name stems from optics.}. This leads to the following result.
+
+    \begin{property}\index{admissibile!solution}
+        A function $S:\mathbb{R}^n\rightarrow\mathbb{R}$ is a phase function for a first-order solution to the Schr\"odinger equation if its differential lies in a level set of the classical Hamiltonian $H:T^*\mathbb{R}^n\rightarrow\mathbb{R}$. These solutions are said to be \textbf{admissible}.
+    \end{property}
+
+    To obtain higher-order approximations, the solution has to be generalized beyond a pure phase function:
+    \begin{gather}
+        \psi(\vector{q}) = a(\vector{q})\exp\left(iS(\vector{q})/\hbar\right)\,.
+    \end{gather}
+    Assuming $S$ is admissible, the factor $a:\mathbb{R}^n\rightarrow\mathbb{R}$ satisfies the \textbf{homogeneous transport equation}:\index{transport equation}
+    \begin{gather}
+        a\Delta S + 2\vec{\nabla}a\cdot\vec{\nabla}S = 0\,.
+    \end{gather}
+    If $a$ satisfies this equation, $\psi$ is called a \textbf{semiclassical state}.\index{semiclassical} Note that this equation is equivalent to $a^2\vec{\nabla}S$ being divergence free or, equivalently:
+    \begin{gather}
+        \mathcal{L}_{\pi_*X^H}(a^2\vol) = 0\,.
+    \end{gather}
+    Since Lie derivatives pull back under diffeomorphisms (\cref{bundle:pullback_lie_derivative}) and the image $\im(\dr S)$ gives a trivial subbundle of $T^*M$, this is also equivalent to
+    \begin{gather}
+        \mathcal{L}_{X^H}(a^2\pi^*\vol) = 0\,.
+    \end{gather}
+    This quadratic behaviour in $a$ leads to the idea that the correct object for representing quantum states is a half-density (see also \cref{quantization:half_form}). This leads to the following statement:
+    \begin{quote}
+        A second-order approximate solution to the Schr\"odinger equation is given by a pair $(S,a)$, where $S$ is an admissible phase function and $a\in\Omega^{1/2}(\im(\dr S))$ is a half-form that is invariant under the (classical) Hamiltonian flow.
+    \end{quote}
+
 \section{\difficult{Curved backgrounds}}
+
+    \todo{FIND GOOD SPOT FOR THIS SECTION}
 
     Using the tools of distribution theory and differential geometry (\namecrefs{chapter:distributions}~\ref{chapter:distributions}, \ref{chapter:bundles} and onwards), one can introduce quantum mechanics on curved backgrounds (in the sense of `space', not `spacetime').
 

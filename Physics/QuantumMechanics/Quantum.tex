@@ -480,7 +480,7 @@
     \end{gather}
     In physics, the Hamilton--Jacobi equation without time derivative is often called the \textbf{eikonal equation}\footnote{This name stems from optics.}. This leads to the following result.
 
-    \begin{property}\index{admissibile!solution}
+    \begin{property}\index{admissible!solution}\label{quantum:admissible_solution}
         A function $S:\mathbb{R}^n\rightarrow\mathbb{R}$ is a phase function for a first-order solution to the Schr\"odinger equation if its differential lies in a level set of the classical Hamiltonian $H:T^*\mathbb{R}^n\rightarrow\mathbb{R}$. These solutions are said to be \textbf{admissible}.
     \end{property}
 
@@ -490,26 +490,29 @@
     \end{gather}
     Assuming $S$ is admissible, the factor $a:\mathbb{R}^n\rightarrow\mathbb{R}$ satisfies the \textbf{homogeneous transport equation}:\index{transport equation}
     \begin{gather}
+        \label{quantum:homogeneous_transport_equation}
         a\Delta S + 2\vec{\nabla}a\cdot\vec{\nabla}S = 0\,.
     \end{gather}
     If $a$ satisfies this equation, $\psi$ is called a \textbf{semiclassical state}.\index{semiclassical} Note that this equation is equivalent to $a^2\vec{\nabla}S$ being divergence free or, equivalently:
     \begin{gather}
         \mathcal{L}_{\pi_*X^H}(a^2\vol) = 0\,.
     \end{gather}
-    Since Lie derivatives pull back under diffeomorphisms (\cref{bundle:pullback_lie_derivative}) and the image $\im(\dr S)$ gives a trivial subbundle of $T^*M$, this is also equivalent to
+    Since Lie derivatives pull back under diffeomorphisms (\cref{bundle:pullback_lie_derivative}) and the image $\im(\dr S)$ gives a trivial subbundle of $T^*\mathbb{R}^n$, this is also equivalent to
     \begin{gather}
         \mathcal{L}_{X^H}(a^2\pi^*\vol) = 0\,.
     \end{gather}
     This quadratic behaviour in $a$ leads to the idea that the correct object for representing quantum states is a half-density (see also \cref{quantization:half_form}). This leads to the following statement:
     \begin{quote}
-        A second-order approximate solution to the Schr\"odinger equation is given by a pair $(S,a)$, where $S$ is an admissible phase function and $a\in\Omega^{1/2}(\im(\dr S))$ is a half-form that is invariant under the (classical) Hamiltonian flow.
+        A second-order solution to the Schr\"odinger equation is given by a pair $(S,a)$, where $S$ is an admissible phase function and $a\in\Omega^{1/2}(\im(\dr S))$ is a half-form that is invariant under the (classical) Hamiltonian flow.
     \end{quote}
+
+    The generalization to curved spaces, i.e.~replacing $\mathbb{R}^{2n}$ by a symplectic manifold $M$, will be covered in \cref{section:curved_wkb}.
 
 \section{\difficult{Curved backgrounds}}
 
-    \todo{FIND GOOD SPOT FOR THIS SECTION}
-
     Using the tools of distribution theory and differential geometry (\namecrefs{chapter:distributions}~\ref{chapter:distributions}, \ref{chapter:bundles} and onwards), one can introduce quantum mechanics on curved backgrounds (in the sense of `space', not `spacetime').
+
+\subsection{Extending quantum mechanics}
 
     \begin{remark}[Rigged Hilbert spaces]\index{Hilbert!rigged Hilbert space}\index{Gel'fand!triple}
         A first important remark to be made is that the classical definition of the wave function as an element of $L^2(\mathbb{R}^d,\mathbb{C})$ is not sufficient, even in flat Cartesian space. A complete description requires the introduction of so-called \textit{Gel'fand triples} or \textit{rigged Hilbert spaces}, where the space of square-integrable functions is replaced by the Schwartz space (\cref{distribution:schwartz_space}) of rapidly decreasing functions. The linear functionals on this space are then given by the tempered distributions.
@@ -544,6 +547,43 @@
     
     \todo{COMPLETE (rewrite in global terms)}
 
+\subsection{WKB approximation}\label{section:curved_wkb}
+
+    \Cref{quantum:admissible_solution} is generalized quite trivially after replacing $\mathbb{R}^n$ by a configuration manifold $Q$. A further step is provided by also generalizing \cref{symplectic:projectable_lagrangians}.
+    \begin{property}\index{admissible!solution}
+        A Lagrangian submanifold $\iota:L\hookrightarrow T^*Q$ will be called an admissible phase function for a first-order solution to the Schr\"odinger equation if it satisfies the classical Hamilton--Jacobi equation, i.e.~lies in a level set of the classical Hamiltonian $H:T^*Q\rightarrow\mathbb{R}$, for a regular value.
+    \end{property}
+
+    To obtain a second-order solution, one also needs prefactor for the semiclassical states. The homogeneous transport equation~\eqref{quantum:homogeneous_transport_equation} is generalized as follows:
+    \begin{gather}
+        a\Delta S + 2\mathcal{L}_{\nabla S}a = 0\,,
+    \end{gather}
+    where $\Delta$ is the Laplace--Beltrami operator on $Q$. As before, a general second-order solution, assuming $S$ is admissible, is given by a half-form $a\in\Omega^{1/2}(L)$ satisfying
+    \begin{gather}
+        \mathcal{L}_Ya = 0\,,
+    \end{gather}
+    where $Y$ is the (nonsingular) vector field on $L$ induced by $X^H$. This then gives a second-order solution on $Q$ by pulling back along the inverse $(\pi\circ\iota)^{-1}$, which is a diffeomorphism since $L$ is projectable. Moreover, if $L$ is exact (\cref{symplectic:exact_lagrangian}), then $S$ is induced by a primitive of the induced Liouville form $\iota^*\alpha$. If both the exactness and projectability conditions are dropped, the notion of a \textbf{geometric solution} are obtained.\index{geometric!solution}
+
+    To pass to this more general situation, some more structure is needed. If $L$ is not exact, the Liouville form does not admit a global primitive. However, $L$ does admit a (good) cover $\{U_k\}_{k\in I}$ such that on every patch, a second-order solution can be found, and then the problem becomes how to glue these together. The gluing condition is the following integrality condition:
+    \begin{gather}
+        \label{quantum:integrality_condition}
+        \phi_k(x)-\phi_l(x)\in2\pi\hbar\mathbb{Z}\,,
+    \end{gather}
+    where $\phi_k$ is the phase function on $U_k$, for all $x\in U_k\cap U_l$. Note that this condition can only be satisfied for all $\hbar\in\mathbb{R}^+$ if $[\alpha]=0$. However, this is exactly the condition that should be relaxed. Luckily, $\hbar$ should be a fixed value.
+    
+    \newdef{Quantizable Lagrangian}{
+        A projectable Lagrangian submanifold $L\subset T^*M$ is said to be quantizable if there exists an $\hbar\in\mathbb{R}^+$ such that the restriction of the Liouville class to $L$ is $\hbar$-integral, i.e.~the integrality condition~\eqref{quantum:integrality_condition} is satisfied. All values $\hbar$ for which the integrality condition is satisfied, are said to be \textbf{admissible}.
+    }
+    \begin{remark}
+        Note that the admissible values for $\hbar$ will form a decreasing sequence of the form
+        \begin{gather}
+            \hbar_0,\frac{\hbar_0}{2},\ldots\,,
+        \end{gather}
+        where $\hbar_0$ is the greatest admissible value.
+    \end{remark}
+
+    For the weakening of the projectability condition, see~\citet{bates_lectures_1997}. However, even without weakening that condition, there is still a remaining issue to the quantization of classical solutions. This will involve Maslov indices (\cref{section:maslov}) and Morse theory (\cref{symplectic:maslow_hormander}).
+
 \section{\difficult{Topos theory}}
 
     \newdef{Bohr topos}{\index{Bohr!topos}\index{Alexandrov!topology}
@@ -566,11 +606,11 @@
     \newdef{Spectral presheaf}{\index{spectral!presheaf}
         The presheaf on a Bohr site assigning to every commutative subalgebra its Gel'fand spectrum.
     }
-    \begin{theorem}[Kochen--Specker]\index{Kochen--Specker}
+    \begin{theorem}[Kochen--Specker]\index{Kochen--Specker}\index[author]{Kochen}\index[author]{Specker}
         If $A=\mathcal{B}(\mathcal{H})$ with $\dim(\mathcal{H})>2$, the spectral presheaf has no global element.
     \end{theorem}
 
-    \begin{property}[Gleason's theorem]\index{Gleason}
+    \begin{property}[Gleason's theorem]\index{Gleason}\index[author]{Gleason}
         There exists a natural bijection between the quantum states of a $C^*$-algebra $A$ and the classical states of $\underline{A}$ internal to $\mathbf{Bohr}(A)$.
     \end{property}
 

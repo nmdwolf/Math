@@ -99,7 +99,7 @@
             \begin{proof}
                 The volume of a (solid) disk is given by
                 \begin{gather*}
-                    V_{\emph{disk}}=\pi R^2d\,,
+                    V_{\text{disk}}=\pi R^2d\,,
                 \end{gather*}
                 where $R$ denotes the radius and $d$ denotes the thickness. The mass density is then given by
                 \begin{gather*}
@@ -113,7 +113,7 @@
                 \end{align*}
                 The volume of a solid sphere is given by
                 \begin{gather*}
-                    V_{\emph{sphere}} = \frac{4}{3}\pi R^3\,,
+                    V_{\text{sphere}} = \frac{4}{3}\pi R^3\,,
                 \end{gather*}
                 where $R$ denotes the radius. The mass density is then given by
                 \begin{gather*}
@@ -221,6 +221,29 @@
             S[q] := \Int_{t_1}^{t_2}L(q,\dot{q},t)\,dt\,.
         \end{gather}
     }
+
+    Especially in continuum (fluid) physics, the total time derivative receives a proper name.
+    \newdef{Lagrangian derivative\footnotemark}{\index{Lagrange!derivative|see{material derivative}}\index{material!derivative}\index{advective}\label{classic:lagrangian_derivative}
+        \footnotetext{Also known as the \textbf{material derivative}.}
+        Consider a quantity $A(q,\dot{q},t)$. The total time derivative along a path $\bigl(q(t),\dot{q}(t)\bigr)$ is given by
+        \begin{gather}
+            \begin{aligned}
+                \Deriv{A}{t} :\equiv \left.\deriv{A}{t}\right|_{\bigl(q(t),\dot{q}(t)\bigr)} &= \lim_{\Delta t\rightarrow0}\frac{A(q+\Delta q,\dot{q}+\Delta\dot{q},t+\Delta t) - A(q,\dot{q},t)}{\Delta t}\\
+                &= \pderiv{A}{t} + \dot{q}^i\pderiv{A}{q^i} + \deriv{\dot{q}^i}{t}\pderiv{A}{\dot{q}^i}\,.
+            \end{aligned}
+        \end{gather}
+        The second term $\dot{\vector{q}}\cdot\nabla a$ in this equation is called the \textbf{advective term}. In most treatments of continuum mechanics, the last term is not included, since one usually follows particles through space and not phase space.
+    }
+    \begin{remark}[Convection]\index{convective}
+        When $A(q,\dot{q},t)$ is a tensor field, the gradient $\nabla$ has to be replaced by the covariant derivative. The advective term is then sometimes called the \textbf{convective} term.
+    \end{remark}
+
+    \begin{example}
+        For $A(q,\dot{q},t)=\vector{q}(t)$, one obtains
+        \begin{gather}
+            \Deriv{\vector{q}}{t} = \dot{\vector{q}}\,.
+        \end{gather}
+    \end{example}
 
 \subsection{Euler--Lagrange equations}\index{Euler--Lagrange!equations}
 
@@ -445,6 +468,23 @@
         This is only equivalent if the transformation $(q,\dot{q})\leftrightarrow(q,p)$ is invertible. A sufficient condition is that the Hessian of $L$ with respect to the generalized velocities is invertible.
     }
 
+    \newdef{Phase space}{\index{phase space}
+        The set of all possible $2n$-tuples $(q^i,p_i)$ of generalized coordinates and associated momenta. Note that this set also includes the tuples that are not solutions of the equations of motion.
+    }
+
+    \newdef{Libration}{\index{libration}
+        A closed trajectory in phase space for which the coordinates take on only a subset of the allowed values. It is the generalization of an oscillation. Topologically, it is characterized by a contractible, closed trajectory.
+    }
+    \newdef{Rotation}{\index{rotation}
+        A closed trajectory in phase space for which at least one of the variables takes on all possible values. Topologicaly, it is characterized by a noncontractible, closed trajectory.
+
+        \todo{CORRECT (for an ordinary rotation in spherical coordinates this indeed holds, however, for rotations in Cartesian coordinates this fails)}
+    }
+
+    \newdef{Separatrix}{\index{separatrix}
+        When plotting (closed) trajectories in phase space, the curve that separates regions of librations and rotations is called the separatrix.\footnote{In general, the separatrix of a dynamical system is a curve that separates regions with different behaviour.}
+    }
+
     \newdef{Hamiltonian function}{\index{Hamilton!function}\label{classic:hamiltonian}
         Given a Lagrangian $L$, the Hamiltonian function is defined by the following Legendre transformation (\cref{calculus:legendre}):
         \begin{gather}
@@ -474,12 +514,19 @@
     }
     \sremark{As noted before, some authors define the Poisson bracket with the opposite sign. One should always pay attention to which convention is used.}
 
-    \newformula{Total time derivative}{
+    \newformula{Total time derivative}{\label{classic:total_time_derivative}
         Hamilton's equations imply the following expression for the total time derivative:
         \begin{gather}
             \deriv{F}{t} = \pderiv{F}{t} + \{H,F\}\,,
         \end{gather}
         which is the evolution equation for a nonautonomous system (\cref{symplectic:nonautonomous_system}).
+    }
+
+    \newdef{Liouville operator}{\index{Liouville!operator}\label{classic:liouville_operator}
+        The operator $\widehat{L}:C^\infty(M)\rightarrow C^\infty(M)$ defined as follows:
+        \begin{gather}
+            \widehat{L}f := \{H,f\}\,.
+        \end{gather}
     }
 
 \subsection{Hamilton--Jacobi equation}
@@ -544,82 +591,96 @@
         Potentials of this form are called \textbf{St\"ackel potentials}.
     \end{property}
 
-\section{Analytical mechanics}\label{section:analytical_mechanics}
-\subsection{Phase space}
+\section{Continuum mechanics}
+\subsection{Liouville's theorem}\label{section:lagrangian_liouville}
 
-    \newdef{Phase space}{\index{phase space}
-        The set of all possible $2n$-tuples $(q^i,p_i)$ of generalized coordinates and associated momenta is called the phase space of the system. Note that this also includes the tuples that are not solutions of the equations of motion.
-    }
+    Let $\rho:\mathbb{R}^{2n}\rightarrow\mathbb{R}_+$ be the phase space distribution function of some extensive quantity $F$ and $\vol$ be the canonical measure, i.e.~the quantity $F$ evaluated on the volume $V\subseteq\mathbb{R}^{2n}$ is given by
+    \begin{gather}
+        F(V) = \Int_V\rho\vol \equiv \Int_V\rho\,dV\,.
+    \end{gather}
 
-    \newdef{Libration}{\index{libration}
-        A closed trajectory for which the coordinates take on only a subset of the allowed values. It is the generalization of an oscillation. Topologically, it is characterized by a contractible, closed trajectory.
-    }
-    \newdef{Rotation}{\index{rotation}
-        A closed trajectory for which at least one of the variables takes on all possible values. Topologicaly, it is characterized by a noncontractible, closed trajectory.
-
-        \todo{CORRECT (for an ordinary rotation in spherical coordinates this indeed holds, however, for rotations in Cartesian coordinates this fails)}
-    }
-
-    \newdef{Separatrix}{\index{separatrix}
-        When plotting different (closed) trajectories in the phase space of a system, the curve that separates regions of librations and rotations is called the separatrix.\footnote{In general, the separatrix of a dynamical system is a curve that separates regions with different behaviour.}
-    }
-
-    \newdef{Lagrangian derivative\footnotemark}{\index{Lagrange!derivative|see{material derivative}}\index{material!derivative}\index{advective}\label{classic:lagrangian_derivative}
-        \footnotetext{Also known as the \textbf{material derivative}, especially in the context of fluid mechanics.}
-        Let $A(q,\dot{q},t)$ be a phase space quantity. Its Lagrangian derivative along a path $\bigl(q(t),\dot{q}(t)\bigr)$ in phase space is given by
+    \begin{formula}[Liouville's lemma]\index{incompressible}
+        Consider a time-dependent phase space volume $V:\mathbb{R}\rightarrow\mathcal{B}(\mathbb{R}^{2n})$, evolving along a path $x(t)\equiv\bigl(q(t),\dot{q}(t)\bigr)$. The Jacobian $J\bigl(x(t)\bigr)$ associated with this motion is given by
         \begin{gather}
-            \begin{aligned}
-                \Deriv{A}{t} &:= \lim_{\Delta t\rightarrow0}\frac{A(q+\Delta q,\dot{q}+\Delta\dot{q},t+\Delta t) - A(q,\dot{q},t)}{\Delta t}\\
-                &= \pderiv{A}{t} + \dot{q}^i\pderiv{A}{q^i} + \deriv{\dot{q}^i}{t}\pderiv{A}{\dot{q}^i}\,.
-            \end{aligned}
-        \end{gather}
-        The second term $\dot{\vector{q}}\cdot\nabla a$ in this equation is called the \textbf{advective term}.
-    }
-    \begin{remark}[Convection]\index{convective}
-        When $A(q,\dot{q},t)$ is a tensor field, the gradient $\nabla$ has to be replaced by the covariant derivative. The advective term is then sometimes called the \textbf{convective} term.
-    \end{remark}
-
-    \begin{result}
-        For $A(q,\dot{q},t)=\vector{q}(t)$, one obtains
-        \begin{gather}
-            \Deriv{\vector{q}}{t} = \dot{\vector{q}}\,.
-        \end{gather}
-    \end{result}
-
-\subsection{Liouville's theorem}
-
-    \begin{formula}[Liouville's lemma]
-        Consider a phase space volume element $V_0$ moving along a path $x(t)\equiv\bigl(q(t),\dot{q}(t)\bigr)$. The Jacobian $J\bigl(x(t)\bigr)$ associated with this motion is given by
-        \begin{gather}
-            J\bigl(x(t)\bigr) = \deriv{V}{V_0} = \det\left(\pderiv{\vector{x}}{\vector{x}_0}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}\,.
+            J\bigl(x(t)\bigr) = \det\left(\pderiv{x(t)}{x(0)}\right) = \sum_{ijklmn}\varepsilon^{ijklmn}\pderiv{x^1}{x^i_0}\pderiv{x^2}{x^j_0}\pderiv{x^3}{x^k_0}\pderiv{x^4}{x^l_0}\pderiv{x^5}{x^m_0}\pderiv{x^6}{x^n_0}\,.
         \end{gather}
         The Lagrangian derivative of this Jacobian is
         \begin{gather}
             \label{classic:jacobian_derivative}
-            \Deriv{J}{t} = (\nabla\cdot\vector{x})J\,.
+            \Deriv{J}{t} = (\nabla\cdot\dot{x})J\,,
         \end{gather}
-        Furthermore, using Hamilton's equations (\cref{classic:hamilton_equations}), it is easy to prove that
-        \begin{gather}
-            \nabla\cdot\vector{x}=0
-        \end{gather}
-        and, hence, that the material derivative of $J$ vanishes.
+        where $\nabla$ denotes the gradient in phase space. Flows for which the right-hand side vanishes, i.e.~for which $\nabla\cdot\dot{x}=0$, are said to be \textbf{incompressible}.
     \end{formula}
 
-    \begin{theorem}[Liouville]\index{Liouville!theorem on phase spaces}\label{classic:liouvilles_theorem}
-        Let $V(t)$ be a moving phase space volume containing a fixed set of particles. Applying Liouville's lemma gives
+    \newformula{Reynolds' transport theorem}{\index{Reynolds' transport theorem}\index{Leibniz!integral rule}\label{classic:reynolds_transport_theorem}
+        Consider a quantity
         \begin{gather}
-            \Deriv{V}{t} = \Deriv{}{t}\Int_{\Omega(t)}d^6x = \Deriv{}{t}\Int_{\Omega_0}J(\vector{x},t)\,d^6x_0 = 0\,.
+            F(t) := \Int_{V(t)}f(q,\dot{q},t)\,dV\,,
         \end{gather}
-        This implies that the phase space volume of a Hamiltonian system is invariant with respect to time evolution.
+        where $V:\mathbb{R}\rightarrow\mathcal{B}(\mathbb{R}^{2n})$ is a time-dependent volume in phase space. Combining \cref{classic:jacobian_derivative} with the divergence theorem~\ref{vector:divergence_theorem} gives
+        \begin{gather}
+            \Deriv{F}{t} = \Int_{V(t)}\left(\pderiv{f}{t}+\nabla\cdot(f\dot{\vector{q}})\right)\,dV = \Int_{V(t)}\pderiv{f}{t}\,dV + \Oint_{\partial V(t)}f\dot{\vector{q}}\cdot d\vector{S}\,,
+        \end{gather}
+        where $\dot{\vector{q}}$ denotes the velocity of the infinitesimal area element. This formula can be interpreted as a three-dimensional generalization of the Leibniz integral rule (\cref{calculus:leibniz_integral_rule}).
+    }
+
+    \newdef{Material volume}{\index{material!volume}
+        A time-dependent volume $V:\mathbb{R}\rightarrow\mathcal{B}(\mathbb{R}^{2n})$ such that the velocity $\dot{\vector{q}}$ at every point matches the flow velocity.
+    }
+    \sremark{In most parts of the literature, Reynolds' transport theorem is stated for material volumes. For simplicity, this will be assumed from here on.}
+
+    \begin{result}
+        Note that Reynolds' transport theorem can be rewritten as
+        \begin{gather}
+            \Deriv{F}{t} = \Int_{V(t)}\left(\Deriv{f}{t}+f\nabla\cdot\dot{\vector{q}}\right)\,dV\,.
+        \end{gather}
+        Hence, for incompressible fluids, the material derivative can be taken inside the integral.
+    \end{result}
+
+    \newformula{Continuity equations}{\index{continuity!equation}
+        For a conserved quantity $F$, Reynolds' transport theorem becomes:
+        \begin{gather}
+            \label{classic:eulerian_continuity_gather}
+            \pderiv{f}{t} + \nabla\cdot(f\dot{\vector{q}}) = 0
+        \end{gather}
+        or, after using \cref{classic:lagrangian_derivative},
+        \begin{gather}
+            \label{classic:lagrangian_continuity_gather}
+            \Deriv{f}{t} + (\nabla\cdot\dot{\vector{q}})f = 0\,.
+        \end{gather}
+        If one sets $f=\rho$ (the phase space density), the equations are called the \textbf{Eulerian continuity equation} and \textbf{Lagrangian continuity equation}, respectively.
+
+        The difference between these two equations corresponds to the way the system is observed. In the Eulerian approach, one observes a fixed point in space and measures how a given quantity at that point evolves. In the Lagrangian approach, one observes a fixed element in the system and measures how a given quantity evolves around the chosen point as it moves throughout space.
+    }
+    \begin{result}
+        Combining Reynolds' transport theorem with the continuity equation, and assuming that the velocity of $V(t)$ matches the flow velocity, gives the following identity for an arbitrary function $f:\mathbb{R}^{2n+1}\rightarrow\mathbb{R}$:
+        \begin{gather}
+            \label{classic:result1}
+            \Deriv{}{t}\Int_{V(t)}\rho f\,dV = \Int_{V(t)}\rho\Deriv{f}{t}\,dV\,.
+        \end{gather}
+    \end{result}
+
+    Although this result does imply that the total probability in any material volume is preserved, the preservation of the probability density function requires a slightly stronger assumption.
+    \begin{theorem}[Liouville]\index{Liouville!theorem on phase spaces}\index{Liouville!equation}\label{classic:liouvilles_theorem}
+        If the flow is incompressible, the density is constant along the flow:\footnote{This equation is also called the \textbf{Liouville equation}.}
+        \begin{gather}
+            \Deriv{\rho}{t} = 0\,.
+        \end{gather}
+        Moreover, the volume of any material volume is also constant:
+        \begin{gather}
+            \Deriv{\vol(V)}{t} = 0
+        \end{gather}
+        for all material volumes $V:\mathbb{R}\rightarrow\mathcal{B}(\mathbb{R}^{2n})$.
     \end{theorem}
+
     \begin{remark}[$\clubsuit$]
-        By \cref{section:hamiltonian_dynamics}, every phase space admits a symplectic form $\omega$. By noting that the volume in phase space is calculated through the symplectic volume form $\vol_\omega\sim\omega^n$, this theorem easily follows from the fact that time evolution is the flow of the Hamiltonian vector field, which preserves the symplectic form.
+        By \cref{section:hamiltonian_dynamics}, every phase space admits a symplectic form $\omega$ and the induced canonical volume form on phase space is $\vol_\omega\sim\omega^n$. Accordingly, the above theorem (more specifically, the second part) easily follows from the fact that time evolution is the flow of the Hamiltonian vector field, which preserves the symplectic form.
     \end{remark}
 
     \newformula{Boltzmann's transport equation}{\index{Boltzmann!transport equation}\index{Vlasov equation}
         Let $F(q,\dot{q},t)$ be the mass distribution function:
         \begin{gather}
-            M_{\text{tot}} = \Int_{\Omega(t)}F(q,\dot{q},t)\,d^6x\,.
+            M_{\text{tot}} = \Int_{V(t)}F(q,\dot{q},t)\,dV\,.
         \end{gather}
         From the conservation of mass, one can derive the following formula:
         \begin{gather}
@@ -629,54 +690,20 @@
         where the right-hand side gives the change of $F$ due to collisions.\footnote{The collisionless form of this equation is sometimes called the \textbf{Vlasov equation}.} This partial differential equation in 7 variables can be solved to obtain $F$.
     }
 
-    Consider a Hamiltonian system with a phase space $\mathcal{V}$. By Liouville's theorem, the phase flow generated by the equations of motion is a volume- or measure-preserving map $g:\mathcal{V}\rightarrow\mathcal{V}$ (\cref{measure:measure_preserving}). This gives rise to the following theorem.
+    A prime example of flows are given by time evolution in a Hamiltonian system. The Hamiltonian equations of motion can be shown to imply the incompressibility of the Hamiltonian flow and, accordingly, by Liouville's theorem, this flow gives rise to a volume- (or measure-)preserving map $g:\mathbb{R}^{2n}\rightarrow\mathbb{R}^{2n}$ (\cref{measure:measure_preserving}). This gives rise to the following theorem.
     \begin{theorem}[Poincar\'e recurrence theorem]\index{Poincar\'e!recurrence theorem}
-        For every point $x_0\in\mathcal{V}$ and for every neighbourhood $U\subseteq\mathcal{V}$ of $x_0$, there exists a point $y\in U$ such that $g^n(y)\in U$ for every $n\in\mathbb{N}$.
+        For every point $x_0\in\mathbb{R}^{2n}$ and for every neighbourhood $U\subseteq\mathbb{R}^{2n}$ of $x_0$, there exists a point $y\in U$ such that $g^n(y)\in U$ for every $n\in\mathbb{N}$.
     \end{theorem}
 
-    \begin{theorem}[Strong Jeans's theorem\footnotemark]\index{Jeans}\indexauthor{Jeans}\index{isolating integrals}
+    \begin{theorem}[Strong Jeans's theorem\footnotemark]\index{Jeans}\index{isolating integrals}
         \footnotetext{Actually due to \indexauthor{Lynden-Bell}.}
-        For a time-independent system, for which almost all orbits are regular, the distribution function can be expressed in terms of three integrals of motion.
+        In a time-independent system for which almost all orbits are regular, the distribution function can be expressed in terms of three integrals of motion.
     \end{theorem}
     The constants in Jeans's theorem are called the \textup{\textbf{isolating integrals}} of the system.
 
-\subsection{Continuity equation}
-
-    \newformula{Reynolds' transport theorem}{\index{Reynolds transport theorem}\index{Leibniz!integral rule}\label{classic:reynolds_transport_theorem}
-        Consider a quantity
-        \begin{gather}
-            F = \Int_{V(t)}f(q,\dot{q},t)\,dV\,.
-        \end{gather}
-        Combining \cref{classic:jacobian_derivative} with the divergence theorem~\ref{vector:divergence_theorem} gives
-        \begin{gather}
-            \Deriv{F}{t} = \Int_V\pderiv{f}{t}\,dV + \Oint_{\partial V}f\dot{\vector{q}}\cdot d\vector{S}\,.
-        \end{gather}
-        This formula can be interpreted as a three-dimensional generalization of the Leibniz integral rule (\cref{calculus:leibniz_integral_rule}).
-    }
-
-    \newformula{Continuity equations}{\index{continuity!equation}
-        For a conserved quantity, Reynold's transport theorem becomes:
-        \begin{align}
-            \label{classic:lagrangian_continuity_gather}
-            \Deriv{f}{t} &+ (\nabla\cdot\dot{\vector{q}})f = 0\,,\\
-            \label{classic:eulerian_continuity_gather}
-            \pderiv{f}{t} &+ \nabla\cdot(f\dot{\vector{q}}) = 0\,.
-        \end{align}
-        If one sets $f=\rho$ (the mass density), the equations are called the \textbf{Lagrangian continuity equation} and \textbf{Eulerian continuity equation}, respectively.
-
-        The difference between these two equations corresponds to the way the system is observed. In the Eulerian approach, one observes a fixed point in space and measures how a given quantity at that point evolves. In the Lagrangian approach, one observes a fixed element in the system and measures how a given quantity evolves around the chosen point as it moves throughout space.
-    }
-    \begin{result}
-        Combining the Reynolds transport theorem with the Lagrangian continuity equation gives the following identity for an arbitrary function $f$:
-        \begin{gather}
-            \label{classic:result1}
-            \Deriv{}{t}\Int_V\rho f\,dV = \Int_V\rho\Deriv{f}{t}\,dV\,.
-        \end{gather}
-    \end{result}
-
 \subsection{Fluid mechanics}
 
-    \todo{ADD (stress vector)}
+    \todo{ADD (e.g.~stress vector)}
 
     \begin{theorem}[Cauchy's stress theorem\footnotemark]\index{Cauchy!fundamental theorem}\index{stress}
         \footnotetext{Also known as \textbf{Cauchy's fundamental theorem}.}
@@ -719,6 +746,79 @@
             \int_V\rho\Deriv{\vector{v}}{t}\,dV = \Int_V\left[\vector{f}(x,t) + \nabla\cdot\mathbf{T}(x,t)\right]\,dV\,.
         \end{gather}
     }
+
+\section{Koopman--von Neumann mechanics}\index{Koopman--von Neumann!mechanics}\index[author]{Koopman}\index[author]{von Neumann}
+
+    After the invention and formalization of quantum mechanics (see \cref{part:qm}), some authors tried to reformulate classical mechanics in terms of operators and Hilbert spaces. A first step towards this goal was made by, amongst others, \textit{Koopman} and \textit{von Neumann}, who expressed the measure-preserving transformations (i.e.~the canonical transformation) on phase space as operators, which form a Hilbert space under the Hilbert--Schmidt inner product (\cref{linalgebra:hilbert_schmidt_norm}). However, notwithstanding this reformulation, the content of this section is actually of a different nature and the historical attribution is, therefore, incorrect. The idea of this section is to rephrase the classical probability distribution of phase space as a wave function.
+
+    Recall the Liouville equation (\cref{classic:liouvilles_theorem})
+    \begin{gather}
+        \Deriv{\rho}{t}=0
+    \end{gather}
+    for the phase space density function. Using \cref{classic:liouville_operator}, this can be rewritten as
+    \begin{gather}
+        \pderiv{\rho}{t} = -\widehat{L}\rho\,.
+    \end{gather}
+
+    \newdef{Koopman--von Neumann wave function}{
+        The KvN wave function $\psi:\mathbb{R}^{2n+1}\rightarrow\mathbb{C}$ is required to factorize the density function:
+        \begin{gather}
+            \rho = \overline{\psi}\psi
+        \end{gather}
+        and satisfy the Liouville equation:
+        \begin{gather}
+            \pderiv{\psi}{t} = \widehat{L}\psi\,.
+        \end{gather}
+    }
+
+    An alternative approach start from the operator formulation of quantum mechanics, where the observables are represented as self-adjoint operators on a Hilbert space, as mentioned above. The axioms are as follows:\index{Born rule}
+    \begin{enumerate}
+        \item\textbf{Normalization}: $\braket{\psi}{\psi} = 1$.
+        \item\textbf{Expectation}: $\expect{A} = \langle\psi\mid\widehat{A}\mid\psi\rangle$.
+        \item\textbf{Born rule}: The probability of measuring the value $a\in\sigma(\widehat{A})$ is given by
+        \begin{gather}
+            p_a = |\braket{a}{\psi}|^2\,.
+        \end{gather}
+        
+        \item\textbf{Compositionality}: The disjoint union of systems is represented by the tensor product of their wave functions.
+    \end{enumerate}
+
+    \begin{property}[Generality]
+        The above set of axioms are, in fact, very general, in that they allow to recover both classical mechanics and quantum mechanics, depending on an additional set of relations. First of all, if Newton's second law (\cref{classic:force}) is postulated to hold on average (in an Ehrenfest-like manner, cf.~\cref{qm:ehrenfest}), i.e.
+        \begin{gather}
+            m\deriv{}{t}\langle x\rangle=\langle p\rangle \qquad\text{and}\qquad \deriv{}{t}\langle p\rangle=-\langle\nabla U(x)\rangle
+        \end{gather}
+        for some function $U:\mathbb{R}^n\rightarrow\mathbb{R}$, the following conditions are recovered:
+        \begin{gather}
+            m[\widehat{L},\widehat{x}]=\widehat{p} \qquad\text{and}\qquad [\widehat{L},\widehat{p}]=-\nabla U(\widehat{x})\,,
+        \end{gather}
+        where $\widehat{L}$ is the generator of time evolution according to Stone's theorem~\ref{functional:stone}.
+
+        Now, if the classical commutation relation $[\widehat{x},\widehat{p}]=0$ is required to hold, the above equations cannot hold for any operator $\widehat{L}\equiv L(\widehat{x},\widehat{p})$. To solve this issue, an additional set of operators $\{\widehat{\lambda}_x,\widehat{\lambda}_p\}$ has to be introduced. These are required to form a Lie algebra, called the \textbf{KvN algebra}, with the following commutation relations:\index{Koopman--von Neumann!algebra}
+        \begin{gather}
+            \begin{aligned}
+                [\widehat{\lambda}_x,\widehat{x}] &= [\widehat{\lambda}_p,\widehat{p}] = i\,,\\
+                [\widehat{x},\widehat{p}] &= [\widehat{\lambda}_x,\widehat{p}] = [\widehat{\lambda}_p,\widehat{x}] = [\widehat{\lambda}_x,\widehat{\lambda}_p] = 0\,.
+            \end{aligned}
+        \end{gather}
+        A form of $\widehat{L}$ that makes the above conditions hold is:
+        \begin{gather}
+            -i\widehat{L} = \frac{\widehat{p}}{m}\widehat{\lambda}_x - \nabla U(\widehat{x})\widehat{\lambda}_p\,.
+        \end{gather}
+        Using this expression, the classical rules of statistical mechanics can be recovered.
+
+        To recover \textit{quantum mechanics} (see \cref{chapter:qm}), the \textit{canonical commutation relations} (see \cref{qm_formalism:CCR}) are postulated: $[\widehat{x},\widehat{p}]=i$. In this case, no additional operators have to be introduced and (up to a factor $\hbar$), the Liouville operator can be shown to coincide with standard Hamiltonian:
+        \begin{gather}
+            \hbar\widehat{L} = \frac{\widehat{p}^2}{2m}+U(\widehat{x})\,,
+        \end{gather}
+        for some function $U:\mathbb{R}^n\rightarrow\mathbb{R}$.
+    \end{property}
+
+    \begin{remark}[Linearity]
+        Note that, in contrast to the \textit{Schr\"pdinger equation} (see, e.g., \cref{qm:TDSE_position}), both the Liouville and KdV equations are linear PDEs in classical mechanics.
+    \end{remark}
+
+    \todo{COMPLETE}
 
 \section{Dynamical systems}
 

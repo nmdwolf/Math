@@ -4,9 +4,77 @@
 
     \minitoc
 
+\section{Introduction}
+
+    For a formal treatment of this section, see \cref{section:mathematical_formalism_qm}.
+
+\subsection{States}
+
+    In full generality, i.e.~without specifying a `picture' (see the next sections for more information), the system is described by a `state vector' $\ket{\psi}$ that represents the state of the system as an abstract vector in some Hilbert space.
+
+    \begin{notation}[Dirac notation]\index{braket notation}\index{Dirac!notation}
+        State vectors $\ket{\psi}$ are called \textbf{ket}'s and their duals $\bra{\psi}$ are called \textbf{bra}'s. The inner product of a state $\ket{\phi}$ and a state $\ket{\psi}$ is denoted by $\braket{\phi}{\psi}$. This notation is often called the \textbf{braket notation}.
+    \end{notation}
+
+    \begin{formula}[Matrix representation]\label{qm:matrix_entry}
+        The following formula gives the matrix representation of an operator $\widehat{A}$ with respect to the orthonormal basis $\{\ket{\psi_i}\}_{i\leq n}$ cf.~\cref{linalgebra:matrix_representation}:
+        \begin{gather}
+            A_{ij} := \langle\psi_i|\widehat{A}|\psi_j\rangle\,.
+        \end{gather}
+    \end{formula}
+    \begin{remark}
+        The basis $\bigl\{\ket{\psi_i}\bigr\}_{i\leq n}$ need not consist out of eigenfunctions of $\widehat{A}$.
+    \end{remark}
+
+    But, given the abstract state vectors $\ket{\psi}$, how does one recover the position (configuration) representation $\psi(x)$? This is simply the projection of the state vector $\ket{\psi}$ on the `basis function' $\delta(x)$, i.e.~$\psi(x)$ represents an expansion coefficient in terms of a `basis' for the physical Hilbert space. In the same way, one can obtain the momentum representation $\psi(p)$ by projecting onto the plane waves $e^{ipx}$.
+
+    \begin{remark}\index{Hilbert!rigged Hilbert space}
+        It should be noted that neither the `basis states' $\delta(x)$, nor the plane waves $e^{ipx}$ are square integrable and, hence, they are not elements of the Hilbert space $L^2(\mathbb{R},\mathbb{C})$. This issue can be resolved through the concept of \textit{rigged Hilbert spaces}.
+    \end{remark}
+
+\subsection{Uncertainty principle}
+
+    \newdef{Expectation value}{
+        The expectation value of an observable $\widehat{A}$ in a state $\ket{\psi}$ is defined as
+        \begin{gather}
+            \langle\widehat{A}\rangle_\psi := \langle\psi|\widehat{A}|\psi\rangle\,.
+        \end{gather}
+        The subscript $\psi$ is often left implicit. As in ordinary statistics \eqref{statistics:variance_without_sum}, the uncertainty or variance is defined as follows:
+        \begin{gather}
+            \Delta A := \langle\widehat{A}^2\rangle - \langle\widehat{A}\rangle^2\,.
+        \end{gather}
+    }
+
+    \newformula{Uncertainty relation}{\index{Heisenberg!uncertainty relation}\index{Robertson|see{Heisenberg uncertainty relation}}\label{qm:uncertainty_relation}
+        Let $\widehat{A},\widehat{B}$ be two operator and let $\Delta A,\Delta B$ be the corresponding uncertainties. The (\textbf{Robertson}) uncertainty relation reads as follows:
+        \begin{gather}
+            \Delta A\Delta B\geq\frac{1}{4}\left|\left\langle\left[\widehat{A},\widehat{B}\right]\right\rangle\right|^2\,.
+        \end{gather}
+    }
+
+\section{Foundations}
+
+    \begin{axiom}[Born rule]\index{Born!rule}
+        Let $\mathcal{H}$ be the Hilbert space of a physical system and consider an observable $\widehat{O}$. If $\ket{\psi}$ is a state vector and $\widehat{P}_\phi$ is the projection onto an eigenvector $\ket{\phi}$ of $\widehat{O}$, the probability of observing the state $\ket{\phi}$ is given by:
+        \begin{gather}
+            \frac{\langle\psi\mid\widehat{P}_\phi\mid\psi\rangle}{\braket{\psi}{\psi}} = \frac{|\braket{\psi}{\phi}|^2}{\braket{\psi}{\psi}}\,.
+        \end{gather}
+    \end{axiom}
+
+    \begin{theorem}[Ehrenfest]\index{Ehrenfest}\label{qm:ehrenfest}
+        Let $\widehat{H}$ be the Hamiltonian and consider an observable $\widehat{O}$. The expectation value of this operator evolves as follows:
+        \begin{gather}
+            \deriv{\langle\widehat{O}\rangle}{t} = \frac{1}{i\hbar}\bigl\langle[\widehat{O},\widehat{H}]\bigr\rangle + \left\langle\pderiv{\widehat{O}}{t}\right\rangle\,.
+        \end{gather}
+    \end{theorem}
+
+\subsection{Copenhagen interpretation}
+
+    \todo{ADD (many worlds, Copenhagen, dynamical collapse, epistemic)}
+
 \section{Schr\"odinger picture}
 
-    \begin{formula}[Time-independent Schr\"odinger equation]\index{Schr\"odinger!equation}\index{Hamilton!function}\label{wavematrix:TISE}
+    \begin{formula}[Time-independent Schr\"odinger equation]\index{Schr\"odinger!equation}\index{Hamilton!function}\label{qm:TISE}
         \begin{gather}
             \widehat{H}\psi(x) = E\psi(x)
         \end{gather}
@@ -16,44 +84,33 @@
     \newprop{Orthogonality}{
         Let $\{\psi_i\}_{i\in I}\subset L^2(\mathbb{R})$ be a collection of eigenfunctions of the TISE (the internal space is supressed for convenience). These functions can be normalized with respect to the inner product~\eqref{measure:L2_inner_product} such that they obey the following relation:
         \begin{gather}
-            \label{wavematrix:orthogonality}
+            \label{qm:orthogonality}
             \Int_{\mathbb{R}}\overline{\psi_i}(x)\psi_j(x)\,dx = \delta_{ij}\,.
         \end{gather}
     }
 
     The time evolution of a wave function is defined through the following equation.
-    \newformula{Time-dependent Schr\"odinger equation}{\index{Schr\"odinger!equation}\label{wavematrix:TDSE}
+    \newformula{Time-dependent Schr\"odinger equation}{\index{Schr\"odinger!equation}\label{qm:TDSE}
         \begin{gather}
             i\hbar\pderiv{}{t}\psi(x,t) = \widehat{H}\psi(x,t)\,.
         \end{gather}
         In case $\widehat{H}$ is time independent, the TISE can be obtained from this equation by separation of variables (see below).
-    }
 
-    \begin{example}[Massive particle in a stationary potential]
-        \begin{gather}
-            \label{wavematrix:TDSE_position}
-            i\hbar\pderiv{}{t}\psi(x,t) = \left(\frac{\widehat{p}^2}{2m} + V(x)\right)\psi(x,t)
-        \end{gather}
-        \todo{THIS IS NOT THE POSITION REPRESENTATION}
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Derivation of TISE from TDSE]
-                Starting from the one-dimensional TDSE in position space with a time-independent potential
+                Starting from the one-dimensional TDSE in position space with a time-independent Hamiltonian, one can perform a separation of variables and assert a solution of the form $\psi(x,t) = X(x)T(t)$. Inserting this in the previous equation gives
                 \begin{gather}
-               		i\hbar\pderiv{}{t}\Psi(x,t) = \left(-\frac{\hbar^2}{2m}\partial_x^{\ 2} + V(x)\right)\Psi(x,t)\,,
-               	\end{gather}
-                one can perform a separation of variables and assert a solution of the form $\Psi(x,t) = \psi(x)T(t)$. Inserting this in the previous equation gives
-                \begin{gather}
-               		i\hbar\psi(x)T'(t) = -\frac{\hbar^2}{2m}T(t)\psi''(x) + V(x)\psi(x)T(t)\,.
+               		i\hbar X(x)T'(t) = \left(\widehat{H}X(x)\right)T(t)\,.
                	\end{gather}
                 Dividing both sides by $X(x)T(t)$ and rearranging the terms gives
                 \begin{gather}
-               		i\hbar\frac{T'(t)}{T(t)} = \left(-\frac{\hbar^2}{2m} + V(x)\right)\frac{\psi''(x)}{\psi(x)}\,.
+               		i\hbar\frac{T'(t)}{T(t)} = \frac{\widehat{H}X(x)}{X(x)}\,.
                	\end{gather}
-                Because the left side only depends on $t$ and the right side only depends on $x$, one can conclude that they are both equal to a constant $E$. This leads to the following system of differential equations:
+                Because the left side only depends on $t$ and the right side only depends on $x$, one can conclude that they both have to equal a constant $E\in\mathbb{C}$. This leads to the following system of differential equations:
                 \begin{gather}
                     \begin{cases}
-                        &i\hbar T'(t) - ET(t) = 0\,,\\
-                        &\left(-\frac{\hbar^2}{2m} + V(x)\right)\psi''(x) = E\psi(x)\,.
+                        &i\hbar T'(t) = ET(t)\,,\\
+                        &\widehat{H}X(x) = EX(x)\,.
                     \end{cases}
                 \end{gather}
                 The first equation immediately gives a solution for $T$:
@@ -61,25 +118,55 @@
                     \label{derivations_qm:exponential}
                		T(t) = C\exp\left(-\frac{iE}{\hbar}t\right)\,.
                	\end{gather}
-                Rearranging the second solution in the system gives the TISE:
-                \begin{gather}
-                    \label{derivations_qm:TISE}
-               		\psi''(x) = -\frac{2m}{\hbar^2}\bigl(E - V(x)\bigr)\psi(x)\,.
-               	\end{gather}$ $
+                The second equation is exactly the TISE~\ref{qm:TISE}.
             \end{proof}
         \end{mdframed}
+    }
+
+    \begin{example}[Massive particle in a stationary potential]
+        \begin{gather}
+            \label{qm:TDSE_position}
+            i\hbar\pderiv{}{t}\psi(x,t) = \left(-\frac{\hbar^2}{2m}\partial_x^{\ 2} + V(x)\right)\psi(x,t)
+        \end{gather}
+        In this case, the TISE reads as follows:
+        \begin{gather}
+            \label{derivations_qm:TISE}
+            \psi''(x) = -\frac{2m}{\hbar^2}\bigl(E - V(x)\bigr)\psi(x)\,.
+        \end{gather}
     \end{example}
 
     \begin{formula}[General solution]
-        A general solution of the time-dependent Schr\"odinger equation (for time-independent Hamiltonians) is given by the following formula (cf.~\cref{ode:first_order_general_solution}):
+        A general solution of the TDSE (for time-independent Hamiltonians) is given by the following formula (cf.~\cref{ode:first_order_general_solution}):
         \begin{gather}
-            \label{wavematrix:general_solution}
+            \label{qm:general_solution}
             \psi(x,t) = \sum_Ec_E\psi_E(x)e^{-\frac{i}{\hbar}Et}\,,
         \end{gather}
         where the functions $\psi_E(x)$ are the eigenfunctions of the TISE. The coefficients $c_E$ can be found using the orthogonality relations
         \begin{gather}
-            \label{wavematrix:general_solution_coefficients}
+            \label{qm:general_solution_coefficients}
             c_E=\left(\Int_{\mathbb{R}}\overline{\psi_E}(x)\psi(x,t_0)\,dx\right)e^{\frac{i}{\hbar}Et_0}\,.
+        \end{gather}
+    \end{formula}
+
+\section{Heisenberg picture}
+
+    In the previous section, the central object was the wave function. It was this object that evolved in time and the operators acting on the Hilbert space of physical states were assumed to be fixed. However, it is also possible to transfer this time dependence to the operators.
+
+    \begin{formula}[Time-dependent observables]
+        \begin{gather}
+            \widehat{O}_H(t) := e^{\frac{i}{\hbar}\widehat{H}t}\widehat{O}_S(t)e^{-\frac{i}{\hbar}\widehat{H}t}
+        \end{gather}
+        The equivalence between the Sch\"odinger and Heisenberg pictures essentially come from the fact that the time-evolving expectation values of operators are given by the following formula:
+        \begin{gather}
+            \langle \widehat{O}(t) \rangle = \bra{\psi}e^{\frac{i}{\hbar}\widehat{H}t}\widehat{O}(t)e^{-\frac{i}{\hbar}\widehat{H}t}\ket{\psi}\,.
+        \end{gather}
+        The difference between the pictures is simply the choice of whether to include the evolution operator in the states or in the operators.
+    \end{formula}
+
+    Using the above transformation, the Sch\"odinger equation~\ref{qm:TDSE} can also be reexpressed.
+    \begin{formula}[Time-dependent Schr\"odinger equation]
+        \begin{gather}
+            \pderiv{\widehat{O}_H}{t}(t) = \frac{i}{\hbar}\left[\widehat{H}_H(t),\widehat{O}_H(t)\right] + \left(\pderiv{\widehat{O}}{t}(t)\!\right)_H
         \end{gather}
     \end{formula}
 
@@ -87,7 +174,7 @@
 
 \subsection{Hydrogen atom}
 
-    Consider the hydrigen atom, i.e.~a single proton (the nucleus) orbited by a single electron with only the electrostatic Coulomb force acting between them (gravity can safely be neglected):
+    Consider the hydrogen atom, i.e.~a single proton (the nucleus) orbited by a single electron with only the electrostatic Coulomb force acting between them (gravity can safely be neglected):
     \begin{gather}
         \widehat{H} := \frac{\widehat{p}_p^2}{2m_p} + \frac{\widehat{p}_e^2}{2m_e} - \frac{e^2}{4\pi\varepsilon r^2}\,.
     \end{gather}
@@ -99,7 +186,7 @@
 
     Consider the Hamiltonian of two interacting atoms:
     \begin{gather}
-        \widehat{H} = \frac{\widehat{P}_1^2}{2M_1} + \frac{\widehat{P}_2^2}{2M_2} + \frac{q_1q_2}{4\pi\varepsilon R^2} + \sum_i\frac{\widehat{p}_i^2}{2m} - \frac{eq_1}{4\pi\varepsilon r_{i1}^2} - \frac{eq_2}{4\pi\varepsilon r_{i2}^2} + \sum_{i\neq j}\frac{e^2}{4\pi\varepsilon r_{ij}^2}\,,
+        \widehat{H} = \frac{\widehat{P}_1^2}{2M_1} + \frac{\widehat{P}_2^2}{2M_2} + \frac{\widehat{q}_1\widehat{q}_2}{4\pi\varepsilon R^2} + \sum_i\frac{\widehat{p}_i^2}{2m} - \frac{e\widehat{q}_1}{4\pi\varepsilon r_{i1}^2} - \frac{e\widehat{q}_2}{4\pi\varepsilon r_{i2}^2} + \sum_{i\neq j}\frac{e^2}{4\pi\varepsilon r_{ij}^2}\,,
     \end{gather}
     where the indices $i,j$ indicate the electrons and uppercase symbols denote operators associated to the nuclei.
 
@@ -115,56 +202,6 @@
         \end{aligned}
     \end{gather}
     This is the so-called \textbf{Born--Oppenheimer approximation}. From a more modern physical perspective, this approximation can also be seen to be a specific instance of renormalization theory, where the short time-scale (or, equivalently, the high energy-scale) degrees of freedom are integrated out of the theory.\index{Born--Oppenheimer approximation}
-
-\section{Heisenberg picture}
-
-    This is the right place to reflect on what the wave function is and how it relates to the state of a system. At every point in space it gives the probability of observing a particle (or whatever object is being studied). But what if one wants to express this information in terms of momenta instead of positions? The information about the state should not depend on the chosen `representation'. To this end, a state vector $\ket{\psi}$ that represents the state of the system as an abstract vector in some Hilbert space is introduced.
-    \begin{notation}[Dirac notation]\index{bra-ket notation}\index{Dirac!notation}
-        This notation is often called the \textbf{braket notation}. State vectors $\ket{\psi}$ are called \textbf{ket}'s and their duals $\bra{\psi}$ are called \textbf{bra}'s. The inner product of a state $\ket{\phi}$ and a state $\ket{\psi}$ is denoted by $\braket{\phi}{\psi}$.
-    \end{notation}
-    But then, how does one recover the position (configuration) representation $\psi(x)$? This is simply the projection of the state vector $\ket{\psi}$ on the `basis function' $\delta(x)$, i.e.~$\psi(x)$ represents an expansion coefficient in terms of a `basis' for the physical Hilbert space. In the same way, one can obtain the momentum representation $\psi(p)$ by projecting onto the plane waves $e^{ipx}$.
-
-    \begin{remark}\index{Hilbert!rigged Hilbert space}
-        It should be noted that neither the `basis states' $\delta(x)$, nor the plane waves $e^{ipx}$ are square-integrable and, hence, they are not elements of the Hilbert space $L^2(\mathbb{R},\mathbb{C})$. In the next chapter, this issue will be resolved through the concept of \textit{rigged Hilbert spaces}.
-    \end{remark}
-
-    \begin{formula}[Matrix representation]
-        The following formula gives the matrix representation of an operator $\widehat{A}$ with respect to the orthonormal basis $\{\ket{\psi_i}\}_{i\leq n}$ cf.~\cref{linalgebra:matrix_representation}:
-        \begin{gather}
-            \label{wavematrix:matrix_entry}
-            A_{ij} := \langle\psi_i|\widehat{A}|\psi_j\rangle\,.
-        \end{gather}
-    \end{formula}
-    \begin{remark}
-         The basis $\bigl\{\ket{\psi_i}\bigr\}_{i\leq n}$ need not consist out of eigenfunctions of $\widehat{A}$.
-    \end{remark}
-
-    \todo{COMPLETE}
-
-\section{Uncertainty principle}
-
-    \newdef{Compatible observables}{\index{observable!compatibility}
-        Two observables are said to be compatible if they share a complete set of eigenvectors.
-    }
-
-    \newdef{Expectation value}{
-        The expectation value of an operator $\widehat{A}$ in a state $\ket{\psi}$ is defined as
-        \begin{gather}
-            \langle\widehat{A}\rangle_\psi := \langle\psi|\widehat{A}|\psi\rangle\,.
-        \end{gather}
-        The subscript $\psi$ is often left implicit. As in ordinary statistics \eqref{statistics:variance_without_sum}, the uncertainty or variance is defined as follows:
-        \begin{gather}
-            \Delta A := \langle\widehat{A}^2\rangle - \langle\widehat{A}\rangle^2\,.
-        \end{gather}
-    }
-
-    \newformula{Uncertainty relation}{\index{Heisenberg!uncertainty relation}\index{Robertson|see{Heisenberg uncertainty relation}}
-        Let $\widehat{A},\widehat{B}$ be two operator and let $\Delta A,\Delta B$ be the corresponding uncertainties. The (\textbf{Robertson}) uncertainty relation reads as follows:
-        \begin{gather}
-            \label{wavematrix:uncertainty_relation}
-            \Delta A\Delta B\geq\frac{1}{4}\left|\left\langle\left[\widehat{A},\widehat{B}\right]\right\rangle\right|^2\,.
-        \end{gather}
-    }
 
 \section{Angular Momentum}
 \subsection{Angular momentum operator}
@@ -322,6 +359,10 @@
     \end{axiom}
 
 \subsection{Observables}
+
+    \newdef{Compatible observables}{\index{observable!compatibility}
+        Two observables are said to be compatible if they share a complete set of eigenvectors.
+    }
 
     \begin{formula}\index{eigenfunction!expansion}
         Let $\ket{\Psi}$ be a state vector representing a given system and let $\{\ket{\psi_i}\}_{i\in I}$ be a complete set of eigenvectors of some observable of the system. The state vector $\ket{\Psi}$ can be expressed as a linear combination of the eigenfunctions:

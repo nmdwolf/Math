@@ -1,6 +1,6 @@
 \chapter{Finance}
 
-    The content of \crefrange{chapter:measure}{chapter:stochastic_calculus} is essential for this chapter.
+    The content of \crefrange{chapter:measure}{chapter:stochastic_calculus} is essential for this chapter. References for this chapter are~\citet{elliott_mathematics_2005,jeanblanc_mathematical_2009}
 
     \minitoc
 
@@ -13,15 +13,16 @@
     \newdef{Bond}{\index{bond}\index{face!value}
         A security for which the issuer (debtor) owes the holder (creditor) a debt and has to provide a cash flow to the holder/creditor.
 
-        When the interest rate is set at 0, i.e.~only the \textbf{face value} is repaid at time of maturity, the bond is called a \textbf{zero-coupon bond} (or \textbf{discount bond}).
+        When the average interest rate is set at 0, i.e.~only the \textbf{face value} is repaid at time of maturity, the bond is called a \textbf{zero-coupon bond} (or \textbf{discount bond}).
     }
 
-    \newdef{Discounting}{\index{discounting}
-        Consider an initial asset price $S_0$ and let $r:\mathbb{R}^+\rightarrow\mathbb{R}$ denote the (deterministic) continuous-time interest rate of the asset. The associated discounted asset price $S:\mathbb{R}^+\rightarrow\mathbb{R}$ is defined by
+    \newdef{Discounting}{\index{discounting}\index{risk!free}\label{finance:discounting}
+        Consider an initial asset price $S_0$ and let $r:\mathbb{R}^+\rightarrow\mathbb{R}$ denote the (deterministic) continuous-time interest rate of the asset. The associated asset price $S:\mathbb{R}^+\rightarrow\mathbb{R}$ is given by
         \begin{gather}
+            \label{finance:riskless_asset}
             S(t) := S_0\exp\left(\Int_0^tr(s)\,ds\right)\,.
         \end{gather}
-        For discrete discounting, e.g.~annual interest rates, the correct formula is
+        For discrete accruals, e.g.~annual interest rates, the correct formula is
         \begin{gather}
             S_n = S_0\prod_{i=1}^n(1+r_i)\,.
         \end{gather}
@@ -29,16 +30,17 @@
         \begin{gather}
             S_n = S_0\frac{1}{(1+r)^n}\,.
         \end{gather}
-        In case $r$ is nondeterministic, i.e.~modelled by a stochastic process, the correct notion is the \textbf{discounted return process} $\rseq{S}$ given by
+        In case $r$ is nondeterministic, i.e.~modelled by a stochastic process, the correct formula is given by
         \begin{gather}
             S_t = S_0\mathcal{E}(r)_t\,,
         \end{gather}
         where $\mathcal{E}$ is the Dol\'eans-Dade exponential \cref{stoch:stochastic_exponential}.
 
-        The factor $\mathcal{E}(r)_t$ is often denoted by $B_t$, while its (multiplicative) inverse is denoted by $D_t:=B_t^{-1}$. The reason for this terminology is that $D_t$ is a \textbf{discount factor} and $B_t$ represents the value of a bond with initial value 1.
+        The factor $\mathcal{E}(r)_t$ is often denoted by $B_t$, while its (multiplicative) inverse is denoted by $D_t:=B_t^{-1}$. The reason for this terminology is that $D_t$ is a \textbf{discount factor} and $B_t$ represents the value of a bond with initial value 1. Assets satisfying \cref{finance:riskless_asset}, i.e.~whose interest rate is deterministic, are also said to be \textbf{risk free} or \textbf{riskless}.
     }
+
     \newdef{Payoff}{\index{payoff}
-        Consider an asset with initial price $P_0$ and interest rate process $\rseq{r}$. The payoff at time $t\in\mathbb{R}^+$, i.e.~the market value at time $T$, is given by
+        Consider an asset with initial price $P_0$ and interest rate process $\rseq{r}$. The payoff at time $t\in\mathbb{R}^+$, i.e.~the market value at time $t$, is given by
         \begin{gather}
             P_t = P_0D_t^{-1}\,.
         \end{gather}
@@ -47,12 +49,31 @@
             P_n = P_0(1+r)^n\,.
         \end{gather}
     }
+    \begin{result}[Zero-coupon bond]
+        Consider a zero-coupon bond with deterministic interest rate $\rseq{r}$ of maturity $T\in\mathbb{R}_+$. Its price at time $t\leq T$ is given by
+        \begin{gather}
+            P(t,T) = \exp\left(-\Intt{t}{T}r(s)\,ds\right)\,.
+        \end{gather}
+    \end{result}
 
     \newdef{At par}{\index{par}
         A coupon bond is said to be at par if its face value is equal to its initial price. This happens whenever the coupon rate is equal to the interest rate (when expressed in terms of the coupon frequency).
     }
 
-\section{Derivatives}
+\section{Instruments and derivatives}
+
+    \newdef{Contingent claim}{\index{claim}\index{Arrow--Debreu!asset}
+        A contingent claim (with time of maturity $T\in\mathbb{R}^+$) on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is an $\mathbb{F}_T$-measurable function. (Often, this function is also required to be square integrable.)
+        
+        \finance{A contingent claim, with maturity $T\in\mathbb{R}^+$, corresponds to a contract where the seller promises a random payoff at time $T$.}
+    }
+    \begin{remark}[European claims]\index{European}
+        European claims only depend on the asset value at maturity $T$, i.e.
+        \begin{gather}
+            X = f(S_T)
+        \end{gather}
+        for some measurable $f:\mathbb{R}^m\rightarrow\mathbb{R}^n$.
+    \end{remark}
 
     \newdef{Forward}{\index{forward}
         A forward with forward price $K\in\mathbb{R}$ for an asset $\rseq{S}$ at maturity $T\in\mathbb{R}^+$ has payoff
@@ -76,7 +97,7 @@
         \end{itemize}
         Options are very similar to \textit{futures} and forwards\footnote{The main difference between futures and forwards is that the latter are less regulated, they are \textbf{over-the-counter} (OTC) contracts.}, although the latter two oblige the holder to perform the specified transaction.
 
-        There are various families of options, depending on the specific ways the payoff is calculated. The main families are the \textbf{European} and \textbf{American options}. The former can only be exercised at expiration date, while the latter can be exercised at any moment before the expiration date.
+        There are various families of options, depending on the specific ways the payoff is calculated. The main families are the \textbf{European} and \textbf{American options}. The former, as remarked above, can only be exercised at expiration date, while the latter can be exercised at any moment before the expiration date.
 
         Using \cref{finance:forward}, the payoff for a (European) call option is
         \begin{gather}
@@ -85,13 +106,14 @@
                 S_T - K&\cif S_T\geq K\,,\\
                 0&\text{otherwise}\,.
             \end{cases}
+            = \max(S_T-K,0)\,.
         \end{gather}
     }
     \begin{remark}[Spots]\index{spot}
         When the settlement date (also called the \textbf{spot date}) of a trade is immediate, i.e.~usually two days after the trade, the contract is called a \textbf{spot} (contract).
     \end{remark}
 
-    \newdef{Hedge}{\index{hedge}
+    \newdef{Hedge}{\index{hedge}\label{finance:hedge}
         An investment position that tries to minimize potential losses. An example would be where an asset is acquired for the value $x\in\mathbb{R}^+$. If the value would go down, this would result in a loss. However, if at the same time, the investor also buys a put option for the assets, this loss can be offset.
     }
 
@@ -100,60 +122,48 @@
 
     The predictable processes (\cref{stoch:predictable_process}) represent the trade strategies, i.e.~the amount of assets a trader has at a point $t\in\mathbb{R}^+$ in time, and the semimartingales (\cref{stoch:semimartingale}) represent asset prices (a combination of these two gives a \textbf{portfolio}). The value (or \textbf{wealth}) of a portfolio is given by the stochastic integral (\cref{section:stochastic_integral}):\index{portfolio}
     \begin{gather}
-        \mathrm{Val}_t(H;S) := H\cdot S_t = \Int_0^tH_t\,dS_t\,.
+        \mathrm{Val}_t(\pi;S) := \pi\cdot S_t = \Intt{0}{t}\pi_s\,dS_s\,.
     \end{gather}
+    An investor is said to be \textbf{short} if $\pi^i_t<0$ for some $i\leq d$ and $t\in\mathbb{R}_+$.
 
     \newdef{Self-financing portfolio}{\index{self-financing}
-        A $d$-dimensional portfolio $(S,H)$ is said to be self-financing if the total wealth
+        A $d$-dimensional portfolio $(S,\pi)$ is said to be self-financing if the total wealth
         \begin{gather}
-            V_t := \sum_{i=1}^d H_t^iS_t^i
+            \mathrm{Val}_t(\pi;S) := \sum_{i=1}^d\pi_t^iS_t^i
         \end{gather}
-        satisfies the following condition:
+        satisfies the following condition
         \begin{gather}
-            V_t = V_0 + \sum_{i=1}^dH^i\cdot S_t^i\,.
+            \mathrm{Val}_t(\pi;S) = V_0 + \sum_{i=1}^d\pi^i\cdot S_t^i
         \end{gather}
-        Essentially, this means that both ways of writing the dot product $H\cdot S$, one being the inner product and the other being the stochastic integral, coincide. Practically, this means that the value is completely driven by price fluctuations and that no external funding or withdrawal is allowed.
+        or, in differential form,
+        \begin{gather}
+            \dr\mathrm{Val}_t(\pi;S) = \sum_{i=1}^d\pi^i_t\dr S^i_t\,.
+        \end{gather}
+        Essentially, this means that both ways of writing the dot product $\pi\cdot S$, one being the inner product and the other being the stochastic integral, coincide. Practically, this means that the value is completely driven by price fluctuations and that no external funding or withdrawal is allowed.
     }
     \begin{formula}
         For discrete-time portfolios, the self-financing condition can also be rewritten as follows:
         \begin{gather}
-            \sum_{i=1}^dH_t^iS_t^i = \sum_{i=1}^dH_{t-1}^iS_t^i
+            \sum_{i=1}^d\pi_t^iS_t^i = \sum_{i=1}^d\pi_{t-1}^iS_t^i
         \end{gather}
         for all $t\in\mathbb{N}_0$.
     \end{formula}
+    \begin{property}[Self-financing discount process]
+        If $(S,\pi)$ is self-financing, so is the discounted portfolio $(D^0S,\pi)$. Note that discounting happens with respect to the first asset in $S$, which is assumed to be the `riskless' asset, i.e.~have a nonnegative, deterministic interest rate.
+
+        Conversely, if
+        \begin{gather}
+            \dr\mathrm{Val}_t(\pi;S) = r_t\mathrm{Val}_t(\pi;S)\dr t + \pi_t(\dr S_t - r_tS_t\dr t)
+        \end{gather}
+        with $\mathrm{Val}_0(\pi;S)=\lambda$ for some $\lambda\in\mathbb{R}^+$, then $\bigl((1,S),(\mathrm{Val}(\pi;S)-\pi S,\pi)\bigr)$ is a self-financing portfolio.
+    \end{property}
 
     \newdef{Replicating portfolio}{\index{replicating}\index{Greek}
         Two types of replication exist:
         \begin{itemize}
-            \item A portfolio $(H,S)$ is said to be statically replicating for a set of assets $T$ when it has the same properties (e.g.~cash flow).
-            \item A portfolio $(H,S)$ is said to be dynamically replicating for a set of assets $T$ when it has the same increments (`Greeks').
+            \item A portfolio $(\pi,S)$ is said to be statically replicating for a set of assets $T$ when it has the same properties (e.g.~cash flow).
+            \item A portfolio $(\pi,S)$ is said to be dynamically replicating for a set of assets $T$ when it has the same increments (`Greeks').
         \end{itemize}
-    }
-
-    \newdef{Contingent claim}{\index{claim}\index{Arrow--Debreu!asset}
-        A contingent claim (with time of maturity $T\in\mathbb{R}^+$) on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is an $\mathbb{F}_T$-measurable function.
-        
-        \finance{A contingent claim, with maturity $T$, corresponds to a contract where the seller promises a random payoff at time $T$.}
-    }
-    \begin{remark}[European claims]
-        European claims, such as European options, only depend on the asset value at maturity $T$, i.e.
-        \begin{gather}
-            X = f(S_T)
-        \end{gather}
-        for some measurable $f:\mathbb{R}^m\rightarrow\mathbb{R}^n$.
-    \end{remark}
-
-    \newdef{Perfect market}{\index{market!perfect}
-        A market is said to be perfect if it satisfies the following two conditions:
-        \begin{enumerate}
-            \item\textbf{Frictionless}: Transactions and costs are negligible and and information is perfect.
-            \item\textbf{Liquidity}: Every asset has a price.
-        \end{enumerate}
-    }
-    \newdef{Completeness}{\index{complete!market}\index{!Arrow--Debreu!market}
-        A market is said to be \textbf{complete} (or called an \textbf{Arrow--Debreu market}) if every (European) contingent claim admits a replicating self-financing portfolio. On a finite state space $\Omega$, this corresponds to there being $|\Omega|$ linearly independent assets.
-
-        Equivalently, a finite-state market is complete if an \textbf{Arrow--Debreu asset} exists for every state, i.e.~an asset that pays of one unit of wealth for a given state and zero for all others.
     }
 
     \newdef{Num\'eraire}{\index{num\'eraire}\index{price}
@@ -163,71 +173,49 @@
         \end{gather}
     }
 
-    \newdef{Forward measure}{\index{measure!forward}
-        Consider a n\'umeraire $\rseq{\rho}$. The associated discount factor is
-        \begin{gather}
-            D_t := \exp\left(-\Int_0^t\rho_s\,ds\right)\,.
-        \end{gather}
-        If $\mu_*$ is the risk-free measure, the $T$-forward measure $\mu_T$, with $T\in\mathbb{R}^+$, is defined through the following Radon--Nikodym derivative:
-        \begin{gather}
-            \deriv{\mu_T}{\mu_*} = \frac{D_T}{\mathrm{E}_{\mu_*}\left[D_T\right]}\,.
-        \end{gather}
-        If $\rseq{\rho}$ is deterministic, this implies that the forward measure is simply the risk-free measure.
+    \newdef{Equivalent martingale measure}{\index{measure!equivalent martingale}\index{risk}\index{measure!risk-neutral}
+        Consider an asset $\rseq{S}$ and a num\'eraire $\rseq{\rho}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$. An equivalent martingale measure (EMM) for $(S,\rho)$ is an equivalent measure $Q\sim P$ such that $\rseq{S^\rho}$ is an $(\mathbb{F},Q)$-(local) martingale.
+
+        In case where $\rho_t=D_t$ is the discount process of some bond, the EMM is often called the \textbf{risk-neutral measure}. This measure turns the discounted process $\{D_tS_t\}_{t\in T}$ into a martingale.
     }
-
-    \newdef{Equivalent martingale measure}{\index{measure!equivalent martingale}
-        Consider an asset $\rseq{S}$ and a num\'eraire $\rseq{\rho}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$. An equivalent martingale measure for $(S,\rho)$ is an equivalent measure $Q\sim P$ such that $\rseq{S^\rho}$ is a $Q$-martingale.
-    }
-
-\subsection{Arbitrage}
-
-    \newdef{Arbitrage}{\index{arbitrage}
-        An arbitrage opportunity is the possibility of taking advantage of the difference in price on two markets, thereby obtaining a profit (without the need of having initial assets).
-        
-        In the language of \cref{chapter:stochastic_calculus}, this can be rephrased as follows. Consider a semimartingale $\rseq{S}$ representing the asset prices. An arbitrage is an admissible strategy $\rseq{H}$ (\cref{stoch:admissible_process}) with $H_0=0$ a.s.~such that
-        \begin{gather}
-            H\cdot S_t\geq0\text{ a.s.}\qquad\text{and}\qquad\Prob\left(H\cdot S_t>0\right)>0\,.
-        \end{gather}
-    }
-    \begin{remark}[Admissibility]\index{credit}
-        The condition of admissibility excludes certain strategies where excessive risk is taken. Examples would be \textit{doubling strategies} (\textit{martingale strategies}). Since these lead to unbounded portfolios, admissibility excludes them. The parameter $\lambda\in\mathbb{R}^+$ in the definition of admissible processes can be interpreted as a `credit line'.
-    \end{remark}
-
-    No-arbitrage arguments are very common in (mathematical) finance. However, for the purpose of many theorems, the preceding definition is slightly too weak.
-    \newdef{No free lunch}{\index{no free lunch}
-        Consider an \'Emery-closed convex set $\mathcal{X}$ of semimartingales that start at 0 and are bounded from below. The most common choice here would be the set of stochastic integrals $\rseq{H\cdot S}$ for some semimartingale $\rseq{S}$, where $H$ ranges over the admissible strategies. $\mathcal{X}$ is called the set of `admissible portfolios'. Denote the set of evaluations of $\mathcal{X}$ at the final time ($T=1$ by convention) by $K$. Assume, moreover, that if the `concatenation property'
-        \begin{gather}
-            Z_t := H\cdot S_t+G\cdot T_t \geq -1
-        \end{gather}
-        is satisfied for all nonnegative, bounded predictable strategies with $(GH)_t=0$, then $\rseq{Z}\in\mathcal{X}$.
-
-        The \textbf{No Arbitrage} (NA) criterium can be restated as saying that $K\cap L_{\geq0}^0(\Omega,P)=\{0\}$ or, if $C$ denotes the linear difference $\bigl(K\ominus L^0_{\geq0}(\Omega,P)\bigr)\cap L^\infty(\Omega,P)$, that $C\cap L^\infty_{\geq0}(\Omega,P)=\{0\}$. More generally, the set $\mathcal{X}$ is said to admit \textbf{No Free Lunch} (NFL) if $\overline{C}\vphantom{C}^*\cap L_{\geq0}^\infty(\Omega,P)$, where $\overline{C}\vphantom{C}^*$ denotes the closure in the weak-$\ast$ topology (\cref{functional:weak_star_topology}). If this condition holds by passing to the norm closure (where convergence is determined by sequence instead of nets), the set $\mathcal{X}$ is said to admit \textbf{No Free Lunch with Vanishing Risk} (NFLVR).
-
-        Another notion is that of \textbf{No Unbounded Profit with Bounded Risk} (NUPBR), which says that $K^1$ is bounded in $L^0(\Omega,P)$, where $K^1$ is the subset of final asset prices that are generated by portfolios bounded from below by $-1$.
-    }
-    \begin{property}
-        NFLVR is equivalent to NA and NUPBR combined.
-    \end{property}
-
-    \begin{theorem}[Put-call parity]\index{parity!put-call}
-        Consider (European) put and call options on some underlying asset with costs $P\in\mathbb{R}$ and $C\in\mathbb{R}$, respectively. If $S_0\in\mathbb{R}$ is the initial asset price, interest is compounded discretely and the strike price $K\in\mathbb{R}$ and maturity time $T\in\mathbb{N}$ are the same, the no arbitrage condition implies that
-        \begin{gather}
-            P+S_0 = C + K(1+r)^{-T}\,.
-        \end{gather}
-    \end{theorem}
-
-
-    \begin{definition}
-        A set of admissible portfolios $\mathcal{X}$ on a probability space $(\Omega,\Sigma,P)$ is said to satisfy the \textbf{equivalent separating measure} (ESM) property when there exists an equivalent measure $Q\sim P$ such that
+    \newdef{Equivalent separating measure}{\index{measure!equivalent separating}
+        A set of admissible portfolios $\mathcal{X}$ (\cref{stoch:admissible_process}) on a probability space $(\Omega,\Sigma,P)$ is said to satisfy the equivalent separating measure (ESM) property when there exists an equivalent measure $Q\sim P$ such that
         \begin{gather}
             \mathrm{E}_Q[S_1]\leq 0
         \end{gather}
         for all $S\in\mathcal{X}$.
-    \end{definition}
-
-    \newdef{Risk-neutral measure}{\index{risk}
-        Consider an asset with price $\tseq{S}$ on a probability space $(\Omega,\Sigma,P)$ and assume that an investor has access to a bond with interest rate $R:T\rightarrow\mathbb{R}^+$. A risk-neutral measure for the given stock is a measure $\widetilde{P}$ that is equivalent to $P$ and such that the discounted process $\{D_tS_t\}_{t\in T}$ is a martingale relative to $\widetilde{P}$
     }
+
+    \begin{property}[Change of num\'eraire]
+        Consider two num\'eraires $\rseq{N},\rseq{N'}$ and assume that they admit corresponding risk-neutral measures $P,Q$.
+        \begin{gather}
+            \left.\deriv{Q}{P}\right|_t = \frac{N_0}{N_t}\frac{N'_t}{N'_0}\,.
+        \end{gather}
+    \end{property}
+
+    \begin{example}[Spot measure]\index{spot!measure}
+        Consider the discounting factor in \cref{finance:discounting}. The \textbf{banking account num\'eraire} is given by accruing interests with a starting value of 1:
+        \begin{gather}
+            N_t = \exp\left(\Intt{0}{t}\rho(s)\,ds\right)\,.
+        \end{gather}
+        The associated EMM is called the spot measure.
+    \end{example}
+    \begin{example}[Forward measure]
+        Consider a zero-coupon bond with maturity $T\in\mathbb{R}_+$ and a risk-neutral measure $\mu_*$. The price of the bond at time $t\leq T$ is given by
+        \begin{gather}
+            N_t = \expect{\exp\left(-\Intt{t}{T}\rho_s\,ds\right)\,\middle\vert\,\mathbb{F}_t} = P(t,T)\,.
+        \end{gather}
+        The associated EMM, after a change of num\'eraire, is called the $T$-forward measure:
+        \begin{gather}
+            \deriv{Q_T}{P} = \frac{D_T}{\mathrm{E}_{\mu_*}\left[D_T\right]}\,.
+        \end{gather}
+        If the interest rate $\rseq{\rho}$ is deterministic, this implies that the forward measure is simply the risk-free measure.
+
+        Now, also consider some stopping tim $\tau$. The risky bond measure is obtained by taking the num\'eraire of the forward measure, but instead of taking the conditional expectation with respect to the given filtration, the expectation is taken with respect to the indicator function $\mathbbm{1}_{\tau>T}$:
+        \begin{gather}
+            \mathcal{N}_t = \expect{\exp\left(-\Intt{t}{T}\rho_s\,ds\right)\,\middle\vert\,\mathbbm{1}_{\tau>T}} = \mathcal{P}(t,T)\,.
+        \end{gather}
+    \end{example}
     \begin{example}\index{Sharpe ratio}\index{price}
         Assume that the stock price $\tseq{S}$ is a generalized Brownian motion:
         \begin{gather}
@@ -241,26 +229,149 @@
         \begin{gather}
             \theta(t) := \frac{\alpha(t) - R(t)}{\sigma(t)}
         \end{gather}
-        is called the \textbf{market price of risk} or \textbf{Sharpe ratio}. By Girsanov's theorem~\ref{measure:girsanov}, a risk-neutral measure for this process is given by
+        is called the \textbf{market price of risk} or \textbf{Sharpe ratio}. By Girsanov's theorem~\ref{stoch:girsanov}, an EMM for this process is given by
         \begin{gather}
-            \deriv{\widetilde{P}}{P} = \exp\left(-\Int_0^t\theta(s)\,dW_s - \frac{1}{2}\Int_0^t\theta^2(s)\,ds\right)\,.
+            \deriv{Q}{P} = \exp\left(-\Int_0^t\theta(s)\,dW_s - \frac{1}{2}\Int_0^t\theta^2(s)\,ds\right)\,.
         \end{gather}
     \end{example}
 
-    \begin{theorem}[Fundamental theorem of asset pricing for discrete markets]\index{fundamental theorem!of asset pricing}
-        The following two statements relate equivalent measures and no-arbitrage criteria.
+    \newdef{Superhedge}{\index{hedge}\label{stoch:superhedge}
+        Recall \cref{finance:hedge}. A superhedge or $(x,H)$-hedge of a European claim $H$ is an admissible strategy $\rseq{\pi}$ such that, at maturity $T\in\mathbb{R}^+$,
+        \begin{gather}
+            \mathrm{Val}_T(\pi)\geq H
+        \end{gather}
+        with initial value
+        \begin{gather}
+            \mathrm{Val}_0(\pi) = x\,.
+        \end{gather}
+        A hedge for which $x=\mathrm{price}(H)$ is called a minimal hedge.
+    }
+
+\subsection{Arbitrage}
+
+    An \textit{arbitrage (opportunity)}, to be formally defined below, is the possibility of taking advantage of the difference in price on two markets, thereby obtaining a profit (without the need of having initial assets). To exclude arbitrage opportunities, it will be necessary to put constraints on the allowed portfolios. Consider for example a constant $\omega\in\mathbb{R}^+$. By Dudley's theorem~\ref{stoch:dudleys_theorem}, there exists a process $\rseq{\phi}$ such that
+    \begin{gather}
+        \omega = \Intt{0}{+\infty}\phi_s\,dW_s
+    \end{gather}
+    for a standard Brownian motion $\rseq{W}$. However, this integral exactly represents the final value of the portfolio $(W,\phi)$ and, hence, an arbitrage opportunity is obtained. Examples like these are called \textit{doubling strategies} (or \textit{martingale strategies}). Since these lead to unbounded portfolios, an admissibility criterion is needed to exclude them. The parameter $\lambda\in\mathbb{R}^+$ in the definition of admissible processes (\cref{stoch:admissible_process}) can be interpreted as a `credit line'.\index{credit}
+
+    \newdef{Arbitrage}{\index{arbitrage}
+        In the language of \cref{chapter:stochastic_calculus}, an arbitrage (opportunity) can be characterized as follows. Consider a semimartingale $\rseq{S}$ representing the asset prices. An arbitrage is an admissible strategy $\rseq{H}$ with $H_0=0$ a.s.~such that
+        \begin{gather}
+            H\cdot S_t\geq0\text{ a.s.}\qquad\text{and}\qquad\Prob\left(H\cdot S_t>0\right)>0\,.
+        \end{gather}
+    }
+
+    \newdef{Viability}{\index{market!viable}
+        A market in which no arbitrage opportunities arise is said to be \textbf{viable}.
+    }
+
+    \begin{remark}[Admissibility]
+        One could wonder whether the requirement of being admissible is necessary. When relaxing this requirement and only asking the final payoff value $H\cdot S_T$ to be nonnegative, one obtains so-called \textbf{weak arbitrage opportunities}. It can be shown that every weak arbitrage can be modified to give an admissible strategy and, hence, an arbitrage. Restricting to admissible strategies is, accordingly, sufficient. However, if one would consider strategies with negative starting values, an additional condition to rule out arbitrage opportunities is necessary.
+    \end{remark}
+
+    No-arbitrage arguments are very common in (mathematical) finance. However, for the purpose of many theorems, the preceding definition is slightly too weak.
+    \newdef{No free lunch}{\index{no free lunch}
+        Consider an \'Emery-closed convex set $\mathcal{X}$ of semimartingales that start at 0 and are bounded from below. The most common choice here, would be the set of stochastic integrals $\rseq{H\cdot S}$ for some semimartingale $\rseq{S}$, where $H$ ranges over the admissible strategies. $\mathcal{X}$ is called the set of `admissible portfolios'. Denote the set of evaluations of $\mathcal{X}$ at the final time ($T=1$ by convention) by $\mathcal{K}$. Assume, moreover, that, if the `concatenation property'
+        \begin{gather}
+            Z_t := H\cdot S_t+G\cdot T_t \geq -1
+        \end{gather}
+        is satisfied for all nonnegative, bounded predictable strategies with $(GH)_t=0$, then $\rseq{Z}\in\mathcal{X}$.
+
+        The \textbf{No Arbitrage} (NA) criterium can be restated as saying that $\mathcal{K}\cap L_{\geq0}^0(\Omega,P)=\{0\}$ or, if $\mathcal{C}$ denotes the linear difference $\bigl(\mathcal{K}\ominus L^0_{\geq0}(\Omega,P)\bigr)\cap L^\infty(\Omega,P)$, that
+        \begin{gather}
+            \mathcal{C}\cap L^\infty_{\geq0}(\Omega,P)=\{0\}\,.
+        \end{gather}
+        More generally, the set $\mathcal{X}$ is said to admit \textbf{No Free Lunch} (NFL) if
+        \begin{gather}
+            \overline{\mathcal{C}}\vphantom{\mathcal{C}}^*\cap L_{\geq0}^\infty(\Omega,P)\,,
+        \end{gather}
+        where $\overline{\mathcal{C}}\vphantom{\mathcal{C}}^*$ denotes the closure in the weak-$\ast$ topology (\cref{functional:weak_star_topology}). If this condition holds by passing to the norm closure (where convergence is determined by sequence instead of nets), hence in $L^\infty$, the set $\mathcal{X}$ is said to admit \textbf{No Free Lunch with Vanishing Risk} (NFLVR).
+
+        Another notion is that of \textbf{No Unbounded Profit with Bounded Risk} (NUPBR), which says that $\mathcal{K}^1$ is bounded in $L^0(\Omega,P)$, where $\mathcal{K}^1$ is the subset of final asset prices that are generated by portfolios bounded from below by $-1$.
+    }
+    \begin{property}
+        NFLVR is equivalent to NA and NUPBR combined.
+    \end{property}
+
+\subsection{Completeness}
+
+    \newdef{Completeness}{\index{complete!market}\index{!Arrow--Debreu!market}\index{hedging}
+        A market is said to be \textbf{complete} (or called an \textbf{Arrow--Debreu market}) if every (European) contingent claim admits a replicating self-financing portfolio (also called a \textbf{hedging strategy}). The hedging assets are $\bigl(S,(\mathrm{Val}_t(\pi;S)-\pi_tS_t,\pi)\bigr)$.
+        
+        On a finite state space $\Omega$, this corresponds to there being $|\Omega|$ linearly independent assets. These can be, for example, \textbf{Arrow--Debreu assets}\footnote{Also called \textbf{primitive} or \textbf{pure securities}}, i.e.~assets that pays of one unit of wealth for a given state and zero for all others.
+    }
+
+    \begin{theorem}[Fundamental theorems of asset pricing: Discrete markets]\index{fundamental theorem!of asset pricing}
+        The following two statements relate EMMs and no-arbitrage criteria.
         \begin{enumerate}
-            \item A discrete market on a discrete probability space ($\Omega,\Sigma,P)$ is arbitrage free if and only if there exists a risk-neutral measure that is equivalent to $P$.
-            \item An arbitrage-free market on a xdiscrete probability space ($\Omega,\Sigma,P)$ with stocks $S$ and a risk-free bond $B$ is complete if and only if there exists a unique risk-neutral measure with numeraire $B$ that is equivalent to $P$.
+            \item A discrete market on a discrete probability space ($\Omega,\Sigma,P)$ is arbitrage free if and only if there exists a risk-neutral measure $Q$. Moreover, $Q$ can be taken to have a bounded Radon--Nikodym derivative with respect to $P$.
+            \item A market on a discrete probability space is complete and, in particular, arbitrage free if and only if there exists a unique risk-neutral measure.
         \end{enumerate}
     \end{theorem}
 
-    \begin{theorem}[Fundamental theorem of asset pricing]\index{fundamental theorem!of asset pricing}
-        \todo{COMPLETE}
+    \begin{theorem}[Fundamental theorems of asset pricing: Continuous markets]\index{fundamental theorem!of asset pricing}
+        The following two statements relate EMMs and no-arbitrage criteria. Consider a market consisting of asset prices $\rseq{S}$.
+        \begin{enumerate}
+            \item Let $S$ be a locally bounded semimartingale. There exists a risk-neutral measure if and only if $\mathcal{X}=\{S\}$ satisfies NFLVR. Moreover, if $S$ is adapted and \cdlg and satisfies NFLVR, then it is a semimartingale.
+            \item A market is complete and, in particular, arbitrage free if and only if there exists a unique risk-neutral measure.
+        \end{enumerate}
     \end{theorem}
 
+    \begin{property}[Arbitrage pricing\footnotemark]
+        \footnotetext{These formulas hold in any viable market. Completeness is only required to price contingent claims in terms of replicating portfolios.}
+        Let $\rseq{N}$ be a num\'eraire as before and consider an asset price $\rseq{S}$ in a complete and arbitrage free market. If $Q$ is the unique risk-neutral measure with respect to $N$, the (relative) price of $S$ satisfies
+        \begin{gather}
+            S_s^N = \mathrm{E}_Q[S_t^N\mid\mathbb{F}_s]
+        \end{gather}
+        for all $s<t$ and, hence, the relative price process $\rseq{S^N}$ is a $Q$-martingale. In particular, the price of a (bounded) contingent claim $H$ at maturity $t\in\mathbb{R}^+$ is given by:
+        \begin{gather}
+            V_t^H = B_t\mathrm{E}_Q[D_TH\mid\mathbb{F}_t]\,,
+        \end{gather}
+        A market is arbitrage free if and only if this formula holds for all contingent claims.
+    \end{property}
+
+    \begin{result}[Put-call parity]\index{parity!put-call}
+        Consider (European) put and call options on some underlying asset with costs $P\in\mathbb{R}$ and $C\in\mathbb{R}$, respectively. If $S_0\in\mathbb{R}$ is the initial asset price, the interest rate is constant and the strike price $K\in\mathbb{R}$ and maturity time $T\in\mathbb{N}$ of the options are the same, the no-arbitrage condition implies that
+        \begin{gather}
+            P_t+S_t = C_t + K\beta^{-(T-t)}\,,
+        \end{gather}
+        where $\beta\in\mathbb{R}^+$ is the compounding factor (i.e.~$1+r$ for discrete compounding and $e^r$ for continuous compounding).\footnote{This also holds for risk-free interest rates after replacing the factor $\beta^{-(T-t)}$ by a factor $\beta_{t,T}$ that takes into account the changing interest rate.}
+    \end{result}
+    \begin{remark}[Equity and debt]\index{Modigliani--Miller}
+        This result can also be interpreted in terms of firm values, where it is equivalent to the \textit{Modigliani--Miller theorem}.
+    \end{remark}
+
+    \begin{property}[Minimal hedge]
+        In a complete market, the buy and sell prices of European claims coincide and, moreover, the replicating strategy gives a minimal hedge (\cref{stoch:superhedge}).
+    \end{property}
+
+    \begin{remark}[Martingale representation]
+        Recall \cref{stoch:prp}. Comparing this to the definition of complete markets, it can be seen that market completeness implies that the normalized asset prices $\{S^1/S^0,\ldots,S^d/S^0\}$ satisfy the predictable representation property and form a \textit{martingale basis}:
+        \begin{gather}
+            H/S^0_t = H_0 + \sum_{i=1}^d\pi^i\cdot\left(\frac{S^i}{S^0}\right)_t\,.
+        \end{gather}
+    \end{remark}
+
+    \begin{remark}[Adding information]
+        A corollary of \cref{stoch:prp_refinement} is that, if a market $S$ is complete (i.e.~satisfies the PRP) and $\mathbb{F}_t\neq\mathbb{G}_t\cap\mathbb{F}_T$ for some $t\leq T$ or $\mathbb{F}_T=\mathbb{G}_T$, for a refinement $\mathbb{F}\hookrightarrow\mathbb{G}$ and maturity $T\in\mathbb{R}^+$, then there are no equivalent martingale laws for $S$ with respect to $\mathbb{G}$.
+        
+        \finance{Refinement of filtrations corresponds to adding information. By the aforementioned result, this means that, if one adds information without changing the payoff, arbitrage opportunities arise.}
+    \end{remark}
+
+    \newdef{Perfect market}{\index{market!perfect}
+        A market is said to be perfect if it satisfies the following two conditions:
+        \begin{enumerate}
+            \item\textbf{Frictionless}: Transactions and costs are negligible and and information is perfect.
+            \item\textbf{Liquidity}: Every asset has a price and amounts are unbounded.
+            \item 
+        \end{enumerate}
+
+        \todo{COMPLETE (add other conditions (e.g. completeness))}
+    }
+
 \section{Models}
-\subsection{Vasicek model}
+\subsection{Va\u{s}\'i\u{c}ek model}\index{Va\u{s}\'i\u{c}ek model}
 
     The \textit{Merton model} models defaults by comparing the `firm value' to a threshold induced by the probability of default. Assume there are $n\in\mathbb{N}$ obligors and let $PD_i$ denote the probability of default (either modelled or known) for the $i^{\text{th}}$ obligor. The firm value for this obligor is given by
     \begin{gather}
@@ -272,7 +383,7 @@
         \item $\rho$, which models the asset correlation, and
         \item $\varepsilon_i$ is a standard normally distributed \textbf{idiosyncratic factor} (i.i.d.~with respect to the other $\varepsilon_j$), which models the intrinsic contributions of obligor $i$.
     \end{itemize}
-    The relevance of the distinction between systematic and idiosyncratic contributions is that, conditional on $Y$, the firm values of the different obligors are independent. Under the Vasicek model, the probability of default $i$, conditional on the systemic factor $Y=y$, is given by
+    The relevance of the distinction between systematic and idiosyncratic contributions is that, conditional on $Y$, the firm values of the different obligors are independent. Under the Va\u{s}\'i\u{c}ek model, the probability of default $i$, conditional on the systemic factor $Y=y$, is given by
     \begin{gather}
         p_i(y) = \Phi\left(\frac{\Phi^{-1}(PD_i)-\sqrt{\rho}y}{\sqrt{1-\rho}}\right)\,.
     \end{gather}
@@ -298,3 +409,9 @@
         S_t = S_0\exp\left(\sigma W_t + \left(\mu-\frac{\sigma^2}{2}\right)t\right)\,.
     \end{gather}
     Solutions of the SDE, which represents an It\^o process with linear coefficients, are said to follow a \textbf{geometric Brownian motion}.\index{Brownian motion!geometric} 
+
+    \begin{formula}[Black--Scholes--Merton]
+        \begin{gather}
+            \pderiv{f}{t} + rS\pderiv{f}{S} + \frac{1}{2}\sigma^2S^2\mpderiv{2}{f}{S} = rf\,.
+        \end{gather}
+    \end{formula}

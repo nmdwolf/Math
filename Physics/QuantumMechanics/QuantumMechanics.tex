@@ -52,25 +52,13 @@
         \end{gather}
     }
 
-\section{Foundations}
-
-    \begin{axiom}[Born rule]\index{Born!rule}
+    Aside from the time evolution, governed by the Schr\"odinger equation (to be introduced below), `measurements' are governed by the following rule.
+    \begin{axiom}[Born rule]\index{Born!rule}\label{qm:born_rule}
         Let $\mathcal{H}$ be the Hilbert space of a physical system and consider an observable $\widehat{O}$. If $\ket{\psi}$ is a state vector and $\widehat{P}_\phi$ is the projection onto an eigenvector $\ket{\phi}$ of $\widehat{O}$, the probability of observing the state $\ket{\phi}$ is given by:
         \begin{gather}
             \frac{\langle\psi\mid\widehat{P}_\phi\mid\psi\rangle}{\braket{\psi}{\psi}} = \frac{|\braket{\psi}{\phi}|^2}{\braket{\psi}{\psi}}\,.
         \end{gather}
     \end{axiom}
-
-    \begin{theorem}[Ehrenfest]\index{Ehrenfest}\label{qm:ehrenfest}
-        Let $\widehat{H}$ be the Hamiltonian and consider an observable $\widehat{O}$. The expectation value of this operator evolves as follows:
-        \begin{gather}
-            \deriv{\langle\widehat{O}\rangle}{t} = \frac{1}{i\hbar}\bigl\langle[\widehat{O},\widehat{H}]\bigr\rangle + \left\langle\pderiv{\widehat{O}}{t}\right\rangle\,.
-        \end{gather}
-    \end{theorem}
-
-\subsection{Copenhagen interpretation}
-
-    \todo{ADD (many worlds, Copenhagen, dynamical collapse, epistemic)}
 
 \section{Schr\"odinger picture}
 
@@ -90,7 +78,7 @@
     }
 
     The time evolution of a wave function is defined through the following equation.
-    \newformula{Time-dependent Schr\"odinger equation}{\index{Schr\"odinger!equation}\label{qm:TDSE}
+    \begin{axiom}[Time-dependent Schr\"odinger equation]\index{Schr\"odinger!equation}\label{qm:TDSE}
         \begin{gather}
             i\hbar\pderiv{}{t}\psi(x,t) = \widehat{H}\psi(x,t)\,.
         \end{gather}
@@ -99,20 +87,20 @@
         \begin{mdframed}[roundcorner=10pt, linecolor=blue, linewidth=1pt]
             \begin{proof}[Derivation of TISE from TDSE]
                 Starting from the one-dimensional TDSE in position space with a time-independent Hamiltonian, one can perform a separation of variables and assert a solution of the form $\psi(x,t) = X(x)T(t)$. Inserting this in the previous equation gives
-                \begin{gather}
+                \begin{gather*}
                		i\hbar X(x)T'(t) = \left(\widehat{H}X(x)\right)T(t)\,.
-               	\end{gather}
+               	\end{gather*}
                 Dividing both sides by $X(x)T(t)$ and rearranging the terms gives
-                \begin{gather}
+                \begin{gather*}
                		i\hbar\frac{T'(t)}{T(t)} = \frac{\widehat{H}X(x)}{X(x)}\,.
-               	\end{gather}
+               	\end{gather*}
                 Because the left side only depends on $t$ and the right side only depends on $x$, one can conclude that they both have to equal a constant $E\in\mathbb{C}$. This leads to the following system of differential equations:
-                \begin{gather}
+                \begin{gather*}
                     \begin{cases}
                         &i\hbar T'(t) = ET(t)\,,\\
                         &\widehat{H}X(x) = EX(x)\,.
                     \end{cases}
-                \end{gather}
+                \end{gather*}
                 The first equation immediately gives a solution for $T$:
                 \begin{gather}
                     \label{derivations_qm:exponential}
@@ -121,7 +109,7 @@
                 The second equation is exactly the TISE~\ref{qm:TISE}.
             \end{proof}
         \end{mdframed}
-    }
+    \end{axiom}
 
     \begin{example}[Massive particle in a stationary potential]
         \begin{gather}
@@ -170,6 +158,18 @@
         \end{gather}
     \end{formula}
 
+    Taking this expression for the Schr\"odinger equation and taking expectation values (using the linearity of the equation), gives the following (interaction-independent) result.
+    \begin{theorem}[Ehrenfest]\index{Ehrenfest}\label{qm:ehrenfest}
+        Let $\widehat{H}$ be the Hamiltonian and consider an observable $\widehat{O}$. The expectation value of this operator evolves as follows:
+        \begin{gather}
+            \deriv{\langle\widehat{O}\rangle}{t} = \frac{1}{i\hbar}\bigl\langle[\widehat{O},\widehat{H}]\bigr\rangle + \left\langle\pderiv{\widehat{O}}{t}\right\rangle\,.
+        \end{gather}
+    \end{theorem}
+
+    \begin{remark}[Equivalence]
+        It is important to note that the Schr\"odinger equation could be replaced by Ehrenfest's theorem. They are entirely equivalent.
+    \end{remark}
+
     \todo{COMPLETE}
 
 \subsection{Hydrogen atom}
@@ -202,6 +202,34 @@
         \end{aligned}
     \end{gather}
     This is the so-called \textbf{Born--Oppenheimer approximation}. From a more modern physical perspective, this approximation can also be seen to be a specific instance of renormalization theory, where the short time-scale (or, equivalently, the high energy-scale) degrees of freedom are integrated out of the theory.\index{Born--Oppenheimer approximation}
+
+\section{\difficult{Foundations}}
+\subsection{Measurement problem}
+
+    If one looks at the Schr\"odinger equation (\cref{qm:TDSE}) or Ehrenfest's theorem (\cref{qm:ehrenfest}), it is easy to see that time evolution is entirely linear and deterministic. Superpositions are preserved under Hamiltonian flow (a crucial ingredient of quantum mechanics) and, given an initial state, time evolution will always lead to the same final state. However, the Born rule (\cref{qm:born_rule}), which governs `measurements' is very nonlinear and nondeterministic. It is probabilistic and, once a `measurement' has been performed, the state has `collapsed' onto an eigenstate of the observable under consideration.
+
+    The issue of what constitutes a `measurement' --- Is it a conscious human doing an experiment? Is it a mouse interfering with an experiment? Is it two particles interacting? ...\footnote{This (perhaps artificial) boundary between classical and quantum is sometimes called the \textbf{Heisenberg cut}.\index{Heisenberg!cut}} --- and why exactly the Born rule holds and what it entails, i.e.~how probabilities arise, is known as the measurement problem. On a historical note, it should be noted that, after an initial surge of interest shortly after the $5^{\text{th}}$ Solvay Conference (1927), where quantum mechanics was formally established, the study of the foundations of quantum mechanics (the measurement problem specifically) became an infamous topic due to the pragmatic mentality of nuclear physics during the $20^{\text{th}}$ century.
+
+    \todo{ADD (dynamical collapse, epistemic)}
+
+\subsection{Copenhagen interpretation}
+
+    The Copenhagen interpretation\footnote{This name stems from the fact that its initial proponents were from the group of physicists centered around \indexauthor{Bohr}.} takes the foundations of quantum mechanics as presented above very literally. 
+
+    \todo{COMPLETE (e.g.~collapse)}
+
+\subsection{Many-worlds interpretation}
+
+    This interpretation, originating with \indexauthor{Everett}, posits a different idea, which does away with the need of the explicit Born rule axiom. In this interpretation, there is a kind of `universal wave function', which governs both the observer and the experiment. A 
+    `measurement' is then simply an entanglement-inducing interaction between these two subsystems.
+
+    The main implication of such an interpretation is, however, that the universal wave function branches every time such an interaction occurs. More precisely, assume that `we', the observers, perform a measurement on some system (for simplicity, assume that the measurement has a binary outcome). The measurement process is then described as follows:
+    \begin{gather}
+        \ket{\text{in}}_{\text{obs}}\ket{\text{in}}_{\text{exp}}\longrightarrow\lambda_0\ket{0}_{\text{obs}}\ket{0}_{\text{exp}}+\lambda_1\ket{1}_{\text{obs}}\ket{1}_{\text{exp}}\,.
+    \end{gather}
+    Taking this superposition as a physical reality, this means that if we had measured the state 0, a copy of us living on the other branch will have measured 1 (and the other way around).
+
+    \todo{COMPLETE (e.g.~origin of probabilities)}
 
 \section{Angular Momentum}
 \subsection{Angular momentum operator}
@@ -276,7 +304,7 @@
         \end{gather}
         From the expression of the angular momentum operators and the rotation operator, it is clear that a general rotation has no effect on the total angular momentum number $j\in\mathbb{N}$. This means that the rotation matrix will be block diagonal with respect to $j$. This amounts to the following reduction of the representation of the rotation group:
         \begin{gather}
-            \langle j,m'|\widehat{R}(\varphi\vector{n})|j,m\rangle = \mathcal{D}^{(j)}_{m,m'}(\widehat{R})\,,
+            \bra{j,m'}\widehat{R}(\varphi\vector{n})\ket{j,m} = \mathcal{D}^{(j)}_{m,m'}(\widehat{R})\,,
         \end{gather}
         where the functions $\mathcal{D}^{(j)}_{m,m'}(\widehat{R})$ are called the \textbf{Wigner $D$-functions}. For every value of $j$, there are $(2j+1)$ values for $m$. This implies that the matrix $\mathcal{D}^{(j)}(\widehat{R})$ is a $(2j+1)\times(2j+1)$-matrix.
     }

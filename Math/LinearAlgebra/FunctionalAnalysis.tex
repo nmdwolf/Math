@@ -43,6 +43,15 @@
         The metric topology induced in this way is called the \textbf{norm topology} or \textbf{strong topology}.
     \end{definition}
 
+    Extending \cref{metric:isometry} gives the following notion.
+    \newdef{Isometry}{\index{isometry}\index{isometry!partial}\label{functional:isometry}
+        An isometry $f:V\rightarrow W$ between normed spaces is a linear map satisfying
+        \begin{gather}
+            \|f(v)\|_W = \|v\|_V
+        \end{gather}
+        for all $v\in V$. If this only holds on a subspace $V'\leq V$, the map is said to be a \textbf{partial isometry}.
+    }
+
     \begin{property}[Continuity]
         Every linear map $\varphi:V\rightarrow W$ of topological vector spaces with finite-dimensional domain is continuous. Moreover, if $V$ is normed, every linear isomorphism $\varphi:V\rightarrow W$ is a homeomorphism.
     \end{property}
@@ -119,6 +128,7 @@
     \end{theorem}
 
 \section{Hilbert spaces}
+\subsection{General}
 
     \begin{remark}\index{parallelogram law}\index{polarization!identity}
         Let $V$ be an inner product space (\cref{linalgebra:innerproduct}). A norm on $V$ can be induced by the inner product in the following way:
@@ -179,34 +189,39 @@
     \begin{theorem}[Riesz's representation theorem]\index{Riesz!representation theorem}\label{functional:riesz}
         Let $\mathcal{H}$ be a Hilbert space. For every continuous linear functional $\rho\in\mathcal{H}^*$, there exists a unique element $v_0\in\mathcal{H}$ such that
         \begin{gather}
-            \rho(h) = \langle v_0\mid h\rangle
+            \rho(h) = \braket{v_0}{h}
         \end{gather}
         for all $h\in\mathcal{H}$. This implies that $\mathcal{H}$ and $\mathcal{H}^*$ are isometrically isomorphic.\footnote{Anti-isomorphic in the convention with conjugate linearity in the second argument.} Furthermore, the operator norm of $\rho$ is equal to the norm of $v_0$.
     \end{theorem}
     \begin{remark}\index{bra-ket notation}
-        This theorem justifies the bra-ket notation used in quantum mechanics, where one associates to every \textit{ket} $\lvert\psi\rangle\in\mathcal{H}$ a \textit{bra} $\langle\psi\rvert\in\mathcal{H}^*$.
+        This theorem justifies the bra-ket notation used in quantum mechanics, where one associates to every \textit{ket} $\ket{\psi}\in\mathcal{H}$ a \textit{bra} $\bra{\psi}\in\mathcal{H}^*$.
     \end{remark}
 
     \begin{remark}[Relation to Riesz--Markov theorem]\index{Riesz--Markov}
         By the Riesz--Markov theorem~\ref{distributions:riesz_markov}, every continuous functional on $C(\widehat{X})$, where $X$ is locally compact, can be written as the integration againt some Radon measure. By using the fact that every Hilbert space is isomorphic to some function space $L^2(X,\mu)$, one can see that Riesz's representation theorem is very similar.
     \end{remark}
 
+    Recall \cref{functional:isometry}.
+    \begin{property}[Isometries]\label{functional:isometry_extension}
+        If $f:V\rightarrow\mathcal{H}'$ is a partial isometry of Hilbert spaces and $V\subseteq\mathcal{H}$ is dense, then their exists a continuous isometric extension $F:\mathcal{H}\rightarrow\mathcal{H}'$.
+    \end{property}
+
 \subsection{Generalized Fourier series}
 
     \begin{property}[Bessel's inequality]\index{Bessel!inequality}
         Let $\mathcal{H}$ be a Hilbert space. The following equality holds for all orthonormal vectors $v_1,\ldots,v_n\in\mathcal{H}$ and scalars $\lambda_1,\ldots,\lambda_n\in\mathbb{C}$:
         \begin{gather}
-            \left\|v - \sum_{i=1}^n\lambda_iv_i\right\|^2 = \|v\|^2 - \sum_{i=1}^n|\langle v\mid v_i \rangle|^2 + \sum_{i=1}^n|\langle v\mid v_i \rangle - \lambda_i|^2\,.
+            \left\|v - \sum_{i=1}^n\lambda_iv_i\right\|^2 = \|v\|^2 - \sum_{i=1}^n|\braket{v}{v_i}|^2 + \sum_{i=1}^n|\braket{v}{v_i} - \lambda_i|^2\,.
         \end{gather}
         This expression is minimized when the last term vanishes. This leads to Bessel's inequality
         \begin{gather}
             \label{functional:bessels_inequality}
-            \sum_{i=1}^n|\langle v\mid v_i \rangle|^2\leq\|v\|^2\,,
+            \sum_{i=1}^n|\braket{v}{v_i}|^2\leq\|v\|^2\,,
         \end{gather}
-        together with the property that the optimal choice in the generalized Fourier series for $v$ is obtained by taking the coefficients to be the projections $\lambda_i=\langle v\mid v_i \rangle$.
+        together with the property that the optimal choice in the generalized Fourier series for $v$ is obtained by taking the coefficients to be the projections $\lambda_i=\braket{v}{v_i}$.
     \end{property}
     \begin{result}\index{Fourier!generalized series}
-        The sum in \cref{functional:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^{+\infty}|\langle v\mid v_i\rangle|^2$ converges for all $v$. This implies that the sequence $(\langle v\mid v_n\rangle)_{n\in\mathbb{N}}$ belongs to $l^2$.
+        The sum in \cref{functional:bessels_inequality} is bounded for all $n$, so the series $\sum_{i=1}^{+\infty}|braket{v}{v_i}|^2$ converges for all $v$. This implies that the sequence $(\braket{v}{v_n})_{n\in\mathbb{N}}$ belongs to $l^2$.
     \end{result}
 
     \begin{theorem}
@@ -223,14 +238,14 @@
     \newdef{Complete set}{\index{complete!set}\index{Hilbert!basis}
         Let $\{e_i\}_{i\in I}$ be a set of orthonormal vectors in an inner product space $V$. This set is said to be complete if every vector $v\in V$ can be expressed as follows:
         \begin{gather}
-            v = \sum_{i\in I}\langle e_i\mid v\rangle e_i\,.
+            v = \sum_{i\in I}\braket{e_i}{v}e_i\,.
         \end{gather}
         This is also sometimes called an \textbf{orthonormal basis} or \textbf{Hilbert basis}. Note that it is not necessarily a (Hamel) basis, since the linear combination does not have to be finite.
     }
     \begin{adefinition}
         A complete set of orthonormal vectors in a Hilbert space $\mathcal{H}$ is a set $S\subset\mathcal{H}$ such that one cannot add another nonzero vector $w\in\mathcal{H}$ to it satisfying
         \begin{gather}
-            \forall v_i\in S:\langle v_i\mid w\rangle = 0\,.
+            \forall v_i\in S:\braket{v_i}{w}=0\,.
         \end{gather}
     \end{adefinition}
 
@@ -244,7 +259,7 @@
         Let $S$ be a subset (not necessarily a subspace) of a Hilbert space $\mathcal{H}$. The orthogonal complement $S^\perp$ is closed in $\mathcal{H}$.
     \end{property}
     \begin{result}
-        The previous property implies that the orthogonal complemement of some arbitrary subset of a Hilbert space is a Hilbert space itself.
+        The previous property implies that the orthogonal complement of some arbitrary subset of a Hilbert space is a Hilbert space itself.
     \end{result}
 
     \begin{theorem}[Projection theorem]\index{projection!theorem}\label{functional:projection_theorem}

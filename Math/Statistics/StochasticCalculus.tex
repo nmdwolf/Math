@@ -1,5 +1,7 @@
 \chapter{Stochastic Calculus}\label{chapter:stochastic_calculus}
 
+    References for this chapter are~\citet{jeanblanc_mathematical_2009,karatzas_brownian_1991,salez_introduction_2024,elliott_mathematics_2005}.
+
     \minitoc
 
 \section{Stochastic processes}
@@ -28,23 +30,27 @@
     }
     \begin{property}
         All continuous stochastic processes are \textbf{jointly measurable} when regarded as functions on the product space $T\times\Omega$, where $T$ is equipped with the Borel $\sigma$-algebra.
-
-        \todo{WHAT IS THE BOREL ALGEBRA HERE??}
     \end{property}
 
     \newdef{Filtered probability space}{\index{probability!space}\index{usual conditions}\index{standard!filtration}
-        Consider a probability space $(\Omega,\Sigma,P)$ together with a filtration (\cref{set:filtration}) of $\Sigma$, i.e.~a collection of $\sigma$-algebras $\mathbb{F}\equiv\tseq{\mathbb{F}}$, such that $i\leq j\implies\mathbb{F}_i\subseteq\mathbb{F}_j$. The quadruple $(\Omega,\Sigma,\mathbb{F},P)$ is called a filtered probability space.
+        Consider a probability space $(\Omega,\Sigma,P)$ together with a filtration (\cref{set:filtration}) of $\Sigma$, i.e.~a collection of $\sigma$-algebras $\mathbb{F}\equiv\tseq{\mathbb{F}}$, such that $i\leq j\implies\mathbb{F}_i\subseteq\mathbb{F}_j$. The quadruple $(\Omega,\Sigma,\mathbb{F},P)$ is called a filtered probability space. Often, only the filtration and the probability measure are indicated $(\mathbb{F},P)$, e.g.~when the underlying measurable space is of lesser importance.
 
         Often, the filtration is required to be exhaustive and separated (where $\emptyset$ is replaced by $\mathbb{F}_0=\{\emptyset,\Omega\}$ since any $\sigma$-algebra has to contain the total space). Moreover, the filtration will often be required to `\textbf{satisfy the usual conditions}' (also called \textbf{standard}): $\mathbb{F}_0$ turns the space into a complete measurable space and $\mathbb{F}$ is right-continuous, i.e.~$\mathbb{F}_t = \bigcap_{s>t}\mathbb{F}_s$.
     }
 
     \newdef{Adapted process}{\index{adapted!process}
-        A stochastic process $\tseq{X}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is said to be adapted to the filtration $\mathbb{F}$ if $X_t$ is $\mathbb{F}_t$-measurable for all $t\in T$. The smallest filtration with respect to which a stochastic process is adapted, is called its \textbf{natural filtration}
+        A stochastic process $\tseq{X}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is said to be adapted to the filtration $\mathbb{F}$ if $X_t$ is $\mathbb{F}_t$-measurable for all $t\in T$. The smallest filtration with respect to which a stochastic process is adapted, is called its \textbf{natural filtration} $\mathbb{F}^X$. For a linearly ordered index set, this is simply the filtration generated as follows:
+        \begin{gather}
+            \mathbb{F}_t^X = \sigma\left(\{X_s\}_{s\leq t}\right)\,.
+        \end{gather}
     }
 
-    \newdef{Progressively measurable}{\index{measurable!progressively}\index{progressive|see{measurable}}
+    \newdef{Progressively measurable}{\index{measurable!progressively}\index{progressive|see{measurable}}\label{stoch:progressive}
         An $\mathcal{X}$-valued stochastic process $\tseq{X}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is said to be progressively measurable (or simply \textbf{progressive}) if for all $t\in T$, the map $T_{\leq t}\times\Omega\rightarrow\mathcal{X}$ is measurable with respect to the product $\sigma$-algebra $\Sigma_{T_{\leq t}}\otimes\mathbb{F}_t$, where the first factor denotes a suitable $\sigma$-algebra on the index set.
     }
+    \begin{property}
+        Every adapted process with left- (or right-)continuous paths is progressively measurable. Moreover, every adapted process adapts a progressively measurable modification.
+    \end{property}
 
     \newdef{Predictable process}{\index{predictable}\label{stoch:predictable_process}
         First, consider $T=\mathbb{N}$. A discrete-time stochastic process $\seq{X}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is said to be predictable if $X_{n+1}$ is $\mathbb{F}_n$-measurable for all $n\in\mathbb{N}$.
@@ -72,7 +78,7 @@
     \begin{property}[Naturality]\index{natural}
         An increasing process $\rseq{A}$ is predictable if and only if it is \textbf{natural}, i.e.~when
         \begin{gather}
-            \expect{\Intt{0}{t}X_s\,dA_s} = \expect{\Intt{0}{t}X_{s^-}\,dAs}
+            \expect{\Intt{0}{t}X_s\,dA_s} = \expect{\Intt{0}{t}X_{s^-}\,dA_s}
         \end{gather}
         for all $t\in T$ and every bounded, right-continuous martingale $\rseq{X}$.
     \end{property}
@@ -124,7 +130,7 @@
     }
 
     A famous example of a L\'evy process is Brownian motion.
-    \newdef{Brownian motion}{
+    \newdef{Brownian motion}{\label{stoch:brownian_motion}
         A continuous-time stochastic process $\rseq{W}$ satisfying:
         \begin{enumerate}
             \item $W_0$ is almost surely 0.
@@ -133,8 +139,8 @@
         \end{enumerate}
     }
 
-    \begin{remark}\index{Wiener process}\index[author]{Wiener}
-        A Brownian motion is also called a \textbf{Wiener process} (especially in the mathematics literature).
+    \begin{remark}[Wiener process]\index{Wiener!process}
+        A Brownian motion is also called a Wiener process (especially in the mathematics literature).
     \end{remark}
 
     \newdef{Geometric Brownian motion}{
@@ -151,16 +157,16 @@
 \subsection{Proper martingales}
 
     \newdef{Martingale}{\index{martingale}\label{prob:martingale}
-        A stochastic process $\tseq{X}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is called a martingale (relative to $\mathbb{F}$) if it satisfies the following conditions:
+        A stochastic process $\tseq{X}$ on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is called an $(\mathbb{F},P)$-martingale if it satisfies the following conditions:
         \begin{enumerate}
-            \item $\tseq{X}$ is adapted to $\mathbb{F}$.
-            \item Each random variable $X_t$ is integrable, i.e.~$X_t\in L^1(P)$ for all $t\in T$.
+            \item $\tseq{X}$ is $\mathbb{F}$-adapted.
+            \item For all $t\in T$: $X_t\in L^1(P)$.
             \item For all $t>s\geq0:\expect{X_{t}\,\middle\vert\,\mathbb{F}_s}=X_s$.
         \end{enumerate}
         If the equality in the last condition is replaced by the inequality $\leq$ (resp.~$\geq$), the stochastic process is called a \textbf{supermartingale} (resp.~\textbf{submartingale}).
     }
     \begin{example}[Doob martingale]\index{Doob!martingale}
-        Consider an integrable random variable $X$ and a filtration $\mathbb{F}$. The associated Doob martingale (with respect to $\mathbb{F}$) is given by
+        Consider an integrable random variable $X$ and a filtration $\mathbb{F}$. The associated Doob martingale with respect to $(\mathbb{F},P)$ is given by
         \begin{gather}
             Y_t := \expect{X\,\middle\vert\,\mathbb{F}_t}\,.
         \end{gather}
@@ -259,21 +265,35 @@
     \newadef{Quadratic variation}{\index{variation!quadratic}\label{stoch:quadratic_variation}
         Let $\rseq{X}$ be a martingale. For every stochastic partition $P=\{0=\tau_0\leq\tau_1\leq\cdots\nearrow+\infty\}$ of $\mathbb{R}^+$, i.e.~sequence of stopping times starting at zero and going to infinity, define the quadratic variation as
         \begin{gather}
-            \langle X \rangle^P_t := \sum_{i=1}^{+\infty}(X_{t\land \tau_i}-X_{t\land\tau_{i-1}})^2\,.
+            [X]^P_t := \sum_{i=1}^{+\infty}(X_{t\land \tau_i}-X_{t\land\tau_{i-1}})^2\,.
         \end{gather}
-        The quadratic variation $\langle X \rangle$ is obtained by taking the limit over all stochastic partitions as the mesh size
+        The quadratic variation $[X]$ is obtained by taking the limit over all stochastic partitions as the mesh size
         \begin{gather}
             \label{stoch:quadratic_variation_formula}
             |P| := \max_{n\in\mathbb{N}}(t\land\tau_n - t\land\tau_{n-1})
         \end{gather}
-        goes to zero in probability. (The limit converges in probability and even ucp.\footnote{For more general processes, the quadratic variation is well defined exactly if this limit exists.}) Moreover, if $X$ is continuous and square-integrable, so is $\langle X \rangle$ and this construction coincides with that through the Doob--Meyer decomposition.
+        goes to zero in probability. (The limit converges in probability and even ucp.\footnote{For more general processes, the quadratic variation is well defined exactly if this limit exists.}) Moreover, if $X$ is continuous and square-integrable, so is $[X]$ and this construction coincides with that through the Doob--Meyer decomposition.
     }
     \begin{remark}[Quadratic covariation]\index{covariation}
         The formula for the quadratic variation can easily be modified to obtain the quadratic covariation:
         \begin{gather}
-            \langle X,Y \rangle^P_t := \sum_{i=1}^{+\infty}(X_{t\land \tau_i}-X_{t\land\tau_{i-1}})(Y_{t\land \tau_i}-Y_{t\land\tau_{i-1}})\,.
+            [X,Y]^P_t := \sum_{i=1}^{+\infty}(X_{t\land \tau_i}-X_{t\land\tau_{i-1}})(Y_{t\land \tau_i}-Y_{t\land\tau_{i-1}})\,.
         \end{gather}
     \end{remark}
+
+    \begin{property}[Linearity]
+        Consider three processes $\rseq{X},\rseq{Y}$ and $\rseq{Z}$. For any two real numbers $a,b\in\mathbb{R}$, the following relation holds:
+        \begin{gather}
+            [aX+bY,Z]_t = a[X,Z]_t+b[Y,Z]_t\,.
+        \end{gather}
+    \end{property}
+
+    \newdef{Orthogonality}{\index{orthogonality}
+        Two stochastic processes are said to be orthogonal if their quadratic covariation vanishes:
+        \begin{gather}
+            X\perp Y \iff [X,Y] = 0\,.
+        \end{gather}
+    }
 
 \subsection{Local martingales}\index{martingale}
 
@@ -305,17 +325,27 @@
         The limit of a sequence of continuous local martingales that converges ucp is itself a  continuous local martingale.
     \end{property}
 
-    \begin{property}[Covariation]
-        If $\tseq{X},\tseq{Y}$ are local martingales, then $\tseq{\langle X,Y \rangle}$ is the unique FV process that starts at 0 and such that
+    \begin{property}[Covariation]\index{covariation}\label{stoch:covariation}
+        If $\tseq{X},\tseq{Y}$ are local martingales, then $\tseq{[X,Y]}$ is the unique FV process that starts at 0 and such that
         \begin{enumerate}
-            \item $\bigl(X_tY_t - \langle X,Y \rangle_t\bigr)_{t\in T}$ is a local martingale, and
-            \item $\Delta\langle X,Y\rangle = \Delta X\Delta Y$.
+            \item $\bigl(X_tY_t - [X,Y]_t\bigr)_{t\in T}$ is a local martingale, and
+            \item $\Delta[X,Y] = \Delta X\Delta Y$.
         \end{enumerate}
     \end{property}
 
     \begin{property}[Square-integrability]
-        A local martingale $\rseq{X}$ is an $L^2$-martingale if and only if $\expect{X_0^2}<+\infty$ and $\langle X \rangle$ is integrable. More generally, a local martingale is a martingale if it is dominated by an integrable random variable.
+        A local martingale $\rseq{X}$ is an $L^2$-martingale if and only if $\expect{X_0^2}<+\infty$ and $[X]$ is integrable. More generally, a local martingale is a martingale if it is dominated by an integrable random variable.
     \end{property}
+
+    \Cref{stoch:brownian_motion} was rephrased by \indexauthor{L\'evy} in terms of martingale properties.
+    \newadef{Brownian motion}{\index{Brownian motion}\label{stoch:levy_characterization}
+        A local martingale $\rseq{X}$ such that:
+        \begin{enumerate}
+            \item $X_0=0$,
+            \item $X$ is continuous, and
+            \item $(X_t^2-t)_{t\in\mathbb{R}^+}$ is a local martingale or, equivalently by \cref{stoch:covariation}, $[X]_t=t$.
+        \end{enumerate}
+    }
 
     Although (local) martingales are often the most interesting objects in practice, they can be generalized in a Doob-like manner. Moreover, these generalized martingales are of major importance for the stochastic calculus that will introduced in the next section.
     \newdef{Semimartingale}{\label{stoch:semimartingale}
@@ -341,61 +371,105 @@
 
     Two approaches exist to extending integration theory to stochastic processes. One is through the \textit{It\^o isometry} (see \cref{stoch:ito_isometry} below) and the other is through a more axiomatic approach as for the ordinary Lebesgue integral. Both approaches will be explored in this section, with the latter coming first. For simplicity (and unless stated otherwise), all filtered probability spaces will be assumed to satisfy the usual conditions and all martingales will be assumed to be \cdlgg.
 
-\subsection{Stochastic integral}
+\subsection{Wiener integral}\index{integral!Wiener}\index{Wiener|seealso{integral}}
 
-    Recall \cref{stoch:elementary_process} for the definition of elementary predictable process. The \textbf{stochastic integral} of such a process $\rseq{P}$ with respect to another stochastic process $\rseq{X}$ is defined as follows:\index{integral!stochastic}\index{stochastic|seealso{integral}}
+    The first step towards defining a notion of stochastic integral will consists of the subclass of integrators on Brownian motions/Wiener processes (\cref{stoch:brownian_motion}).
+
+    As for the Lebesgue measure, one starts with the simple functions (\cref{measure:simple_function}) as integrands:
     \begin{gather}
-        \label{stoch:elementary_integral}
-        \Intt{0}{t}P\,d\!X := \sum_{i=1}^nf_i(X_{t\land\tau_i} - X_{t\land\tau_{i-1}})\,.
+        f\equiv\sum_{i=1}^na_i\mathbbm{1}_{]t_{i-1},t_i]}\,.
+    \end{gather}
+    If $\rseq{W}$ denotes a Brownian motion on a standard probability space $(\Omega,\Sigma,P)$, the Wiener integral of $f:\mathbb{R}^+\rightarrow\mathbb{R}$ with respect to $W$ is then given by
+    \begin{gather}
+        \label{stoch:elementary_wiener_integral}
+        \Intt{0}{+\infty}f(s)\,dW_s := \sum_{i=1}^na_i\left(W_{t_i} - W_{t_{i-1}}\right)\,.
+    \end{gather}
+    It is not hard to show, using the definition of Brownian motion, that the stochastic integral defines a partial isometry on the subspace of $L^2(\mathbb{R}^+)$ of simple functions. By \cref{functional:isometry_extension}, one obtains an isometry $L^2(\mathbb{R}^+)\rightarrow L^2(\Omega)$. In fact, by generalizing to locally integrable functions, one can define a new stochastic process
+    \begin{gather}
+        f\cdot W_t \equiv \Intt{0}{t}f\,dW \equiv \Intt{0}{t}f_s\,dW_s := \Intt{0}{+\infty}f\mathbbm{1}_{[0,t]}\,dW_s\,.
     \end{gather}
 
-    \begin{example}[Discrete stochastic integral\footnotemark]\index{martingale!transform|see{integral, stochastic}}
-    \footnotetext{Sometimes called the \textbf{martingale transform}.}
-        Let $\seq{M}$ be a discrete-time martingale and let $\seq{X}$ be a predictable stochastic process. The (discrete) stochastic integral of $X$ with respect to $M$ is given by:
+    \begin{formula}
+        The process $\rseq{f\cdot W}$ is a continuous, square-integrable martingale.
+    \end{formula}
+
+    \begin{formula}[Covariance]
         \begin{gather}
-            X\cdot M_n := \sum_{i=1}^nX_i\,\Delta M_i\,.
+            \mathrm{Cov}\left[\Intt{0}{t}f(s)\,dW_s,\Intt{0}{t'}g(s)\,dW_s\right] = \Intt{0}{\min(s,t)}f(x)g(x)\,dx
         \end{gather}
-        For $n=0$, the convention $X\cdot M_0=0$ is used. If $\seq{X}$ is bounded, the stochastic integral preserves martingales.
+    \end{formula}
+
+    To extend this construction to stochastic integrands, one has to require that the integrand $\rseq{\phi}$ is progressive (\cref{stoch:progressive}). Progressive measurability ensures that, by Fubini's theorem (\cref{section:fubini}), $\Intt{0}{t}\phi_s\,ds$ is adapted if and only if $\Intt{0}{t}|\phi_s|\,ds$ is a.s.~bounded. Let $M^2(\mathbb{R}^+)$ denote the space of square-integrable progressive processes $\rseq{\phi}$:
+    \begin{gather}
+        \expect{\Intt{0}{+\infty}\phi^2_s\,ds}<+\infty\,.
+    \end{gather}
+    Note that $M^2(\mathbb{R}^+)$ contains random step functions
+    \begin{gather}
+        X\equiv\sum_{i=1}^nX_i\mathbbm{1}_{]t_{i-1},t_i]}\,,
+    \end{gather}
+    where the coefficients $X_i\in L^2(\Omega)$. The Wiener integral of such a function is defined similarly:
+    \begin{gather}
+        \label{stoch:random_elementary_wiener_integral}
+        \Intt{0}{+\infty}X\,dW_s(\omega) := \sum_{i=1}^nX_i(\omega)\left(W_{t_i} - W_{t_{i-1}}\right)\,.
+    \end{gather}
+    Extending this partial isometry, gives the \textbf{It\^o integral} of $\phi$ with respect to $W$.\index{integral!It\^o} The space of progressively measurable stochastic processes satisfying
+    \begin{gather}
+        \expect{\Intt{0}{+\infty}\phi_s^2\,ds}<+\infty
+    \end{gather}
+    is denoted by $L^2(W)$.
+
+    \begin{property}[Centrality]\label{stoch:wiener_integral_central}
+        Consider a Brownian motion $\rseq{W}$ with natural filtration $\mathbb{F}$. For all $\mathbb{F}$-progressive processes $\rseq{\phi}$, the following equation holds for all $t\in\mathbb{R}^+$:
+        \begin{gather}
+            \expect{\Intt{0}{t}\phi_s\,dW_s} = 0\,.
+        \end{gather}
+    \end{property}
+
+\subsection{Stochastic integral}
+
+    Recall \cref{stoch:elementary_process} for the definition of the space of elementary predictable process $\mathcal{E}$. The \textbf{stochastic integral} of such a process $\rseq{\phi}$ with respect to another stochastic process $\rseq{M}$, usually a martingale (see further on) is defined as follows:\index{integral!stochastic}\index{stochastic|seealso{integral}}
+    \begin{gather}
+        \label{stoch:elementary_integral}
+        \phi\cdot M_t \equiv \Intt{0}{t}\phi\,dM \equiv\footnotemark \Intt{0}{t}\phi_s\,dM_s := \sum_{i=1}^nf_i(M_{t\land\tau_i} - M_{t\land\tau_{i-1}})\,.
+    \end{gather}
+
+    \footnotetext{This abuse of notation will be explained in \cref{section:stochastic_lebesgue_stieltjes}.}
+
+    For discrete-time processes, the stochastic integral attains a simple form.
+    \begin{example}[Martingale transform]\index{martingale!transform|see{integral, stochastic}}
+        Let $\seq{M}$ be a discrete-time martingale and let $\seq{\phi}$ be predictable. The (discrete) stochastic integral of $\phi$ with respect to $M$ is given by:
+        \begin{gather}
+            \phi\cdot M_n := \sum_{i=1}^n\phi_i\,\Delta M_i\,.
+        \end{gather}
+        For $n=0$, the convention $\phi\cdot M_0=0$ is used.
     \end{example}
-
-    \begin{property}
-        An integrable, adapted stochastic process $\rseq{X}$ is a martingale if and only if
-        \begin{gather}
-            \expect{\Intt{0}{+\infty}P\,d\!X}=0
-        \end{gather}
-        for all $\rseq{P}\in\mathcal{E}$. If this only holds after replacing $=$ by $\geq$, then $\rseq{X}$ is a submartingale.
-    \end{property}
-
-    \begin{property}
-        If $\rseq{X}$ is a martingale and $\rseq{P}$ a bounded elementary predictable process, then $\Intt{0}{t}P\,d\!X$ is also a martingale.
-    \end{property}
 
     Since, the elementary predictable processes are dense in the space of all predictable processes, bounded convergence (in probability) allows to extend the stochastic integral to all (bounded) predictable processes.
     \newdef{Stochastic integral}{\index{integral!stochastic}\index{convergence!bounded}
         An $L^0$-valued functional
         \begin{gather}
-            P\mapsto\Intt{0}{t}P\,d\!X
+            \rseq{\phi}\mapsto\phi\cdot M_t
         \end{gather}
         on the space of bounded predictable processes such that
         \begin{enumerate}
             \item it coincides with \cref{stoch:elementary_integral} for elementary predictable processes, and
-            \item it satisfies bounded convergence in probability, i.e.~if $(P_{t,n})_{t\in T,n\in\mathbb{N}}\subset\mathcal{E}$ is a uniformly bounded sequence that converges pointwise to a stochastic process $\rseq{P}$, then
+            \item it satisfies bounded convergence in probability, i.e.~if $(\phi_{n,t})_{t\in T,n\in\mathbb{N}}\subset\mathcal{E}$ is a uniformly bounded sequence that converges pointwise to a stochastic process $\rseq{\phi}$, then
             \begin{gather}
-                \Intt{0}{t}P_n\,d\!X\longrightarrow\Intt{0}{t}P\,d\!X
+                \phi_n\cdot M_t\longrightarrow\phi\cdot M_t
             \end{gather}
             in probability.
         \end{enumerate}
     }
 
-    The following property states necessary conditions on the \textbf{integrator} $\rseq{X}$ for all integrals to exist. This property (uniquely) defines the stochastic integral as in the integration theory of \textit{Daniell}.\index{integral!Daniell}\index[author]{Daniell}
+    The following property states necessary conditions on the \textbf{integrator} $\rseq{M}$ for all integrals to exist. This property (uniquely) defines the stochastic integral as in the integration theory of \textit{Daniell}.\index{integral!Daniell}\index[author]{Daniell}
     \begin{property}\index{integrator}
-        If an adapted stochastic process $\rseq{X}$ is a well-behaved integrator, i.e.~the stochastic integral with respect to $\rseq{X}$ exists, then:
+        If an adapted stochastic process $\rseq{M}$ is a well-behaved integrator, i.e.~the stochastic integral with respect to $\rseq{M}$ exists, then:
         \begin{enumerate}
-            \item $\rseq{X}$ is right continuous in probability\footnote{For this notion of continuity, replace the convergence in \cref{topology:sequential_continuity} with convergence in probability.}, and
+            \item $\rseq{M}$ is right continuous in probability\footnote{For this notion of continuity, replace the convergence in \cref{topology:sequential_continuity} with convergence in probability.}, and
             \item the set
             \begin{gather}
                 \label{stoch:bounded_elementary_set}
-                \left\{\Intt{0}{t}P\,d\!X\,\middle\vert\, P\in\mathcal{E}\land|P|\leq1\right\}
+                \{\phi\cdot X_t\mid \phi\in\mathcal{E}\land|\phi|\leq1\}
             \end{gather}
             is bounded in probability for all $t\in T$.
         \end{enumerate}
@@ -409,15 +483,18 @@
 
     Boundedness is, of course, a rather strong property and it would be better to have a more general class of integrands. To this end, bounded convergence should be weakened to dominated convergence (cf.~\cref{measure:dominated_convergence_theorem}).
     \newdef{Integrability}{\index{integrable}
-        Let $\rseq{X}$ be a semimartingale. The space $L^1(X)$ of $X$-integrable stochastic processes consists of those predictable processes $\rseq{Y}$ such that if $(P_{t,n})_{t\in T,n\in\mathbb{N}}$ is a sequence of bounded predictable processes converging to 0 with $|P_t|\leq|Y_t|$ for all $t\in T$, then
+        Let $\rseq{M}$ be a semimartingale. The space $L^1(M)$ of $M$-integrable stochastic processes consists of those predictable processes $\rseq{\phi}$ such that if $(\phi_{t,n})_{t\in T,n\in\mathbb{N}}$ is a sequence of bounded predictable processes converging to 0 with $|\phi_{n,t}|\leq|\phi_t|$ for all $t\in T$ and $n\in\mathbb{N}$, then
         \begin{gather}
-            \Intt{0}{t}P_n\,d\!X\longrightarrow0
+            \phi\cdot M_t\longrightarrow0
         \end{gather}
         in probability for all $t\in T$.
     }
     \begin{remark}
-        An equivalent definition uses an approach that is similar to the definition of well-behaved integrators. $L^1(X)$ consists exactly of those predictable stochastic processes $\rseq{Y}$ for which the set in \cref{stoch:bounded_elementary_set}, where $\rseq{P}$ is replaced by a bounded and $Y$-dominated process, is bounded in probability for all $t\in T$.
+        An equivalent definition uses an approach that is similar to the definition of well-behaved integrators. $L^1(M)$ consists exactly of those predictable stochastic processes $\rseq{X}$ for which the set in \cref{stoch:bounded_elementary_set}, where $\rseq{\phi}$ is replaced by a bounded and $X$-dominated process, is bounded in probability for all $t\in T$.
     \end{remark}
+    \begin{property}
+        For the subclass of integrators belonging to Brownian motions, the space $L^1(M)$ can, equivalently, be described as the space of progressively measurable processes.
+    \end{property}
 
     \begin{notation}[Differential]\index{differential}
         A very common notation in stochastic calculus is the differential notation (also common in applied sciences). An equation of the form
@@ -431,8 +508,8 @@
         for some constant $Y_0\in\mathbb{R}$. For the quadratic (co)variation, a potentially more confusing notation is sometimes used:
         \begin{gather}
             \begin{aligned}
-                \dr X^2 &:= \dr\langle X \rangle\,,\\
-                \dr X\dr Y &:= \dr\langle X,Y \rangle\,.
+                \dr X^2 &:= \dr[X]\,,\\
+                \dr X\dr Y &:= \dr[X,Y]\,.
             \end{aligned}
         \end{gather}
     \end{notation}
@@ -449,57 +526,49 @@
     \begin{property}
         The quadratic variation of the It\^o process in \cref{stoch:ito_process_eq} is given by
         \begin{gather}
-            \langle X\rangle_t = \Intt{0}{t}\mu_s^2\,ds\,.
+            [X]_t = \Intt{0}{t}\mu_s^2\,ds\,.
         \end{gather}
     \end{property}
 
     \newdef{$\sigma$-martingale}{\index{martingale!$\sigma$-}
         An adapted stochastic process $\rseq{X}$ such that
         \begin{gather}
-            X_t = H\cdot Y_t
+            X_t = \phi\cdot M_t
         \end{gather}
-        for some predictable stochastic process $\rseq{H}$ and martingale $\rseq{Y}$.
+        for some predictable stochastic process $\rseq{\phi}$ and martingale $\rseq{M}$.
     }
     \begin{property}
         All (local) martingales are also $\sigma$-martingales.
     \end{property}
 
-    \newdef{Admissible process}{\index{admissible}\label{stoch:admissible_process}
-        Let $\rseq{X}$ be a semimartingale. A predictable stochastic process $\rseq{P}$ is said to be ($\lambda$-)admissible, where $\lambda\in\mathbb{R}^+$, with respect to $\rseq{X}$ if $P\cdot X_t\geq -\lambda$ for all $t\in\mathbb{R}^+$.
+    \newdef{Admissible process}{\index{admissible!process}\label{stoch:admissible_process}
+        Let $\rseq{M}$ be a semimartingale. A predictable process $\rseq{\phi}$ is said to be ($\lambda$-)admissible, where $\lambda\in\mathbb{R}^+$, with respect to $\rseq{M}$ if $\phi\cdot M_t\geq -\lambda$ for all $t\in\mathbb{R}^+$.
     }
 
-    \begin{theorem}[Martingale representation theorem]
-        Let $\rseq{W}$ be a standard Brownian motion with its natural filtration $\mathbb{F}$. Every $\mathbb{F}$-local martingale $\rseq{X}$ can be written as
-        \begin{gather}
-            X_t = X_0 + \Intt{0}{t}\xi_s\,dW_s
-        \end{gather}
-        for some predictable $\rseq{\xi}\in L^1(W)$.
-    \end{theorem}
-
     \newdef{Dol\'eans-Dade exponential}{\index{exponential!Dol\'eans-Dade}\label{stoch:stochastic_exponential}
-        The \textbf{stochastic exponential} of a semimartingale $\rseq{X}$ is the unique (strong) solution of the stochastic differential equation
+        The \textbf{stochastic exponential} of a semimartingale $\rseq{M}$ is the unique (strong) solution of the stochastic differential equation
         \begin{gather}
-            \dr Y_t = Y_{t^-}\,\dr X_t
+            \dr X_t = X_{t^-}\,\dr M_t
         \end{gather}
-        with initial value condition $Y_0=1$.
+        with initial value condition $X_0=1$.
 
-        If $\rseq{X}$ is a.s.~continuous, the stochastic exponential is given by
+        If $\rseq{M}$ is a.s.~continuous, the stochastic exponential is given by
         \begin{gather}
             \label{stoch:continuous_stochastic_exponential}
-            \mathcal{E}(X)_t = \exp\left(X_t - X_0 - \frac{1}{2}\langle X \rangle_t\right)\,.
+            \mathcal{E}(M)_t = \exp\left(M_t - M_0 - \frac{1}{2}[M]_t\right)\,.
         \end{gather}
         More generally, when continuity is not assumed, it is given by
         \begin{gather}
-            \mathcal{E}(X)_t = \exp\left(X_t - X_0 - \frac{1}{2}\langle X \rangle_t^c\right)\prod_{s\leq t}(1+\Delta X_s)\exp(-\Delta X_s)\,,
+            \mathcal{E}(M)_t = \exp\left(M_t - M_0 - \frac{1}{2}[M]_t^c\right)\prod_{s\leq t}(1+\Delta M_s)\exp(-\Delta M_s)\,,
         \end{gather}
-        where $\langle\cdot\rangle^c$ denotes the continuous part of the quadratic variation.
+        where $[\cdot]^c$ denotes the continuous part of the quadratic variation.
     }
     \begin{property}[Stochastic logarithm]\label{stoch:stochastic_logarithm}\index{logarithm}
-        The stochastic exponential (and its left-continuous version) of a semimartingale $\rseq{X}$ are strictly positive if and only if the jumps of $\rseq{X}$ are strictly greater than -1.
+        The stochastic exponential (and its left-continuous version) of a semimartingale $\rseq{M}$ are strictly positive if and only if the jumps of $\rseq{M}$ are strictly greater than -1.
 
         In such cases, the exponential can be inverted to obtain the \textbf{stochastic logarithm}. This is given by
         \begin{gather}
-            \mathcal{L}(Y)_t = \frac{1}{Y_-}\cdot Y_t\,.
+            \mathcal{L}(X)_t = \frac{1}{X_-}\cdot X_t\,.
         \end{gather}
     \end{property}
 
@@ -507,44 +576,57 @@
 
     Note that $L^0$ is the set of equivalence classes of random variables that are almost surely equal. The consequence is that the stochastic process given by
     \begin{gather}
-        Y\cdot X_t := \Intt{0}{t}Y\,d\!X
+        \phi\cdot M_t \equiv \Intt{0}{t}\phi_s\,dM_s
     \end{gather}
     has sample paths that are not necessarily well defined. However, they admit well-behaved modifications.
 
     \begin{property}[Continuity]
-        If $\tseq{X}$ is an a.s.~continuous semimartingale, then any stochastic integral with respect to $X$ is also a.s.~continuous.
+        If $\tseq{M}$ is an a.s.~continuous semimartingale, then any stochastic integral with respect to $M$ is also a.s.~continuous.
+    \end{property}
+
+    Martingales can also be characterized in terms of the centrality of their stochastic integral. (This generalizes \cref{stoch:wiener_integral_central}.)
+    \begin{property}[Centrality]
+        An integrable, adapted stochastic process $\rseq{X}$ is a martingale if and only if
+        \begin{gather}
+            \expect{\Intt{0}{+\infty}\phi_s\,d\!X_s}=0
+        \end{gather}
+        for all $\rseq{\phi}\in\mathcal{E}$. If this only holds after replacing $=$ by $\geq$, then $\rseq{X}$ is a submartingale.
+    \end{property}
+
+    \begin{property}[Stability]
+        If $\rseq{M}$ is a martingale and $\rseq{\phi}$ a bounded predictable process, then $\rseq{\phi\cdot M}$ is also a martingale.
     \end{property}
 
     \begin{property}[Change of variables]
-        Let $\rseq{X}$ be a semimartingale and consider a stochastic process $\rseq{Y}\in L^1(X)$. $Z_t := Y\cdot X_t$ is an adapted stochastic process admitting a \cdlg modification and, moreover, is a semimartingale such that
+        Let $\rseq{M}$ be a semimartingale and consider a stochastic process $\rseq{X}\in L^1(M)$. $Z_t := X\cdot M_t$ is an adapted stochastic process admitting a \cdlg modification and, moreover, is a semimartingale such that
         \begin{gather}
-            \Intt{0}{t}P\,dZ = \Intt{0}{t}PY\,d\!X
+            \Intt{0}{t}\phi\,dZ = \Intt{0}{t}\phi X\,dM
         \end{gather}
-        for all $t\in T$ and bounded, predictable processes $\rseq{P}$. Any \cdlgg, adapted process satisfying this property will be called `the' stochastic integral of $\rseq{Y}$ with respect to $\rseq{X}$.
+        for all $t\in T$ and bounded, predictable processes $\rseq{\phi}$. Any \cdlgg, adapted process satisfying this property will be called `the' stochastic integral of $\rseq{X}$ with respect to $\rseq{M}$.
 
-        Moreover, a predictable process $\rseq{Q}$ is $Z$-integrable if and only if
+        Moreover, a predictable process $\rseq{Y}$ is $Z$-integrable if and only if
         \begin{gather}
-            \Intt{0}{t}Q\,dZ = \Intt{0}{t}QY\,d\!X\,.
+            \Intt{0}{t}Y\,dZ = \Intt{0}{t}YX\,dM\,.
         \end{gather}
     \end{property}
 
     \begin{property}[Optional stopping]
-        Consider a semimartingale $\rseq{X}$ and a stopping time $\tau$. If $\rseq{P}$ is an $X$-integrable process, it is also $X^\tau$-integrable and
+        Consider a semimartingale $\rseq{M}$ and a stopping time $\tau$. If $\rseq{X}$ is an $M$-integrable process, it is also $M^\tau$-integrable and
         \begin{gather}
-            \left(P\cdot X\right)^\tau = P\cdot X^\tau\,.
+            \left(X\cdot M\right)^\tau = X\cdot M^\tau\,.
         \end{gather}
     \end{property}
 
     \begin{property}
-        A predictable process is $X$-integrable for some semimartingale $\rseq{X}$ if and only if it is locally $X$-integrable. Moreover, a stochastic process is a semimartingale if and only if it is a semimartingale.
+        A predictable process is $M$-integrable for some semimartingale $\rseq{M}$ if and only if it is locally $M$-integrable. Moreover, a stochastic process is a semimartingale if and only if it is a semimartingale.
 
-        This property also implies that all locally bounded predictable processes are integrable with respect to any semimartingale. In fact, for every \cdlgg, adapted stochastic process $\rseq{Y}$, the left-limit process $(Y_{t^-})_{t\in T}$ is integrable with respect to any semimartingale.
+        This property also implies that all locally bounded predictable processes are integrable with respect to any semimartingale. In fact, for every \cdlgg, adapted stochastic process $\rseq{X}$, the left-limit process $(X_{t^-})_{t\in T}$ is integrable with respect to any semimartingale.
     \end{property}
 
     \begin{theorem}[Dominated convergence]\index{convergence!dominated}
-        Let $(P_{t,n})_{t\in T,n\in\mathbb{N}}$ be a convergent sequence of predictable stochastic process with limit $\rseq{P}$ and let $\rseq{X}$ be a semimartingale. If the sequence is dominated by an $X$-integrable stochastic process, then
+        Let $(\phi_{t,n})_{t\in T,n\in\mathbb{N}}$ be a convergent sequence of predictable processes with limit $\rseq{\phi}$ and let $\rseq{M}$ be a semimartingale. If the sequence is dominated by an $M$-integrable stochastic process, then
         \begin{gather}
-            \Intt{0}{t}P_n\,d\!X\overset{\text{ucp}}{\longrightarrow}\Intt{0}{t}P\,d\!X
+            \Intt{0}{t}\phi_n\,dM\overset{\text{ucp}}{\longrightarrow}\Intt{0}{t}\phi\,dM
         \end{gather}
         for all $t\in T$.
     \end{theorem}
@@ -557,7 +639,7 @@
     \begin{formula}[Integration by parts]\index{integration!by parts}
         Let $\rseq{X},\rseq{Y}$ be semimartingales.
         \begin{gather}
-            X_tY_t = X_0Y_0 + \Intt{0}{t}X_{s^-}\,dY_s + \Intt{0}{t}Y_{s^-}\,d\!X_s + \langle X,Y \rangle_t
+            X_tY_t = X_0Y_0 + \Intt{0}{t}X_{s^-}\,dY_s + \Intt{0}{t}Y_{s^-}\,d\!X_s + [X,Y]_t
         \end{gather}
         In differential notation, this becomes:
         \begin{gather}
@@ -573,29 +655,29 @@
         \end{gather}
         Moreover, the continuity (resp.~predictability) of $\rseq{X}$ implies the continuity (resp.~predictability) of $\rseq{Y}$. Moreover,
         \begin{gather}
-            \Delta\langle X,Y \rangle = \Delta X\Delta Y\,.
+            \Delta[X,Y] = \Delta X\Delta Y\,.
         \end{gather}
     \end{formula}
     \begin{result}
-        If $\rseq{X}$ is a semimartingale, then
+        If $\rseq{M}$ is a semimartingale, then
         \begin{gather}
-            \sum_{s\leq t}\Delta X_s^2\leq\langle X \rangle_t<+\infty\,.
+            \sum_{s\leq t}\Delta M_s^2\leq[M]_t<+\infty\,.
         \end{gather}
     \end{result}
 
     The following inequality should be compared to the Cauchy--Schwarz inequality (\cref{measure:schwarz_inequality}).
-    \begin{formula}[Kunita--Watanabe inequality]\index{Kunita--Watanabe inequality}
+    \begin{formula}[Kunita--Watanabe inequality]\index{Kunita--Watanabe!inequality}
         Let $\rseq{X},\rseq{Y}$ be semimartingales and consider two stochastic processes $\rseq{\alpha},\rseq{\beta}$.
         \begin{gather}
-            \Intt{0}{t}|\alpha_s\beta_s|\,|d\langle X,Y \rangle_s| \leq \sqrt{\Intt{0}{t}\alpha_s^2\,d\langle X \rangle_s\Intt{0}{t}\beta_s^2\,d\langle Y \rangle_s}\,,
+            \Intt{0}{t}|\alpha_s\beta_s|\,|d[X,Y]_s| \leq \sqrt{\Intt{0}{t}\alpha_s^2\,d[X]_s\Intt{0}{t}\beta_s^2\,d[Y]_s}\,,
         \end{gather}
-        where $|d\langle X,Y \rangle_s|$ denotes the total variation measure (\cref{measure:total_variation}) and all integrals are Lebesgue--Stieltjes integrals (by \cref{section:stochastic_lebesgue_stieltjes}).
+        where $|d[X,Y]_s|$ denotes the total variation measure (\cref{measure:total_variation}) and all integrals are Lebesgue--Stieltjes integrals (by \cref{section:stochastic_lebesgue_stieltjes}).
     \end{formula}
 
     \begin{result}[Brownian motion]\index{correlation}
         Let $\rseq{W},\rseq{\overline{W}}$ be standard Brownian motions. The Kunita--Watanabe inequality implies that
         \begin{gather}
-            \Intt{0}{t}\alpha_s^2|d\langle W,\overline{W}| \rangle_s \leq \Intt{0}{t}\alpha_s^2\,ds\,.
+            \Intt{0}{t}\alpha_s^2|d[W,\overline{W}]_s| \leq \Intt{0}{t}\alpha_s^2\,ds\,.
         \end{gather}
         By the Radon--Nikodym theorem~\ref{measure:radon_nikodym}, there exists a predictable process $\rseq{\rho}$, bounded by 1, such that
         \begin{gather}
@@ -603,6 +685,168 @@
         \end{gather}
         $\rseq{\rho}$ is called the \textbf{instantaneous correlation} of the Brownian motions.
     \end{result}
+
+    An equivalent way of defining general stochastic integrals would be by mirroring the previous section on Wiener integrals through the following isometry.
+    \begin{property}[It\^o isometry]\index{It\^o!isometry}\label{stoch:ito_isometry}
+        Consider a local martingale $\rseq{M}$ and a predictable process $\rseq{\phi}$ such that
+        \begin{gather}
+            \expect{\Intt{0}{t}\phi^2_s\,d[M]_s}<+\infty\,.
+        \end{gather}
+        Then $\phi\in L^1(M)$ and 
+        \begin{gather}
+            \expect{\left(\phi\cdot M_t\right)^2} = \expect{\Intt{0}{t}\phi^2_s\,d[M]_s}\,.
+        \end{gather}
+    \end{property}
+
+    \begin{property}[Ansel--Stricker]\index{Ansel--Stricker}
+        Let $\rseq{M}$ be a local martingale and consider $X\in L^1(M)$. If $\rseq{X\cdot M}$ is uniformly bounded from below by an integrable random variable, then $\rseq{X\cdot M}$ is a local martingale and even a supermartingale.
+    \end{property}
+
+    \begin{theorem}[Girsanov]\index{Girsanov}\label{stoch:girsanov}
+        Consider a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ and an a.s.~continuous semimartingale $\rseq{M}$. Moreover, let $\rseq{W}$ be a Brownian motion. If
+        \begin{gather}
+            M_t := \mathcal{E}(M)_t = \exp\left(\Intt{0}{t}M_s\,dW_s - \frac{1}{2}\Intt{0}{t}[M]_s\,ds\right)
+        \end{gather}
+        is an $\mathbb{F}$-martingale, then
+        \begin{gather}
+            \widetilde{W}_t := W_t - \Intt{0}{t}M_s\,ds
+        \end{gather}
+        is a Brownian motion with respect to the transformed measure $M_t\,dP$.
+    \end{theorem}
+    \begin{example}[It\^o process]\index{Novikov!condition}
+        A specific case, which is often taken to be Girsanov's theorem, is given by considering the It\^o process $\dr X_t = \mu_t\dr t + \sigma_t \dr W_t$, where $\rseq{W}$ is a standard Brownian motion with respect to some base measure $P$. If the ratio $\eta_t := \mu_t/\sigma_t$ satisfies the \textbf{Novikov condition}
+        \begin{gather}
+            \expect{\exp\left(\frac{1}{2}\Intt{0}{t}|\eta_s|^2\,ds\right)}<+\infty
+        \end{gather}
+        for all $t\in\mathbb{R}^+$, then $M_t:=\mathcal{E}\left(\Intt{0}{t}\eta_s\,dW_s\right)$ is a martingale\footnote{This is ensured by the Novikov condition.} and
+        \begin{gather}
+            \widetilde{W}_t := W_t - \Intt{0}{t}\eta_s\,ds
+        \end{gather}
+        is a standard Brownian motion with respect to the transformed measure $M_t\dr P$. A generalization to higher dimensions is straightforward.
+    \end{example}
+
+    A more general statement is the following.
+    \begin{theorem}
+        Let $P,Q$ be (locally) equivalent measures on a filtered measurable space such that the associated Radon--Nikodym derivatives $\rseq{L}$ are continuous. If $\rseq{M}$ is an a.s.~continuous $P$-local martingale, the process
+        \begin{gather}
+            \dr\widetilde{M}_t := \dr M_t - \frac{1}{L_t}\dr\left[M,L\right]_t
+        \end{gather}
+        is an a.s.~continuous $Q$-local martingale. Moreover, the process $\rseq{L}$ can be written as a Dol\'eans-Dade exponential of a local martingale $\rseq{\xi}$ and $M_t-[M,\xi]_t$ is also a $Q$-local martingale.
+    \end{theorem}
+    \begin{result}
+        The transformed process $\rseq{\widetilde{M}}$ will be a $Q$-local martingale if and only if $M$ and $L$ are orthogonal.
+    \end{result}
+
+\subsection{Lebesgue--Stieltjes integration}\index{integral!Lebesgue--Stieltjes}\label{section:stochastic_lebesgue_stieltjes}
+
+    \begin{property}
+        Let $\rseq{X}$ be a continuous stochastic process. If for each $t>0$, the $p$-variation\footnote{The stochastic process obtained by replacing the square in \cref{stoch:quadratic_variation_formula} by the power $p>0$.} converges in probability to a random variable taking values in $\mathbb{R}^+$ almost surely, then the $q$-variations for all $q<p$ vanish in probability, and the $q$-variations for all $q>p$ diverge in probability (on the event where the quadratic variation is nonzero).
+    \end{property}
+    By \cref{stoch:quadratic_variation}, the continuous, square-integrable martingales have a well-defined quadratic variation process. Then, by the property above, this means that their first variation diverges almost surely and that their higher variations are almost surely zero. This shows that it is impossible to obtain a well-defined integration theory with (square-integrable) martingales as integrators. However, in general, instead of looking at the martingales themselves, one can look at their quadratic variation process. These are continuous and increasing and, hence, are equal to their own first variation process. This allows one to define the Lebesgue--Stieltjes integral
+    \begin{gather}
+        I(\omega) := \Intt{0}{t}Y_s(\omega)\,d[X]_s(\omega)
+    \end{gather}
+    along sample paths. The following property shows that, in good cases, the stochastic integral and pathwise Lebesgue--Stieltjes integral coincide.
+    \begin{property}
+        Let $\rseq{M}$ be a semimartingale and a predictable process $\rseq{\phi}$. If
+        \begin{gather}
+            \Intt{0}{t}|\phi_s|\,|dM_s| < +\infty
+        \end{gather}
+        almost surely for all $t\in T$, where $|dM_s|$ denotes the total variation measure (\cref{measure:total_variation}), then $\rseq{\phi}\in L^1(M)$ and
+        \begin{gather}
+            \Intt{0}{t}\phi_s(\omega)\,dM_s(\omega) = \phi\cdot M_t(\omega)
+        \end{gather}
+        for all $t\in T$ and $\omega\in\Omega$.
+    \end{property}
+
+    \begin{formula}
+        Let $\rseq{M}$ be a semimartingale and let $\rseq{X}$ be an FX process.
+        \begin{gather}
+            [M,X]_t = \Intt{0}{t}\Delta M_s\,d\!X_s = \sum_{s\leq t}\Delta M_s\Delta X_s\,,
+        \end{gather}
+        where the integral with respect to $X$ is a Lebesgue--Stieltjes integral. In particular, if either process is continuous, their quadratic covariation vanishes. This property is the reason why quadratic variations are a rare sight in ordinary calculus.
+    \end{formula}
+    \begin{result}
+        Let $\rseq{M}$ be a semimartingale and let $\rseq{X}$ be an FX process.
+        \begin{gather}
+            M_tX_t = M_0X_0 + \Intt{0}{t}M_s\,d\!X_s + \Intt{0}{t}X_{s^-}\,dM_s\,,
+        \end{gather}
+        where the integral with respect to $X$ is, again, a Lebesgue--Stieltjes integral.
+    \end{result}
+
+    \todo{COMPLETE SECTION}
+
+    \subsection{Representation theorems}\index{martingale!representation theorem}
+
+    \begin{theorem}[Dudley]\index{Dudley}\label{stoch:dudleys_theorem}
+        Let $\rseq{W}$ be a standard Brownian motion and consider its natural filtration $\mathbb{F}$. For every $\mathbb{F}_\infty$-measurable random variable $\xi$, there exists an $\mathbb{F}$-progressive process $\rseq{\phi}\in L^2(W)$ such that
+        \begin{gather}
+            \xi = \Intt{0}{+\infty}\phi_s\,dW_s\,.
+        \end{gather}
+    \end{theorem}
+
+    \begin{theorem}[Martingale representation theorem]
+        Let $\rseq{W}$ be a standard Brownian motion with its natural filtration $\mathbb{F}$. Every $\mathbb{F}$-local martingale $\rseq{X}$ can be written as
+        \begin{gather}
+            X_t = X_0 + \phi\cdot W_t
+        \end{gather}
+        for a unique predictable $\rseq{\phi}\in L^1_{\emph{loc}}(W)$.
+    \end{theorem}
+    This theorem can generalized in the setting of Giransov's theorem~\ref{stoch:girsanov} as follows. If $\rseq{W}$ is a standard Brownian motion with respect to a measure $P$ and $Q$ is (locally) equivalent to $P$, then every $Q$-local martingale $\rseq{M}$ can be written as
+    \begin{gather}
+        M_t = M_0 + \phi\cdot\widetilde{W}_t\,,
+    \end{gather}
+    where $\rseq{\phi}$ is $\mathbb{F}^W$-predictable and $\rseq{\widetilde{W}}$ is the martingale part of $W$ when regarded as a $Q$-semimartingale.
+
+    The following theorem gives an orthogonal decomposition of local martingales.
+    \begin{theorem}[Kunita--Watanabe]\index{Kunita--Watanabe}
+        Let $\rseq{M}$ be a continuous $\mathbb{F}$-local martingale with respect to some filtration $\mathbb{F}$. Every other continuous $\mathbb{F}$-local martingale $\rseq{X}$ that vanishes at $t=0$ can be written as
+        \begin{gather}
+            X_t = N_t + \phi\cdot M_t
+        \end{gather}
+        where $\rseq{\phi}$ is predictable and $\rseq{N}$ is an $\mathbb{F}$-local martingale orthogonal to $M$.
+    \end{theorem}
+
+    Comparing the previous two statements, the question becomes when the orthogonal part $\rseq{N}$ is a constant.
+    \begin{theorem}[Predictable representation theorem]\label{stoch:prp}
+        Let $\rseq{M}$ be a continuous $\mathbb{F}$-local martingale with respect to a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ and consider its natural filtration $\mathbb{F}^M$. Any $\mathbb{F}^M$-local martingale $\rseq{X}$ can be decomposed as
+        \begin{gather}
+            X_t = X_0 + \phi\cdot M_t
+        \end{gather}
+        for some constant $X_0\in\mathbb{R}$ and $\mathbb{F}^M$-predictable process $\rseq{\phi}$ if and only if $P$ is extremal (\cref{calculus:extreme_point}) in the set of probability measures for which $M$ is a continuous, local martingale.
+    \end{theorem}
+
+    \begin{remark}[Generalization]
+        More generally, a collection of $(\mathbb{F},P)$-local martingales (or even semimartingales) $\bigl\{\rseq{M^1},\ldots\rseq{M^d}\bigr\}$, for a general filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$, is said to satisfy the (strong) predictable representation property (PRP) if every $(\mathbb{F},P)$-local\footnote{In fact, one can relax this to the existence of measure $Q$ (locally) equivalent to $P$.} martingale $\rseq{X}$ can be written as
+        \begin{gather}
+            X_t = X_0 + \symbf{\phi}\cdot\mathbf{M}_t = X_0 + \sum_{i=1}^d\phi^i\cdot M^i_t
+        \end{gather}
+        for some $\mathbb{F}_0$-measurable function $X_0$ and $\mathbb{F}$-predictable process $\rseq{\symbf{\phi}}$ satisfying
+        \begin{gather}
+            \Intt{0}{t}\phi_s^{i,2}\,d[M]_s<+\infty
+        \end{gather}
+        for all $i\leq d$.
+    \end{remark}
+
+    \begin{remark}[Brownian motion]
+        The martingale representation theorem in terms of Brownian motion can be recovered by noting that the Wiener measure is an extremal martingale law on the space $C(\mathbb{R}^+,\mathbb{R})$ by the L\'evy characterization of Brownian motion (\cref{stoch:levy_characterization}).
+    \end{remark}
+
+    Whereas stability under change of distribution was already treated above, the change of filtrations (refinement, in particular) will be treated here.
+    \newdef{Immersion property}{\index{immersion!property}
+        A refinement of filtered probability spaces $(\mathbb{F},P)\hookrightarrow(\mathbb{G},P)$ is said to satisfy the immersion property if every $(\mathbb{F},P)$-martingale is also a $(\mathbb{G},P)$-martingale. A corollary of this property is that also all $(\mathbb{F},P)$-semimartingales are $(\mathbb{G},P)$-semimartingales.
+    }
+
+    \begin{property}\label{stoch:prp_refinement}
+        If $\rseq{\mathbf{M}}$ satisfies the PRP with respect to $(\mathbb{F},P)$, then $(\mathbb{F},Q)\hookrightarrow(\mathbb{G},Q)$ satisfies the immersion property for all probability measures $Q$ (locally) equivalent to $P$, for which $M$ is a $(\mathbb{G},Q)$-local martingale.
+    \end{property}
+
+    A converse, negative result is the following.
+    \begin{property}
+        Let $\rseq{\mathbf{M}}$ satisfy the PRP with respect to $(\mathbb{F},P)$. If the refinement $(\mathbb{F},P)\hookrightarrow(\mathbb{G},P)$ satisfies $\mathbb{G}_0=\{\emptyset,\Omega\}$, then $\mathbf{M}$ does not satisfy the PRP with respect to $(\mathbb{G},P)$.
+    \end{property}
+
+\section{Stochastic differential equations}\index{SDE}
 
     \begin{formula}[It\^o lemma]\index{It\^o!lemma}
         Consider an It\^o process $\rseq{X}$:
@@ -617,90 +861,13 @@
         
         More generally, consider a $d$-dimensional continuous semimartingale $\rseq{X}$ as a function $g\in C^2(\mathbb{R}^d,\mathbb{R})$.
         \begin{gather}
-            \dr f(X) = \pderiv{f}{x^i}(X)\dr X^i + \frac{1}{2}\frac{\partial^2f}{\partial x^i\partial x^j}g(X)\dr\langle X^i,X^j \rangle\,.
+            \dr f(X) = \pderiv{f}{x^i}(X)\dr X^i + \frac{1}{2}\frac{\partial^2f}{\partial x^i\partial x^j}g(X)\dr[X^i,X^j]\,.
         \end{gather}
-        If $\rseq{X}$ is not continuous, a correction has to be applied:
+        If $X$ is not continuous, a correction has to be applied:
         \begin{gather}
-            \dr f(X) = \pderiv{f}{x^i}(X_-)\,\dr X^i + \frac{1}{2}\frac{\partial^2f}{\partial x^i\partial x^j}g(X)\,\dr\langle X^i,X^j \rangle^c + \left(\Delta f(X) - \pderiv{f}{x^i}(X_-)\Delta X^i\right)\,.
+            \dr f(X) = \pderiv{f}{x^i}(X_-)\,\dr X^i + \frac{1}{2}\frac{\partial^2f}{\partial x^i\partial x^j}g(X)\,\dr[X^i,X^j]^c + \left(\Delta f(X) - \pderiv{f}{x^i}(X_-)\Delta X^i\right)\,.
         \end{gather}
     \end{formula}
-
-    \begin{property}[It\^o isometry]\index{It\^o!isometry}\label{stoch:ito_isometry}
-        Consider a local martingale $\rseq{M}$ and a predictable process $\rseq{P}$ such that
-        \begin{gather}
-            \expect{\Intt{0}{+\infty}P^2\,d\langle X \rangle}<+\infty\,.
-        \end{gather}
-        Then $P\in L^1(P)$ and 
-        \begin{gather}
-            \expect{\left(P\cdot M\right)^2} = \expect{\Intt{0}{+\infty}P^2\,d\langle M \rangle}\,.
-        \end{gather}
-    \end{property}
-
-    \begin{property}[Ansel--Stricker]\index{Ansel--Stricker}
-        Let $\rseq{M}$ be a local martingale and consider $P\in L^1(M)$. If $\rseq{P\cdot M}$ is uniformly bounded from below by an integrable random variable, then $\rseq{P\cdot M}$ is a local martingale and even a supermartingale.
-    \end{property}
-
-\subsection{Lebesgue--Stieltjes integration}\index{integral!Lebesgue--Stieltjes}\label{section:stochastic_lebesgue_stieltjes}
-
-    \begin{property}
-        Let $\rseq{X}$ be a continuous stochastic process. If for each $t>0$, the $p$-variation\footnote{The stochastic process obtained by replacing the square in \cref{stoch:quadratic_variation_formula} by the power $p>0$.} converges in probability to a random variable taking values in $\mathbb{R}^+$ almost surely, then the $q$-variations for all $q<p$ vanish in probability, and the $q$-variations for all $q>p$ diverge in probability (on the event where the quadratic variation is nonzero).
-    \end{property}
-    By \cref{stoch:quadratic_variation}, the continuous, square-integrable martingales have a well-defined quadratic variation process. Then, by the property above, this means that their first variation diverges almost surely and that their higher variations are almost surely zero. This shows that it is impossible to obtain a well-defined integration theory with (square-integrable) martingales as integrators. However, instead of looking at the martingales themselves, one can look at their quadratic variation process. These are continuous and increasing and, hence, are equal to their own first variation process. This allows one to define the Lebesgue--Stieltjes integral
-    \begin{gather}
-        I(\omega) := \Intt{0}{t} Y_s(\omega)\,d\langle X \rangle_s(\omega)
-    \end{gather}
-    along sample paths. The following property shows that, in good cases, the stochastic integral and pathwise Lebesgue--Stieltjes integral coincide.
-    \begin{property}
-        Let $\rseq{X}$ be a semimartingale and a predictable stochastic process $\rseq{P}$. If
-        \begin{gather}
-            \Intt{0}{t}|P_s|\,|d\!X_s| < +\infty
-        \end{gather}
-        almost surely for all $t\in T$, where $|d\!X_s|$ denotes the total variation measure (\cref{measure:total_variation}), then $\rseq{P}\in L^1(X)$ and
-        \begin{gather}
-            \Intt{0}{t}P_s\,d\!X_s = P\cdot X_t
-        \end{gather}
-        for all $t\in T$.
-    \end{property}
-
-    \begin{formula}
-        Let $\rseq{X}$ be a semimartingale and let $\rseq{V}$ be an FV process.
-        \begin{gather}
-            \langle X,V \rangle_t = \Intt{0}{t}\Delta X\,dV = \sum_{s\leq t}\Delta X_s\Delta V_s\,,
-        \end{gather}
-        where the integral with respect to $V$ is a Lebesgue--Stieltjes integral. In particular, if either process is continuous, their quadratic covariation vanishes. This property is the reason why quadratic variations are a rare sight in ordinary calculus.
-    \end{formula}
-    \begin{result}
-        Let $\rseq{X}$ be a semimartingale and let $\rseq{V}$ be an FV process.
-        \begin{gather}
-            X_tV_t = X_0V_0 + \Intt{0}{t}X_s\,dV_s + \Intt{0}{t}V_{s^-}\,d\!X_s\,,
-        \end{gather}
-        where the integral with respect to $V$ is, again, a Lebesgue--Stieltjes integral.
-    \end{result}
-
-    \begin{theorem}[Girsanov]\index{Girsanov}\label{measure:girsanov}
-        Consider a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ and an a.s.~continuous semimartingale $\rseq{X}$. Moreover, let $\rseq{W}$ be a Brownian motion. If
-        \begin{gather}
-            M_t := \mathcal{E}(X)_t = \exp\left(\Intt{0}{t}X_s\,dW_s - \frac{1}{2}\Intt{0}{t}\langle X\rangle_s\,ds\right)
-        \end{gather}
-        is a martingale (relative to $\mathbb{F}$), then
-        \begin{gather}
-            \widetilde{W}_t := W_t - \Intt{0}{t}X_s\,ds
-        \end{gather}
-        is a Brownian motion with respect to the transformed measure $M_t\,dP$.
-    \end{theorem}
-    \begin{example}[It\^o process]\index{Novikov!condition}
-        A specific case, which is often taken to be the Girsanov theorem, is given by considering the It\^o process $\dr X_t = \mu_t\dr t + \sigma_t \dr W_t$, where $\rseq{W}$ is a standard Brownian motion with respect to some base measure $P$. If the ratio $\eta_t := \mu_t/\sigma_t$ satisfies the \textbf{Novikov condition}
-        \begin{gather}
-            \expect{\exp\left(\frac{1}{2}\Intt{0}{t}|\eta_s|^2\,ds\right)}<+\infty
-        \end{gather}
-        for all $t\in\mathbb{R}^+$, then $M_t:=\mathcal{E}\left(\Intt{0}{t}\eta_s\,dW_s\right)$ is a martingale\footnote{This is ensured by the Novikov condition.} and
-        \begin{gather}
-            \widetilde{W}_t := W_t - \Intt{0}{t}\eta_s\,ds
-        \end{gather}
-        is a standard Brownian motion with respect to the transformed measure $M_t\dr P$.
-    \end{example}
-
-    \todo{COMPLETE SECTION}
 
 \section{Markov processes}
 
@@ -715,3 +882,5 @@
         \end{gather}
         for all $t,r\in\mathbb{N}$.
     }
+
+    \todo{COMPLETE}

@@ -8,7 +8,7 @@
 \subsection{General definitions}
 
     \newdef{Measure}{\index{measure}\index{outer!measure}\index{$\sigma$!additivity}\label{measure:measure}
-        Let $X$ be a set and let $\Sigma$ be a $\sigma$-algebra over $X$. A function $\mu:\Sigma\rightarrow\overline{\mathbb{R}}$ is called a measure if it satisfies the following conditions:
+        Recall \cref{set:sigma_algebra} and consider a measurable space $(X,\Sigma)$. A function $\mu:\Sigma\rightarrow\overline{\mathbb{R}}$ is called a measure if it satisfies the following conditions:
         \begin{enumerate}
             \item\textbf{Nonnegativity}: $\forall E\in\Sigma:\mu(E)\geq0$,
             \item\textbf{Empty set is null}: $\mu(\emptyset)=0$, and
@@ -20,8 +20,8 @@
         To show that two measures coincide on a $\sigma$-algebra, it suffices to show that they coincide on the generating sets and apply the Monotone Class Theorem~\ref{set:monotone_class}.
     \end{remark}
 
-    \newdef{Measure space}{\label{measure:measure_space}\index{measurable!set}
-        The pair $(X,\Sigma)$ is called a measurable space and the triple $(X,\Sigma,\mu)$ is called a measure space. The elements $E\in\Sigma$ are called \textbf{measurable sets}.
+    \newdef{Measure space}{\label{measure:measure_space}
+        A triple $(X,\Sigma,\mu)$, where the pair $(X,\Sigma)$ is a measurable space and $\mu$ is a measure thereon, is called a measure space.
     }
 
     \newdef{Null set}{\index{null!set}
@@ -608,7 +608,7 @@
         This norm is induced by the following inner product:
         \begin{gather}
             \label{measure:L2_inner_product}
-            \langle f\mid g \rangle := \Int_X\overline{f}g\,d\mu\,.
+            \braket{f}{g} := \Int_X\overline{f}g\,d\mu\,.
         \end{gather}
     \end{property}
 
@@ -828,7 +828,7 @@
         \end{gather}
     }
 
-    Using this outer measure, one can define the $\mu_F$-measurable sets as those sets satisfying Carath\'eodory's criterion (with respect to $\mu_F^*$). The main difference with the Lebesgue measure is that $\mu_F$ is not necessarily translation-invariant and that singletons are not necessarily null.
+    Using this outer measure, one can define the $\mu_F$-measurable sets as those sets satisfying Carath\'eodory's criterion (with respect to $\mu_F^*$). The main difference with the Lebesgue measure is that $\mu_F$ is not necessarily translation invariant and that singletons are not necessarily null.
     \begin{property}[Singletons]\index{atom}
         The $F$-measure of a singleton $\{x\}$ is equal to the jump of $F$ at $x$:
         \begin{gather}
@@ -841,9 +841,9 @@
     \end{result}
 
     \begin{property}[Regularity]\index{Borel!measure}
-        The Lebesgue--Stieltjes measure is a Radon measure. Furthermore, every Radon measure $\mu$ on $\mathbb{R}$ is equal to a Lebesgue--Stieltjes measure induced by the function
+        The Lebesgue--Stieltjes measure is a Radon measure. Furthermore, every Radon measure $\mu$ on $\mathbb{R}$ is equal to a Lebesgue--Stieltjes measure induced by the \textit{cumulative distribution function} (see \cref{prob:cdf})
         \begin{gather}
-            F(x) = \mu\bigl(]-\!\infty,x]\bigr)\,.
+            F_\mu(x) = \mu\bigl(]-\!\infty,x]\bigr)\,.
         \end{gather}
     \end{property}
 
@@ -869,12 +869,12 @@
         \end{gather}
         Triangular means that $Tx\equiv\bigl(f_1(x_1),f_2(x_1,x_2),\ldots,f_n(x_1,\ldots,x_n)\bigr)$ for some Borel functions $f_i:\mathbb{R}^i\rightarrow\mathbb{R}$ and increasing means that each $f_i$ is an increasing function of $x_i$.
     \end{property}
-    \begin{remark}
-        For $\mathbb{R}$ the Borel function $T$ is obtained by first mapping $\mu$ to the Lebesgue measure on $[0,1]$ and then mapping it to $\nu$. Explicitly, let $F_\mu$ be the \textit{cumulative dsitribution} of $\mu$:
+    \begin{remark}\index{quantile}
+        For $\mathbb{R}$, the Borel function $T$ is obtained by first mapping $\mu$ to the Lebesgue measure on $[0,1]$ and then mapping it to $\nu$. Explicitly, let $F_\mu$ be the \textit{cumulative distribution function} (see \cref{prob:cdf}) of $\mu$:
         \begin{gather}
             F_\mu(x) := \mu\bigl(]-\infty,x]\bigr)\,,
         \end{gather}
-        and let $G_\nu$ be the \textit{quantile function} of $\nu$:
+        and let $G_\nu$ be the \textbf{quantile function} of $\nu$:
         \begin{gather}
             G_\nu(x) := \inf\{t\in\mathbb{R}\mid F_\nu(t)\geq x\}\,.
         \end{gather}
@@ -882,6 +882,8 @@
         \begin{gather}
             T = G_\nu\circ F_\mu\,.
         \end{gather}
+
+        \todo{ADD quantile function}
     \end{remark}
 
     \begin{remark}[Bounded variation]\label{measure:bounded_variation_integral}
@@ -972,9 +974,9 @@
         If $F$ is absolutely continuous and $F'=0$ $\lambda$-a.e., then $F$ is constant.
     \end{result}
 
-\section{Bochner integral}\index{Bochner!integral}
+\section{Bochner integral}\index{Bochner!integral}\label{section:bochner_integral}
 
-    In this section, the Lebesgue integral is generalized to functions taking values in general \textit{Banach space} (see \cref{section:banach}). Since addition still makes sense in these space, \cref{measure:integral_simple_function} can also still be used.
+    In this section, the Lebesgue integral is generalized to functions taking values in general \textit{Banach spaces} (see \cref{section:banach}). Since addition still makes sense in these spaces, \cref{measure:integral_simple_function} can still be used.
     \newdef{Bochner integral of simple functions}{\index{Lebesgue!integral}\label{measure:bochner_integral_simple_function}
         Consider a simple function $\varphi$ on a measure space $(X,\Sigma,\mu)$ taking values in a Banach space $V$. The Lebesgue integral of $\varphi$ over a measurable set $A\in\Sigma$ with respect to $\mu$ is given by
         \begin{gather}
@@ -984,7 +986,7 @@
     }
 
     \newdef{Bochner integrability}{
-        A Banach-space valued measurable function $f:(X,\Sigma)\rightarrow(V,\Omega)$ is said to be Bochner integrable if there exists a sequence $\seq{\varphi}$ of integrable simple functions such that
+        A Banach space-valued measurable function $f:(X,\Sigma)\rightarrow(V,\Omega)$ is said to be Bochner integrable if there exists a sequence $\seq{\varphi}$ of integrable simple functions such that
         \begin{gather}
             \lim_{n\rightarrow\infty}\Int_X\|f-\varphi_n\|_V\,d\mu=0\,.
         \end{gather}
@@ -993,3 +995,5 @@
             \Int_Xf\,d\mu:=\lim_{n\rightarrow\infty}\Int_X\varphi_n\,d\mu\,.
         \end{gather}
     }
+
+    \todo{COMPLETE}

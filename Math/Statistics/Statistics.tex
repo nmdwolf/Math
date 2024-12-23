@@ -212,6 +212,8 @@
 
     In the following sections and subsections, all distributions will be taken to be continuous. The formulas can be generalized to discrete distributions by replacing the integral with a summation.
 
+\subsection{Constructions}
+
     \begin{definition}[Percentile]\index{percentile}
         The $p$-percentile of a cumulative distribution $F$ is defined as follows:
         \begin{gather}
@@ -231,6 +233,8 @@
         \end{gather}
         Every element of this family is called a \textbf{mixture distribution}.
     \end{example}
+
+    \todo{TRY TO ORGANIZE BETTER}
 
 \subsection{Empirical distribution}
 
@@ -336,155 +340,6 @@
         in $D(\mathbb{R},\|\cdot\|_\infty)$, where $U$ is a standard Brownian bridge and $D(\mathbb{R},\|\cdot\|_\infty)$ denotes the space of c\`adl\`ag functions equipped with the supremum metric (\cref{metric:supremum_distance}).
     \end{theorem}
 
-\subsection{Common distributions}
-
-    \newdef{Uniform distribution}{\index{distribution!uniform}\label{statistics:uniform_distr}
-        \begin{align}
-            f(x;a,b) &:=
-            \begin{cases}
-                \frac{1}{b-a}&\cif a\leq x\leq b\\
-                0&\text{elsewhere}
-            \end{cases}\\\nonumber\\
-            \expect{x} &= \frac{a+b}{2}\\\nonumber\\
-            \variance{x} &= \frac{(b-a)^2}{12}
-        \end{align}
-    }
-
-    \newdef{Gaussian distribution}{\index{distribution!normal}\index{Gauss!distribution}\label{statistics:normal_distr}
-        Let $\sigma$ be a positive number.
-        \begin{gather}
-            \mathcal{N}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
-        \end{gather}
-        This distribution is also called a (univariate) \textbf{normal distribution} with \textbf{mean} $\mu$ and \textbf{standard deviation} $\sigma$ (or \textbf{variance} $\sigma^2$).
-
-        This formula can also be generalized to multivariate distributions. Let $\Sigma$ be a positive-definite matrix, the \textbf{covariance} matrix. The associated multivariate normal distribution is given by
-        \begin{gather}
-            \mathcal{N}(\vector{x};\vector{\mu},\Sigma) = \frac{1}{\sqrt{2\pi}\det(\Sigma)}\exp\left(-\frac{(\vector{x}-\vector{\mu})^T\Sigma^{-1}(\vector{x}-\vector{\mu})}{2}\right)\,.
-        \end{gather}
-    }
-
-    \newdef{Standard normal distribution}{\index{error!function}\label{statistics:standard_normal_distr}
-        \begin{gather}
-            \mathcal{N}(z) := \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}
-        \end{gather}
-        The cumulative distribution of $\mathcal{N}$ is called the \textbf{error function} $\mathrm{erf}(x)$.
-    }
-    \begin{remark}\index{standardization}
-        Every Gaussian distribution can be transformed into a standard normal distribution by passing to the random variable $Z=\tfrac{X-\mu}{\sigma}$. This transformation is often called \textbf{standardization}.
-    \end{remark}
-
-    \begin{theorem}[Central limit theorem]\index{central!limit theorem}\label{statistics:CLT}
-        A sum of $n\in\mathbb{N}$ i.i.d. random variables $X_i$ distributed according to a distribution with mean $\mu$ and variance $\sigma^2$ satisfies the following property:
-        \begin{gather}
-            \sqrt{n}\left(\sum_{i=1}^nX_i - \mu\right)\overset{d}{\longrightarrow}\mathcal{N}(0,\sigma^2)\,.
-        \end{gather}
-    \end{theorem}
-    \begin{remark}
-        If the random variables are not independent, the CLT will not hold. However, a generalization to distributions that are not identical exists. These are the \textit{Lyapunov} and \textit{Lindeberg} CLTs. (This generalization does require additional conditions on the higher moments.)
-    \end{remark}
-    \begin{formula}
-        The sum of any number of (independent) Gaussian random variables is again Gaussian with the sum of the means and variances as parameters:
-        \begin{gather}
-            \forall i\in I:X_i\sim\mathcal{N}(\mu_i,\sigma^2_i)\implies\sum_{i\in I}X_i\sim\mathcal{N}\left(\sum_{i\in I}\mu_i,\sum_{i\in I}\sigma^2_i\right)\,.
-        \end{gather}
-    \end{formula}
-
-    \newdef{Exponential distribution}{\index{distribution!exponential}\label{statistics:exponential_distr}
-        \begin{align}
-            f(x;\tau) &:= \frac{1}{\tau}e^{-\frac{x}{\tau}}\\\nonumber\\
-            \expect{x} &= \tau\\\nonumber\\
-            \variance{x} &= \tau^2\
-        \end{align}
-    }
-    \begin{property}\index{memory}\label{statistics:memoryless_exponential_distribution}
-        The exponential distribution is \textbf{memoryless}:
-        \begin{gather}
-            \Prob(X>x_1+x_2\mid X>x_2) = \Prob(X>x_1)\,.
-        \end{gather}
-    \end{property}
-
-    \newdef{Bernoulli distribution}{\index{distribution!Bernoulli}\index{Bernoulli|seealso{distribution}}\label{statistics:bernoulli_distr}
-        A random variable that can only take 2 possible values is described by a Bernoulli distribution. When the possible values are 0 and 1, with respective probabilities $\rho$ and $1-\rho$, the distribution is given by
-        \begin{align}
-            p(k;\rho) &:= \rho^k(1-\rho)^{1-k}\,,\\\nonumber\\
-            \expect{k} &= \rho\,,\\\nonumber\\
-            \variance{k} &= \rho(1-\rho)\,.
-        \end{align}
-    }
-
-    \newdef{Binomial distribution}{\index{distribution!binomial}\label{statistics:binomial_distr}
-        A process with $n\in\mathbb{N}$ i.i.d.~Bernoulli trials with probability $\rho$, is described by a binomial distribution:
-        \begin{align}
-            \mathrm{Binom}(k;\rho,n) &:= \binom{n}{k}\rho^k(1-\rho)^{n-k}\,,\\\nonumber\\
-            \expect{k} &= n\rho\,,\\\nonumber\\
-            \variance{k} &= n\rho(1-\rho)\,.
-        \end{align}
-    }
-
-    \newdef{Poisson distribution}{\index{distribution!Poisson}\label{statistics:poisson_distr}
-        A process with known possible outcomes but an unknown number of events is described by a Poisson distribution with average expected number of events $\lambda\in\mathbb{N}$.
-        \begin{align}
-            \mathrm{Poisson}(r;\lambda) &:= \frac{e^{-\lambda}\lambda^r}{r!}\\\nonumber\\
-            \expect{r} &= \variance{r} = \lambda\
-        \end{align}
-    }
-    \begin{formula}
-        If multiple independent Poisson processes occur simultaneously, the probability of $r\in\mathbb{N}$ events is also described by a Poisson distribution:
-        \begin{gather}
-            \forall i\in I:X_i\sim\mathrm{Poisson}(\lambda_i)\implies\sum_{i\in I}X_i\sim\mathrm{Poisson}\left(\sum_{i\in I}\lambda_i\right)\,.
-        \end{gather}
-        The number of events coming from the process described by $\lambda_i\mid r=\sum_{i\in I}\lambda_i$ is given by a binomial distribution $\mathrm{Binom}(r_i;\Lambda_i,r)$ with $\Lambda_i = \frac{\lambda_i}{\sum_{i\in I}\lambda_i}$.
-    \end{formula}
-    \begin{remark}
-        For $\lambda\longrightarrow+\infty$, the Poisson distribution $\mathrm{Poisson}(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{N}(x;\lambda,\sqrt{\lambda})$.
-    \end{remark}
-    \begin{theorem}[Raikov]\index{Raikov}
-        If the sum of two independent random variables is Poisson, the individual random variables are also Poisson.
-    \end{theorem}
-
-    \newdef{$\chi^2$-distribution}{\index{distribution!$\chi^2$}\label{statistics:chi_squared_distr}
-        The sum of $k\in\mathbb{N}$ squared independent (standard) normally distributed random variables $Y_i$ defines the random variable
-        \begin{gather}
-            \chi^2_k := \sum_{i=1}^kY_i^2\,,
-        \end{gather}
-        where $k$ is said to be the number of \textbf{degrees of freedom}. The associated density is
-        \begin{gather}
-            f(\chi^2;n) := \frac{\chi^{n-2}e^{-\frac{\chi^2}{2}}}{2^{\frac{n}{2}}\Gamma\left(\frac{n}{2}\right)}\,.
-        \end{gather}
-    }
-    \begin{property}
-        Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n\in\mathbb{N}$:
-        \begin{gather}
-            f(\chi^2;n)\overset{n>30}{\longrightarrow}\mathcal{N}(\sqrt{2\chi^2};\sqrt{2n-1},1)\,.
-        \end{gather}
-    \end{property}
-
-    \newdef{Student-$t$ distribution}{\index{distribution!Student-$t$}\label{statistics:student_t_distr}
-        The Student-$t$ distribution describes the difference between the true mean and a sample average with estimated standard deviation $\hat{\sigma}$:
-        \begin{gather}
-            f(t;n) := \frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\ \Gamma\left(\frac{n}{2}\right)\left(1 + \frac{t^2}{n}\right)^{\frac{n+1}{2}}}\,,
-        \end{gather}
-        where
-        \begin{gather}
-            t := \frac{(x-\mu)/\sigma}{\hat{\sigma}/\sigma} = \frac{z}{\sqrt{\chi^2/n}}\,.
-        \end{gather}
-    }
-
-    \newdef{Cauchy distribution\footnotemark}{\index{Cauchy!distribution}\index{Breit--Wigner|see{Cauchy distribution}}\label{statistics:cauchy_distribution}
-        \footnotetext{Also known, especially in particle physics, as the \textbf{Breit--Wigner} distribution.}
-        The general density $f(x;x_0,\gamma)$ is given by
-        \begin{gather}
-            f(x;x_0,\gamma) := \frac{1}{\pi}\frac{\gamma}{(x - x_0)^2 + \gamma^2}\,.
-        \end{gather}
-        The associated characteristic function is given by
-        \begin{gather}
-            \expect{e^{itx}} = e^{ix_0t - \gamma|t|}\,.
-        \end{gather}
-    }
-    \begin{remark}
-        Both the mean and variance of the Cauchy distribution are undefined.
-    \end{remark}
-
 \section{Errors}
 
     \newdef{Systematic error}{\index{error}
@@ -540,7 +395,7 @@
         where $J$ is the Jacobian matrix of $f$.
     \end{result}
 
-\section{Parameter estimation}
+\section{Parameter estimation}\label{section:parameter_estimation}
 \subsection{General properties}
 
     \newdef{Consistency}{\index{consistency}\label{statistics:consistency}

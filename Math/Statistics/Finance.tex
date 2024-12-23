@@ -17,26 +17,24 @@
     }
 
     \newdef{Discounting}{\index{discounting}\index{risk!free}\label{finance:discounting}
-        Consider an initial asset price $S_0$ and let $r:\mathbb{R}^+\rightarrow\mathbb{R}$ denote the (deterministic) continuous-time interest rate of the asset. The associated asset price $S:\mathbb{R}^+\rightarrow\mathbb{R}$ is given by
+        Consider an initial asset price $S_0$ and let $r:\mathbb{R}^+\rightarrow\mathbb{R}$ denote the continuous-time interest rate of the asset. The associated asset price $S:\mathbb{R}^+\rightarrow\mathbb{R}$ is given by
         \begin{gather}
             \label{finance:riskless_asset}
             S(t) := S_0\exp\left(\Int_0^tr(s)\,ds\right)\,.
         \end{gather}
-        For discrete accruals, e.g.~annual interest rates, the correct formula is
+        Any asset satisfying this equation or, equivalently, satisfying the SDE
+        \begin{gather}
+            \dr S = r_tS_t\dr t\,,
+        \end{gather}
+        is said to be \textbf{riskfree} or \textbf{riskless}. For discrete accruals, e.g.~annual interest rates, the correct formula is
         \begin{gather}
             S_n = S_0\prod_{i=1}^n(1+r_i)\,.
         \end{gather}
         For fixed interest rates $r\in\mathbb{R}$, this gives the classical formula
         \begin{gather}
-            S_n = S_0\frac{1}{(1+r)^n}\,.
+            S_n = S_0(1+r)^n\,.
         \end{gather}
-        In case $r$ is nondeterministic, i.e.~modelled by a stochastic process, the correct formula is given by
-        \begin{gather}
-            S_t = S_0\mathcal{E}(r)_t\,,
-        \end{gather}
-        where $\mathcal{E}$ is the Dol\'eans-Dade exponential \cref{stoch:stochastic_exponential}.
-
-        The factor $\mathcal{E}(r)_t$ is often denoted by $B_t$, while its (multiplicative) inverse is denoted by $D_t:=B_t^{-1}$. The reason for this terminology is that $D_t$ is a \textbf{discount factor} and $B_t$ represents the value of a bond with initial value 1. Assets satisfying \cref{finance:riskless_asset}, i.e.~whose interest rate is deterministic, are also said to be \textbf{risk free} or \textbf{riskless}.
+        The proportionality factor is often denoted by $B_t$, while its (multiplicative) inverse is denoted by $D_t:=B_t^{-1}$. The reason for this terminology is that $D_t$ is a \textbf{discount factor} and $B_t$ represents the value of a bond with initial value 1.
     }
 
     \newdef{Payoff}{\index{payoff}
@@ -63,17 +61,16 @@
 \section{Instruments and derivatives}
 
     \newdef{Contingent claim}{\index{claim}\index{Arrow--Debreu!asset}
-        A contingent claim (with time of maturity $T\in\mathbb{R}^+$) on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is an $\mathbb{F}_T$-measurable function. (Often, this function is also required to be square integrable.)
+        A contingent claim (with time of maturity $T\in\mathbb{R}^+$) on a filtered probability space $(\Omega,\Sigma,\mathbb{F},P)$ is an $\Sigma$-measurable function that depends on the stochastic process $(S_t)_{t\in[0,T]}$. (Often, this function is also required to be square integrable.)
         
-        \finance{A contingent claim, with maturity $T\in\mathbb{R}^+$, corresponds to a contract where the seller promises a random payoff at time $T$.}
-    }
-    \begin{remark}[European claims]\index{European}
-        European claims only depend on the asset value at maturity $T$, i.e.
+        \textbf{European claims} only depend on the asset value $S$ at maturity $T$, i.e.
         \begin{gather}
             X = f(S_T)
         \end{gather}
-        for some measurable $f:\mathbb{R}^m\rightarrow\mathbb{R}^n$.
-    \end{remark}
+        for some measurable $f:\mathbb{R}^m\rightarrow\mathbb{R}^n$, i.e.~they are $\mathbb{F}_T$-measurable functions. Claims that are not European are said to be \textbf{American}.
+        
+        \finance{A (European) contingent claim, with maturity $T\in\mathbb{R}^+$, corresponds to a contract where the seller promises a random payoff at time $T$.}
+    }
 
     \newdef{Forward}{\index{forward}
         A forward with forward price $K\in\mathbb{R}$ for an asset $\rseq{S}$ at maturity $T\in\mathbb{R}^+$ has payoff
@@ -244,7 +241,12 @@
         \begin{gather}
             \mathrm{Val}_0(\pi) = x\,.
         \end{gather}
-        A hedge for which $x=\mathrm{price}(H)$ is called a minimal hedge.
+        A hedge for which $\mathrm{Val}_T(\pi)\geq H$ is called a \textbf{minimal hedge}. An example would be a replicating portfolio.
+
+        For American claims, a hedge is called \textbf{minimal} if there exists a stopping time $\tau$ such that
+        \begin{gather}
+            \mathrm{Val}_\tau(\pi)\geq H_\tau\,.
+        \end{gather}
     }
 
 \subsection{Arbitrage}
@@ -297,7 +299,7 @@
 \subsection{Completeness}
 
     \newdef{Completeness}{\index{complete!market}\index{!Arrow--Debreu!market}\index{hedging}
-        A market is said to be \textbf{complete} (or called an \textbf{Arrow--Debreu market}) if every (European) contingent claim admits a replicating self-financing portfolio (also called a \textbf{hedging strategy}). The hedging assets are $\bigl(S,(\mathrm{Val}_t(\pi;S)-\pi_tS_t,\pi)\bigr)$.
+        A market is said to be \textbf{complete} or to be an \textbf{Arrow--Debreu market} if every (European) contingent claim admits a replicating, self-financing portfolio. This portfolio is also called a \textbf{hedging strategy} and assets for which such a strategy exists, are said to be \textbf{hedgeable}. The hedging assets are $\bigl(S,(\mathrm{Val}_t(\pi;S)-\pi_tS_t,\pi)\bigr)$.
         
         On a finite state space $\Omega$, this corresponds to there being $|\Omega|$ linearly independent assets. These can be, for example, \textbf{Arrow--Debreu assets}\footnote{Also called \textbf{primitive} or \textbf{pure securities}}, i.e.~assets that pays of one unit of wealth for a given state and zero for all others.
     }
@@ -318,7 +320,7 @@
         \end{enumerate}
     \end{theorem}
 
-    \begin{property}[Arbitrage pricing\footnotemark]
+    \begin{property}[Arbitrage pricing\footnotemark]\index{price}
         \footnotetext{These formulas hold in any viable market. Completeness is only required to price contingent claims in terms of replicating portfolios.}
         Let $\rseq{N}$ be a num\'eraire as before and consider an asset price $\rseq{S}$ in a complete and arbitrage free market. If $Q$ is the unique risk-neutral measure with respect to $N$, the (relative) price of $S$ satisfies
         \begin{gather}
@@ -328,7 +330,11 @@
         \begin{gather}
             V_t^H = B_t\mathrm{E}_Q[D_TH\mid\mathbb{F}_t]\,,
         \end{gather}
-        A market is arbitrage free if and only if this formula holds for all contingent claims.
+        A market is arbitrage free if and only if this formula holds for all hedgeable contingent claims. If a contingent claim $H$ is not hedgeable, its set of \textbf{arbitrage-free prices}, i.e.~all initial values that do not give rise to an arbitrage opportunity when augmenting the assets $S$ with $H$, is given by the set
+        \begin{gather}
+            \Pi(H;S) = \{\mathrm{E}_Q[D_TH]\mid Q\in\mathcal{P}(S)\land \mathrm{E}_Q[H]<+\infty\}\,,
+        \end{gather}
+        where $\mathcal{P}(S)$ denotes the set of risk-free measures for $S$. It is not hard to show that this is either the empty set or an interval.
     \end{property}
 
     \begin{result}[Put-call parity]\index{parity!put-call}

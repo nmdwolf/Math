@@ -1,6 +1,6 @@
 \chapter{Probability Theory}\label{chapter:probability}
 
-    The majority of this chapter uses the language of measure theory. See \cref{chapter:measure} for an introduction.
+    The majority of this chapter uses the language of measure theory. See \cref{chapter:measure} for an introduction. The section on optimal transport is partially based on~\citet{beiglboeck_general_2009,nenna_monge_2020}.
 
     \minitoc
 
@@ -117,6 +117,7 @@
     \end{result}
 
 \section{Probability distributions}\label{section:probability_distributions}
+\subsection{Distribution functions}
 
     \newdef{Probability distribution}{\index{probability!distribution}\label{prob:probability_distribution}
         Let $X$ be a random variable defined on a probability space $(\Omega,\Sigma,P)$. The following function is a measure on the Borel $\sigma$-algebra of $\mathbb{R}$:
@@ -130,8 +131,8 @@
         A random variable on $\Omega=\{-1,1\}$ with probability distribution $P_X(-1)=P_X(1)=\frac{1}{2}$.
     \end{example}
 
-    \newdef{Density}{\index{density}\index{mass}
-        Let $f\geq0$ be an integrable function and recall \cref{measure:measure_by_integral}. The function $f$ is called the density of the measure $P(A):=\int_Af\,d\lambda$ (with respect to the Lebesgue measure $\lambda$). If the measure is a probability measure, i.e.~is normalized to 1, $f$ is called a \textbf{probability density function}.
+    \newdef{Density}{\index{density}\index{mass}\label{prob:density}
+        Consider an integrable function $f\geq0$ and recall \cref{measure:measure_by_integral}. The function $f$ is called the density of the measure $P(A):=\int_Af\,d\lambda$ (with respect to the Lebesgue measure $\lambda$). If the measure is a probability measure, i.e.~is normalized to 1, $f$ is called a \textbf{probability density function}.
 
         More generally, by the Radon--Nikodym Theorem~\ref{measure:radon_nikodym}, every absolutely continuous probability distribution $P$ is of the form
         \begin{gather}
@@ -139,7 +140,7 @@
         \end{gather}
         for some integrable function $f$.
 
-        In the case where $P$ is discrete, i.e.~where one works with respect to the counting measure, the Radon--Nikodym derivative is called the \textbf{probability mass function}. (In this compendium this function will also often be called the density function.)
+        When $P$ is discrete, i.e.~where one works with respect to the counting measure, the Radon--Nikodym derivative is called the \textbf{probability mass function}. (In this compendium this function will also often be called the density function.)
     }
 
     \newdef{Cumulative distribution function}{\index{cumulative distribution function}\label{prob:cdf}
@@ -219,8 +220,7 @@
         Convergence in probability implies convergence in distribution.
     }
 
-\section{Moments}
-\subsection{Expectation value}
+\subsection{Moments}\label{section:moments}
 
     \newdef{Expectation value}{\index{expectation}\label{prob:expectation_value}
         Let $X$ be random variable defined on a probability space $(\Omega,\Sigma,P)$.
@@ -524,6 +524,157 @@
         \end{gather}
     \end{theorem}
 
+\subsection{Common distributions}
+
+    In this section, some common distribution functions will be covered. In most cases, only a Radon--Nikodym derivative (or density function in accordance with \cref{prob:density}) with respect to the Lebesgue measure on $\mathbb{R}$ will be given.
+
+    \newdef{Uniform distribution}{\index{distribution!uniform}\label{statistics:uniform_distr}
+        \begin{align}
+            f(x;a,b) &:=
+            \begin{cases}
+                \frac{1}{b-a}&\cif a\leq x\leq b\\
+                0&\text{elsewhere}
+            \end{cases}\\\nonumber\\
+            \expect{x} &= \frac{a+b}{2}\\\nonumber\\
+            \variance{x} &= \frac{(b-a)^2}{12}
+        \end{align}
+    }
+
+    \newdef{Gaussian distribution}{\index{distribution!normal}\index{Gauss!distribution}\label{statistics:normal_distr}
+        Let $\sigma$ be a positive number.
+        \begin{gather}
+            \mathcal{N}(x;\mu,\sigma) := \frac{1}{\sqrt{2\pi}\sigma}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+        \end{gather}
+        This distribution is also called a (univariate) \textbf{normal distribution} with \textbf{mean} $\mu$ and \textbf{standard deviation} $\sigma$ (or \textbf{variance} $\sigma^2$).
+
+        This formula can also be generalized to multivariate distributions. Let $\Sigma$ be a positive-definite matrix, called the \textbf{covariance} matrix. The associated multivariate normal distribution is given by
+        \begin{gather}
+            \mathcal{N}(\vector{x};\vector{\mu},\Sigma) = \frac{1}{\sqrt{2\pi}\det(\Sigma)}\exp\left(-\frac{(\vector{x}-\vector{\mu})^T\Sigma^{-1}(\vector{x}-\vector{\mu})}{2}\right)\,.
+        \end{gather}
+    }
+
+    \newdef{Standard normal distribution}{\index{error!function}\label{statistics:standard_normal_distr}
+        \begin{gather}
+            \mathcal{N}(z) := \frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}
+        \end{gather}
+        The cumulative distribution of $\mathcal{N}$ is called the \textbf{error function} $\mathrm{erf}(x)$.
+    }
+    \begin{remark}\index{standardization}
+        Every Gaussian distribution can be transformed into a standard normal distribution by passing to the random variable $Z=\tfrac{X-\mu}{\sigma}$. This transformation is often called \textbf{standardization}.
+    \end{remark}
+
+    \begin{theorem}[Central limit theorem]\index{central!limit theorem}\label{statistics:CLT}
+        A sum of $n\in\mathbb{N}$ i.i.d.~random variables $X_i$ distributed according to a distribution with mean $\mu$ and variance $\sigma^2$ satisfies the following property:
+        \begin{gather}
+            \sqrt{n}\left(\sum_{i=1}^nX_i - \mu\right)\overset{d}{\longrightarrow}\mathcal{N}(0,\sigma^2)\,.
+        \end{gather}
+    \end{theorem}
+    \begin{remark}
+        If the random variables are not independent, the CLT will not hold. However, a generalization to distributions that are not identical exists. These are the \textit{Lyapunov} and \textit{Lindeberg} CLTs. (This generalization does require additional conditions on the higher moments.)
+    \end{remark}
+    \begin{formula}
+        The sum of any number of (independent) Gaussian random variables is again Gaussian with the sum of the means and variances as parameters:
+        \begin{gather}
+            \forall i\in I:X_i\sim\mathcal{N}(\mu_i,\sigma^2_i)\implies\sum_{i\in I}X_i\sim\mathcal{N}\left(\sum_{i\in I}\mu_i,\sum_{i\in I}\sigma^2_i\right)\,.
+        \end{gather}
+    \end{formula}
+
+    \newdef{Exponential distribution}{\index{distribution!exponential}\label{statistics:exponential_distr}
+        \begin{align}
+            f(x;\tau) &:= \frac{1}{\tau}e^{-\frac{x}{\tau}}\\\nonumber\\
+            \expect{x} &= \tau\\\nonumber\\
+            \variance{x} &= \tau^2\
+        \end{align}
+    }
+    \begin{property}\index{memory}\label{statistics:memoryless_exponential_distribution}
+        The exponential distribution is \textbf{memoryless}:
+        \begin{gather}
+            \Prob(X>x_1+x_2\mid X>x_2) = \Prob(X>x_1)\,.
+        \end{gather}
+    \end{property}
+
+    \newdef{Bernoulli distribution}{\index{distribution!Bernoulli}\index{Bernoulli|seealso{distribution}}\label{statistics:bernoulli_distr}
+        Any binary random variable is described by a Bernoulli distribution. When the possible values are 0 and 1 (without loss of generality), with respective probabilities $\rho$ and $1-\rho$, the distribution is given by
+        \begin{align}
+            p(k;\rho) &:= \rho^k(1-\rho)^{1-k}\,,\\\nonumber\\
+            \expect{k} &= \rho\,,\\\nonumber\\
+            \variance{k} &= \rho(1-\rho)\,.
+        \end{align}
+    }
+
+    \newdef{Binomial distribution}{\index{distribution!binomial}\label{statistics:binomial_distr}
+        A process with $n\in\mathbb{N}$ i.i.d.~Bernoulli trials with probability $\rho$, is described by a binomial distribution:
+        \begin{align}
+            \mathrm{Binom}(k;\rho,n) &:= \binom{n}{k}\rho^k(1-\rho)^{n-k}\,,\\\nonumber\\
+            \expect{k} &= n\rho\,,\\\nonumber\\
+            \variance{k} &= n\rho(1-\rho)\,.
+        \end{align}
+    }
+
+    \newdef{Poisson distribution}{\index{distribution!Poisson}\label{statistics:poisson_distr}
+        A process with known possible outcomes but an unknown number of events is described by a Poisson distribution with average expected number of events $\lambda\in\mathbb{N}$.
+        \begin{align}
+            \mathrm{Poisson}(r;\lambda) &:= \frac{e^{-\lambda}\lambda^r}{r!}\\\nonumber\\
+            \expect{r} &= \variance{r} = \lambda\
+        \end{align}
+    }
+    \begin{formula}
+        If multiple independent Poisson processes occur simultaneously, the probability of $r\in\mathbb{N}$ events is also described by a Poisson distribution:
+        \begin{gather}
+            \forall i\in I:X_i\sim\mathrm{Poisson}(\lambda_i)\implies\sum_{i\in I}X_i\sim\mathrm{Poisson}\left(\sum_{i\in I}\lambda_i\right)\,.
+        \end{gather}
+        The number of events coming from the process described by $\lambda_i\mid r=\sum_{i\in I}\lambda_i$ is given by a binomial distribution $\mathrm{Binom}(r_i;\Lambda_i,r)$ with $\Lambda_i = \frac{\lambda_i}{\sum_{i\in I}\lambda_i}$.
+    \end{formula}
+    \begin{remark}
+        For $\lambda\longrightarrow+\infty$, the Poisson distribution $\mathrm{Poisson}(r;\lambda)$ can be approximated by a Gaussian distribution $\mathcal{N}(x;\lambda,\sqrt{\lambda})$.
+    \end{remark}
+    \begin{theorem}[Raikov]\index{Raikov}
+        If the sum of two independent random variables is Poisson, the individual random variables are also Poisson.
+    \end{theorem}
+
+    \newdef{$\chi^2$-distribution}{\index{distribution!$\chi^2$}\label{statistics:chi_squared_distr}
+        The sum of $k\in\mathbb{N}$ squared independent (standard) normally distributed random variables $Y_i$ defines the random variable
+        \begin{gather}
+            \chi^2_k := \sum_{i=1}^kY_i^2\,,
+        \end{gather}
+        where $k$ is said to be the number of \textbf{degrees of freedom}. The associated density is
+        \begin{gather}
+            f(\chi^2;n) := \frac{\chi^{n-2}e^{-\frac{\chi^2}{2}}}{2^{\frac{n}{2}}\Gamma\left(\frac{n}{2}\right)}\,.
+        \end{gather}
+    }
+    \begin{property}
+        Due to the CLT \ref{statistics:CLT}, the $\chi^2$-distribution approximates a Gaussian distribution for large $n\in\mathbb{N}$:
+        \begin{gather}
+            f(\chi^2;n)\overset{n>30}{\longrightarrow}\mathcal{N}\left(\sqrt{2\chi^2};\sqrt{2n-1},1\right)\,.
+        \end{gather}
+    \end{property}
+
+    \newdef{Student-$t$ distribution}{\index{distribution!Student-$t$}\label{statistics:student_t_distr}
+        The Student-$t$ distribution describes the difference between the true mean and a sample average with estimated standard deviation $\widehat{\sigma}$ (see \cref{section:parameter_estimation}):
+        \begin{gather}
+            f(t;n) := \frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\ \Gamma\left(\frac{n}{2}\right)\left(1 + \frac{t^2}{n}\right)^{\frac{n+1}{2}}}\,,
+        \end{gather}
+        where
+        \begin{gather}
+            t := \frac{(x-\mu)/\sigma}{\widehat{\sigma}/\sigma} = \frac{z}{\sqrt{\chi^2/n}}\,.
+        \end{gather}
+    }
+
+    \newdef{Cauchy distribution\footnotemark}{\index{Cauchy!distribution}\index{Breit--Wigner|see{Cauchy distribution}}\label{statistics:cauchy_distribution}
+        \footnotetext{Also known, especially in particle physics, as the \textbf{Breit--Wigner} distribution.}
+        The general density $f(x;x_0,\gamma)$ is given by
+        \begin{gather}
+            f(x;x_0,\gamma) := \frac{1}{\pi}\frac{\gamma}{(x - x_0)^2 + \gamma^2}\,.
+        \end{gather}
+        The associated characteristic function is given by
+        \begin{gather}
+            \expect{e^{itx}} = e^{ix_0t - \gamma|t|}\,.
+        \end{gather}
+    }
+    \begin{remark}
+        Both the mean and variance of the Cauchy distribution are undefined.
+    \end{remark}
+
 \section{Information theory}
 
     \newdef{Self-information}{\index{information}
@@ -591,7 +742,7 @@
     \end{theorem}
 
     \begin{theorem}[Pickands, Balkema \& de Haan]\index{distribution!Pareto}
-        Consider a sequence of i.i.d.random variables with conditional excess distribution $F_u$. If the distribution $F$ lies in the domain of attraction of the extreme value distribution, the conditional excess distribution $F_u$ converges to the generalised Pareto distribution when $u\longrightarrow\infty$.
+        Consider a sequence of i.i.d.~random variables with conditional excess distribution $F_u$. If the distribution $F$ lies in the domain of attraction of the extreme value distribution, the conditional excess distribution $F_u$ converges to the generalised Pareto distribution when $u\longrightarrow\infty$.
     \end{theorem}
 
 \section{Copulas}
@@ -668,62 +819,95 @@
 
 \section{Optimal transport}\label{section:optimal_transport}
 
-    In this section a new notion of atomicity of measures will be used:
+    In this section, a new notion of atomicity of measures will be used.
     \begin{definition}
         A measure on $\mathbb{R}^n$ is said to \textbf{give mass to small sets} if there exists a subset of \textit{Hausdorff dimension} $n-1$ (or smaller) that has nonzero measure.
     \end{definition}
 
 \subsection{Kantorovich duality}
 
-    The problem of optimal transport constitutes the search of the most cost efficient transportation scheme that connects a set of producers to a set of consumers. Assume that these are described by the probability spaces $(X,\Sigma_X,\mu_X)$ and $(Y,\Sigma_Y,\mu_Y)$, respectively.
+    The problem of optimal transport consists of the search for the most cost-efficient transportation scheme that connects a set of producers to a set of consumers. Assume that these are described by the probability spaces $(X,\Sigma_X,\mu_X)$ and $(Y,\Sigma_Y,\mu_Y)$, respectively.
 
     \newdef{Cost function}{\index{cost}
         A measurable function $X\times Y\rightarrow\overline{\mathbb{R}}$.
     }
     \newdef{Transportation scheme}{
-        A transportation scheme or \textbf{transference plan} is a joint distribution $\pi\in\mathbb{P}(X\times Y)$ whose marginals coincide with $\mu_X$ and $\mu_Y$.
+        A transportation scheme (or \textbf{transference plan}) is a joint distribution $\pi\in\mathbb{P}(X\times Y)$ whose marginals coincide with $\mu_X$ and $\mu_Y$.
     }
 
     \newdef{Monge--Kantorovich problem}{\index{Monge--Kantorovich problem}\index{Kantorovich}\index{Monge}
         The optimal transportation scheme for a given cost function according to \textit{Kantorovich} is the solution of the following optimization problem:
         \begin{gather}
-            \inf_{\pi\in\mathbb{P}(X\times Y)}\mathrm{E}_\pi[c] = \inf_{\pi\in\mathbb{P}(X\times Y)}\Int_{X\times Y}c(x,y)\,d\pi(x,y)\,.
+            c_{\text{opt}} = \inf_{\pi\in\mathbb{P}(X\times Y)}\mathrm{E}_\pi[c]\,.
         \end{gather}
-        The original problem of optimal transportation was considered by \textit{Monge}. However, he studied a restricted problem, where every producer only delivers to a unique consumer. In this case the joint distributions have a specific form, namely
+        The original problem of optimal transportation was considered by \textit{Monge}. However, he studied a restricted problem, where every producer only delivers to a unique consumer. In this case, the joint distributions have a specific form, namely
         \begin{gather}
             \Int_{X\times Y}c(x,y)\,d\pi(x,y) = \Int_Xc(x,T(x))\,d\mu_X(x)
         \end{gather}
         for some measurable function $T:X\rightarrow Y$ such that $T_\ast\mu_X=\mu_Y$.
     }
 
-    \begin{example}[Finite state spaces]
-        Consider the case where both $X$ and $Y$ are finite of the same size and are both equipped with the uniform distribution. In this case the joint distributions $\pi$ can be represented by \textit{bistochastic matrices}, i.e.~matrices with nonnegative entries such that every column and every row sums to one. This also implies that the optimization problem reduces to a linear problem on a convex, compact subset. This allows one to use Choquet's theorem~\ref{functional:choquet} to restrict the attention to the extremal points, which in this case are given by permutation matrices. So, the optimal solution is given by the optimal one-to-one pairing of producers and consumers.
+    \begin{example}[Finite state spaces]\index{stochastic!matrix}
+        Consider the case where both $X$ and $Y$ are finite with the same cardinality and are both equipped with the uniform distribution. In this case, the joint distributions $\pi$ can be represented by \textit{bistochastic matrices}, i.e.~matrices with nonnegative entries such that every column and every row sum to one. This also implies that the optimization problem reduces to a linear problem on a convex, compact subset. This allows one to use Choquet's theorem~\ref{functional:choquet} to restrict the attention to the extremal points, which, in this case, are given by permutation matrices. Hence, the optimal solution is given by the optimal one-to-one pairing of producers and consumers.
     \end{example}
 
-    \begin{property}[Kantorovich duality]\index{Kantorovich!duality}\index{Kantorovich|seealso{Monge}}
-        Let $X,Y$ be Polish spaces (\cref{measure:polish_space}) and consider a lower-semicontinuous function $c:X\times Y\rightarrow\overline{\mathbb{R}^+}$ (\cref{topology:semicontinuity}). Denote by $\mathbb{P}_{\text{Borel}}(\mu,\nu)$ the space of Borel measures on $X\times Y$ whose marginals are given by $\mu_X$ and $\mu_Y$. Moreover, denote by $\Phi_c\subseteq\mathcal{L}^1(X)\times\mathcal{L}^1(Y)$ the space of pairs of integrable functions satisfying
+    \newdef{$c$-concave function}{\index{concave}\index{convex}\index{competitive}
+        Consider a cost function $c:X\times Y\rightarrow\overline{\mathbb{R}}$. A function $f:\mathbb{R}^n\rightarrow[-\infty,+\infty[$, not identically $-\infty$, is said to be $c$-concave if there exists a set $A\subset\mathbb{R}^n\times\mathbb{R}$ such that
         \begin{gather}
-            c_X(x)+c_Y(y)\leq c(x,y)
+            f(x) = \inf_{(x',\lambda)\in A}c(x,x')+\lambda\,.
         \end{gather}
-        for $\mu_X$-almost all $x\in X$ and $\mu_Y$-almost all $y\in Y$. Then
+        More generally, two cost functions $c_X:X\rightarrow[-\infty,+\infty[$, $c_Y:Y\rightarrow[-\infty,+\infty[$ are said to be \textbf{competitive} (with respect to $c$) if
         \begin{gather}
-            \inf_{\pi\in\mathbb{P}_{\text{Borel}}(\mu,\nu)}\Int_{X\times Y}c\,d\pi = \sup_{(c_X,c_Y)\in\Phi_c}\Int_Xc_X\,d\mu_X+\Int_Yc_Y\,d\mu_Y
+            c_Y(y)-c_X(x)\leq c(x,y)
         \end{gather}
-        and the this problem admits a solution. Moreover, one can restrict the space of would-be solutions on the right-hand side to those that are also bounded and continuous without changing the solution.
-    \end{property}
-
-    \newdef{Kantorovich distance}{\index{Kantorovich!distance}\index{Wasserstein metric}
-        Let $X$ be a Polish space (or even Radon space) and consider a metric $d$ on $X$. The Kantorovich(--Rubinstein) distance $\mathcal{T}_d$ between two Borel probability measures $\mu,\nu$ on $X$ is defined as the optimal transport cost between them:
+        for $\mu_X$-almost all $x\in X$ and $\mu_Y$-almost all $y\in Y$. Their $c$-transforms are given by
         \begin{gather}
-            \mathcal{T}_d(\mu,\nu) := \inf_{\pi\in\mathbb{P}_{\text{Borel}}(X\times X)}\Int_{X\times X}d(x,x')\,d\pi(x,x')\,.
+            \begin{aligned}
+                c_Y^c(x) &= \sup_{y\in Y}\bigl(c_Y(y)-c(x,y)\bigr)\,,\\
+                c_X^c(y) &= \inf_{x\in X}\bigl(c_X(x)+c(x,y)\bigr)\,.
+            \end{aligned}
         \end{gather}
-        If the metric $d$ is the one inducing the topology on $X$, one obtains the definition of the \textbf{Wasserstein 1-metric}. This metric can be generalized on general complete metric spaces by restricting to the subset of Radon measures.
+        Functions of the form on the first line are called \textbf{$c$-convex}.
     }
 
-    \begin{theorem}[Kantorovich--Rubinstein]\index{Kantorovich--Rubinstein}
-        Kantorovich duality for $X=Y$ and $c$ equal to the metric $d$ implies that the Kantorovich distance is equivalently given by
+    \begin{example}[Legendre transformation]
+        By \cref{calculus:legendre}, it is clear that $c(x,y)=-xy$ leads to the classic notion of convexity (\cref{calculus:convex_function}).
+    \end{example}
+    \begin{example}[Lipschitz continuity]\label{prob:lipschitz_convex}
+        Let $(M,d)$ be a metric space. The $d$-convex functions are exactly the $1$-Lipschitz functions (\cref{calculus:lipschitz_continuity}). More generally, it can be shown that $c$-convex functions, for general $c$, have the same modulus of continuity (\cref{metric:modulus}) as $c$, where $c$ is defined on the product space with the taxicab metric (\cref{metric:p_metric}).
+    \end{example}
+
+    \begin{theorem}[Kantorovich duality]\index{Kantorovich!duality}\index{Kantorovich|seealso{Monge}}
+        Let $X,Y$ be Polish spaces (\cref{measure:polish_space}) with probability measures $\mu$ and $\nu$, respectively, and let the cost function $c:X\times Y\rightarrow\overline{\mathbb{R}^+}$ satisfy\footnote{These are merely sufficient conditions for strong duality.}
+        \begin{enumerate}
+            \item lower semicontinuity (\cref{topology:semicontinuity}), or
+            \item $\mu\otimes\nu$-a.s.~boundedness.
+        \end{enumerate}
+        Denote by $\mathbb{P}_{\text{Borel}}(\mu,\nu)$ the space of Borel measures on $X\times Y$ whose marginals are given by $\mu$ and $\nu$. Moreover, denote by $\Phi_c\subseteq\mathcal{L}^1(X)\times\mathcal{L}^1(Y)$ the competitive integrable functions. Then,
         \begin{gather}
-            \mathcal{T}_d(\mu,\nu) = \sup\left\{\Int_X\varphi\,d\mu-\Int_X\varphi\,d\nu\,\middle\vert\,\varphi\in\mathrm{Lip}_1(X,d)\cap\mathcal{L}^1(\mu)\cap\mathcal{L}^1(\nu)\right\}\,.
+            \inf_{\pi\in\mathbb{P}_{\text{Borel}}(\mu,\nu)}\Int_{X\times Y}c\,d\pi = \sup_{(c_X,c_Y)\in\Phi_c}\Int_Yc_Y\,d\mu+\Int_Xc_X\,d\nu
+        \end{gather}
+        and the problem admits a solution. Moreover, one can restrict the space of would-be solutions on the right-hand side to those that are
+        \begin{enumerate}
+            \item bounded and continuous,
+            \item $c$-transforms $(c_X,c_X^c)$,
+        \end{enumerate}
+        without changing the solution.
+    \end{theorem}
+
+    \newdef{Kantorovich distance}{\index{Kantorovich!distance}\index{Wasserstein metric}
+        Let $X$ be a Polish space (or even Radon space) and consider a metric $d$ on $X$. The Kantorovich(--Rubinstein) distance $\mathcal{T}_{\!\!d}$ between two Borel probability measures $\mu,\nu$ on $X$ is defined as the optimal transport cost between them:
+        \begin{gather}
+            \mathcal{T}_{\!\!d}(\mu,\nu) := \inf_{\pi\in\mathbb{P}_{\text{Borel}}(X\times X)}\Int_{X\times X}d(x,x')\,d\pi(x,x')\,.
+        \end{gather}
+        If the metric $d$ is the one inducing the Polish topology, one obtains the definition of the \textbf{Wasserstein 1-metric}. This metric can be generalized to complete metric spaces by restricting to the subset of Radon measures.
+    }
+
+    Kantorovich duality together with \cref{prob:lipschitz_convex} imply the following.
+    \begin{theorem}[Kantorovich--Rubinstein]\index{Kantorovich--Rubinstein}
+        Kantorovich duality for $X=Y$ and $c=d$ implies that the Kantorovich distance is equivalently given by
+        \begin{gather}
+            \mathcal{T}_{\!\!d}(\mu,\nu) = \sup\bigl\{\mathrm{E}_\mu[\phi]-\mathrm{E}_\nu[\phi]\,\bigm\vert\,\varphi\in\mathrm{Lip}_1(X,d)\cap\mathcal{L}^1(\mu)\cap\mathcal{L}^1(\nu)\bigr\}\,.
         \end{gather}
     \end{theorem}
 
@@ -732,27 +916,20 @@
     \end{property}
 
     \begin{property}
-        When $X=Y=\mathbb{R}^n$ with $d$ the Euclidean metric, the Kantorovich distance admits yet another description. In this case the Lipschitz norm is equal to the supremum norm of the gradient. This gives
+        When $X=Y=\mathbb{R}^n$ with $d$ the Euclidean metric, the Kantorovich distance admits yet another description. In this case, the Lipschitz norm is equal to the supremum norm of the gradient. This gives
         \begin{gather}
-            \mathcal{T}_d(\mu,\nu) = \inf\left\{\|\sigma\|_1\,\middle\vert\,\nabla\cdot\sigma=\mu-\nu\right\}\,,
+            \mathcal{T}_{\!\!d}(\mu,\nu) = \inf\left\{\|\sigma\|_1\,\middle\vert\,\nabla\cdot\sigma=\mu-\nu\right\}\,,
         \end{gather}
         where the condition on $\sigma$ makes sense by the Riesz--Markov theorem~\ref{distributions:riesz_markov}.
     \end{property}
 
 \subsection{Convex costs}
 
-    In this section cost functions of the form
+    This section treats cost functions of the form
     \begin{gather}
         c(x,y) = h(x-y)
     \end{gather}
-    for some convex function $h:\mathbb{R}^n\rightarrow\mathbb{R}$ are considered. Moreover, the function $h$ will be assumed to be at least differentiable with locally Lipschitz gradient.
-
-    \newdef{$c$-concave function}{\index{concave}
-        A function $f:\mathbb{R}^n\rightarrow[-\infty,+\infty[$, not identically $-\infty$, is said to be $c$-concave if there exists a set $A\subset\mathbb{R}^n\times\mathbb{R}$ such that
-        \begin{gather}
-            f(x) = \inf_{(x',\lambda)\in A}c(x,x')+\lambda\,.
-        \end{gather}
-    }
+    for some convex function $h:\mathbb{R}^n\rightarrow\mathbb{R}$. Moreover, the function $h$ will be assumed to be at least differentiable with locally Lipschitz gradient.
 
     \begin{theorem}[Gangbo--McCann]\index{Gangbo--McCann}
         If $c$ is strictly convex and $\mu$ does not give mass to small sets, the Monge--Kantorovich problem has a a.s.~unique minimizer $\pi = (\mathbbm{1}\times T)_\ast\mu$ with
@@ -772,11 +949,11 @@
 
 \subsection{Concave costs}\index{concavity}
 
-    In this section cost functions of the form
+    This section treats cost functions of the form
     \begin{gather}
         c(x,y) = g(\|x-y\|)
     \end{gather}
-    for some concave function $g:\mathbb{R}\rightarrow\mathbb{R}$ are considered.
+    for some concave function $g:\mathbb{R}\rightarrow\mathbb{R}$.
 
     \begin{property}
         Let $c$ be strictly concave. If the transportation cost is not everywhere infinite and if $\mu$ does not give mass to small sets, then:
@@ -785,7 +962,7 @@
             \begin{gather}
                 T(x) = x - (\nabla g)^{-1}\nabla\varphi(x)
             \end{gather}
-            for some \textit{$c$-concave function} $\varphi$.
+            for some $c$-concave function $\varphi$.
             \item If the measures are not singular, there still exists a unique optimum by restricting to those schemes that fix shared mass.
         \end{itemize}
     \end{property}

@@ -1,10 +1,19 @@
 \chapter{Number Theory}
 
+    The section on modular forms and $L$-functions is based on~\citet{sutherland_modular_2017,mustata_zeta_2011}.
+
     \minitoc
 
 \section{Adic numbers}
 
     This section will make use of the content of \cref{section:stone_spaces}.
+
+    \newdef{Finite field}{\index{field!finite}\index{Galois|seealso{field, finite}}\index{order!of finite field}\label{number:finite_field}
+        The finite field (or \textbf{Galois field}) $\mathbb{F}_p$ is the field with a finite number of elements $p\in\mathbb{N}$. The number $p$ is called the \textbf{order} of $\mathbb{F}_p$.
+    }
+    \begin{property}[Prime order]
+        If $p\in\mathbb{N}$ is prime, then $\mathbb{F}_p\cong\mathbb{Z}/p\mathbb{Z}$.
+    \end{property}
 
     \newdef{$p$-adic numbers}{\index{adic numbers}
         Consider a prime number $p\in\mathbb{N}$. For every $m,n\in\mathbb{N}$, one has that $\mathbb{Z}/p^n\mathbb{Z}\subseteq\mathbb{Z}/p^m\mathbb{Z}$ whenever $m\leq n$. The group $\mathbb{Z}_p$ of \textbf{$p$-adic integers} is given by the profinite group (\cref{topology:profinite_group}) obtained from this system of inclusions.
@@ -45,13 +54,13 @@
     \end{theorem}
 
     \newdef{Profinite integers}{\index{integer!profinite}
-        Similar to the construction of the $p$-adic integers, one can also construct the profinite completion (\cref{topology:profinite_completion}) of $\mathbb{Z}$. Instead of taking the inverse limit over the integers module a prime power, one simply takes the inverse limit over all finite cyclic groups:
+        Similar to the construction of the $p$-adic integers, one can also construct the profinite completion (\cref{topology:profinite_completion}) of $\mathbb{Z}$. Instead of taking the inverse limit over the integers modulo a prime power, one simply takes the inverse limit over all finite cyclic groups:
         \begin{gather}
             \widehat{\mathbb{Z}} := \varprojlim_{n\in\mathbb{N}}\mathbb{Z}/n\mathbb{Z}\,.
         \end{gather}
         It can be shown that this is equivalent to taking the product of all $p$-adic integers:
         \begin{gather}
-            \widehat{\mathbb{Z}}\cong\prod_{p\text{ is prime}}\mathbb{Z}_p\,.
+            \widehat{\mathbb{Z}}\cong\prod_{p\text{ prime}}\mathbb{Z}_p\,.
         \end{gather}
     }
 
@@ -70,30 +79,36 @@
 
     This section gives a relation between number theory and (algebraic) geometry (\cref{chapter:alggeom}). The content of \namecrefs{chapter:complexcalculus}~\ref{chapter:algebra} and~\ref{chapter:complexcalculus} will also be used throughout this section.
 
-\subsection{Modular forms}
+\subsection{Modular forms}\label{section:modular_forms}
 
     \newdef{Modular group}{\index{modular!group}\index{M\"obius transformation}\label{alggeom:modular_group}
-        In the setting of number theory, the projective special linear group $\mathrm{PSL}(2,\mathbb{Z})$ is often called the modular group. The modular group acts on the complex plane by \textbf{M\"obius transformations}:
+        In the setting of number theory, the projective special linear group $\mathrm{PSL}(2,\mathbb{Z})$ is often called the modular group.\footnote{This name is also used for the special linear group $\SL(2,\mathbb{Z})$ since M\"obius transformations are invariant under rescaling.} The modular group acts on the complex plane by \textbf{M\"obius transformations}:
         \begin{gather}
             \begin{pmatrix}
                 a&b\\
                 c&d
             \end{pmatrix}
-            z := \frac{az+b}{cz+d}\,.
+            \cdot z := \frac{az+b}{cz+d}\,.
         \end{gather}
-        For this reason, $\mathrm{PSL}(2,\mathbb{C})$ is sometimes also called the \textbf{M\"obius group}.
+        For this reason, $\mathrm{PSL}(2,\mathbb{C})$ is sometimes also called the \textbf{M\"obius group}. The full modular group $\SL(2,\mathbb{Z})$ will be denoted by $\Gamma$.
     }
 
     \newdef{Modular form}{\index{modular!form}\index{cusp form}
         A modular form of weight $k\in\mathbb{R}$ is a holomorphic function on the upper-half plane $f:\mathcal{H}\rightarrow\mathbb{C}$ satisfying the following two conditions:
         \begin{enumerate}
-            \item\textbf{Automorphicity}: For all $g\equiv\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\mathrm{PSL}(2,\mathbb{Z})$, one has $f\bigl(g(z)\bigr)=(cz+d)^kf(z)$, and
+            \item\textbf{Automorphicity}: For $g\equiv\begin{pmatrix}a&b\\c&d\end{pmatrix}\in\SL(2,\mathbb{Z})$, one has
+            \begin{gather}
+                f\bigl(g\cdot z\bigr)=(cz+d)^kf(z)\,,
+            \end{gather}
+            and
             \item\textbf{Bounded growth}: $f(z)$ is bounded for $z\longrightarrow i\infty$.
         \end{enumerate}
-        If the modular form satisfies the stronger condition $f(z)\longrightarrow0$ when $z\longrightarrow i\infty$, it is said to be \textbf{cuspidal} or it is simply called a \textbf{cusp form}.
+        If the modular form satisfies the stronger condition $f(z)\longrightarrow0$ when $z\longrightarrow i\infty$, it is said to be \textbf{cuspidal} or it is simply called a \textbf{cusp form}. The spaces of modular forms and cusp forms of weight $k\in\mathbb{R}$ are, respectively, denoted by $M_k(\Gamma)$ and $S_k(\Gamma)$.
+
+        \todo{MAYBE ADD automorphicity in full generality}
     }
-    \begin{remark}[Arithmetic group]\index{arithmetic group}
-        Modular forms can also be defined for subgroups of $\mathrm{PSL}(2,\mathbb{Z})$ with finite index, the so-called \textbf{arithmetic groups}.
+    \begin{remark}[Arithmetic group]\index{congruence!subgroup}\index{group!arithmetic}
+        Modular forms can also be defined for subgroups of $\mathrm{SL}(2,\mathbb{Z})$ of finite index, such as the \textit{congruence groups} (or their generalizations, the \textit{arithmetic groups}).
     \end{remark}
 
     \begin{property}
@@ -104,9 +119,162 @@
         Invariance under the second generator shows that modular forms are, in particular, periodic and, hence, admit a Fourier expansion. Cusp forms are exactly those modular forms with vanishing constant Fourier coefficient.
     \end{property}
 
+    \begin{example}[Eisenstein series]\index{Eisenstein series}
+        Consider a complex number $\tau\in\mathcal{H}$. The Eisenstein series of weight $2k\in2\mathbb{Z}$, with $k>2$, is defined as follows:
+        \begin{gather}
+            G_{2k}(\tau) := \sum_{(m,n)\in\mathbb{Z}^2\backslash(0,0)}\frac{1}{(m+n\tau)^{2k}}\,.
+        \end{gather}
+    \end{example}
+
+    \begin{remark}[Fourier expansion]
+        Since $\begin{pmatrix}1&1\\0&1\end{pmatrix}$ is an element of $\mathrm{PSL}(2,\mathbb{2})$, every modular form is periodic and, hence, admits a Fourier expansion (\cref{distributions:fourier_series}):
+        \begin{gather}
+            f(z) = \sum_{n=-\infty}^{+\infty}a_ne^{2\pi iz}\,.
+        \end{gather}
+        $f$ can then be interpreted as a function on the punctured disk by making the transformation $z\longrightarrow q:=e^{2\pi iz}$\,. By Riemann's theorem on removable singularities (\cref{complex:riemann_theorem_singularities}), the growth condition on modular forms is equivalent to $f(q)$ admitting a holomorphic continuation to the origin. Moreover, it is a cusp form exactly if $a_0=0$. The growth condition also implies that the Fourier series can be truncated to positive integers:
+        \begin{gather}
+            f(z) = \sum_{n=0}^{+\infty}a_ne^{2\pi iz}\,.
+        \end{gather}
+    \end{remark}
+
+    \newdef{Hecke operator}{\index{Hecke operator}\index{inner product!Petersson}
+        For every $n\in\mathbb{N}_0$, let $\Gamma_n$ denote the subgroup of $\Gamma$ on matrices with determinant $n$. On $M_k(\Gamma)$, one can define the following averaging operators:
+        \begin{gather}
+            T_nf(z) := n^{k-1}\sum_{g\in\Gamma\backslash\Gamma_n}(cz+d)^{-k}f(g\cdot z)\,,
+        \end{gather}
+        where $g\equiv\begin{pmatrix}a&b\\c&d\end{pmatrix}$. One can easily see that $[T_m,T_n]=0$.
+
+        The Hecke operators also have an important relation to cusp forms. The subspace $S_k(\Gamma)$ is preserved under the action of the Hecke operators and, moreover the joint eigenforms of the Hecke operators satisfy the following relations on their Fourier coefficients:
+        \begin{gather}
+            a_n = \lambda_na_1\,,
+        \end{gather}
+        where $\lambda_n$ is the $n^{\text{th}}$ eigenvalue. $S_k(\Gamma)$ admits an inner product, the \textbf{Petersson inner product}, defined as follows:
+        \begin{gather}
+            \braket{f}{g} := \Int_{\mathcal{F}}f(z)\overline{g}(z)y^{k-2}\,dx\,dy\,,
+        \end{gather}
+        where $\mathcal{F}\subset\mathcal{H}$ is any fundamental domain for $\Gamma$. With respect to this inner product, there exists a normalized eigenbasis of the Hecke operators for $S_k(\Gamma)$, where normalized means that the first Fourier coefficient is equal to 1 (and, hence, the Fourier coefficients correspond to the Hecke eigenvalues).
+    }
+
 \subsection{Algebraic functions}
 
     \Cref{algebra:algebraic_element} can be generalized to the functional setting.
     \newdef{Algebraic function}{\index{algebraic!function}\index{transcendental!function}
         Let $R$ be a commutative ring. A function $f:R^n\rightarrow R$ is said to be algebraic if it is the solution of a polynomial equation with coefficients in $R[x_1,\ldots,x_n]$.\footnote{Often, the polynomial is required to be irreducible.} If $f$ is not algebraic, it is said to be \textbf{transcendental}.
     }
+
+\section{$L$-functions}
+
+    \newdef{Dirichlet series}{\index{Dirichlet!series}
+        A series of the form
+        \begin{gather}
+            \sum_{n=1}^{+\infty}\frac{a_n}{n^s}\,,
+        \end{gather}
+        where $s\in\mathbb{C}$ and $\seq{a}\subset\mathbb{C}$. If the coefficients satisfy the growth bound $|a_n|=O(n^\sigma)$, the series converges (absolutely) to a holomorphic function whenever $\Re(s)>\sigma$.
+    }
+
+    The Dirichlet series for unit coefficients is of major interest in mathematics.
+    \newdef{Riemann $\zeta$-function}{\index{Riemann!$\zeta$-function}
+        \begin{gather}
+            \zeta(s) := \sum_{n=1}^{+\infty}\frac{1}{n^s}
+        \end{gather}
+        for all $s\in\mathbb{C}$ for which $\Re(s)>1$. For general $s$, an \textit{analytic continuation} is used (see \cref{complex:analytic_continuation}).
+    }
+    \begin{formula}[Euler product]\index{Euler product}\label{number:riemann_euler_product}
+        \begin{gather}
+            \zeta(s) = \prod_{p\text{ prime}}\left(1 - \frac{1}{p^s}\right)^{-1}
+        \end{gather}
+        for all $s\in\mathbb{C}$ for which $\Re(s)>1$. This is an example of an Euler product, a product over all prime numbers.
+    \end{formula}
+
+    \newdef{Selberg $\zeta$-function}{\index{$\zeta$-function}\index{Selberg|see{$\zeta$-function}}\index{Ramanujan!conjecture}
+        A function $\zeta:\mathbb{C}\rightarrow\mathbb{C}$ satisfying the following conditions:
+        \begin{enumerate}
+            \item There exists a $\eta\in\mathbb{R}^+$ (usually taken to be 1) such that $\zeta$ admits a convergent series expansion of the form
+            \begin{gather}
+                \zeta(s) = \sum_{n=1}^{+\infty}\lambda^{-s}\,,
+            \end{gather}
+            for some sequence of real numbers $\seq{\lambda}\subset\mathbb{R}$, or admits a Euler product expansion.
+            \item $\zeta$ analytic continuation (\cref{complex:analytic_continuation}) of the above series on all of $\mathbb{C}$.
+            \item There exists a `completion' $\widehat{\zeta}$ of $\zeta$ that admits a functional relation of the form
+            \begin{gather}
+                \label{number:functional_equation}
+                \widehat{\zeta}(1-s) = \widehat{\zeta}(s)\,.
+            \end{gather}
+            \item[4*.] \textit{Ramanajuan conjecture}: $a_1=1$ and $a_n=O(n^\varepsilon)$ for any $\varepsilon>0$.
+        \end{enumerate}
+        \todo{CHECK AND COMPLETE}
+    }
+
+    \begin{example}[Differential operators]
+        Consider a self-adjoint \textit{elliptic differential operator} (see \cref{bundle:differential_operator}) $D$ whose spectrum lies in the positive real numbers $\mathbb{R}^+_0$.
+        \begin{gather}
+            \zeta_D(s) := \tr\bigl(D^{-s}\bigr)\,.
+        \end{gather}
+        It can be shown that this is equal to the \textit{Mellin transform} (see \cref{distributions:mellin}) of the \textit{partition function} of $D$:
+        \begin{gather}
+            \zeta_D(s) = \Intt{0}{+\infty}t^{s-1}\left(\sum_{n=1}^{+\infty}\exp(-t\lambda_n)\right)\,dt\,.
+        \end{gather}
+    \end{example}
+    \begin{remark}[Bost--Connes system]\index{Bost--Connes system}\index{Riemann!hypothesis}
+        The \textit{Bost--Connes system}, a \textit{$C^*$-algebra} (see \cref{operators:c_star}) of the form $C^*\bigl(\mathbb{Q}[\mathbb{Q}/\mathbb{Z}]\rtimes\mathbb{N}^\times\bigr)$, admits a Hamiltonian whose associated $\zeta$-function is the Riemann $\zeta$-function. A physical realization of this system would be able to shed light on the \textit{Riemann hypothesis}.
+    \end{remark}
+
+    \newdef{Hasse--Weil $\zeta$-function\footnotemark}{\index{Hasse--Weil!$\zeta$-function}
+        \footnotetext{Also called the \textbf{local Hasse--Weil function} or \textbf{local $L$-function}.}
+        Let $V$ be a nonsingular projective variety over the finite field $\mathbb{F}_p$ and, for all $k\in\mathbb{N}$, let $N_K:=\left|\mathbb{F}_{p^k}(V)\right|$ be the number of rational points over $\mathbb{F}_{p^k}$.
+        \begin{gather}
+            Z(V,t) := \exp\left(\sum_{k=1}^{+\infty}N_k\frac{t^k}{k}\right)\in\mathbb{Q}[[t]]\,.
+        \end{gather}
+    }
+    \begin{remark}[Weil conjectures]\index{Weil!conjectures}\index{Riemann!hypothesis}\index{\'etale!cohomology}
+        The Weil conjectures are three related statements of the Hasse--Weil function of profound importance. The conjectures were:
+        \begin{enumerate}
+            \item $Z(V,t)$ is a rational function of $t$.
+            \item $Z(V,t)$ admits a functional relation as in \cref{number:functional_equation}.
+            \item Discrete \textit{Riemann hypothesis}: The zeroes of $P_k(t)$, for all $k\in\mathbb{N}$, lie on the critical line $\Re(z)=k/2$, where the $P_k(t)$ are the integral polynomials in the rational form of $Z(V,t)$:
+            \begin{gather}
+                Z(V,t) = \frac{P_1(t)\cdots P_{2\dim(V)-1}(t)}{P_0(t)\cdots P_{2\dim(V)}(t)}
+            \end{gather}
+            with $P_0(t)=1-t$ and $P_{2\dim(V)}(t)=1-p^nt$.
+            \item If $X$ is a \textit{good reduction} of nonsingular projective variety over a number field in the complex numbers, then $\deg(P_k)$ equals the $k^{\text{th}}$ Betti number (\cref{topology:betti_number}) of the set of complex points of $V$.
+        \end{enumerate}
+        Items 1, 2 and 4 were proven by \indexauthor{Grothendieck} using \textit{\'etale cohomology}, whereas the discrete Riemann hypothesis was proven by \indexauthor{Deligne} using \textit{$l$-adic cohomology}.
+    \end{remark}
+
+    \newdef{$L$-function of varieties}{\index{L-!function of variety}
+        Consider a nonsingular projective variety $V$ over $\mathbb{Q}$. For almost all primes $p$, one obtains a good reduction $V_p$. The Dirichlet series
+        \begin{gather}
+            Z_{\mathbb{Q},V}(s) := \prod_{p\text{ good prime}}Z(V_p,p^{-s})
+        \end{gather}
+        is called the $L$-function of $V$ (or sometimes also the Hasse--Weil function of $V$).
+    }
+
+    \begin{example}[Riemann $\zeta$-function]\index{Riemann!$\zeta$-function}
+        Consider $V=\spec{\mathbb{Q}}$ with $V_p\cong\spec(\mathbb{F}_p)$ for prime $p\in\mathbb{N}$. In this case,
+        \begin{gather}
+            Z(V_p,t) = \exp\left(\sum_{n=1}^{+\infty}\frac{t^n}{n}\right) = (1-t)^{-1}
+        \end{gather}
+        and, hence,
+        \begin{gather}
+            Z_{\mathbb{Q},V}(s) = \prod_{p\text{ prime}}(1-p^{-s})^{-1} = \zeta(s)
+        \end{gather}
+        by \cref{number:riemann_euler_product}.
+    \end{example}
+
+    Recall the cusp forms of \cref{section:modular_forms}.
+    \newdef{$L$-function of modular forms}{\index{L-!function of modular form}
+        Let $f:\mathcal{H}\rightarrow\mathbb{C}$ be a cusp form of weight $k\in\mathbb{R}$ and consider its Fourier series
+        \begin{gather}
+            f(z) = \sum_{n=1}^{+\infty}a_ne^{2\pi iz}\,.
+        \end{gather}
+        The associated $L$-function is given by the following Dirichlet series:
+        \begin{gather}
+            L_f(s) := \sum_{n=1}^{+\infty}\frac{a_n}{n^s}\,.
+        \end{gather}
+        The domain of convergence is bounded by $\Re(s)>1+\frac{k}{2}$.
+    }
+
+    \begin{theorem}[Modularity theorem\footnotemark]\index{Tayinama--Shimura}\index{modularity theorem}
+        \footnotetext{Also called the \textbf{Taniyama--Shimura(--Weil) theorem/conjecture} (or any of its permutations).}
+        Every Hasse--Weil $L$-function of an elliptic curve can be obtained as the $L$-function of a modular form.
+    \end{theorem}

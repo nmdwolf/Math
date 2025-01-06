@@ -38,12 +38,12 @@
                 \mathbbm{1}_2&0
             \end{pmatrix}\,.
         \end{gather}
-        In signature $(3,1)$, one obtains the Weyl representation by defining $\sigma^\mu:=(\mathbbm{1},\sigma_i)$ and $\overline{\sigma}^\mu:=\sigma_\mu$:
+        In signature $(3,1)$, one obtains the Weyl representation by defining $\sigma^\mu:=(\mathbbm{1},\sigma_i)$ and $\overline{\sigma}^\mu:=(\mathbbm{1},-\sigma_i)$:
         \begin{gather}
             \gamma^\mu :=
             \begin{pmatrix}
-                0&\sigma_\mu\\
-                \overline{\sigma}_\mu&0
+                0&\sigma^\mu\\
+                \overline{\sigma}^\mu&0
             \end{pmatrix}\,.
         \end{gather}
     }
@@ -63,12 +63,15 @@
 \section{Spinors}
 \subsection{Dirac equation}
 
-    \newformula{Dirac equation}{\index{Dirac!equation}\label{dirac:dirac_equation}
+    \newformula{Dirac equation}{\index{Dirac!equation}\index{Weyl!equation}\label{dirac:dirac_equation}
         In covariant form, the Dirac equation reads as
         \begin{gather}
             (i\hbar\slashed\partial - mc)\psi = 0\,,
         \end{gather}
-        where $m$ denotes the mass and $c$ denotes the speed of light.
+        where $m$ denotes the mass and $c$ denotes the speed of light. In the case of massless particles, the \textbf{Weyl equation} is recovered:
+        \begin{gather}
+            \slashed{\partial}\psi = 0\,.
+        \end{gather}
     }
 
     \newdef{Dirac adjoint}{\index{Dirac!adjoint}
@@ -113,20 +116,108 @@
         \end{gather}
     }
 
-    \newdef{Chiral projection}{
+    \newdef{Chiral projection}{\index{helicity}
         The chiral projections of a spinor $\psi$ are defined as follows:
         \begin{gather}
-            \psi_L := \frac{1+\gamma_{d+1}}{2}\psi
+            \psi_- := \frac{1+\gamma_{d+1}}{2}\psi
         \end{gather}
         and
         \begin{gather}
-            \psi_R := \frac{1-\gamma_{d+1}}{2}\psi\,.
+            \psi_+ := \frac{1-\gamma_{d+1}}{2}\psi\,.
         \end{gather}
         Every spinor can then be written as a sum of its chiral parts:
         \begin{gather}
-            \psi = \psi_L + \psi_R.
+            \psi = \psi_+ + \psi_-\equiv
+            \begin{pmatrix}
+                \psi_+\\\psi_-    
+            \end{pmatrix}\,.
         \end{gather}
     }
+
+    In general, since the Dirac equation is linear, it has a plane wave solution of the form
+    \begin{gather}
+        \psi(x) = u(p)e^{-ip\cdot x} + v(p)e^{ip\cdot x}\,,
+    \end{gather}
+    the first term corresponding to (incoming) fermions and the second corresponding to (outgoing) antifermions. (Taking the Dirac adjoint, switches incoming and outgoing.) For massless particles, the Dirac equation reduces to the Weyl equation and has two solutions (of opposite \textbf{helicity}):
+    \begin{gather}
+        \label{dirac:chiral_solutions}
+        \slashed{p}u_\pm(p) = 0\qquad\text{and}\qquad\slashed{p}v_\pm(p)=0\,,
+    \end{gather}
+    where the helicity is defined as follows:
+    \begin{gather}
+        \widehat{\lambda} := \frac{\widehat{p}\cdot\vector{\sigma}}{|\widehat{p}|}\,.
+    \end{gather}
+    Since massless particles move at the speed of light, their helicity is independent of a choice of reference frame and, hence, the helicity is a well-defined quantity. Moreover, in the case of massless particles, a \textit{crossing symmetry} is found:\index{crossing symmetry}
+    \begin{gather}
+        u_\pm = v_\mp\,.
+    \end{gather}
+
+    \begin{property}[Bispinor representation]\label{dirac:exceptional_isomorphism}
+        The exceptional isomorphism $\mathrm{Spin}(3,1)\cong\mathrm{SL}(2,\mathbb{C})$ from \cref{clifford:exceptional_isomorphisms} allows to express the Lorentz norm as a determinant:
+        \begin{gather}
+            2\|(x^\mu)\| = \det(\slashed{x}) = 2\det((x^{\alpha\beta}))\,,
+        \end{gather}
+        where
+        \begin{gather}
+            x_{\alpha\beta} := x_\mu(\sigma^\mu)_{\alpha\beta}\,.
+        \end{gather}
+        It follows that if $x$ is lightlike, it is equivalent to the outer product of a (Weyl) spinor $\xi$ and its conjugate $\overline{\xi}$:
+        \begin{gather}
+            x^{\alpha\beta} = u_+^\alpha\overline{u}_+\vphantom{u}^\beta\,.
+        \end{gather}
+    \end{property}
+
+    For future use, some new notations are introduced (akin to the standard Dirac notation for quantum states).
+    \begin{notation}[Weyl notation]
+        By the property above, every lightlike 4-vector can be expressed as the product of a Weyl spinor and its adjoint. Given this representation, one defines
+        \begin{gather}
+            \begin{aligned}
+                \ket{p} &:= u_+(p)\,,\\
+                [p|&:= \overline{u}_+(p)\,, 
+            \end{aligned}
+        \end{gather}
+        and, accordingly,
+        \begin{gather}
+            \begin{aligned}
+                \bra{p} &= \overline{u}_-(p)\,,\\
+                |p] &= u_-(p)\,, 
+            \end{aligned}
+        \end{gather}
+        This also implies that $\slashed{p}$, which essentially contains two copies of $(p ^{\alpha\beta})$ can also be expressed in the bispinor representation through the following completeness relation:\footnote{The addition in the first step should be interpreted as a direct sum.}
+        \begin{gather}
+            \slashed{p} = \ket{p}[p| + |p]\bra{p} = u_+(p)\overline{u}_+(p) + u_-(p)\overline{u}_-(p)\,.
+        \end{gather}
+        The Weyl equation itself becomes:
+        \begin{gather}
+            p^{\alpha\beta}\ket{p}_\beta = 0\,.
+        \end{gather}
+    \end{notation}
+
+    Using the Weyl notation, one can also introduce spinor bilinears that are similar in nature to inner products, with the main difference that they are antisymmetric:
+    \begin{gather}
+        \label{dirac:spinor_bilinears}
+        \begin{aligned}
+            \langle p\,q\rangle &:= \braket{p}{q} = \overline{u}_-(p)u_+(q)\,,\\
+            [p\,q] &:= [p\mid q] = \overline{u}_+(p)u_-(q)\,.
+        \end{aligned}
+    \end{gather}
+
+    \begin{remark}
+        Mixed bilinears, with one angle variable and one bracket variable, vanish. In fact, if they would not vanish, they would not be Lorentz invariant. To obtain an invariant quantity, a Dirac matrix should be introduced, e.g.~$\bra{p}\gamma^\mu|q]$.
+    \end{remark}
+
+    \begin{property}[Inner products]
+        The inner product of two lightlike 4-vectors can be expressed in terms of spinor bilinears:
+        \begin{gather}
+            p\cdot q = \frac{1}{2}(p+q)^2 = \frac{1}{2}\langle p\,q\rangle[p\,q]\,.
+        \end{gather}
+    \end{property}
+    \begin{property}[Schouten identity]\index{Schouten!identity}
+        Consider four lightlike 4-vectors $\{p_1,\ldots,p_4\}$. Given the bispinor decomposition $p_i=\ket{i}[i|$, the following equality is satisfied:
+        \begin{gather}
+            \langle1\,2\rangle\langle3\,4\rangle + \langle1\,3\rangle\langle4\,2\rangle + \langle1\,4\rangle\langle2\,3\rangle = 0\,.
+        \end{gather}
+    \end{property}
 
 \subsection{\texorpdfstring{Dirac algebra in $d=4$}{Dirac algebra in d=4}}
 

@@ -212,13 +212,13 @@
         \end{gather}
     \end{theorem}
 
-    This theorem can be generalized to locally convex vector spaces $X$ (separable Hilbert spaces, in particular). However, on a general infinite-dimensional separable Hilbert space, the definition of the Gaussian measure does not make sense. Since, by the \textit{(strong) law of large numbers} (see \cref{prob:strong_lln}), the norm
+    This theorem can be generalized to locally convex vector spaces $X$ (separable Hilbert spaces, in particular). To this end, a measure $\gamma$ on an LCTVS $X$ is said to be \textbf{Gaussian} if, for every $f\in X'$, $f_*\gamma$ is a normal distribution on $\mathbb{R}$.\index{Gauss!distribution} However, on a general infinite-dimensional separable Hilbert space, the definition of the Gaussian measure does not make sense. Since, by the \textit{(strong) law of large numbers} (see \cref{prob:strong_lln}), the norm
     \begin{gather}
-        \|x\|_X = \sum_{n=1}^{+\infty}\braket{x}{e_i}^2
+        \|x\| = \sum_{n=1}^{+\infty}\braket{x}{e_i}^2
     \end{gather}
     would diverge almost surely because the individual coefficients, where $e_i$ are orthonormal, would be independent under the Gaussian measure.
 
-    The first step in solving this issue is generalizing the notion of cylinder sets (\cref{section:classical_wiener_space}) has to be generalized by replacing pointwise evaluations with linear functionals\footnote{In fact, one could consider any dual pair $(M,N)$.} $\phi\in X'$. Two equivalent approaches exist, through finite collections of anchor points or through finite-dimensional projections.
+    The first step in solving this issue is to generalize the notion of cylinder sets (\cref{section:classical_wiener_space}) has to be generalized by replacing pointwise evaluations with linear functionals\footnote{In fact, one could consider any dual pair $(M,N)$.} $\phi\in X'$. Two equivalent approaches exist, through finite collections of anchor points or through finite-dimensional projections.
     \newdef{Cylinder set}{\index{cylinder!set}\index{cylinder!set measure}
         Consider a locally convex vector space $X$ (\cref{functional:locally_convex}) and its topological dual $X'$. A cylinder set in $X$ is a subset of the form
         \begin{gather}
@@ -235,7 +235,31 @@
         On a separable Banach space $X$, the Borel $\sigma$-algebra $\mathcal{B}(X)$ coincides with the cylindrical $\sigma$-algebra $\mathcal{C}(X)$ with respect to its topological dual $X'$.
     \end{property}
 
-    Given a Gaussian measure $\gamma$ on $X$, one can define the moments of functionals $\phi\in X'$ in analogy with \cref{section:moments} and \cref{prob:unconscious_statistician}:
+    Now, given a separable Hilbert space $\mathcal{H}$ and a Gaussian cylinder set measure $\mu$, one can try to find a separable Banach space $X\supseteq\mathcal{H}$ such that $\mu$ extends to a proper measure $\gamma$ satisfying
+    \begin{gather}
+        \gamma(B)=\mu(B\cap\mathcal{H})
+    \end{gather}
+    for all $B\in\mathcal{B}(X)$. To construct $X$, one takes the completion of $\mathcal{H}$ with respect to a norm that interacts nicely with $\mu$.\footnote{The following property of norms is merely a sufficient condition for the extension to be possible.}
+
+    \newdef{Measurable norm}{\index{norm!measurable}\index{Gross|see{norm!measurable}}
+        A (continuous) norm $\|\cdot\|$ on a topological vector space $X$ is said to be (Gross-)measurable (with respect to a cylinder set measure $\mu$) if, for every $\varepsilon>0$, there exists a finite-dimensional subspace $V_\varepsilon\leq X$ such that for all finite-dimensional subspaces $V\leq X$ the following holds:
+        \begin{gather}
+            V\perp V_\varepsilon\implies\mu\bigl(\{v\in V\mid\|v\|>\varepsilon\}\bigr)\varepsilon\,.
+        \end{gather}
+    }
+    \begin{example}[Hilbert--Schmidt operators]
+        Consider a separable Hilbert space $\mathcal{H}$ with norm $\|\cdot\|$. For every Hilbert--Schmidt operator $T:\mathcal{H}\rightarrow\mathcal{H}$ (\cref{functional:hilbert_schmidt}), the induced norm
+        \begin{gather}
+            \|\cdot\|_T := \|T(\cdot)\|
+        \end{gather}
+        is measurable with respect to the canonical Gaussian measure on $\mathcal{H}$. Moreover, any other measurable Hilbert norm on $\mathcal{H}$ is exactly of this form.
+    \end{example}
+
+    \begin{property}
+        Every separable Banach space is the Gross-completion of a separable Hilbert space with respect to some measurable norm. 
+    \end{property}
+
+    Now, given a Gaussian measure $\gamma$ on an LCTVS $X$, one can define the moments of functionals $\phi\in X'$ in analogy with \cref{section:moments} and \cref{prob:unconscious_statistician}:
     \begin{gather}
         \begin{aligned}
             \expect{\phi} &:= \Int_X\phi\,d\gamma\,,\\
@@ -249,7 +273,7 @@
     The $L^2$-closure makes sense since the inner product induced by the covariance operator reduces to the standard $L^2(\gamma)$-inner product when restricting to centered elements.
 
     \begin{theorem}\index{Gauss!distribution}
-        A measure $\gamma$ on a locally convex measurable space $(X,\mathcal{C}(X))$ is Gaussian, i.e.~for every $f\in X'$, $f_*\gamma$ is a normal distribution on $\mathbb{R}$, if and only if its Fourier transformation (i.e.~its characteristic function~\ref{prob:characteristic_function}) has the form
+        A measure $\gamma$ on a locally convex measurable space $(X,\mathcal{C}(X))$ is Gaussian if and only if its Fourier transformation (i.e.~its characteristic function~\ref{prob:characteristic_function}) has the form
         \begin{gather}
             \widetilde{\gamma}(f) = \exp\left(i\expect{f} - \frac{\mathrm{Cov}[f,f]}{2}\right)\,.
         \end{gather}
@@ -259,7 +283,7 @@
     \end{remark}
 
     \newdef{Cameron--Martin space}{\index{Cameron--Martin!space}\index{norm!Gross}
-        Consider a Gaussian measure $\gamma$ on a locally convex vector space $X$. The covariance operator $\mathrm{Cov}$ induces a norm on $X$:\footnote{This norm is sometimes called the \textbf{Gross norm}.}
+        Consider a Gaussian measure $\gamma$ on a locally convex vector space $X$. The covariance operator $\mathrm{Cov}$ induces a norm on $X$:
         \begin{gather}
             \|x\|_\gamma := \sup\{\phi(x)\mid \phi\in X',\mathrm{Cov}[\phi,\phi]\leq 1\}\,.
         \end{gather}
@@ -268,6 +292,9 @@
             H(\gamma) := \{x\in X\mid \|x\|_\gamma<+\infty\}\,.
         \end{gather}
     }
+    \begin{remark}
+        If $X$ was obtained as the Gross-completion of a separable Hilbert space $\mathcal{H}$, then $\mathcal{H}\cong H(\gamma)$ and $\|\cdot\|_\gamma=\|\cdot\|_{\mathcal{H}}$.
+    \end{remark}
 
     \begin{property}\label{stoch:cameron_martin_characterization}
         Let $X$ be a separable Banach space. For every centered element $h\in X'_\gamma$, there exists an $x\in X$ such that
@@ -297,7 +324,7 @@
 
     \Cref{stoch:cameron_martin} can now be generalized to separable Banach spaces.
     \begin{theorem}[Cameron--Martin]\index{Cameron--Martin}
-        For $x\in X$ and a Gaussian measure $\gamma$ on $X$, the translated measure
+        Let $X$ be a separable Banach space. For $x\in X$ and a Gaussian measure $\gamma$ on $X$, the translated measure
         \begin{gather}
             x_*\gamma(B) := \gamma(B-x)
         \end{gather}
@@ -327,9 +354,6 @@
     \begin{property}
         Consider an abstract Wiener space $(\mathcal{H},\mathcal{B},\gamma)$. If $\mathcal{H}$ is infinite dimensional, then $\gamma(\mathcal{H})=0$.
     \end{property}
-
-
-    \todo{COMPLETE (add Gross norms)}
 
 \section{Martingales}
 

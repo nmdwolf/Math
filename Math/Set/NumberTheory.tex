@@ -8,6 +8,8 @@
 
     This section will make use of the content of \cref{section:stone_spaces}.
 
+\subsection{Finite fields}
+
     \newdef{Finite field}{\index{field!finite}\index{Galois|seealso{field, finite}}\index{order!of finite field}\label{number:finite_field}
         The finite field (or \textbf{Galois field}) $\mathbb{F}_p$ is the field with a finite number of elements $p\in\mathbb{N}$. The number $p$ is called the \textbf{order} of $\mathbb{F}_p$.
     }
@@ -15,10 +17,20 @@
         If $p\in\mathbb{N}$ is prime, then $\mathbb{F}_p\cong\mathbb{Z}/p\mathbb{Z}$.
     \end{property}
 
-    \newdef{$p$-adic numbers}{\index{adic numbers}
-        Consider a prime number $p\in\mathbb{N}$. For every $m,n\in\mathbb{N}$, one has that $\mathbb{Z}/p^n\mathbb{Z}\subseteq\mathbb{Z}/p^m\mathbb{Z}$ whenever $m\leq n$. The group $\mathbb{Z}_p$ of \textbf{$p$-adic integers} is given by the profinite group (\cref{topology:profinite_group}) obtained from this system of inclusions.
+\subsection{Rational numbers}
 
-        Just like $\mathbb{Q}$ is the field of fractions (\cref{algebra:fraction_field}) of $\mathbb{Z}$ as in \cref{algebra:integers_rationals}, the $p$-adic numbers $\mathbb{Q}_p$ can be obtained as the field of fractions of $\mathbb{Z}_p$.
+    \newdef{$p$-adic numbers}{\index{adic numbers}
+        Consider a prime number $p\in\mathbb{N}$. For every $m,n\in\mathbb{N}$, one has that $\mathbb{Z}/p^n\mathbb{Z}\subseteq\mathbb{Z}/p^m\mathbb{Z}$ whenever $m\leq n$. The group $\mathbb{Z}_p$ of \textbf{$p$-adic integers} is given by the profinite group (\cref{topology:profinite_group}) obtained from this system of inclusions. The $p$-adic integers are of the form
+        \begin{gather}
+            \sum_{n=0}^{+\infty}a_np^n\,,
+        \end{gather}
+        with integers $0\leq a_n<p$ for all $n\in\mathbb{N}$.
+
+        Just like $\mathbb{Q}$ is the field of fractions (\cref{algebra:fraction_field}) of $\mathbb{Z}$ as in \cref{algebra:integers_rationals}, the $p$-adic numbers $\mathbb{Q}_p$ can be obtained as the field of fractions of $\mathbb{Z}_p$. The $p$-adic numbers are of the form
+        \begin{gather}
+            \sum_{n=-N}^{+\infty}a_np^n\,,
+        \end{gather}
+        with $N\in\mathbb{N}$ and integers $0\leq a_n<p$ for all $n\in\mathbb{N}$.
     }
 
     An alternative definition makes use of the notion of valuations (\cref{algebra:valuation}).
@@ -35,7 +47,7 @@
         \begin{gather}
             \nu_p\left(\frac{a}{b}\right) := \nu_p(a)-\nu_p(b)\,.
         \end{gather}
-        In turn, the $p$-adic valuation also induces an \textit{absolute value} on $\mathbb{Z}$ (and on $\mathbb{Q}$) given by
+        In turn, the $p$-adic valuation also induces an absolute value on $\mathbb{Z}$ (and on $\mathbb{Q}$) as in \cref{algebra:nonarchimedean_valuation}, given by
         \begin{gather}
             |z|_p := p^{-\nu_p(z)}\,.
         \end{gather}
@@ -49,8 +61,22 @@
         for some integers $m,n\in\mathbb{Z}$ such that $p^k$, $m$ and $n$ are all coprime.
     \end{remark}
 
+    \begin{property}\label{number:rational_adic_integer}
+        If $b\bmod p\neq0$, then $\tfrac{a}{b}\in\mathbb{Z}_p$ for all $a,b\in\mathbb{Z}$ and $p\in\mathbb{N}$.
+        
+        The construction of the $p$-adic representation of a rational number $q\in\mathbb{Q}$ proceeds similar to the construction of the usual decimal representation, i.e.~through long division:
+        \begin{enumerate}
+            \item Find the unique coprime integers satisfying $q=\frac{c}{d}p^k$ and, hence, $\nu_p(q)=k$.
+            \item $k-1$ zeros have to be added to the $p$-adic representation.
+            \item Then, find the unique integers satisfying $q=ap^k+r$ with $0\leq a<p$ and $\nu_p(r)>k$.
+            \item Then the next coefficients is $a$ and the algorithm can be restarted with $q:=r$.
+        \end{enumerate}
+    \end{property}
+
     \begin{theorem}[Ostrowski]\index{Ostrowski}
         The only nontrivial absolute values on $\mathbb{Q}$ are either the ordinary absolute value $|\cdot|$ or the $p$-adic absolute values $|\cdot|_p$.
+
+        More generally, consider a complete field $\mathfrak{K}$ with respect to an absolute value. Then, either the absolute value is Archimedean and $\mathfrak{K}\cong\mathbb{R},\mathbb{C}$, or the absolute value is non-Archimedean.
     \end{theorem}
 
     \newdef{Profinite integers}{\index{integer!profinite}
@@ -64,16 +90,70 @@
         \end{gather}
     }
 
-    \newdef{Adeles}{\index{adele}
-        The ring of integral adeles is defined as the product
+    \newdef{Ad\`eles}{\index{ad\`ele}
+        The ring of integral ad\`eles is defined as the product
         \begin{gather}
+            \label{number:integral_adeles}
             \mathbb{A}_{\mathbb{R}} := \mathbb{R}\times\widehat{\mathbb{Z}}\,.
         \end{gather}
-        To obtain the proper ring of adeles, the above ring is rationalized:
+        To obtain the proper ring of ad\`eles, the above ring is rationalized:
         \begin{gather}
             \mathbb{A}_{\mathbb{Q}} := \mathbb{Q}\otimes_{\mathbb{Z}}\mathbb{A}_{\mathbb{R}}\,.
         \end{gather}
     }
+
+    \newdef{Id\`eles}{\index{id\`ele}
+        The group of units $\mathbb{I}_{\mathbb{Q}}:=\mathbb{A}_{\mathbb{Q}}^\times$.
+    }
+
+\subsection{Number and global fields}
+
+    The product expression from the previous section can be reinterpreted by noting that the rationalization of the integral ad\`eles can be written as a \textbf{restricted product}.\index{product!restricted} Recall \cref{cat:product} of products. Given an indexing set $S$ and a collection of morphisms $\{\iota_s:X_s\rightarrow Y_s\}_{s\in S}$, the restricted product $\prod'_{s\in S}Y_s$ is given by the subset of the ordinary product $\prod_{s\in S}Y_s$ where all but a finite number of elements lie in the image of the morphisms $\iota_s$.
+
+    Now, by the \textbf{prime factorization theorem} and \cref{number:rational_adic_integer}, every element of the form
+    \begin{gather}
+        \frac{a}{b}\otimes c_p
+    \end{gather}
+    with $a,b\in\mathbb{Z}$ and $c_p\in\mathbb{Z}_p$ will either be an element of $\mathbb{Z}_p$ if $b\bmod p\neq0$ or an element of $\mathbb{Q}_p$ if $b\bmod p=0$. Since there are only a finite number of prime factors of $b$, this shows that
+    \begin{gather}
+        \mathbb{A}_{\mathbb{Q}}\cong\mathbb{R}\times\prod'_{p\text{ prime}}\mathbb{Q}_p\,.
+    \end{gather}
+    Moreover, taking $\mathbb{Q}_\infty:=\mathbb{R}$ and recalling Ostrowski's theorem, one has
+    \begin{gather}
+        \mathbb{A}_{\mathbb{Q}}\cong\prod'_{p\in\mathrm{places}(\mathbb{Z})}\mathbb{Q}_p\,.
+    \end{gather}
+
+    Now, consider a number field $\mathfrak{K}$ (\cref{algebra:number_field}). Consider the following notations:
+    \begin{itemize}
+        \item $\mathcal{O}$ denotes the ring of algebraic integers (\cref{algebra:algebraic_integer}) of $\mathfrak{K}$.
+        \item $P$ denotes the set of places of $\mathfrak{K}$ with $S\subset P$ the Archimedean (or infinite) places.
+        \item For every place $\nu\in P$, $\mathfrak{K}_\nu$ denotes the completion at $\nu$.
+    \end{itemize}
+    By Ostrowski's theorem, the completions at the infinite place are isomorphic to $\mathbb{R}$ or $\mathbb{C}$. For each (\textit{local}) field $\mathfrak{K}_\nu$, one can also construct the \textbf{valuation ring} as the subring $\mathcal{O}_\nu$ of elements of norm at most 1.\index{valuation!ring}\index{field!local}
+
+    The \textbf{integral ad\`eles} are defined as follows, in analogy to \cref{number:integral_adeles}:\index{ad\`ele}
+    \begin{gather}
+        \mathbb{A}_{\mathcal{O}} := \widehat{\mathcal{O}}\times\prod_{\nu\in S}\mathfrak{K}_\nu
+    \end{gather}
+    and the \textbf{ad\`ele ring} is defined as its `rationalization':
+    \begin{gather}
+        \mathbb{A}_{\mathfrak{K}} := \mathfrak{K}\otimes_{\mathcal{O}}\mathbb{A}_{\mathcal{O}}\,.
+    \end{gather}
+    Note that the profinite completion $\widehat{\mathcal{O}}$ again admits a factorization over non-Archimedean places:
+    \begin{gather}
+        \widehat{\mathcal{O}}\cong\prod_{\nu\in P\backslash S}\mathcal{O}_\nu\,.
+    \end{gather}
+    Combining these facts, one obtains the following expression:
+    \begin{gather}
+        \mathbb{A}_{\mathfrak{K}}\cong\prod_{\nu\in S}\mathfrak{K}_\nu\times\prod'_{\nu\in P\backslash S}\mathfrak{K}_\nu\cong\prod'_{\nu\in P}\mathfrak{K}_\nu\,.
+    \end{gather}
+
+    This definition can now be generalized to global fields as is.
+    \newdef{Global field}{\index{field!global}
+        Either a number field or a function field (\cref{alggeom:coordinate_ring}) over a finite field. Equivalently, a finite extension of either the rational numbers $\mathbb{Q}$ or the rational functions with coefficients in a finite field.
+    }
+
+
 
 \section{\difficult{Algebraic geometry}}
 
@@ -162,7 +242,7 @@
         Let $R$ be a commutative ring. A function $f:R^n\rightarrow R$ is said to be algebraic if it is the solution of a polynomial equation with coefficients in $R[x_1,\ldots,x_n]$.\footnote{Often, the polynomial is required to be irreducible.} If $f$ is not algebraic, it is said to be \textbf{transcendental}.
     }
 
-\section{$L$-functions}
+\section{\texorpdfstring{$L$-functions}{L-functions}}
 
     \newdef{Dirichlet series}{\index{Dirichlet!series}
         A series of the form

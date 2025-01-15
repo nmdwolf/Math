@@ -11,15 +11,18 @@
         \begin{gather}
             \forall x:\exists y:\forall z\bigl(z\in y\iff\forall w(w\in z\implies w\in x)\bigr)
         \end{gather}
-        The set $y$ is called the power set $P(x)$ of $x$.
+        The set $y$ is called the power set $P(x)$ or $2^x$ of $x$.
     \end{axiom}
 
     \begin{axiom}[Extensionality]\index{extensionality}
         \begin{gather}
             \forall x,y:\forall z\bigl(z\in x\iff z\in y\bigr)\implies x=y
         \end{gather}
-        This axiom allows to compare two sets based on their elements.
+        This axiom allows to compare two sets based on their elements, i.e.~two sets are (strictly) equal if and only if they have the same elements.
     \end{axiom}
+    \begin{remark}
+        As will be made clear throughout this document, strict equality as in the extensionality axiom is often not what one cares about in practice. \textit{Equivalence} and \textit{isomorphism} will be the practically relevant notions.
+    \end{remark}
 
     \begin{axiom}[Regularity\footnotemark]\index{regularity}
         \footnotetext{Also called the \textbf{axiom of foundation}.}
@@ -36,25 +39,54 @@
         \end{gather}
         This axiom (schema) says that, for every set $x$, one can build another set of elements in $x$ that satisfy a given predicate. By the axiom of extensionality, this subset $B\subseteq A$ is unique.
     \end{axiom}
+    \begin{notation}[Set builder notation]\index{set!builder notation}
+        The sets constructed through the axiom of specification are often denoted as follows:
+        \begin{gather}
+            B=\{x\in A\mid\phi(x)\}\,,
+        \end{gather}
+        where the parameters $w_1,\ldots,w_n$ were suppressed for conciseness.
+    \end{notation}
 
-\subsection{Material set theory}
+\subsection{Material set theory}\index{set theory!material}
 
-    ZF(C) is an instance of material set theory. Every element of a set is itself a set and, hence, has some kind of internal structure.
+    ZF(C) is an instance of \textit{material set theory}. Every element of a set is itself a set and, hence, possesses some kind of internal structure.
 
     \newdef{Pure set}{\index{pure!set}
-        A set $U$ such that for every sequence $x_n\in x_{n-1}\in\cdots\in x_1\in U$ all the elements $x_i$ are also sets.
+        A set $U$ such that, for every sequence
+        \begin{gather}
+            x_n\in x_{n-1}\in\cdots\in x_1\in U\,,
+        \end{gather}
+        all elements $x_i$ are also sets.
     }
     \newdef{Urelement\footnotemark}{\index{urelement}\index{atom}
         \footnotetext{Sometimes called an \textbf{atom}.}
         An object that is not a set.
     }
 
+    \todo{COMPLETE}
+
+\subsection{Structural set theory}\index{set theory!structural}
+
+    In contrast to material set theory, the fundamental notions in this theory are the relations between sets. An element of a set does not have any internal structure and only becomes relevant if one specifies extra structure (given by relations) on the sets. This implies that elements of sets are not sets themselves. In fact, this would be a meaningless statement since, by default, they lack any internal structure. Even stronger, it is meaningless to compare two elements if one does not provide relations or extra structure on the sets.
+
+    \todo{COMPLETE}
+
+\subsection{\texorpdfstring{ETCS $\clubsuit$}{ETCS}}
+
+    \sremark{ETCS is the abbreviation of `Elementary Theory of the Category of Sets'.}
+
+    \begin{axiom}
+        The category of sets is a \textit{well-pointed (elementary) topos} (see \cref{chapter:topos}).
+    \end{axiom}
+
+    \todo{COMPLETE}
+
 \subsection{Universes}\label{section:universes}
 
-    To be able to talk about sets without running into problems such as \textit{Russel's paradox}, where one needs (or wants) to talk about the collection of all things satisfying a certain condition, one can introduce the concept of a universal set or universe (of discourse). This set takes the place of the `collection of things' and all operations act within this universe.
+    To be able to talk about sets without running into problems such as \textit{Russel's paradox}, where one needs (or wants) to talk about the collection of all things satisfying a certain condition, one can introduce the concept of a `universal set' or `universe (of discourse)'. This set takes the place of the `collection of things' and all operations act within this universe.
 
     \newdef{Grothendieck universe}{\index{Grothendieck!universe}
-        A Grothendieck universe $U$ is a pure set satisfying the following axioms:
+        A pure set $U$ satisfying the following conditions:
         \begin{enumerate}
             \item\textbf{Transitivity}: If $x\in U$ and $y\in x$, then $y\in U$.
             \item\textbf{Power set}: If $x\in U$, then $P(x)\in U$.
@@ -62,22 +94,6 @@
             \item\textbf{Unions}: If $I\in U$ and $\{x_i\}_{i\in I}\subset U$, then $\bigcup_{i\in I}x_i\in U$.
         \end{enumerate}
     }
-
-\subsection{Structural set theory}
-
-    In contrast to material set theory, the fundamental notions in this theory are sets and the relations between them. An element of a set does not have any internal structure and only becomes relevant if one specifies extra structure (or relations) on the sets. This implies that elements of sets are not sets themselves. In fact, this would be a meaningless statement since, by default, they lack internal structure. Even stronger, it is meaningless to compare two elements if one does not provide relations or extra structure on the sets.
-
-    \todo{COMPLETE}
-
-\subsection{\texorpdfstring{ETCS $\clubsuit$}{ETCS}}
-
-    \todo{COMPLETE}
-
-    \sremark{ETCS is the abbreviation of Elementary Theory of the Category of Sets.}
-
-    \begin{axiom}
-        The category of sets is a well-pointed (elementary) topos (see \cref{chapter:topos}).
-    \end{axiom}
 
 \section{Finite sets}
 
@@ -88,20 +104,22 @@
     In ZFC, any other reasonable definition of finite sets will be equivalent to the one above. However, in constructive mathematics, this is not true anymore. Because the \textit{internal logic} of \textit{elementary topoi} (see \cref{chapter:topos}) is constructive, some more information is given here.
 
     \newdef{Kuratowski finiteness}{\index{Kuratowski|see{finite set}}
-        A set $S$ is said to be Kuratowski finite or \textbf{finitely indexed set} if there exists a surjection $[n]\twoheadrightarrow$ for some $n\in\mathbb{N}$.
+        A set $S$ is said to be Kuratowski finite or \textbf{finitely indexed set} if there exists a surjection $[n]\twoheadrightarrow S$ for some $n\in\mathbb{N}$.
     }
 
     \newdef{Dedekind finiteness}{\index{Dedekind|see{finite set}}
         A set $S$ is said to be Dedekind finite if any injection $S\hookrightarrow S$ is a bijection.
     }
 
+    \todo{COMPLETE}
+
 \section{Real numbers}\index{real numbers}
 
     \begin{axiom}[Ordering]
-        The set of real numbers is an ordered field $(\mathbb{R},+,\cdot,<)$.
+        The set of real numbers is an \textit{ordered field} (see \cref{algebra:field}).
     \end{axiom}
     \begin{axiom}[Dedekind completeness]\index{Dedekind!completeness}
-        Every nonempty subset of $\mathbb{R}$ that is bounded above has a supremum.
+        Every nonempty subset of $\mathbb{R}$ that is bounded from above has a \textit{supremum} (see \cref{set:supremum}).
     \end{axiom}
 
     \begin{axiom}
@@ -109,7 +127,7 @@
     \end{axiom}
 
     \begin{remark}
-        There is only one way to extend the field of rational numbers to the field of reals such that it satisfies the previous axioms. This implies that, for every two possible constructions, there exists a bijection between the two.
+        There is only one way (up to isomorphisms) to extend the field of rational numbers to the field of reals such that it satisfies the previous axioms.
     \end{remark}
 
     \newdef{Extended real line}{\label{calculus:extended_real_line}
@@ -120,14 +138,28 @@
 
 \section{Set operations}
 
+    \newdef{Cartesian product}{\index{product}
+        Let $X,Y$ be two sets. Their (Cartesian) product is defined as follows:
+        \begin{gather}
+            X\times Y := \{(x,y)\mid x\in X\land y\in Y\}\,.
+        \end{gather}
+    }
+
     \newdef{Symmetric difference}{\index{symmetric!difference}\label{set:symmetric_difference}
         \begin{gather}
             A\Delta B := (A\backslash B)\cup(B\backslash A)
         \end{gather}
     }
 
+    \newdef{Diagonal}{\index{diagonal}
+        The diagonal of a set $X$ is defined as follows:
+        \begin{gather}
+            \Delta_X := \bigl\{(x,x)\in X\times X\bigm\vert x\in X\bigr\}\,.
+        \end{gather}
+    }
+
     \newdef{Complement}{\index{complement}\label{set:complement}
-        Let $\Omega$ be the universe of discours (see \cref{section:universes}) and consider $X\subseteq\Omega$. The complement of $X$ is defined as follows:
+        Let $\Omega$ be the universe of discours (\cref{section:universes}) and consider $X\subseteq\Omega$. The complement of $X$ is defined as follows:
         \begin{gather}
             X^c := \Omega\backslash X\,.
         \end{gather}
@@ -193,12 +225,12 @@
     }
     \sremark{Some authors use the notions of codomain and image interchangeably.}
 
-    \newdef{Level set}{\index{level!set}\index{fibre}\label{set:level_set}
+    \newdef{Level set}{\index{level!set}\index{fibre}\index{pre-!image}\label{set:level_set}
         Consider a function $f:X\rightarrow\mathbb{R}$. The following set is called the level set of $f$ at $c\in\mathbb{R}$:
         \begin{gather}
-            f^{-1}(c):=\{x\in X\mid f(x) = c\}\,.
+            f^{-1}(c) := \{x\in X\mid f(x) = c\}\,.
         \end{gather}
-        For $X=\mathbb{R}^2$ the level sets are called \textbf{level curves} and for $X=\mathbb{R}^3$ they are called \textbf{level surfaces}. More generally, for functions $f:X\rightarrow Y$, one calls the preimage of a singleton $\{y\}\in Y$ the \textbf{fibre} over $y$.
+        For $X=\mathbb{R}^2$ the level sets are called \textbf{level curves} and for $X=\mathbb{R}^3$ they are called \textbf{level surfaces}. More generally, for functions $f:X\rightarrow Y$, one calls $f^{-1}(y)$ the \textbf{preimage} or \textbf{fibre} of $f$ over $y$.
     }
 
 \subsection{Functions}
@@ -235,19 +267,21 @@
     }
 
 \section{Collections}
-\subsection{Families and filters}
+\subsection{Families and filters}\label{section:collections}
 
     \newdef{Power set}{\index{power!set}\label{set:power_set}
         Let $X$ be a set. The power set is defined as the set of all subsets of $X$ and is (often) denoted by $P(X)$ or $2^X$. The existence of this set is enforced by the power set axiom (\cref{set:power_set_axiom}).
     }
     \result{All sets are elements of their power set: $X\in P(X)$.}
 
-    \newdef{Collection}{\index{collection}
-        Let $X$ be a set. A collection of elements in $X$ is a subset of $X$.
+    \newdef{Collection}{\index{collection}\index{index!set}
+        A collection of elements of a set $X$ is a subset of $X$. Often this collection is indexed by some \textbf{index set} $I$, in which case it is often denoted as $\{x_i\}_{i\in I}$.
     }
-    \newdef{Family}{\index{family}
+    \newdef{Family}{\index{family}\index{index!set}
         Let $X,I$ be two sets. A family of elements of $X$ with \textbf{index set} $I$ is a function $f:I\rightarrow X$. A family with index set $I$ is often denoted by $(x_i)_{i\in I}$. In contrast to collections, a family can contain multiple copies of the same element.
     }
+
+    \todo{CHECK COMPENDIUM TO GET NOTATIONS STRAIGHT}
 
     \newdef{Helly family}{\index{Helly!family}\label{set:helly_family}
         A Helly family of order $k\in\mathbb{N}$ is a pair $(X,F)$ with $F\subset P(X)$ such that for every finite $G\subset F$:
@@ -255,24 +289,19 @@
             \bigcap_{V\in G}V = \emptyset\implies\exists H\subseteq G: \left(\bigcap_{V\in H}V = \emptyset\right)\land\Bigl(|H|\leq k\Bigr)\,.
         \end{gather}
         A Helly family of order 2 is sometimes said to have the \textbf{Helly property}.
-    }
 
-    \newdef{Diagonal}{\index{diagonal}
-        The diagonal of a set $X$ is defined as follows:
-        \begin{gather}
-            \Delta_X := \bigl\{(x,x)\in X\times X\bigm\vert x\in X\bigr\}\,.
-        \end{gather}
+        \todo{WHERE IS THIS NEEDED?}
     }
 
     \newdef{Cover}{\index{cover}\label{set:cover}
-        A cover of a set $X$ is a collection of sets $(V_i)_{i\in I}\subseteq P(X)$ such that:
+        A cover of a set $X$ is a collection of sets $\{V_i\}_{i\in I}\subseteq P(X)$ such that:
         \begin{gather}
             \bigcup_{i\in I}V_i=X\,.
         \end{gather}
     }
 
     \newdef{Partition}{\index{partition}
-        A  partition of $X$ is a family of disjoint subsets $(A_i)_{i\in I}\subset P(X)$ such that $\bigcup_{i\in I}A_i=X$, i.e.~it is a disjoint cover.
+        A  partition of $X$ is a collection of disjoint subsets $\{A_i\}_{i\in I}\subset P(X)$ such that $\bigcup_{i\in I}A_i=X$, i.e.~it is a disjoint cover.
     }
     \newdef{Refinement}{\index{refinement}
         Let $P$ be a partition of $X$. A refinement $P'$ of $P$ is a collection of subsets such that every $A\in P$ can be written as a disjoint union of elements in $P'$. It follows that every refinement is also a partition.
@@ -288,41 +317,44 @@
     }
 
     \newdef{Filtration}{\index{filtration}\label{set:filtration}
-        Consider a set $X$ together with a collection of subsets $F_i$ indexed by a \textit{totally ordered set} $I$ (see \cref{set:total_order} below). The collection is said to be a filtration of $X$ if
+        Consider a set $X$ together with a collection of subsets $\{F_i\}_{i\in I}$ indexed by a \textit{totally ordered set} $I$ (see \cref{set:total_order}). The collection is said to be a filtration of $X$ if
         \begin{gather}
             i\leq j\implies F_i\subseteq F_j\,.
         \end{gather}
-        A filtration is said to be \textbf{exhaustive} if $\bigcup_iF_i=X$ and \textbf{separated} if $\bigcap_iF_i=\emptyset$.
+        A filtration is said to be \textbf{exhaustive} if $\bigcup_{i\in I}F_i=X$ and \textbf{separated} if $\bigcap_{i\in I}F_i=\emptyset$.
     }
     \newdef{Associated grading}{\index{graded!object}
-        When one can define quotient objects, every filtration $\{F_i\}_{i\in\mathbb{N}}$ of $X$ defines an associated graded object $\{G_i := F_i/F_{i-1}\}_{i\in\mathbb{N}}$.
+        When one can define \textit{quotient objects}, every filtration $\{F_i\}_{i\in I}$ of $X$ defines an associated graded object $\{G_i := F_i/F_{i-1}\}_{i\in I}$.
     }
 
 \subsection{Algebra of sets}
 
     \newdef{Algebra of sets}{\index{algebra!of sets}\index{field!of sets|see{algebra}}\label{set:algebra_of_sets}
-        A collection $\mathcal{F}\subset P(X)$ is a called an algebra over $X$ if it is closed under finite unions, finite intersections and complements. The pair $(X,\mathcal{F})$ is also called a \textbf{field of sets}.
+        A collection $\mathcal{F}\subset P(X)$ is a called an algebra over $X$ if it satisfies the following conditions:
+        \begin{enumerate}
+            \item\textbf{Totality}: $X\in\mathcal{F}$,
+            \item\textbf{Closed under complements}: $\forall E\in\mathcal{F}:E^c\in\mathcal{F}$, and
+            \item\textbf{Closed under finite unions}: $\forall E,E'\in\mathcal{F}:E\cup E'\in\mathcal{F}$.
+        \end{enumerate}
+        The pair $(X,\mathcal{F})$ is also called a \textbf{field of sets}.
     }
 
+    Extending this definition to closure under countable unions gives another common notion.
     \newdef{$\sigma$-algebra}{\index{$\sigma$!algebra}\index{measurable}\label{set:sigma_algebra}
-        A collection $\Sigma\subset P(X)$ is called a $\sigma$-algebra over a set $X$ if it satisfies the following axioms:
+        A collection $\Sigma\subset P(X)$ is called a $\sigma$-algebra over a set $X$ if it satisfies the following conditions:
         \begin{enumerate}
-            \item\textbf{Total space}: $X\in\Sigma$,
+            \item\textbf{Totality}: $X\in\Sigma$,
             \item\textbf{Closed under complements}: $\forall E\in\Sigma: E^c\in\Sigma$, and
-            \item\textbf{Closed under countable unions}: $\forall\{E_i\}_{i=1}^n\subset\Sigma:\bigcup_{i=1}^nE_i\in\Sigma$.
+            \item\textbf{Closed under countable unions}: $\forall\{E_n\}_{n\in\mathbb{N}}\subset\Sigma:\bigcup_{n=1}^{+\infty}E_n\in\Sigma$.
         \end{enumerate}
         The pair $(X,\Sigma)$ is called a \textbf{measurable space}. The elements $E\in\Sigma$ are called \textbf{measurable sets}.
     }
     \begin{remark}
-        Conditions $2$ and $3$, together with de Morgan's laws~\eqref{set:de_morgan_union} and~\eqref{set:de_morgan_intersection}, imply that a $\sigma$-algebra is also closed under countable intersections.
+        Conditions 1 and 2 imply that both $\sigma$-algebra and fields of sets always contain the empty set. Conditions 2 and 3, together with de Morgan's laws~\eqref{set:de_morgan_union} and~\eqref{set:de_morgan_intersection}, imply that a $\sigma$-algebra is also closed under countable intersections and, analogously, that a field of sets is closed under finite intersections.
     \end{remark}
 
-    \begin{result}[Algebra of sets]
-        Every $\sigma$-algebra in an algebra of sets.
-    \end{result}
-
     \begin{property}[Intersections]
-        The intersection of a family of $\sigma$-algebras is again a $\sigma$-algebra.
+        The intersection of a collection of $\sigma$-algebras is again a $\sigma$-algebra.
     \end{property}
 
     \newdef{Generated $\sigma$-algebras}{\label{set:generated_sigma_algebra}
@@ -339,28 +371,28 @@
     \newdef{Product $\sigma$-algebras}{\label{set:product_of_sigma_algebras}
         The product $\sigma$-algebra $\mathcal{F}_1\otimes\mathcal{F}_2$ on $X_1\times X_2$ can be defined in the following equivalent ways:
         \begin{itemize}
-            \item $\mathcal{F}$ is generated by the collection $\{A_1\times\Omega_2\mid A_1\in\mathcal{F}_1\}\cup\{\Omega_1\times A_2\mid A_2\in\mathcal{F}_2\}$.
-            \item $\mathcal{F}$ is generated by the products $A_1\times A_2$ for all $A_1\in\mathcal{F}_1, A_2\in\mathcal{F}_2$.
+            \item $\mathcal{F}$ is generated by $\{A_1\times\Omega_2\mid A_1\in\mathcal{F}_1\}\cup\{\Omega_1\times A_2\mid A_2\in\mathcal{F}_2\}$.
+            \item $\mathcal{F}$ is generated by $\{A_1\times A_2\mid A_1\in\mathcal{F}_1\land A_2\in\mathcal{F}_2\}$.
         \end{itemize}
     }
 
     \newdef{Monotone class}{\index{monotone!class}
-        Let $\mathcal{A}$ be a collection of sets. $\mathcal{A}$ is called a monotone class if it has the following two properties:
+        A collection of sets $\mathcal{A}$ that has the following two properties:
         \begin{enumerate}
-            \item For every increasing sequence $A_1\subset A_2\subset\cdots$ : $\bigcup_{i=1}^{+\infty}A_i\in\mathcal{A}$.
-            \item For every decreasing sequence $A_1\supset A_2\supset\cdots$ : $\bigcap_{i=1}^{+\infty}A_i\in\mathcal{A}$.
+            \item For every increasing sequence $A_1\subset A_2\subset\cdots$ : $\bigcup_{n=1}^{+\infty}A_n\in\mathcal{A}$.
+            \item For every decreasing sequence $A_1\supset A_2\supset\cdots$ : $\bigcap_{n=1}^{+\infty}A_n\in\mathcal{A}$.
         \end{enumerate}
     }
 
     \begin{theorem}[Monotone class theorem]\label{set:monotone_class}
-        Let $\mathcal{A}$ be an algebra of sets. If $\mathcal{G}_{\mathcal{A}}$ is the smallest monotone class containing $\mathcal{A}$, then it coincides with the $\sigma$-algebra generated by $\mathcal{A}$.
+        Let $\mathcal{A}$ be an algebra of sets. If $\mathcal{G}_{\mathcal{A}}$ is the smallest monotone class containing $\mathcal{A}$, it coincides with the $\sigma$-algebra generated by $\mathcal{A}$.
     \end{theorem}
 
 \section{Ordered sets}\index{order}\label{section:ordered_sets}
 \subsection{Posets}
 
     \newdef{Partially ordered set}{\index{poset}\index{pre-!order|see{order}}\label{set:poset}
-        A set $P$ equipped with a binary relation $\leq$ is called a partially ordered set (or \textbf{poset}) if the following 3 axioms are fulfilled for all elements $x,y,z\in P$:
+        A set $P$ equipped with a binary relation $\leq$ is called a partially ordered set (or \textbf{poset}) if the following 3 conditions are satisfied for all elements $x,y,z\in P$:
         \begin{enumerate}
             \item\textbf{Reflexivity}: $x\leq x$,
             \item\textbf{Antisymmetry}: $x\leq y\land y\leq x\implies x=y$, and
@@ -407,7 +439,7 @@
             \item\textbf{Connectedness}: $x\not<y\land y\not<x\implies x=y$.
         \end{enumerate}
     }
-    \remark{By negation, one can freely pass between linear orders and total orders. However, without the law of the excluded middle, there exists no bijection between these two.}
+    \remark{By negation, one can freely pass between linear orders and total orders. However, without the law of the excluded middle, there exists no bijection between them.}
 
     \newdef{Supremum}{\index{supremum}\label{set:supremum}
         The supremum $\sup(P)$ of a poset $P$ is the least upper bound of $P$.
@@ -439,8 +471,8 @@
         A net on a set $X$ is a subset of $X$ indexed by a directed set $I$.
     }
 
-    \newdef{Cut}{\index{cut}\index{Dedekind!cut}
-        Let $(P,\leq)$ be a totally ordered set. A cut or \textbf{decomposition} of $P$ is a pair $(A,B)$ of disjoint subsets such that $P=A\cup B$ in the ordered sense. Cuts can be classified as follows:
+    \newdef{Cut}{\index{cut}\index{Dedekind!cut}\index{union!ordered}
+        Let $(P,\leq)$ be a totally ordered set. A cut or \textbf{decomposition} of $P$ is a pair $(A,B)$ of disjoint subsets such that $P=A\cup B$ in the ordered sense, i.e.~every element of $A$ is smaller than every element of $B$. Cuts can be classified as follows:
         \begin{itemize}
             \item\textbf{Jumps}: $A$ has a greatest element and $B$ has a least element.
             \item\textbf{Dedekind cut}: Either $A$ has a greatest element and $B$ has no least element or $A$ has no greatest element, but $B$ has a least element.
@@ -452,14 +484,14 @@
     \newdef{Filter}{\index{filter}\index{ultrafilter}\label{set:ultrafilter}
         Let $X$ be a poset. A filter on $X$ is a subset $\mathcal{F}\subseteq X$ such that:
         \begin{enumerate}
-            \item\textbf{Nonemptiness}: $\mathcal{F}\neq\emptyset$.
-            \item\textbf{Downward closure}: $\forall x,y\in\mathcal{F}:\exists z\in\mathcal{F}:z\leq x\land z\leq y$.
+            \item\textbf{Nonemptiness}: $\mathcal{F}\neq\emptyset$,
+            \item\textbf{Downward closure}: $\forall x,y\in\mathcal{F}:\exists z\in\mathcal{F}:z\leq x\land z\leq y$, and
             \item\textbf{Isotony}: If $x\in\mathcal{F}$ and $x\leq y$, then $y\in\mathcal{F}$.
         \end{enumerate}
         If there exists no strictly greater filter $\mathcal{F}\subset\mathcal{F}'$, then $\mathcal{F}$ is called an \textbf{ultrafilter}.
     }
 
-    The following theorem is independent of the ZF axioms, but strictly weaker than the axiom of choice.
+    The following theorem is independent of the ZF axioms, but strictly weaker than the \textit{axiom of choice}.
     \begin{theorem}[Ultrafilter lemma]
         Every proper filter on a set is contained in an ultrafilter.
     \end{theorem}
@@ -476,9 +508,13 @@
         However, this definition gives problems within the ZF(C) framework of set theory, since these equivalence classes are proper classes and not sets. To overcome this problem, one can use a different approach. By using a well-defined construction, one can, for every class, select a particular representative and call this representative the \textbf{ordinal number} of all well-ordered sets isomorphic to it.
     }
 
-    The most-used construction is the one by \textit{Von Neumann}. For every well-ordered set $W$, there exists a function $W\rightarrow P(W):w\mapsto W_{\leq w}:=\{w'\in W\mid w'\leq w\}$ that restricts to an order isomorphism on its image. This leads to the following definition.
+    The most common construction is the one by \indexauthor{Von Neumann}. For every well-ordered set $W$, there exists a function
+    \begin{gather}
+        W\rightarrow P(W):w\mapsto W_{\leq w}:=\{w'\in W\mid w'\leq w\}
+    \end{gather}
+    that restricts to an order isomorphism on its image. This leads to the following definition.
     \newdef{Von Neumann ordinal}{\index{von Neumann!ordinal}
-        A set that is strictly well-ordered by membership and such that every element is also a subset.
+        A set that is strictly well ordered by membership and such that every element is also a subset.
 
         The first finite von Neumann ordinals are given as an example:
         \begin{itemize}
@@ -511,15 +547,15 @@
         \item Every cardinal number is the cardinality of some set.
         \item Bijective sets have the same cardinality.
     \end{enumerate}
-    Guided by these conditions one could naively use the following definition.
+    Guided by these conditions, one could naively use the following definition.
     \newdef{Cardinal number\footnotemark}{\index{number!cardinal}
         \footnotetext{Also called the \textbf{cardinality} of a set.}
         An isomorphism class of sets (under bijections).
     }
 
-    However, similar to the problem encountered for ordinals above, these classes are not sets. To solve this, one can also use a similar trick and select a specific representative. For cardinals the following choice is made.
+    However, similar to the problem encountered for ordinals above, these classes are not sets. To solve this, one can also use a similar trick and select a specific representative. For cardinals, the following choice is common.
     \newadef{Cardinal number}{
-        The cardinal number of a set is the smallest ordinal rank of any well-order on it, i.e.~any ordinal number bijective to it.\footnote{The well-ordering theorem (if assumed) assures that this definition coincides with the naive one above.} The cardinal numbers inherit a well-ordering from the ordinal numbers.
+        The cardinal number of a set is the smallest ordinal rank of any well-order on it, i.e.~any ordinal number bijective to it.\footnote{The \textit{well-ordering theorem} (if assumed) assures that this definition coincides with the naive one above.} The cardinal numbers inherit a well-ordering from the ordinal numbers.
     }
 
     \begin{remark}[Ordering]
@@ -530,24 +566,26 @@
     \newdef{Successor}{\index{successor}
         Given a cardinal $\kappa$, its successor $\kappa^+$ is defined as the smallest cardinal greater than $\kappa$.
     }
-    \sremark{It should be noted that the successor of a cardinal number is not necessarily the same as its successor as an ordinal number (in fact, this is only the case for finite cardinals).}
+    \begin{remark}
+        It should be noted that the successor of a cardinal number is not necessarily the same as its successor as an ordinal number (in fact, this is only the case for finite cardinals).
+    \end{remark}
 
     \newdef{Regular cardinal}{\index{regular!cardinal}\label{set:regular_cardinal}
         An infinite cardinal $\kappa$ such that there exists no set of cardinality $\kappa$ that is the union of less than $\kappa$ subsets of cardinality less than $\kappa$:
         \begin{gather}
-            \kappa=\sum_{i\in I}\lambda_i\land\forall i\in I:\lambda_i<\kappa\implies|I|\geq\kappa.
+            \left(\kappa=\sum_{i\in I}\lambda_i\right)\land\bigl(\forall i\in I:\lambda_i<\kappa\bigr)\implies|I|\geq\kappa.
         \end{gather}
     }
 
     The following theorem can easily be proven by a diagonal argument.
     \begin{theorem}[Cantor]\index{Cantor}
-        Let $S$ be any set of cardinality $\kappa$. The power set $P(S)$ has cardinality strictly greater than $\kappa$.
+        Let $S$ be a set of cardinality $\kappa$. The power set $P(S)$ has cardinality strictly greater than $\kappa$.
     \end{theorem}
 
 \subsection{Lattices}\index{lattice}
 
     \newdef{Semilattice}{\index{join}\index{meet}
-        A poset $(P,\leq)$ for which every 2-element subset has a supremum, called the \textbf{join}, is called a join-semillatice. Similarly, a poset $(P,\leq)$ for which every 2-element subset has an infimum, called the \textbf{meet}, is called a meet-semilattice.
+        A poset $(P,\leq)$ for which every 2-element subset has a supremum, called the \textbf{join}, is called a \textbf{join-semillatice}. Similarly, a poset $(P,\leq)$ for which every 2-element subset has an infimum, called the \textbf{meet}, is called a \textbf{meet-semilattice}.
     }
     \begin{notation}
         The join of $\{x,y\}$ is denoted by $x\land y$. The meet of $\{x,y\}$ is denoted by $x\lor y$.
@@ -558,7 +596,7 @@
 
     The above definition also allows for a purely algebraic formulation (in this case, some authors might speak about \textbf{lattice-ordered sets}).
     \newadef{Lattice}{\index{absorption!law}
-        A lattice is an algebraic structure that admits operations $\land,\lor$ that satisfy the following axioms:
+        A lattice is an algebraic structure that admits operations $\land,\lor$ that satisfy the following conditions:
         \begin{enumerate}
             \item Both $\land$ and $\lor$ are idempotent, commutative and associative.
             \item The operations satisfy the \textbf{absorption laws}:
@@ -574,7 +612,7 @@
     }
 
     \newdef{Complete lattice}{\index{complete!lattice}\index{adjoint functor theorem}
-        A lattice is said to be $\sigma$-complete (resp.~complete) if it admits all\footnote{When working with \textit{categories}, this has to be restricted to `all small joins/meets' or, equivalently, the index category should be a set.} countable (resp.~all) joins. It can be proven that complete lattices also admit all meets (as a special case of the \textit{adjoint functor theorem}).
+        A lattice is said to be $\sigma$-complete (resp.~complete) if it admits all\footnote{When working with \textit{categories} (see \cref{chapter:cat}), this has to be restricted to `all small joins/meets' or, equivalently, the index category should be a set.} countable (resp.~all) joins. It can be proven that complete lattices also admit all meets (as a special case of the \textit{adjoint functor theorem}).
     }
 
     \newdef{Bounded lattice}{
@@ -596,14 +634,14 @@
     }
 
     \newdef{Heyting algebra}{\index{Heyting!algebra}\index{pseudo-!complement}\label{set:heyting}
-        A bounded lattice $H$ such that for every two elements $a,b\in H$, there exists a greatest element $x\in H$ for which
+        A bounded lattice $H$ such that, for every two elements $a,b\in H$, there exists a greatest element $x\in H$ such that
         \begin{gather}
             a\wedge x\leq b\,.
         \end{gather}
-        This element is denoted by $a\rightarrow b$. The \textbf{pseudo-complement} $\neg a$ of an element $a\in H$ is then defined as $a\rightarrow\bot$.
+        This element is denoted by $a\rightarrow b$. The \textbf{pseudocomplement} $\neg a$ of an element $a\in H$ is then defined as $a\rightarrow\bot$.
     }
     \newdef{Boolean algebra}{\index{law!of excluded middle}\index{Boolean!algebra}\label{set:boolean}
-        A Boolean algebra $X$ is a Heyting algebra in which the \textbf{law of excluded middle} holds:
+        A Heyting algebra $X$ in which the \textbf{law of excluded middle} holds:
         \begin{gather}
             \forall x\in X:\neg\neg x=x\,.
         \end{gather}
@@ -616,7 +654,7 @@
 \section{Limits}
 
     \newdef{Direct system}{\index{direct!system}
-        Let $(I,\leq)$ be a directed set (\cref{set:directed_set}) and let $\{A_i\}_{i\in I}$ be a family of objects. Consider a collection of morphisms $\{f_{ij}:A_i\rightarrow A_j\}_{i,j\in I}$ between these objects with the following properties:
+        Let $(I,\leq)$ be a directed set (\cref{set:directed_set}) and let $(A_i)_{i\in I}$ be a family of objects. Consider a family of morphisms $(f_{ij}:A_i\rightarrow A_j)_{i,j\in I}$ between these objects with the following properties:
         \begin{enumerate}
             \item for every $i\in I$: $f_{ii} = \mathbbm{1}_{A_i}$, and
             \item for every $i\leq j\leq k\in I$: $f_{ik} = f_{jk}\circ f_{ij}$.
@@ -627,15 +665,17 @@
     \newdef{Direct limit}{\index{direct!limit}\index{inductive!limit}\label{set:direct_limit}
         Consider a direct system $(A_i,f_{ij})$ over a directed set $I$. The direct (or \textbf{inductive}) limit $A$ of this direct system is defined as follows:
         \begin{gather}
-            \varinjlim A_i := \left.\bigsqcup_{i\in I}A_i\right/\!\sim\,,
+            \varinjlim A_i := \bigsqcup_{i\in I}A_i\Big/\!\sim\,,
         \end{gather}
-        where the equivalence relation is given by $x\in A_i\sim y\in A_j\iff\exists k\in I: f_{ik}(x) = f_{jk}(y)$. Informally put: two elements are equivalent if they eventually become the same.
-
-        The operations on $A$ are defined such that the inclusion maps $\phi_i:A_i\rightarrow A$ are morphisms.
+        where the equivalence relation is given by
+        \begin{gather}
+            x\in A_i\sim y\in A_j\iff\exists k\in I: f_{ik}(x) = f_{jk}(y)\,.
+        \end{gather}
+        Informally put: two elements are equivalent if they eventually become the same. The operations on $A$ are defined such that the inclusion maps $\phi_i:A_i\rightarrow A$ are morphisms.
     }
 
     \newdef{Inverse system}{\index{inverse!system}
-        Let $(I,\leq)$ be a directed set (\cref{set:directed_set}) and let $\{A_i\}_{i\in I}$ be a family of objects. Consider a collection of morphisms $\{f_{ij}:A_j\rightarrow A_i\}_{i,j\in I}$ between these objects with the following properties:
+        Let $(I,\leq)$ be a directed set (\cref{set:directed_set}) and let $(A_i)_{i\in I}$ be a family of objects. Consider a family of morphisms $(f_{ij}:A_j\rightarrow A_i)_{i,j\in I}$ between these objects with the following properties:
         \begin{enumerate}
             \item for every $i\in I$: $f_{ii} = \mathbbm{1}_{A_i}$, and
             \item for every $i\leq j\leq k\in I$: $f_{ik} = f_{ij}\circ f_{jk}$.
@@ -646,28 +686,28 @@
     \newdef{Inverse limit}{\index{inverse!limit}\index{projective!limit}\label{set:inverse_limit}
         Consider an inverse system $(A_i,f_{ij})$ over a directed set $I$. The inverse (or \textbf{projective}) limit $A$ of this inverse system is defined as follows:
         \begin{gather}
-            \varprojlim A_k := \left\{\vec{a}\in\prod_{i\in I}A_i\,\middle\vert\,a_i=f_{ij}(a_j), \forall i\leq j\right\}\,.
+            \varprojlim A_i := \left\{\vec{a}\in\prod_{i\in I}A_i\,\middle\vert\,a_i=f_{ij}(a_j), \forall i\leq j\right\}\,.
         \end{gather}
-        For all $i\in I$, there exists a natural projection $\pi_i:\varprojlim A_k\rightarrow A_i$.
+        For all $k\in I$, there exists a natural projection $\pi_k:\varprojlim A_i\rightarrow A_k$.
     }
 
     \begin{remark}
-        The direct and inverse limit are each other's (categorical) dual. The former is a colimit while the latter is a limit in category theory.
+        The direct and inverse limit are each other's (\textit{categorical}) dual. The former is a \textit{colimit} while the latter is a \textit{limit} in category theory. (See \cref{section:diagrams}.)
     \end{remark}
 
 \section{Partitions}
 \subsection{Partition}\label{section:partition}
 
     \newdef{Composition}{\index{composition}
-        Let $k,n\in\mathbb{N}$. A $k$-composition of $n$ is a $k$-tuple $(t_1,\ldots, t_k)$ such that $\sum_{i=1}^kt_k = n$.
+        Let $k,n\in\mathbb{N}$. A $k$-composition of $n$ is a $k$-tuple $(t_1,\ldots, t_k)\subset\mathbb{N}$ such that $\sum_{i=1}^kt_k = n$.
     }
     \newdef{Partition}{\index{partition}
-        Let $n\in\mathbb{N}$. A partition of $n$ is an ordered composition of $n$. Hence multiple different composition can determine the same partition.
+        Let $n\in\mathbb{N}$. A partition of $n$ is an ordered composition of $n$ (usually in decreasing order). Hence multiple different composition can determine the same partition.
     }
 
     \newdef{Young diagram\footnotemark}{\index{Young!diagram}\index{Ferrers diagram|see{Young diagram}}
         \footnotetext{Sometimes called a \textbf{Ferrers diagram}.}
-        A Young diagram is a visual representation of the partition of an integer $n$. It is a left justified system of boxes, where every row corresponds to a part of the partition:
+        A Young diagram is a visual representation of the partition of an integer $n$. It is a left justified system of boxes, where every row corresponds to an element of the partition:
         \begin{figure}[!ht]
             \centering
             \ydiagram{5, 4, 4, 1}
@@ -676,7 +716,7 @@
         \end{figure}
     }
     \newdef{Conjugate partition}{
-        Let $\lambda$ be a partition of $n$ with associated Young diagram $\mathcal{D}$. The conjugate partition $\lambda'$ is obtained by reflecting $\mathcal{D}$ across its main diagonal.
+        Let $\lambda$ be a partition of $n$ with associated Young diagram $\mathcal{D}$. The conjugate partition $\lambda'$ is obtained by reflecting $\mathcal{D}$ across the main diagonal. Since the number of boxes is left invariant, conjugate partitions are partitions for the same integer.
     }
     \begin{example}
         Conjugating Diagram~\ref{fig:young_diagram} gives Diagram~\ref{fig:young_diagram_conj} below. The associated partition is $(4,3,3,3,1)$.
@@ -693,16 +733,16 @@
     }
 
     \begin{formula}[Hook length formula]\index{hook length}
-        The \textbf{hook} $H_{i,j}$ is defined as the part of a Young diagram given by the cell $(i,j)$ together with all cells below and to the right of $(i,j)$. Given a hook $H_{i,j}$, define the hook length $h_{i,j}$ as the sum of all elements in $H_{i,j}$.
+        The \textbf{hook} $H_{i,j}$ is defined as the part of a Young diagram given by the cell $(i,j)$ together with all cells below and to the right of $(i,j)$. Given a hook $H_{i,j}$, define the \textbf{hook length} $h_{i,j}$ as the cardinality of $H_{i,j}$.
 
-        The number of all possible standard Young tableaux of shape $\lambda$ (where $\lambda$ defines a partition of $n$) is given by the following formula:
+        The number $f^\lambda\in\mathbb{N}$ of possible standard Young tableaux of shape $\lambda$, where $\lambda$ defines a partition of $n$, is given by the following formula:
         \begin{gather}
             f^\lambda = \frac{n!}{\prod_{(i,j)\in\lambda}h_{i,j}}\,.
         \end{gather}
     \end{formula}
 
     \newdef{Young tabloid}{
-        A Young tabloid of shape $\lambda$ is defined as the equivalence class of Young tableaux that are connected by permuting the elements within a row. These are often drawn as in \cref{fig:young_tabloid}.
+        A Young tabloid of shape $\lambda$ is defined as an equivalence class of Young tableaux that are related by permuting the elements within a row. These are often drawn as in \cref{fig:young_tabloid}. Note that every Young tabloid is represented by exactly one Young tableau.
         \begin{figure}[!ht]
             \centering
             \ytableausetup{boxsize=normal,tabloids}
@@ -721,16 +761,19 @@
 
     For the physical background of the notions introduced in this section, see \cref{section:mathematical_formalism_qm}.
 
-    \newdef{Superpartition}{\index{partition}\index{fermion}
-        Let $m,n\in\mathbb{N}$. A superpartition in the $m$-\textit{fermion sector} is a sequence of integers of the following form:
+    \newdef{Superpartition}{\index{partition}\index{fermion}\index{degree!of superpartition}
+        Let $m,n\in\mathbb{N}$. A superpartition in the $m$-\textbf{fermion sector} is a sequence of integers of the following form:
         \begin{gather}
             \Lambda = (\Lambda_1,\ldots,\Lambda_m;\Lambda_{m+1},\ldots,\Lambda_n)\,,
         \end{gather}
         where the first $m$ numbers are strictly ordered, i.e.~$\Lambda_i>\Lambda_{i+1}$ for all $i<m$, and the last $n-m$ numbers form a normal partition.
 
-        Both sequences, separated by a semicolon, form in fact distinct partitions themself. The first one represents the \textit{antisymmetric fermionic} sector (this explains the strict order) and the second one represents the \textit{symmetric bosonic} sector. This amounts to the following notation:\[\Lambda\equiv(\lambda^a;\lambda^s)\,.\]
-        The degree of the superpartition is given by $|\Lambda|=\sum_{i=1}^n\Lambda_i$.
+        Both sequences, separated by a semicolon, form in fact distinct partitions themself. The first one represents the \textbf{antisymmetric, fermionic sector} (this explains the strict order) and the second one represents the \textbf{symmetric, bosonic sector}. This amounts to the following notation:
+        \begin{gather*}
+            \Lambda\equiv(\lambda^a;\lambda^s)\,.
+        \end{gather*}
+        The \textbf{degree} of the superpartition is given by $|\Lambda|:=\sum_{i=1}^n\Lambda_i$.
     }
     \begin{notation}
-        A superpartition of degree $n$ in the $m$-fermion sector is said to be a superpartition of $(n|m)$. To every superpartition $\Lambda$ one can also associate a unique partition $\Lambda^*$ by removing the semicolon and reordering the numbers such that they form a partition of $n$. The superpartition $\Lambda$ can then be represented by the Young diagram belonging to $\Lambda^*$ where the rows belonging to the fermionic sector are ended by a circle.
+        A superpartition of degree $n\in\mathbb{N}$ in the $m$-fermion sector is said to be a superpartition of $(n|m)$. To every superpartition $\Lambda$, one can also associate a unique partition $\Lambda^*$ by removing the semicolon and reordering the numbers such that they form a partition of $n$. The superpartition $\Lambda$ can then be represented by the Young diagram belonging to $\Lambda^*$, where the rows belonging to the fermionic sector are terminated by a circle.
     \end{notation}

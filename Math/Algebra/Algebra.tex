@@ -573,8 +573,17 @@
             \item Multiplication is distributive with respect to addition.
         \end{enumerate}
     }
-    \newdef{Field}{\index{field}
+    \newdef{Field}{\index{field}\label{algebra:field}
         A ring $(R,+,\cdot)$ for which the monoid $(R\backslash\{1_+\},\cdot)$ is an Abelian group and $1_+\neq 1_\cdot$.
+    }
+
+    \Cref{group:centralizer} can also be formulated in the context of ring theory, where two operations play a role.
+    \newdef{Centralizer}{\index{centralizer}\index{commutant}\label{algebra:centralizer}
+        Let $(R,+,\cdot)$ be a ring and consider a subset $S\subseteq R$. The centralizer (or \textbf{commutant}) of $S$ is defined as follows:
+        \begin{gather}
+            C_R(S) \equiv S' := \{r\in R\mid\forall s\in S:r\cdot s = s\cdot r\}=\{r\in R\mid[r,S]=0\}\,.
+        \end{gather}
+        This subset is actually a subring of $R$.
     }
 
     \newdef{Unit}{\index{unit}
@@ -603,6 +612,10 @@
     \begin{example}[Integers]\index{integers}\label{algebra:integers_rationals}
         The field of fractions of $\mathbb{Z}$ is $\mathbb{Q}$.
     \end{example}
+
+    \newdef{Rational fractions}{\index{rational!fractions}
+        Consider an integral domain $I$. The commutative ring of rational fractions $I(x)$ over $I$ is given by the field of fractions of the polynomial ring $I[x]$.
+    }
 
     \newdef{Reduced ring}{\index{reduced!ring}
         A ring that contains no nonzero nilpotents.
@@ -633,6 +646,17 @@
     \begin{property}[Field of fractions]
         If $R$ is an integral domain, the localization at the zero ideal coincides with the field of fractions $\mathrm{Frac}(R)$.
     \end{property}
+
+    \newdef{Irreducible element}{\index{irreducible}\label{algebra:irreducible_element}
+        Let $I$ be an integral domain. An element $r\in I$ is said to be irreducible if:
+        \begin{enumerate}
+            \item\textbf{Invertibility}: $r$ is not a unit, i.e.~it is not invertible.
+            \item\textbf{Decomposition}: $r$ cannot be decomposed as a product of other noninvertible elements.
+        \end{enumerate}
+    }
+    \newdef{Unique factorization domain}{\index{domain!unique factorization}
+        An integral domain in which every element admits a unique factorization into irreducible elements. These are often abbreviated as \textbf{UFD}s.
+    }
 
     \newdef{Absolute value}{\index{absolute value}\index{valuation}\index{ultrametric}\index{Archimedean}\label{algebra:absolute_value}
         Let $K$ be a ring (usually a field). An absolute value (sometimes called an \textbf{exponential} or \textbf{multiplicative valuation}) is a multiplicative \textit{seminorm} (see \cref{functional:seminorm}), i.e.~a function $|\cdot|:K\rightarrow\mathbb{R}$ satisfying the following conditions for all $x,y\in K$:
@@ -685,15 +709,6 @@
         \end{gather}
         gives a valuation on $K$.
     \end{example}
-
-    \Cref{group:centralizer} can also be formulated in the context of ring theory, where two operations play a role.
-    \newdef{Centralizer}{\index{centralizer}\index{commutant}\label{algebra:centralizer}
-        Let $(R,+,\cdot)$ be a ring and consider a subset $S\subseteq R$. The centralizer (or \textbf{commutant}) of $S$ is defined as follows:
-        \begin{gather}
-            C_R(S) \equiv S' := \{r\in R\mid\forall s\in S:r\cdot s = s\cdot r\}=\{r\in R\mid[r,S]=0\}\,.
-        \end{gather}
-        This subset is actually a subring of $R$.
-    }
 
 \subsection{Ideals}
 
@@ -794,6 +809,13 @@
     }
     \newdef{Principal ideal domain}{\index{domain!principal ideal}
         An integral domain (\cref{algebra:integral_domain}) in which every ideal is principal. These are often abbreviated as \textbf{PID}s.
+    }
+    \begin{property}[UFD]
+        Every PID is also a UFD.
+    \end{property}
+
+    \newdef{Fractional ideal}{\index{ideal!fractional}\label{algebra:fractional_ideal}
+        Let $R$ be an integral domain. A fractional ideal $I$ of $R$ is a submodule of $\mathrm{Frac}(R)$ such that $rI\subseteq R$ for some $r\in R$. In the case of $R=\mathbb{Z}$, $r$ would correspond to the common denominator of the fractions in $I$.
     }
 
 \subsection{Algebraic geometry}
@@ -977,6 +999,7 @@
         If a ring is Noetherian (\cref{algebra:noetherian_ring}), any polynomial ring with finitely many indeterminates over it is also Noetherian.
     \end{theorem}
 
+    In the context of polynomials, \cref{algebra:irreducible_element} becomes the following definition.
     \newdef{Irreducible polynomial}{\index{irreducible!polynomial}
         A polynomial that cannot be factorized as the product of two nonconstant polynomials. Over a field, a polynomial is irreducible if and only if the ideal it generates is maximal.
     }
@@ -1076,6 +1099,19 @@
     \newdef{Algebraic integer}{\index{integer!algebraic}\label{algebra:algebraic_integer}
         Let $K$ be a number field. An algebraic integer of $K$ is an element satisfying a polynomial with integer coefficients.
     }
+    \newdef{Ideal class group}{\index{ideal!class group}\index{Dedekind!domain}
+        Consider the ring of algebraic integers $\mathcal{O}_K$ for a number field $K$ (or \textit{Dedekind domain}). The fractional ideals of (\cref{algebra:fractional_ideal}) of $\mathcal{O}_K$ form a group $\mathcal{I}_K$ with the principal fractional ideals forming a subgroup $\mathcal{P}_K$. The quotient group
+        \begin{gather}
+            \mathcal{C}_K := \mathcal{I}_K/\mathcal{P}_K
+        \end{gather}
+        is called the ideal class group of $K$. The order of $\mathcal{C}_K$ is called the \textbf{class number} $h_K$.
+    }
+    \begin{property}[UFD]
+        The ring of integers $\mathcal{O}_K$ is a UFD if and only if $h_K=1$.
+    \end{property}
+    \begin{property}[Abelian groups]
+        Every Abelian group can be obtained as the ideal class group over a \textit{Dedekind domain}.
+    \end{property}
 
     \newdef{Algebraic extension}{\index{extension!algebraic}
         An extension $L/K$ such that every element of $L$ is algebraic over $K$.

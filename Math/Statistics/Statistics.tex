@@ -5,11 +5,14 @@
     \minitoc
 
 \section{Data samples}
+
+    In this section, $(x_i)_{i\leq n}$ will always denoted a finite data set in $\mathbb{R}$ (or a suitable vector space $V$). Note the notation for families instead of subsets (cf.~\cref{section:collections}). What are called data sets in statistics and data science are actually not necessarily sets but \textbf{multisets}\index{multi-!set}, i.e.~copies are allowed.
+
 \subsection{Moment estimators}
 
     \newformula{$r^{\text{th}}$ sample  moment}{\index{moment}\label{statistics:sample_moment}
         \begin{gather}
-            \overline{x^r} := \frac{1}{n}\sum_{i=1}^nx_i^r
+            \mu_r := \overline{x^r} = \frac{1}{n}\sum_{i=1}^nx_i^r
         \end{gather}
     }
     \begin{example}[Arithmetic mean]\index{mean}\label{statistics:arithmetic_mean}
@@ -27,6 +30,8 @@
         \end{gather}
         for all $\varepsilon>0$.
     \end{theorem}
+
+    Convergence in probability can also be strengthened to almost sure convergence.
     \begin{theorem}[Strong law of large numbers\footnotemark]\index{law!of large numbers}\index{Kolmogorov!law}\index{Kolmogorov!criterion}\label{prob:strong_lln}
         \footnotetext{Also called \textbf{Kolmogorov's law}.}
         Assume that the sequence $\seq{X}$ of random variables is i.i.d.~with finite expectation $\mu$. The sample average converges almost surely (\cref{measure:almost_everywhere}) to the expectation value:
@@ -39,35 +44,29 @@
         \end{gather}
         holds as long as the random variables are independent and satisfy the \textbf{Kolmogorov criterion}
         \begin{gather}
-            \sum_{i=1}^{+\infty}\frac{1}{i^2}\variance{X_i}<+\infty\,.
+            \sum_{k=1}^{+\infty}\frac{1}{k^2}\variance{X_k}<+\infty\,.
         \end{gather}
     \end{theorem}
 
-    \newformula{$r^{\text{th}}$ central sample moment}{\label{statistics:central_sample_moment}
-        \begin{gather}
-            m_r := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})^r
-        \end{gather}
-    }
-
     \newdef{Weighted mean}{\label{statistics:weighted_mean}
-        Let $f:\mathbb{R}\rightarrow\mathbb{R}^+$ be a weight function. The $f$-weighted mean is given by:
+        Let $f:\mathbb{R}\rightarrow\mathbb{R}^+$ be a weight function. The $f$-weighted mean is given by
         \begin{gather}
             \overline{x} := \frac{\sum_if(x_i)x_i}{\sum_if(x_i)}\,.
         \end{gather}
     }
     \begin{example}[Binned mean]\label{statistics:binned_arithmetic_mean}
-        If the data has been grouped in $b\in\mathbb{N}$ bins, the weight function is given by the number of elements in each bin.
+        If the data has been grouped in $b\in\mathbb{N}$ bins, the weight function is often given by the number of elements in each bin.
         \begin{gather}
             \overline{x} = \frac{1}{n}\sum_{i=1}^bn_ix_i\,,
         \end{gather}
-        where $n_i\in\mathbb{N}_0$ is the number of observations is the bin $b_i$.
+        where $n_i\in\mathbb{N}_0$ is the number of observations in the bin $b_i$.
     \end{example}
     \begin{remark}
         In the above definitions, the measurements $x_i$ can be replaced by function values $f(x_i)$ to calculate the mean of the function $f(x)$. This follows from \cref{prob:unconscious_statistician}. However, it is also important to keep in mind that $\overline{f(x)} \neq f(\overline{x})$. The equality only holds for linear functions.
     \end{remark}
 
     \newdef{Geometric mean}{\label{statistics:geometric_mean}
-        Let $\{x_i\}_{i\leq n}$ be a data set taking values in $\mathbb{R}^+$. The geometric mean is used to average out \textit{normalized} measurements, i.e.~ratios with respect to a reference value.
+        Let $(x_i)_{i\leq n}$ be a data set taking values in $\mathbb{R}^+$. The geometric mean is used to average out \textit{normalized} measurements, i.e.~ratios with respect to a reference value.
         \begin{gather}
             g := \left(\prod_{i=1}^nx_i\right)^{1/n}
         \end{gather}
@@ -81,14 +80,14 @@
         \begin{gather}
             h := \left(\frac{1}{n}\sum_{i=1}^nx_i^{-1}\right)^{-1}
         \end{gather}
-        The following relation exists between the arithmetic and harmonic mean:
+        The following relation exists between the arithmetic and harmonic means:
         \begin{gather}
             h^{-1} = \overline{x^{-1}}\,.
         \end{gather}
     }
 
     \begin{property}
-        Let $\{x_i\}_{i\leq n}$ be a data set taking values in $\mathbb{R}^+$.
+        Let $(x_i)_{i\leq n}$ be a data set taking values in $\mathbb{R}^+$.
         \begin{gather}
             h\leq g\leq\overline{x}
         \end{gather}
@@ -99,7 +98,7 @@
         The most occurring value in a data set.
     }
     \newdef{Median}{\index{median}\label{statistics:median}
-        The element $x_{(0.5)}$ in a data set such that half of the values is greater than $x_{(0.5)}$ and half of the values is smaller than $x_{(0.5)}$.
+        The element $x_{(0.5)}$ in a data set such that half of the values is greater than $x_{(0.5)}$ and half of the values is smaller than $x_{(0.5)}$. (Cf.~\cref{statistics:percentile} further below.)
     }
 
 \subsection{Dispersion}
@@ -118,6 +117,12 @@
         \end{gather}
     }
 
+    \newformula{$r^{\text{th}}$ central sample moment}{\label{statistics:central_sample_moment}
+        \begin{gather}
+            m_r := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})^r
+        \end{gather}
+    }
+
     \newdef{Sample variance}{\index{variance}\label{statistics:sample_variance}
         \begin{gather}
             \mathrm{Var}(x) := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})^2
@@ -132,7 +137,7 @@
     \begin{remark}[Bessel corection]\index{Bessel!correction}\label{statistics:bessel_correction}
         A better estimator for the variance of a sample is given by the following formula:
         \begin{gather}
-            \hat{s}^2 := \frac{1}{n-1}\sum_{i=1}^n(x_i - \overline{x})^2\,.
+            \widehat{s}^2 := \frac{1}{n-1}\sum_{i=1}^n(x_i - \overline{x})^2\,.
         \end{gather}
         See \cref{statistics:variance_bessel_correction} for more information.
     \end{remark}
@@ -142,9 +147,9 @@
         \begin{gather}
             m_3 = \gamma\sigma^3\,.
         \end{gather}
-        A positive skewness indicates a tail to the right or alternatively a median smaller than $\overline{x}$. A negative skewness indicates a median larger than $\overline{x}$.
+        A positive skewness indicates a tail to the right or, alternatively, a median smaller than $\overline{x}$. A negative skewness indicates a median greater than $\overline{x}$.
     }
-    \newdef{Pearson's mode skewness}{\index{Pearson!skewness|see{skewness}}\label{statistics:pearsons_skewness}
+    \newdef{Pearson's mode skewness}{\index{Pearson!skewness|see{skewness}}\index{skewness}\label{statistics:pearsons_skewness}
         \begin{gather}
             \gamma_P := \frac{\overline{x} - \mathrm{mode}}{\sigma}
         \end{gather}
@@ -157,7 +162,15 @@
         \end{gather}
     }
     \newdef{Excess kurtosis}{\index{excess|see{kurtosis}}
-        The excess kurtosis is defined as $c-3$. This fixes the excess kurtosis of all univariate normal distributions at 0. A positive excess is an indicator for long `fat' tails, a negative excess indicates short `thin' tails.
+        The excess kurtosis is defined as $c-3$. This fixes the excess kurtosis of all univariate normal distributions at 0. A positive excess is an indicator for long, `fat' tails, whereas a negative excess indicates short, `thin' tails.
+    }
+
+    \newdef{Percentile}{\index{percentile}\index{quartile}\index{quantile}\label{statistics:percentile}
+        The $p$-percentile of a cumulative distribution $F$ is defined as follows:
+        \begin{gather}
+            x_{(p\%)} := F^{-1}(p\%)\,.
+        \end{gather}
+        The $p\%$-percentile is, hence, such that it is greater than $p\%$ of the measurements. The median (\cref{statistics:median}) is the 50-percentile. The percentiles for $0,25\%,50\%,75\%$ and $100\%$ are also called \textbf{quartiles}. If, instead of using percentages, real numbers $p\in[0,1]$ are used, these quantities are also called \textbf{quantiles}.
     }
 
     \newdef{Interquartile range}{\index{range}
@@ -165,100 +178,41 @@
     }
 
     \newdef{Full Width at Half Maximum}{\index{FWHM}
-        The difference between the two values of the independent variable where the dependent variable is half of its maximum. This quantity is often denoted by the abbreviation \textbf{FWHM}.
+        The difference between the two values of the independent variable where the dependent variable is half of its maximum. This quantity is often denoted by the abbreviation \textbf{FWHM}. Note that this only makes sense for unimodal distributions, i.e.~distributions with a single peak.
     }
     \begin{property}
-        For Gaussian distributions, the following relation exists between the FWHM and the standard deviation:
+        For Gaussian distributions $\mathcal{N}(\mu,\sigma^2)$, the following relation exists between the FWHM and the standard deviation:
         \begin{gather}
             \mathrm{FWHM} = 2.35\sigma\,.
         \end{gather}
     \end{property}
 
-\subsection{Multivariate data sets}
+\section{Empirical distribution}
 
-    When working with bivariate (or even multivariate) distributions, it is useful to describe the relationship between the different random variables.
-
-    \newdef{Covariance}{\index{covariance}\label{statistics:covariance}
-        The covariance of two data sequences is defined as follows:
-        \begin{gather}
-            \mathrm{cov}(x,y) := \frac{1}{n}\sum_{i=1}^n(x_i-\overline{x})(y_i - \overline{y}) = \overline{xy} - \overline{x}\ \overline{y}\,.
-        \end{gather}
-        The covariance is also often denoted by $\sigma_{xy}$ because of the next property:
-    }
-    \begin{property}
-        The covariance and standard deviation are related by the following equality:
-        \begin{gather}
-            \sigma_x^2 = \sigma_{xx}\,.
-        \end{gather}
-    \end{property}
-
-    \newdef{Correlation coefficent}{\index{correlation}\label{statistics:correlation_coefficient}
-        \begin{gather}
-            \rho_{xy} := \frac{\mathrm{cov}(x,y)}{\sigma_x\sigma_y}
-        \end{gather}
-        The correlation coefficient is bounded to the interval $[-1,1]$. It should be noted that its magnitude is only an indicator for the linear dependence.
-    }
-    \begin{remark}
-        For multivariate distributions, the above definitions can be generalized using matrices:
-        \begin{align}
-            \label{statistics:covariance_matrix}
-            V_{ij} &= \mathrm{cov}(x_{(i)},x_{(j)})\,,\\
-            \label{statistics:correlation_matrix}
-            \rho_{ij} &= \rho_{(i)(j)}\,.
-        \end{align}
-    \end{remark}
-
-\section{Probability distributions}
-
-    In the following sections and subsections, all distributions will be taken to be continuous. The formulas can be generalized to discrete distributions by replacing the integral with a summation.
-
-\subsection{Constructions}
-
-    \newdef{Percentile}{\index{percentile}
-        The $p$-percentile of a cumulative distribution $F$ is defined as follows:
-        \begin{gather}
-            x_{(p)} := F^{-1}(p)\,.
-        \end{gather}
-        The $p$-percentile is, hence, such that it is greater than $p\%$ of the measurements. The median (\cref{statistics:median}) is the 50-percentile.
-    }
-
-    \newdef{Parametric family}{\index{parametric family}
-        An indexed family of probability distributions.
-    }
-
-    \begin{example}[Mixture family]\index{mixture}
-        Consider a collection of distributions $\mathcal{P}\equiv\{P_i\}_{i\leq n}$. The mixture family generated by $\mathcal{P}$ consist of all convex combintations of elements in $\mathcal{P}$:
-        \begin{gather}
-            \left\{\sum_{i=1}^nw_iP_i\,\middle\vert\,w_i\geq0,\sum_{i=1}^nw_i = 1\right\}\,.
-        \end{gather}
-        Every element of this family is called a \textbf{mixture distribution}.
-    \end{example}
-
-    \todo{TRY TO ORGANIZE BETTER}
-
-\subsection{Empirical distribution}
+    In this section, the probability distribution induced by a data sample will be considered.
 
     \newdef{Empirical distribution function}{\index{distribution!empirical}\label{statistics:empirical_distribution}
-        The (discrete) empirical probability distribution function is defined as the uniform mixture distribution with Dirac measures at the observations:
+        The empirical probability distribution function, corresponding to a data sample $(x_i)_{i\leq n}$, is defined as the uniform mixture distribution with Dirac measures at the data points:
         \begin{gather}
-            F_n := \frac{1}{n}\sum_{i=1}^n\delta_{x_i}\,.
+            P_n := \frac{1}{n}\sum_{i=1}^n\delta_{x_i}\,.
         \end{gather}
     }
 
     \begin{theorem}[Borel's law of large numbers]\index{law!of large numbers}\label{statistics:large_numbers}
-        If the sample size approaches infinity, the observed frequencies approach the theoretical propabilities.
+        If the sample size approaches infinity, the observed frequencies approach the theoretical probabilities.
     \end{theorem}
     \begin{result}[Frequentist probability\footnotemark]
         \footnotetext{Also called the \textbf{empirical probability}.}
         \begin{gather}
             \label{statistics:frequentist_probability}
-            \Prob(x) := \lim_{n\rightarrow\infty}\frac{f_n(x)}{n}
+            \Prob(x) := \lim_{n\rightarrow\infty}\frac{f_n(x)}{n}\,,
         \end{gather}
+        where $f_n$ denotes the probability mass function of $P_n$.
     \end{result}
 
     The law of large numbers can also be phrased in terms of the empirical distribution function.
     \begin{theorem}[Glivenko--Cantelli]\index{Glivenko--Cantelli}\label{statistics:glivenko_cantelli}
-        Consider a cumulative distribution function $F$ and denote the empirical distribution function of $n\in\mathbb{N}$ random variables by $F_n$. If the random variables are i.i.d.~according to $F$, then
+        Consider a cumulative distribution function $F$ and denote the empirical cumulative distribution function of $n\in\mathbb{N}$ random variables by $F_n$. If the random variables are i.i.d.~according to $F$, then
         \begin{gather}
             \sup_{x\in\mathbb{R}}|F(x)-F_n(x)|\overset{\text{a.s.}}{\longrightarrow}0\,.
         \end{gather}
@@ -275,7 +229,7 @@
         \end{gather}
     }
 
-    \todo{DD KS METRIC AND TV METRIC}
+    \todo{ADD KS METRIC AND TV METRIC}
 
     \newdef{Kolmogorov distribution}{\index{distribution!Kolmogorov}\label{statistics:kolmogorov_distribution_cumulative}
         \begin{gather}
@@ -353,10 +307,10 @@
         \begin{gather}
             \overline{x} := \frac{\sum_ix_i\sigma_i^{-2}}{\sum_i\sigma_i^{-2}}\,.
         \end{gather}
-        The variation of the weighted mean is given by
+        The variance of the weighted mean is given by
         \begin{gather}
             \label{statistics:weighted_mean_variance}
-            \mathrm{Var}(\overline{x}) := \frac{1}{\sum_i\sigma_i^{-2}}\,.
+            \mathrm{Var}[\overline{x}] := \frac{1}{\sum_i\sigma_i^{-2}}\,.
         \end{gather}
     \end{formula}
 
@@ -366,9 +320,6 @@
             \variance{f(X)} \approx \sum_{i=1}^n\left(\pderiv{f}{X_i}\right)^2\variance{X_i} + \sum_{i\neq j}\left(\pderiv{f}{X_i}\right)\left(\pderiv{f}{X_j}\right)\mathrm{cov}[X_i,X_j]\,.
         \end{gather}
     }
-    \begin{result}
-        The correlation coefficient (\cref{statistics:correlation_coefficient}) of a random variable $X$ and a \textbf{linear} function of $X$ is independent of $\sigma_x$ and is always equal to $\pm1$.
-    \end{result}
 
     \newdef{Fractional error}{\index{fractional error}\label{statistics:fractional_error}
         Let $X,Y$ be two independent random variables. The standard deviation of $f(X,Y) = XY$ is given by the fractional error:
@@ -393,6 +344,9 @@
             \variance{f(X)} \approx J\variance{X}J^T\,,
         \end{gather}
         where $J$ is the Jacobian matrix of $f$.
+    \end{result}
+    \begin{result}
+        The correlation coefficient (\cref{prob:correlation}) of a random variable $X$ and a \underline{linear} function of $X$ is independent of $\sigma_x$ and is equal to $\pm1$.
     \end{result}
 
 \section{Parameter estimation}\label{section:parameter_estimation}
@@ -440,7 +394,7 @@
     \newformula{Variance estimator for known mean}{\index{variance!estimator}
         If the true mean $\mu$ is known, a consistent and unbiased estimator for the variance is given by
         \begin{gather}
-            \widehat{\variance{X}} = \frac{1}{N}\sum_{i=1}^N(x_i-\mu)^2\,.
+            \widehat{\variance{X}} = \frac{1}{n}\sum_{i=1}^n(x_i-\mu)^2\,.
         \end{gather}
     }
     \newformula{Variance estimator for unknown mean}{\index{Bessel!correction}\label{statistics:variance_bessel_correction}
@@ -613,11 +567,11 @@
     \begin{theorem}[Sanov]\index{Sanov}
         Consider a probability distribution $q$ on a finite set $S$ and draw $n$ i.i.d.~samples. Let $P_n$ be the empirical distribution function of the samples (\cref{statistics:empirical_distribution}). Furthermore, let $\Gamma$ be a collection of probability distributions such that $P_n\in\Gamma$. The joint distribution $q^n$ satisfies the following inequality:
         \begin{gather}
-            q^n(P_n\in\Gamma) \leq (n+1)^{|S|}2^{-n D_{\text{KL}}(p^*\,\|\,q)}\,,
+            q^n(P_n\in\Gamma) \leq (n+1)^{|S|}2^{-n D_{\emph{KL}}(p^*\,\|\,q)}\,,
         \end{gather}
         where $p^*$ is the information projection of $q$ on $\Gamma$. If $\Gamma=\overline{\Gamma^\circ}$, this can be restated as
         \begin{gather}
-            \lim_{n\rightarrow\infty}\frac{1}{n}q^n(P_n\in\Gamma) = - D_{\text{KL}}(p^*\,\|\,q)\,.
+            \lim_{n\rightarrow\infty}\frac{1}{n}q^n(P_n\in\Gamma) = - D_{\emph{KL}}(p^*\,\|\,q)\,.
         \end{gather}
     \end{theorem}
 
@@ -650,7 +604,7 @@
         \begin{itemize}
             \item\textbf{symmetric interval}: $x_+ - \mu = \mu - x_-$,
             \item\textbf{shortest interval}: $|x_+ - x_-|$ is minimal, or
-            \item\textbf{central interval}: $\Int_{-\infty}^{x_-}f(x)\,dx = \Int_{x_+}^\infty f(x)\,dx = \frac{1-C}{2}$.
+            \item\textbf{central interval}: $\Int_{-\infty}^{x_-}f(x)\,dx = \Int_{x_+}^+{\infty}f(x)\,dx = \frac{1-C}{2}$.
         \end{itemize}
         The central interval is the most widely used confidence interval.
     }
@@ -659,7 +613,7 @@
     \newdef{One-sided confidence interval}{
         \begin{align}
             \label{statistics:one_sided_interval1}
-            \Prob(x\geq x_-) &= \Int_{x_-}^\infty f(x)\,dx = C\\
+            \Prob(x\geq x_-) &= \Int_{x_-}^{+\infty}f(x)\,dx = C\\
             \label{statistics:one_sided_interval2}
             \Prob(x\leq x_+) &= \Int_{-\infty}^{x_+}f(x)\,dx = C
         \end{align}
@@ -671,7 +625,7 @@
             \label{statistics:central_discreteInterval_lower_bound}
             x_- &= \argmin_\theta\left[\frac{1-C}{2} - \sum_{x=0}^{\theta - 1}p(x)\right]\\
             \label{statistics:central_discreteInterval_upper_bound}
-            x_+ &= \argmin_\theta\left[\frac{1-C}{2} - \sum_{x=\theta + 1}^\infty p(x)\right]
+            x_+ &= \argmin_\theta\left[\frac{1-C}{2} - \sum_{x=\theta+1}^{+\infty}p(x)\right]
         \end{align}
     }
 
@@ -742,7 +696,7 @@
         A good test is a test with a small significance and a large power. The probabilities $P_{\text{I}}$ and $P_{\text{II}}$ should be as different as possible.
     \end{remark}
 
-    \newdef{Shapiro-Wilk test}{\index{test!Shapiro-Wilk}
+    \newdef{Shapiro--Wilk test}{\index{test!Shapiro--Wilk}
         After obtaining a data sample, it is often interesting to see if the data is distributed normally, since many other tests and methods assume a normal distribution. The Shapiro--Wilk test considers the following test statistic:
         \begin{gather}
             W := \frac{\sum_{i=1}^n(a_ix_{(i)})^2}{\sum_{i=1}^n(x_i-\overline{x})^2}\,,

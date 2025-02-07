@@ -118,8 +118,8 @@
     \begin{axiom}[Ordering]
         The set of real numbers is an \textit{ordered field} (see \cref{algebra:field}).
     \end{axiom}
-    \begin{axiom}[Dedekind completeness]\index{Dedekind!completeness}
-        Every nonempty subset of $\mathbb{R}$ that is bounded from above has a \textit{supremum} (see \cref{set:supremum}).
+    \begin{axiom}[Dedekind completeness]\index{Dedekind!completeness}\label{set:dedekind_completeness}
+        Every nonempty subset of $\mathbb{R}$ that is bounded from above has a \textit{supremum} (see \cref{set:supremum} and \cref{set:complete_lattice}).
     \end{axiom}
 
     \begin{axiom}
@@ -165,7 +165,7 @@
         \end{gather}
     }
 
-    \newformula{de Morgan's laws}{\index{de Morgan's laws}
+    \newformula{de Morgan's laws}{\index{de Morgan!law}
         \begin{gather}
             \label{set:de_morgan_union}
             \left(\bigcup_iX_i\right)^c = \bigcap_iX_i^c
@@ -329,14 +329,14 @@
 
 \subsection{Algebra of sets}
 
-    \newdef{Algebra of sets}{\index{algebra!of sets}\index{field!of sets|see{algebra}}\label{set:algebra_of_sets}
+    \newdef{Algebra of sets}{\index{algebra!of sets}\index{field!of sets|see{algebra}}\index{Boolean!algebra}\label{set:algebra_of_sets}
         A collection $\mathcal{F}\subset P(X)$ is a called an algebra over $X$ if it satisfies the following conditions:
         \begin{enumerate}
             \item\textbf{Totality}: $X\in\mathcal{F}$,
             \item\textbf{Closed under complements}: $\forall E\in\mathcal{F}:E^c\in\mathcal{F}$, and
             \item\textbf{Closed under finite unions}: $\forall E,E'\in\mathcal{F}:E\cup E'\in\mathcal{F}$.
         \end{enumerate}
-        The pair $(X,\mathcal{F})$ is also called a \textbf{field of sets}.
+        The pair $(X,\mathcal{F})$ is also called a \textbf{field of sets} or \textbf{concrete Boolean algebra}.
     }
 
     Extending this definition to closure under countable unions gives another common notion.
@@ -582,20 +582,20 @@
         Let $S$ be a set of cardinality $\kappa$. The power set $P(S)$ has cardinality strictly greater than $\kappa$.
     \end{theorem}
 
-\subsection{Lattices}\index{lattice}
+\subsection{Lattices}
 
     \newdef{Semilattice}{\index{join}\index{meet}
-        A poset $(P,\leq)$ for which every 2-element subset has a supremum, called the \textbf{join}, is called a \textbf{join-semillatice}. Similarly, a poset $(P,\leq)$ for which every 2-element subset has an infimum, called the \textbf{meet}, is called a \textbf{meet-semilattice}.
+        A poset $(P,\leq)$ for which every 2-element subset has a supremum, called the \textbf{join}, is called a \textbf{join-semilattice}. Similarly, a poset $(P,\leq)$ for which every 2-element subset has an infimum, called the \textbf{meet}, is called a \textbf{meet-semilattice}.
     }
     \begin{notation}
         The join of $\{x,y\}$ is denoted by $x\land y$. The meet of $\{x,y\}$ is denoted by $x\lor y$.
     \end{notation}
-    \newdef{Lattice}{
+    \newdef{Lattice}{\index{lattice}
         A poset that is both a join- and a meet-semilattice.
     }
 
     The above definition also allows for a purely algebraic formulation (in this case, some authors might speak about \textbf{lattice-ordered sets}).
-    \newadef{Lattice}{\index{absorption!law}
+    \newadef{Lattice}{\index{absorption!law}\index{lattice}
         A lattice is an algebraic structure that admits operations $\land,\lor$ that satisfy the following conditions:
         \begin{enumerate}
             \item Both $\land$ and $\lor$ are idempotent, commutative and associative.
@@ -611,12 +611,12 @@
         There exists an equivalent relation for the join.
     }
 
-    \newdef{Complete lattice}{\index{complete!lattice}\index{adjoint functor theorem}
-        A lattice is said to be $\sigma$-complete (resp.~complete) if it admits all\footnote{When working with \textit{categories} (see \cref{chapter:cat}), this has to be restricted to `all small joins/meets' or, equivalently, the index category should be a set.} countable (resp.~all) joins. It can be proven that complete lattices also admit all meets (as a special case of the \textit{adjoint functor theorem}).
+    \newdef{Complete lattice}{\index{complete!lattice}\index{adjoint functor theorem}\index{Dedekind!completeness}\label{set:complete_lattice}
+        A lattice is said to be $\sigma$-complete (resp.~complete) if it admits all\footnote{When working with \textit{categories} (see \cref{chapter:cat}), this has to be restricted to `all small joins/meets' or, equivalently, the index category should be a set.} countable (resp.~all) joins. It can be proven that complete lattices also admit all meets (as a special case of the \textit{Adjoint Functor Theorem}~\ref{cat:adjoint_functor_theorem}). If only bounded (from above) subsets admit a join, the lattice is said to be \textbf{Dedekind-complete}. 
     }
 
-    \newdef{Bounded lattice}{
-        A lattice $(P,\leq)$ that contains a greatest element (denoted by $\top$ or 1) and a smallest element (denoted by $\bot$ or 0) such that
+    \newdef{Bounded lattice}{\index{lattice!bounded}
+        A lattice $(L,\leq,\land,\lor)$ that contains a greatest element (denoted by $\top$ or 1) and a smallest element (denoted by $\bot$ or 0) such that
         \begin{gather}
             \bot\leq x\leq\top
         \end{gather}
@@ -627,28 +627,68 @@
     }
 
     \newdef{Frame}{\index{frame!set theory}\index{distributivity}\label{set:frame}
-        A complete lattice $(P,\leq)$ for which the \textbf{infinite distributivity law} is satisfied:
+        A complete lattice $(L,\leq,\land,\lor)$ for which the \textbf{infinite distributivity law} is satisfied:
         \begin{gather}
-            y\wedge\left(\bigvee_{i\in I}x_i\right) = \bigvee_{i\in I}\left(y\wedge x_i\right)\,.
+            y\land\left(\bigvee_{i\in I}x_i\right) = \bigvee_{i\in I}\left(y\land x_i\right)\,.
         \end{gather}
     }
 
+    \newdef{Distributive lattice}{\index{lattice!distributive}\index{modular|seealso{lattice}}\index{lattice!modular}
+        A lattice $(L,\leq,\land,\lor)$ such that
+        \begin{gather}
+            a\land(b\lor c) = (a\land b)\lor(a\land c)
+        \end{gather}
+        and\footnote{This second condition is actually a consequence of the first.}
+        \begin{gather}
+            a\lor(b\land c) = (a\lor b)\land(a\lor c)
+        \end{gather}
+        for all $a,b,c\in L$. If only
+        \begin{gather}
+            a\leq c\implies a\lor(b\land c)=(a\lor b)\land c
+        \end{gather}
+        holds, the lattice is said to be \textbf{modular}.
+    }
+    \newdef{Complemented lattice}{\index{complement}\index{lattice!orthomodular}\label{set:complemented_lattice}
+        A bounded lattice $(L,\leq,\land,\lor,\top,\bot)$ such that for every $a\in L$, there exists at least one $b\in L$ such that
+        \begin{gather}
+            a\land b=\bot \qquad\text{and}\qquad a\lor b=\top\,.
+        \end{gather}
+        If a consistent assignment of \textbf{(ortho)complements} exists, i.e.~for all $a,b\in L$:
+        \begin{enumerate}
+            \item\textbf{Involutivity}: $a^{\perp\perp}=a$, and
+            \item\textbf{Order-reversing}: $a\leq b\iff b^\perp\leq a^\perp$,
+        \end{enumerate}
+        the lattice is said to admit an \textbf{orthocomplementation}. When, furthermore,
+        \begin{gather}
+            a\leq b\implies a\lor(a^\perp\land b)=b
+        \end{gather}
+        for all $a,b\in L$, then $L$ is said to be \textbf{orthomodular}. (Comparing to the previous definition, this shows that orthomodularity is an even weaker form of distributivity than modularity, where distributivity only holds with respect to complements.)
+    }
+    \begin{property}[de Morgan]
+        All (ortho)complemented lattices satisfy de Morgan's laws~\eqref{set:de_morgan_union} and~\eqref{set:de_morgan_intersection}.
+    \end{property}
+
     \newdef{Heyting algebra}{\index{Heyting!algebra}\index{pseudo-!complement}\label{set:heyting}
-        A bounded lattice $H$ such that, for every two elements $a,b\in H$, there exists a greatest element $x\in H$ such that
+        A bounded lattice $(L,\leq,\land,\lor,\top,\bot)$ such that, for every two elements $a,b\in L$, there exists a greatest element $x\in L$ such that
         \begin{gather}
             a\wedge x\leq b\,.
         \end{gather}
-        This element is denoted by $a\rightarrow b$. The \textbf{pseudocomplement} $\neg a$ of an element $a\in H$ is then defined as $a\rightarrow\bot$.
+        This element is denoted by $a\rightarrow b$. The \textbf{pseudocomplement} $\neg a$ of an element $a\in L$ is then defined as $a\rightarrow\bot$. Note that pseudocomplements do not define an orthocomplementation since
+        \begin{gather}
+            a\lor a^\perp=\top
+        \end{gather}
+        does not have to hold.
     }
     \newdef{Boolean algebra}{\index{law!of excluded middle}\index{Boolean!algebra}\label{set:boolean}
-        A Heyting algebra $X$ in which the \textbf{law of excluded middle} holds:
+        A Heyting algebra $L$ in which the \textbf{law of excluded middle} holds:
         \begin{gather}
-            \forall x\in X:\neg\neg x=x\,.
+            \forall a\in L:\neg\neg a=a\,.
         \end{gather}
         This can be equivalently stated as
         \begin{gather}
-            \forall x\in X:x\lor\neg x=\top\,.
+            \forall a\in L:a\lor\neg a=\top\,.
         \end{gather}
+        This is equivalent to a complemented, distributive lattice.
     }
 
 \section{Limits}

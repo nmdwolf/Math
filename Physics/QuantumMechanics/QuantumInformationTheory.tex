@@ -5,19 +5,35 @@
     \minitoc
 
 \section{Entanglement}
-\subsection{Schmidt decomposition}
+\subsection{Introduction}
 
     \begin{construct}[Schmidt decomposition]\index{Schmidt!decomposition}\index{rank!Schmidt}
         Consider a bipartite state $\ket{\psi}\in\mathcal{H}_1\otimes\mathcal{H}_2$. For any such state, there exist orthonormal sets $\bigl\{\ket{e_i},\ket{f_j}\bigr\}_{i,j\leq\kappa}$ such that
         \begin{gather}
             \ket{\psi} = \sum_{i=1}^\kappa\lambda_i\ket{e_i}\otimes\ket{f_i}\,,
         \end{gather}
-        where the coefficients $\lambda_i$ are nonnegative real numbers. All objects in this expression can be obtained from a singular value decomposition of the coefficient matrix $\mathbf{C}$ of $\ket{\psi}$ in some bases of $\mathcal{H}_1$ and $\mathcal{H}_2$. The number $\kappa$ is called the \textbf{Schmidt rank} of $\ket{\psi}$.
+        where the coefficients $\lambda_i$ are nonnegative real numbers. All objects in this expression can be obtained from a singular value decomposition of the coefficient matrix $\mathbf{C}$ of $\ket{\psi}$ in some bases of $\mathcal{H}_1$ and $\mathcal{H}_2$. The number $\kappa\in\mathbb{N}$ is called the \textbf{Schmidt rank} of $\ket{\psi}$.
     \end{construct}
 
     \newdef{Entangled states}{\index{separable!state}\index{entanglement}
         Consider a state $\ket{\psi}$ and consider its Schmidt decomposition. If the Schmidt rank is 1, i.e.~the state can be written as $\ket{\psi} = \ket{v}\otimes\ket{w}$, the state is said to be \textbf{separable}. Otherwise, the state is said to be entangled.
     }
+
+    The following theorem follow from the linearity of quantum mechanics.
+    \begin{theorem}[No-cloning]\index{no-cloning}\label{quantum_information:no_cloning}
+        There is no unitary operator $\widehat{U}$ on a Hilbert space $\mathcal{H}_1\otimes\mathcal{H}_2$ such that
+        \begin{gather}
+            \widehat{U}\ket{\psi}_1\ket{\phi}_2 = e^{i\alpha(\psi,\phi)}\ket{\psi}_1\ket{\psi}_2
+        \end{gather}
+        for all (normalized) $\ket{\psi}_1\in\mathcal{H}_1$ and $\ket{\phi}_1\in\mathcal{H}_2$.
+    \end{theorem}
+    \begin{theorem}[No-deleting]\index{no-deleting}\label{quantum_information:no_deleting}
+        Consider a tripartite system $\mathcal{H}_1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$ such that $\mathcal{H}_1\cong\mathcal{H}_2$. If $\widehat{U}$ is a unitary operator on $\mathcal{H}_1\otimes\mathcal{H}_2\otimes\mathcal{H}_3$ such that
+        \begin{gather}
+            \widehat{U}\ket{\psi}_1\ket{\psi}_2\ket{\phi}_3=\ket{\psi}_1\ket{0\vphantom{\psi}}_2\ket{\phi_\psi}_3
+        \end{gather}
+        for all $\ket{\psi}_1\in\mathcal{H}_1$, where the final ancilla state $\ket{\phi_\psi}_3$ might depend on the initial state $\ket{\psi}_1$, then $\widehat{U}$ is simply a swap, i.e.~$\ket{\psi}_1\mapsto\ket{\phi_\psi}_3$ is an isometric embedding.
+    \end{theorem}
 
 \subsection{Bell states}
 
@@ -38,21 +54,21 @@
 
     \begin{method}[Dense coding\footnotemark]\index{dense!coding}\index{action!spooky}
         \footnotetext{Sometimes called \textbf{superdense coding}.}
-        Consider the Bell state $\ket{\Phi^+}$. By acting with one of the (unitary) spin-flip operators $X,Y,Z$, one can obtain any of the other three Bell states:
+        Consider the Bell state $\ket{\Phi^+}$. By acting with one of the (unitary) spin-flip operators $\widehat{X},\widehat{Y},\widehat{Z}$, one can obtain any of the other three Bell states:
         \begin{gather}
             \begin{aligned}
-                X\ket{\Phi^+} &= \ket{\Phi^-}\,,\\
-                Y\ket{\Phi^+} &= \ket{\Psi^+}\,,\\
-                Z\ket{\Phi^+} &= \ket{\Psi^-}\,.
+                \widehat{X}\ket{\Phi^+} &= \ket{\Phi^-}\,,\\
+                \widehat{Y}\ket{\Phi^+} &= \ket{\Psi^+}\,,\\
+                \widehat{Z}\ket{\Phi^+} &= \ket{\Psi^-}\,.
             \end{aligned}
         \end{gather}
-        In a typical Alice-and-Bob-style experiment, one can ask whether this observation allows to achieve a better-than-classical communication channel. If Alice performs a spin flip on her qubit, although the resulting state has instantly `changed' (cf.~\textit{spooky action at a distance}), Bob still cannot uniquely determine what this state is (since the resulting state is still maximally entangled). However, if Alice sends her qubit to Bob, the latter can perform a measurement on the composite system to find out what the state is and in this way determine which operation Alice performed ($\mathbbm{1},X,Y,Z$). Alice has thus effectively sent 2 classical bits of information through 1 qubit. Note that due to the fact that Alice still has to send her qubit through classical means, no faster-than-light communication is achieved.
+        In a typical Alice-and-Bob-style experiment, one can ask whether this observation allows to achieve a better-than-classical communication channel. If Alice performs a spin flip on her qubit, although the resulting state has instantly `changed' (cf.~\textit{spooky action at a distance}), Bob still cannot uniquely determine what this state is (since the resulting state is still maximally entangled). However, if Alice sends her qubit to Bob, the latter can perform a measurement on the composite system to find out what the state is and in this way determine which operation Alice performed ($\mathbbm{1},\widehat{X},\widehat{Y},\widehat{Z}$). Alice has thus effectively sent 2 classical bits of information through 1 qubit. Note that due to the fact that Alice still has to send her qubit through classical means, no faster-than-light communication is achieved.
     \end{method}
 
-    \newdef{GHZ state}{\index{Greenberger--Horne--Zeilinger state}
+    \newdef{GHZ state}{\index{Greenberger--Horne--Zeilinger state}\label{quantum_information:ghz}
         The Greenberger--Horne--Zeilinger state is defined as the multiparticle qudit ($d,N>2$) version of the Bell state and is, therefore, also referenced to as a cat state:
         \begin{gather}
-            \ket{\mathrm{GHZ}} = \frac{1}{\sqrt{d}}\sum_{i=0}^{d-1}\ket{i}^{\otimes N}\,.
+            \ket{\mathrm{GHZ}} = \frac{1}{\sqrt{n}}\sum_{i=0}^{n-1}\ket{i}^{\otimes N}\,.
         \end{gather}
     }
 
@@ -60,9 +76,9 @@
 
     \todo{ADD}
 
-\section{Density operators}\index{density!operator}
+\section{Density operators}\index{density!operator}\label{section:density_operator}
 
-    \newdef{Density operator}{
+    \newdef{Density operator}{\index{density!operator}
         Consider a (finite-dimensional) Hilbert space $\mathcal{H}$. A density operator on $\mathcal{H}$ is a linear operator $\rho\in\End(\mathcal{H})$ satisfying the following properties:
         \begin{enumerate}
             \item\textbf{Positivity}: $\braket{v}{\rho v}\geq0$ for all $v\in\mathcal{H}$,
@@ -73,11 +89,15 @@
     }
 
     \begin{example}[Classical probability]
-        A diagonal density matrix corresponds to a (classical) discrete probability distribution.
+        A diagonal density matrix corresponds to a discrete probability distribution.
     \end{example}
 
     \newdef{Pure state}{\index{pure}
-        A state is said to be pure if it is described by an outer product of a state vector or, equivalently, by an idempotent density matrix. A density matrix that is not of this form gives rise to a \textbf{mixed state}.
+        A state is said to be pure if it is described by an outer product of a state vector or, equivalently, by an idempotent density matrix:
+        \begin{gather}
+            \rho = \ket{\psi}\bra{\psi}\,.
+        \end{gather}
+        A density matrix that is not of this form gives rise to a \textbf{mixed state}.
     }
 
 	\newdef{Reduced density operator}{
@@ -88,18 +108,18 @@
 	}
 
 	\newdef{Purification}{\index{purification}
-		Let $\rho_A$ be the density operator of a system $A$. A purification of $\rho_A$ is a pure state $\ket{\Psi}$ of some composite system $AB$ such that
+		Let $\rho_A$ be the density operator of a system $A$. A purification of $\rho_A$ is a pure state $\ket{\Psi}$ of some composite system $A\otimes B$ such that
 		\begin{gather}
 			\rho_A = \tr_B\ket{\Psi}\bra{\Psi}\,.
 		\end{gather}
 	}
 	\begin{property}
-		Any two purifications of the same density operator $\rho_A$ are related by a transformation $\mathbbm{1}_A\otimes\hat{V}$ with $\hat{V}$ an isometry.
+		Any two purifications of the same density operator $\rho_A$ are related by a transformation $\mathbbm{1}_A\otimes\widehat{V}$ with $\widehat{V}$ an isometry.
 	\end{property}
 
-\section{Operations}
+\section{Channels}
 
-    The following definition generalizes the content of \cref{section:PVM} to a setting of partial information.
+    The following definition generalizes the content of \cref{section:PVM} to the setting of partial information. When generalizing the projections in a PVM (spectral measure), one obtains a POVM.
     \newdef{Positive operator-valued measure}{\index{measurement!positive-operator valued}
         First, let $\mathcal{H}$ be a finite-dimensional Hilbert space. A POVM on $\mathcal{H}$ consists of a finite set of positive (semi)definite operators $\{P_i\}_{i\leq n}$ such that
         \begin{gather}
@@ -127,21 +147,306 @@
         In the finite-dimensional setting, $V$ can be chosen to be an isometry.
     \end{theorem}
 
-    \newdef{Completely positive trace-preserving}{\index{quantum!channel}
-        Consider a map $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$ between (trace-class) operators on two (finite-dimensional) Hilbert spaces. This map preserves density matrices if it positive (\cref{operators:positive_map}) and if it is trace-preserving (\cref{operators:trace_preserving}). Furthermore, to ensure that an operation applied to a subsystem does not interfere with the positivity of the complete system, they are also required to be completely positive (\cref{operators:cp_map}).
+    Recall the content of \cref{section:c_star_algebras}.
+    \newdef{Completely positive trace-preserving}{\index{quantum!channel}\index{super-!operator}
+        Consider a map $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$ between bounded operators on two (finite-dimensional) Hilbert spaces. This map preserves density matrices if it positive (\cref{operators:positive_map}) and if it is trace-preserving (\cref{operators:trace_preserving}). Furthermore, to ensure that an operation applied to a subsystem does not interfere with the positivity of the complete system, they are also required to be completely positive (\cref{operators:cp_map}).
 
-        Completely positive, trace-preserving (CPTP) maps are often called \textbf{quantum channels}.
+        Completely positive, trace-preserving (CPTP) maps are often called \textbf{quantum channels} or \textbf{superoperators}.
     }
 
-    The following property can also be derived from the Stinespring theorem~\ref{operators:stinespring}.
-    \begin{property}[Kraus decomposition]\index{Kraus decomposition}\label{qc:kraus}
-        Let $\mathcal{H}_1,\mathcal{H}_2$ be Hilbert spaces of dimensions $m$ and $n$, respectively. A linear map $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$ is completely positive if and only if there exist bounded operators $\{A_i\}_{i\leq mn}$ such that
+    \begin{theorem}[Choi--Jamio\l{}kowski]\index{Choi--Jamio\l{}kowski}
+        The following map between quantum channels $\Phi:\mathcal{B}(\mathcal{H}_1)\rightarrow\mathcal{B}(\mathcal{H}_2)$ and density operators $\rho\in\End(\mathcal{H}_1\otimes\mathcal{H}_2)$ is an isomorphism:
         \begin{gather}
-            \Phi(B) = \sum_{i=1}^{mn}A^\dag_iBA_i\,.
+            \Phi\mapsto(\mathbbm{1}_{\mathcal{H}_1}\otimes\Phi)\ket{\mathrm{GHZ}}\bra{\mathrm{GHZ}}\,,
         \end{gather}
-        Furthermore, it is trace-preserving if and only if
+        where the GHZ state was introduced in \cref{quantum_information:ghz}.
+    \end{theorem}
+
+\section{Quantum logic}
+\subsection{Birkhoff-von Neumann logic}
+
+    Consider classical propositional logic. This is governed by the Boolean property, i.e.~the set of all propositions admits the structure of a complete Boolean algebra (\cref{type:boolean_logic}). Now, the question becomes how to treat propositions in quantum mechanics (as needed in, for example, quantum computing). In the sense of \indexauthor{von Neumann}, the propositions should be characterized by $\{0,1\}$-valued observables or, equivalently, by projection operators. As such, the natural lattice to consider logic is that of closed subspaces of the state space $\mathcal{H}$ (which is a Hilbert space). Birkhoff--von Neumann logic is the study of such lattices.
+
+    Note that, in contrast to classical logic, the lattices of closed subspaces are not Boolean. The lattices are merely complete, orthomodular lattices (\cref{set:complemented_lattice}).\footnote{It should be noted that complete, orthomodular lattices are, in general, very different from those originating from Hilbert spaces (cf.~\textit{Piron's theorem}).\index{Piron}} Now, although these lattices are themselves very interesting, there relevance for quantum logic are heavily discussed for several reasons (e.g.~lack of distributivity, lack of a clear implication operator, lack of an extension to predicate logic). In the next section it will be explained how this issue can be avoided by embedding Birkhoff--von Neumann logic into the more general framework of linear logic.
+
+\subsection{Linear logic}
+
+    A basic component of standard logic are the \textit{structural inference rules}.\index{inference rule} These are inference rules that do not involve any logical operations. The following two inference rules for first-order logic control context extension (for an introduction to sequent calculus, see \cref{section:sequent_calculus}):
+    \begin{itemize}
+        \item\textbf{Contraction}\index{contraction}:
         \begin{gather}
-            \sum_{i=1}^{mn}A^\dag_iA_i = \mathbbm{1}\,.
+            \begin{aligned}
+                \Gamma,p_1:P,p_2:P &\vdash t_{p_1,p_2}:T\\
+                \hline
+                \Gamma,p:P &\vdash t_{p,p}:T\,.
+            \end{aligned}
         \end{gather}
-        A decomposition of the above form is also often called an \textbf{operator-sum decomposition}.
+        This rule states that, in a valid judgement, premises might be used more than once.
+        \item\textbf{Weakening}:
+        \begin{gather}
+            \begin{aligned}
+                \Gamma\vdash P:&\mathrm{Type}\qquad\Gamma\vdash t:T\\
+                \hline
+                &\Gamma,P\vdash t:T\,.
+            \end{aligned}
+        \end{gather}
+        This rule states that, any premise can be added to (the premises of) a valid judgement.
+    \end{itemize}
+    In terms of categorical semantics, these two rules correspond (in the independent setting) to the diagonal and projection morphisms in Cartesian categories (\cref{cat:semicartesian}).
+
+    Now, when considering quantum mechanics, two important results are the no-cloning and no-deleting theorem (\cref{quantum_information:no_cloning} and \cref{quantum_information:no_deleting}). These correspond to the fact that the categories $\mathbf{FinVect}$ and $\mathbf{Hilb}$ are monoidal, but not Cartesian monoidal, i.e.~the tensor product does not admit diagonal and projection morphisms. The natural type of logic in this setting is than a \textit{substructural} one where the contraction and weakening rules are not valid.
+
+    In linear logic, the following propositions exist:
+    \begin{enumerate}
+        \item\textbf{Variables}: Every propositional variable is a proposition.
+        \item\textbf{Negation}: If $P$ is a proposition, so is $P^\perp$.
+        \item\textbf{Connectives}: If $P,Q$ are propositions, then
+            \begin{itemize}
+                \item\textbf{Additive conjunction}: $P\& Q$ is a proposition. (Read: $P\text{ with }Q$.)
+                \item\textbf{Additive disjunction}: $P\oplus Q$ is a proposition. (Read: $P\text{ plus }Q$.)
+                \item\textbf{Multiplicative conjunction}: $P\otimes Q$ is a proposition. (Read: $P\text{ times }Q$.)
+                \item\textbf{Multiplicative disjunction}: $P\dualampersand Q$ is a proposition. (Read: $P\text{ par }Q$.)
+            \end{itemize}
+        \item\textbf{Constants}:
+            \begin{itemize}
+                \item\textbf{Additive truth}: $\top$,
+                \item\textbf{Additive falsity}: $\mathbf{0}$,
+                \item\textbf{Multiplicative truth}: $\mathbf{1}$,
+                \item\textbf{Multiplicative falsity}: $\bot$.
+            \end{itemize}
+        \item\textbf{Exponential connectives}: If $P$ is a proposition, then
+            \begin{itemize}
+                \item\textbf{Exponential conjunction}: $!P$ is a proposition. (Read: $\text{of course }P$.)
+                \item\textbf{Exponential disjunction}: $?P$ is a proposition. (Read: $\text{why not }P$.)
+            \end{itemize}
+    \end{enumerate}
+    Given a context, the following inference rules are valid:\footnote{The form of these rules heavily depends on the exchange rule (the second item). Care must be taken if this rule is weakened.}
+    \begin{enumerate}
+        \item\textbf{Identity*}: If $P$ is a propositional variable, then $P\vdash P$.
+        \item\textbf{Exchange*}: Sequents are remain valid under permutations.
+        \item\textbf{Restricted weakening*}: If $P$ is a proposition, then
+            \begin{gather}
+                \begin{aligned}
+                    &\Gamma\vdash\Theta\\
+                    \hline
+                    \Gamma,&!P\vdash\Theta
+                \end{aligned}
+            \end{gather}
+            and, dually,
+            \begin{gather}
+                \begin{aligned}
+                    &\Gamma\vdash\Theta\\
+                    \hline
+                    \Gamma&\vdash\Theta,?P
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Restricted contraction*}: If $P$ is a proposition, then
+            \begin{gather}
+                \begin{aligned}
+                    !P&,!P\vdash\Theta\\
+                    \hline
+                    &!P\vdash\Theta
+                \end{aligned}
+            \end{gather}
+            and, dually,
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma&\vdash?P,?P\\
+                    \hline
+                    &\Gamma\vdash?P
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Negation}: If $P$ is a proposition, then
+            \begin{gather}
+                \begin{aligned}
+                    &\Gamma\vdash\Theta,P\\
+                    \hline
+                    &\Gamma,P^\perp\vdash\Theta
+                \end{aligned}
+            \end{gather}
+            and, conversely,
+            \begin{gather}
+                \label{quantum_information:negation_rule}
+                \begin{aligned}
+                    &\Gamma,P\vdash\Theta\\
+                    \hline
+                    &\Gamma\vdash\Theta,P^\perp
+                \end{aligned}\,.
+            \end{gather}
+            Note that these rules allow to write any sequent in right form, i.e.~$\vdash\Gamma^\perp,P$.
+        \item\textbf{Additive conjunction}: If $P,Q$ are propositions, then
+            \begin{gather}
+                \begin{aligned}
+                    P\vdash& \Theta\qquad Q\vdash\Theta\\
+                    \hline
+                    &P\& Q\vdash\Theta
+                \end{aligned}
+            \end{gather}
+            and, conversely,
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma\vdash&P\qquad\Gamma\vdash Q\\
+                    \hline
+                    \Gamma&\vdash P\&Q
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Additive disjunction}: If $P,Q$ are propositions, then
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma\vdash&P\qquad\Gamma\vdash Q\\
+                    \hline
+                    \Gamma&\vdash P\oplus Q
+                \end{aligned}
+            \end{gather}
+            and, conversely,
+            \begin{gather}
+                \begin{aligned}
+                    P\vdash&\Theta\qquad Q\vdash\Theta\\
+                    \hline
+                    &P\oplus Q\vdash\Theta
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Multiplicative conjunction}: If $P,Q$ are propositions, then
+            \begin{gather}
+                \begin{aligned}
+                    P,Q&\vdash\Theta\\
+                    \hline
+                    P\otimes Q&\vdash\Theta
+                \end{aligned}
+            \end{gather}
+            and, conversely,
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma\vdash&P\qquad\Lambda\vdash Q\\
+                    \hline
+                    \Gamma,&\Lambda\vdash P\otimes Q
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Multiplicative disjunction}: If $P,Q$ are propositions, then
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma&\vdash P,Q\\
+                    \hline
+                    \Gamma&\vdash P\dualampersand Q
+                \end{aligned}
+            \end{gather}
+            and, conversely,
+            \begin{gather}
+                \begin{aligned}
+                    P\vdash&\Delta\qquad Q\vdash\Theta\\
+                    \hline
+                    P&\dualampersand Q\vdash\Theta
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Truth and falsity}:
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma\vdash\top &\qquad \mathbf{0}\vdash\Theta\\
+                    \begin{aligned}
+                        \Gamma&\vdash\Theta\\
+                        \hline
+                        \Gamma,&\mathbf{1}\vdash\Theta
+                    \end{aligned}
+                    &\qquad \vdash\mathbf{1}
+                    \\
+                    \begin{aligned}
+                        &\vdash\Theta\\
+                        \hline
+                        &\vdash\Theta,\bot
+                    \end{aligned}
+                    &\qquad \bot\vdash\,.
+                \end{aligned}
+            \end{gather}
+        \item\textbf{Exponential conjunction}: If $P$ is a proposition, then
+            \begin{gather}
+                \begin{aligned}
+                    P&\vdash\Theta\\
+                    \hline
+                    !P&\vdash\Theta
+                \end{aligned}
+            \end{gather}
+            and, conversely, whenever $\Gamma$ consists solely of $!$-propositions and $\Theta$ consists solely of $?$-propositions,
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma&\vdash P\\
+                    \hline
+                    \Gamma&\vdash!P
+                \end{aligned}\,.
+            \end{gather}
+        \item\textbf{Exponential disjunction}: If $P$ is a proposition, then
+            \begin{gather}
+                \begin{aligned}
+                    \Gamma&\vdash P\\
+                    \hline
+                    \Gamma&\vdash?P
+                \end{aligned}
+            \end{gather}
+            and, conversely, whenever $\Gamma$ consists solely of $!$-propositions and $\Theta$ consists solely of $?$-propositions,
+            \begin{gather}
+                \begin{aligned}
+                    P&\vdash\Theta\\
+                    \hline
+                    ?P&\vdash\Theta
+                \end{aligned}\,.
+            \end{gather}
+    \end{enumerate}
+    The inference rules with an asterisk are the structural rules. Note that a \textit{cut-elimination theorem} holds and, hence, the identity and cut rules for general propositions can be derived from the rules above.
+
+    Linear implication is characterized as follows:
+    \begin{gather}
+        P\vdash Q \iff \vdash P^\perp\dualampersand Q \iff \vdash P\multimap Q\,.
+    \end{gather}
+
+    \begin{remark}[Resource theory]
+        Before passing to the properties that follow from the basic rules and the categorical semantics of linear logic (eventually passing to linear type theory), it is useful to rephrase the connectives and their inference rules in terms of `resources'.
+
+        In this interpretation, an implication $A\implies B$ would mean that the resources $A$ can be used to obtain the resources $B$. However, in ordinary logic, if $A$ and $A\implies B$ hold, then one can derive that $B$ holds, but $A$ also still holds, something that does not work with resources. If you can use resources $A$ to construct $B$, the resources $A$ are (usually\footnote{This is not the case with catalysts}) used up.\footnote{One could also give this a causal flavour~\citep{girard_linear_1995}.} One, hence, needs a more subtle and nuanced framework to capture these notions: linear logic. The implication that will be used, where resources are spent, is denoted by $A\multimap B$ for clarity. The two conjunctives, $\otimes$ and $\&$, mean that two resources are available concurrently and separately, respectively. So, if $A\multimap B$ holds, then, since the contraction rule is not valid, one does not have $A\multimap B\otimes B$. However, one does have $A\otimes A\multimap B\otimes B$.
+    \end{remark}
+
+    The connectives in linear logic satisfy (or generalize) many of the properties of ordinary logic.
+    \begin{property}[Distributivity]
+        \begin{gather}
+            \begin{aligned}
+                P\otimes(Q\oplus R) &= (P\otimes Q)\oplus(P\otimes R)\\
+                P\dualampersand(Q\& R) &= (P\dualampersand Q)\&(P\dualampersand R)\\
+                P\otimes\mathbf{0} &= \mathbf{0}\\
+                P\dualampersand\top &= \top
+            \end{aligned}
+        \end{gather}
+    \end{property}
+
+    The exponential connectives can be used to turn additive connectives into multiplicative ones (and the other way around) as with the ordinary exponential function in calculus.
+    \begin{property}
+        \begin{gather}
+            \begin{aligned}
+                !(P\& Q) &=\ !P\otimes!Q\\
+                ?(P\oplus Q) &=\ !P\dualampersand!Q\\
+                !\top &= \mathbf{1}\\
+                ?\mathbf{0} &= \bot
+            \end{aligned}
+        \end{gather}
+    \end{property}
+    Moreover, due to the apparent similarity with the operators in (S4) modal logic (\cref{section:modal_logic}), the exponential connectives are sometimes also called \textbf{modalities}.\index{modality}
+
+    Linear negation can also be defined alternatively.
+    \begin{property}[Negation]\label{quantum_information:negation}
+        Linear negation admits the following recursive definition:
+        \begin{itemize}
+            \item $P^{\perp\perp}=P$,
+            \item $(P\& Q)^\perp=P^\perp\oplus Q^\perp$,
+            \item $(P\otimes Q)^\perp=P^\perp\dualampersand Q^\perp$,
+            \item $\top^\perp=\mathbf{0}$,
+            \item $\mathbf{1}^\perp=\bot$, and
+            \item $(!P)^\perp=?P^\perp$.
+        \end{itemize}
+    \end{property}
+
+    \begin{property}[Categorical semantics]
+        Whereas standard Boolean logic is the internal logic of Cartesian closed categories --- where conjunction, disjunction and implication correspond, respectively to products, coproducts and internal homs --- linear logic is the internal logic of (a subclass of) $\ast$-autonomous categories (\cref{hda:star_autonomous_category}).
+
+        The multiplicative conjunction $\otimes$ corresponds to the tensor product, hence the notation. Similar to ordinary logic, the linear implication $\multimap$ corresponds to taking internal homs. The important part, now, is that negation comes as a separate entity, in this case given by taking duals: $x^\perp\equiv x^*$. The multiplicative disjunction $\dualampersand$ is then constructed through \cref{quantum_information:negation} (which corresponds to de Morgan duality as in \cref{hda:de_morgan_duality}).
+
+        For the additive connectives, one needs the existence of finite products. The $\ast$-autonomy then also implies the existence of finite coproducts (again through de Morgan duality).
+
+        For the exponential connectives, some more structure is needed. As with modal logic, the structure is given by the existence of a suitable (co)monad.
     \end{property}

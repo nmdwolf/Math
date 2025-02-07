@@ -66,47 +66,70 @@
         The truth values \textit{true} and \textit{false} are denoted by $\top$ and $\bot$ respectively.
     \end{notation}
 
-    \newdef{Logical connectives}{
+    \newdef{Logical connectives}{\index{conjunction}\index{disjunction}\index{implication}\index{negation}
         The following logical operators are used in propositional logic:
         \begin{itemize}
-            \item logical and (\textbf{conjunction}): $P\land Q$,
-            \item logical or (\textbf{disjunction}): $P\lor Q$, and
-            \item logical not (\textbf{negation}): $\lnot P$.
+            \item logical `and' (\textbf{conjunction}): $P\land Q$,
+            \item logical `or' (\textbf{disjunction}): $P\lor Q$, and
+            \item logical `then' (\textbf{implication}): $P\implies Q$.
         \end{itemize}
-        This last symbol is in fact an abbreviation for the implication $P\rightarrow\bot$.
+        Using implication, one can also define the logical `not' (\textbf{negation}): $\lnot P :\equiv P\implies\bot$.
     }
 
     The basic inference rule is given by \textbf{modus ponens}:\index{modus ponens}
     \begin{gather}
-        \text{If } P \text{ and } P\rightarrow Q \text{, then } Q.
+        \text{If } P \text{ and } P\implies Q \text{, then } Q.
+    \end{gather}
+    One could also use negation as a primitive connective and introduce implication as
+    \begin{gather}
+        P\implies Q :\equiv \lnot P\land Q\,.
     \end{gather}
     The general deductive system for propositional logic is obtained by combining this rule with the following axioms:
     \begin{enumerate}
-        \item If $P$, then $Q\rightarrow P$.
-        \item If $P\rightarrow Q \rightarrow R$, then $P\rightarrow Q$ implies $P\rightarrow R$.
+        \item If $P$, then $Q\implies P$.
+        \item If $P\implies Q \implies R$, then $P\implies Q$ implies $P\implies R$.
         \item If $P\land Q$, then both $P$ and $Q$.
         \item If $P$, then $P\lor Q$.
         \item If $Q$, then $P\lor Q$.
         \item If $P$, then $Q$ implies $P\land Q$.
-        \item If $P\rightarrow Q$, then $R\rightarrow Q$ implies $P\lor R\rightarrow Q$.
-        \item If $\bot$, then $P$. This principle is often called \textbf{ex falso quodlibet}.
+        \item If $P\implies Q$, then $R\implies Q$ implies $P\lor R\implies Q$.
+        \item If $\bot$, then $P$. This principle is often called \textit{\textbf{ex falso quodlibet}}.\index{ex falso quodlibet}
     \end{enumerate}
+
+    \begin{property}[Boolean algebra]\index{Boolean!algebra}\label{type:boolean_logic}
+        The set of propositions in classical logic admits the structure of a complete Boolean algebra (\cref{set:booleanset:boolean}).
+    \end{property}
 
     \begin{remark}[Intuitionistic logic]
         The above axioms (together with modus ponens) define a specific type of propositional logic, called intuitionistic or \textbf{constructive} (propositional) logic. The main difference with classic logic is that the \textit{law of the excluded middle} or, equivalently, the \textit{double negation elimination} principle was not added. The reason why this makes the logic \textit{constructive} is that to prove a statement it is not sufficient anymore to exclude the possibility of the statement being false. One has to explicitly construct evidence for the truth of the statement.
 
         As was remarked in the chapter on topoi, intuitionistic logic can be defined internal to any elementary topos. All one needs is a Heyting algebra (\cref{set:heyting}).
         
-        @@ EXPLAIN THIS @@
+        \todo{EXPLAIN THIS}
     \end{remark}
+
+\subsection{Sequent calculus}\label{section:sequent_calculus}
+
+    \newdef{Sequent}{\index{sequent}
+        A general sequent is of the form
+        \begin{gather}
+            P_1,\ldots,P_m\vdash Q_1,\ldots,Q_n\,.
+        \end{gather}
+        In such expressions, the commas on the left-hand side indicate conjunction, whereas those on the right-hand side indicate disjunction, i.e.~this sequent states ``when every $P_i$ holds, then at least one of the $Q_j$ hold as well''. The above sequent if (strongly) equivalent to
+        \begin{gather}
+            \vdash(P_1\land\cdots\land P_m)\implies(Q_1\lor\cdots\lor Q_n)\,.
+        \end{gather}
+    }
+
+    \todo{COMPLETE}
 
 \subsection{Predicate logic}
 
-    @@ COMPLETE @@
+    \todo{ADD}
 
 \section{Introduction to type theory}
 
-    In ordinary set theory the main objects are sets and their elements (and derived concepts such as functions). The framework in which to state and prove propositions is (in general) given by first-order logic. See \cref{section:axiomatization} for more on this. In type theory, however, one puts all these notions on the same footing. That is, one considers all concepts such as functions, propositions, sets, etc.~as specific instances of the general notion of \textit{type}. A specific function, proof or element can then be seen as an \textit{inhabitant} of a given type.
+    In ordinary set theory, the main objects are sets and their elements (and derived concepts such as functions). The framework in which to state and prove propositions is (in general) given by first-order logic. (See \cref{section:axiomatization} for more on this.) In type theory, however, one puts all these notions on the same footing. That is, one considers all concepts such as functions, propositions, sets, etc.~as specific instances of the general notion of \textit{type}. A specific function, proof or element can then be seen as an \textit{inhabitant} of a given type.
 
     \newdef{Type judgement}{\index{type!judgement}\index{term}
         A statement of the form $a:A$, saying that $a$ has the type $A$, is called a type judgement. Objects having a certain type are in general called \textbf{terms} (of that type).
@@ -114,21 +137,21 @@
     \begin{method}[Type definition]\index{context}
         The general method for defining a new type consists of 4 steps/rules:
         \begin{enumerate}
-            \item \textbf{Formation rule}: This rule says when the new type can be introduced, given a collection of types.
-            \item \textbf{Introduction rule}: This rule gives a \textbf{constructor} of the new type in terms of the types required by the formation rule. The pre-existing terms from which a new term can be constructed is often called the \textbf{context}.
+            \item \textbf{Formation rule}: This rule says when the new type can be introduced, given a collection of pre-existing types.
+            \item \textbf{Introduction rule}: This rule gives a \textbf{constructor} of the new type, i.e.~a way to construct a term of the new type\footnote{As in object-oriented programming languages.}, in terms of the types required by the formation rule. The pre-existing terms from which a new term can be constructed is often called the \textbf{context}.
             \item \textbf{Elimination rule}: This rule says how the new type can be used.
-            \item \textbf{Computation rule}: This rule says how the elimination and introduction rules interact, i.e.~given a term of the given type, how the elimination rules can actually be applied.
+            \item \textbf{Computation rule}: This rule says how the elimination and introduction rules interact, i.e.~how the elimination rules can actually be applied to a term of the given type.
         \end{enumerate}
     \end{method}
 
-    As in~\citet{the_univalent_foundations_program_homotopy_2013}, a universe hierarchy \`a la Russell will be adopted, i.e.~a sequence of universes $\seq{\mathcal{U}}$ will be used where the terms of every universe are types and every universe is cumulative in the sense that $A:\mathcal{U}_n\implies A:\mathcal{U}_{n+1}$. In general the subscripts will be omitted. However, one should take into account that every well-typed judgement should admit a formulation in which subscripts can be assigned in a consistent way.
+    As in~\citet{the_univalent_foundations_program_homotopy_2013}, a universe hierarchy \`a la Russell will be adopted, i.e.~a sequence of universes $\seq{\mathcal{U}}$ will be used where the terms of every universe are types and every universe is cumulative in the sense that $A:\mathcal{U}_n\implies A:\mathcal{U}_{n+1}$. In general, the subscripts will be omitted. However, one should take into account that every well-typed judgement should admit a formulation in which subscripts can be assigned in a consistent way.
 
-    In contrast to ordinary set theory, two kinds of equality will be introduced. First, there is the \textbf{judgemental} or \textbf{definitional equality}. This says, as the name implies, that two judgements are equal by definition and as such its validity lives in the metatheory (it is not a proposition and, hence, cannot be proven). For example, if $f(x)$ is defined as $x^2$, then $f(5)$ is by definition equal to $5^2$. Equalities of this sort will be denoted by the $\equiv$ symbol (and in definitions $:\equiv$ will be used instead of $:=$). The second equality is the \textbf{propositional equality}. This states that two judgements are provably equal. Again, consider the function $f(x):\equiv x^2$. In this case the proposition $f(5)=25$ is not true by definition and can be proven (it would depend on the definition of the natural numbers). This sort of equality will be denoted by an ordinary equals sign $=$.\index{equality}
+    In contrast to ordinary set theory, two kinds of equality will be considered. First, there is the \textbf{judgemental} or \textbf{definitional equality}. This says, as the name implies, that two judgements are equal by definition and, as such, its validity lives in the metatheory (it is not a proposition and, hence, cannot be proven). For example, if $f(x)$ is defined as $x^2$, then $f(5)$ is, by definition, equal to $5^2$. Equalities of this sort will be denoted by the $\equiv$ symbol (and, in definitions, $:\equiv$ will be used instead of $:=$). The second equality is the \textbf{propositional equality}. This states that two judgements are provably equal. Again, consider the function $f(x):\equiv x^2$. In this case, the proposition $f(5)=25$ is not true by definition and can be proven (it would, however, depend on the definition of the natural numbers). This sort of equality will be denoted by an ordinary equals sign $=$.\index{equality}
 
 \section{Basic constructions}
 \subsection{Functions}
 
-    Functions can be introduced in two ways. Either through a direct definition, such as in the case of the default example $f(x):\equiv x^2$, or through $\lambda$-abstraction. Although the former one is clearly more useful during explicit calculations, the latter will often be used when working with abstract proofs. (For an introduction to $\lambda$-calculus see the next section.)
+    Functions can be introduced in two ways. Either through a direct definition, such as in the case of the default example $f(x):\equiv x^2$, or through \textit{$\lambda$-abstraction}. Although the former one is clearly more useful during explicit calculations, the latter will often be used when working with abstract proofs. (For an introduction to $\lambda$-calculus, see the next section.)
 
     \newdef{Function type}{\index{function}
         A general function type is introduced as follows:
@@ -136,21 +159,28 @@
             \item \textbf{Formation rule}: Given two types $\type{A,B}$, one can form the function type $\type{A\rightarrow B}$.
             \item \textbf{Introduction rule}: One can either define a function by an explicit definition $f(x):\equiv\Phi$, where $\Phi$ is an expression possibly involving $x$, or by $\lambda$-abstraction $f:\equiv\lambda x.\Phi$.
             \item \textbf{Elimination rule}: If $a:A$ and $\lambda x.\Phi:A\rightarrow B$, then $\lambda x.\Phi(a):B$.
-            \item \textbf{Computation rule}\footnote{In $\lambda$-calculus, this is often called $\beta$-reduction. (See the next section.)}: $\lambda x.\Phi(a):\equiv\Phi(a)$, i.e.~function application is equivalent to the subsitution of $a$ for the variable $x$ in the expression $\Phi$. (To be completely correct one should require the substitution to be \textit{capture-avoiding}, i.e.~free variables should remain free and dinstinct variables should not be assigned the same symbol.)
+            \item \textbf{Computation rule}\footnote{In $\lambda$-calculus, this is often called $\beta$-reduction. (See the next section.)}: $\lambda x.\Phi(a):\equiv\Phi(a)$, i.e.~function application is equivalent to the substitution of $a$ for the variable $x$ in the expression $\Phi$. (To be completely correct, one should require the substitution to be \textit{capture-avoiding}, i.e.~free variables should remain free and distinct variables should not be assigned the same symbol.)
         \end{itemize}
         The \textbf{uniqueness principle} for function types should also be included in the definition, i.e.~$\lambda x.f(x)\equiv f$. This says that every function is uniquely defined by its image.
     }
 
     An important generalization is obtained when the type of the output of a function is allowed to depend on the type of the input.
     \newdef{Dependent function types}{
-        Given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent function type \[\type{\prod_{a:A}B(a)}\,.\] When $B$ is a constant family, this type reduces to the ordinary function type $A\rightarrow B$. All other defining rules remain (formally) the same as in the nondependent setting.
+        Given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent function type
+        \begin{gather}
+            \type{\prod_{a:A}B(a)}\,.
+        \end{gather}
+        When $B$ is a constant family, this type reduces to the ordinary function type $A\rightarrow B$. All other defining rules remain (formally) the same as in the nondependent setting.
     }
     \begin{remark}[Scope]
-        The $\Pi$-symbol scopes over all expressions to the right of the symbol, unless delimited (similar to $\lambda$-calculus), e.g.~\[\prod_{a:A}B(a)\rightarrow C(a)\equiv\prod_{a:A}\bigl(B(a)\rightarrow C(a)\bigr)\,.\]
+        The $\Pi$-symbol scopes over all expressions to the right of the symbol unless delimited (similar to $\lambda$-calculus), e.g.
+        \begin{gather}
+            \prod_{a:A}B(a)\rightarrow C(a)\equiv\prod_{a:A}\bigl(B(a)\rightarrow C(a)\bigr)\,.
+        \end{gather}
     \end{remark}
 
     \begin{example}[Polymorphic functions]\index{poly-!morphic}
-        An interesting example is obtained when the type $A$ in the above definition is taken to be a universe $\mathcal{U}$ (this is a valid choice since universes are types themselves) together with $B(A):\equiv A$. In this case one obtains a function that takes a type as input and then acts on this type (or any other type constructed from it), e.g.~the \textbf{polymorphic identity function}
+        An interesting example is obtained when the type $A$ in the above definition is taken to be a universe $\mathcal{U}$ (this is a valid choice since universes are themselves types) together with $B(A):\equiv A$. In this case, one obtains a function that takes a type as input and then acts on this type (or any other type constructed from it), e.g.~the \textbf{polymorphic identity function}
         \begin{gather}
             \mathrm{id}:\prod_{\type{A}}A\rightarrow A
         \end{gather}
@@ -162,14 +192,14 @@
 
 \subsection{\texorpdfstring{$\lambda$-calculus}{Lambda-calculus}}
 
-    @@ COMPLETE (e.g.~Curry--Howard or even Curry--Howard--Lambek, typed vs. untyped calculus, ...)@@
+    \todo{COMPLETE (e.g.~Curry--Howard or even Curry--Howard--Lambek, typed vs. untyped calculus, ...)}
 
 \subsection{Products}
 
-    As in classic set theory one of the basic notions is that of a product. This construction is ubiquitous throughout all of mathematics (and computer science). However, as opposed to set theory \`a la ZFC, products are not explicitly constructed as the set of all pairs of elements of its constituents. On the contrary, in type theory one can prove that all elements necessarily have to be pairs.
+    As in classic set theory, one of the basic notions is that of a product. This construction is ubiquitous throughout all of mathematics (and computer science). However, as opposed to set theory \`a la ZFC, products are not explicitly constructed as the set of all pairs of elements of its constituents. On the contrary, in type theory, one can prove that all elements necessarily have to be pairs.
 
-    \newdef{Product}{\index{product}\index{recursion}\index{induction}\index{unit!type}\index{projection}\index{pairing}
-        First, the binary product of types is defined:
+    \newdef{Product}{\index{product}\index{recursion}\index{unit!type}\index{projection}\index{pairing}
+        First, the binary product of types is defined.
         \begin{itemize}
             \item \textbf{Formation rule}: Given any two types $\type{A,B}$, one can form the product type $\type{A\times B}$.
             \item \textbf{Introduction rule}: Given terms $a:A,b:B$, one can construct the term $(a,b):A\times B$. This is called the \textbf{pairing} of the terms $a$ and $b$.
@@ -187,96 +217,110 @@
     \begin{example}[Projections]\index{projection!function}
         Analogous to the projection functions associated to the Cartesian product, one should have functions $\pi_1:A\times B\rightarrow A$ and $\pi_2:A\times B\rightarrow B$ that act on constructors as
         \begin{gather}
-            \pi_1(a,b):\equiv a\qquad\text{and}\qquad\pi_2(a,b):\equiv b
+            \pi_1(a,b):\equiv a\qquad\text{and}\qquad\pi_2(a,b):\equiv b\,.
         \end{gather}
-        Using the recursor one can define these functions by taking $C=A, f=\lambda a.\lambda b.a$ and $C=B, f=\lambda a.\lambda b.b$, respectively.
+        Using the recursor, one can define these functions by taking $C=A, f=\lambda a.\lambda b.a$ and $C=B, f=\lambda a.\lambda b.b$, respectively.
     \end{example}
 
-    \newdef{Nullary product}{
-        One can also define a nullary product. In this case it is called the \textbf{unit type} $\mathbf{1}$.
+    \newdef{Nullary product}{\index{product}
+        One can also define a nullary product. In this case, it is called the \textbf{unit type} $\mathbf{1}$.
         \begin{itemize}
             \item \textbf{Formation rule}: $\type{\mathbf{1}}$.
             \item \textbf{Introduction rule}: There is a unique nullary constructor $\ast:\mathbf{1}$.
-            \item \textbf{Elimination and computation rules}: Since the constructor is a nullary operation, one does not expect to have projection maps and, likewise, one also does not expect function definition to be based on binary currying. Instead the recursor is defined as follows:
+            \item \textbf{Elimination and computation rules}: Since the constructor is a nullary operation, one does not expect to have projection maps and, likewise, one also does not expect function definition to be based on binary currying. Instead, the recursor is defined as follows:
             \begin{gather}
                 \mathrm{rec}_{\mathbf{1}}:\prod_{\type{C}}C\rightarrow\mathbf{1}\rightarrow C\,.
             \end{gather}
-            On the constructor $\ast:\mathbf{1}$ it is required to act trivially:
+            On the constructor $\ast:\mathbf{1}$, it is required to act trivially:
             \begin{gather}
                 \mathrm{rec}_{\mathbf{1}}(C,c_0,\ast):\equiv c_0\,.
             \end{gather}
         \end{itemize}
     }
-    \newdef{Dependent functions}{
-        One can easily generalize the above recursors to `inductors', to allow for the definition of dependent functions out of product types (these functions are then said to be defined by an \textbf{induction principle}). In fact, one only has to change the type judgement of $\mathrm{rec}_{A\times B}$. This is accomplished by replacing $\type{C}$ by a type family $\typef{C}{A\times B}$ and by replacing nondependent function types by dependent function types (the form of the computation rules virtually remain the same):
-        \begin{align}
-            \mathrm{ind}_{A\times B}&:\prod_{\typef{C}{A\times B}}\left(\prod_{a:A,b:B}C(a,b)\rightarrow\prod_{x:A\times B}C(x)\right)\,,\\
-            &\nonumber\\
-            \mathrm{ind}_{\mathbf{1}}&:\prod_{\typef{C}{\mathbf{1}}}C(\ast)\rightarrow\prod_{x:\mathbf{1}}C(x)\,.
-        \end{align}
+    \newdef{Dependent functions}{\index{induction}\index{function}
+        One can easily generalize the above recursors to \textbf{inductors}, to allow for the definition of dependent functions out of product types (these functions are then said to be defined by an \textbf{induction principle}). In fact, one only has to change the type judgement of $\mathrm{rec}_{A\times B}$. This is accomplished by replacing $\type{C}$ by a type family $\typef{C}{A\times B}$ and by replacing nondependent function types by dependent function types (the form of the computation rules virtually remain the same):
+        \begin{gather}
+            \begin{aligned}
+                \mathrm{ind}_{A\times B}&:\prod_{\typef{C}{A\times B}}\left(\prod_{a:A,b:B}C(a,b)\rightarrow\prod_{x:A\times B}C(x)\right)\,,\\
+                &\\
+                \mathrm{ind}_{\mathbf{1}}&:\prod_{\typef{C}{\mathbf{1}}}C(\ast)\rightarrow\prod_{x:\mathbf{1}}C(x)\,.
+            \end{aligned}
+        \end{gather}
     }
 
     \begin{property}[Uniqueness principle]
         Using the induction principle, one can prove that every term $x:A\times B$ is necessarily of the form $(a,b)$ for some $a:A,b:B$. Furthermore, one can also prove that $\ast:\mathbf{1}$ is the unique term in $\mathbf{1}$.
     \end{property}
 
-    One can also generalize products such that the type of the second factor depends on the type of the first one (in classical set theory this would correspond to an indexed disjoint union).
+    One can also generalize products in such a way that the type of the second factor depends on the type of the first one (in classical set theory, this would correspond to an indexed disjoint union).
     \newdef{Dependent pair type}{\index{pair}\index{$\Sigma$-type}
-        As with function types the definition is not given as explicit as for nondependent types. Suffice it to say that given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent pair type \[\type{\sum_{a:A}B(a)}\,.\] When $B$ is a constant family, the type reduces to the ordinary product type $A\times B$. The recursion and induction functions are defined as in the product case, except for the obvious replacements, such as $A\times B\longrightarrow\sum_{a:A}B(a)$, needed to make everything consistent.
+        As with function types, the definition is not given as explicit as for nondependent types. Suffice it to say that, given a type $\type{A}$ and a type family $\typef{B}{A}$, one can form the dependent pair type
+        \begin{gather}
+            \type{\sum_{a:A}B(a)}\,.
+        \end{gather}
+        When $B$ is a constant family, the type reduces to the ordinary product type $A\times B$. The recursion and induction functions are defined as in the product case, except for the obvious replacements, such as $A\times B\longrightarrow\sum_{a:A}B(a)$, needed to make everything consistent.
     }
     \remark{Dependent pair types are often called \textbf{$\Sigma$-types} (due to the notation).}
     \begin{remark}[Scope]
-        Like the $\Pi$-symbol, the $\Sigma$-symbol scopes over the rest of the expression unless delimited.
+        Like the $\Pi$-symbol, the $\Sigma$-symbol scopes over the entire expression to the right unless delimited.
     \end{remark}
 
     \newdef{Coproduct}{\index{co-!product}\index{injection}
         Here, a standalone definition is given. The relation with the ordinary product will be mentioned afterwards.
         \begin{itemize}
             \item \textbf{Formation rule}: Given two types $\type{A,B}$, one can form the coproduct type $\type{A+B}$.
-            \item \textbf{Introduction rule}: Since in ordinary mathematics (and in particular category theory) the coproduct is dual to the product, one expects the projections to be replaced by \textbf{injections}/\textbf{inclusions}. In fact, these are taken to be the constructors of coproduct types, i.e.~given terms $a:A$ and $b:B$, one can construct the terms $\iota_1(a):A+B$ and $\iota_2(b):A+B$.
+            \item \textbf{Introduction rule}: Since in ordinary mathematics (and, in particular, category theory) the coproduct is dual to the product, one expects the projections to be replaced by \textbf{injections}/\textbf{inclusions}. In fact, these are taken to be the constructors of coproduct types, i.e.~given terms $a:A$ and $b:B$, one can construct the terms $\iota_1(a):A+B$ and $\iota_2(b):A+B$.
             \item \textbf{Elimination rules}: Similar to the use of currying for the definition of functions out of a product, functions out of a coproduct are defined in steps. To this intent the recursor and inductor are defined as follows:
-            \begin{align}
-                \mathrm{rec}_{A+B}&:\prod_{\type{C}}(A\rightarrow C)\rightarrow(B\rightarrow C)\rightarrow A+B\rightarrow C\,,\\
-                \mathrm{ind}_{A+B}&:\prod_{\typef{C}{A+B}}\left(\prod_{a:A}C\bigl(\iota_1(a)\bigr)\right)\rightarrow\left(\prod_{b:B}C\bigl(\iota_2(b)\bigr)\right)\rightarrow\prod_{x:A+B}C(x)\,.
-            \end{align}
+            \begin{gather}
+                \begin{aligned}
+                    \mathrm{rec}_{A+B}&:\prod_{\type{C}}(A\rightarrow C)\rightarrow(B\rightarrow C)\rightarrow A+B\rightarrow C\,,\\
+                    \mathrm{ind}_{A+B}&:\prod_{\typef{C}{A+B}}\left(\prod_{a:A}C\bigl(\iota_1(a)\bigr)\right)\rightarrow\left(\prod_{b:B}C\bigl(\iota_2(b)\bigr)\right)\rightarrow\prod_{x:A+B}C(x)\,.
+                \end{aligned}
+            \end{gather}
             \item \textbf{Computation rules}: The recursor acts on the constructors as follows (the inductor virtually has the same action):
-            \begin{align}
-                \mathrm{rec}_{A+B}\bigl(C,f_1,f_2,\iota_1(a)\bigr)&:\equiv f_1(a)\,,\\
-                \mathrm{rec}_{A+B}\bigl(C,f_1,f_2,\iota_2(b)\bigr)&:\equiv f_2(b)\,.
-            \end{align}
+            \begin{gather}
+                \begin{aligned}
+                    \mathrm{rec}_{A+B}\bigl(C,f_1,f_2,\iota_1(a)\bigr)&:\equiv f_1(a)\,,\\
+                    \mathrm{rec}_{A+B}\bigl(C,f_1,f_2,\iota_2(b)\bigr)&:\equiv f_2(b)\,.
+                \end{aligned}
+            \end{gather}
         \end{itemize}
     }
-    \newdef{Nullary coproduct}{
+    \newdef{Nullary coproduct}{\index{coproduct}\index{ex falso quodlibet}
         As was the case for products, one can also define a nullary version of the coproduct, the \textbf{empty type} $\mathbf{0}$:
         \begin{itemize}
             \item \textbf{Formation rule}: $\type{\mathbf{0}}$.
             \item \textbf{Introduction rule}: There is no constructor for $\mathbf{0}$.
-            \item \textbf{Elimination and computation rules}: Since there is no constructor for $\mathbf{0}$, one can always trivially ``construct'' a function out of $\mathbf{0}$:
-            \begin{align}
-                \mathrm{rec}_{\mathbf{0}}&:\prod_{\type{C}}\mathbf{0}\rightarrow C\,,\\
-                \mathrm{rec}_{\mathbf{0}}&:\prod_{\typef{C}{\mathbf{0}}}\prod_{x:\mathbf{0}}C(x)\,.
-            \end{align}
+            \item \textbf{Elimination and computation rules}: Since there is no constructor for $\mathbf{0}$, one can always trivially `construct' a function out of $\mathbf{0}$:
+            \begin{gather}
+                \begin{aligned}
+                    \mathrm{rec}_{\mathbf{0}}&:\prod_{\type{C}}\mathbf{0}\rightarrow C\,,\\
+                    \mathrm{rec}_{\mathbf{0}}&:\prod_{\typef{C}{\mathbf{0}}}\prod_{x:\mathbf{0}}C(x)\,.
+                \end{aligned}
+            \end{gather}
             This trivial function corresponds to the logical principle \textit{ex falso quodlibet} as introduced in the section on logic above.
         \end{itemize}
     }
 
     Since coproducts in set theory occur as binary disjoint unions, one could expect that there is a way to express coproducts in terms of dependent pair types.
     \begin{construct}[Coproducts as $\Sigma$-types]
-        First, introduce the type $\type{\mathbf{2}}$ (in set theory this would be the 2-element set). The introduction rule constructs two terms $0,1:\mathbf{2}$. The elimination and computation rules say that one can use this type for binary indexing:
+        First, introduce the type $\type{\mathbf{2}}$ (in set theory, this would be the 2-element set). The introduction rule constructs two terms $0,1:\mathbf{2}$. The elimination and computation rules say that one can use this type for binary indexing:
         \begin{gather}
             \mathrm{rec}_{\mathbf{2}}:\prod_{\type{C}}C\rightarrow C\rightarrow\mathbf{2}\rightarrow C
         \end{gather}
         with
-        \begin{align}
-            \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 0)&:\equiv c_0\,,\\
-            \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 1)&:\equiv c_1\,.
-        \end{align}
-        Using this type, one can prove that $A+B$ is judgementally equal to $\sum_{x:\mathbf{2}}\mathrm{rec}_{\mathbf{2}}(\mathcal{U},A,B,x)$. The injections are given by pairing, i.e.~$\iota_1(a)\equiv(0,a)$ and $\iota_2(b)\equiv(1,b)$. In a similar way one can obtain binary products as dependent function types over $\mathbf{2}$.
+        \begin{gather}
+            \begin{aligned}
+                \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 0)&:\equiv c_0\,,\\
+                \mathrm{rec}_{\mathbf{2}}(C, c_0, c_1, 1)&:\equiv c_1\,.
+            \end{aligned}
+        \end{gather}
+        Using this type, one can prove that $A+B$ is judgementally equal to $\sum_{x:\mathbf{2}}\mathrm{rec}_{\mathbf{2}}(\mathcal{U},A,B,x)$. The injections are given by pairing, i.e.~$\iota_1(a)\equiv(0,a)$ and $\iota_2(b)\equiv(1,b)$. In a similar way, one can obtain binary products as dependent function types over $\mathbf{2}$.
     \end{construct}
 
 \subsection{Propositions as types}
 
-    To conclude this section an overview of all the concepts introduced above is given from a propositions-as-types perspective. In intuitionistic logic this is often called the \textit{Brouwer--Heyting--Kolmogorov interpretation} and, more specifically, it should be seen as an incarnation of the Curry--Howard correspondence.
+    To conclude this section, an overview of all the concepts introduced above is given from a propositions-as-types perspective. In intuitionistic logic, this is often called the \textbf{Brouwer--Heyting--Kolmogorov interpretation} and, more specifically, it should be seen as an incarnation of the Curry--Howard correspondence.\index{Brouwer--Heyting--Kolmogorov interpretation}
 
     \begin{itemize}
         \item Types and their terms correspond to propositions and their proofs, respectively. In a proof-relevant context the fact that a type can have multiple terms makes it clear that, although distinct proofs eventually have the same result, the difference in their content can be important as well.
@@ -417,6 +461,8 @@
     \newdef{$W$-type}{\index{W-type}
         Consider a type $A$ and a type family $B:A\rightarrow\mathcal{U}$. The $W$-type $W_{a:A}B(a)$ is obtained as the initial algebra for the polynomial functor
     }
+
+    \todo{COMPLETE}
 
 \section{Homotopy type theory}
 \subsection{Introduction}
@@ -580,9 +626,9 @@
         Given two types $\type{A,B}$, there exists an equivalence $(A=_{\mathcal{U}}B)\rightarrow(A\simeq B)$ that takes $\mathrm{refl}_A$ to $\mathrm{id}_A$. A universe in which the univalence axiom holds is said to be univalent.
     \end{axiom}
 
-    @@ COMPLETE @@
+    \todo{COMPLETE}
 
-\section{Modal logic}\index{logic!modal}
+\section{Modal logic}\index{logic!modal}\label{section:modal_logic}
 \subsection{Modalities}\index{possibility}\index{necessity}
 
     The two most important or most well-known modalities are `neccesity' and `possibility'. For any proposition $p$, $\square p$ means that $p$ is necessarily true and $\Diamond p$ means that $p$ is possibly true. To formalize these modalities a few axioms can be introduced.

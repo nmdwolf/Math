@@ -631,10 +631,15 @@
 \section{Modal logic}\index{logic!modal}\label{section:modal_logic}
 \subsection{Modalities}\index{possibility}\index{necessity}
 
-    The two most important or most well-known modalities are `neccesity' and `possibility'. For any proposition $p$, $\square p$ means that $p$ is necessarily true and $\Diamond p$ means that $p$ is possibly true. To formalize these modalities a few axioms can be introduced.
+    The two most important or most well-known modalities are `necessity' and `possibility'. For any proposition $p$,
+    \begin{itemize}
+        \item $\square p$ means that $p$ is necessarily true, and
+        \item $\Diamond p$ means that $p$ is possibly true.
+    \end{itemize}
+    To formalize these modalities, a few axioms can be introduced.
 
     \begin{axiom}[K]
-        $\square$ preserves implications:
+        $\square$ preserves implication:
         \begin{gather}
             \square(p\rightarrow q)\rightarrow(\square p\rightarrow\square q)\,.
         \end{gather}
@@ -655,9 +660,9 @@
         \begin{gather}
             \square p\rightarrow p
         \end{gather}
-        As for Axiom K, a separate axiom has to be introduced for $\Diamond$:
+        As for Axiom K, a separate axiom has to be introduced for $\Diamond$ in intuitionistic logic:
         \begin{gather}
-            p\rightarrow\diamond p\,.
+            p\rightarrow\Diamond p\,.
         \end{gather}
     \end{axiom}
 
@@ -671,7 +676,7 @@
         \end{gather}
     \end{axiom}
 
-    The categorical semantics for intuitionistic (propositional) logic is given by the internal language of Cartesian closed categories (\cref{cat:closed}). When passing to S4 modal logic, one has to specialize these categories. The three axioms above imply that $\square$ is a monoidal comonad. The analogous axioms for $\Diamond$ imply that it is a $\square$-strong monad, i.e.~it is a monad equipped with a natural transformation
+    The categorical semantics for intuitionistic (propositional) logic is given by the internal language of Cartesian closed categories (\cref{cat:closed}). When passing to (S4-)modal logic, one has to specialize these categories. The three axioms above imply that $\square$ is a monoidal comonad. The analogous axioms for $\Diamond$ imply that it is a $\square$-strong monad, i.e.~it is a monad equipped with a natural transformation
     \begin{gather}
         \eta_{x,y}:\square x\otimes\Diamond y\rightarrow\Diamond(\square x\otimes y)\,.
     \end{gather}
@@ -679,34 +684,49 @@
 \subsection{Type theory}\label{section:modal_type_theory}
 
     \newdef{Modality}{\index{modality}\index{modal!operator}
-        Consider an $(\infty,1)$-topos $\mathbf{H}$. A modality or \textbf{modal operator} on $\mathbf{H}$ is an idempotent\footnote{Sometimes, idempotency is not required.} (co)monad on $\mathbf{H}$ (see also \cref{cat:closure_operator}).
+        Consider an $(\infty,1)$-topos $\mathbf{H}$. A modality or \textbf{modal operator} on $\mathbf{H}$ is an idempotent\footnote{Sometimes, idempotency is not required.} (co)monad on $\mathbf{H}$ (see also \cref{cat:closure_operator}). For clarity, idempotent comonads will be called \textbf{comodalities} in this document (unless specifically mentioned, all statements can be dualized to pertain to comodalities).
     }
 
     \newdef{Modal type}{\index{modal!type}
-        A type $X\in\mathbf{H}$ is said to be modal for a modality $\Diamond$ if the unit $\eta_X:X\rightarrow\Diamond X$ or counit $\varepsilon_X:\Diamond X\rightarrow X$ is an equivalence.
+        A type $X\in\mathbf{H}$ is said to be modal for a modality $\Diamond$ if the unit $\eta_X:X\rightarrow\Diamond X$ is an equivalence.
     }
     \begin{property}
-        The modal types of a (co)modality $\Diamond$ on $\mathbf{H}$ are exactly the $\Diamond$-(co)algebras or, equivalently, the objects of the Eilenberg--Moore category $\mathbf{H}^\Diamond$ (\cref{cat:eilenberg_moore}). This property allows to define modal types for (co)monads that are not idempotent as their (co)algebras. It also means that one can recover the (co)monad objectwise as the composition of the (co)unit and the inclusion.
+        The modal types of a modality $\Diamond$ on $\mathbf{H}$ are exactly the $\Diamond$-algebras or, equivalently, the objects of the Eilenberg--Moore category $\mathbf{H}^\Diamond$ (\cref{cat:eilenberg_moore}). This property allows to define modal types for monads that are not idempotent as their algebras. It also means that one can recover the monad objectwise as the composition of the unit and the inclusion.
     \end{property}
 
-    \newdef{Opposite}{\index{opposite}
-        Consider a modality $\Diamond:\mathbf{H}\rightarrow\mathbf{H}$. Its (left) opposite is another modality $\bigcirc:\mathbf{H}\rightarrow\mathbf{H}$ such that $\bigcirc\dashv\Diamond$ together with an adjoint triple
+    \newdef{Opposite}{\index{opposite}\index{adjoint!cylinder}\index{unity}
+        An \textbf{adjoint cylinder} is an adjoint triple $\iota_!\dashv\iota^*\dashv\iota_*$ where the left and, equivalently, the right adjoint are fully faithful:
         \begin{gather}
-            \mathbf{H}^\bigcirc\cong\mathbf{H}^\Diamond\overset{\hookrightarrow}{\underset{\hookrightarrow}{\leftarrow}}\mathbf{H}\,,
+            \mathbf{H}\overset{\hookrightarrow}{\underset{\hookrightarrow}{\leftarrow}}\mathbf{H}'
         \end{gather}
-        where the inclusions are the inclusions of modal types. Analogously, a right opposite is given by an adjunction $\Diamond\dashv\bigcirc$ together with an adjoint triple
+        In the case where these functors are themselves modalities, these can be seen as full inclusions of modal types, turning $\mathbf{H}$ into an essential subtopos of $\mathbf{H}'$ (\cref{topos:essential_subtopos}), and such an adjoint cylinder represents \textbf{opposite} modalities. Such a situation also gives rise to a new pair of adjoint modalities $\iota_!\iota^*\dashv\iota_*\iota^*$, with the left adjoint being a monad (the other adjunction is trivial because of the fully faithfulness).
+
+        A dual situation arises for an adjoint triple of the form
         \begin{gather}
-            \mathbf{H}^\bigcirc\cong\mathbf{H}^\Diamond\overset{\leftarrow}{\underset{\leftarrow}{\hookrightarrow}}\mathbf{H}\,.
+            \mathbf{H}\overset{\leftarrow}{\underset{\leftarrow}{\hookrightarrow}}\mathbf{H}'\,,
         \end{gather}
-        This, in particular, implies that the modalities $\Diamond$ and $\bigcirc$ are themselves adjoint.
+        exhibiting $\mathbf{H}$ as a bireflective subcategory of $\mathbf{H}'$ (\cref{cat:reflective_inclusion}). Here, the resulting adjoint modalities have as left adjoint a comonad.
+
+        Given an opposition of modalities (either of the two situations), one has a modality $\Diamond$ and a comodality $\square$ and, hence, a unit and counit morphism:
+        \begin{gather}
+            \square x\rightarrow x\rightarrow\Diamond x\,.
+        \end{gather}
+        The composite map is said to represent the \textbf{unity} of the opposition in the Hegelian interpretation of \indexauthor{Lawvere}.
     }
     \begin{remark}[Interpretation]
         Note that the adjoint triples in this definition have a slightly different interpretation due to there only being one inclusion arrow in the second case. If one interprets a modality as projecting out some kind of property of objects, the first opposition embodies the case where two related properties are considered, while the second case involves only one property but projected out in two different ways.
     \end{remark}
-
-    \begin{property}[Extra structure]
-        Since for idempotent (co)monads the forgetful functor $\mathbf{H}^\Diamond\hookrightarrow\mathbf{H}$ is fully faithful, the above adjoint triples also induce extra structure on the Eilenberg--Moore category $\mathbf{H}^\Diamond$. In the case where $\Diamond$ is a monad, the adjoint triple is also called an \textbf{adjoint cylinder} and $\mathbf{H}^\Diamond$ has the structure of an essential subtopos. For comonads, $\mathbf{H}^\Diamond$ obtains the structure of a bireflective subcategory (\cref{cat:reflective_inclusion}).
-    \end{property}
+    \begin{remark}[Adjoint sequences]\index{Yin \& Yang}
+        In some situations, longer sequences of adjoint functors arise (see, for example, \cref{section:cohesion}). In the case of adjoint quadruples one gets induced adjunctions of the form
+        \begin{gather*}
+            \mathrm{modality}\dashv\mathrm{comodality}\dashv\mathrm{modality}
+        \end{gather*}
+        and
+        \begin{gather*}
+            \mathrm{comodality}\dashv\mathrm{modality}\dashv\mathrm{comodality}\,.
+        \end{gather*}
+        These are sometimes called \textbf{Yin} and \textbf{Yang triples}, respectively.
+    \end{remark}
 
     \begin{notation}
         One can show that adjoint triples $F\dashv G\dashv H$ are equivalent to adjoint pairs in the 2-category having adjunctions as morphisms, hence to adjunctions of adjunctions. This inspires the following notations:
@@ -725,25 +745,37 @@
     \end{notation}
 
     \newdef{Negative}{\index{negative}
-        Consider a comodality $\bigcirc:\mathbf{H}\rightarrow\mathbf{H}$. The negative of a modal type $X$ is obtained by removing its `pure $\bigcirc$-part', i.e.~its projection under $\bigcirc$. Categorically this means that one takes the cofibre:
+        Consider a comodality $\bigcirc:\mathbf{H}\rightarrow\mathbf{H}$. The negative of a modal type $X$ is obtained by removing its `pure $\bigcirc$-part', i.e.~its projection under $\bigcirc$. Categorically, this means that one takes the cofibre of the counit:
         \begin{gather}
             \overline{\bigcirc}X := \mathrm{cofib}(\bigcirc X\rightarrow X)\,.
         \end{gather}
     }
 
     \newdef{Aufhebung}{\index{Aufhebung}\label{type:aufhebung}
-        Consider an inclusion of adjoint modalities:
+        Consider an inclusion of adjoint modalities (or, equivalently, an inclusion of essential subtopoi\footnote{One can show that these form a (complete) lattice and, hence, inclusion is well defined.}):
         \begin{gather}
             \begin{tikzpicture}
-                \node at (0, 0) {$\Diamond_1$};
-                \node at (2, 0) {$\bigcirc_1$};
-                \node at (0, -2) {$\Diamond_2$};
-                \node at (2, -2) {$\bigcirc_2$};
+                \node at (0, 0) {$\Diamond_2$};
+                \node at (2, 0) {$\square_2$};
+                \node at (0, -2) {$\Diamond_1$};
+                \node at (2, -2) {$\square_1$};
                 \node at (1, 0) {$\dashv$};
                 \node at (1, -2) {$\dashv$};
                 \node at (0, -1) {$\vee$};
                 \node at (2, -1) {$\vee$};
             \end{tikzpicture}
         \end{gather}
-        Right Aufhebung (of opposites) is given by an inclusion $\Diamond_2<\bigcirc_1$ of modal types.
+        Level $2$ is said to \textbf{resolve} level $1$ if $\Diamond_1<\square_2$. The smallest resolution (if it exists) is called the (right) Aufhebung (of opposites).
     }
+
+    \begin{example}[\textit{Dasein}]\index{being}\index{nothing}\index{dasein}\label{type:dasein}
+        Consider the adjoint modality of `(pure) being' and `nothing' (or non-being):
+        \begin{gather}
+            \emptyset\dashv\ast\,,
+        \end{gather}
+        where the former is the constant comonad on the initial object and the latter the constant monad on the terminal object. The associated unity of opposites
+        \begin{gather}
+            \emptyset\cong\emptyset X\rightarrow X\rightarrow\ast X\cong\ast\,,
+        \end{gather}
+        corresponds to \indexauthor{Hegel}'s ``\textit{there is nothing which is not an intermediate state between being and nothing}''.
+    \end{example}

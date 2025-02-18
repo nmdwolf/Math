@@ -748,7 +748,7 @@
 \section{\difficult{Topos theory}}
 
     \newdef{Bohr topos}{\index{Bohr!topos}\index{Alexandrov!topology}
-        Consider a $C^*$-algebra $A$ of bounded observables on a Hilbert space $\mathcal{H}$. Denote by $\mathrm{ComSub}(A)$ the poset (\cref{set:poset}) of commutative $C^*$-subalgebras. This set can be equipped with the \textbf{Alexandrov topology}\footnote{There exist an equivalences $\mathbf{Pre}\cong\mathbf{AlexTop}$ and $\mathbf{Pos}\cong\mathbf{AlexTop}_{T_0}$.}, i.e.~the topology for which the open sets are the upward closed subsets. The topological space $(\mathrm{ComSub}(A),\tau_{\text{Alex}})$ is called the Bohr site of $A$.
+        Consider a $C^*$-algebra $A$ and denote by $\mathrm{ComSub}(A)$ the poset (\cref{set:poset}) of commutative $C^*$-subalgebras. This set can be equipped with the \textbf{Alexandrov topology}\footnote{There exist an equivalences $\mathbf{Pre}\cong\mathbf{AlexTop}$ and $\mathbf{Pos}\cong\mathbf{AlexTop}_{T_0}$.}, i.e.~the topology for which the open sets are the upward closed subsets. The topological space $(\mathrm{ComSub}(A),\tau_{\text{Alex}})$ is called the Bohr site of $A$.
 
         The sheaf topos over the Bohr site is called the Bohr topos $\mathbf{Bohr}(A)$. It can be turned into a ringed topos, where the ring object (which is even an internal commutative $C^*$-algebra) is given by the tautological functor
         \begin{gather}
@@ -767,6 +767,9 @@
     \newdef{Spectral presheaf}{\index{spectral!presheaf}
         The presheaf on a Bohr site assigning to every commutative subalgebra its Gel'fand spectrum.
     }
+
+    The idea behind the Bohr topos is that, given a general $C^*$-algebra $A$, the Bohr topos $\mathbf{Bohr}(A)$ is interpreted as its quantum phase space.\index{phase space} This is similar to \cref{section:smooth_spaces}, where smooth spaces are also reinterpreted in terms of sheaf topoi.
+
     \begin{theorem}[Kochen--Specker]\index{Kochen--Specker}\index[author]{Kochen}\index[author]{Specker}
         If $A=\mathcal{B}(\mathcal{H})$ with $\dim(\mathcal{H})>2$, the spectral presheaf has no global element.
     \end{theorem}
@@ -784,26 +787,27 @@
         \begin{gather}
             \Sigma_A = \bigsqcup_{C\in\mathrm{ComSub}(A)}\Phi_C\,,
         \end{gather}
-        the \'etale locale corresponding to the spectral presheaf. Its open sets are given by those subsets whose restrictions to commutative subalgebras are open such that these restrictions are compatible with subalgebra inclusions.
-
-        This topological bundle $\Sigma_A\rightarrow\mathrm{Alex}(\mathrm{ComSub}(A))$ also admits a topos-theoretic incarnation. There exists a (canonical) morphism of ringed topoi
-        \begin{gather}
-            \pi:\mathbf{Bohr}(A)\rightarrow\bigl(\mathbf{Sh}\bigl(\mathrm{Alex}(\mathrm{ComSub}(A))\bigr),\underline{\mathbb{R}}\bigr)\,,
-        \end{gather}
-        whose underlying geometric morphism is simply the identity.
+        the \'etale locale corresponding to the spectral presheaf. Its open sets are given by those subsets whose restrictions to commutative subalgebras are open in such a way that these restrictions are compatible with subalgebra inclusions.
     }
-    \begin{example}[Gel'fand spectrum]\index{Gel'fand!spectrum}\index{topology!double negation}
-        If $A$ is a commutative $C^*$-algebra, its Bohrification is not isomorphic to its ordinary Gel'fand spectrum $\Phi_A$. However, after replacing the topology on $\mathbf{Bohr}(A)$ by the \textit{double negation topology} and repeating the above construction, one obtains
+    \begin{example}[Gel'fand spectrum]\index{Gel'fand!spectrum}\index{topology!double negation}\index{nucleus}
+        If $A$ is a commutative $C^*$-algebra, its Bohrification is not isomorphic to its ordinary Gel'fand spectrum $\Phi_A$. However, after replacing the topology on $\mathbf{Bohr}(A)$ by the double negation topology (\cref{topos:double_negation}) and repeating the above construction, one obtains
         \begin{gather}
             \Phi_A\cong\Sigma^{\lnot\lnot}_A\,.
         \end{gather}
+        This locale can also be obtained in another way. Double negation $\lnot\lnot$ defines an (internal) \textbf{nucleus} on the (internal) locale $\Sigma_A$, i.e.~a left-exact monad. $\Sigma_A^{\lnot\lnot}$ is then given by the fixed points of $\lnot\lnot:\Sigma_A\rightarrow\Sigma_A$. 
     \end{example}
-
-    \begin{property}[States]\index{state}
-        A positive and normalized section of the morphism $\pi:\mathbf{Bohr}(A)\rightarrow\bigl(\mathbf{Sh}\bigl(\mathrm{Alex}(\mathrm{ComSub}(A))\bigr),\underline{\mathbb{R}}\bigr)$ in the category of $\underline{\mathbb{R}}$-\textit{module topoi}.
-    \end{property}
 
     By \cref{quantum:topos_morphisms} above, the following relation is obtained.
     \begin{property}[Observables]\index{observable}
-        Morphisms $\mathbf{Bohr}(A)\rightarrow\mathbf{Bohr}(C(\mathbb{R})_0)$ admitting a right adjoint together with an epimorphism $C_0(\mathbb{R})\rightarrow A$ correspond to observables on $A$.
+        Morphisms $\mathbf{Bohr}(A)\rightarrow\mathbf{Bohr}(C(\mathbb{R})_0)$ admitting a right adjoint together with an epimorphism $\underline{C_0(\mathbb{R})}\rightarrow f^*\underline{A}$ correspond to observables on $A$.
+    \end{property}
+
+    The topological bundle $\Sigma_A\rightarrow\mathrm{Alex}(\mathrm{ComSub}(A))$ also admits a topos-theoretic incarnation. There exists a (canonical) morphism of ringed topoi
+    \begin{gather}
+        \pi:\mathbf{Bohr}(A)\rightarrow\bigl(\mathbf{Sh}\bigl(\mathrm{Alex}(\mathrm{ComSub}(A))\bigr),\underline{\mathbb{R}}\bigr)\,,
+    \end{gather}
+    whose underlying geometric morphism is simply the identity.
+
+    \begin{property}[States]\index{state}
+        A positive and normalized section of the morphism $\pi:\mathbf{Bohr}(A)\rightarrow\bigl(\mathbf{Sh}\bigl(\mathrm{Alex}(\mathrm{ComSub}(A))\bigr),\underline{\mathbb{R}}\bigr)$ in the category of $\underline{\mathbb{R}}$-\textit{module topoi}.
     \end{property}

@@ -162,8 +162,8 @@
         where the GHZ state was introduced in \cref{quantum_information:ghz}.
     \end{theorem}
 
-\section{Quantum logic}
-\subsection{Birkhoff-von Neumann logic}
+\section{Quantum logic}\label{section:quantum_logic}
+\subsection{Birkhoff--von Neumann logic}
 
     Consider classical propositional logic. This is governed by the Boolean property, i.e.~the set of all propositions admits the structure of a complete Boolean algebra (\cref{type:boolean_logic}). Now, the question becomes how to treat propositions in quantum mechanics (as needed in, for example, quantum computing). In the sense of \indexauthor{von Neumann}, the propositions should be characterized by $\{0,1\}$-valued observables or, equivalently, by projection operators. As such, the natural lattice to consider logic is that of closed subspaces of the state space $\mathcal{H}$ (which is a Hilbert space). Birkhoff--von Neumann logic is the study of such lattices.
 
@@ -229,7 +229,7 @@
                 \begin{aligned}
                     &\Gamma\vdash\Theta\\
                     \hline
-                    \Gamma,&!P\vdash\Theta
+                    \Gamma&,!P\vdash\Theta
                 \end{aligned}
             \end{gather}
             and, dually,
@@ -301,13 +301,13 @@
                 \begin{aligned}
                     &\Gamma\vdash P\\
                     \hline
-                    &\Gamma\vdash P\oplus Q
+                    \Gamma&\vdash P\oplus Q
                 \end{aligned}
                 \qquad
                 \begin{aligned}
-                    \Gamma\vdash Q\\
+                    &\Gamma\vdash Q\\
                     \hline
-                    \Gamma\vdash P\oplus Q
+                    \Gamma&\vdash P\oplus Q
                 \end{aligned}
             \end{gather}
             and, conversely,
@@ -321,9 +321,9 @@
         \item\textbf{Multiplicative conjunction}: If $P,Q$ are propositions, then
             \begin{gather}
                 \begin{aligned}
-                    P,Q&\vdash\Theta\\
+                    &\,\,P,Q\vdash\Theta\\
                     \hline
-                    P\otimes Q&\vdash\Theta
+                    &P\otimes Q\vdash\Theta
                 \end{aligned}
             \end{gather}
             and, conversely,
@@ -331,13 +331,13 @@
                 \begin{aligned}
                     \Gamma\vdash&P\qquad\Lambda\vdash Q\\
                     \hline
-                    \Gamma,&\Lambda\vdash P\otimes Q
+                    \Gamma,\,&\Lambda\vdash P\otimes Q
                 \end{aligned}\,.
             \end{gather}
         \item\textbf{Multiplicative disjunction}: If $P,Q$ are propositions, then
             \begin{gather}
                 \begin{aligned}
-                    \Gamma&\vdash P,Q\\
+                    &\Gamma\vdash P,Q\\
                     \hline
                     \Gamma&\vdash P\dualampersand Q
                 \end{aligned}
@@ -462,3 +462,93 @@
 
         For the exponential connectives, some more structure is needed. As with modal logic, the structure is given by the existence of a suitable (co)monad.
     \end{property}
+
+\section{\difficult{Topos theory}}
+\subsection{Bohr topos}
+
+    \newdef{Bohr topos}{\index{Bohr!topos}\index{Alexandrov!topology}
+        Consider a $C^*$-algebra $A$ and denote by $\mathrm{ComSub}(A)$ the poset (\cref{set:poset}) of commutative $C^*$-subalgebras. This set can be equipped with the \textbf{Alexandrov topology}\footnote{There exist an equivalences $\mathbf{Pre}\cong\mathbf{AlexTop}$ and $\mathbf{Pos}\cong\mathbf{AlexTop}_{T_0}$.}, i.e.~the topology for which the open sets are the upward closed subsets. The topological space $(\mathrm{ComSub}(A),\tau_{\text{Alex}})$ is called the Bohr site of $A$.
+
+        The sheaf topos over the Bohr site is called the Bohr topos $\mathbf{Bohr}(A)$. It can be turned into a ringed topos, where the ring object (which is even an internal commutative $C^*$-algebra) is given by the tautological functor
+        \begin{gather}
+            \underline{A}:\mathrm{ComSub}(A)\rightarrow\mathbf{Set}:C\mapsto C\,.
+        \end{gather}
+    }
+
+    \begin{property}\label{quantum:topos_morphisms}
+        A morphism in $\mathbf{C^*Alg}$ is commutativity reflecting if and only if the induced morphism on posets admits a right adjoint. Moreover, there exists a bijection between the following two classes of morphisms:
+        \begin{itemize}
+            \item Geometric morphisms $f:\mathbf{Bohr}(B)\rightarrow\mathbf{Bohr}(A)$ admitting a right adjoint together with epimorphisms of internal algebras $\underline{A}\rightarrow f^*\underline{B}$.
+            \item Commutativity-reflecting functions $f:A\rightarrow B$ that restrict to algebra morphisms on all commutative subalgebras.
+        \end{itemize}
+    \end{property}
+
+    \newdef{Spectral presheaf}{\index{spectral!presheaf}\label{quantum_information:spectral_presheaf}
+        The presheaf $\Sigma$ on a Bohr site assigning to every commutative subalgebra its Gel'fand spectrum.
+    }
+
+    The idea behind the Bohr topos is that, given a general $C^*$-algebra $A$, the Bohr topos $\mathbf{Bohr}(A)$ is interpreted as its quantum phase space.\index{phase space} This is similar to \cref{section:smooth_spaces}, where smooth spaces are also reinterpreted in terms of sheaf topoi.
+
+    \begin{theorem}[Kochen--Specker]\index{Kochen--Specker}\index[author]{Kochen}\index[author]{Specker}
+        For $A=\mathcal{B}(\mathcal{H})$, the spectral presheaf has no global elements if $\dim(\mathcal{H})>2$.
+    \end{theorem}
+
+    \begin{property}[Gleason's theorem]\index{Gleason}\index[author]{Gleason}
+        There exists a natural bijection between the quantum states of a $C^*$-algebra $A$ and the classical states of $\underline{A}$ internal to $\mathbf{Bohr}(A)$.
+    \end{property}
+
+    \newdef{Bohrification}{\index{Bohrification}
+        Consider a $C^*$-algebra $A$ together with its Bohr topos $\mathbf{Bohr}(A)$. To its internal $C^*$-algebra $\underline{A}$, one can assign an internal locale $\underline{\Sigma}_A$ by (internal) Gel'fand duality (\cref{operators:gelfand_spectrum}). Under the equivalence~\ref{topos:slice_locale}, one then obtains a locale $\Sigma_A$. The functor
+        \begin{gather}
+            \func{\Sigma}{C^*Alg}{Loc}:A\mapsto\Sigma_A
+        \end{gather}
+        is called Bohrification. This locale can be constructed as the disjoint union
+        \begin{gather}
+            \Sigma_A = \bigsqcup_{C\in\mathrm{ComSub}(A)}\Phi_C\,,
+        \end{gather}
+        the \'etale locale corresponding to the spectral presheaf (i.e.~the spectral presheaf is the internal Gel'fand spectrum of $\underline{A}$). Its open sets are given by those subsets whose restrictions to commutative subalgebras are open in such a way that these restrictions are compatible with subalgebra inclusions.
+    }
+    \begin{example}[Gel'fand spectrum]\index{Gel'fand!spectrum}\index{topology!double negation}\index{nucleus}
+        If $A$ is a commutative $C^*$-algebra, its Bohrification is not isomorphic to its ordinary Gel'fand spectrum $\Phi_A$. However, after replacing the topology on $\mathbf{Bohr}(A)$ by the double negation topology (\cref{topos:double_negation}) and repeating the above construction, one obtains
+        \begin{gather}
+            \Phi_A\cong\Sigma^{\lnot\lnot}_A\,.
+        \end{gather}
+        This locale can also be obtained in another way. Double negation $\lnot\lnot$ defines an (internal) \textbf{nucleus} on the (internal) locale $\Sigma_A$, i.e.~a left-exact monad. $\Sigma_A^{\lnot\lnot}$ is then given by the fixed points of $\lnot\lnot:\Sigma_A\rightarrow\Sigma_A$. 
+    \end{example}
+
+    By \cref{quantum:topos_morphisms} above, the following relation is obtained.
+    \begin{property}[Observables]\index{observable}
+        Morphisms $\mathbf{Bohr}(A)\rightarrow\mathbf{Bohr}(C(\mathbb{R})_0)$ admitting a right adjoint together with an epimorphism $\underline{C_0(\mathbb{R})}\rightarrow f^*\underline{A}$ correspond to observables on $A$.
+    \end{property}
+
+    The topological bundle $\Sigma_A\rightarrow\mathrm{Alex}(\mathrm{ComSub}(A))$ also admits a topos-theoretic incarnation. There exists a (canonical) morphism of ringed topoi
+    \begin{gather}
+        \pi:\mathbf{Bohr}(A)\rightarrow\bigl(\mathbf{Sh}\bigl(\mathrm{Alex}(\mathrm{ComSub}(A))\bigr),\underline{\mathbb{R}}\bigr)\,,
+    \end{gather}
+    whose underlying geometric morphism is simply the identity.
+
+    \begin{property}[States]\index{state}
+        A positive and normalized section of the morphism $\pi:\mathbf{Bohr}(A)\rightarrow\bigl(\mathbf{Sh}\bigl(\mathrm{Alex}(\mathrm{ComSub}(A))\bigr),\underline{\mathbb{R}}\bigr)$ in the category of $\underline{\mathbb{R}}$-\textit{module topoi}.
+    \end{property}
+
+\subsection{Internal logic}
+
+    Whereas \cref{section:quantum_logic} covers quantum logic from the external point of view, the spectral presheaf (\cref{quantum_information:spectral_presheaf}) allows to treat it internally. By functional calculus (\cref{section:PVM}), every proposition $A\in\Delta$ about a self-adjoint operator on a Hilbert space $\mathcal{H}$, i.e.~every measurable subset of the spectrum $\sigma(A)$, corresponds to a projection $P_{A,\Delta}$. Now, the goal will be to assign to every such projection a `classical interpretation' in the classical \textbf{context} given by a commutative subalgebra of $A$.\index{context} This is achieved by the subobject of the spectral presheaf $\Sigma$ constructed as follows:
+    \begin{gather*}
+        \delta_P(V) := \{\omega\in\Sigma_v\mid\omega(P|_V)=1\}\,,
+    \end{gather*}
+    where $P|_V$ is the smallest projection in $V$ such that $\im(P)\subseteq\im(P|_V)$. The morphism
+    \begin{gather*}
+        \delta:\mathcal{P}(\mathcal{H})\rightarrow\mathrm{Sub}(\Sigma)
+    \end{gather*}
+    is called the \textbf{daseinization} map.\index{daseinization} Note that this map extends to all self-adjoint operators through functional calculus.
+
+    A `pure state' $\psi$ in classical mechanics corresponds to a map from subsets of phase space to the subobject classifier (saying whether the point lies in the given subset or not):
+    \begin{gather*}
+        T^\psi:\mathrm{Sub}(P)\rightarrow\{0,1\}\,.
+    \end{gather*}
+    By analogy, a pure state $\ket{\psi}$ in quantum mechanics will correspond to a morphism from subobjects of the spectral presheaf:
+    \begin{gather*}
+        T^{\ket{\psi}}:\mathrm{Sub}(\Sigma)\rightarrow\mathrm{Hom}_{\mathbf{Psh}(\mathrm{ComSub}(A))}(1,\Omega)\,,
+    \end{gather*}
+    where $\Omega$ is the subobject classifier from \cref{topos:presheaf_topos}.

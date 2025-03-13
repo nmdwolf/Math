@@ -47,10 +47,10 @@
     \end{property}
 
     Combining Born's rule with \cref{prob:expectation_value}, gives the following definition.
-    \newdef{Expectation value}{
+    \newdef{Expectation value}{\index{expectation}\label{qm:expectation}
         The expectation value of an observable $\widehat{A}$ in a (normalized) state $\ket{\psi}$ is defined as follows:
         \begin{gather}
-            \langle\widehat{A}\rangle_\psi := \langle\psi|\widehat{A}|\psi\rangle\,.
+            \langle\widehat{A}\rangle_\psi := \bra{\psi}\widehat{A}\ket{\psi}\,.
         \end{gather}
         The subscript $\psi$ is often left implicit. As in ordinary statistics (\cref{statistics:variance_without_sum}), the uncertainty or variance is defined as follows:
         \begin{gather}
@@ -70,9 +70,9 @@
     \end{axiom}
 
     \begin{axiom}[Unitary evolution]\index{evolution}\label{qm:evolution_axiom}
-        The evolution of a closed system is unitary, i.e.~there exists a unitary operator $\widehat{U}(t,t')\in\Aut(\mathcal{H})$, for all times $t\leq t'$, such that
+        The evolution of a closed system is unitary, i.e.~there exists a unitary operator $\widehat{U}(t,t')\in\Aut(\mathcal{H})$, for all times $t\leq t'$, such that\footnote{Note that some authors use a different convention whereby the two arguments are interchanged.}
         \begin{gather}
-            \ket{\psi(t')} = \widehat{U}(t,t')\ket{\psi(t)}\,.
+            \ket{\psi(t)} = \widehat{U}(t,t')\ket{\psi(t')}\,.
         \end{gather}
     \end{axiom}
 
@@ -146,6 +146,39 @@
             c_E=\left(\Int_{\mathbb{R}}\overline{\psi_E}(x)\psi(x,t_0)\,dx\right)e^{\frac{i}{\hbar}Et_0}\,.
         \end{gather}
     \end{formula}
+
+    \newformula{Dyson series}{\index{Dyson series}\index{time ordering}\label{qm:evolution_operator}
+        Inserting the evolution operator from \cref{qm:evolution_axiom} into the TDSE~\ref{qm:TDSE}, even generalising to time-dependent Hamiltonians, the following operator equation is obtained:
+        \begin{gather}
+            i\hbar\deriv{}{t}\widehat{U}(t,t') = \widehat{H}(t)\widehat{U}(t,t')\,.
+        \end{gather}
+        With the initial condition $\widehat{U}(t,t)=1$ for all $t\in\mathbb{R}$, this can be formally solved as follows (for $t\geq t'$):
+        \begin{gather}
+            \widehat{U}(t,t') = \mathbbm{1} - \frac{i}{\hbar}\Int_{t'}^t\widehat{H}(\tau)\widehat{U}(\tau,t')\,d\tau\,.
+        \end{gather}
+        This solution can be iterated to obtain a series expansion of the evolution operator:
+        \begin{gather}
+            \widehat{U}(t,t') = 1 - \frac{i}{\hbar}\Int_{t'}^t\widehat{H}(\tau)\,d\tau + \left(-\frac{i}{\hbar}\right)^2\Int_{t'}^t\Int_{t'}^\tau\widehat{H}(\tau)\widehat{H}(\tau')\,d\tau'\,d\tau + \cdots\,.
+        \end{gather}
+        It is clear that the integrands are time-ordered. By explicitly introducing the \textbf{time-ordering operator}
+        \begin{gather}
+            \label{perturbation:time_ordering_operator}
+            \mathcal{T}\left(\widehat{H}(t_1)\widehat{H}(t_2)\right) =
+            \begin{cases}
+                \widehat{H}(t_1)\widehat{H}(t_2)&\cif t_1 \geq t_2\,,\\
+                \widehat{H}(t_2)\widehat{H}(t_1)&\cif t_2 > t_1\,,
+            \end{cases}
+        \end{gather}
+        the integrals can be rewritten in a more symmetric form:
+        \begin{gather}
+            \widehat{U}(t,t') = 1 - \frac{i}{\hbar}\Int_{t'}^t\widehat{H}(\tau)\,d\tau + \frac{1}{2!}\left(-\frac{i}{\hbar}\right)\Int_{t'}^t\Int_{t'}^{\textcolor{red}{t}}\mathcal{T}\left(\widehat{H}(\tau)\widehat{H}(\tau')\right)\,d\tau'\,d\tau + \cdots\,.
+        \end{gather}
+        By comparing this expression to the series expansion for exponential functions, the following concise formula is obtained:
+        \begin{gather}
+            \widehat{U}(t,t') = \mathcal{T}\exp\left(-\frac{i}{\hbar}\Int_{t'}^t\widehat{H}(\tau)\,d\tau\right)\,.
+        \end{gather}
+        The expression on the right-hand side is called the \textbf{Dyson series}.
+    }
 
 \section{Heisenberg--Born--Jordan picture}
 

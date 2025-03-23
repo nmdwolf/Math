@@ -1,0 +1,316 @@
+\chapter{Noncommutative Geometry}\label{chapter:NCG}
+
+    This chapter heavily uses the concepts introduced in \cref{chapter:nca}.
+
+    \minitoc
+
+\section{Noncommutative measure theory}\label{section:noncommutative_measure_theory}
+
+    In this section, the content of \namecrefs{chapter:measure}~\ref{chapter:measure} and~\ref{chapter:probability} is generalized to noncommutative spaces using the content of \cref{chapter:operator_algebras}. A good reference is~\citet{segal_algebraic_1965}.
+
+    The start is the following observation.
+    \begin{property}
+        Let $X$ be a locally compact Hausdorff space and consider its algebra of functions with compact support $C_c(X)$. By the Riesz--Markov theorem~\ref{distributions:riesz_markov}, the positive linear functionals on this algebra correspond to Radon measures on $X$. The subspace of states then correspond exactly to the probability measures on $X$. Under this identification, the pure states correspond to Dirac measures (evaluation functionals).
+    \end{property}
+
+    This property can be generalized to characterize arbitrary probability spaces.
+    \begin{property}\index{measure}\label{ncg:measure}
+        Let $A$ be a unital commutative algebra and consider a functional $E$ on $A$. Assume, moreover, that the following conditions hold:
+        \begin{enumerate}
+            \item\textbf{Positivity}: $E(a^2)\geq0$.
+            \item\textbf{Nondegeneracy}: $E(a^2)=0\iff a=0$.
+            \item\textbf{Boudnedness}: For any $b\in A$, there exists a constant $\lambda_b\in\mathbb{R}$ such that
+            \begin{gather}
+                E(a^2b) = \lambda_bE(a^2)
+            \end{gather}
+            for all $a\in A$.
+        \end{enumerate}
+        Then, $(A,E)$ is isomorphic to a dense subalgebra of $L^\infty(M)$ for some finite measure space $M$, where the integral operator is given by $E$.
+    \end{property}
+
+    The following result extends the diagonalization property for self-adjoint operators to the infinite-dimensional setting.
+    \begin{result}[Diagonalization]\label{ncg:spectral_resolution}
+        For any bounded self-adjoint operator $Q$ on a Hilbert space $\mathcal{H}$, there exists a unique projection-valued measure $\mu$ on $\mathbb{R}$ such that
+        \begin{gather}
+            Q = \Int_{\mathbb{R}}\lambda\,d\mu\,.
+        \end{gather}
+        Moreover, $\mu$ vanishes outside the spectral radius of $Q$.
+    \end{result}
+
+    \begin{theorem}[Gleason]\index{Gleason}\index{measure}
+        Consider a \textbf{finitely additive measure}\footnote{If this also holds for countable sequences, it is called \textbf{$\sigma$-additive} in analogy with \cref{measure:measure}.} on the von Neumann algebra $\mathcal{B}(\mathcal{H})$, i.e.~a function $\mu$ on the set of orthogonal projections in $\mathcal{B}(\mathcal{H})$ such that
+        \begin{gather}
+            \mu\left(\sum_{i=1}^np_i\right) = \sum_{i=1}^n\mu(p_i)
+        \end{gather}
+        for all $n\in\mathbb{N}$. If $\dim(\mathcal{H})\neq2$, each finitely additive measure can be uniquely extended to a state on $\mathcal{B}(\mathcal{H})$. Moreover, every $\sigma$-additive measure can be uniquely extended to a normal state.
+
+        Conversely, the restriction of every state (resp.~normal state) to the set of orthogonal projections induces a finitely additive (resp.~$\sigma$-additive) measure.
+    \end{theorem}
+
+    By extending \cref{ncg:measure} above, a noncommutative integration theory can be obtained.
+    \newdef{Noncommutative integration algebra}{\index{integral!noncommutative}
+        A unital $*$-algebra $A$ with a functional $E$ on $A$ for which the following conditions hold:
+        \begin{enumerate}
+            \item\textbf{Positivity}: $E(a^*a)\geq0$.
+            \item\textbf{Normality}: $E(a^*a)=E(aa^*)$
+            \item\textbf{Boudnedness}: For any $b\in A$, there exists a constant $\lambda_b\in\mathbb{R}$ such that
+            \begin{gather}
+                E(a^*ba) = \lambda_bE(a^*a)
+            \end{gather}
+            for all $a\in A$.
+        \end{enumerate}
+    }
+
+    \newdef{Distribution}{\index{distribution}\index{measurable}\label{ncg:distribution}
+        Consider a locally convex vector space (\cref{functional:locally_convex}) $V$. A \textbf{predistribution} on $V$ is a linear map from $V^*$ to the space of \textbf{measurables} on a finite measure space $(\Omega,\Sigma,\mu)$, i.e.~the space of equivalence classes of measurable functions modulo null functions.
+
+        A distribution on $V$ is an equivalence class of predistributions, where two distributions $d,d'$ are deemed equivalent if
+        \begin{gather}
+            \bigl(d(x_1),\ldots,d(x_n)\bigr)\overset{d}{=}\bigl(d'(x_1),\ldots,d'(x_n)\bigr)
+        \end{gather}
+        for all $n\in\mathbb{N}$ and random variables $\{x_1,\ldots,x_n\}$.
+    }
+    \begin{remark}
+        For finite-dimensional $V$, this definition is equivalent to the definition of ordinary finite measures. For, infinite-dimensional $V$, however, distributions (as defined here) are strictly more general. Distributions induced by ordinary measures will be called \textbf{strict}. 
+    \end{remark}
+
+    \begin{example}[Normal distribution]\index{distribution!normal}\index{distribution!isonormal}
+        Let $\mathcal{H}$ be a (real) Hilbert space and consider a bounded, positive operator $C$ on $\mathcal{H}$. There exists a unique distribution on $\mathcal{H}$ such that:
+        \begin{itemize}
+            \item $\bigl(d(x_1),\ldots,d(x_n)\bigr)$ are jointly normally distributed for all $n\in\mathbb{N}$ and $x_1,\ldots,x_n\in\mathcal{H}$.
+            \item For all $x\in\mathcal{H}$: $E\bigl(d(x)\bigr)=0$.
+            \item For all $x,y\in\mathcal{H}$: $E\bigl(d(x)d(y)\bigr)=\langle Cx\mid y\rangle$.
+        \end{itemize}
+        Such a distribution is strict if and only if $C\in\mathcal{B}_1(\mathcal{H})$. An important example of nonstrict distributions induced by self-adjoint operators are the \textbf{isonormal distributions}, where $C=\lambda\mathbbm{1}_{\mathcal{H}}$.
+    \end{example}
+
+    The relation between (noncommutative) integration algebras and measure theory is given by the following property.
+    \begin{property}\index{tame}
+        Consider an integration algebra $(A,E)$ such that $E(1)=1$, where $A$ is given by the space of all \textbf{tame functions} on a TVS $V$, i.e.~all functions $f:V\rightarrow\mathbb{R}$ such that
+        \begin{gather}
+            f(x) = F\bigl(\lambda_1(x),\ldots,\lambda_n(x)\bigr)
+        \end{gather}
+        for some $n\in\mathbb{N}$, $\{\lambda_1,\ldots,\lambda_n\}\subset V^*$ and Borel-measurable $F:\mathbb{R}^n\rightarrow\mathbb{R}$. There exists a (pre)distribution $d$ on $V$ with respect to some measure space $(\Omega,\Sigma,\mu)$ such that:
+        \begin{itemize}
+            \item $d$ extends to a $\ast$-morphism from $A$ mapping a tame function $f$ to
+            \begin{gather}
+                d(f) := F\bigl(d(\lambda_1),\ldots,d(\lambda_n)\bigr)\,.
+            \end{gather}
+            \item $E(f)=\Int_\Omega d(f)\,d\mu$.
+        \end{itemize}
+        Moreover, $\Omega$ can be chosen such that $d(A)$ is dense in $L^p(\Omega)$. Up to isomorphism, this choice is unique.
+    \end{property}
+
+    \newdef{Random variable}{\index{random!variable}
+        Consider a predistribution $d$ (with respect to a measure space $\Omega$) extended to a $\ast$-morphism on the space $A$ of tame functions on some TVS $V$. The space of random variables $M(V,d)$ is defined as the minimal subspace of measurables on $\Omega$ that contains $d(A)$ and is closed with respect to (sequential) pointwise a.e.~limits.
+    }
+
+\section{Quantum geometry}\index{quantum!geometry}
+
+    \newdef{Quantum metric}{\index{metric!quantum}
+        Consider an FODC $(A,\Gamma)$ as in \cref{nca:fodc}. A \textbf{generalized inner-product} is a bimodule morphism $\langle\cdot\mid\cdot\rangle:\Gamma\otimes\Gamma\rightarrow A$. A (quantum or \textbf{generalized}) metric with respect to an inner product $\langle\cdot\mid\cdot\rangle$ is an element $g\in\Gamma\otimes\Gamma$ such that
+        \begin{gather}
+            \langle\omega\mid\cdot\rangle\otimes\mathbbm{1}(g) = \omega = \mathbbm{1}\otimes\langle\cdot\mid\omega\rangle(g)
+        \end{gather}
+        for all $\omega\in\Gamma$. This condition represents the invertibility of the metric.
+    }
+
+    \newdef{Connection}{\index{connection}\index{curvature}\index{torsion}
+        Let $(\Omega^\bullet,\dr)$ be a differential calculus on an associative algebra $A$. A connection on a left $A$-module $\Gamma$ is a linear map
+        \begin{gather}
+            \nabla:\Gamma\rightarrow\Omega^1\otimes_A\Gamma
+        \end{gather}
+        such that
+        \begin{gather}
+            \nabla(a\omega) = \dr a\otimes_A\omega+a\nabla\omega\,.
+        \end{gather}
+        By the graded Leibniz rule, this extends to a linear map on all of $\Omega^\bullet\otimes_A\Gamma$. The \textbf{curvature} of $\nabla$ is given by $\nabla^2$.
+
+        If $\Gamma=\Omega^1$, one speaks of a linear connection. In this case, one can also define the \textbf{torsion} of the connection:
+        \begin{gather}
+            T:=\dr-\pi\circ\nabla\,,
+        \end{gather}
+        where $\pi:\Omega^1\otimes_A\Omega^1\rightarrow\Omega^2$ is the canonical projection. Although notions such as the Ricci tensor do not extend to the noncommutative setting, both the Cartan and Bianchi identities do.
+    }
+
+    \begin{property}[Existence]\label{hdg:connection_existence}
+        A connection on a finite-rank module $P$ for the universal differential calculus $\Omega^\bullet(A)$ exists if and only if the module is projective. An explicit form is given by
+        \begin{gather}
+            \nabla = p\circ\dr\,,
+        \end{gather}
+        where $p:A\rightarrow P$ is the canonical projection.
+    \end{property}
+
+    \begin{example}\index{Connes!differential calculus}
+        Let $A$ be a $C^*$-algebra (\cref{operators:c_star}). By the Gel'fand--Naimark theorem~\ref{operators:gelfand_naimark}, there exists a representation $\rho:A\rightarrow\mathcal{B}(\mathcal{H})$ on a Hilbert space $\mathcal{H}$. If there exists an operator $D\in\mathcal{B}(\mathcal{H})$ such that $[D,\rho(A)]\subseteq\mathcal{B}(\mathcal{H})$, there exists an induced representation of the universal exterior algebra (\cref{nca:prolongation}):
+        \begin{gather}
+            \widetilde{\rho}:\Omega^\bullet(A)\rightarrow\mathcal{B}(\mathcal{H}):a_0\dr a_1\otimes\cdots\otimes\dr a_n\mapsto\rho(a_0)[D,\rho(a_1)]\cdots[D,\rho(a_n)]\,.
+        \end{gather}
+        The problem here is that $\widetilde{\rho}(a)=0$ need not imply that $\widetilde{\rho}(\dr a)=0$. One can, however, obtain a smaller differential calculus by modding out the differential ideal generated by the kernel of this action:
+        \begin{gather}
+            \widetilde{\Omega}^\bullet(A):=\Omega^\bullet(A)/\{\ker(\widetilde{\rho})+\dr\ker(\widetilde{\rho})\}\,.
+        \end{gather}
+        \textit{Connes} proved that if $A=C^\infty(M)$ for some Riemannian manifold $M$, with $D$ the associated Dirac operator, then $\widetilde{\Omega}^\bullet(A)$ is the exterior complex of differential forms. For this reason, the above differential calculus is often called \textbf{Connes' differential calculus}.
+    \end{example}
+    \begin{formula}\index{gauge!field}
+        Recall \cref{hdg:connection_existence} above. If $P$ is finite rank and projective, there exists a canonical connection $p\circ\dr$ with respect to the universal differential calculus. By postcomposition with the projection to Connes' differential calculus, one obtains a new connection $\nabla_0$. For any $A$-module morphism $\alpha:P\rightarrow P\otimes_A\widetilde{\Omega}^1(A)$, one obtains a new connection:
+        \begin{gather}
+            \nabla := \nabla_0+\alpha\,.
+        \end{gather}
+        The morphism $\alpha$ is often called a (noncommutative) \textbf{gauge field}.
+    \end{formula}
+
+\section{Spectral geometry}
+
+    In this section, the work of \textit{Connes} and others is introduced. Here, the structure of a (compact) Riemannian manifold is completely encoded in the algebraic data of a commutative algebra and a linear `Dirac' operator. By generalizing the algebraic properties, one can obtain noncommutative geometries.
+
+    \newdef{Spectral triple}{\index{spectral!triple}\label{ncg:spectral_triple}
+        A triple $(A,\mathcal{H},D)$ where
+        \begin{enumerate}
+            \item $\mathcal{H}$ is a separable Hilbert space,
+            \item $A$ is a $\ast$-subalgebra of $\mathcal{B}(\mathcal{H})$ or, more generally, a $\ast$-algebra with a faithful $\ast$-representation $\pi:A\rightarrow\mathcal{B}(\mathcal{H})$, and
+            \item $D$ is an (unbounded) self-adjoint operator on $\mathcal{H}$
+        \end{enumerate}
+        that satisfy the following conditions:
+        \begin{enumerate}
+            \item\textbf{Closure}: $[D,A]\subseteq\mathcal{B}(\mathcal{H})$.
+            \item\textbf{Compact resolvent}: The resolvent $(\pi(a)D)_\lambda$ is compact for all $a\in A,\lambda\in\mathbb{C}\backslash\mathbb{R}$. If $A$ is unital, this only has to be checked for $D$ itself.
+            \item\textbf{Chirality\footnote{One sometimes makes a difference between \textbf{even} and \textbf{odd} spectral triples based on the validity of this axiom.}}: There exists a grading $\gamma$, turning $\mathcal{H}$ into a super-Hilbert space, such that
+                \begin{gather}
+                    [\gamma,A] = 0\qquad\qquad\{\gamma,D\}_+=0\,.
+                \end{gather}
+        \end{enumerate}
+    }
+    \begin{remark}[Connes axioms]
+        The conditions in the previous definition are often extended by the following list of 8 axioms that generalize the behaviour of the `ordinary' Dirac operator:
+        \begin{enumerate}
+            \item\textbf{Finite summability}: The operator $|D|^{-1}$, where $|D|$ is obtained by a polar decomposition, is compact. Moreover, one requires that there exists a number $p\in\mathbb{N}$ such that the spectrum goes as $O(n^{-1/p})$. Equivalently, there exists an integer $n\in\mathbb{N}$ such that the Dixmier trace (\cref{operators:dixmier_trace}) of $|D|^{-n}$ is finite and nonzero. The smallest such integer is called the \textbf{dimension} of the spectral triple.
+            \item\textbf{First-order}: $[[D,A],A]=0$.
+            \item\textbf{Strong regularity}: On $\mathcal{B}(\mathcal{H})$, define the operator
+            \begin{gather}
+                \delta:T\mapsto[|D|,T]
+            \end{gather}
+            and consider the spaces
+            \begin{gather}
+                \mathcal{H}^\infty:=\bigcap_{i=1}^{+\infty}\dom(D^i)\qquad\qquad\mathcal{B}^\infty(\mathcal{H}):=\bigcap_{i=1}^{+\infty}\dom(\delta^i)\,.
+            \end{gather}
+            The spectral triple is said to be strongly regular if $A$, $[D,A]$ and $\End(\mathcal{H}^\infty)$ lie in $\mathcal{B}^\infty(\mathcal{H})$. If only the first two algebras satisfy this property, then the spectral triple is only said to be \textbf{regular}. Restricting to this subspace is similar to restricting to Sobolev spaces in the study of PDEs.
+            \item\textbf{Orientability}: Recall the definition of Hochschild homology (\cref{algebra:hochschild_homology}). By regularity, there exists an induced representation
+            \begin{gather}
+                \pi_H:HC_n(A)\rightarrow\mathcal{B}(\mathcal{H}):a_0\otimes\cdots\otimes a_n\mapsto a_0[D,a_1]\cdots[D,a_n]\,.
+            \end{gather}
+            The spectral triple is said to be orientable if there exists an antisymmetric Hochschild $p$-cycle $\chi$, where $p\in\mathbb{N}$ is the dimension of the spectral triple, such that $\gamma=\pi_H(\chi)$. This is sometimes called the \textbf{noncommutative volume form}. (For odd spectral triples, one requires the image of this Hochschild cycle to be 1.)\index{volume!form}
+            \item\textbf{Charge conjugation}: There exists an antiunitary operator $C\in\End(\mathcal{H})$ such that
+            \begin{gather}
+                C^2=\pm1\qquad\qquad CD=\pm DC\qquad\qquad C\gamma=\pm\gamma C\,,
+            \end{gather}
+            where the three signs depend on the dimension of the spectral triple. Moreover, one requires that $a=Ca^*C^{-1}$ for all $a\in A$. The dependence on the dimension is given by the following table (dimensions mod 8):\footnote{This is related to the notion of $K\!O$-dimension in (real) $K$-theory.}
+            \begin{center}
+                \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+                    \hline
+                    $n$&0&1&2&3&4&5&6&7\\
+                    \hline
+                    $C^2$&$+$&$+$&$-$&$-$&$-$&$-$&$+$&$+$\\
+                    \hline
+                    $D$&$-$&$+$&$-$&$-$&$-$&$+$&$-$&$-$\\
+                    \hline
+                    $\gamma$&$-$&&$+$&&$-$&&$+$&\\
+                    \hline
+                \end{tabular}
+            \end{center}
+            \item\textbf{Irreducibility}: There exists no nontrivial projection on $\mathcal{H}$ that commutes with $A,D,C$ or $\gamma$.
+            \item\textbf{Finiteness}: $\mathcal{H}^\infty$ is a finitely generated, projective (right) $A$-module.
+            \item\textbf{Absolute continuity}: Consider two elements $v,w\in\mathcal{H}^\infty$ and an operator $a\in A$.
+                \begin{gather}
+                    \langle v\mid w \rangle_{\mathcal{H}} = \Int\langle v\mid w \rangle_A\,,
+                \end{gather}
+                where
+                \begin{gather}
+                    \Int:A\rightarrow\mathbb{C}:a\mapsto\tr_{\mathfrak{D}}(a|D|^{-p})
+                \end{gather}
+                is the `noncommutative integral' induced by the Dixmier trace (\cref{operators:dixmier_trace}) ($a|D|^{-p}$ is measurable for all $a\in A$) and
+                \begin{gather}
+                    \langle v\mid w \rangle_A := \sum_{i,j} v^*_ip_{ij}w_j
+                \end{gather}
+                for $p$ the projection characterizing $\mathcal{H}^\infty$. This condition relates the inner product on $\mathcal{H}$ and the (pre-)Hilbert $A$-module structure on $\mathcal{H}^\infty$.
+        \end{enumerate}
+        \todo{COMPLETE}
+    \end{remark}
+
+    \begin{example}[Spin manifolds]
+        The above 8 axioms admit a reasonable interpretation in the case of a spin manifold $M$, its algebra of smooth functions $C^\infty(M)$ and the Dirac operator (\cref{riemann:dirac_operator}) on its spinor bundle.
+        \begin{itemize}
+            \item The Hilbert space $\mathcal{H}^\infty$ is given by the square-integrable sections of the spinor bundle on $M$.
+            \item The action of the Dirac operator on a smooth function is again a smooth function and, hence, commutes with all of $C^\infty(M)$.
+            \item The noncommutative volume form is given by the chirality operator $\gamma\sim\prod_{i=1}^p\gamma^i$, where $\gamma^i$ are the Clifford generators.
+            \item Irreducibility corresponds to $M$ being connected.
+            \item By the Serre--Swan theorem~\ref{bundle:serre_swan}, $\mathcal{H}^\infty$ being a finitely generated, projective module implies that it is a vector bundle over $M$.
+            \item The absolute continuity simply states that the restriction of the inner product to $\mathcal{H}^\infty$ is given by first taking the fibrewise pairing of a spinor and a cospinor and then integrating the resulting function over all of $M$.
+        \end{itemize}
+        \todo{COMPLETE}
+    \end{example}
+    \begin{example}[Hodge theory]
+        Another example of a spectral triple, where the underlying manifold does not have to be spin, is given by Hodge theory. On every Riemannian manifold, there exists a first-order operator
+        \begin{gather}
+            D:=\dr+\delta\,.
+        \end{gather}
+        This is the Hodge--de Rham operator (\cref{riemann:hodge_laplacian}).
+    \end{example}
+
+    \begin{construct}[Connes' reconstruction theorem]\index{Connes!reconstruction theorem}
+        Let $(A,\mathcal{H},D)$ be a commutative spectral triple, i.e.~a spectral triple for which $A$ is commutative. Let $p\in\mathbb{N}$ be the dimension of the spectral triple. If the spectral triple satisfies the 8 axioms above, the following properties hold:
+        \begin{itemize}
+            \item The Gel'fand spectra of $A$ and of its (norm-)closure $\overline{A}$ coincide. Denote this set by $M$.
+            \item There exists a cover $\{U_i\}_{i\in I}$ of $M$ such that for every covering set $U_i$ there exist $p$ self-adjoint elements $\{x^\mu_i\}_{\mu\leq p}\subset A$ such that the map
+            \begin{gather}
+                \widehat{x}_i:=(\widehat{x}^1_i,\ldots,\widehat{x}^p_i):U_i\rightarrow\mathbb{R}^p\,,
+            \end{gather}
+            where $\widehat{x}$ denotes the Gel'fand transformation of $x$, is a local homeomorphism.
+            \item There exists a smooth family $\tau:\mathbb{R}^p\rightarrow\Aut(A):v\mapsto\tau_v$, with $\tau_0=\mathbbm{1}_A$, such that for all $\chi\in M$ the function $\chi\circ\tau:\mathbb{R}^p\rightarrow M$ is a homeomorphism on some neighbourhood of 0 and for all $i\in I$ the function $\widehat{x}_i\circ\chi\circ\tau:\mathbb{R}^p\rightarrow\mathbb{R}^p$ is a local diffeomorphism.
+            \item If $\{a_1,\ldots,a_n\}\subset A$ are self-adjoint and $f:\mathbb{R}^p\rightarrow\mathbb{C}$ is smooth, then the image of $f|_\Delta$, where $\Delta$ is the joint spectrum of $\{a_1,\ldots,a_n\}$, under the Gel'fand isomorphism is again an element of $A$. It will be denoted by $f(a_1,\ldots,a_n)$.
+            \item There exists a `smooth' partition of unity $\{\psi_j\}_{j\in J\subset I}\subset A$ subordinate to any cover of $M$.
+        \end{itemize}
+        Then $M$ is a smooth, compact $p$-dimensional manifold and $A\cong C^\infty(M)$ as $\ast$-algebras.
+
+        The coordinate functions on $M$ can be derived from the noncommutative volume form $\chi\in HC_n(A)$.
+
+        \todo{COMPLETE}
+    \end{construct}
+
+    \begin{formula}[Distance]\index{distance}
+        Let $(A,\mathcal{H},D)$ be a spectral triple such that
+        \begin{gather}
+            \{a\in A\backslash\mathbb{C}\mid\|[D,a]\|\leq1\}
+        \end{gather}
+        is norm-bounded in $\overline{A}\backslash\mathbb{C}$. Then
+        \begin{gather}
+            d(\phi,\psi) := \sup\bigl\{|\phi(a)-\psi(a)|\bigm\vert a\in A:\|[D,a]\|\leq 1\bigr\}
+        \end{gather}
+        defines a metric on the space of pure states on $\overline{A}$. This is a generalization of the \textit{Monge--Kantorovich distance} on probability measures.
+    \end{formula}
+    \begin{remark}
+        For the canonical spectral triple on a compact spin manifold, the above distance coincides with the geodesic distance.
+    \end{remark}
+
+    \begin{property}[Fredholm modules]
+        When $(A,\mathcal{H},D)$ is a spectral triple, the operator $D|D|^{-1}$ satisfies the properties of a Fredholm module (\cref{operators:fredholm_module}). This module is even (resp.~odd) when the spectral triple is even (resp.~odd).
+    \end{property}
+
+\section{Dunkl operators}
+
+    Let $G$ be a Coxeter group (\cref{lie:coxeter_group}) with root system $\Phi$ over the space $\mathbb{R}^n$. A function $m:\Phi\rightarrow\mathbb{C}$ is called a \textbf{multiplicity (function)} if $m(\alpha)=m(\beta)$ whevener $\sigma_\alpha$ and $\sigma_\beta$ are conjugate elements in $G$.
+
+    \newdef{Dunkl operator}{\index{Dunkl operator}
+        Let $m$ be a multiplicity on $G$. The Dunkl operators $T_i:C^1(\mathbb{R}^n)\rightarrow C^0(\mathbb{R}^n)$ are defined as follows:
+        \begin{gather}
+            T_if(x) := \partial_if(x) + \sum_{\alpha\in\Phi^+}m(\alpha)\frac{f(x)-f(\sigma_\alpha x)}{\langle\alpha\mid x\rangle}\langle\alpha\mid e_i\rangle\,,
+        \end{gather}
+        where $e_i$ is the $i^{\text{th}}$ basis element of $\mathbb{R}^n$.
+    }
+
+    \begin{property}[Commutativity]
+        For all $i,j\leq n$ the following property holds:
+        \begin{gather}
+            T_iT_jf = T_jT_if\,.
+        \end{gather}
+    \end{property}

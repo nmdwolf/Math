@@ -4,7 +4,7 @@
 
     \minitoc
 
-\section{Functionals}
+\section{Distributions}
 
 	\newdef{Distribution}{\index{distribution}\index{generalized!function}\index{bump function}\index{test!function|see{bump function}}\label{distribution:distribution}
 		The space of distributions or \textbf{generalized functions} on an open set $U\subset\mathbb{R}^n$ is defined as the set of continuous linear functionals on $\mathcal{D}(U):=C^\infty_c(U)$, the space of smooth functions with compact support (also called \textbf{bump functions} or \textbf{test functions}).
@@ -153,7 +153,7 @@
         From this definition, it follows that for every $f\in\mathcal{D}(U)$:
        	\begin{gather}
        		\label{distribution:heaviside_function_integral}
-			\langle H,f \rangle = \Int_0^\infty f(x)\,dx\,.
+			\langle H,f \rangle = \Int_0^{+\infty}f(x)\,dx\,.
 		\end{gather}
 	}
 
@@ -162,7 +162,7 @@
         \begin{align*}
 			\langle \delta,f \rangle&:=\langle H',f \rangle\\
        		&=-\langle H,f' \rangle\\
-			&=-\ds\Int_0^\infty f'(x)\,dx\\
+			&=-\ds\Int_0^{+\infty}f'(x)\,dx\\
        		&=f(0)\,.
 		\end{align*}
 	}
@@ -203,10 +203,26 @@
     \begin{example}[Principal value]\index{principal!value}
         The function $\frac{1}{x}$ is clearly not integrable on $\mathbb{R}$. However, its Cauchy principal value exists. This procedure also defines a distribution:
         \begin{gather}
-            \left\langle\mathcal{P}\frac{1}{x},f\right\rangle := \lim_{\varepsilon\downarrow0}\Int_\varepsilon^\infty\frac{f(x)-f(x^-)}{x}\,dx.
+            \left\langle\mathcal{P}\frac{1}{x},f\right\rangle := \lim_{\varepsilon\downarrow0}\Int_\varepsilon^{+\infty}\frac{f(x)-f(x^-)}{x}\,dx.
         \end{gather}
         Moreover, this is the distributional derivative of $\ln|x|$.
     \end{example}
+
+    \begin{formula}\label{distribution:delta_equation}
+        Consider a polynomial $P(x)\in\mathbb{C}[x]$. Over $L^1$ (or any ordinary function space), the following equation would not have any solutions:
+        \begin{gather}
+            P(x)f(x) = 0\,,
+        \end{gather}
+        i.e.~the kernel of the multiplication operator by $P(x)$ is trivial. However, when passing to distributions $\phi\in\mathcal{D}'$, the situation changes. Over $\mathbb{C}$, $P$ splits and, hence, one obtains the following equation:
+        \begin{gather}
+            (x-\lambda_i)^{k_i}\cdots(x-\lambda_n)^{k_n}\phi = 0\,.
+        \end{gather}
+        for some $n,k_1,\ldots,k_n\in\mathbb{N}$ and $\lambda_1,\ldots,\lambda_n\in\mathbb{C}$. The solution space is spanned by the following distributions:
+        \begin{gather}
+            \phi\in\mathrm{span}_{\mathbb{C}}\left\{\delta(x-\lambda_1),\ldots,\delta^{(k_1)}(x-\lambda_1),\ldots,\delta(x-\lambda_n),\ldots,\delta^{(k_n)}(x-\lambda_n)\right\}\,,
+        \end{gather}
+        i.e.~it is spanned by delta distributions at the roots of the polynomial (and their derivatives up to order one less than the mulitplicity of the roots).
+    \end{formula}
 
 \subsection{Growth rates}
 
@@ -360,12 +376,12 @@
     The Fourier series can be used to expand a $2l$-periodic function as an infinite series of exponentials. However, to expand a nonperiodic function $f\in L^1(\mathbb{R})$, one needs the integral Fourier transform.\footnote{All functions are required to be Lebesgue-integrable to make the integrals converge. Weaker conditions are possible (see the literature).}
     \begin{gather}
         \label{distributions:fourier}
-        \mathcal{F}\!f(\omega) := \frac{1}{\sqrt{2\pi}}\Int_{\mathbb{R}}f(t)e^{-i\omega t}\,dt\,.
+        \mathcal{F}\!f(k) := \frac{1}{\sqrt{2\pi}}\Int_{\mathbb{R}}f(x)e^{-ikx}\,dx\,.
     \end{gather}
     The inverse transform, if it exists, is given by
     \begin{gather}
         \label{distributions:inverse_fourier}
-        f(t) = \mathcal{F}^{-1}(\mathcal{F}\!f)(t) = \frac{1}{\sqrt{2\pi}}\  \mathcal{P}\Int_{\mathbb{R}}\mathcal{F}\!f(\omega)e^{i\omega t}\,d\omega\,.
+        f(x) = \mathcal{F}^{-1}(\mathcal{F}\!f)(x) = \frac{1}{\sqrt{2\pi}}\ \mathcal{P}\Int_{\mathbb{R}}\mathcal{F}\!f(k)e^{ikx}\,dk\,.
     \end{gather}
     \Cref{distributions:fourier} is called the (forward) Fourier transform of $f$ and \cref{distributions:inverse_fourier} is called the inverse Fourier transform. The pair $(f,\mathcal{F}\!f)$ is called a \textbf{Fourier transform pair}.
     \begin{notation}
@@ -455,7 +471,7 @@
         \end{gather}
         for all vectors $w\in\Gamma$ in a conical neighbourhood (see \cref{functional:locally_convex}) of $v$ and all \textbf{cut-off functions} $\eta$, i.e.~functions that are equal to 1 on a compact neighbourhood of $x$ and equal to 0 outside of some larger compact set.
 
-        This definition says that the singular fibre of a distribution at some point contains those directions such that the Fourier distribution (localized around the point) becomes singular in the given direction and, hence, indicates that the function is not smooth along these directions.
+        This definition says that the singular fibre of a distribution at some point contains those directions in which the Fourier distribution (localized around the point) becomes singular and, hence, indicates that the function is not smooth along these directions.
     }
     \begin{property}
         The singular fibre is itself a conical subset.

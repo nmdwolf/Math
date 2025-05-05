@@ -6,7 +6,7 @@
 
 \section{Gauge invariance}
 
-    Consider a general Lie group $G$, often called the \textbf{gauge group}, acting on a vector bundle $E$ with typical fibre $\mathcal{H}$ over a base manifold $M$. This bundle is, in general, obtained as a bundle associated to the frame bundle $FM$. Locally, a general gauge transformation has the form
+    Consider a general Lie group $G$, often called the \textbf{gauge group}, acting on a vector bundle $E$ with typical fibre $\mathcal{H}$ over a base manifold $M$ (be wary of \cref{bundle:vertical_automorphism}). This bundle is, in general, obtained as a bundle associated to the frame bundle $FM$. Locally, a general gauge transformation has the form
     \begin{gather}
         \label{gauge:gauge_transformation}
         \psi'(x) = U(x)\psi(x)\,,
@@ -24,17 +24,17 @@
     \newdef{Covariant derivative}{\index{covariant!derivative}\index{minimal!coupling}
         When gauging a symmetry group, the ordinary partial derivatives are replaced by the covariant derivative
         \begin{gather}
-            \mathcal{D}_\mu = \partial_\mu + igB_\mu(x)\,,
+            \Dr_\mu = \partial_\mu + igB_\mu(x)\,,
         \end{gather}
-        where $B_\mu:M\rightarrow\mathbb{R}$ are the coefficients of the gauge field with respect to a chosen basis of $\mathfrak{g}$. This procedure is called \textbf{minimal coupling}. It should be noted that the explicit action of the covariant derivative depends on the chosen representation of $\mathfrak{g}$ (or $G$) on $\mathcal{H}$. Furthermore, one should pay attention to the fact that the physicist convention was used, where one multiplies the gauge field $B$ by a factor $ig$.\footnote{The imaginary unit turns anti-Hermitian fields into Hermitian fields.}
+        where $B_\mu:M\rightarrow\mathbb{R}$ are the coefficients of the gauge field with respect to a chosen basis of $\mathfrak{g}$. This procedure is called \textbf{minimal coupling} (conform \cref{qm:minimal_coupling}). It should be noted that the explicit action of the covariant derivative depends on the chosen representation of $\mathfrak{g}$ (or $G$) on $\mathcal{H}$. Furthermore, one should pay attention to the fact that the physicist convention was used, where one multiplies the gauge field $B$ by a factor $ig$.\footnote{The imaginary unit turns anti-Hermitian fields into Hermitian fields.}
     }
 
-    So, to achieve gauge invariance, one should replace all derivatives by covariant derivatives. However, for this to be a well-defined operation, one should check that the covariant derivative itself satisfies the local gauge principle, i.e.~$\mathcal{D}'\psi'=U\mathcal{D}\psi$ (from here on the coordinate-dependence of all fields will be suppressed).
+    So, to achieve gauge invariance, one should replace all derivatives by covariant derivatives. However, for this to be a well-defined operation, one should check that the covariant derivative itself satisfies the local gauge principle, i.e.~$\Dr'\psi'=U\Dr\psi$ (from here on the coordinate-dependence of all fields will be suppressed).
     \begin{align}
         U^{-1}\left(\pderiv{}{x^\mu} + igB_\mu'\right)\psi' &= U^{-1}\left(\pderiv{}{x^\mu} + igB_\mu'\right)U\psi\nonumber\\
         &= U^{-1}\pderiv{U}{x^\mu}\psi + \pderiv{\psi}{x^\mu} + igU^{-1}B_\mu'U\psi\,.
     \end{align}
-    This expression can only be equal to $\mathcal{D}\psi$ if
+    This expression can only be equal to $\Dr\psi$ if
     \begin{gather}
         igB_\mu = U^{-1}\pderiv{U}{x^\mu} + igU^{-1}B_\mu'U\,,
     \end{gather}
@@ -49,13 +49,67 @@
     Up to scale conventions, this is exactly the content of \cref{bundle:local_compatibility} and \cref{bundle:mc_pullback} appearing in the study of principal connections. This should not come as a surprise, since the physical fields are sections of associated vector bundles and, hence, the principal bundle structure lurks in the background. Adding interactions is mathematically equivalent to coupling the space(time) manifold to a principal bundle.
 
     \begin{example}[QED]
-        For quantum electrodynamics, which has $\mathrm{U}(1)\cong S^1$ as its gauge group, the parametrization $U(x)=e^{ie\chi(x)}$ is used with $\chi:\mathbb{R}^n\rightarrow\mathbb{R}$. Minimal coupling leads to
+        For quantum electrodynamics, which has $\mathrm{U}(1)\cong S^1$ as its gauge group, the parametrization $U(x)=e^{iq\chi(x)}$ is used with $\chi:\mathbb{R}^n\rightarrow\mathbb{R}$. Minimal coupling leads to
         \begin{align}
-            \partial_\mu &\longrightarrow\mathcal{D}_\mu = \partial_\mu + ieA_\mu\,,\\
+            \partial_\mu &\longrightarrow\Dr_\mu = \partial_\mu + iqA_\mu\,,\\
             A_\mu &\longrightarrow A_\mu' = A_\mu - \partial_\mu\chi\,,
         \end{align}
         where $A_\mu$ is the classic electromagnetic potential. These are the formulas introduced in \cref{chapter:em}.
     \end{example}
+
+\section{Yang--Mills theory}\index{Yang--Mills theory}
+\subsection{Yang--Mills equations}
+
+    The general Yang--Mills Lagrangian for a compact gauge group $G$ (in vacuum) reads as follows:
+    \begin{gather}
+        \label{gauge:YM_lagrangian}
+        \mathcal{L}_{\text{YM}}[A] := -\frac{1}{4}\langle F,F\rangle = -\frac{1}{4}\Int_M\tr(F\wedge\ast F) = -\frac{1}{4}\Int_MF_{\mu\nu}F^{\mu\nu}
+    \end{gather}
+    for some curvature 2-form $F\in\Omega^2(M;\ad(P))$ as defined through \cref{bundle:cartan_structure_equation}. In the above equation, $\langle\cdot,\cdot\rangle$ combines integration over $M$ and the Killing form (\cref{lie:killing_form}) on $\mathfrak{g}$.
+
+    The variational principle leads to the following equations of motion:
+    \begin{gather}
+        \label{gauge:YM_equation}
+        \mathrm{D}_A\ast F = 0\,,
+    \end{gather}
+    where $D_A$ is the exterior covariant derivative (\cref{section:exterior_covariant_derivative}). WIth the notation $\widetilde{F}:=\ast F$ (common in physics), the Yang--Mills equations can be written more explicitly as
+    \begin{gather}
+        \dr\widetilde{F} + A\barwedge\widetilde{F} = 0\,.
+    \end{gather}
+
+    By taking the Hodge dual of this expression, the following local coordinate expression can be found:
+    \begin{gather}
+        \partial_\mu F^{\mu\nu} + [A_\mu,F^{\mu\nu}] = 0\,.
+    \end{gather}
+    
+    \begin{example}[QED]
+        Consider the case $G=\mathrm{U}(1)$ as in the previous section. Since this group is Abelian, the second term in the Yang--Mills equation vanishes and one obtains
+        \begin{gather}
+            \partial_\mu F^{\mu\nu} = 0\,,
+        \end{gather}
+        Together with the second Bianchi identity (\cref{bundle:second_bianchi_identity}), this gives the Maxwell equations (\cref{section:maxwell_equations}) in disguise, conform \cref{section:diffgeom_electromagnetism}.
+    \end{example}
+
+    \todo{COMPLETE}
+
+\subsection{Currents and matter coupling}
+
+    For most purposes (such as the Standard Model), one wants to couple the gauge fields to matter. Matter fields are given by sections of associated bundles: $\phi\in\Gamma(P\times_\rho V)$. The kinematic matter Lagrangian is given by
+    \begin{gather}
+        \mathcal{L}_{\text{matter}}[\phi] := \langle\mathrm{D}\phi,D\phi\rangle\,.
+    \end{gather}
+    The resulting Euler--Lagrange equation is a generalization of the Laplace equation:
+    \begin{gather}
+        \mathrm{D}\ast\mathrm{D}\phi\,.
+    \end{gather}
+
+    If the full Lagrangian $\mathcal{L}[A,\phi]:=\mathcal{L}_{\text{YM}}[A]+\mathcal{L}_{\text{matter}}[\phi]$ is used, the Yang--Mills equation~\eqref{gauge:YM_equation} gets modified by a matter term:
+    \begin{gather}
+        \mathrm{D}\ast F + \ast[A,\ast\mathrm{D}\phi]=0\,.
+    \end{gather}
+    These are also sometimes called the \textbf{Yang--Mills--Higgs equations}.\index{Yang--Mills--Higgs equations}
+
+    \todo{ADD gerbes for magnetic currents}
 
 \section{Spontaneous symmetry breaking}
 
@@ -149,32 +203,69 @@
     \begin{gather}
         A_\mu = ig(x)\partial_\mu g^{-1}(x)
     \end{gather}
-    for some smooth function $g:\mathbb{R}^n\rightarrow G$. To obtain a finite (Euclidean) action, $g$ should be a constant at infinity and, hence, we obtain a map $g:S^n\rightarrow G$ from the compactification of spacetime to the model Lie group. It follows that the vacua of such a theory are classified by $\pi_n(G)$. For example, when working with $G=\mathrm{SU}(2)$ in the \textit{temporal gauge} such that $n=3$, the vacua are classified by their Pontryagin index (or \textbf{winding number}) since $\pi_3(S^3)\cong\mathbb{Z}$.\footnote{In fact, this holds for all $\mathrm{SU}(N)$ with $N\geq2$ as the homotopy group $\pi_3$ stabilizes at $N=2$.}\index{Pontryagin!index}\index{winding number}\index{gauge!temporal} If the total gauge group were connected, the winding number of a vacuum would be fixed. However, in general, large gauge transformations can map vacua with different winding numbers into each other. These vacua are also called \textbf{topological vacua}.\index{vacuum!topological}
+    for some smooth function $g:\mathbb{R}^n\rightarrow G$. To obtain a finite (Euclidean) action, $g$ should be a constant at infinity and, hence, we obtain a map $g:S^n\rightarrow G$ from the compactification of spacetime to the model Lie group. It follows that the vacua of such a theory are classified by $\pi_n(G)$. For example, when working with $G=\mathrm{SU}(2)$ in the \textit{temporal gauge} such that $n=3$, the vacua are classified by their Pontryagin index (or \textbf{winding number}) since $\pi_3(S^3)\cong\mathbb{Z}$.\footnote{In fact, this holds for all $\mathrm{SU}(N)$ with $N\geq2$ since the homotopy groups $\pi_3(\mathrm{SU}(N))$ stabilize at $N=2$.}\index{Pontryagin!index}\index{winding number}\index{gauge!temporal} If the total gauge group were connected, the winding number of a vacuum would be fixed. However, in general, large gauge transformations can map vacua with different winding numbers into each other. These vacua are also called \textbf{topological vacua}.\index{vacuum!topological}
 
-    \todo{COMPLETE (e.g. Witten effect)}
+    \todo{COMPLETE (e.g.~Witten effect)}
 
 \subsection{Instantons}\index{instanton}
 
-    Consider the topological vacua $|n\rangle$  from the previous section. Since large gauge transformations do not preserve the winding number, these vacua are not gauge invariant and, accordingly, are not proper vacua. The solution is to take a coherent superposition:
+    Consider the topological vacua $\ket{n}$  from the previous section. Since large gauge transformations do not preserve the winding number, these vacua are not gauge invariant and, accordingly, are not proper vacua. The solution is to take a coherent superposition:
     \begin{gather}
-        |\theta\rangle := \sum_{n\in\mathbb{Z}}e^{in\theta}|n\rangle\,,
+        \ket{\theta} := \sum_{n\in\mathbb{Z}}e^{in\theta}\ket{n}\,,
     \end{gather}
     with $\theta\in[0,2\pi[$. These vacua, which are gauge invariant, are called \textbf{$\theta$-vacua}.\index{vacuum!$\theta$} It should be noted that states with different values of $\theta$ belong to different superselection sectors.
     
-    The different topological vacua are also connected by so-called \textbf{instanton solutions}, i.e.~solutions with finite (Euclidean) action. Instantons that connect vacua $|n\rangle$ to $|n\pm1\rangle$ are called \textbf{Belavin--Polyakov--Schwarz--Tyupkin (BPST) instantons}.\index{instanton!BPST}
+    The different topological vacua are also connected by so-called \textbf{instanton solutions}, i.e.~solutions with finite (Euclidean) action. Instantons that connect vacua $\ket{n}$ to $\ket{n\pm1}$ are called \textbf{Belavin--Polyakov--Schwarz--Tyupkin (BPST) instantons}.\index{instanton!BPST}
 
-    The Pontryagin index in the previous section can also be expressed as the second Chern number (cf.~\cref{bundle:chern_class}) when regarding the instantons as solutions and, hence, principal $\mathrm{SU}(2)$-bundles over compactified spacetime $S^4$:
+    Since the Lie algebra $\mathfrak{su}(2)$ consists of traceless matrices, \cref{bundle:pontryagin_chern_formula} implies that the Pontryagin index in the previous section equals the second Chern number (cf.~\cref{bundle:chern_class}). when regarding the instantons as solutions over compactified spacetime $S^4$n this gives
     \begin{gather}
         \{S^4\rightarrow B\mathrm{SU}(2)\}_{/\sim} \cong \pi_4\bigl(B\mathrm{SU}(2)\bigr)\cong\pi_3\bigl(\mathrm{SU}(2)\bigr)\,,
     \end{gather}
-    where \cref{bundle:delooping} and \cref{topology:desuspension} were used in the second step. The second Chern number can be expressed as follows:
-    \begin{gather}
-        c_2(F) = \frac{\mathrm{tr}(F\wedge F)}{8\pi^2}\,.
-    \end{gather}
-    This term can also be added to the Lagrangian to obtain
-    \begin{gather}
-        \mathcal{L}_\theta := \mathcal{L}_{\text{YM}} + \frac{\theta}{16\pi^2}\Int_{\mathbb{R}^4}\mathrm{tr}(F\wedge F)\,.
-    \end{gather}
-    The problem here is that this extra term is not, for example, invariant under inversions (parity transformations), unlike the standard Yang--Mills term $\mathrm{tr}(F\wedge\ast F)$. The same issue holds for charge conjugation. The only situation where no \textbf{CP-problem} occurs, is when $\theta=0$.\index{CP-problem} In nature, however, no such violation is observed and, hence, a fine-tuning problem arises (the magnitude of $\theta$ is experimentally bounded by $10^{-10}$)!
+    where \cref{bundle:delooping} and \cref{topology:desuspension} were used in the second step.
 
     \todo{COMPLETE}
+
+\subsection{Yang--Mills instantons}\index{instanton!|seealso{Yang--Mills}}\index{Yang--Mills!instanton}
+
+    Consider the Yang--Mills equations (in vacuum):
+    \begin{align*}
+        \Dr F &= 0\\
+        \Dr\ast F &= 0\,.
+    \end{align*}
+    The former equation, the Bianchi identity, holds for all connection 1-forms and, hence, (anti)selfdual connections
+    \begin{gather}
+        \ast F = \pm F
+    \end{gather}
+    are solutions to the Yang--Mills equations equations. In fact, one has more.
+    \begin{property}[(Anti)selfdual connections]
+        Consider $G=\mathrm{SU}(N)$. Within a topological sector, i.e.~for a fixed second Chern number (or, equivalently, first Pontryagin number)
+        \begin{gather}
+            c_2(F) = p_1(F) \sim \frac{\mathrm{tr}(F\wedge F)}{8\pi^2} = \frac{\mathrm{tr}(F^+\wedge F^+)}{8\pi^2} - \frac{\mathrm{tr}(F^-\wedge F^-)}{8\pi^2}\,,
+        \end{gather}
+        the Yang--Mills action is minimized for (anti)selfdual connections, i.e.~for $\ast F=\pm F$, since
+        \begin{gather*}
+            F\wedge\ast F = (F^+\wedge\ast F^+)+(F^-\wedge\ast F^-)\,,
+        \end{gather*}
+        where the notation of \cref{vector:self_dual_form} is used. For negative $c_2(F)$, the antiselfdual connections are minimizers, whereas for positive $c_2(F)$ the selfdual connections are minimizers. For $c_2(F)$, one recovers the flat connections.
+    \end{property}
+
+    The Chern number can also be added to the Lagrangian to obtain
+    \begin{gather}
+        \mathcal{L}_\theta := \mathcal{L}_{\text{YM}} + \frac{\theta}{16\pi^2}\langle F\wedge F\rangle\,.
+    \end{gather}
+    The problem here is that this extra term is not invariant under, for example, inversions (parity transformations), unlike the standard Yang--Mills term $\mathrm{tr}(F\wedge\ast F)$. The same issue holds for charge conjugation. The only situation where no \textbf{CP-problem} occurs, is when $\theta=0$.\index{CP-problem} In nature, however, no such violation is observed and, hence, a fine-tuning problem arises (the magnitude of $\theta$ is experimentally bounded by $10^{-10}$)!
+
+\subsection{'t Hooft--Polyakov instantons}\index{instanton!'t Hooft--Polyakov}
+
+    Consider Yang--Mills--Higgs theory, i.e.~ordinary Yang--Mills theory coupled to a Higgs field $\phi:M\rightarrow V$. The Lagrangian of this theory reads as follows:
+    \begin{gather}
+        \mathcal{L}_{\text{YMH}} = \mathcal{L}_{\text{YM}} + \mathcal{L}_{\text{Higgs}} = -\frac{1}{4}\langle F\wedge\ast F\rangle + \langle\nabla\phi,\nabla\phi\rangle + V(\phi)\,.
+    \end{gather}
+
+    As mentioned before, instantons are defined as the finite-action (in Euclidean signature) solutions of the equations of motions. This is equivalent to finite-energy solutions.
+
+
+
+\subsection{Electric-magnetic duality}
+
+    \todo{ADD (see blog post)}

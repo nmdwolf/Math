@@ -172,7 +172,7 @@
     \end{result}
 
     Wick's theorem has an analogue in probability theory.
-    \begin{theorem}[Isserlis]\index{Isserlis}
+    \begin{theorem}[Isserlis]\index{Isserlis}\label{qft:isserlis}
         Let $X_1,\ldots,X_n$ be a set of random variables following a multinormal distribution with mean 0.
         \begin{gather}
             \expect{X_1\cdots X_n} = \sum_{\sigma\in P_{n,2}}\prod_{\{i,j\}\in\sigma}\expect{X_iX_j}\,,
@@ -211,183 +211,6 @@
         \end{gather}
         A similar remark should be made for the time-ordering operator $\mathcal{T}$. As was the case for bosonic theories (\cref{qft:normal_ordering}), one should pay attention to the nature of the normal ordering. It is not a morphism between CAR-algebras, but instead it is an algebra morphism between a free (odd) algebra and a CAR-algebra.
     \end{remark}
-
-\section{Gauge theory}\label{section:qft_gauge_theory}
-
-    In this section, the theories from \namecrefs{chapter:constrained_dynamics}~\nameref{chapter:constrained_dynamics} and \nameref{chapter:gauge_theory} will be quantized. Due to the gauge invariance and, hence, the redundancies in the fields, the path integral diverges. Several solutions exist, ranging from rather ad-hoc procedures (as described first) to very general methods. The general gauge structure of Lagrangian (field) theories was considered in \namecref{chapter:constrained_dynamics}~\nameref{chapter:constrained_dynamics}. The resulting structure was the BV-BRST complex, which gives a homological resolution of both the critical locus of the field equations and the gauge orbits of the gauge symmetries. The main object was a gauge-invariant action and an extended covariant phase space containing both fields and antifields with the structure of a symplectic dg-manifold (\cref{hdg:dg_symplectic_manifold}). The quantum analogue of this structure will be discussed below.
-
-\subsection{Schwinger--Dyson equation}\index{Schwinger--Dyson equation}
-
-    Consider the following path-integral representation of the expectation value of a (polynomially bounded) functional $F$:\footnote{The normalization factor has been left out for convenience.}
-    \begin{gather}
-        \langle F\rangle = \Int F[\phi]\exp\left(i/\hbar S[\phi]\right)\,D\phi\,.
-    \end{gather}
-    If the field measure $D\phi$ is an appropriate generalization of the Lebesgue/Haar measure on $\mathbb{R}^n$, it is invariant under translations $\phi\longrightarrow\phi+\xi$.\footnote{This is, for example, not the case for nonlinear $\sigma$-models, where the target space is a manifold and not a vector space.} It follows that the expectation value is also given by
-    \begin{gather}
-        \langle F\rangle = \Int F[\phi+\xi]\exp\left(i/\hbar S[\phi+\xi]\right)\,D\phi\,.
-    \end{gather}
-    Equating these two expressions and expanding to first order gives the Schwinger--Dyson equations:
-    \begin{gather}
-        \label{qft:schwinger_dyson_equations}
-        \left\langle\frac{\delta^LF}{\delta\phi^I}\right\rangle = -i\hbar\left\langle\frac{\delta^LS}{\delta\phi^I}F\right\rangle
-    \end{gather}
-    for all $I\in\mathcal{I}$. This can be recast in geometric form through \cref{constraint:antifield_vector_field}. A polynomial functional that is linear in antifields is of the form $\lambda^I\mathcal{P}_I$. Geometrically, this corresponds to the vector field
-    \begin{gather}
-        X_\lambda = \lambda^I\frac{\delta^L}{\delta\phi^I}\,.
-    \end{gather}
-    The Schwinger--Dyson equation then becomes
-    \begin{gather}
-        \mathcal{T}\left(\mathcal{L}_{X_\lambda}e^{i/\hbar S[\phi]}\right)=0\,.
-    \end{gather}
-    
-    \begin{remark}[Nonperturbative QFT]
-        The Schwinger--Dyson equations can be taken as the fundamental starting point of QFT for a nonperturbative approach.
-    \end{remark}
-
-    Note that, even on shell, the time-ordered product $\mathcal{T}\left(F\frac{\delta S}{\delta\phi}\right)$ does not generally vanish. However, when $F$ has a different spacetime support than $\phi$, there is no operator-ordering issue and, accordingly, the expectation value does vanish. As such, the equations of motion can be seen to hold quantum mechanically away from the diagonal.
-
-    \begin{property}[Observable equivalence]
-        Classically, two functionals $F,G$ are said to be equivalent on shell whenever
-        \begin{gather}
-            F-G \approx 0
-        \end{gather}
-        or, equivalently (\cref{constraint:weakly_vanishing_functions}),
-        \begin{gather}
-            F-G = \frac{\delta^LS}{\delta\phi^I}\lambda^I
-        \end{gather}
-        Note that the DeWitt convention~\eqref{constraint:dewitt_convention} is used here. Through the Schwinger--Dyson equation, this can be extended to QFTs:
-        \begin{gather}
-            F\sim G\iff F-G = \frac{\delta^LS}{\delta\phi^I}\lambda^I-i\hbar\frac{\delta^L\lambda^I}{\delta\phi^I}\,.
-        \end{gather}
-        Two functionals in the same \textbf{quantum equivalence class} will have the same expectation value. Note that, for $\hbar\longrightarrow0$, this recovers the classical situation. In this way, the Schwinger--Dyson equation also characterizes the kernel of the time-ordering operator $\mathcal{T}$ sending (classical) off-shell observables to (quantum) on-shell observables (cf.~\cref{qft:ordering_morphism}).
-    \end{property}
-
-    In \cref{section:BV_formalism}, it was shown how the classical equivalence of functionals can be implemented homologically through the BV-BRST complex. Of course, the question arises whether the quantum equivalence relation can also be resolved in a similar way. An essential property of the antibracket was that it constituted a (graded) derivation. However, because of quantum corrections, the quantum BRST operator $\mathcal{S}$ cannot be a derivation. The product of $\mathcal{S}$-exact will not, in general, be $\mathcal{S}$-exact, since $\langle A\rangle = 0 = \langle B\rangle$ does not imply $\langle AB \rangle=0$ (in fact, it is $\langle AB \rangle\sim\hbar$).
-
-\subsection{Faddeev--Popov integration}\index{Faddeev--Popov!integral}
-
-    Introducing ghost variables is not only useful for obtaining a resolution of the gauge orbits. It also helps with path integral quantization of gauge theories, where it removes divergences from the path integral. (Of course, this boils down to the same purpose, since the divergence arise from overcounting gauge orbits.)
-
-    First, consider a classical theory with second-class constraints. These can be taken care of by passing from the Poisson bracket to the Dirac bracket (\cref{constraint:dirac_bracket}). With respect to a triangulation of the path integral, one, hence, has to replace the ordinary Liouville measure by a modified version:
-    \begin{gather}
-        \Int\prod_{\symbf{x}}\mathrm{Ber}(\sigma_{ij})^{1/2}\exp\bigl(i/\hbar S[\phi]\bigr)[D\phi]\,,
-    \end{gather}
-    where $\sigma_{ij}$ is the structure matrix of the Dirac bracket and $\mathrm{Ber}$ denotes the Berezinian (\cref{hda:berezinian}). In terms of the constraint matrix $C_{ab}=\{\chi_a,\chi_b\}$, this becomes:
-    \begin{gather}
-        \Int\prod_{a,\symbf{x}}\delta(\chi_a)\mathrm{Ber}(C_{ab})^{1/2}\exp\bigl(i/\hbar S[\phi]\bigr)[D\phi]\,.
-    \end{gather}
-
-    For first-class constraints, the approach is slightly different and one needs to construct the reduced phase space. (From now on, it is assumed that there are no second-class constraints left.) Consider a complete set of variables $\widetilde{z}^\alpha$ with their associated structure matrix $\sigma^{\alpha\beta}:=\{\widetilde{z}^\alpha,\widetilde{z}^\beta\}$. The reduced path integral is
-    \begin{gather}
-        \Int\prod_{\symbf{x}}\mathrm{Ber}(\sigma_{\alpha\beta})^{1/2}\exp\bigl(i/\hbar S[\widetilde{z}]\bigr)[D\widetilde{z}]\,,
-    \end{gather}
-
-    \begin{remark}[Gribov ambiguity]
-        The reduced path integral is gauge invariant and, more importantly, requires no gauge-fixing conditions. Accordingly, it does not suffer from the Gribov problem (\cref{gauge:gribov_ambiguity}).
-    \end{remark}
-
-    To obtain the reduced variables $\widetilde{z}$ is a difficult and, possibly, impossible task. However, sometimes, there exist gauge conditions $\chi_a=0$ that carve out the reduced phase space. The combined constraints $\chi_\alpha\equiv(G_a,\chi_a)$ are always second class. Moreover, the Berezinian satisfies
-    \begin{gather}
-        \mathrm{Ber}\bigl(\{\chi_\alpha,\chi_\beta\}\bigr) = \mathrm{Ber}\bigl(\{G_a,\chi_b\}\bigr)\,.
-    \end{gather}
-    The reduced path integral can, hence, be rewritten as
-    \begin{gather}
-        \Int\prod_{\symbf{x}}\delta(\chi)\delta(G)\mathrm{Ber}\bigl(\{G_a,\chi_b\}\bigr)\exp\bigl(i/\hbar \widetilde{S}[z]\bigr)[Dz]\,,
-    \end{gather}
-    where $\widetilde{S}$ contains the boundary term $M$ in \cref{constraint:symplectic_potential}. Introducing Fourier transforms recovers (part of) \cref{constraint:FP_action}:
-    \begin{gather}
-        \Int\prod_{\symbf{x}}\delta(\chi)\exp\frac{i}{\hbar}\left(\widetilde{S}[z]-\Int v^aG_a\vol_M-\Int\overline{C}\vphantom{C}^b\delta_C\chi_b\vol_M\right)[Dz][Dv][DC][D\overline{C}]\,.
-    \end{gather}
-    This is the \textbf{Faddeev--Popov path integral} and the $C,\overline{C}$ are the \textbf{Faddeev--Popov ghosts}.\index{Faddeev--Popov!path integral}\index{Faddeev--Popov!ghost}
-
-\subsection{BV-BRST theory}
-
-    \newdef{BV Laplacian}{\index{Batalin--Vilkovisky!Laplacian}
-        Consider a BV manifold $(M,\omega,S)$. A BV Laplacian is an operator $\Delta$ that satisfies the following conditions:
-        \begin{enumerate}
-            \item\textbf{Nilpotency}: $\Delta^2=0$, and
-            \item\textbf{Product rule}: $\Delta(fg)= (\Delta f)g + (-1)^{\varepsilon(f)}f(\Delta g) + (-1)^{\varepsilon(f)}(f,g)$,
-        \end{enumerate}
-        where $(\cdot,\cdot)$ is the induced Poisson/Gerstenhaber bracket. Although $\Delta$ is not a derivation with respect to ordinary multiplication --- the product rule says that the bracket measures the deviation of $\Delta$ from being a derivation --- these relations do imply that the BV Laplacian acts as a graded derivation with respect to the bracket:
-        \begin{gather}
-            \Delta(f,g) = (\Delta f,g) + (-1)^{\varepsilon(f)+1}(f,\Delta g)\,.
-        \end{gather}
-        The canonical BV Laplacian in field-antifield coordinates is given by (the DeWitt convention is still used here)
-        \begin{gather}
-            \Delta_{\text{BV}} := (-1)^{\varepsilon_I+1}\frac{\partial^R}{\partial\phi^I}\frac{\partial^R}{\partial\mathcal{P}_I} + (-1)^{\varepsilon_a+1}\frac{\partial^R}{\partial\eta^a}\frac{\partial^R}{\partial\mathcal{P}_a}\,.
-        \end{gather}
-    }
-
-    For functionals that are linear in antifields\footnote{Terms of higher order can be reduced to this case through the product rule.}, the BV Laplacian recovers the correction term in the Schwinger--Dyson equations:
-    \begin{gather}
-        \Delta\left(\mathcal{P}_I\lambda^I[\phi]\right) = (-1)^{\varepsilon(\lambda^I)-1}\frac{\delta^L\lambda^I}{\delta\phi^I}\,.
-    \end{gather}
-    Hence, the quantum-mechanical analogue of the BRST operator is
-    \begin{gather}
-        \mathcal{S}F := (F,S) - i\hbar\Delta F\,,
-    \end{gather}
-    where $S$ is the classical action. The BV Laplacian gives exactly the quantum corrections to the classical BRST operator.
-
-    \begin{formula}[Schwinger--Dyson equations]\index{Schwinger--Dyson equation}
-        For functionals that are linear in the antiields, i.e.~vector fields on the BV manifold, \cref{qft:schwinger_dyson_equations} can be rewritten as
-        \begin{gather}
-            \langle\mathcal{S}F\rangle = 0\,.
-        \end{gather}
-        For this reason, the quantum BRST operator is also called the \textbf{Schwinger--Dyson operator}.
-    \end{formula}
-
-    % \newformula{Quantum master equation}{\index{master equation!quantum}
-    %     Let $S$ be the classical action. After quantization, the master equation~\ref{constraint:master_equation} becomes
-    %     \begin{gather}
-            
-    %     \end{gather}
-    % }
-    \begin{formula}[Quantum master equation]\index{master equation}
-        Consider the function $f:=e^{iS/\hbar}$ on a BV manifold $(M,\omega,S)$. Because
-        \begin{gather}
-            \Delta_{\text{BV}}f = \frac{i}{\hbar}\Delta S e^{iS/\hbar} + \left(\frac{i}{\hbar}\right)^2\frac{1}{2}(S,S)e^{iS/\hbar}\,,
-        \end{gather}
-        the condition that $f$ is BV-harmonic is equivalent to $S$ satisfying
-        \begin{gather}
-            \frac{1}{2}(S,S)-i\hbar\Delta_{\text{BV}}S=0\,.
-        \end{gather}
-        This equation is called the quantum master equation. Expanding $S$ as a power series in $\hbar$ shows that the order-0 term satisfies the classical master equation~\eqref{hdg:classical_master_equation}.
-    \end{formula}
-
-    \newdef{BV integral}{\index{Batalin--Vilkovisky!integral}\index{gauge!fixing}\index{integral|seealso{Batalin--Vilkovisky}}
-        Consider the shifted cotangent bundle $\Pi T^*M$ on an $m$-dimensional smooth manifold. Let the gauge-fixing fermion $K$ be an odd function of the even coordinates of a Darboux basis (denote these coordinates by $q^i$). This function determines a projectable Lagrangian submanifold $L_K\subset\Pi T^*M$ by the Maslow--H\"ormander theorem~\ref{symplectic:maslow_hormander} given by
-        \begin{gather}
-            L_K = \left\{(q^i,p_i)\in\Pi T^*M\,\middle\vert\,p_i=\pderiv{K}{q^i}\right\}\,.
-        \end{gather}
-        The Batalin--Vilkovisky integral of a function $f\in C^\infty(M)$ with respect to $K$ is defined as
-        \begin{gather}
-            \Int_{L_K}f\sqrt{\vol_\omega}\,,
-        \end{gather}
-        where $\sqrt{\vol_\omega}$ is the volume form on Lagrangian submanifolds induced by $\omega$. The BV integral and BV Laplacian interact in the following way (for BV integrable $f$):
-        \begin{enumerate}
-            \item If $f=\Delta_{\text{BV}}g$, then $\int_{L_K}f = 0$ for all gauge-fixing fermions $K$.
-            \item If $\Delta_{\text{BV}}f=0$, then $\displaystyle\deriv{}{t}\int_{L_{K_t}}f=0$, where $\{K_t\}_{t\in\mathbb{R}}$ is a continuous family of gauge-fixing fermions.
-        \end{enumerate}
-        The second property implies that the BV integral is invariant under deformations of the domain of integration.
-    }
-
-    \begin{property}[Divergence]\index{divergence}
-        Consider a superdensity $\mu$ (or a volume form) on a BV manifold (any supermanifold actually suffices). This density induces a divergence on vector fields (i.e.~antifields) by generalizing \cref{riemann:divergence_partial}:
-        \begin{gather}
-            \mathrm{div}(F) := -\frac{1}{\mu}\frac{\delta^R}{\delta\phi^I}\left((-1)^{\varepsilon_I}\mu\frac{\delta^RF}{\delta\mathcal{P}_I}\right)\,.
-        \end{gather}
-        When $\mu=1$, one obtains $\div(F)=\Delta F$, i.e.~the BV Laplacian is exactly the divergence.
-    \end{property}
-    \begin{remark}[de Rham differential]
-        The BV Laplacian can also be obtained as the dual to the de Rham differential when identifying $p$-vector fields with $(n-p)$-forms through the volume form.
-    \end{remark}
-
-\section{Quantum chromodynamics}\label{section:qcd}
-
-	\newprop{OZI rule\footnotemark}{\index{OZI rule}
-		\footnotetext{\textit{Okubo, Zweig} and \textit{Iizuka}}
-		Decay processes for which the corresponding Feynman diagrams become disconnected (initial states and final states are disconnected) when removing internal gluon lines, are suppressed with respect to other processes.
-	}
 
 \section{Feynman rules}
 \subsection{Scalar theory}
@@ -512,6 +335,33 @@
         A Feynman diagram $\Gamma$ is UV divergent if $D_\Gamma\geq0$, with $D_\Gamma=0$ corresponding to logarithmic divergences, and, hence, $D_\Gamma<0$ implies a UV-convergent diagram. If the maximal degree of divergence that occurs for a given theory is finite, the theory is said to be \textbf{renormalizable}. By \cref{qft:mass_dimension_degree}, a necessary condition for renormalizability is that the mass dimension of all coupling constants is positive (or zero). 
     \end{property}
 
+\subsection{Generating functionals}
+
+    Recal the partition function $Z_K[j]$ from \cref{qft:partition_function}. \Cref{qft:diagram_generation} can be restated by saying that $Z_K[j]$ generates all Feynman diagrams. To obtain the physically relevant diagrams, the partition function can also be used to introduce some other important quantities. To this end, it is useful to note the apparent similarities between generating functionals and probability theory (in particular, the content of \cref{section:moments}).\footnote{See also \cref{qft:isserlis}.}
+
+    \begin{property}[Connected diagrams]
+        The partition function~\eqref{qft:partition_function} corresponds to the characteristic function (\cref{prob:characteristic_function}). Passing to the free energy , the cumulant-generating fuction (\cref{prob:cumulants}) is obtained:
+        \begin{gather}
+            W_K[j] := -\frac{i}{\hbar}\ln Z_K[j]\,.
+        \end{gather}
+        The corresponding diagrams, i.e.~those representing `cumulants', are the connected Feynman diagrams.
+    \end{property}
+
+    The \textbf{classical fields} are defined as the expectation values of the quantum fields:
+    \begin{gather}
+        \phi^\mu_{\text{cl}} := \frac{\delta W}{\delta j_\mu}\,.
+    \end{gather}
+
+    \newdef{Effective action}{\index{action!effective}\label{qft:effective_action}
+        Performing a Legendre transformation, one obtains a functional of the fields:
+        \begin{gather}
+            \Gamma_K[\phi] := W_K[j(\phi_{\text{cl}})] - \Int j_\mu\phi^\mu_{\text{cl}}\vol_M\,.
+        \end{gather}
+        The effective action generates (connected) 1PI diagrams.
+    }
+
+    
+
 \subsection{\difficult{Amplituhedron}}\index{amplituhedron}
 
     In the 80s, \indexauthor{Parke} and \indexauthor{Taylor} discovered that, in QCD (\cref{section:qcd}), when scattering gluons, certain tree-level amplitudes consistently vanished. For $n\in\mathbb{N}$ gluons, if either all $n$ or $n-1$ of them have the same helicity, the scattering amplitudes vanish. The \textbf{maximally helicity-violating} (MHV) amplitudes arise for $n-2$ gluons of the same helicity and can, in fact, be expressed in a single term, the \textbf{Parke--Taylor formula}:\index{Parke--Taylor formula}
@@ -519,6 +369,251 @@
         \mathcal{A}(p_1^+\cdots p_i^-\cdots p_j^-\cdots p_n^+) = i(-g)^{n-2}\frac{\langle p_i\,p_j\rangle^4}{\langle p_1\,p_2\rangle\langle p_2\,p_3\rangle\cdots\langle p_{n-1}\,p_n\rangle\langle p_n\,p_1\rangle}\,,
     \end{gather}
     where the convention of two gluons with negative helicity was chosen. Note that the bilinear operations in this formula are not inner products, but spinor bilinears (\cref{dirac:spinor_bilinears}) in the spinor-helicity formalism.
+
+\section{Gauge theory}\label{section:qft_gauge_theory}
+
+    In this section, the theories from \namecrefs{chapter:constrained_dynamics}~\nameref{chapter:constrained_dynamics} and \nameref{chapter:gauge_theory} will be quantized. Due to the gauge invariance and, hence, the redundancies in the fields, the path integral diverges. Several solutions exist, ranging from rather ad-hoc procedures (as described first) to very general methods. The general gauge structure of Lagrangian (field) theories was considered in \namecref{chapter:constrained_dynamics}~\nameref{chapter:constrained_dynamics}. The resulting structure was the BV-BRST complex, which gives a homological resolution of both the critical locus of the field equations and the gauge orbits of the gauge symmetries. The main object was a gauge-invariant action and an extended covariant phase space containing both fields and antifields with the structure of a symplectic dg-manifold (\cref{hdg:dg_symplectic_manifold}). The quantum analogue of this structure will be discussed below.
+
+\subsection{Schwinger--Dyson equation}\index{Schwinger--Dyson equation}
+
+    Consider the following path-integral representation of the expectation value of a (polynomially bounded) functional $F$:\footnote{The normalization factor has been left out for convenience.}
+    \begin{gather}
+        \langle F\rangle = \Int F[\phi]\exp\left(i/\hbar S[\phi]\right)\,D\phi\,.
+    \end{gather}
+    If the field measure $D\phi$ is an appropriate generalization of the Lebesgue/Haar measure on $\mathbb{R}^n$, it is invariant under translations $\phi\longrightarrow\phi+\xi$.\footnote{This is, for example, not the case for nonlinear $\sigma$-models, where the target space is a manifold and not a vector space.} It follows that the expectation value is also given by
+    \begin{gather}
+        \langle F\rangle = \Int F[\phi+\xi]\exp\left(i/\hbar S[\phi+\xi]\right)\,D\phi\,.
+    \end{gather}
+    Equating these two expressions and expanding to first order gives the Schwinger--Dyson equations:
+    \begin{gather}
+        \label{qft:schwinger_dyson_equations}
+        \left\langle\frac{\delta^LF}{\delta\phi^I}\right\rangle = -i\hbar\left\langle\frac{\delta^LS}{\delta\phi^I}F\right\rangle
+    \end{gather}
+    for all $I\in\mathcal{I}$. This can be recast in geometric form through \cref{constraint:antifield_vector_field}. A polynomial functional that is linear in antifields is of the form $\lambda^I\mathcal{P}_I$. Geometrically, this corresponds to the vector field
+    \begin{gather}
+        X_\lambda = \lambda^I\frac{\delta^L}{\delta\phi^I}\,.
+    \end{gather}
+    The Schwinger--Dyson equation then becomes
+    \begin{gather}
+        \mathcal{T}\left(\mathcal{L}_{X_\lambda}e^{i/\hbar S[\phi]}\right)=0\,.
+    \end{gather}
+    
+    \begin{remark}[Nonperturbative QFT]
+        The Schwinger--Dyson equations can be taken as the fundamental starting point of QFT for a nonperturbative approach.
+    \end{remark}
+
+    Note that, even on shell, the time-ordered product $\mathcal{T}\left(F\frac{\delta S}{\delta\phi}\right)$ does not generally vanish. However, when $F$ has a different spacetime support than $\phi$, there is no operator-ordering issue and, accordingly, the expectation value does vanish. As such, the equations of motion can be seen to hold quantum mechanically away from the diagonal.
+
+    \begin{property}[Observable equivalence]
+        Classically, two functionals $F,G$ are said to be equivalent on shell whenever
+        \begin{gather}
+            F-G \approx 0
+        \end{gather}
+        or, equivalently (\cref{constraint:weakly_vanishing_functions}),
+        \begin{gather}
+            F-G = \frac{\delta^LS}{\delta\phi^I}\lambda^I
+        \end{gather}
+        Note that the DeWitt convention~\eqref{constraint:dewitt_convention} is used here. Through the Schwinger--Dyson equation, this can be extended to QFTs:
+        \begin{gather}
+            F\sim G\iff F-G = \frac{\delta^LS}{\delta\phi^I}\lambda^I-i\hbar\frac{\delta^L\lambda^I}{\delta\phi^I}\,.
+        \end{gather}
+        Two functionals in the same \textbf{quantum equivalence class} will have the same expectation value. Note that, for $\hbar\longrightarrow0$, this recovers the classical situation. In this way, the Schwinger--Dyson equation also characterizes the kernel of the time-ordering operator $\mathcal{T}$ sending (classical) off-shell observables to (quantum) on-shell observables (cf.~\cref{qft:ordering_morphism}).
+    \end{property}
+
+    In \cref{section:BV_formalism}, it was shown how the classical equivalence of functionals can be implemented homologically through the BV-BRST complex. Of course, the question arises whether the quantum equivalence relation can also be resolved in a similar way. An essential property of the antibracket was that it constituted a (graded) derivation. However, because of quantum corrections, the quantum BRST operator $\mathcal{S}$ cannot be a derivation. The product of $\mathcal{S}$-exact will not, in general, be $\mathcal{S}$-exact, since $\langle A\rangle = 0 = \langle B\rangle$ does not imply $\langle AB \rangle=0$ (in fact, it is $\langle AB \rangle\sim\hbar$).
+
+\subsection{Faddeev--Popov integration}\index{Faddeev--Popov!integral}
+
+    Introducing ghost variables is not only useful for obtaining a resolution of the gauge orbits. It also helps with path integral quantization of gauge theories, where it removes divergences from the path integral. (Of course, this boils down to the same purpose, since the divergence arise from overcounting gauge orbits.)
+
+    First, consider a classical theory with second-class constraints. These can be taken care of by passing from the Poisson bracket to the Dirac bracket (\cref{constraint:dirac_bracket}). With respect to a triangulation of the path integral, one, hence, has to replace the ordinary Liouville measure by a modified version:
+    \begin{gather}
+        \Int\prod_{\symbf{x}}\mathrm{Ber}(\sigma_{ij})^{1/2}\exp\bigl(i/\hbar S[\phi]\bigr)[D\phi]\,,
+    \end{gather}
+    where $\sigma_{ij}$ is the structure matrix of the Dirac bracket and $\mathrm{Ber}$ denotes the Berezinian (\cref{hda:berezinian}). In terms of the constraint matrix $C_{ab}=\{\chi_a,\chi_b\}$, this becomes:
+    \begin{gather}
+        \Int\prod_{a,\symbf{x}}\delta(\chi_a)\mathrm{Ber}(C_{ab})^{1/2}\exp\bigl(i/\hbar S[\phi]\bigr)[D\phi]\,.
+    \end{gather}
+
+    For first-class constraints, the approach is slightly different and one needs to construct the reduced phase space. (From now on, it is assumed that there are no second-class constraints left.) Consider a complete set of variables $\widetilde{z}^\alpha$ with their associated structure matrix $\sigma^{\alpha\beta}:=\{\widetilde{z}^\alpha,\widetilde{z}^\beta\}$. The reduced path integral is
+    \begin{gather}
+        \Int\prod_{\symbf{x}}\mathrm{Ber}(\sigma_{\alpha\beta})^{1/2}\exp\bigl(i/\hbar S[\widetilde{z}]\bigr)[D\widetilde{z}]\,,
+    \end{gather}
+
+    \begin{remark}[Gribov ambiguity]
+        The reduced path integral is gauge invariant and, more importantly, requires no gauge-fixing conditions. Accordingly, it does not suffer from the Gribov problem (\cref{gauge:gribov_ambiguity}).
+    \end{remark}
+
+    To obtain the reduced variables $\widetilde{z}$ is a difficult and, possibly, impossible task. However, sometimes, there exist gauge conditions $\chi_a=0$ that carve out the reduced phase space. The combined constraints $\chi_\alpha\equiv(G_a,\chi_a)$ are always second class. Moreover, the Berezinian satisfies
+    \begin{gather}
+        \mathrm{Ber}\bigl(\{\chi_\alpha,\chi_\beta\}\bigr) = \mathrm{Ber}\bigl(\{G_a,\chi_b\}\bigr)\,.
+    \end{gather}
+    The reduced path integral can, hence, be rewritten as
+    \begin{gather}
+        \Int\prod_{\symbf{x}}\delta(\chi)\delta(G)\mathrm{Ber}\bigl(\{G_a,\chi_b\}\bigr)\exp\bigl(i/\hbar \widetilde{S}[z]\bigr)[Dz]\,,
+    \end{gather}
+    where $\widetilde{S}$ contains the boundary term $M$ in \cref{constraint:symplectic_potential}. Introducing Fourier transforms recovers (part of) \cref{constraint:FP_action}:
+    \begin{gather}
+        \Int\prod_{\symbf{x}}\delta(\chi)\exp\frac{i}{\hbar}\left(\widetilde{S}[z]-\Int v^aG_a\vol_M-\Int\overline{C}\vphantom{C}^b\delta_C\chi_b\vol_M\right)[Dz][Dv][DC][D\overline{C}]\,.
+    \end{gather}
+    This is the \textbf{Faddeev--Popov path integral} and the $C,\overline{C}$ are the \textbf{Faddeev--Popov ghosts}.\index{Faddeev--Popov!path integral}\index{Faddeev--Popov!ghost}
+
+\subsection{BV-BRST theory}
+
+    \newdef{BV Laplacian}{\index{Batalin--Vilkovisky!Laplacian}
+        Consider a BV manifold $(M,\omega,S)$. A BV Laplacian is an operator $\Delta$ that satisfies the following conditions:
+        \begin{enumerate}
+            \item\textbf{Nilpotency}: $\Delta^2=0$, and
+            \item\textbf{Product rule}: $\Delta(fg)= (\Delta f)g + (-1)^{\varepsilon(f)}f(\Delta g) + (-1)^{\varepsilon(f)}(f,g)$,
+        \end{enumerate}
+        where $(\cdot,\cdot)$ is the antibracket. Although $\Delta$ is not a derivation with respect to ordinary multiplication --- the product rule says that the bracket measures the deviation of $\Delta$ from being a derivation --- these relations do imply that the BV Laplacian acts as a graded derivation with respect to the bracket:
+        \begin{gather}
+            \Delta(f,g) = (\Delta f,g) + (-1)^{\varepsilon(f)+1}(f,\Delta g)\,.
+        \end{gather}
+        The canonical BV Laplacian in field-antifield coordinates is given by (the DeWitt convention is still used here)
+        \begin{gather}
+            \Delta_{\text{BV}} := (-1)^{\varepsilon_I+1}\frac{\partial^R}{\partial\phi^I}\frac{\partial^R}{\partial\mathcal{P}_I} + (-1)^{\varepsilon_a+1}\frac{\partial^R}{\partial\eta^a}\frac{\partial^R}{\partial\mathcal{P}_a}\,.
+        \end{gather}
+    }
+
+    For functionals that are linear in antifields\footnote{Terms of higher order can be reduced to this case through the product rule.}, the BV Laplacian recovers the correction term in the Schwinger--Dyson equations:
+    \begin{gather}
+        \Delta\left(\mathcal{P}_I\lambda^I[\phi]\right) = (-1)^{\varepsilon(\lambda^I)-1}\frac{\delta^L\lambda^I}{\delta\phi^I}\,.
+    \end{gather}
+    Hence, the quantum-mechanical analogue of the BRST operator is
+    \begin{gather}
+        \mathcal{S}F := (F,S) - i\hbar\Delta F\,,
+    \end{gather}
+    where $S$ is the classical action. The BV Laplacian gives exactly the quantum corrections to the classical BRST operator.
+
+    \begin{formula}[Schwinger--Dyson equations]\index{Schwinger--Dyson equation}\label{qft:schwinger_dyson_operator}
+        For functionals that are linear in the antifields, i.e.~vector fields on the BV manifold, \cref{qft:schwinger_dyson_equations} can be rewritten as
+        \begin{gather}
+            \langle\mathcal{S}F\rangle = 0\,.
+        \end{gather}
+        For this reason, the quantum BRST operator is also called the \textbf{Schwinger--Dyson operator}.
+    \end{formula}
+
+    To be able to integrate the gauge-fixed action\footnote{Gauge-fixed means nondegenerate in this case, i.e.~the equations of motions have unique solutions. It does not mean that gauge degrees of freedom have been removed.} $S$, required for the path integral, one needs integrals of antifields. One possibility would be to project a general function onto its body and integrate this ordinary function. However, the antifield-0 component of $S$ is $S_0$, whose integral diverges.
+    \newdef{BV integral}{\index{Batalin--Vilkovisky!integral}\index{gauge!fixing}\index{integral|seealso{Batalin--Vilkovisky}}
+        Consider the shifted cotangent bundle $\Pi T^*M$ on an $m$-dimensional smooth manifold. Let the gauge-fixing fermion $K$ be an odd function of the even coordinates of a Darboux basis (denote these coordinates by $q^i$). This function determines a projectable Lagrangian submanifold $L_K\subset\Pi T^*M$ by the Maslow--H\"ormander theorem~\ref{symplectic:maslow_hormander} given by
+        \begin{gather}
+            L_K = \left\{(q^i,p_i)\in\Pi T^*M\,\middle\vert\,p_i=\pderiv{K}{q^i}\right\}\,.
+        \end{gather}
+        The Batalin--Vilkovisky integral of a function $f\in C^\infty(M)$ with respect to $K$ is defined as
+        \begin{gather}
+            \Int_{L_K}f\sqrt{\vol_\omega}\,,
+        \end{gather}
+        where $\sqrt{\vol_\omega}$ is the volume form on Lagrangian submanifolds induced by $\omega$. The BV integral and BV Laplacian interact in the following way (for BV-integrable $f$):
+        \begin{enumerate}
+            \item If $f=\Delta_{\text{BV}}g$, then $\int_{L_K}f = 0$ for all gauge-fixing fermions $K$.
+            \item If $\Delta_{\text{BV}}f=0$, then $\displaystyle\deriv{}{t}\int_{L_{K_t}}f=0$, where $\{K_t\}_{t\in\mathbb{R}}$ is a continuous family of gauge-fixing fermions.
+        \end{enumerate}
+        The second property implies that the BV integral is invariant under deformations of the domain of integration.
+    }
+
+    \begin{property}[Divergence]\index{divergence}
+        Consider a superdensity $\mu$ (or a volume form) on a BV manifold (any supermanifold actually suffices). This density induces a divergence on vector fields (i.e.~antifields) by generalizing \cref{riemann:divergence_partial}:
+        \begin{gather}
+            \mathrm{div}(F) := -\frac{1}{\mu}\frac{\delta^R}{\delta\phi^I}\left((-1)^{\varepsilon_I}\mu\frac{\delta^RF}{\delta\mathcal{P}_I}\right)\,.
+        \end{gather}
+        When $\mu=1$, one obtains $\mathrm{div}(F)=\Delta F$, i.e.~the BV Laplacian is exactly the divergence.
+    \end{property}
+    \begin{remark}[de Rham differential]
+        The BV Laplacian can also be obtained as the dual to the de Rham differential when identifying $p$-vector fields with $(n-p)$-forms through the volume form.
+    \end{remark}
+
+    \begin{formula}[Quantum master equation]\index{master equation!quantum}
+        Consider the function $f:=e^{iW/\hbar}$ on a BV manifold $(M,\omega,W)$.\footnote{The function $W$ contains quantum corrections to the ordinary action $S$ (higher-order terms in $\hbar$). Abstractly, there is no difference.} Because
+        \begin{gather}
+            \Delta_{\text{BV}}f = \frac{i}{\hbar}\Delta W e^{iW/\hbar} + \left(\frac{i}{\hbar}\right)^2\frac{1}{2}(W,W)e^{iW/\hbar}\,,
+        \end{gather}
+        the condition that $f$ is BV-harmonic is equivalent to $W$ satisfying
+        \begin{gather}
+            \frac{1}{2}(W,W)-i\hbar\Delta_{\text{BV}}W=0\,.
+        \end{gather}
+        This equation is called the quantum master equation. Expanding $W$ as a power series in $\hbar$ shows that the order-0 term satisfies the classical master equation~\eqref{constraint:master_equation}.
+    \end{formula}
+
+    Using this formula, one can also deduce that physical observables have to be described by BV-BRST cohomology. Since the general expectation value of an observable $\widehat{A}$ is given by
+    \begin{gather}
+        \langle\widehat{A}\rangle = \Int\alpha\exp(iS_K)[D\phi]\,,
+    \end{gather}
+    where $\alpha$ contains quantum corrections to $\widehat{A}$ and $S_K:=S|_{L_K}$, the product $\alpha\exp(iS_K)$ needs to be BV harmonic. This way, \cref{quantization:brst_time_evolution} can also be extended to the path-integral approach to expectation values.
+    \begin{property}[Fradkin--Vilkovisky]
+        The expectation value of any BRST-invariant operator does not depend on the gauge-fixing fermion $K$. Moreover, the expectation value of any BRST-exact operator vanishes.
+    \end{property}
+
+\subsection{Ward identities}\index{Ward identities}
+
+    Operators that are not BRST-invariant, might have expectation values that do depend on the gauge-fixing condition $K$. This is the most critical for correlation functions $\langle\phi^{\mu_1}\cdots\phi^{\mu_n}\rangle_K$. To study their behaviour, one introduces, for each canonical coordinate $\phi^\mu$ (be it a field or a ghost field), a (classical) source $j_\mu$:\footnote{A normalization constant is left out for simplicity.}
+    \begin{gather}
+        \label{qft:partition_function}
+        Z_K[j] := \Int\exp\left(iS_K + i\Int_Mj_\mu \phi^\mu\vol_M\right)\,[D\phi]\,.
+    \end{gather}
+    This functional of the sources is called the \textbf{generating functional} or \textbf{partition function}.\index{generating!functional}\index{partition!function}
+    
+    \begin{property}\label{qft:diagram_generation}
+        The generating functional generates (\textit{what's in a name}) correlation functions through functional derivatives with respect to the sources:
+        \begin{gather}
+            \langle\phi^{\mu_1}\cdots\phi^{\mu_n}\rangle = \frac{\delta^n}{\delta\phi^{\mu_1}\cdots\phi^{\mu_n}}Z_K[j]\,.
+        \end{gather}
+    \end{property}
+
+    Performing a change of variables by addition of a BRST-exact term:
+    \begin{gather}
+        \phi^\mu \longrightarrow \phi^\mu+[\phi^\mu,\widehat{\Omega}]\varepsilon\,,
+    \end{gather}
+    gives
+    \begin{gather}
+        \label{qft:pre_ward_equation}
+        \Int_Mj_\mu\langle\mathcal{S}\phi^\mu\rangle\vol_M\,.
+    \end{gather}
+    \begin{property}[Ward identity]
+        By taking functional derivatives of the foregoing condition with respect to the sources $j_\mu$, one obtains conditions on the correlation functions:
+        \begin{gather}
+            \begin{aligned}
+                \langle\mathcal{S}\phi^\mu\rangle_{K,j} &= 0\\
+                \langle\phi^\mu\mathcal{S}\phi^\nu\rangle_{K,j} + (-1)^{\varepsilon_\nu}\langle\mathcal{S}\phi^\mu\phi^\nu\rangle_{K,j} &= 0\\
+                &\vdots
+            \end{aligned}
+        \end{gather}
+        Note that the first equation is actually a generalization of the Schwinger--Dyson equation (\cref{qft:schwinger_dyson_operator}), incorporating both zilch symmetries and proper gauge symmetries.
+    \end{property}
+
+    In fact, the Ward identities can be generalized even further. Instead of just adding sources $j_\mu$ for the canonical coordinates, one can also add sources $L_\mu$ for the BRST variations $\mathcal{S}\phi^\mu$. \Cref{qft:pre_ward_equation} then becomes:
+    \begin{gather}
+        \Int_Mj_\mu\langle\mathcal{S}\phi^\mu\rangle_{K,j,L}\vol_M = \Int_Mj_\mu\frac{\delta Z_K[j,L]}{\delta L^*_\mu}\vol_M=0\,.
+    \end{gather}
+    Now, recall the effective action (\cref{qft:effective_action}). Using this definition, the Ward identities can be given a different form.
+    \begin{property}[Zinn-Justin equation]\index{Zinn-Justin equation}
+        \begin{gather}
+            \Int_M\frac{\delta\Gamma_K}{\delta\phi^\mu_{\text{cl}}}\frac{\delta\Gamma_K}{\delta L^*_\mu}\vol_M=0
+        \end{gather}
+        This can be written succintly as
+        \begin{gather}
+            (\Gamma_K,\Gamma_K)=0\,,
+        \end{gather}
+        where the antibracket is extended in such a way that the classical fields $\phi_{\text{cl}}$ and sources $L^*$ form canonical pairs. This way, the Zinn-Justin equation corresponds to the classical master equation (\cref{constraint:master_equation}) for the effective action.
+    \end{property}
+
+    \begin{property}[Slavnov--Taylor identity]\index{Slavnov--Taylor identity}
+        Now, what if the `functional measure' is anomalous? I.e., what if one performs a transformation that does not leave $[D\phi]$ invariant. Assume that
+        \begin{gather}
+            [D\phi'] = [D\phi]\exp\left(i\Int_M\mathcal{A}\vol_M\right)
+        \end{gather}
+        under the transformation $\phi\longrightarrow\phi+\varepsilon F(x,\phi)$. The Zinn-Justin equation can be generalized as follows:
+        \begin{gather}
+            \Int_M\left(\mathcal{A}+j_\mu\langle F^\mu\rangle_{K,j}\right)\vol_M=0\,.
+        \end{gather}
+    \end{property}
+
+\section{Quantum chromodynamics}\label{section:qcd}
+
+	\newprop{OZI rule\footnotemark}{\index{OZI rule}
+		\footnotetext{\textit{Okubo, Zweig} and \textit{Iizuka}}
+		Decay processes for which the corresponding Feynman diagrams become disconnected (initial states and final states are disconnected) when removing internal gluon lines, are suppressed with respect to other processes.
+	}
 
 \section{Renormalization}
 

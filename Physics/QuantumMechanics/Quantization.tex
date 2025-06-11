@@ -277,15 +277,15 @@
 
 \subsection{Dirac procedure}
 
-    The first approach to the quantization of constrained systems is due to \textit{Dirac}. Instead of trying to pass to the reduced phase space or introducing additional gauge fixing conditions, \textit{Dirac} simply worked with all variables and represented these as operators acting on an enlarged Hilbert space. The constraints, represented by operators $\widehat{G}_a$, satisfy
+    The first approach to the quantization of constrained systems was due to \indexauthor{Dirac}. Instead of trying to pass to the reduced phase space or introducing additional gauge-fixing conditions, he simply worked with all variables and represented them as operators on an enlarged Hilbert space. If the constraints are represented by operators $\widehat{G}_a$, the physical states $\ket{\psi}$ are characterized by the conditions
     \begin{gather}
-        \widehat{G}_a\ket{\psi}=0
+        \widehat{G}_a\ket{\psi}=0\,.
     \end{gather}
-    for all physical states $\ket{\psi}$. The constraint algebra $\{\phi_a,\phi_b\} = C^c_{ab}\phi_c$ gives rise to a quantum algebra
+    The constraint algebra $\{\phi_a,\phi_b\} = C^c_{ab}\phi_c$ gives rise to a quantum algebra
     \begin{gather}
         [\widehat{G}_a,\widehat{G}_b] = i\hbar\,C^c_{ab}\widehat{G}_c + \hbar^2\widehat{D}_{ab}\,,
     \end{gather}
-    where $\widehat{D}_{ab}$ represents a \textbf{quantum anomaly}\index{anomaly}, i.e.~a correction term resulting from the quantization of the classical algebra (e.g.~operator ordering). The issue here is that both the left-hand side and the first term on the right-hand side vanish exactly on physical states, so $\widehat{D}_{ab}$ should also vanish on these states for all $a,b\in I$. However, if this would be true, the physical Hilbert space would be heavily restricted (in certain cases, it even becomes trivial). The conclusion is that the quantum anomaly breaks the first-class structure of the constraints and, therefore, the constraints do not generate gauge transformations anymore (this is why the anomy is sometimes called a \textbf{gauge anomaly}). A similar issue appears when quantizing the classical evolution equation
+    where $\widehat{D}_{ab}$ represents a \textbf{quantum anomaly}\index{anomaly}, i.e.~a correction term resulting from the quantization of the classical algebra (e.g.~operator ordering). The issue here is that both the left-hand side and the first term on the right-hand side vanish exactly on physical states, so $\widehat{D}_{ab}$ should also vanish on these states for all $a,b\in I$. However, if this were true, the physical Hilbert space would be heavily restricted (in certain cases, it even becomes trivial). The conclusion is that the quantum anomaly breaks the first-class structure of the constraints and, therefore, the constraints do not generate gauge transformations anymore (this is why the anomy is sometimes called a \textbf{gauge anomaly}). A similar issue appears when quantizing the classical evolution equation
     \begin{gather}
         \{H,\phi_a\} = V_a^b\phi_b\,.
     \end{gather}
@@ -294,53 +294,136 @@
 
 \subsection{BRST quantization}
 
-    For this approach, one starts from the classical BRST construction from \cref{section:classical_brst} and tries to find a Hilbert space representation of the extended algebra containing the classical functions, the ghosts and the ghost momenta. The BRST charge becomes a self-adjoint operator satisfying
+    To properly include constraints and gauge fixing, one starts from the classical BRST construction from \cref{section:classical_brst} and tries to find a Hilbert space representation of the extended algebra containing the classical functions, the ghosts and the ghost momenta. The BRST charge becomes a self-adjoint operator satisfying
     \begin{gather}
+        \label{quantization:nilpotent_charge}
         [\widehat{\Omega},\widehat{\Omega}] = 2\widehat{\Omega}^2 = 0\,.
     \end{gather}
     However, in stark contrast to the classical situation, where a BRST charge always exists, the quantum case does not necessarily admit such a construction.
 
+    \begin{remark}
+        As with the constraint algebra, the nilpotency of $\widehat{\Omega}$ can be obstructed by an anomaly.
+    \end{remark}
+
     \begin{property}[Ghost states]
-        If the state space can be decomposed according to ghost number, the following statements hold:
+        If the state space can be decomposed according to ghost number, the following statements hold:\footnote{This can always be done for bosonic constraints.}
         \begin{itemize}
-            \item The ghost number of a homogeneous state is of the form
+            \item The ghost number of a homogeneous state satisfies
                 \begin{gather}
-                    g = g_0 + z\in\mathbb{Z}
+                    g - g_0 \in\mathbb{Z}
                 \end{gather}
-                for $g_0$ either $0$ or $\frac{1}{2}$. Fractional ghost numbers occur when the number of constraints is odd.
+                for a fixed $g_0\in\left\{0,\frac{1}{2}\right\}$. Fractional ghost numbers occur when the number of (independent) constraints is odd.
             \item The inner product of two homogeneous states with ghost numbers $g,g'$ vanishes if $g+g'\neq0$. This implies that states with nonzero ghost number are null states.
         \end{itemize}
     \end{property}
 
-    \newdef{Physical state space}{\index{observable}
+    \begin{axiom}[BRST-invariant states]\index{observable}
         The physical states are defined similarly to the gauge-invariant functions in the classical setting, i.e.~states are deemed physical if they are BRST-closed:
         \begin{gather}
             \widehat{\Omega}\ket{\psi} = 0\,.
         \end{gather}
-        This operation is linear and, hence, filters out a linear subspace as required. Furthermore, BRST-closed operators (the \textbf{physical observables}) preserve this subspace and the BRST-exact operators give vanishing transition elements (and are, therefore, not physically observable as desired). This also implies that acting with a BRST-exact operator on a state, leaves the physical state unchanged. It follows that the true physical state space is given by $H^0(\widehat{\Omega})$.
-    }
+        This operation is linear and, hence, filters out a linear subspace as required. Furthermore, the following properties are satisfied:
+        \begin{itemize}
+            \item \textbf{Physical observables}, i.e.~BRST-closed operators, preserve this subspace.
+            \item BRST-exact operators have vanishing transition elements (and are, therefore, not physically observable as desired).
+        \end{itemize}
+        This also implies that acting with a BRST-exact operator on a state, leaves the physical state unchanged. It follows that the true physical state space is given by $H_{\text{st}}^\bullet(\widehat{\Omega})$.
+    \end{axiom}
 
-\subsection{BFV quantization}
+    Although the physical operators and states are characterized by BRST cohomology, one classical restriction remains: it is the zeroth cohomology group that gives the classical observables. Accordingly, one needs to further restrict the phase space to exclude observables with nonzero ghost number.
+    \begin{axiom}[Physical states]
+        Physical states have zero ghost number:
+        \begin{gather}
+            \widehat{\mathcal{G}}\ket{\psi} = 0\,.
+        \end{gather}
+    \end{axiom}
 
-    The extended phase space $M_{\text{ext}}$ is defined by introducing dynamical Lagrange multipliers and their momenta
-    \begin{gather}
-        \{\lambda^m,\pi_n\} := \delta^m_n
-    \end{gather}
-    together with two collections of (homologically) odd-degree ghosts and their momenta:
-    \begin{gather}
-        \begin{aligned}
-            \{C^i,\overline{P}_j\} := \delta^i_j\,,\\
-            \{P^i,\overline{C}_j\} := \delta^i_j\,.
-        \end{aligned}
-    \end{gather}
-    Note that the Poisson bracket for the ghosts is a graded Poisson bracket. The subalgebra on the variables $(q,p,C,\overline{P})$ is called the \textbf{minimal subalgebra}, while the subalgebra on the variables $(\lambda,\pi,P,\overline{C})$ is called the \textbf{auxiliary subalgebra}.
+    There is, however, a problem. \Cref{quantization:nilpotent_charge} can only be satisfied for nontrivial operators if there are states with negative norm.
 
-    A quantized algebra of observables is obtained through the (graded) Dirac correspondence. This algebra is naturally graded with respect to the ghost number defined by the self-adjoint operator
-    \begin{gather}
-        \mathcal{G} := \frac{1}{2}\left(C^i\overline{P}_i - \overline{P}^iC_i + P^i\overline{C}_i - \overline{C}_iP^i\right)\,.
-    \end{gather}
-    This operator acts on observables as follows:
-    \begin{gather}
-        [\mathcal{G},A] = i\hbar\,\mathrm{gh}(A)A\,.
-    \end{gather}
-    BFV quantization is obtained by defining a nilpotent BRST operator $\widehat{\Omega}=\widehat{\Omega}_{\text{min}}+\widehat{\Omega}_{\text{aux}}$.
+    \begin{property}
+        The quantum BRST-operator cohomology $H^0_{\text{op}}(\widehat{\Omega})$ is isomorphic to the space of linear operators on the quantum BRST-state cohomology $H^0_{\text{st}}(\widehat{\Omega})$.
+    \end{property}
+
+    \begin{property}[Duality]
+        In classical BRST theory, the BRST cohomology vanishes in negative degree (\cref{section:brst_observables}). However, due to the linear structure of quantum theory, this does not hold here anymore. In fact, 
+        \begin{gather}
+            H^\bullet_{\text{op}}(\widehat{\Omega})\cong H^{-\bullet}_{\text{op}}(\widehat{\Omega}) \qquad\text{and}\qquad H^\bullet_{\text{st}}(\widehat{\Omega})\cong H^{-\bullet}_{\text{st}}(\widehat{\Omega})
+        \end{gather}
+    \end{property}
+
+    \begin{property}[Lefschetz trace formula]\index{Lefschetz!trace formula}
+        The trace of an operator in the extended phase space and in BRST cohomology coincide.
+    \end{property}
+
+    \begin{construct}[Jordan representation]
+        The most general (pseudo)unitary representation of the BRST and ghost number operators is given by a direct (and orthogonal) sum of the following components (scalar products that are zero are omitted):
+        \begin{itemize}
+            \item Singlets:
+            \begin{gather}
+                \left\{
+                \begin{aligned}
+                    \widehat{\Omega}e &= 0\\
+                    \braket{e}{e} &= \pm1\\
+                    \widehat{\mathcal{G}}e &= 0
+                \end{aligned}
+                \right.\,,
+            \end{gather}
+            \item Nonnull doublets:
+            \begin{gather}
+                \left\{
+                    \begin{aligned}
+                        \widehat{\Omega}e &= 0 &&& \widehat{\mathcal{G}}e &= ke\\
+                        \widehat{\Omega}e' &= 0 &&& \widehat{\mathcal{G}}e' &= -ke'\\
+                        \braket{e}{e'} &= 1 &&&&
+                    \end{aligned}
+                \right.
+            \end{gather}
+            with $k\in\mathbb{Z}_0$,
+            \item Null doublets with ghost number $1/2$:
+            \begin{gather}
+                \left\{
+                    \begin{aligned}
+                        \widehat{\Omega}f &= g &&& \widehat{\Omega}g &= 0\\
+                        \widehat{\mathcal{G}}f &= -\tfrac{1}{2}f &&& \widehat{\mathcal{G}}g &= \tfrac{1}{2}g\\
+                        \braket{f}{g} &= \pm1 &&&&
+                    \end{aligned}
+                \right.
+            \end{gather}
+            and,
+            \item Quartets:
+            \begin{gather}
+                \left\{
+                    \begin{aligned}
+                        \widehat{\Omega}f &= g &&& \widehat{\Omega}g &= 0\\
+                        \widehat{\Omega}f' &= g' &&& \widehat{\Omega}g' &= 0\\
+                        \widehat{\mathcal{G}}f &= (k-1)f &&& \widehat{\mathcal{G}}g &= kg\\
+                        \widehat{\mathcal{G}}f' &= -kf' &&& \widehat{\mathcal{G}}g' &= (-k+1)g'\\
+                        \braket{f}{g} &= 1 &&& \braket{f'}{g'} &= 1
+                    \end{aligned}
+                \right.
+            \end{gather}
+            with $k\in\mathbb{Z}_0$.
+        \end{itemize}
+    \end{construct}
+
+    \begin{property}[Time evolution]\label{quantization:brst_time_evolution}
+        Let $\widehat{H}$ be the linear operator associated to a BRST-invariant extension of the classical Hamiltonian $H$. On the extended space $W$, time evolution is governed by the Sch\"odinger equation (\cref{qm:TDSE}).
+        
+        Under addition of a BRST-exact term (\cref{brst:gauge_fixing}), the time-evolution operator also changes by a BRST-exact term:
+        \begin{gather}
+            \widehat{U}_{\widehat{H}+[\widehat{K},\widehat{\Omega}]} = \widehat{U}_{\widehat{H}} +[\widehat{O},\widehat{\Omega}]
+        \end{gather}
+        As such, time evolution is also BRST invariant. Moreover it is unitary with respect to the BRST inner product.
+    \end{property}
+
+    \begin{construct}[Constraint operators]
+        The BRST operator can be expanded as follows:
+        \begin{gather}
+            \widehat{\Omega} = \widehat{\eta}^a\widehat{G}_a + \text{higher antighost terms}\,,
+        \end{gather}
+        where, to avoid operator ordering issues, the $\eta-\mathcal{P}$ convention is adopted. The constraint operators are given by the coefficients of the $\eta$ terms in this expansion: $\widehat{G}_a$. In stark contrast with the Dirac quantization procedure, there are no gauge anomalies here! The constraint operators are first class:
+        \begin{gather}
+            [\widehat{G}_a,\widehat{G}_b]=i\widehat{C}^c_{ab}\widehat{G}_c\,,
+        \end{gather}
+        where the operators $\widehat{C}^c_{ab}$ might contain quantum corrections when compared to the classical algebra~\cref{constraint:first_class_bracket}. However, the condtraint operators might not be self-adjoint (this is preserved for Abelian algebras).
+    \end{construct}

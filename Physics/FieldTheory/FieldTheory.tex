@@ -1,35 +1,69 @@
 \chapter{Classical Field Theory}\label{chapter:classical_fields}
 
-    Rigorous definitions and statements about the mathematical concepts used in this chapter can be found in \namecrefs{chapter:nca}~\nameref{chapter:bundles}, \nameref{chapter:vector_bundles}, \nameref{chapter:riemann} and~\nameref{chapter:variation}.
+    The main references are~\cite{anderson_variational_1992,harlow_covariant_2020,barnich_surface_2008}. Rigorous definitions and statements about the mathematical concepts used in this chapter can be found in \namecrefs{chapter:nca}~\nameref{chapter:bundles}, \nameref{chapter:vector_bundles}, \nameref{chapter:riemann} and~\nameref{chapter:variation}.
 
     \minitoc
 
-\section{Lagrangian field theory}\index{action}
+\section{Lagrangian field theory}
+\subsection{Field variations}
 
-    The physical space will be assumed to be a (pseudo-)Riemannian, $n$-dimensional manifold $(M,g)$ with the fields being sections of a vector bundle $E\rightarrow M$. In general, an \textbf{action} is a function $S:\Gamma_c(E)\rightarrow\mathbb{R}$ from the space of (compactly supported) sections of $E$ to the real numbers. This is often given by local functionals for a local Lagrangian (\cref{var:local_lagrangian}):
+    The physical space will be assumed to be a (pseudo-)Riemannian, $n$-dimensional manifold $(M,g)$ with the fields being sections of a vector bundle $E\rightarrow M$. In general, an \textbf{action} is a function $S:\Gamma_c(E)\rightarrow\mathbb{R}$ from the space of (compactly supported) sections of $E$ to the real numbers. This is often given by local functionals for a local Lagrangian (\cref{var:local_lagrangian}):\index{action}
     \begin{gather}
         S:\Gamma_c(E)\rightarrow\mathbb{R}:\phi\mapsto\Int_M(j^\infty\phi)^*L\vol_M\,.
     \end{gather}
 
     Associated to the manifold $M$, one can construct a cochain complex similar to the de Rham complex $\Omega^\bullet(M)$. This structure takes two geometric features into account. On the one hand, one has the ordinary de Rham differential $\dr$ on the base manifold $M$, whereas, on the other hand, one has a differential $\delta$ induced by the variation of fields along the jet fibres. The total differential will be the sum of these, as is standard in the context of bicomplexes. This defines the variational bicomplex.
 
-    Some key concepts from the calculus of variations are recalled here. The variational derivative or Euler--Lagrange derivative~\eqref{var:euler_lagrange_derivative} is defined as follows (partial derivatives are denoted by subscripted commas, e.g.~$\partial_\mu\partial_\nu\phi\equiv\phi_{,\mu\nu}$):\footnote{Total derivatives with respect to spatial coordinates are still denoted by $\partial$, in contrast to \cref{var:euler_lagrange_derivative}, to allign with most works in the literature.}
+    Some key concepts from the calculus of variations have to be recalled (\cref{section:variational_problems} is crucial here). However, a further piece of notation is introduced first.
+    \begin{notation}[Functional dependence]
+        Consider a general form $\alpha\in\Omega^{k,l}(J^\infty(E))$ in the variational bicomplex. Without evaluation on vector fields, this will be denoted by
+        \begin{gather*}
+            \alpha \equiv \alpha[\underbrace{\delta\phi,\ldots,\delta\phi}_{l\text{ times}};\phi]\,.
+        \end{gather*}
+        Forms depend linearly on arguments before the semicolon and smoothly on arguments after the semicolon. When evaluated on evolutionary vector fields $\xi$ (\cref{var:evolutionary_vector_field}), i.e.~vector fields along the field fibres, the following notation is used:
+        \begin{gather*}
+            \iota_\xi\alpha \equiv \alpha[\xi,\underbrace{\delta\phi,\ldots,\delta\phi}_{l-1\text{ times}};\phi]\,.
+        \end{gather*}
+    \end{notation}
+
+    \begin{notation}[Field variations]
+        In the physics literature, a very common notation for field variations (also used for more general objects) is
+        \begin{gather*}
+            \delta_\xi\phi\,.
+        \end{gather*}
+        However, this begs the question: what does this mean? Given such a notation, this will always imply that $\xi$ is an evolutionary vector field. The reason for this notation is that, on all elements $\omega\in\Omega^{\bullet,0}(J^\infty(E))$,
+        \begin{gather}
+            \mathcal{L}_{j^\infty\xi}\omega = \iota_{j^\infty\xi}\delta\omega\,.
+        \end{gather}
+        Accordingly, one does recover the usual notion of variation.
+    \end{notation}
+
+    The variational derivative or Euler--Lagrange derivative~\eqref{var:euler_lagrange_derivative} is defined as follows (partial derivatives are denoted by subscripted commas, e.g.~$\partial_\mu\partial_\nu\phi\equiv\phi_{,\mu\nu}$):\footnote{Total derivatives with respect to spatial coordinates are still denoted by $\partial$, in contrast to \cref{var:euler_lagrange_derivative}, to align with most works in the literature.}
     \begin{gather}
         \frac{\delta L}{\delta \phi} := \pderiv{L}{\phi} - \pderiv{}{x^\mu}\left(\pderiv{L}{\phi_{,\mu}}\right) + \frac{\partial^2}{\partial x^\mu\partial x^\nu}\left(\pderiv{L}{\phi_{,\mu\nu}}\right) -\cdots\,.
     \end{gather}
     By comparing this formula to the formula for the variation of the Lagrangian density, one obtains the first variational formula~\eqref{var:first_variational_formula}:
     \begin{gather}
-        \delta L = \frac{\delta L}{\delta\phi^I}\delta\phi^I - \dr\Theta[\phi]\,.
+        \label{field:variational_formula}
+        \delta\symbfsf{L} = \frac{\delta\symbfsf{L}}{\delta\phi^I}\delta\phi^I - \dr\theta[\delta\phi;\phi]\,,
     \end{gather}
-    The first term vanishes on-shell because it is proportional to the Euler--Lagrange equation associated to the field $\phi^I$. The last term contains the boundary terms obtained after performing integration by parts. The $(n-1,1)$-form $\Theta$ is called the \textbf{presymplectic potential}.\index{potential!presymplectic}
+    where $\dr$ is the horizontal differential from \cref{var:horizontal_derivative}. The first term vanishes on shell because it is proportional to the Euler--Lagrange equation associated to the field $\phi^I$. The last term contains the boundary terms obtained after performing integration by parts. The $(n-1,1)$-form $\theta$ is called the \textbf{presymplectic potential}.\index{potential!presymplectic}
 
     The \textbf{presymplectic current} $\omega$ is obtained by taking the variation of the presymplectic potential:\index{current!presymplectic}
     \begin{gather}
-        \omega[\phi] := \delta\Theta[\phi]\,.
+        \omega[\phi] := \delta\theta[\phi]\,.
     \end{gather}
-    On-shell, this form is closed, i.e.~$\symbfsf{d}\omega\approx0$. Off-shell, this does not necessarily hold and, hence, the form is not properly symplectic. It can be shown that, if the variations $\delta\phi^I$ satisfy the linearised equations of motion, then for every gauge transformation $\xi$, there exists an $(n-2,1)$-form $k_\xi[\phi]$ such that $\omega\approx\dr k_\xi[\phi]$, i.e.~\footnote{More details can be found in e.g.~\citet{compere_advanced_2019}.}
+    On-shell, this form is closed, i.e.~$\symbfsf{d}\omega\approx0$. Off-shell, this does not necessarily hold and, hence, the form is not properly symplectic. It can be shown that, if the variations $\delta\phi^I$ satisfy the linearised equations of motion, then for every gauge transformation $\xi$, there exists an $(n-2,1)$-form $k_\xi[\phi]$ such that $\omega\approx\dr k_\xi[\phi]$.\footnote{More details can be found in, e.g.,~\cite{compere_advanced_2019}.} This is sometimes called a \textbf{local surface charge}.\index{charge!surface}
 
-    \todo{EXPLAIN this last statement better}
+    The presymplectic potential and current can be passed down to the covariant phase space $\Gamma(E)$ through integration. If one assumes $M$ is globally hyperbolic, one can choose a Cauchy (hyper)surface $\Sigma\subset M$. The presymplectic structure on $\Gamma(E)$ is then determined by
+    \begin{gather}
+        \Theta := \Int_\Sigma\theta
+    \end{gather}
+    and its variation
+    \begin{gather}
+        \Omega := \Int_\Sigma\omega = \delta\Int_\Sigma\theta\,.
+    \end{gather}
+    Since $\symbfsf{d}\omega\approx0$, the induced presymplectic structure does not depend on the choice of $\Sigma$ on shell.
 
 \subsection{Noether's theorem}\index{Noether!theorem}
 
@@ -57,7 +91,7 @@
                     L\longrightarrow L + \alpha\partial_\mu\mathcal{J}^\mu\,.
                 \end{gather}
 
-                To obtain the conservation law~\eqref{field:conserved_current}, the Lagrangian is varied explicitly:
+                To obtain the conservation law~\eqref{field:conserved_current}, the Lagrangian is varied explicitly (this recovers a local expression for \cref{field:variational_formula}):
                 \begin{align*}
                     \delta L &= \pderiv{L}{\phi}\delta\phi + \pderiv{L}{\phi_{,\mu}}\delta\phi_{,\mu}\\
                     &= \pderiv{L}{\phi}\delta\phi + \partial_\mu\left(\pderiv{L}{\phi_{,\mu}}\delta\phi\right) - \partial_\mu\left(\pderiv{L}{\phi_{,\mu}}\right)\delta\phi\\
@@ -80,7 +114,7 @@
         \label{field:noether_charge}
         Q[\Sigma] := \Int_\Sigma j^0\,d^{n-1}x\,,
     \end{gather}
-    where $\Sigma$ is a spacelike hypersurface. The conservation law can then simply be restated as
+    where $\Sigma$ is a Cauchy hypersurface. The conservation law can then simply be restated as
     \begin{gather}
         \deriv{Q}{t} = 0\,.
     \end{gather}
@@ -100,6 +134,32 @@
             T^\mu_{\ \nu} = \pderiv{L}{\phi_{,\mu}}\partial_\nu\phi - L\delta^\mu_{\ \nu}\,.
         \end{gather}
     }
+
+    Two types of symmetries can be present in a theory: internal and spacetime symmetries. The above proof can be generalized to the latter. Internal symmetries act through evolutionary vector fields $\xi$, whereas the spacetime symmetries through ordinary tangent vector fields $X$. For a field-dependent object to be covariant under spacetime diffeomorphisms, both vector fields should induce the same transformation:
+    \begin{gather}
+        \mathcal{L}_X\omega = \mathcal{L}_{j^\infty X_{\text{ev}}}\omega\,.
+    \end{gather}
+
+    Now, consider a Lagrangian $\symbfsf{L}$ that is invariant under an arbitrary diffeomorphism $X$. The above equality then becomes
+    \begin{align}
+        \dr\iota_X\symbfsf{L}+\iota_X\dr\symbfsf{L} &= \delta\iota_{j^\infty X_{\text{ev}}}\symbfsf{L} + \iota_{j^\infty X_{\text{ev}}}\dr\symbfsf{L}\nonumber\\
+        \iff\dr\iota_X\symbfsf{L} &= \iota_{j^\infty X_{\text{ev}}}\left(\fderiv{\symbfsf{L}}{\phi^I}\wedge\delta\phi^I + \dr\theta\right)\nonumber\\
+        \iff\dr\left(\iota_X\symbfsf{L}+\iota_{j^\infty X_{\text{ev}}}\theta\right) &= \fderiv{\symbfsf{L}}{\phi^I}\delta_{j^\infty X_{\text{ev}}}\phi^I\approx0\,.
+    \end{align}
+    The left-hand side contains the \textbf{Noether current}
+    \begin{gather}
+        J_X := \iota_X\symbfsf{L} - \Theta[\delta_X\phi;\phi]
+    \end{gather}
+    which is horizontally closed on shell. The local exactness of the variational bicomplex now implies that
+    \begin{gather}
+         J_X \approx \dr Q_X\,.
+    \end{gather}
+    The form $Q$ is called the \textbf{Noether--Wald charge} associated to $X$.\index{charge!Noether--Wald} This surface charge can be related to the local surface charge $k_\xi$ as follows:
+    \begin{gather}
+        k_\xi = -\delta Q_\xi + \iota_\xi\theta + \text{total derivative}\,.
+    \end{gather}
+
+    \todo{CORRECT/EXPAND last sentence (wait for SE answer)}
 
 \section{De Donder--Weyl theory}\index{De Donder--Weyl theory}
 

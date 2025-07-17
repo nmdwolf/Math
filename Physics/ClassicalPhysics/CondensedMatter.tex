@@ -61,7 +61,7 @@
     \begin{formula}\label{solid:d_hkl}
         For an orthogonal crystal lattice, the distance between planes of the family $(h\ k\ l)$ is given by
         \begin{gather}
-            d_{hkl} = \frac{1}{\sqrt{\left(\frac{h}{a}\right)^2 + \left(\frac{k}{b}\right)^2 + \left(\frac{l}{c}\right)^2}}\,.
+            d_{hkl} = \frac{1}{\sqrt{\ds\left(\frac{h}{a}\right)^2 + \left(\frac{k}{b}\right)^2 + \left(\frac{l}{c}\right)^2}}\,.
         \end{gather}
     \end{formula}
 
@@ -81,12 +81,26 @@
 
 \subsection{Reciprocal lattice}
 
+    Since crystalline materials have a lattice periodicity, any well-defined function on this lattice $\Lambda$ has a Fourier decomposition:
+    \begin{gather}
+        f(\vector{r}) = \sum_{\vector{k}\in\Lambda^*}f_ke^{i\vector{k}\cdot\vector{r}}\,.
+    \end{gather}
+    Now, translation symmetry means that
+    \begin{gather}
+        f(\vector{r}) = f(\vector{r}+\vector{a})
+    \end{gather}
+    for any $\vector{a}\in\Lambda$ or, since Fourier decompositions are essentially unique,
+    \begin{gather}
+        \label{solid:orthogonality}
+        \vector{k}\cdot\vector{a} \in 2\pi\mathbb{Z}\,.
+    \end{gather}
+
     \newformula{Reciprocal basis vectors}{\index{reciprocal lattice}
         The reciprocal lattice corresponding to a Bravais lattice with primitive basis $\{\vector{a},\vector{b},\vector{c}\}$ is defined by the following reciprocal basis vectors:
         \begin{gather}
             \vector{a}^* := 2\pi\frac{\vector{b}\times\vector{c}}{\vector{a}\cdot(\vector{b}\times\vector{c})}\,.
         \end{gather}
-        The vectors $\vector{b}^*$ and $\vector{c}^*$ are obtained by cyclic permutation of $(a,b,c)$. These vectors satisfy the relations
+        The vectors $\vector{b}^*$ and $\vector{c}^*$ are obtained by cyclic permutation of $(a,b,c)$. These vectors satisfy relation~\eqref{solid:orthogonality}:
         \begin{gather}
             \begin{aligned}
                 \vector{a}\cdot\vector{a}^* &= 2\pi\,,\\
@@ -492,3 +506,26 @@
     \begin{property}[Threefold way]
         If one only considers a single antiunitary symmetry, one recovers \indexauthor{Dyson}'s threefold way. This corresponds to the three real division algebras $\mathbb{R},\mathbb{C}$ and $\mathbb{H}$ (classes AI, A and AII).
     \end{property}
+
+\subsection{Topological order}
+
+    This subsection uses the language of \cref{chapter:quantum_computing}.
+
+    One can define an equivalence relation on quantum states using local, \textbf{gapped} Hamiltonians, where gapped means that, even in the thermodynamic limit, there is an energy jump between the ground state and the first excited state.\index{gapped}
+    \newdef{Topological order}{\index{order!topological}\label{solid:topological_order}
+        Two quantum states $\ket{\psi_{0,1}}\in\mathcal{H}$ are said to be in the same topological order if there exists a continuous path of local, gapped Hamiltonians $\widehat{H}:[0,1]\rightarrow\End(\mathcal{H})$ such that $\ket{\psi_0}$ an $\ket{\psi_1}$ are ground states for $\widehat{H}_0$ and $\widehat{H}_1$, respectively.
+
+        The trivial topological order is the equivalence class containing product states.
+    }
+    \begin{adefinition}
+        Two quantum states are in the same topological order if they are related by a \textbf{local quantum circuit} or local unitary (LU) transformation, i.e.~a unitary transformation generated through finite-time evolution by a local Hamitonian.
+    \end{adefinition}
+
+    Although this is a powerful notion, it is not refined enough. There are quantum states with physically different behaviour that can be transformed into each other with a local quantum circuit. The crucial ingredient missing in this formulation is that of symmetries!
+    
+    \newdef{Symmetry-protected topological order}{\index{order!SPT}
+        Two quantum states are in the same SPT phase if they are related by an LU transformation that preserves the symmetries of the system.
+    }
+    \begin{remark}
+        Note that SPT phases are not necessarily (intrinsically) topologically ordered as mentioned above. There are SPT phases that are trivial in the sense of \cref{solid:topological_order}.
+    \end{remark}

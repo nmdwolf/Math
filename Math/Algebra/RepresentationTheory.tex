@@ -203,25 +203,97 @@
 
     \Cref{rep:representation} represented group elements by operators in such a way that the composition/multiplication is preserved. However, in some applications, such as quantum mechanics (see \labelref{chapter:qm}), operations are only determined up to a phase factor and, hence, it makes sense that this composition rule is also relaxed. This is formalized as follows.
 
-    \newdef{Projective representation}{\index{projective!group}
-        A projective representation of a group $G$ on a vector field $V$ is a group morphism $\rho:G\rightarrow\mathrm{PGL}(V)$ from $G$ to the \textbf{projective general linear group} of $V$:
+    \newdef{Projective representation}{\index{projective!group}\index{Schur!multiplier}
+        A projective representation of a group $G$ on a $\mathfrak{K}$-vector space $V$ is a group morphism $\rho:G\rightarrow\mathrm{PGL}(V)$ from $G$ to the \textbf{projective general linear group} of $V$:
         \begin{gather}
-            \mathrm{PGL}(V) := \mathrm{GL}(V)/\mathfrak{K}^\times\,,
+            \mathrm{PGL}(V) := \mathrm{GL}(V)/\mathfrak{K}^\times\,.
         \end{gather}
-        where $\mathfrak{K}$ is the underlying field of $V$. This means that
+        This means that
         \begin{gather}
             \rho(g)\circ\rho(g')=\omega(g,g')\rho(gg')
         \end{gather}
-        for all $g,g'\in G$ for some function $\omega:G\times G\rightarrow \mathfrak{K}^\times$.
+        for all $g,g'\in G$ for some function $\omega:G\times G\rightarrow \mathfrak{K}^\times$. This function $\omega$ is called the 2-cocycle of $\rho$. Because of his work on projective representations, the (co)homology group $H^2(G;\mathbb{C}^\times)$ is often called the \textbf{Schur multiplier} or \textbf{Schur multiplicator}.\footnote{\indexauthor{Schur} studied the homology groups $H_2(G;\mathbb{Z})$. For finite groups, these are isomorphic to $H^2(G;\mathbb{C}^\times)$.}
     }
 
-\subsection{Group cohomology}\index{cohomology!group}
+    All of this can be rephrased in the language of \cref{section:group_extensions}. The projective linear group fits in a short exact sequence
+    \begin{gather}
+        0\longrightarrow\mathbb{C}^\times\overset{\iota}{\longrightarrow}\GL(V)\overset{\pi}{\longrightarrow}\mathrm{PGL}(V)\longrightarrow0\,.
+    \end{gather}
+    Projective representations can then be obtained as linear representations of a central extension $\widehat{G}$ of $G$ by $\mathbb{C}^\times$ by lifting the above short exact sequence:
+    \begin{gather}
+        \begin{tikzpicture}
+            \node (0a) at (0, 0) {$0$};
+            \node (0b) at (10, 0) {$0$};
+            \node (C) at (2, 0) {$\mathbb{C}^\times$};
+            \node (GL) at (4, 0) {$\GL(V)$};
+            \node (PGL) at (6, 0) {$\mathrm{PGL}(V)$};
+            \node (G) at (6, 2) {$G$};
+            \node (GG) at (4, 2) {$\widehat{G}$};
+            \draw[->] (0a) -- (C);
+            \draw[->] (C) -- (GL);
+            \draw[->] (GL) -- (PGL);
+            \draw[->] (PGL) -- (0b);
+            \draw[->] (C) -- (GG);
+            \draw[->] (GG) -- (G);
+            \draw[->] (G) -- (0b);
+            \draw[->] (G) -- node[right]{$\rho$} (PGL);
+            \draw[->, dashed] (GG) -- node[right]{$\widehat{\rho}$} (GL);
+        \end{tikzpicture}
+    \end{gather}
+    The 2-cocycle on $G$, which determines the central extension $\widehat{G}$, can be recovered from the cocycle $c:\mathrm{PGL}(V)\times\mathrm{PGL}(V)\rightarrow\mathbb{C}^\times$ through
+    \begin{gather}
+        \omega(g,h) = c\bigl(\rho(g),\rho(h)\bigr)\,.
+    \end{gather}
+    Now, the representation $\rho$ lifts to a representation $\widehat{\rho}$ of $\widehat{G}$ through the following formula:
+    \begin{gather}
+        \label{rep:central_extension_action}
+        \rho:(g,a)\mapsto e^{ia}(\sigma\circ\rho)(g)\,,
+    \end{gather}
+    where the (set-theoretic) identification $\widehat{G}\cong G\times A$ was used.
 
-    \begin{example}[Bilinear forms]
-        Consider a vector space $V$ and a bilinear form $\omega:V\times V\rightarrow\mathbb{R}$ ($\mathbb{R}$ can be replaced by any other field). Then $\omega$ induces a class in $H^2(V;\mathbb{R})$ by linearity.
-    \end{example}
+    \newdef{Representation group}{\index{representation!group}
+        Consider a central extension $\widehat{G}$ of a group $G$ by an Abelian group $A$. Every morphism of $G$-modules $f:A\rightarrow B$ induces a central extension
+        \begin{gather}
+            0\longrightarrow B\longrightarrow f_\ast\widehat{G}\longrightarrow G\longrightarrow0\,,
+        \end{gather}
+        where $f_\ast\widehat{G} := (B\oplus\widehat{G})/\{(fa,\iota a^{-1})\mid a\in A\}$.
 
-\todo{COMPLETE (classification by cocycles, covering groups, generalized representations)}
+        This construction, in turn, induces a morphism
+        \begin{gather}
+            \theta^\ast:\hom_G(A,B)\rightarrow\mathrm{CExt}(Q;A):f\mapsto f_\ast\widehat{G}\,.
+        \end{gather}
+        If this morphism is an isomorphism, the central extension $\widehat{G}$ is said to be an $A$-representation group.
+    }
+    \newdef{Schur cover}{\index{Schur!cover}
+        A $\mathbb{C}^\times$-representation group. Note that this is not (necesarily) a $C^\times$-extension!
+    }
+    \begin{property}
+        Every group $G$ admits a Schur cover $\widehat{G}$. Moreover, every projective representation of $G$ lifts to a linear representation of $\widehat{G}$.
+    \end{property}
+
+\subsection{Generalized representations}
+
+    In the previous sections, groups were represented by linear operators (either linearly, or projectively). However, in certain applications, this is not sufficient. (See, e.g., \cref{section:qm_symmetries}.)
+
+    Consider a complex vector space $V$. Complex conjugation defines an involution on $V$, but it is not linear, it is antilinear! To represent operators that include complex conjugation, one, hence, needs to generalize the notion of (projective) representations. This is done by taking the construction from the previous section, where projective representations are related to representations of central extensions and going beyond central extensions. To this end, recall \cref{rep:central_extension_action}. Because of the presence of a nontrivial action $\varphi:G\rightarrow\Aut(N)$, the extension is not central. If our representation $\psi$ to be should be a morphism of groups, then
+    \begin{gather}
+        e^{i(a+b)}\psi(g)\psi(h) = e^{i\bigl(a + \varphi(g)b + \omega(g,h)\bigr)}\psi(gh)\,.
+    \end{gather}
+    This is certainly satisfied if
+    \begin{gather}
+        \psi(g)e^{ib} = e^{i\varphi(g)b}\psi(g)\,.
+    \end{gather}
+
+    \begin{property}[Linear-antilinear representations]
+        Consider a group $G$ with a subgroup $H$ of order 2. Let $\varphi:G\rightarrow\Aut(\mathbb{C}^\times)$ be given by
+        \begin{gather}
+            \varphi(g) := \begin{cases}
+                -1&\cif g\in H\\
+                +1&\text{otherwise}\,.
+            \end{cases}
+        \end{gather}
+        Group extensions of $G$ by $\mathbb{C}^\times$ with the above action are in one-to-one correspondence with projective \textit{linear-antilinear} representations characterized by $\varphi$.
+    \end{property}
 
 \section{Tensor operators}
 

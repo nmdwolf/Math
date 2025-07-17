@@ -17,7 +17,7 @@
         \end{gather}
         can be obtained from the extended action functional
         \begin{gather}
-            S_E[q,\lambda]:=\Int_{t_1}^{t_2}\left[L(q,\dot{q},t) - \sum_{i=1}^k\lambda_i(t)\zeta_i(q,t)\right]\,dt\,,
+            S_E[q,\lambda]:=\Int_{t_1}^{t_2}\left[L(q,\dot{q},t) + \sum_{i=1}^k\lambda_i(t)\zeta_i(q,t)\right]\,dt\,,
         \end{gather}
         where the $\lambda_i$ are Lagrange multipliers (\cref{section:lagrange_multipliers}). Extremizing with respect to these multipliers induces the constraints:
         \begin{gather}
@@ -40,53 +40,51 @@
         \end{itemize}
     \end{axiom}
 
-    A constrained dynamical system consists of a dynamic system $(M,\omega,H)$ together with a finite collection of constraints $\zeta_m(q,p)=0,m\in I$. If this system is derived from a Lagrangian $L(q,\dot{q})$, the calculus of variations easily extends to these constrained systems, where it gives the following modified Hamiltonian equations:
+    A constrained dynamical system consists of a dynamic system $(M,\omega,H)$ together with a finite collection of constraints $\zeta_m(q,p)=0,m\in I$. If this system is derived from a Lagrangian $L(q,\dot{q})$, the calculus of variations easily extends to these constrained systems. A general solution to $\lambda_i\delta q^i + \mu_i\delta p^i = 0$, for variations $\delta q^i,\delta p_i$ tangent to the constraint surface, is of the form
+    \begin{gather}
+	\begin{cases}
+            &\ds\lambda_i = \sum_{m\in I}u_m\pderiv{\zeta_m}{q^i}\,,\\
+            &\ds\mu^i = \sum_{m\in I}u_m\pderiv{\zeta_m}{p_i}\,.
+        \end{cases}
+    \end{gather}
+    Combining this result with the usual derivation of Hamilton’s equations from a Lagrangian action principle gives the following modified Hamiltonian equations (cf.~\cref{classic:hamilton_equations}):
     \begin{align}
         \dot{q}^i &= \pderiv{H}{p_i} + \sum_{m\in I}u_m\pderiv{\zeta_m}{p_i}\,,\\
-        \dot{p}_i &= -\pderiv{H}{q^i} - \sum_{m\in I}u_m\pderiv{\zeta_m}{q^i}\,,
+        \dot{p}_i &= -\pderiv{H}{q^i} - \sum_{m\in I}u_m\pderiv{\zeta_m}{q^i}\,.
     \end{align}
-    where the $u_m$ are functions of the coordinates and velocities that play a role similar to ordinary Lagrange multipliers. In terms of Poisson brackets, the constrained time evolution of a (time-independent) function is given by:
+    Under the regularity conditions of \cref{constraint:regularity} and assuming that the constraints are independent, the parameters $u_m$, which play a role similar to ordinary Lagrange multipliers, can be expressed as functions of the coordinates and velocities. In general, some of the Lagrange multipliers will have to be retained as independent coordinates.
+    
+    In terms of Poisson brackets (\cref{classic:poisson_bracket}), the constrained time evolution of a (time-independent) function is given by:
     \begin{gather}
         \label{constraint:modified_poisson_evolution}
         \dot{f} = \{H,f\} + \sum_{m\in I}u_m\{\zeta_m,f\}\,.
     \end{gather}
-
-    \begin{remark}
-        The above relations follow from the property that the general solutions to $\lambda_i\delta q^i + \mu_i\delta p^i = 0$ for variations $\delta q^i,\delta p_i$ tangent to the constraint surface are of the form
-        \begin{gather}
-            \begin{cases}
-                &\lambda_i = \sum_{m\in I}u_m\pderiv{\zeta_m}{q^i}\,,\\
-                &\mu^i = \sum_{m\in I}u_m\pderiv{\zeta_m}{p_i}\,.
-            \end{cases}
-        \end{gather}
-        Combining this result with the usual derivation of Hamilton's equations from a Lagrangian action principle gives the above modified equations.
-    \end{remark}
-
-    \begin{method}[General Poisson brackets]
-        Until now, Poisson brackets were only defined for functions depending on the canonical coordinates $(q,p)$. This definition can be generalized to arbitrary functions through the Poisson algebra properties (\cref{lie:poisson_algebra}). Furthermore, after working out the Poisson brackets, one can use the constraint equations to drop all terms that are proportional to $\zeta_m$.
-
-        For example, \cref{constraint:modified_poisson_evolution} can be rewritten as
-        \begin{gather}
-            \dot{f} = \left\{H + \sum_{m\in I}u_m\zeta_m,f\right\}\,.
-        \end{gather}
-        To prove the equivalence, one can use the linearity and Leibniz properties. This involves the following equality
-        \begin{gather}
-            \{u_m\zeta_m, f\} = \{u_m,f\}\zeta_m + u_m\{\zeta_m,f\}\,.
-        \end{gather}
-        The Poisson brackets in the second term only involve functions depending on $(q,p)$ and can be calculated in the usual way. The first term, however, involves a Poisson bracket of the Lagrange multiplier $u_m$. In general, these do not simply depend on $q$ and $p$. Luckily, this does not pose a problem because the term is proportional to the constraints and, as such, vanishes on-shell. It is important that the constraints are only applied after the Poisson brackets have been fully worked out.
-    \end{method}
-
+    Until now, however, Poisson brackets were only defined for functions depending on the canonical coordinates $(q,p)$. This definition can be generalized to arbitrary functions (also depending on the $u_m$) through the Poisson algebra properties (\cref{lie:poisson_algebra}) and the fact that, after working out the Poisson brackets, one can use the constraint equations to drop all terms that are proportional to $\zeta_m$.
     \begin{notation}[Weak equality]
-        The constraints $\zeta_m$ only vanish on shell. To distinguish between functional equalities, i.e.~equalities that also hold off-shell, and on-shell equalities, also called \textbf{weak equalities}, the latter are often denoted by the $\approx$ symbol. For example, the condition $\zeta_m\approx0$ is only a weak equality.
+        The constraints $\zeta_m$ only vanish on shell. To distinguish between functional equalities, i.e.~equalities that also hold off shell, and on-shell equalities, also called \textbf{weak equalities}, the latter are often denoted by the $\approx$ symbol. For example, the condition $\zeta_m\approx0$ is only a weak equality.
     \end{notation}
-    Using the above definitions, one can write an arbitrary time derivative as
+
+    For example, \cref{constraint:modified_poisson_evolution} can be rewritten as
+    \begin{gather}
+        \dot{f} = \left\{H + \sum_{m\in I}u_m\zeta_m,f\right\}\,,
+    \end{gather}
+    since
+    \begin{gather}
+        \{u_m\zeta_m, f\} = \{u_m,f\}\zeta_m + u_m\{\zeta_m,f\}\approx u_m\{\zeta_m,f\}\,.
+    \end{gather}
+    It is important that the constraints are only applied after the Poisson brackets have been fully worked out!
+
+    Using the \textbf{total Hamiltonian}
+    \begin{gather}
+        H_T := H + \sum_{m\in I}u_m\zeta_m\,,
+    \end{gather}
+    one can write the time evolution (on shell) as
     \begin{gather}
         \dot{f}\approx\{H_T,f\}\,,
     \end{gather}
-    where $H_T := H + \sum_{m\in I}u_m\zeta_m$ is the total Hamiltonian.
 
     \begin{remark}[Closure]
-        An important insight regarding weak equalities can be obtained by calculating the Poisson bracket with a function $f$ that is strongly zero, i.e.~a function that vanishes on shell and whose variation also vanishes. In this case, $\{f,g\}\approx0$ for all functions $g$, i.e.~the brackets only vanish weakly. Furthermore, if $f$ is only weakly zero, then $\{f,g\}$ does not even have to vanish at all.
+        An important remark regarding weak equalities can be obtained by calculating the Poisson bracket with a function $f$ that is strongly zero, i.e.~a function that vanishes on shell and whose variation also vanishes. In this case, even though $f$ is strongly zero, $\{f,g\}\approx0$ for all functions $g$, i.e.~the brackets only vanish weakly. Furthermore, if $f$ is only weakly zero, then $\{f,g\}$ does not even have to vanish at all.
     \end{remark}
 
     \begin{property}[Weakly vanishing functions]\label{constraint:weakly_vanishing_functions}
@@ -127,7 +125,7 @@
     \newdef{First- and second-class}{\label{constraint:first_and_second_class}
         A function $f(q,p)$ is said to be first class if its Poisson bracket with every constraint (both primary and secondary) is weakly zero. The function is said to be second class otherwise. It can be shown that both the total Hamiltonian $H_T$ and the primary constraints $\zeta_a$ are first class. The number of Lagrange multipliers $v^a$ is equal to the number of primary, first-class constraints.
 
-        For first-class constraints $\{\zeta_a\}_{a\in I}$, this leads to the following structure:
+        For first-class constraints $\{\zeta_a\}_{a\in I}$, this leads to the following structure (where the central term occurs for theories derived from an acion principe as in \cref{section:BV_formalism}):
         \begin{gather}
             \label{constraint:first_class_bracket}
             \{\zeta_a,\zeta_b\} = C^c_{ab}\zeta_c + T_{ab}^i\frac{\delta S}{\delta x^i}\,,

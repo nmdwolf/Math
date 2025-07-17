@@ -329,7 +329,7 @@
         The direct sum is often denoted by $\oplus$ (in accordance with the notation for \textit{vector spaces} and other algebraic structures that will be introduced further on).
     \end{notation}
 
-    \newdef{Inner semidirect product}{\index{semi-!direct product}\index{split!product}
+    \newdef{Inner semidirect product}{\index{semi-!direct product}\index{split!product}\label{group:inner_semidirect_product}
         Let $G$ be a group, $H\leq G$ a subgroup and $N\vartriangleleft G$ a normal subgroup. $G$ is said to be the inner semidirect product of $H$ and $N$, denoted by $N\rtimes H$, if it satisfies the following equivalent statements:
         \begin{itemize}
             \item $G = NH := \{nh\mid n\in N,h\in H\}$, where $N\cap H = \{e\}$.
@@ -446,7 +446,7 @@
         A free Abelian group $G$ is finitely generated if and only if its rank $n$ is finite, in which case $G\cong\mathbb{Z}^n$. On the other hand, a finitely generated Abelian group is finite if and only if its rank is 0.
     \end{property}
 
-\section{Group actions}\label{section:group_actions}
+\subsection{Group actions}\label{section:group_actions}
 
     \newdef{Group action}{\index{group!action}\label{group:group_action}
         Let $G$ be a group with identity element $e\in G$ and let $X$ be a set. A map $\rho:G\times X \rightarrow X$ is called an action of $G$ on $X$ if it satisfies the following conditions for all $g,h\in G$ and $x\in X$:
@@ -476,12 +476,19 @@
         \begin{gather}
             g\cdot f(x) = f(g\cdot x)\,,
         \end{gather}
-        where, by abuse of notation, the symbol $\cdot$ represents the group actions on both $X$ and $Y$. An equivariant map is sometimes called a \textbf{$G$-map}.\footnote{$G$-spaces together with the $G$-maps constitute a category.}
+        where, by abuse of notation, the symbol $\cdot$ represents the group actions on both $X$ and $Y$. An equivariant map is sometimes called a \textbf{$G$-map}.\footnote{$G$-spaces together with the $G$-maps constitute a category $G\text{-}\symbfsf{Set}$.}
     }
 
     \begin{example}[$G$-module]\index{module!over a group}\index{intertwiner}\label{group:module}
         An Abelian group $M$ equipped with a left group action $\varphi:G\rightarrow\Aut(M)$, i.e.~an action that acts by group morphisms. Equivariant maps of $G$-modules are also called \textbf{intertwining maps} or \textbf{intertwiners}.
     \end{example}
+
+    \newdef{Fixed-point space}{\index{fixed point}
+        Consider a $G$-space $X$. Its fixed-point set or invariant subset $X^G$ is defined as follows:
+        \begin{gather}
+            X^G := \{x\in X\mid \forall g\in G: g\cdot x=x\}\,.
+        \end{gather}
+    }
 
     \newdef{Orbit}{\index{orbit}\label{group:orbit}
         The orbit of an element $x\in X$ with respect to the action a group $G$ is defined as the set
@@ -568,6 +575,67 @@
             \end{gather}
         \end{enumerate}
     }
+
+\subsection{Group extensions}\label{section:group_extensions}
+
+    \newdef{Group extension}{\index{extension!group}
+        Consider a group $G$ together with an Abelian group $A$. A group extension of $G$ by $A$ is a group $E$ such that:
+        \begin{enumerate}
+            \item $E/A\cong G$, and
+            \item $A$ is (isomorphic to) a normal subgroup of $E$.
+        \end{enumerate}
+    }
+
+    Group extensions can also be defined using the notion of \textit{(short) exact sequences} (see \cref{homalg:short_exact_sequence}).
+    \newadef{Group extension}{
+        A short exact sequence of groups
+        \begin{gather}
+            0\longrightarrow A\overset{\iota}{\longrightarrow}E\overset{\pi}{\longrightarrow}G\longrightarrow0
+        \end{gather}
+        where $A$ is Abelian. This definition automatically implies that $\iota$ is a mono and $\pi$ is an epi.
+    }
+    \begin{remark}
+        This definition in terms of group extensions easily allows to define non-Abelian group extensions by dropping the condition on $A$. The remainder of this section uses this general approach following the work by \indexauthor{Schreier}.
+    \end{remark}
+
+    Now, how to construct such a group extension? First, note that, given the extension $E$ and a (set-theoretic) section $\sigma:G\rightarrow E$ of the projection $\pi:E\twoheadrightarrow G$, i.e.~$\pi\circ \sigma=\mathbbm{1}_G$, one can obtain an action of $G$ on $A$ as follows:
+    \begin{gather}
+        g\cdot a := \iota^{-1}\bigl(\sigma(g)\iota(a)\sigma(g)^{-1}\bigr)\,,
+    \end{gather}
+    where $\iota:A\hookrightarrow E$ is the obvious inclusion. Note that this essentially comes down to the adjoint action of $G$ on $A$, both embedded as subgroups of $E$.
+
+    The structure of $E$ can actually be recovered from the action $\varphi:G\rightarrow\Aut(A)$ defined above and the section $\sigma$. Since $\pi$ is a group morphism, $\pi(\sigma(g)\sigma(h))=gh=\pi(\sigma(gh))$ for all $g,h\in G$. It follows that
+    \begin{gather}
+        \sigma(gh)^{-1}\sigma(g)\sigma(h)\in A\,.
+    \end{gather}    
+    This gives a well-defined function $\omega:G\times G\rightarrow A$, called the \textit{2-cocycle} associated to the extension $E$. The reason for this terminology (and its relation to \cref{homalg:short_exact_sequence}), is the following. Writing out the associativity condition on the multiplication in $E$ gives:
+    \begin{gather}
+        \omega(g,hk)\omega(h,k) = \omega(gh,k)k^{-1}\cdot\omega(g,h)\,.
+    \end{gather}
+    This is exactly the 2-cocycle condition in group cohomology.
+
+    Now, given two groups $A,G$, together with an action $\varphi:G\rightarrow\Aut(A)$ and a 2-cocycle $\omega\in H^2_\varphi(G;A)$, can one always construct a group extension such that this data corresponds to the data found above? The answer is yes!
+    \begin{construct}[Group extension]\label{group:group_extension_construction}
+        Construct the Cartesian product $E:=G\times A$. On this product, one defines the following multiplication:
+        \begin{gather}
+            (g,a)(h,b) := \bigl(gh,a\varphi(g)b\omega(g,h)\bigr)\,.
+        \end{gather}
+    \end{construct}
+
+    \begin{theorem}[Schur cover]\index{Schur!cover}
+        There exists a 
+    \end{theorem}
+
+    \newdef{Split extension}{\index{extension!split}
+        A group extension is split if the projection $\pi:E\rightarrow G$ admits a section $\sigma:G\rightarrow E$ in $\symbfsf{Grp}$.
+    }
+    \newdef{Central extension}{\index{extension!central}
+        A group extension is central if $\im(\iota)\subseteq Z(E)$.
+    }
+
+    \begin{property}
+        Whereas general group extension are classified by both the automorphism action $\varphi:G\rightarrow\Aut(A)$ and the 2-cocycle $\omega:G\times G\rightarrow A$, the situation for split and central extensions is much easier. An extension is split if and only if $\omega$ is trivial or, equivalently (by \cref{group:group_extension_construction} above), when $E$ is the semidirect product $G\times_\varphi A$. Similarly, an extension is central if and only if $\varphi$ is trivial.
+    \end{property}
 
 \section{Rings}\label{section:ring}
 \subsection{General}

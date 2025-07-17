@@ -4,13 +4,13 @@
 
     \minitoc
 
-\section{Matrix Product States}
+\section{Matrix product states}
 \subsection{Finite-dimensional lattices}
 
     \newdef{Matrix product state}{\index{matrix product!state}
-        Let $\mathcal{H}_n$ be the local Hilbert spaces of dimension $d_n\in\mathbb{N}$, where $n\in\{1,\ldots,N\}$. A state $|\psi\rangle$ in the total Hilbert space $\bigotimes_i\mathcal{H}_i$ is called a matrix-product state (MPS) with periodic boundary conditions if there exist matrices $A^{i_n}(n)\in\mathcal{L}(\mathbb{C}^{D_n},\mathbb{C}^{D_{n-1}})$ with $i_n\leq d_n$ such that
+        For all $n\in\{1,\ldots,N\}$, let $\mathcal{H}_n$ be a local Hilbert space of dimension $d_n\in\mathbb{N}$. A state $\ket{\psi}$ in the total Hilbert space $\bigotimes_i\mathcal{H}_i$ is called a matrix product state (MPS) with periodic boundary conditions if there exist matrices $A^{i_n}(n)\in M_{D_n,D_{n-1}}(\mathbb{C})$ with $i_n\leq d_n$ such that
         \begin{gather}
-            |\psi\rangle = \sum_{\{i_k\}}\tr\left(\prod_n^NA^{i_n}(n)\right)\,|i_1\ldots i_N\rangle\,.
+            \ket{\psi} = \sum_{\{i_k\}}\tr\left(\prod_n^NA^{i_n}(n)\right)\ket{i_1\ldots i_N}\,.
         \end{gather}
         For each lattice site $n\in\mathbb{Z}$, the set of matrices $\{A^{i_n}_{\alpha\beta}(n)\}$ can be regarded as forming a rank-3 tensor. The periodic boundary condition requires that $D_0=D_N$, otherwise the trace would be ill-defined. Different boundary conditions can be implemented by inserting an additional factor $X$ at the end of the trace.
     }
@@ -20,9 +20,9 @@
     \end{remark}
 
     \newformula{MPS projector}{
-        Consider an MPS defined by tensors $\{A(n)\}_{n\leq N}$. The associated MPS projector is defined as follows:
+        Consider an MPS constructed from tensors $\{A(n)\}_{n\leq N}$. The associated MPS projector is defined as follows:
         \begin{gather}
-            \mathcal{P}_A := \sum_{i,\alpha,\beta}A^i_{\alpha\beta}(n)|i\rangle\langle\alpha\beta|\,.
+            \mathcal{P}_A := \sum_{i,\alpha,\beta}A^i_{\alpha\beta}(n)\ket{i}\bra{\alpha\beta}\,.
         \end{gather}
     }
 
@@ -63,14 +63,6 @@
         The map $\mathcal{E}_{\mathbbm{1}}^{(n)}$ associated to the transfer operator is a CP map (\cref{operators:cp_map}) and the associated Kraus operators (\cref{operators:kraus}) are the MPS matrices $A^i(n)$.
     \end{property}
 
-\subsection{Injectivity}\index{injective!MPS}
-
-    \newdef{Injective MPS}{
-        A translation-invariant MPS is said to be injective if its transfer operator has a unique maximal eigenvalue.
-    }
-
-    In the next sections, the MPSs will always be assumed to be injective unless stated otherwise.
-
 \subsection{Gauge freedom and canonical forms}
 
     \begin{property}[Gauge freedom]
@@ -105,10 +97,10 @@
         In a similar manner, one can construct the right orthogonal form $A_R$.
     \end{construct}
 
-    \begin{method}[Vidal]\index{Vidal}
-        Given a general quantum state in terms of an $n$-leg tensor, there exists an efficient way of constructing the left (or right) canonical forms due to~\citet{vidal_efficient_2003}. To this end, perform a cut between the first and second site and apply a singular value decomposition to obtain a tensor of the form $U^{[1]}SV^{[2,\ldots]}$. Recursively applying this procedure to the product of the singular values $S$ and the right unitary $V$ will result in the canonical form.
-    \end{method}
-
+    Given a general quantum state in terms of an $n$-leg tensor, there exists an efficient way of constructing the left (or right) canonical forms due to~\citet{vidal_efficient_2003}.
+    \begin{construct}[Canonical form]
+        Perform a cut between the first and second site and apply a singular value decomposition to obtain a tensor of the form $U^{[1]}SV^{[2,\ldots]}$. Recursively applying this procedure to the product of the singular values $S$ and the right unitary $V$ will result in the canonical form.
+    \end{construct}
     \begin{construct}[Mixed canonical form]
         The left and right canonical forms can also be combined. Let $L(n)$ and $R(n)$ be the decompositions of the left and right eigenvectors of the transfer operator at site $n$, i.e.~$\lambda(n)=L^\dag(n)L(n)$ and $\rho(n)=R(n)R^\dag(n)$. The left and right canonical forms are then related by a matrix $C(n)$ in the following way: $A_L(n)C(n+1)=C(n)A_R(n)$. These matrices are given by
         \begin{gather}
@@ -124,6 +116,49 @@
     \begin{remark}[TIMPS]
         Not every TIMPS is uniform, there should only exist a local gauge transformation $A'(n) = U(n-1)A(n)U(n)^{-1}$ such that $A'(n)$ is uniform (in certain cases, this is only possible by enlarging the bond dimension).
     \end{remark}
+
+\subsection{Injectivity}\index{injective!MPS}
+
+    \newdef{Injective MPS}{
+        A translation-invariant MPS is said to be injective if its transfer operator has a unique maximal eigenvalue.
+
+        More generally, consider an MPS $A$ constructed from tensors $\{A(n)\}_{n\leq N}$ with uniform bond dimension $D\in\mathbb{N}_0$. $A$ is said to be injective if there exists a finite $n\in\mathbb{N}_0$ such that the blocked matrices $A^{i_1}(1)A^{i_2}(2)\cdots A^{i_n}(n)$, for $i_1,\ldots,i_n$ ranging over all physical indices, span the full matrix algebra $M_D(\mathbb{C})$.
+    }
+
+    Graphically, the above definition becomes the following diagram:
+    \begin{gather}
+        \label{injective_transfer}
+            \begin{tikzpicture}[baseline=-0.5ex]
+            \node[circle,draw=black] (Ai) at (0, 1) {};
+            \node[circle,draw=black] (Ai-) at (0, -1) {};
+            \node (vec) at (-1, 0) {$\psi$};
+            \draw (Ai) -- (Ai-);
+            \draw (vec) to[out=90, in=180] (Ai);
+            \draw (vec) to[out=-90, in=180] (Ai-);
+            \draw (Ai) -- (1, 1);
+            \draw (Ai-) -- (1, -1);
+        \end{tikzpicture}
+        = \alpha\left[
+        \begin{tikzpicture}[baseline=-0.5ex]
+            \node (vec) at (-1, 0) {$\psi$};
+            \draw (vec) to[out=90, in=180] (-0.2, 1);
+            \draw (vec) to[out=-90, in=180] (-0.2, -1);
+        \end{tikzpicture}
+        \ \ \right]\qquad\text{with $|\alpha|=1$.}
+    \end{gather}
+    From here on, all MPSs will always be assumed to be injective, unless stated otherwise.
+
+    \begin{theorem}[Fundamental theorem]\index{fundamental theorem!of MPS}
+        Let $A$ be an injective, uniform MPS. If, for every physical dimension $i\in\{1,\ldots,d\}$, the condition
+        \begin{gather}
+            e^{i\chi}XA^iX^{-1} = e^{i\varphi}YA^iY^{-1}
+        \end{gather}
+        is satisfied for some $\chi,\varphi\in\mathbb{R}$ and $X,Y\in M_D(\mathbb{C})$, then
+        \begin{itemize}
+            \item $\chi-\varphi\in2\pi\mathbb{Z}$, and
+            \item $X^{-1}Y=e^{i\psi}\mathbbm{1}_D$ for some $\psi\in\mathbb{R}$.
+        \end{itemize}
+    \end{theorem}
 
 \section{Matrix product operators}
 

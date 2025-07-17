@@ -22,6 +22,13 @@
         \end{gather}
     }
 
+    \begin{theorem}[Binomial theorem]\index{binomial!theorem}\label{calculus:binomial_theorem}
+        \begin{gather}
+            (x+y)^n = \sum_{k=0}^n{n\choose k}x^ky^{n-k}
+        \end{gather}
+        for all $n\in\mathbb{N}$.
+    \end{theorem}
+
 \section{Continuity}\index{continuity}
 
     \newdef{Darboux function}{\index{Darboux!function}
@@ -615,27 +622,100 @@
         These definitions can easily be extended to higher dimensions ($n\geq2$).
     \end{remark}
 
-\section{Trigonometry}
+\section{Umbral calculus}\label{section:umbral_calculus}
 
-    \newdef{Trigonometric functions}{\index{sine}\index{cosine}\index{tangent}
-        Consider \cref{fig:right_triangle}. In a right(-angled) triangle, the trigonometric functions of the angle $\theta$ are defined as follows:
+    \newdef{Bernoulli polynomial}{\index{Bernoulli!polynomial}\label{calculus:bernoulli_number}
+        The Bernoulli polynomials $B_n(x)$, for $n\in\mathbb{N}$, are generated as follows:
         \begin{gather}
-                \sin(\theta) := \frac{y}{x}\qquad\qquad
-                \cos{\theta} := \frac{z}{x}\qquad\qquad
-                \tan(\theta) := \frac{y}{z}
+            \frac{te^{xt}}{e^t-1} = \sum_{n=0}^{+\infty}B_n(x)\frac{t^n}{n!}\,.
+        \end{gather}
+        The Bernoulli numbers are defined as
+        \begin{gather}
+            B_n := B_n(0)\,.
         \end{gather}
     }
-    \begin{result}
-        \begin{gather}
-            \tan(\theta) = \frac{\sin(\theta)}{\cos(\theta)}
-        \end{gather}
-    \end{result}
 
-    \begin{figure}[ht!]
-        \centering
-        \begin{tikzpicture}
-            \draw (0, 0) node[below left]{$A$} -- node[left]{$z$} (0, 2) node[above left]{$B$} node[below = .5cm, right = .1cm]{$\theta$} -- node[above right]{$x$} (5, 0) node[below right]{$C$} -- node[below]{$y$} (0, 0);
-        \end{tikzpicture}
-        \caption{Right(-angled) triangle.}
-        \label{fig:right_triangle}
-    \end{figure}
+    \begin{property}[Recursion]\label{calculus:bernoulli_recursion}
+        \begin{gather}
+            B_n(x) = \sum_{k=0}^{+\infty}{n \choose k}B_kx^{n-k}
+        \end{gather}
+        or, more generally,
+        \begin{gather}
+            B_n(x+y) = \sum_{k=0}^{+\infty}{n \choose k}B_k(x)y^{n-k}
+        \end{gather}
+    \end{property}
+
+    \begin{formula}[Differential formula]
+        \begin{gather}
+            B_n(x) = \frac{D}{e^D-1}x^n\,,
+        \end{gather}
+        where $D\equiv\ds\deriv{}{x}$.
+    \end{formula}
+
+    The recursion formula shows that Bernoulli polynomials are a concrete example of a more general class of polynomial sequences.
+    \newdef{Appell sequence}{\index{Appell sequence}
+        A sequence of polynomials $\seq{p}\subset\mathbb{R}[x]$ that satisfies
+        \begin{gather}
+            p_n(x+y) = \sum_{k=0}^n{n\choose k}p_k(x)y^{n-k}\,.
+        \end{gather}
+        This is equivalent to the following recursion relation
+        \begin{gather}
+            \deriv{p_n}{x} = np_{n-1}\,.
+        \end{gather}
+    }
+
+    The second recursion relation for Appell sequences can be generalized to arbitrary linear operators. For so-called \textit{delta operators}\index{operator!delta}, i.e.~generalized derivative operators such as the \textit{forward differencing operator}, another important class of polynomials is recovered.
+    \newdef{Sheffer sequence}{\index{Sheffer sequence}
+        Let $Q:\mathbb{R}[x]\rightarrow\mathbb{R}[x]$ be a \textbf{delta operator}, i.e.~a shift-equivariant operator on polynomial functions that lowers the degree by 1:
+        \begin{gather}
+            Q\bigl(p(x+\lambda)\bigr) = Qp(x+\lambda)
+        \end{gather}
+        and
+        \begin{gather}
+            \deg(Qp) = \deg(p)-1
+        \end{gather}
+        for all $\lambda\in\mathbb{R}$ and $p\in\mathbb{R}[x]$.
+
+        A polynomial sequence $\seq{p}\subset\mathbb{R}[x]$ is said to be a Sheffer sequence if
+        \begin{gather}
+            Qp_n = np_{n-1}\,.
+        \end{gather}
+    }
+    \begin{example}
+        Many common polynomials form Sheffer sequences, a few examples are Abel, Bernoulli, Euler, Hermite and Laguerre polynomials.
+    \end{example}
+
+    \begin{property}[Umbral composition]\index{umbral!composition}\label{calculus:umbral_composition}
+        The Sheffer sequences form a group under the following composition law:
+        \begin{gather}
+            (p\circ q)_n(x) := \sum_{k=0}^na_{n,k}q_k(x) = \sum_{0\leq k\leq l\leq n}a_{n,k}b_{k,l}x^l
+        \end{gather}
+        where $p_n=\sum_{k=0}^nb_{n,k}x^k$ and $q_n=\sum_{k=0}^na_{n,k}x^k$. The identity element of the umbral group is given by the standard monomials $p_n(x)=x^n$.
+    \end{property}
+
+    \newdef{Binomial type}{\index{binomial!type}
+        A polynomial sequence $\seq{p}\subset\mathbb{R}[x]$ is said to be of binomial type if
+        \begin{gather}
+            p_n(x+y) = \sum_{k=0}^n{n\choose k}p_k(x)p_{n-k}(y)\,.
+        \end{gather}
+        A Sheffer sequence is of binomial type if and only if
+        \begin{itemize}
+            \item $p_0(x)=1$, and
+            \item $p_n(0)=0$ for all $n\in\mathbb{N}_0$.
+        \end{itemize}
+    }
+
+    \begin{property}[Semidirect product]
+        The umbral group is a semidirect product (\cref{group:inner_semidirect_product}) of the (Abelian) subgroup of Appell sequences and the subgroup of binomial type.
+
+        This gives rise to a general recursion relation. Let $\seq{s}$ be a Sheffer sequence and consider the unique sequence $\seq{p}$ of binomial-type polynomials in the same coset as $s$.
+        \begin{gather}
+            s_n(x+y) = \sum_{k=0}^np_k(x)s_{n-k}(y)
+        \end{gather}
+    \end{property}
+
+    Now, what about the term `umbral calculus'? In the $19^{\text{th}}$ century, some mathematicians noticed the apparent similarity between the binomial theorem~\ref{calculus:binomial_theorem} for monomials and the recursion relation~\ref{calculus:bernoulli_recursion} for Bernoulli polynomials. (This is, of course, explained by the fact that they are both Appell sequences.) This relation was, in turn, used to `prove' various statements about these polynomials. Passage from one sequence to another happens through a linear operator on the space of Appell sequences, as shown by \indexauthor{Rota}:
+    \begin{gather}
+        L_B:\mathbb{R}[x]\rightarrow\mathbb{R}[x]:x^n\mapsto B_n\,.
+    \end{gather}
+    The umbral composition rule is then simply given by the composition~\ref{calculus:umbral_composition} of two such linear operators.

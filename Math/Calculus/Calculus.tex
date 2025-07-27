@@ -1,5 +1,7 @@
 \chapter{Calculus}
 
+    For the section on umbral calculus, see \citet{di_bucchianico_introduction_1998}.
+
     \minitoc
 
 \section{General definitions}
@@ -111,6 +113,30 @@
     \end{property}
 
 \section{Series}
+
+    \newdef{Series}{\index{series}\index{sum!partial}
+        Consider a sequence $\seq{x}\subset\mathbb{R}$. For every index $n\in\mathbb{N}$, consider the \textbf{partial sum}
+        \begin{gather}
+            S_n := \sum_{k=0}^nx_n\,.
+        \end{gather}
+        The would-be limit $S_\infty:=\sum_{k=0}^{+\infty}x_n$ is called the series associated to $\seq{x}$. If the induced sequence $\seq{S}$ converges, the series is said to be \textbf{convergent} with limit $S_\infty$. Otherwise, the series is said to be \textbf{divergent}.
+    }
+
+    \newdef{Absolute/conditional convergence}{\index{convergence}
+        Consider a series
+        \begin{gather}
+            S = \sum_{k=0}^{+\infty}x_k\,.
+        \end{gather}
+        If the associated series $S'=\sum_{k=1}^{+\infty}|x_k|$ converges, so does $S=\sum_{k=1}^{+\infty}x_k$. In this case, $S$ is said to be absolutely convergent. If $S$ converges but $S'$ does not, $S$ is said to be conditionally convergent.
+    }
+
+    \begin{property}[Riemann rearrangement theorem]\index{Riemann!rearrangement theorem}
+        If a series $\sum_{k=0}^{+\infty}x_k$ is conditionally convergent, then for any number $\lambda\in\overline{\mathbb{R}}$, there exist a permutation $\pi$ of $\seq{x}$ such that
+        \begin{gather}
+            \sum_{k=0}^{+\infty}x_{\pi(k)} = \lambda\,.
+        \end{gather}
+    \end{property}
+
 \subsection{Convergence tests}\index{convergence}
 
     \begin{property}
@@ -119,10 +145,6 @@
             \lim_{n\rightarrow\infty}a_n=0\,.
         \end{gather}
     \end{property}
-
-    \newprop{Absolute/conditional convergence}{
-        If $S'=\sum_{i=1}^{+\infty}|a_i|$ converges, so does $S=\sum_{i=1}^{+\infty}a_i$. In this case, $S$ is said to be absolutely convergent. If $S$ converges but $S'$ does not, $S$ is said to be conditionally convergent.
-    }
 
     \newdef{Majorizing series}{\index{majorization}
         Let $S_a=\sum_{i=1}^{+\infty}a_i$ and $S_b=\sum_{i=1}^{+\infty}b_i$ be two series. The series $S_a$ is said to majorize $S_b$ if for every $k>0$ the partial sums satisfy $S_{a,k}\geq S_{b,k}$, i.e.
@@ -203,6 +225,71 @@
         \end{gather}
         for all $x\in\mathbb{R}$ and $n\geq N$.
     }
+
+\subsection{Geometric series and resummation}
+
+    \newdef{Geometric series}{\index{geometric!series}\index{growth rate}
+        Consider a number $r\in\mathbb{R}$. The geometric series induced by $r$ is given by
+        \begin{gather}
+            S_n = \sum_{k=0}^nr^k\,.
+        \end{gather}
+        The parameter $r$ is often called the \textbf{growth rate}.
+
+        It can be shown that the series is convergent for $|r|<1$ with value
+        \begin{gather}
+            \label{calculus:geoemtric_series}
+            \sum_{k=0}^{+\infty}r^k = \frac{1}{1-r}\,.
+        \end{gather}
+    }
+
+    \begin{example}[Grandi's series]\index{Grandi's series}
+        For $r=-1$, the geometric series becomes Grandi's series. This series has alternating partial sums:
+        \begin{gather}
+            S_n =
+            \begin{cases}
+                1&\cif n\in2\mathbb{Z},\\
+                0&\cif n\in2\mathbb{Z}+1\,.
+            \end{cases}
+        \end{gather}
+        As such, this series is divergent.
+    \end{example}
+
+    However, there is a way to assign a value to Grandi's series. Either through an intuitive, nonformal approach, or through a rigourous analytic approach, both leading to the same result. For the former, one uses associativity of addition. For convergent series, associativity still holds, but for divergent series this can only be formally applied. Brackets can be added in two ways\footnote{This `trick' is very similar to the \textit{Eilenberg--Mazur swindle} from algebraic topology.\index{Eilenberg--Mazur swindle}}:
+    \begin{align*}
+        S_1 &= 1 + (-1+1) + (-1+1) + \cdots = 1\,,\\
+        S_2 &= (1-1) + (1-1) + \cdots = 0\,.
+    \end{align*}
+    The `renormalized' value of $S$ is then given by the average of these possibilities:
+    \begin{gather}
+        S \doteqdot \frac{S_1+S_2}{2} = \frac{1}{2}\,.
+    \end{gather}
+    The rigorous approach considers \cref{calculus:geoemtric_series} for the geometric series. Taking the limit $r\longrightarrow-1$ gives
+    \begin{gather}
+        S \doteqdot \lim_{r\rightarrow-1}\frac{1}{1-r} = \frac{1}{2}\,.
+    \end{gather}
+    In fact, this latter resolution is an example of \textit{analytic continuation} (see \cref{complex:analytic_continuation}).
+
+    A similar issue arises for $r=2$. This gives the geometric series
+    \begin{gather}
+        S = 1 + 2 + 4 + 8 + \cdots\,.
+    \end{gather}
+    This series is clearly divergent, but analytic continuation also allows to assign a `renormalized' value:
+    \begin{gather}
+        S \doteqdot \lim_{r\rightarrow 2}\frac{1}{1-x} = -1\,.
+    \end{gather}
+
+    Some other approaches exist to assign finite, `renormalized' values to divergent series.
+    \begin{method}[C\'esaro summation]\index{C\'esaro sum}
+        Consider a sequence $\seq{x}\subset\mathbb{R}$ and its associated partial sums $\seq{S}$. The sequence $\seq{x}$ is said to be C\'esaro summable if the arithmetic means
+        \begin{gather}
+            \overline{S}_n := \frac{1}{n}\sum_{k=0}^nS_n
+        \end{gather}
+        converge, and its C\'esaro sum is given by $S\doteqdot\lim_{n\rightarrow\infty}\overline{S}_n$. If a series is convergent, it is C\'esaro summable and the results coincide.
+    \end{method}
+
+    \begin{remark}
+        Grandi's series is C\'esaro summable, but the geometric series for $r=2$ is not.
+    \end{remark}
 
 \section{Differentiation}\index{differentiation}
 
@@ -328,6 +415,14 @@
             \Int_a^bf(x)\,dx = F(b) - F(a)\,.
         \end{gather}
     \end{theorem}
+
+    \begin{formula}[Euler--MacLaurin]\index{Euler--MacLaurin formula}
+        Consider a function $f\in C^p\bigl([0,n]\bigr)$ for some $n\in\mathbb{N}$. The integral of $f$ can be approximated as follows:\footnote{This formula gives a correction to the ordinary trapezium rule.}
+        \begin{gather}
+            \sum_{k=0}^nf(k) = \Int_0^nf(x)\,dx+\frac{f(n)+f(0)}{2} + \sum_{k=1}^{\lfloor p/2\rfloor}\frac{B_{2k}}{(2k)!}\left(f^{(2k-1)}(n) - f^{(2k-1)}(0)\right) + R_p\,,
+        \end{gather}
+        where $R_p$ is a remainder term and $B_{2k}$ are the \textit{Bernoulli numbers} (see \cref{calculus:bernoulli_number} further below).
+    \end{formula}
 
     \begin{formula}[Differentiation under the integral sign\footnotemark]\index{Leibniz!integral rule}\label{calculus:leibniz_integral_rule}
         \footnotetext{This is a more general version of the \textit{Leibniz integral rule}.}
@@ -623,13 +718,14 @@
     \end{remark}
 
 \section{Umbral calculus}\label{section:umbral_calculus}
+\subsection{Special functions}
 
     \newdef{Bernoulli polynomial}{\index{Bernoulli!polynomial}\label{calculus:bernoulli_number}
         The Bernoulli polynomials $B_n(x)$, for $n\in\mathbb{N}$, are generated as follows:
         \begin{gather}
             \frac{te^{xt}}{e^t-1} = \sum_{n=0}^{+\infty}B_n(x)\frac{t^n}{n!}\,.
         \end{gather}
-        The Bernoulli numbers are defined as
+        The \textbf{Bernoulli numbers} are defined as
         \begin{gather}
             B_n := B_n(0)\,.
         \end{gather}
@@ -665,7 +761,7 @@
     }
 
     The second recursion relation for Appell sequences can be generalized to arbitrary linear operators. For so-called \textit{delta operators}\index{operator!delta}, i.e.~generalized derivative operators such as the \textit{forward differencing operator}, another important class of polynomials is recovered.
-    \newdef{Sheffer sequence}{\index{Sheffer sequence}
+    \newdef{Sheffer sequence}{\index{Sheffer sequence}\index{poweroid}
         Let $Q:\mathbb{R}[x]\rightarrow\mathbb{R}[x]$ be a \textbf{delta operator}, i.e.~a shift-equivariant operator on polynomial functions that lowers the degree by 1:
         \begin{gather}
             Q\bigl(p(x+\lambda)\bigr) = Qp(x+\lambda)
@@ -674,16 +770,19 @@
         \begin{gather}
             \deg(Qp) = \deg(p)-1
         \end{gather}
-        for all $\lambda\in\mathbb{R}$ and $p\in\mathbb{R}[x]$.
-
-        A polynomial sequence $\seq{p}\subset\mathbb{R}[x]$ is said to be a Sheffer sequence if
+        for all $\lambda\in\mathbb{R}$ and $p\in\mathbb{R}[x]$. A polynomial sequence $\seq{p}\subset\mathbb{R}[x]$ is said to be a Sheffer sequence (or a \textbf{poweroid}) if
         \begin{gather}
-            Qp_n = np_{n-1}\,.
+            Qp_n = np_{n-1}
         \end{gather}
+        for some delta operator $Q$.
     }
     \begin{example}
         Many common polynomials form Sheffer sequences, a few examples are Abel, Bernoulli, Euler, Hermite and Laguerre polynomials.
     \end{example}
+
+    \begin{property}
+        Since $\deg(p_n)=n$ for Sheffer sequences, every Sheffer sequence constitutes a basis for $\mathbb{R}[x]$.
+    \end{property}
 
     \begin{property}[Umbral composition]\index{umbral!composition}\label{calculus:umbral_composition}
         The Sheffer sequences form a group under the following composition law:
@@ -693,12 +792,12 @@
         where $p_n=\sum_{k=0}^nb_{n,k}x^k$ and $q_n=\sum_{k=0}^na_{n,k}x^k$. The identity element of the umbral group is given by the standard monomials $p_n(x)=x^n$.
     \end{property}
 
-    \newdef{Binomial type}{\index{binomial!type}
-        A polynomial sequence $\seq{p}\subset\mathbb{R}[x]$ is said to be of binomial type if
+    \newdef{Binomial type}{\index{binomial!type}\index{convolution}
+        A polynomial sequence $\seq{p}\subset\mathbb{R}[x]$ is said to be of binomial type if\footnote{By rescaling the polynomials $p_n$ by $n!$, an ordinary convolution formula is obtained.}
         \begin{gather}
             p_n(x+y) = \sum_{k=0}^n{n\choose k}p_k(x)p_{n-k}(y)\,.
         \end{gather}
-        A Sheffer sequence is of binomial type if and only if
+        A Sheffer sequence is a polynomial of binomial type if and only if
         \begin{itemize}
             \item $p_0(x)=1$, and
             \item $p_n(0)=0$ for all $n\in\mathbb{N}_0$.
@@ -714,8 +813,43 @@
         \end{gather}
     \end{property}
 
-    Now, what about the term `umbral calculus'? In the $19^{\text{th}}$ century, some mathematicians noticed the apparent similarity between the binomial theorem~\ref{calculus:binomial_theorem} for monomials and the recursion relation~\ref{calculus:bernoulli_recursion} for Bernoulli polynomials. (This is, of course, explained by the fact that they are both Appell sequences.) This relation was, in turn, used to `prove' various statements about these polynomials. Passage from one sequence to another happens through a linear operator on the space of Appell sequences, as shown by \indexauthor{Rota}:
+\subsection{Umbrae}
+
+    Now, what about the term `umbral calculus'? In the $19^{\text{th}}$ century, some mathematicians noticed the apparent similarity between the binomial theorem~\ref{calculus:binomial_theorem} for monomials and the recursion relation~\ref{calculus:bernoulli_recursion} for Bernoulli polynomials. (This is, of course, explained by the fact that they are both Appell sequences.) These relations allowed to treat exponents as indices and were, in turn, used to `prove' various statements about special polynomials. Passage from one sequence to another happens through a linear operator, as shown by \indexauthor{Rota}:
     \begin{gather}
-        L_B:\mathbb{R}[x]\rightarrow\mathbb{R}[x]:x^n\mapsto B_n\,.
+        L_{p,q}:\mathbb{R}[x]\rightarrow\mathbb{R}[x]:p_n\mapsto q_n\,.
     \end{gather}
-    The umbral composition rule is then simply given by the composition~\ref{calculus:umbral_composition} of two such linear operators.
+
+    \newdef{Umbral operator}{\index{umbral!operator}
+        A linear operator $L:\mathbb{R}[x]\rightarrow\mathbb{R}[x]$ is said to be umbral if there exist Sheffer sequences $\seq{p},\seq{q}$ such that
+        \begin{gather}
+            Lp_n = q_n
+        \end{gather}
+        for all $n\in\mathbb{N}$.
+    }
+    For the relation between monomials and Bernoulli polynomials, the operator is
+    \begin{gather}
+        L_B:x^n\mapsto B_n\,.
+    \end{gather}
+
+    \begin{property}
+        Polynomial sequences of binomial type are closed under the action of umbral operators.  This implies that, if the binomial-type sequence $\seq{p}$ is associated to the delta operator $\Delta$, the sequence $\seq{Lp}$ is associated to the delta operator $L\Delta L^{-1}$. Accordingly, if $\Delta$ admits the series expansion\footnote{Such an expansion always exists.}
+        \begin{gather}
+            \Delta = \sum_{k=0}^{+\infty}\frac{(\Delta x^k)(0)}{k!}\mderiv{k}{}{x}\equiv q\left(\deriv{}{x}\right)\,,
+        \end{gather}
+        then
+        \begin{gather}
+            L\Delta L^{-1}=q\left(L\deriv{}{x}L^{-1}\right)\,.
+        \end{gather}
+    \end{property}
+
+    The umbral composition rule is then simply given by the composition~\ref{calculus:umbral_composition} of two such linear operators. More generally, the umbral composition can be extended to the entire $\mathbb{R}$-vector space of polynomial functions, sometimes called the \textbf{umbral algebra} in this setting:\index{umbral!algebra}
+    \begin{gather}
+        (L_A\circ L_B)x^n := \sum_{k=0}^n{n\choose k}(L_Ax^k)(L_Bx^{n-k})\,.
+    \end{gather}
+
+    \begin{example}[Probability theory]
+        Umbral calculus also has a relation to \textit{probability theory} (see \cref{chapter:probability}), where the linear operator $L$ is given by the \textit{expectation value} $\mathrm{E}$ (see \cref{section:moments}). Here, the random variable $X$ is the \textit{umbra} for the sequence of moments $m_n:=\expect{X^k}$ and, hence, for the \textit{probability distribution} $P_X$.
+    \end{example}
+
+    \todo{NEEDS EXPANDING}

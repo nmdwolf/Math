@@ -294,12 +294,75 @@
         or, in terms of the cofactors: $\mathrm{adj}(A) = (\alpha_{ij})^T$, where the transpose is taken after the elements have been replaced by their cofactor.
     }
 
+    The following formula gives the most common characterization of the determinant of a matrix.
     \begin{formula}[Laplace]\index{Laplace!determinant formula}\label{linalgebra:laplace_formula}
         The determinant of a matrix $A\equiv(a_{ij})\in M_n(\mathfrak{K})$ can be evaluated as follows for any $l\leq n$:
         \begin{gather}
-            \det(A) = \sum_{i=1}^n(-1)^{i+l}a_{il}\det(A_{il})\,.
+            \det(A) := \sum_{i=1}^n(-1)^{i+l}a_{il}\det(A_{il})\,.
         \end{gather}
     \end{formula}
+    An alternative formula uses permutations.
+    \begin{formula}[Leibniz]\index{Leibniz!determinant formula}
+        \begin{gather}
+            \det(A) = \sum_{\sigma\in S_n}\left(\sgn(\sigma)\prod_{i=1}^na_{i,\sigma(i)}\right)
+        \end{gather}
+    \end{formula}
+
+    \begin{example}[$2\times2$]
+        For $2\times2$-matrices, the determinant is given by the following expression:
+        \begin{gather}
+            \det\begin{pmatrix}
+                a&b\\
+                c&d
+            \end{pmatrix}
+            = ad-bc\,.
+        \end{gather}
+    \end{example}
+    \begin{formula}[Sarrus]\index{Sarrus}
+        The Leibniz formula in the case of $3\times3$-matrices can also be given a convenient schematic form:
+        \[
+            \begin{tikzpicture}[every left delimiter/.style={xshift=.75em}, every right delimiter/.style={xshift=-.75em}]
+                \matrix (m) [
+                    matrix of math nodes,
+                    left delimiter=(,
+                    right delimiter=),
+                    nodes in empty cells
+                ] {
+                    a_{11}&a_{12}&a_{13}\\
+                    a_{21}&a_{22}&a_{23}\\
+                    a_{31}&a_{32}&a_{33}\\
+                };
+                \draw[blue] (m-1-3.center) -- (m-3-1.center);
+                \draw[red] (m-1-1.center) -- (m-3-3.center);
+                \matrix (m2) [
+                    matrix of math nodes,
+                    nodes in empty cells,
+                ] at (2, 0) {
+                    a_{11}&a_{12}\\
+                    a_{21}&a_{22}\\
+                    a_{31}&a_{32}\\
+                };
+                \draw[blue] (m2-1-1.center) -- (m-3-2.center);
+                \draw[blue] (m2-1-2.center) -- (m-3-3.center);
+                \draw[red] (m-1-2.center) -- (m2-3-1.center);
+                \draw[red] (m-1-3.center) -- (m2-3-2.center);
+            \end{tikzpicture}\,.
+        \]
+        One takes the matrix and copies the first two columns to the right of it. One then calculates the products along the coloured lines, adds up the products corresponding to same colours and subtracts blue from red:
+        \begin{gather}
+            \det\begin{pmatrix}
+                a_{11}&a_{12}&a_{13}\\
+                a_{21}&a_{22}&a_{23}\\
+                a_{31}&a_{32}&a_{33}
+            \end{pmatrix}
+            =
+            \begin{aligned}
+                \textcolor{red}{\bigl(a_{11}a_{22}a_{33}}&\textcolor{red}{+a_{12}a_{23}a_{31}+a_{13}a_{21}a_{32}\bigr)}\\
+                &- \textcolor{blue}{\bigl(a_{13}a_{22}a_{31}+a_{11}a_{23}a_{32}+a_{12}a_{21}a_{33}\bigr)}\,.
+            \end{aligned}
+        \end{gather}
+    \end{formula}
+
     \begin{property}\label{linalgebra:determinant_properties}
         Let $A,B\in M_n(\mathfrak{K})$ and denote the columns of $A$ by $A_1,\ldots,A_n$. The determinant has the following properties:
         \begin{itemize}

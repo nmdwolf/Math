@@ -1,6 +1,6 @@
 \chapter{\difficult{Fuzzy Sets \& Imprecise Probabilities}}
 
-    The main reference for fuzzy set theory is the initial paper by~\citet{zadeh_fuzzy_1965}. For the basics of (ordered) sets, see \cref{section:ordered_sets} at the beginning of this compendium. The section on imprecise probabilities is mainly based on~\citet{augustin_introduction_2014}.
+    The main reference for fuzzy set theory is the initial paper by~\citet{zadeh_fuzzy_1965}. For the basics of (ordered) sets, see \cref{section:ordered_sets} at the beginning of this compendium. The section on imprecise probabilities is mainly based on~\citet{augustin_introduction_2014}. For an introduction to set-valued integrals, see~\citet{kisielewicz_set-valued_2020}.
 
     This chapter begins with a small organizational remark. Although the content of the current chapter fits better in the parts on general set theory and logic, it does use more advanced concepts from, for example, topology and category theory. Furthermore, the main application is the characterization of uncertainty in statistics and machine learning. For that reason, it was added here.
 
@@ -81,7 +81,28 @@
     \end{property}
     \todo{DEFINE $p$-box}
 
-\subsection{Fuzzy measure theory}
+\subsection{Set-valued integration}\index{integral!set-valued}
+
+    \newdef{Selector}{\index{selector}\index{measurable!selector|see{selector}}
+        Consider a set-valued function $F:X\rightarrow2^Y$. A selector for $F$ is a function $f:X\rightarrow Y$ such that
+        \begin{gather}
+            f(x)\in F(x)
+        \end{gather}
+        for all $x\in X$.
+    }
+
+    \newdef{Aumann integral}{\index{integral!Aumann}
+        Let $(X,\Sigma,\mu)$ be a measure space and $Y$ a Banach space (\cref{functional:banach_space}). The Aumann integral of a set-valued function $F:X\rightarrow 2^Y$ is defined as follows:
+        \begin{gather}
+            \Int_XF\,d\mu := \left\{\Int_Xf\,d\mu\,\middle\vert\,f\in L^1(\mu)\text{ is a measurable selector of }F\right\}\,.
+        \end{gather}
+    }
+
+    \begin{theorem}[Kuratowski--Ryll-Nardzewski]\index{Kuratowski--Ryll-Nardzewski}\index{measurable}
+        Let $X$ be Polish (\ref{measure:polish_space}). If $F:X\rightarrow2^Y$ is measurable with respect to\footnote{This is also called \textbf{lower measurability} or \textbf{weak measurability}.} the lower Vietoris topology on $2^Y$ (cf.~\cref{metric:hemicontinuity}), it admits a measurable selector.
+    \end{theorem}
+
+\subsection{Capacities}
 
     In this section, some of the content of \labelref{chapter:measure} is generalized to imprecise probability theory. Unless stated explicitly, all concepts will be defined over a general measurable space $(X,\Sigma)$.
 
@@ -124,7 +145,7 @@
         \begin{gather}
             \Int_Xf\,d\mu := \Int_{-\infty}^0\bigl(\mu(\{y\mid f(y)\geq x\})-\mu(X)\bigr)\,dx+\Int_0^{+\infty}\mu(\{y\mid f(y)\geq x\})\,dx.
         \end{gather}
-        This integral is not additive, but it is monotonic in $f$. This expression can be obtained as follows, where functions are decomposed in their positive and negative parts: $f=f^+-f^-$. The original definition by \textit{Choquet} was for nonnegative functions:
+        This integral is not additive, but it is monotonic in $f$. This expression can be obtained as follows, where functions are decomposed in their positive and negative parts: $f=f^+-f^-$. The original definition by \indexauthor{Choquet} was for nonnegative functions:
         \begin{gather}
             \Int_Xf^+\,d\mu := \Int_0^{+\infty}\mu(\{y\mid f^+(y)\geq x\})\,dx\,,
         \end{gather}
@@ -161,3 +182,50 @@
     \begin{example}
         Necessity and possibility measures are exactly the consonant belief and plausibility measures.
     \end{example}
+
+    \newadef{Belief and plausibility}{\index{belief}\index{plausibility}\index{mass}
+        Consider a function $m:P(X)\rightarrow\mathbb{R}$. It is called a \textbf{mass function} if
+        \begin{gather}
+            \sum_{A\subseteq X}m(A) = 1\,.
+        \end{gather}
+        In analogy with ordinary probability measures, $m$ is said to be \textbf{normalized} if $m(\emptyset)=0$. The induced belief function is given by
+        \begin{gather}
+            \mathrm{Bel}_m(B) := \sum_{A\subseteq B}m(A)\,,
+        \end{gather}
+        whereas the induced plausibility function is given by
+        \begin{gather}
+            \mathrm{Pl}_m(B) := \sum_{A\cap B\neq\emptyset}m(A)\,.
+        \end{gather}
+        These two functions are duals:
+        \begin{gather}
+            \mathrm{Bel}_m(B) = 1-\mathrm{Pl}_m(B^c)\,.
+        \end{gather}
+    }
+
+    \begin{notation}
+        Recall \cref{section:hyperspace} on hyperspaces. By adopting the notation of the Vietoris subbasic sets, the definitions of belief and plausibility functions can be restated as:
+        \begin{gather}
+            \mathrm{Bel}_m(B) := \sum_{A\in\Diamond B}m(A)\,,
+        \end{gather}
+        and
+        \begin{gather}
+            \mathrm{Pl}_m(B) := \sum_{A\in\square B}m(A)\,.
+        \end{gather}
+    \end{notation}
+
+    The above notational remark also links back to the relation between hyperspaces and modal logic (cf.~\cref{metric:vietoris_modal_logic}). Consider an epistemic state $E\subseteq X$, i.e.~the true value of some quantity of interest lies in $E$. To this epistemic state, one can associate canonical possibility and neccesity measures:
+    \begin{gather}
+        \Pi_E(A) :=
+        \begin{cases}
+            0&\cif E\cap A=\emptyset\\
+            1&\cif E\cap A\neq\emptyset
+        \end{cases}
+        \qquad\qquad
+        N_E(A) := 1-\Pi_E(A^c) =
+        \begin{cases}
+            0&\cif E\backslash A\neq\emptyset\\
+            1&\cif E\subseteq A\,.
+        \end{cases}
+    \end{gather}
+
+    Let $E\subseteq X$ be a model for a set of propositions $\mathfrak{P}:=\{p_i\}_{i\in I}$. If $A\subseteq X$ corresponds to the proposition $A$, the statements $N_E(A)=1$ and $\Pi_E(A)=0$ are expressible in classic propositional logic, where they correspond to $\mathfrak{P}\implies p$ and $\mathfrak{P}\cup\{p\}\vdash\bot$, respectively. However, the opposite statements, $N_E(A)=0$ and $\Pi_E(A)=1$ are not!

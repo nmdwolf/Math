@@ -76,7 +76,7 @@
     \newdef{Metrizable space}{\index{metrizable}
         A topological space that is homeomorphic to a metric space $(M,d)$, i.e.~a topological space for which there exists a metric $d:X\times X\rightarrow\mathbb{R}$ that induces the topology on $X$.
     }
-    \begin{theorem}[Urysohn's metrization theorem]\index{Urysohn!metrization theorem}
+    \begin{theorem}[Urysohn's metrization theorem]\index{Urysohn!metrization theorem}\label{topology:urysohn_metrization}
         Every second-countable $T_3$-space is metrizable.
     \end{theorem}
 
@@ -270,3 +270,63 @@
             \item $\mathcal{F}$ is equicontinuous, closed under uniform convergence and $\{f(x)\mid f\in\mathcal{F}\}$ is totally bounded for every $x\in K$.
         \end{itemize}
     \end{theorem}
+
+\section{Hyperspaces}\label{section:hyperspace}
+
+    See~\citet{beer_polish_1991,beer_topologies_1993,fritz_probability_2021} for an introduction. For the link to \textit{modal logic}, see~\citet{venema_modal_2014}.
+
+    \newdef{Hyperspace}{\index{hyperspace}
+        Let $(X,\tau_X)$ be a topological space. The hyperspace $H(X,\tau_X)$, usually denoted by $H(X)$, is the set of all nonempty closed subsets of $X$.\footnote{As with the natural numbers, sometimes the empty set is included as well. However, in contrast to $\mathbb{N}$, the convention in this compendium is to exclude $\emptyset$ from hyperspaces.}
+    }
+
+    The question obviously of how to endow $H(X)$ with a suitable topology. As in the case of 'infinite-dimensional' spaces, multiple options exist.
+
+    \newdef{Vietoris topology}{\index{topology!Vietoris}\index{topology!Hoare}
+        For every open set $U\in\tau_X$, consider the following sets:
+        \begin{gather}
+            \Diamond U := \{V\in H(X)\mid V\cap U\neq\emptyset\}
+        \end{gather}
+        and
+        \begin{gather}
+            \square U := \{V\in H(X)\mid V\subseteq U\}\,.
+        \end{gather}
+        The family $\{\Diamond U\mid U\in\tau_X\}\cup\{\square U\mid U\in\tau_X\}$ is a subbasis for the Vietoris topology.
+
+        When taking only the lower sets $\Diamond U$ (resp.~upper sets $\square U$), the lower Vietoris (or \textbf{Hoare}) topology (resp.~upper Vietoris topology) is obtained.
+    }
+    \begin{remark}[Modal logic]\label{metric:vietoris_modal_logic}
+        For an explanation of the notations, see \cref{section:modal_logic}. The elements of $\Diamond U$ are those that possibly contain a given element of $U$, whereas the elements of $\square U$ are those that necessarily contain a given element of $U$.
+    \end{remark}
+
+    The notion of semicontinuity of 'point-valued' functions (\cref{topology:semicontinuity}) can be generalized to set-valued functions.
+    \begin{property}[Hemicontinuity]\index{hemicontinuity}\index{semicontinuity|seealso{hemicontinuity}}\label{metric:hemicontinuity}
+        A set-valued function $F:X\rightarrow P(Y)$ is lower (resp.~upper) hemicontinuous if and only if it is continuous with respect to the lower (resp.~upper) Vietoris topology (when extended to a topology on the entire power set).
+    \end{property}
+    \begin{remark}
+        In the literature, hemicontinuity is often also called \textbf{semicontinuity}.
+    \end{remark}
+
+    \newdef{Wijman topology}{\index{topology!Wijman}
+        Let $(X,d)$ be a metric space with its induced topology. The distance from a point $x\in X$ to a set $A\subseteq X$ is given by
+        \begin{gather*}
+            d(x,A) := \inf_{y\in A}d(x,y)\,.
+        \end{gather*}
+        The Wijsman topology on $H(X)$ is the initial topology (\cref{topology:initial_topology}) with respect to the family $\{d(x,\cdot)\mid x\in X\}$.
+    }
+
+    \begin{property}
+        The Wijsman topology has the following properties:
+        \begin{itemize}
+            \item If $X$ is separable (\cref{topology:separable}), $H(X)$ is second countable.
+            \item Hence, by \cref{topology:initial_regularity} and Urysohn's metrization theorem~\ref{topology:urysohn_metrization}, $H(X)$ is separable and metrizable whenever $X$ is.
+            \item When $X$ is \textit{Polish} (see \cref{measure:polish_space}), so is $H(X)$.
+        \end{itemize}
+    \end{property}
+
+    \begin{property}[Effros $\sigma$-algebra]\index{Effros $\sigma$-algebra}
+        If $X$ is separable, the Borel $\sigma$-algebra (\cref{topology:borel_set}) induced by the Wijsman topology coincides with that induced by the lower Vietoris topology.
+    \end{property}
+
+    \begin{property}[Compactness]
+        When $X$ is compact, the Vietoris and Wijsman topologies coincide.
+    \end{property}

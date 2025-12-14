@@ -255,7 +255,17 @@
 \usepackage{tocbibind, fancyhdr}
 
 \usepackage{imakeidx}
-\makeindex[name=author, title={Authors}, options= -s index.ist]
+
+% The following command allows to add index sections to the ToC (\indexletter is called in index.ist)
+\makeatletter
+\newcommand{\indexletter}[1]{%
+  \section*{#1}%
+  \addcontentsline{toc}{section}{#1}%
+}
+\makeatother
+
+\makeindex[intoc=true,options=-s index]	% normal index
+\makeindex[name=author, title={Authors}, options= -s index.ist, intoc] % index with author names
 \newcommand{\indexauthor}[1]{\textit{#1}\index[author]{#1}}
 
 \usepackage[title, titletoc]{appendix}

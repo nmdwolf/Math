@@ -622,7 +622,7 @@
     }
 
     \newdef{Super smooth set}{\index{smooth!set}\index{topos!Dubuc}
-        By combining infinitesimal thickenings and superpoints, the category $\symbfsf{SuperFormalCartSp_{diff}}$ is obtained. A sheaf on this category is called a super smooth set. Since \textit{Dubuc} introduced the Cahiers topos, the category of super smooth sets is sometimes called the \textbf{super-Dubuc topos}.
+        By combining infinitesimal thickenings and superpoints, the category $\symbfsf{SuperFormalCartSp_{diff}}$ is obtained. A sheaf on this category is called a super smooth set. Since \indexauthor{Dubuc} introduced the Cahiers topos, the category of super smooth sets is sometimes called the \textbf{super-Dubuc topos}.
     }
 
     \begin{property}[Cohesion]
@@ -696,7 +696,7 @@
 
         The \textbf{infinitesimal neighbourhood} (to arbitrary order) of a formal smooth subset $Y\hookrightarrow X$ is defined by taking its plots to be those plots of $X$ for which the reductions factorize through plots of $Y$.
     }
-    \newdef{Shape modality}{\index{modality|seealso{shape}}\index{shape}\index{de Rham|seealso{shape}}
+    \newdef{Shape modality}{\index{modality|seealso{shape}}\index{shape}\index{de Rham!space|seealso{shape}}\label{hdg:de_rham_shape}
         The \textbf{(infinitesimal) shape} or \textbf{de Rham shape} $\mathfrak{J}X$ of a super smooth set $X$ is given, throught duality/adjointness, by the super smooth set obtained by reducing the plots of $X$:
         \begin{gather}
             \mathfrak{J}X(U) := X(\mathfrak{R}(U))\,.
@@ -781,6 +781,77 @@
 
     \begin{property}
         By \cref{hdg:bosonic_formally_etale} above, the bosonic space underlying a $V$-manifold is a $\overset{\rightsquigarrow}{V}$-manifold.
+    \end{property}
+
+\section{Algebraic spaces}
+\subsection{Extending schemes}
+
+    By interpreting objects in a big topos over a scheme (\cref{section:alggeom_topos_theory}) as generalized spaces, the following definition is obtained.
+    \newdef{Algebraic space}{\index{algebraic!space}\index{atlas}\label{alggeom:algebraic_space}
+        An object $X\in\symbfsf{Sh}(\symbfsf{Sch}_{\text{fppf}})$ satisfying
+        \begin{enumerate}
+            \item The diagonal morphism $X\rightarrow X\times X$ is representable (\cref{topos:representable_diagonal}).
+            \item There exists a scheme morphism $Y\rightarrow X$ that is surjective and \'etale. This is sometimes called an \textbf{atlas}.
+        \end{enumerate}
+        Requiring representability of the diagonal can be argued as follows. The fibre product can be seen as a generalized notion of intersection, so representability means that the intersection of any two schemes is again a scheme. Moreover, representability of the diagonal also implies representability of the atlas.
+    }
+
+    Inspired by locality, one can generalize many properties of scheme morphisms to morphisms of algebraic spaces.
+    \newdef{Property of algebraic spaces}{
+        Consider a representable morphism of algebraic spaces $F:X\rightarrow Y$. If $P$ is a property of scheme morphisms satisfying:
+        \begin{enumerate}
+            \item it is preserved under base change, and
+            \item it is fppf-local on the target,
+        \end{enumerate}
+        then $f$ is said to have the property $P$ if for all $T\in\ob{Sch}$ and all $G:h_T\rightarrow Y$ the morphism $S_G\rightarrow T$ has property $P$, where $S_G\in\ob{Sch}$ is a representing object of $G$, i.e.~$h_{S_G}\cong h_T\times_YF$.
+    }
+    \newdef{\'Etale morphism}{\index{etale!morphism}
+        A morphism $F:X\rightarrow Y$ of algebraic spaces such that for every \'etale morphism $G:h_S\rightarrow X$ the composition $F\circ G$ is also \'etale.\footnote{In a similar vein, one can define smooth morphisms of algebraic spaces.}
+    }
+
+\subsection{\texorpdfstring{$\mathcal{D}$-geometry $\clubsuit$}{D-geometry}}
+
+    \newdef{Sheaf of differential operators}{
+        Let $X$ be a smooth manifold (\labelref{chapter:manifolds}) or scheme (\labelref{chapter:alggeom}). Denote its structure sheaf by $\mathcal{O}_X$ and denote the sheaf of $\mathcal{O}_X$-algebras of vector fields (interpreted as derivations) on $X$ by $\mathcal{D}_X$:
+        \begin{gather}
+            \mathcal{D}_X(U) := \bigl\{v\in\End(\mathcal{O}_X(U))\bigm\vert v(fg) = v(f)g + fv(g)\bigr\}\,.
+        \end{gather}
+    }
+
+    \newdef{$\mathcal{D}_X$-module}{\index{D!module}\label{hdg:d_module}
+        An $\mathcal{O}_X$-module equipped with an action of $\mathcal{D}_X$. This is equivalent to a linear map
+        \begin{gather}
+            \nabla:\mathcal{D}_X\rightarrow\End(\mathcal{O}_X)
+        \end{gather}
+        satisfying the following properties:
+        \begin{enumerate}
+            \item\textbf{$\mathcal{O}_X$-linearity}: $\nabla_{fv}\sigma=f\nabla_v\sigma$,
+            \item\textbf{Leibniz rule}: $\nabla_v(f\sigma) = v(f)\sigma + f\nabla_v\sigma$, and
+            \item\textbf{Flatness}: $\nabla_{[v,w]}\sigma = [\nabla_v,\nabla_w]\sigma$.
+        \end{enumerate}
+        If $X$ is locally free (\cref{sheaf:locally_free}), i.e.~corresponds to a locally trivial bundle, one obtains the algebraic reformulation of a vector bundle with flat connection.
+    }
+
+\subsection{Crystalline cohomology}\index{cohomology!crystalline}
+
+    The following definition arises as an application of \cref{hdg:de_rham_shape} to the category of schemes. It was originally introduced by \indexauthor{Simpson}.
+    \newdef{de Rham space}{\index{de Rham!space}
+        Let $X$ be a scheme, interpreted through its functor of points $\func{X}{CRing}{Set}$. Its de Rham space $X_{\text{dR}}$ is obtained by reducing schemes (and sheafifying):
+        \begin{gather}
+            X_{\text{dR}}(R) := X(R_{\text{red}})\,.
+        \end{gather}
+    }
+
+    \newdef{Crystalline site}{\index{site!crystalline}
+        Let $X$ be a (smooth) scheme over a field of characteristic 0 and consider its de Rham space $X_{\text{dR}}$. The big site $\symbfsf{Sch}/_{\!X_{\text{dR}}}$ is called the \textbf{infinitesimal} or crystalline site $\symbfsf{Crys}(X)$ over $X$.\footnote{This is used both in the Zariski and \'etale sense.}
+    }
+
+    \newdef{Crystalline cohomology}{
+        The Abelian sheaf cohomology on the crystalline site (as such, it can be interpreted as the algebraic de Rham cohomology of de Rham spaces).
+    }
+
+    \begin{property}[$\mathcal{D}$-modules]
+        The category of $\mathcal{D}_X$-modules (\cref{hdg:d_module}) over a smooth scheme $X$ (over a field of characteristic 0) is equivalent to the category of quasicoherent sheaves over its de Rham space $X_{\text{dR}}$.
     \end{property}
 
 \section{Higher Lie theory}

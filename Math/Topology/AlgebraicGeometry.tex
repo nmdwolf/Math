@@ -1,6 +1,6 @@
 \chapter{Algebraic Geometry}\label{chapter:alggeom}
 
-    References for this chapter are~\citet{gathmann_algebraic_2019,mumford_red_1999,vakil_foundations_2023,vakil_math_2025,hartshorne_algebraic_1977}. For the basics on ring theory, ideals and algebraic dependence, see \namecrefs{section:ring}~\ref{section:ring} and~\ref{section:algebraic_numbers}, and for some background on ringed spaces, see \cref{section:ringed_spaces}. The section on tropical geometry is mainly based on~\citet{maclagan_aarms_2008}. In order to not confuse the letters $k$ and $K$, often used for fields, with various indices and dimensions, fields will be denoted by the symbol $\mathfrak{K}$ in this chapter. Moreover, the base field $\mathfrak{K}$ will also be assumed to be algebraically closed (unless noted otherwise).
+    References for this chapter are~\citet{gathmann_algebraic_2019,mumford_red_1999,vakil_foundations_2023,vakil_math_2025,hartshorne_algebraic_1977,the_stacks_project_stacks_2008}, with the section on \'etale cohomology mainly based on~\citet{milne_lectures_2013,the_stacks_project_stacks_2008}. For the basics on ring theory, ideals and algebraic dependence, see \namecrefs{section:ring}~\ref{section:ring} and~\ref{section:algebraic_numbers}, and for some background on ringed spaces, see \cref{section:ringed_spaces}. The section on tropical geometry is mainly based on~\citet{maclagan_aarms_2008}. In order to not confuse the letters $k$ and $K$, often used for fields, with various indices and dimensions, fields will be denoted by the symbol $\mathfrak{K}$ in this chapter. Moreover, the base field $\mathfrak{K}$ will also be assumed to be algebraically closed (unless noted otherwise).
 
     \minitoc
 
@@ -544,7 +544,7 @@
     \end{property}
 
     \newdef{Flat morphism}{\index{flat!morphism}
-        A scheme morphism whose induced morphism on local rings is flat. If it is also surjective, it is said to be \textbf{faithfully flat}.
+        A scheme morphism whose induced morphism on local rings is flat. If it is also surjective, it is said to be \textbf{faithfully flat}. In fact, it is sufficient to check this for closed points.
     }
 
     \begin{remark}
@@ -561,11 +561,15 @@
         \end{itemize}
     \end{property}
 
-    \begin{property}[Flatness]
+    \begin{property}[Flat sheaves]
         A coherent sheaf over a Noetherian scheme is flat if and only if it locally free.
+
+        Consider an affine morphism $f:X\rightarrow Y$ of $S$-schemes together with a quasicoherent sheaf $\mathcal{F}$ over $X$. $\mathcal{F}$ is flat over $S$ if and only if $f_*\mathcal{F}$ is flat over $S$.
     \end{property}
     \begin{property}[Flat schemes]
-        Consider a scheme $f:X\rightarrow$ locally of finite type with $Y$ Noetherian. $f$ is flat if and only if
+        Flatness of morphisms is preserved by composition and base change.
+
+        Now, consider a scheme $f:X\rightarrow$ locally of finite type with $Y$ Noetherian. $f$ is flat if and only if
         \begin{gather}
             \dim_{\kappa(y)}\left((f_\ast\mathcal{O}_X)_y\otimes_{\mathcal{O}_{Y,y}\kappa(y)}\right)
         \end{gather}
@@ -598,18 +602,31 @@
         \end{gather*}
         In other words, formally \'etale morphisms have the unique right lifting property with respect to infinitesimal thickenings. Analogously to the case of rings, the morphism $f$ is said to be \textbf{formally smooth} (resp.~\textbf{formally unramified}) if there is at least (resp.~at most) one lift.
 
-        Since this definition does allow for some pathological examples, \'etale morphisms are defined as those morphisms that are formally \'etale and locally of finite presentation. (Likewise for smooth and unramified morphisms.)
+        Since this definition does allow for some pathological examples, \'etale morphisms are defined as those morphisms that are formally \'etale and locally of finite presentation. (Likewise for smooth and unramified morphisms.) The subacategory of $\symbfsf{Sch}_{/X}$ on \'etale morphisms is denoted by $\symbfsf{Et}_X$.
     }
 
     \sremark{The term 'formally' should be interpreted in the sense of \textit{formal geometry} (see \labelref{chapter:hdg}). There, infinitesimal neighbourhoods of points (see \cref{hdg:infinitesimal_thickening}), used for defining the local geometry, are induced by nilpotent ideals. This is further exemplified by \cref{alggeom:tangent_cone_etale}.}
 
-    \begin{property}[Equivalent conditions]
-        The following conditions are equivalent for a scheme morphism $f:X\rightarrow Y$ locally of finite presentation:
+    \newadef{Unramified morphism}{
+        A scheme morphism $f:X\rightarrow Y$ is unramified if
+        \begin{enumerate}
+            \item it is locally of finite presentation,
+            \item the induced map $f^\sharp:\mathcal{O}_{Y,f(x)}\rightarrow\mathcal{O}_{X,x}$ satisfies
+                \begin{gather}
+                    f^\sharp(\mathfrak{m}_{f(x)})\mathcal{O}_{X,x} = \mathcal{O}_{X,x}\,,
+                \end{gather}
+            \item and $\kappa\bigl(f(x)\bigr)$ is a finite algebraic extension of $\kappa(x)$.
+        \end{enumerate}
+    }
+
+    \begin{property}[Equivalent \'etale conditions]
+        The following conditions are equivalent for a scheme morphism $f:X\rightarrow Y$:
         \begin{itemize}
             \item $f$ is \'etale,
             \item $f$ is flat and unramified,
-            \item $f$ is flat and smooth, and
-            \item $f$ is smooth and of relative dimension 0.
+            \item $f$ is flat and smooth,
+            \item $f$ is smooth and of relative dimension 0, and
+            \item $f$ is locally of finite presentation and, for every $x\in X$, there exist open affines $x\in\spec(A)\subseteq X$ and $f(U)\subseteq\spec(B)\subseteq Y$ with $A=R[x_1,\ldots,x_n]/(f_1,\ldots,f_n)$ such that the Jacobian of the local representative is nonsingular: $\det(\pderiv{f_i}{x_j})\neq0$.\footnote{This is the algebraic counterpart of the \textit{inverse function theorem} (see \cref{bundle:inverse_function_theorem}).}
         \end{itemize}
         \todo{ADD Jacobian condition (see e.g.~\citet{mumford_red_1999})}
     \end{property}
@@ -631,14 +648,14 @@
         A morphism of schemes $f:X\rightarrow Y$ for which there exists a covering $\{U_i\}_{i\in I}$ of $Y$ by affine sets $U_i\equiv\mathrm{Spec}(A_i)$ such that $f^{-1}(U_i)\cong\mathrm{Spec}(B_i)$ is a free, separable $A_i$-algebra $B_i$ for all $i\in I$.
     }
     \begin{remark}[Finite \'etale covering]\index{etale!covering}
-        When a finite \'etale morphism $f:X\rightarrow Y$ exists, $X$ is sometimes called a \textbf{finite \'etale cover(ing)} of $Y$. The full subcategory of the slice category $\symbfsf{Sch}/_Y$ on finite \'etale coverings is often denoted by $\symbfsf{FEt}_X$.
+        When a finite \'etale morphism $f:X\rightarrow Y$ exists, $X$ is sometimes called a \textbf{finite \'etale cover(ing)} of $Y$. The full subcategory of the slice category $\symbfsf{Sch}/_Y$ on finite \'etale coverings is often denoted by $\symbfsf{FEt}_Y$.
     \end{remark}
 
     \newdef{\'Etale fundamental group}{\index{fundamental group!etale}
-        Consider a connected scheme $X$. The (\'etale) fundamental group $\pi_1(X)$ is the unique (up to isomorphism) profinite group \ref{topology:profinite_group} such that $\symbfsf{FEt}_X$ is equivalent to the category $\symbfsf{Fin}\,\pi_1(X)\symbfsf{Set}$ of finite of $\pi_1(X)$-sets.
+        Consider a connected scheme $X$. The (\'etale) fundamental group $\pi_1(X)$ is the unique (up to isomorphism) profinite group (\cref{topology:profinite_group}) such that $\symbfsf{FEt}_X$ is equivalent to the category $\symbfsf{Fin}\pi_1(X)\symbfsf{Set}$ of finite of $\pi_1(X)$-sets.
     }
     \begin{remark}
-        Recall \cref{topology:equivalent_categories} for topological spaces. There, a stricter set of spaces was considered with the benefit that all $\pi_1(X)$-sets could be classified. By passing to profinite groups one can formulate a classification statement in the topological setting that is virtually identical to the above one.
+        Recall \cref{topology:equivalent_categories} for topological spaces. There, a stricter set of spaces was considered with the benefit that all $\pi_1(X)$-sets could be classified. By passing to profinite groups, a classification in the topological setting can be stated, virtually identical to the above one.
     \end{remark}
 
     The following definition is analogous to \cref{topology:proper_function}.
@@ -684,19 +701,19 @@
 \subsection{Tangent space}
 
     \newdef{Tangent cone}{\index{tangent!cone}\index{initial!part}
-        Consider an affine variety $X=V(I)$. The tangent cone to $X$ at the origin is defined as the zero locus of the `initial ideal' of $I$:
+        Consider a variety $X$ over an algebraically closed field $\mathfrak{K}$. The tangent cone to $X$ at the origin is defined as the zero locus of the `initial ideal' of $I$:
         \begin{gather}
-            C_0X := V\bigl(\{f^{\text{in}}\bigm\vert f\in I\}\bigr)\,,
+            C_0X := V\bigl(\{f^{\text{in}}\bigm\vert f\in I(U)\}\bigr)\,,
         \end{gather}
-        where $f^{\text{in}}$ denotes the \textbf{initial part} of $f$, i.e.~the sum of the smallest degree monomials in $f$.
+        where $U\ni x$ is an affine chart around and $f^{\text{in}}$ denotes the \textbf{initial part} of $f$, i.e.~the homogeneous part of smallest degree of $f$.
     }
 
     \newdef{Tangent space}{\index{tangent!space}
-        Consider an affine variety $X$ and choose a point $x\in X$. By working in a suitable affine chart, one can assume that $x=0$. This implies that any polynomial $f\in I(X)$ has a vanishing constant term. The tangent space at $x$ is defined as follows:
+        Consider a variety $X$ over an algebraically closed field $\mathfrak{K}$ and choose a point $x\in X$. By working in a suitable affine chart, one can assume that $x=0$. This implies that any polynomial $f\in I(X)$ has a vanishing constant term. The tangent space at $x$ is defined as follows:
         \begin{gather}
-            T_xX := V\bigl(\{f^{[1]}\bigm\vert f\in I(X)\}\bigr)\,,
+            T_xX := V\bigl(\{f^{[1]}\bigm\vert f\in I(U)\}\bigr)\,,
         \end{gather}
-        where $f^{[1]}$ denotes the linear part of the polynomial $f$.
+        where $U\ni x$ is an affine chart and $f^{[1]}$ denotes the linear part of the polynomial $f$.
     }
     \begin{property}
         For $x=0$, one obtains that $I(0)=(x_1,\ldots,x_n)/I(X)$. Moreover, there exists a natural isomorphism
@@ -707,7 +724,12 @@
     \end{property}
 
     It is not so hard to prove that this property can, in fact, easily be transported to arbitrary points $x\in X$ if one replaces the ideal $I(0)$ by the maximal ideal of the structure sheaf $\mathcal{O}_X$ at $x$. Therefore, one can give the following general definition.
-    \newdef{Zariski tangent space}{\index{Zariski!tangent space}\label{alggeom:cotangent_space}
+
+    \newadef{Tangent cone: Schemes}{\index{tangent!cone}
+        Let $X$ be a Noetherian scheme. The tangent cone $C_xX$ is given by the spectrum of the graded ring $\mathrm{Gr}(\mathcal{O}_x)=\bigoplus_{k\in\mathbb{N}}\mathfrak{m}_x^k/\mathfrak{m}_x^{k+1}$.
+    }
+
+     \newdef{Zariski tangent space}{\index{Zariski!tangent space}\label{alggeom:cotangent_space}
         Consider a scheme $X$ with structure sheaf $\mathcal{O}_X$. At every point $x\in X$, the stalk $\mathcal{O}_x$ is a local ring and, hence, has a maximal ideal $\mathfrak{m}_x$. The quotient $\mathfrak{m}_x/\mathfrak{m}_x^2$ is a vector space over the residue field $\mathcal{O}_x/\mathfrak{m}_x$. It is called the Zariski cotangent space at $x\in X$ and its algebraic dual is called the Zariski tangent space at $x\in X$.
     }
 
@@ -716,11 +738,7 @@
     \end{property}
 
     \newdef{Regular scheme}{\index{regular!scheme}
-        A (Noetherian) scheme is said to be regular or \textbf{nonsingular} if the local dimension at any point is equal to the dimension of the Zariski tangent space at that point. Equivalently, an affine variety is smooth if at every point the tangent space is isomorphic to the tangent cone.
-    }
-
-    \newadef{Tangent cone: Schemes}{\index{tangent!cone}
-        Assume that $X$ is a Noetherian scheme. The tangent cone $C_xX$ is given by the spectrum of the graded ring $\mathrm{Gr}(\mathcal{O}_x)=\bigoplus_{k\in\mathbb{N}}\mathfrak{m}_x^k/\mathfrak{m}_x^{k+1}$. If $X$ is regular, the tangent cone coincides with the Zariski tangent space.
+        A (Noetherian) scheme is said to be regular or \textbf{nonsingular} if the local dimension at any point is equal to the dimension of the Zariski tangent space at that point. Equivalently, a scheme is regular if at every point the tangent space is isomorphic to the tangent cone.
     }
 
     \begin{remark}[Inverse function theorem]\index{inverse function theorem}
@@ -732,7 +750,7 @@
     \end{remark}
 
     Recall \cref{alggeom:etale_morphism_variety} of \'etale morphisms of affine varieties (over algebraically closed fields) and \cref{alggeom:etale_conditions} for schemes. The following property relates these to the infinitesimal thickening point-of-view.
-    \begin{property}\label{alggeom:tangent_cone_etale}
+    \begin{property}[\'Etale morphisms]\label{alggeom:tangent_cone_etale}
         A morphism $f:X\rightarrow Y$ of finite type of Noetherian schemes is \'etale if and only if it induces an isomorphism on tangent cones.
     \end{property}
 
@@ -780,6 +798,10 @@
         The sheaf of differentials on a fibre coincides with the fibre of the sheaf of differentials. 
     \end{result}
 
+    \begin{property}[Unramified morphism]
+        A morphism $f:X\rightarrow Y$ locally of finite type is unramified if and only if $\Omega_{X/Y}=0$.
+    \end{property}
+
     Recall \cref{alggeom:cotangent_space}. This space can be obtained by taking fibres.
     \begin{property}[Cotangent space]\index{Zariski!tangent space}
         The cotangent space at a point $x\in X$ of a scheme $X\rightarrow Y$ is equal to
@@ -790,22 +812,24 @@
 
     \todo{COMPLETE}
 
-\section{\difficult{Topos theory}}
+\section{\difficult{Topos theory}}\label{section:alggeom_topos_theory}
 
-    This section also uses the content of \labelref{chapter:topos}.
+    This section heavily uses the content of \labelref{chapter:topos}.
+
+\subsection{Sites of schemes}
 
     \newdef{Zariski topology}{\index{Zariski!topology}
         The Zariski topology on the category of schemes is generated by sets $\{f_i:U_i\rightarrow X\}_{i\in I}$ of open immersions such that $X=\bigcup_{i\in I}f_i(U_i)$ in the set-theoretic sense. This latter condition is often called \textbf{joint surjectivity}. This gives the \textbf{big Zariski site} on an a scheme $X$. The \textbf{small Zariski site} of a scheme $X$ is the subsite of $\symbfsf{Sch}_{/X}$ on the open immersions.
     }
     \begin{remark}[Size issues]
-        There are some size issues with the category of schemes, it being a big category. The result is that in general there exists no sheafification functor, i.e.~no general construction of the category of sheaves and, hence, this category can only be turned into a site, not a (Grothendieck) topos.\footnote{One can actually also work with large sites to obtain topoi as long as they contain a \textit{small topologically generating set} or, even more general, satisfy the \textit{WISC axiom}.} In the case of \textit{topological} or \textit{smooth manifolds}, this problem is often ignored since one has a (small) dense subsite and no issues arise. For schemes, however, the situation is different. For example, the fpqc topology (to be introduced below) does not admit a sheafification functor. Two solutions exists in such a context, either one works within a suitable universe or one only considers a single (pre)sheaf at a time.
+        There are some size issues with the category of schemes, it being a big category. The result is that, in general, there exists no sheafification functor, i.e.~no general construction of the category of sheaves and, hence, this category can only be turned into a site, not a (Grothendieck) topos.\footnote{One can actually also work with large sites to obtain topoi as long as they contain a \textit{small topologically generating set} or, even more general, satisfy the \textit{WISC axiom}.} In the case of \textit{topological} or \textit{smooth manifolds}, this problem is often ignored since one has a (small) dense subsite and no issues arise. For schemes, however, the situation is different. For example, the fpqc topology (to be introduced below) does not admit a sheafification functor. Two solutions exists in such a context, either one works within a suitable universe or one only considers a single (pre)sheaf at a time.
     \end{remark}
 
     \begin{property}
         The Zariski site is subcanonical.
     \end{property}
 
-    The following topology is finer than the Zariski topology.\footnote{There exists another topology in between the Zariski and \'etale topologies, the \textit{Nisnevich topology}, but this is of no interest here.}
+    The following topology is finer than the Zariski topology.\footnote{There exists another topology in between the Zariski and \'etale topologies, the \textit{Nisnevich topology}, but this is of no interest here.}\index{topology!Nisnevich}
     \newdef{\'Etale cover}{\index{cover!\'etale}\index{site!\'etale}
         An \'etale cover of a scheme $X$ is a jointly surjective family of \'etale morphisms that are locally of finite type\footnote{For $X$ locally Noetherian, this additional condition is superfluous.}. The \textbf{big \'etale site} $\symbfsf{Sch}_{/X,\text{\'et}}$ is the slice category of $X$ equipped with the coverage (see \cref{topos:coverage}) of \'etale covers. The \textbf{small \'etale site} is the subsite on \'etale morphisms.
     }
@@ -819,48 +843,40 @@
     \end{property}
 
     \newdef{Flat topologies}{\index{flat!topology}
-        The finest topologies on the category of schemes (or slices thereof) are given by considering flat morphisms. The two most widely used flat topologies are the `fppf-' and `fpqc-topologies'. The \textbf{fppf-topology} (for \textit{fid\`element plat de presentation finie}) is generated by jointly surjective families of flat morphisms that are locally of finite presentation. The \textbf{fpqc-topology} (for \textit{fid\`element plat et quasi-compacte}) is generated by jointly surjective families of flat and quasicompact morphisms.
+        The finest topologies on the category of schemes (or slices thereof) are given by considering flat morphisms. The two most widely used flat topologies are the `fppf-' and `fpqc-topologies'. The \textbf{fppf-topology} (for \textit{fid\`element plat de presentation finie}) is generated by jointly surjective families of flat morphisms that are locally of finite presentation.
+        
+        The \textbf{fpqc-topology} (for \textit{fid\`element plat et quasi-compacte}) was historically generated by jointly surjective families of flat and quasicompact morphisms. However, when doing so, the fpqc-topology is not comparable to the Zariski topology, since open immersions need not be quasicompact (unless one restricts to Noetherian schemes). A solution introduced by \indexauthor{Vistoli} and \indexauthor{Kleiman}~\citep{vistoli_notes_2004} is to replace quasicompactness by the following seemingly similar definition. A morphism is fpqc if it is locally of finite presentation and if there exists an open affine cover $\{U_i\}_{i\in I}$ of $X$ such that each $U_i$ is the image of a compact open subscheme.\footnote{Quasicompactness only says that the $U_i$ contain the image of their (compact) preimage, not that they coincide with it.} (If one drops the modifier `locally' in the definition of the fppf-topology, a similar problem arises.)
     }
-    \begin{remark}
-        As defined above, the fpqc-topology is technically not comparable to the Zariski topology, since open immersions need not be quasicompact (unless one restricts to Noetherian schemes). A solution introduced by \indexauthor{Vistoli} and \indexauthor{Kleiman} is to replace quasicompactness by the following seemingly similar definition: There exists an open affine cover $\{U_i\}_{i\in I}$ of $X$ such that each $U_i$ is the image of a compact open subscheme. (If one drops the modifier `locally' in the definition of the fppf-topology, a similar problem arises.)
-    \end{remark}
-    \begin{remark}[Standard covers]
-        An equivalent approach to the definition of flat topologies is by first defining `standard' fppf or fpqc covers on affine schemes. These are similar to the flat covers defined above, but where the families are finite and the codomains affine. The covers of general schemes are then generated by base change.
-    \end{remark}
 
-    By interpreting objects in the big topos (over a scheme) as generalized spaces in the sense of \labelref{chapter:hdg}, the following definition is obtained.
-    \newdef{Algebraic space}{\index{algebraic!space}\index{atlas}\label{alggeom:algebraic_space}
-        An object $X\in\symbfsf{Sh}(\symbfsf{Sch}_{\text{fppf}})$ satisfying
-        \begin{enumerate}
-            \item The diagonal morphism $X\rightarrow X\times X$ is \textit{representable} (see \cref{topos:representable_diagonal}).
-            \item There exists a scheme morphism $Y\rightarrow X$ that is surjective and \'etale. This is sometimes called an \textbf{atlas}.
-        \end{enumerate}
-        Requiring representability of the diagonal can be argued as follows. The fibre product can be seen as a generalized notion of intersection, so representability means that the intersection of any two schemes is again a scheme. Moreover, representability of the diagonal also implies representability of the atlas.
-    }
+    \begin{property}[Representable sheaves]
+        Every representable presheaf satisfies descent in the fpqc-topology.
+    \end{property}
+
+    This also implies the same result for the fppf- and Zariski topologies due to the following property.
+    \begin{property}[Refinement]
+        The above topologies satisfy the following chain of refinements:
+        \begin{gather}
+            \text{fpqc}\supset\text{fppf}\supset\text{\'etale}\supset\text{Zariski}\,.
+        \end{gather}
+    \end{property}
 
     \newdef{Local property}{\index{local!property}\label{alggeom:local_property}
-        Consider some property of scheme morphisms $P$, e.g.~\'etale or smoothness. Relative to some topology on $\symbfsf{Sch}$, the property $P$ is said to be \textbf{local on the source} if for every cover $\{X_i\rightarrow X\}_{i\in I}$ and every morphism $f:X\rightarrow Y$ the following holds:
+        Consider some property of scheme morphisms $P$, e.g.~\'etale or smoothness. Relative to some topology on $\symbfsf{Sch}$, the property $P$ is said to be \textbf{local on the source} if, for every cover $\{X_i\rightarrow X\}_{i\in I}$ and every morphism $f:X\rightarrow Y$, the following holds:
         \begin{gather}
             f\text{ satisfies }P\iff\forall i\in I:X_i\rightarrow Y\text{ satisfies }P\,.
         \end{gather}
-        Analogously, the property $P$ is said to be \textbf{local on the base} or \textbf{local on the target} if for every cover $\{Y_i\rightarrow Y\}_{i\in I}$ and every morphism $f:X\rightarrow Y$ the following holds:
+        Analogously, the property $P$ is said to be \textbf{local on the base} or \textbf{local on the target} if, for every cover $\{Y_i\rightarrow Y\}_{i\in I}$ and every morphism $f:X\rightarrow Y$, the following holds:
         \begin{gather}
             f\text{ satisfies }P\iff\forall i\in I:Y_i\times_YX\rightarrow Y_i\text{ satisfies }P\,.
         \end{gather}
     }
 
-    Inspired by locality, one can generalize many properties of scheme morphisms to morphisms of algebraic spaces.
-    \newdef{Property of algebraic spaces}{
-        Consider a representable morphism of algebraic spaces $F:X\rightarrow Y$. If $P$ is a property of scheme morphisms satisfying:
-        \begin{enumerate}
-            \item it is preserved under base change, and
-            \item it is fppf-local on the target,
-        \end{enumerate}
-        then $f$ is said to have the property $P$ if for all $T\in\ob{Sch}$ and all $G:h_T\rightarrow Y$ the morphism $S_G\rightarrow T$ has property $P$, where $S_G\in\ob{Sch}$ is a representing object of $G$, i.e.~$h_{S_G}\cong h_T\times_YF$.
-    }
-    \newdef{\'Etale morphism}{\index{etale!morphism}
-        A morphism $F:X\rightarrow Y$ of algebraic spaces such that for every \'etale morphism $G:h_S\rightarrow X$ the composition $f\circ g$ is also \'etale.\footnote{In a similar vein, one can define smooth morphisms of algebraic spaces.}
-    }
+\subsection{\'Etale cohomology}
+
+    The following property is the analogue of \cref{sheaf:enough_injectives} for the \'etale site.
+    \begin{property}
+        The category of sheaves of Abelian groups on $\symbfsf{Et}_X$ has enough injectives (\cref{homalg:resolution}).
+    \end{property}
 
 \section{Algebraic groups \& Galois theory}\index{Galois!theory}
 

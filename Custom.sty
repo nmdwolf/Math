@@ -3,11 +3,16 @@
 \RequirePackage[dvipsnames]{xcolor}
 \definecolor{UGent}{RGB}{30,100,200}
 \usepackage{graphicx, float, enumerate, manfnt, empheq, cancel, fp, units, subcaption, tikz-cd}
-\usepackage{amsmath, amssymb, tabu, bigints, exscale, relsize, bbm, dsfont, ytableau, simplewick, slashed, mathrsfs, tabularx, xfrac, booktabs, epigraph}
+\usepackage{amsmath, amssymb, tabu, bigints, exscale, relsize, bbm, dsfont, ytableau, simplewick, slashed, mathrsfs, tabularx, xfrac, booktabs, ltxtable, epigraph}
 \usepackage[normalem]{ulem}
 \usepackage[framemethod=TikZ]{mdframed}
 
 \renewcommand{\baselinestretch}{1.2}
+
+% These lines should fix some overfull hboxes
+\usepackage{microtype}
+\tolerance=1500
+\emergencystretch=1.5em
 
 \usepackage[T1]{fontenc}
 \usepackage[bold-style=TeX, nabla=upright, math-style = TeX]{unicode-math}
@@ -265,8 +270,17 @@
 }
 \makeatother
 
+% The following command allows to add index sections to the ToC (\indexletter is called in index.ist)
+\makeatletter
+\newcommand{\indexauthorletter}[1]{%
+  \pdfbookmark[1]{#1}{Author #1}%		% shows bookmark in PDF but not in ToC
+  \section*{#1}%
+%   \addcontentsline{toc}{section}{#1}%		% shows bookmark both in PDF and ToC
+}
+\makeatother
+
 \makeindex[intoc=true,options=-s index]	% normal index
-\makeindex[name=author, title={Authors}, options= -s index.ist, intoc] % index with author names
+\makeindex[name=author, title={Authors}, options= -s index_author, intoc] % index with author names
 \newcommand{\indexauthor}[1]{\textit{#1}\index[author]{#1}}
 
 \usepackage[title, titletoc]{appendix}

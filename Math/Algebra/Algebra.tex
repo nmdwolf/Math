@@ -665,6 +665,22 @@
         An invertible element of a ring $(R,+,\cdot)$. The set of units, denoted by $R^*$, forms a group under multiplication.
     }
 
+    \begin{property}[Freshman's dream]\index{freshman's dream}
+        Let $R$ be a ring of characteristic $p>0$. For all $x,y\in R$, the following statement holds:\footnote{See \cref{calculus:binomial_theorem} for the statement in characteristic 0.}
+        \begin{gather}
+            (x+y)^p = x^p + y^p\,.
+        \end{gather}
+    \end{property}
+    \newdef{Frobenius endomorphism}{\index{Frobenius!endomorphism}
+        Let $R$ be a ring of characteristic $p>0$. The Frobenius endomorphism sends an element $x\in R$ to its $p^{\text{th}}$ power:
+        \begin{gather}
+            F_p:R\rightarrow R:x\mapsto x^p\,.
+        \end{gather}
+        By the preceding property, this is a ring morphism.
+    }
+
+\subsection{Domains}
+
     \newdef{Integral domain}{\index{domain!integral}\label{algebra:integral_domain}
         A commutative ring $R$ in which the product of two nonzero elements is again nonzero.
     }
@@ -732,58 +748,6 @@
     \newdef{Unique factorization domain}{\index{domain!unique factorization}\label{algebra:ufd}
         An integral domain in which every element admits a unique factorization into irreducible elements. These are often abbreviated as \textbf{UFD}s.
     }
-
-    \newdef{Absolute value}{\index{absolute value}\index{valuation}\index{ultrametric}\index{Archimedean}\label{algebra:absolute_value}
-        Let $\mathfrak{K}$ be a ring (usually a field). An absolute value (sometimes called an \textbf{exponential} or \textbf{multiplicative valuation}) is a multiplicative \textit{seminorm} (see \cref{functional:seminorm}), i.e.~a function $|\cdot|:\mathfrak{K}\rightarrow\mathbb{R}$ satisfying the following conditions for all $x,y\in\mathfrak{K}$:
-        \begin{enumerate}
-            \item\textbf{Positivity}: $|x|\geq0$,
-            \item\textbf{Nondegeneracy}: $|x|=0\iff x=0$,
-            \item\textbf{Multiplicativity}: $|xy|=|x|\,|y|$, and
-            \item\textbf{Triangle inequality}: $|x+y|\leq|x|+|y|$.
-        \end{enumerate}
-        If the triangle inequality is strengthened to
-        \begin{gather}
-            |x+y|\leq\max\bigl(|x|,|y|\bigr)\,,
-        \end{gather}
-        the absolute value is said to be \textbf{ultrametric} or \textbf{non-Archimedean} since this implies that, for all $n\in\mathbb{N}$,
-        \begin{gather}
-            |nx|\leq|x|
-        \end{gather}
-        holds and, hence, also that $|n|\leq 1$ holds for all $n\in\mathbb{Z}$. On the other hand, if the ultrametric condition does not hold, the \textbf{Archimedean} case, $0<|x|<|y|$ implies that there exists a $n\in\mathbb{N}$ such that $|y|<|nx|$.
-    }
-    \newdef{Place}{\index{place}
-        Two absolute values $|\cdot|_1:\mathfrak{K}\rightarrow\mathbb{R}$, $|\cdot|_2:\mathfrak{K}\rightarrow\mathbb{R}$ are equivalent if
-        \begin{gather}
-            |x|_1<1\iff|x|_2<1
-        \end{gather}
-        for all $x\in\mathfrak{K}$. An equivalence class of absolute values is called a place.
-    }
-
-    (Non-Archimedean) absolute values can be extended in the following way.
-    \newdef{Valuation}{\index{valuation}\label{algebra:valuation}
-        Let $\mathfrak{K}$ be a field and let $\Gamma$ be a totally ordered Abelian group (\cref{set:total_order}). The group law and the order relation on $\Gamma$ can be extended to the union $\Gamma\cup\{\infty\}$ in the following way (the notation $\infty$ is only a convention):
-        \begin{itemize}
-            \item $g+\infty:=\infty+g:=\infty$ for all $g\in\Gamma$, and
-            \item $g\leq\infty$ for all $g\in\Gamma$.
-        \end{itemize}
-        A valuation on $\mathfrak{K}$ (with values in $\Gamma$) is a map $\nu:\mathfrak{K}\rightarrow\Gamma\cup\{\infty\}$ such that:
-        \begin{enumerate}
-            \item $\nu(a) = \infty\iff a = 0$,
-            \item $\nu(ab) = \nu(a) + \nu(b)$ for all $a,b\in\mathfrak{K}^\times$, and
-            \item $\min\bigl(\nu(a),\nu(b)\bigr)\leq\nu(a+b)$, where the equality holds if $\nu(a)\neq\nu(b)$.
-        \end{enumerate}
-    }
-    \begin{example}[Absolute values]\label{algebra:nonarchimedean_valuation}
-        Let $|\cdot|:\mathfrak{K}\rightarrow\mathbb{R}$ be a non-Archimedean absolute value and consider a number $b\in\,]\,1,+\infty[$. The function
-        \begin{gather}
-            \nu_b(x) :=
-            \begin{cases}
-                -\log_b|x|&\cif x\neq0\\
-                \infty&\cif x=0
-            \end{cases}
-        \end{gather}
-        is a valuation on $\mathfrak{K}$.
-    \end{example}
 
 \subsection{Ideals}\label{section:ideals}
 
@@ -893,7 +857,61 @@
         Let $R$ be an integral domain. A fractional ideal $I$ of $R$ is a submodule of $\mathrm{Frac}(R)$ such that $rI\subseteq R$ for some $r\in R$. In the case of $R=\mathbb{Z}$, $r$ would correspond to the common denominator of the fractions in $I$.
     }
 
-\subsection{Algebraic geometry}
+\subsection{Valuations}
+
+    \newdef{Absolute value}{\index{absolute value}\index{valuation}\index{ultrametric}\index{Archimedean}\label{algebra:absolute_value}
+        Let $\mathfrak{K}$ be a ring (usually a field). An absolute value (sometimes called an \textbf{exponential} or \textbf{multiplicative valuation}) is a multiplicative \textit{seminorm} (see \cref{functional:seminorm}), i.e.~a function $|\cdot|:\mathfrak{K}\rightarrow\mathbb{R}$ satisfying the following conditions for all $x,y\in\mathfrak{K}$:
+        \begin{enumerate}
+            \item\textbf{Positivity}: $|x|\geq0$,
+            \item\textbf{Nondegeneracy}: $|x|=0\iff x=0$,
+            \item\textbf{Multiplicativity}: $|xy|=|x|\,|y|$, and
+            \item\textbf{Triangle inequality}: $|x+y|\leq|x|+|y|$.
+        \end{enumerate}
+        If the triangle inequality is strengthened to
+        \begin{gather}
+            |x+y|\leq\max\bigl(|x|,|y|\bigr)\,,
+        \end{gather}
+        the absolute value is said to be \textbf{ultrametric} or \textbf{non-Archimedean} since this implies that, for all $n\in\mathbb{N}$,
+        \begin{gather}
+            |nx|\leq|x|
+        \end{gather}
+        holds and, hence, also that $|n|\leq 1$ holds for all $n\in\mathbb{Z}$. On the other hand, if the ultrametric condition does not hold, the \textbf{Archimedean} case, $0<|x|<|y|$ implies that there exists a $n\in\mathbb{N}$ such that $|y|<|nx|$.
+    }
+    \newdef{Place}{\index{place}
+        Two absolute values $|\cdot|_1:\mathfrak{K}\rightarrow\mathbb{R}$, $|\cdot|_2:\mathfrak{K}\rightarrow\mathbb{R}$ are equivalent if
+        \begin{gather}
+            |x|_1<1\iff|x|_2<1
+        \end{gather}
+        for all $x\in\mathfrak{K}$. An equivalence class of absolute values is called a place.
+    }
+
+    (Non-Archimedean) absolute values can be extended in the following way.
+    \newdef{Valuation}{\index{valuation}\label{algebra:valuation}
+        Let $\mathfrak{K}$ be a field and let $\Gamma$ be a totally ordered Abelian group (\cref{set:total_order}). The group law and the order relation on $\Gamma$ can be extended to the union $\Gamma\cup\{\infty\}$ in the following way (the notation $\infty$ is only a convention):
+        \begin{itemize}
+            \item $g+\infty:=\infty+g:=\infty$ for all $g\in\Gamma$, and
+            \item $g\leq\infty$ for all $g\in\Gamma$.
+        \end{itemize}
+        A valuation on $\mathfrak{K}$ (with values in $\Gamma$) is a map $\nu:\mathfrak{K}\rightarrow\Gamma\cup\{\infty\}$ such that:
+        \begin{enumerate}
+            \item $\nu(a) = \infty\iff a = 0$,
+            \item $\nu(ab) = \nu(a) + \nu(b)$ for all $a,b\in\mathfrak{K}^\times$, and
+            \item $\min\bigl(\nu(a),\nu(b)\bigr)\leq\nu(a+b)$, where the equality holds if $\nu(a)\neq\nu(b)$.
+        \end{enumerate}
+    }
+    \begin{example}[Absolute values]\label{algebra:nonarchimedean_valuation}
+        Let $|\cdot|:\mathfrak{K}\rightarrow\mathbb{R}$ be a non-Archimedean absolute value and consider a number $b\in\,]\,1,+\infty[$. The function
+        \begin{gather}
+            \nu_b(x) :=
+            \begin{cases}
+                -\log_b|x|&\cif x\neq0\\
+                \infty&\cif x=0
+            \end{cases}
+        \end{gather}
+        is a valuation on $\mathfrak{K}$.
+    \end{example}
+
+\section{Algebraic geometry}
 
     This section lays the foundations for \labelref{chapter:alggeom}.
 

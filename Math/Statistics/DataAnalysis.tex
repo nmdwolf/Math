@@ -1,29 +1,30 @@
-\chapter{Data Analysis}
+\chapter{Data Analysis \& Numerical Optimization}
 
-    The main reference for the sections on optimization problems is~\citet{shewchuk_introduction_1994}. For the geometry of clustering methods, see~\citet{boissonnat_bregman_2010}. The main references for the section on conformal prediction are~\citet{shafer_tutorial_2008,vovk_algorithmic_2022}. Although a part of this chapter is a continuation of \labelref{chapter:statistics}, the focus here lies more on the computational aspect of the analysis of large data sets. For this reason, the chapter starts with some sections on applied linear algebra (for a refresher, see \labelref{chapter:linear_algebra}).
+    The main reference for the sections on optimization problems is~\citet{shewchuk_introduction_1994}. For the geometry of clustering methods, see~\citet{boissonnat_bregman_2010}. The main references for the section on conformal prediction are~\citet{shafer_tutorial_2008,vovk_algorithmic_2022,dewolf_comparative_2024}.\footnote{Yes, this is some gratuitous selfadvertisement.} Although a part of this chapter is a continuation of \labelref{chapter:statistics}, the focus here lies more on the computational aspect of analyses of large data sets. For this reason, the chapter starts with some sections on applied linear algebra (for a refresher, see \labelref{chapter:linear_algebra}).
 
     \minitoc
 
 \section{Data sampling}
 \subsection{Inverse CDF sampling}
 
-    Although one of the most straightforward sampling algorithms, this approach makes the strong assumption that the cumulative distribution function (\cref{prob:cdf}) is invertible.
+    Although it is one of the most straightforward sampling algorithms for distributions on $\mathbb{R}$, this approach makes the strong assumption that the cumulative distribution function (\cref{prob:cdf}) is invertible. However, it is very much worthwhile to introduce it.
 
     \begin{method}
-        Sample a point $\lambda$ uniformly from the unit interval $[0,1]$. By \cref{prob:uniformization}, the CDF $F_X(X)$ is itself uniformly distributed and, hence, the sampled value can serve as the cumulative distribution of the point to be sampled. The new point $x'$ is, hence, simply given by $F^{-1}_X(\lambda)$.
+        Sample a point $\lambda$ uniformly from the unit interval $[0,1]$. By \cref{prob:uniformization}, the CDF $F_X(X)$ is itself uniformly distributed and, hence, $\lambda$ can serve as a sample of $F_X(X)$. The new point $x'\in\mathbb{R}$ is, hence, simply given by $F^{-1}_X(\lambda)$.
 
-        When $F_X$ is discrete, $\lambda$ might not lie in the image of $F_X$ and the inverse might not admit an algorithmically useful expression, so one should use a different approach. Given a point $x\in\mathbb{R}$ (the sampling algorithm used here is irrelevant and could even be deterministic) and its associated cumulative probability $F_X(x)$, one can sample a new point $x'$ by increasing (or decreasing) $x$ until the unique point $x'$ is found such that
+        When $F_X$ is discrete, $\lambda$ might not lie in the image of $F_X$ and the inverse might not admit an algorithmically useful expression, so one should use a different approach. Given a point $x\in\mathbb{R}$ (the sampling algorithm used here is irrelevant and could even be deterministic) and its associated cumulative probability $F_X(x)$, one can sample a new point $x'$ by increasing (or decreasing) $x$ until the unique point $x'\in\mathbb{R}$ satisfying
         \begin{gather}
-            F_X(x'-1)<\lambda\leq F_X(x')\,.
+            F_X(x'-1)<\lambda\leq F_X(x')
         \end{gather}
+        is found.
     \end{method}
 
 \subsection{Uniform rejection sampling}
 
-    This method again uses the fact that the value of the cumulative distribution function is itself uniformly distributed on the unit interval $[0,1]$. The CDF does not have to be invertible for this method, but the probability density should be compactly supported.
+    This method again uses the fact that the value of the cumulative distribution function is itself uniformly distributed on the unit interval $[0,1]$. The CDF does not have to be invertible for this method, but the probability density should be compactly supported and bounded.
 
     \begin{method}
-        Consider an interval $[a,b]$ contained in the support of $f_X$ and let $q_0$ be an upper bound for $f_X$. Now, uniformly sample a point $x$ from $[a,b]$ and sample a point $q$ uniformly from $[0,q_0]$. If $f_X(x)\geq q$, then $x$ is a good sample. If not, repeat this procedure.
+        Consider an interval $[a,b]$ contained in the support of $f_X$ and let $q_0$ be an upper bound for $f_X$. Now, uniformly sample points $x\in[a,b]$ and $q\in[0,q_0]$. If $f_X(x)\geq q$, then $x$ is a good sample. If not, repeat this procedure.
     \end{method}
 
     The proof that this algorithm works is quite easy and mainly depends on the fact that
@@ -34,11 +35,11 @@
 
 \subsection{Monte Carlo sampling}
 
-    The general idea of (Markov chain) Monte Carlo methods is to construct a sequence of points such that, starting from a given index, all points represent good samples and such that the sequence forms a Markov chain.
+    The general idea of (Markov chain) Monte Carlo methods is to construct a Markov chain of points such that, starting from a given index, all subsequent elements represent good samples.
 
-    The first Monte Carlo algorithm uses an acceptance threshold.
+    The most famous Monte Carlo algorithm uses an acceptance threshold analoguous to uniform rejection sampling.
     \begin{method}[Metropolis--Hastings]
-        Assume that a normal distribution $\mathcal{N}(\mu,\sigma^2)$ is given. The first element is given by $x_0=\mu$. Subsequent points are constructed as follows:
+        Choose a normal distribution $\mathcal{N}(\mu,\sigma^2)$. The first element of the sequence is taken to be $x_0=\mu$. Subsequent elements are constructed as follows:
         \begin{itemize}
             \item Sample a point $x'\in\mathbb{R}$ from the normal distribution.
             \item Calculate the \textbf{acceptance ratio}
@@ -46,7 +47,7 @@
                 \lambda := \frac{f_X(x')}{f_X(x_{i-1})}\,.
             \end{gather}
             \item If $\lambda\geq1$, take $x_i=x'$.
-            \item If not, sample a point $q$ uniformly from $[0,1]$. If $\lambda\geq q$, take $x_i=x'$, else take $x_i=x_{i-1}$.\footnote{This step could be merged with the previous one since $\lambda\geq1$ always implies $\lambda\geq q$.}
+            \item If not, uniformly sample $q\in[0,1]$. If $\lambda\geq q$, take $x_i=x'$, else take $x_i=x_{i-1}$.\footnote{This step could be merged with the previous one, since $\lambda\geq1\implies\lambda\geq q$.}
         \end{itemize}
         To obtain an efficient algorithm, it is helpful to choose $\mu=\expect{X}$ and $\sigma^2=\variance{X}$. This ensures that the points are sampled in a region that resembles the form of $f_X$.
 
@@ -60,14 +61,18 @@
         \end{gather}
     \end{method}
     \begin{remark}[Normalization]
-        It is clear from the definition of the acceptance ratio that one does not need $f_X$ to be normalized. This avoids costly calculations of the normalization factor.
+        It is clear from the definition of the acceptance ratio that one does not need $f_X$ to be normalized. This avoids costly calculations of the normalization factor. (This is of invaluable importance for heavy numerical calculations, as is common in computational physics/chemistry and machine learning.)
     \end{remark}
 
 \section{Optimization Theory}
 \subsection{Linear problems}
 
     \begin{method}[Normal equation]\index{normal!equation}\label{data:normal_equation}
-        Given the equation \[Ax=b\] as in \cref{section:system_of_equations}, one can try to numerically solve for $x$ by minimizing the $\ell^2$-norm $\|Ax-b\|^2$:
+        Given an equation of the form
+        \begin{gather}
+            Ax = b
+        \end{gather}
+        as in \cref{section:system_of_equations}, one can try to numerically solve for $x\in\mathbb{R}^n$ by minimizing the $\ell^2$-norm $\|Ax-b\|^2$:
         \begin{gather}
             \widehat{x}:=\argmin_x\,(Ax-b)^T(Ax-b)\,.
         \end{gather}
@@ -75,20 +80,20 @@
         \begin{gather}
             A^TAx = A^Tb\,.
         \end{gather}
-        This can formally be solved by $x=(A^TA)^{-1}A^Tb$, where $(A^TA)^{-1}A^T$ is the pseudoinverse of $A$.
+        This is symbolically\footnote{Inverting the (symmetric) matrix can be done efficiently, but often up to numerical errors.} solved by $x=(A^TA)^{-1}A^Tb$, where $(A^TA)^{-1}A^T$ is the pseudoinverse of $A$.
     \end{method}
     \remark{It is easy to see that the above linear problem is obtained when trying to extremize the quadratic form associated to a symmetric matrix.}
 
-    \begin{method}[Tikhonov regularization]{\index{Tikhonov regularization}\index{ill-conditioned}
-        Consider the linear problem
-        \begin{gather}
+    \begin{method}[Regularization]{\index{Tikhonov regularization}\index{ill conditioned}
+        Consider the same linear problem as above:
+        \begin{gather*}
             Ax = b\,.
-        \end{gather}
-        The most straightforward way to solve for $x$ is the least squares method introduced in \labelref{chapter:statistics}, where the solution is (formally) given by the normal equation: $x=(A^TA)^{-1}A^Tb$. However, sometimes it might happen that $A$ is nearly singular (it is said to be \textbf{ill-conditioned}). In this case, a regularization term can be added to the minimization problem:
+        \end{gather*}
+        When the matrix $A$ is nearly singular --- in this case it is said to be \textbf{ill conditioned} --- the solution $x=(A^TA)^{-1}A^Tb$ is numerically unstable. In this case, a regularization term can be added to the minimization problem:
         \begin{gather}
             \|Ax-b\|^2+\|\Gamma x\|^2\,,
         \end{gather}
-        where $\Gamma$ is called the \textbf{Tikhonov matrix}. When $\Gamma=\lambda\mathbbm{1}$, one speaks of \textbf{$\ell^2$-regularization}. This regularization technique benefits solutions with smaller norms.
+        where $\Gamma$ is called the \textbf{Tikhonov matrix}. When $\Gamma=\lambda\mathbbm{1}$, one speaks of \textbf{$\ell^2$-regularization} or \textbf{Tikhonov regularization}. This technique benefits solutions with smaller norms.
     }
     \end{method}
     \begin{remark}\index{regression!lasso}\index{regression!ridge}
@@ -100,36 +105,51 @@
     \end{remark}
 
     \newdef{Multicollinearity}{\index{collinearity}
-        Let $\{X_i\}_{1\leq i\leq n}$ be a finite set of random variables. These random variables are said to be perfectly (multi)collinear if there exists an affine relation between them, i.e.~there exist variables $\{\lambda_i\}_{0\leq i\leq n}$ such that
+        Let $\{X_i\}_{1\leq i\leq n}$ be a finite set of random variables. These random variables are said to be perfectly (multi)collinear if there exists an affine relation between them, i.e.~there exist coefficients $\{\lambda_i\}_{0\leq i\leq n}\subset\mathbb{R}$ such that
         \begin{gather}
             \lambda_0 + \lambda_1X_1 + \cdots + \lambda_nX_n = 0\,.
         \end{gather}
         The same concept can be applied to data samples. The data is said to be (multi)collinear if the above equation holds for all entries of the data set. However, in this case, one can also define `near multicollinearity' if the variables $X_i$ are related as above up to some error term $\varepsilon$. If the variance of $\varepsilon$ is small, the matrix $X^TX$ might have an ill-conditioned inverse which might render the algorithms unstable.
     }
 
+    \newdef{Coefficient of determination}{\index{$R^2$}\index{coefficient!of determination}
+        Consider a data set $\{x_1,\ldots,x_n\}\subset\mathbb{R}$ together with associated estimates $\{y_1,\ldots,y_n\}\subset\mathbb{R}$. The $R^2$ of the fit is defined as follows:
+        \begin{gather}
+            R^2 := 1 - \frac{\sum_{i=1}^n|x_i-y_i|^2}{\sum_{i=1}^n|x_i-\overline{x}|^2}\,.
+        \end{gather}
+        The denominator is an estimate of the population variance, whereas the numerator gives a measure of the residual variance.
+    }
+    \begin{property}
+        For a correctly specified linear model, the $R^2$-value is bounded by $[0,1]$. Note that it is a widespread myth that these bounds hold in general!
+    \end{property}
+
     \newdef{Variance inflation factor}{\index{variance!inflation factor}
         The VIF is an estimate of how much the variance of a coefficient is inflated by multicollinearity. The VIF of a coefficient $\beta_i$ is defined as follows:
         \begin{gather}
             \mathrm{VIF}_i := \frac{1}{1-R_i^2}\,,
         \end{gather}
-        where $R_i^2$ is the $R^2$-value obtained after regressing the predictor $\widehat{X}_i$ on all other predictors. The rule of thumb is that $\mathrm{VIF}\geq10$ implies that a significant amount of multicollinearity is present in the model.
+        where $R_i^2$ is the $R^2$-value obtained after regressing the predictor $\widehat{X}_i$ on all other predictors. The general rule of thumb is that $\mathrm{VIF}\geq10$ implies that a significant amount of multicollinearity is present in the model.
     }
 
 \subsection{Gradient descent}
 
     The gradient descent algorithm is first introduced in the case of quadratic forms.
-    \begin{method}[Steepest descent]\index{residual}
+    \begin{method}[Steepest descent]\index{residual}\index{condition number}\index{line!search}
         Consider the quadratic form
         \begin{gather}
-            f(x) = \frac{1}{2}x^TAx - b^Tx + c\,.
+            f(x) = \frac{1}{2}x^TAx - b^Tx + c\,,
         \end{gather}
-        Assume that $A$ is symmetric and positive definite, such that $Ax=b$ gives the minimum of $f$. Like most recursive algorithms, gradient descent starts from an arbitrary guess $x_0$. It then takes a step in the direction of steepest descent (or largest gradient), i.e.~in the direction opposite to $\nabla f(x_0) = Ax_0-b =: -r_0$:
+        and assume that $A$ is symmetric and positive definite, such that the linear problem $Ax=b$ gives the minimum of $f$. Like most recursive algorithms, gradient descent starts from an arbitrary guess $x_0$. It then takes a step in the direction of steepest descent (or largest gradient), i.e.~in the direction opposite to $\nabla f(x_0) = Ax_0-b$:
         \begin{gather}
-            x_{i+1} := x_i + \alpha r_i\,.
+            x_{i+1} := x_i + \alpha r_i\,,
         \end{gather}
-        The quantities $r_i$ are called the \textbf{residuals}. This procedure is repeated until convergence, i.e.~until the residual vanishes up to a fixed numerical tolerance.
+        where the \textbf{residual} is defined as
+        \begin{gather}
+            r_i := b - Ax_i\,.
+        \end{gather}
+        This procedure is repeated until convergence, i.e.~until the residual vanishes up to a fixed numerical tolerance.
 
-        A naive gradient descent method would require to fine-tune the step size $\alpha$. However, a more efficient method is given by the \textbf{line search algorithm}, where the value of $\alpha$ is optimized in every step as to minimize $f$ along the line defined by $r_i$. A standard calculus argument leads to the following form of the step size:
+        A naive gradient descent method would require to fine-tune the step size $\alpha\in\mathbb{R}^+$. However, a more efficient method is given by the \textbf{line search algorithm}, where the value of $\alpha$ is optimized in every step as to minimize $f$ along the line defined by $r_i$. A standard calculus argument leads to the following form of the step size:
         \begin{gather}
             \alpha_i = \frac{r_i^Tr_i}{r_i^TAr_i}\,.
         \end{gather}
@@ -137,7 +157,11 @@
         \begin{gather}
             \deriv{}{\alpha}f(x_i) = -\nabla f(x_i)\cdot\nabla f(x_{i-1})\,.
         \end{gather}
-        As a consequence, this minimization scheme often results in a chaotic zigzag trajectory through the configuration space. The higher the \textbf{condition number} $\kappa=\frac{|\lambda_{\max}|}{|\lambda_{\min}|}$, the worse the zigzag motion will be. A very narrow valley (or some higher-dimensional analogue) will make the trajectory bounce back and forth between the walls, instead of moving towards the minimum.
+        As a consequence, this minimization scheme often results in a chaotic zigzag trajectory through the configuration space. The higher the \textbf{condition number}
+        \begin{gather}
+            \kappa=\frac{|\lambda_{\max}|}{|\lambda_{\min}|}\,,
+        \end{gather}
+        the worse the zigzag motion will be. A very narrow valley (or some higher-dimensional analogue) will make the trajectory bounce back and forth between the walls, instead of moving towards the minimum.
     \end{method}
 
 \subsection{Conjugate gradient}\index{conjugate!gradient}
@@ -151,9 +175,9 @@
         Consider a symmetric, positive-definite matrix $A$. Any such matrix induces an inner product as follows:
         \begin{gather}
             \label{data:A_inner_product}
-            \langle v\mid w \rangle_A := v^TAw\,.
+            \braket{v}{w}_A := v^TAw\,.
         \end{gather}
-        Two vectors $v,w$ are said to be ($A$-)conjugate if they are orthogonal with respect to this inner product. The general approach to obtain a basis of $A$-conjugate vectors is a modified version of the Gram--Schmidt procedure (\cref{linalgebra:gram_schmidt}) where the ordinary Euclidean inner product is replaced by~\eqref{data:A_inner_product}. This modification is called the \textbf{Arnoldi method}.
+        Two vectors $v,w$ are said to be ($A$-)conjugate if they are orthogonal with respect to this inner product. The general approach to obtaining a basis of $A$-conjugate vectors is a modified version of the Gram--Schmidt procedure (\cref{linalgebra:gram_schmidt}) where the ordinary Euclidean inner product is replaced by~\cref{data:A_inner_product}. This modification is called the \textbf{Arnoldi method}.
     }
 
     By taking the input vectors of the Arnoldi method to be the residuals $r_i$, one obtains the \textbf{conjugate gradient} (CG) algorithm. It is interesting to note that the residuals themselves satisfy a recursion relation:
@@ -162,13 +186,13 @@
     \end{gather}
     where the step size $\alpha_i$ is defined similar to the step size for ordinary steepest descent:
     \begin{gather}
-        \alpha_i = \frac{d_i^{\,T}r_i}{d_i^{\,T}\!Ad_i}\,.
+        \alpha_i = \frac{d_i^{\,T}r_i}{d_i^{\,T}\!Ad_i} = \frac{\braket{d_i}{r_i}\hphantom{_A}}{\braket{d_i}{d_i}_A}\,.
     \end{gather}
     Since the directions are constructed using the residuals, they span the same subspace. By denoting the subspace spanned by the first $i$ directions by $\mathcal{D}_i$, the relation $r_{i+1}\in\mathcal{D}_i+Ad_i$ leads to the following expression because of the above recursion relation:
     \begin{gather}
         \mathcal{D}_i = \mathrm{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\,.
     \end{gather}
-    Because of their prominence in the literature on numeric optimization techniques, these subspaces have earned their own name.
+    Because of their prominence in the literature on numeric optimization techniques, these subspaces have earned their proper name.
     \newdef{Krylov subspace}{\index{Krylov subspace}
         A vector space $\mathcal{K}$ of the form
         \begin{gather}
@@ -177,7 +201,7 @@
         for some matrix $A$, vector $v$ and natural number $n\in\mathbb{N}$. Given such an $A$ and $v$, one often denotes the associated Krylov subspace of dimension $n$ by $\mathcal{K}_n(A,v)$.
     }
 
-    The fact that the spaces $\mathcal{D}_i$ are Krylov spaces also has an import implication for the numerical complexity of the CG algorithm. The residual $r_{i+1}$ can be shown to be orthogonal to the space $\mathcal{D}_{i+1}$ (this is generally called the \textbf{Galerkin condition}\index{Galerkin condition}). But, since $A\mathcal{D}_i\subset\mathcal{D}_{i+1}$, this also implies that $r_{i+1}$ is $A$-conjugate to $\mathcal{D}_i$. It follows, that the only relevant contribution in the Arnoldi method is given by the last direction $d_i$. This reduces the complexity (both timewise and memorywise) per iteration from $O(n^2)$ to $O(n)$.
+    The fact that the spaces $\mathcal{D}_i$ are Krylov spaces also has an important implication for the computational complexity of the CG algorithm. The residual $r_{i+1}$ can be shown to be orthogonal to the space $\mathcal{D}_{i+1}$ (this is generally called the \textbf{Galerkin condition}\index{Galerkin condition}). But, since $A\mathcal{D}_i\subset\mathcal{D}_{i+1}$, this also implies that $r_{i+1}$ is $A$-conjugate to $\mathcal{D}_i$. It follows, that the only relevant contribution in the Arnoldi method is given by the last direction $d_i$. This reduces the complexity (both timewise and memorywise) per iteration from $O(n^2)$ to $O(n)$.
 
     The steps in the CG algorithm are summarized below.
     \begin{method}[Conjugate gradient]
@@ -191,12 +215,12 @@
     \end{method}
 
     \begin{remark}
-        In exact arithmetic, the above optimization scheme would result in an exact solution after $n\in\mathbb{N}$ iterations (in fact, the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, in real life, one is not working in exact arithmetic and the occurrence of floating-point errors has tio be taken into account. These not only ruin the accuracy of the residual recursion relation~\eqref{data:residual_recurrence}, but, more importantly\footnote{The residual problem can be solved by computing the residual `exactly', i.e.~by the formula $r_i=b-Ax_i$, every $k\in\mathbb{N}$ iterations.}, they might result in the search directions not being $A$-conjugate.
+        In exact arithmetic, the above optimization scheme would result in an exact solution after $n\in\mathbb{N}$ iterations (in fact, the number of iterations is bounded by the number of distinct eigenvalues of $A$). However, in real life, one is not working in exact arithmetic and the occurrence of floating-point errors has to be taken into account. These not only ruin the accuracy of the residual recursion relation~\eqref{data:residual_recurrence}, but, more importantly\footnote{The residual problem can be solved by computing the residual `exactly', i.e.~by the formula $r_i=b-Ax_i$, every $k\in\mathbb{N}$ iterations.}, they might result in the search directions not being $A$-conjugate.
     \end{remark}
 
-    Now, what about general coefficient matrices $A$ such as those resulting in under- or overdetermined systems? For asymmetric or nondefinite square matrices, one can still solve the normal equation using the same methods (\cref{data:normal_equation}), since $A^T\!A$ is both symmetric and positive definite. For underdetermined systems, an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems, $A^T\!A$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^T\!A$ is the square of that of $A$ and, hence, the algorithms will convergence much slower.
+    Now, what about general coefficient matrices $A$ such as those resulting in under- or overdetermined systems? For asymmetric or nondefinite square matrices, one can still solve the normal equation using the same methods (\cref{data:normal_equation}), since $A^T\!A$ is both symmetric and positive definite. For underdetermined systems, an exact solution does not always exact, but the numerical methods will always be able to find a solution that minimizes the $\ell^2$-error. For overdetermined systems, $A^T\!A$ will be nonsingular and the numerical methods can find an exact solution. However, the condition number of $A^T\!A$ is the square of that of $A$ and, hence, the algorithms will converge much slower.
 
-    A different approach exists where the CG algorithm is not applied to the matrix $A^T\!A$, but the individual matrices $A,A^T$ are used directly. This way, not one Krylov space is generated, but two dual `copies' are constructed.
+    A different approach exists where the CG algorithm is not applied to the matrix $A^T\!A$, but the individual matrices $A,A^T$ are used directly. This way, not one Krylov space is generated, but two dual `copies' are constructed:
     \begin{gather}
         \begin{aligned}
             \mathcal{D}_i &:= \mathrm{span}\left\{r_0,Ar_0,\ldots,A^{i-1}r_0\right\}\,,\\
@@ -218,7 +242,7 @@
 
     At the level of the implementation, the structure of the algorithm remains more or less the same. What does change is the form of the Arnoldi method, in particular, the prefactor in \cref{data:beta}. For linear CG, there are multiple equivalent formulas, but for nonlinear CG these do not lead to the same algorithm. The two most common choices are given below.
     \begin{method}[Nonlinear CG]\index{Fletcher--Reeves formula}\index{Polak--Ribi\`ere formula}
-        Since there is no linear equation related to the minimization problem, the residuals are always defined as $r_i:=-\nabla f(x_i)$. The algorithm consists of the following iterations:
+        Since there is no linear equation related to the minimization problem, the `residuals' are always defined as $r_i:=-\nabla f(x_i)$. The algorithm consists of the following iterations:
         \begin{gather}
             \begin{aligned}
                 \alpha_i &:= \arg\min_\alpha f(x_i+\alpha d_i)\label{data:argmin}\\
@@ -272,6 +296,31 @@
     \end{method}
 
     \todo{COMPLETE (add e.g.~Lanczos)}
+
+    From the preceding considerations, it is clear that, for invertible $A$, the set $\{x_0,Ax_0,.,\ldots,A^nx_0\}$ forms a basis for the Krylov space $\mathcal{K}_n(A,x_0)$. However, there is an issue with this particular basis, especially from a computational point of view. For large $n$, the vectors $A^nx_0$ will start to converge to (a linear combination of) the eigenvector(s) of $A$ with greatest eigenvalue. As such, this basis becomes numerically unstable.
+
+    A better approach is to construct an orthonormal basis from $\{x_0,Ax_0,.,\ldots,A^nx_0\}$ as in the Arnoldi method, i.e.~using the $A$-inner product. This will also work in case $A$ is not invertible, since $\{x_0,Ax_0,.,\ldots,A^nx_0\}$ still spans the Krylov space and, hence, can be used to construct a basis. The Arnoldi relation
+    \begin{gather}
+        y_{n+1} = Ar_n - \sum_{i=0}^nr_i\braket{r_i}{r_n}_A\,,
+    \end{gather}
+    with
+    \begin{gather}
+        r_n := \frac{y_n}{\|y_n\|}\,,
+    \end{gather}
+    implies that $Ar_n\in\mathrm{span}\{r_0,\ldots,r_{n+1}\}$. If $Q$ is the transformation matrix onto the Arnoldi basis, i.e.~the matrix with the Arnoldi vectors $r_i$ as rows, then
+    \begin{gather}
+        A = Q^\dagger TQ\,.
+    \end{gather}    
+    The matrix $T$ has a so-called (lower) \textbf{Hessenberg form}\index{matrix!Hessenberg}, i.e.~$A_{ij}=0$ for all $j>i+1$ (all entries above the first `superdiagonal' are zero).
+
+    Moreover, in case $A$ is Hermitian, this enhanced symmetry implies that $T$ is tridiagonal! Such matrices admit very efficient decompositions and eigenvalue constructions. This is essentially the \textbf{Lanczos method}.\index{Lanczos method} 
+    
+    The following is an easy, but very useful, corrolary of the Lanczos decomposition.
+    \begin{property}
+        \begin{gather}
+            Av=\lambda v\implies TQv=\lambda Qv
+        \end{gather} 
+    \end{property}
 
 \section{Constrained optimization}
 \subsection{Lagrange multipliers}\label{section:lagrange_multipliers}

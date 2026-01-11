@@ -321,16 +321,17 @@
             Av=\lambda v\implies TQv=\lambda Qv
         \end{gather} 
     \end{property}
+    One of the most important observations from the Lanczos algorithm is that one actually does not need 
 
 \section{Constrained optimization}
 \subsection{Lagrange multipliers}\label{section:lagrange_multipliers}
 
-    A common generalization of the above optimization problems is the addition of constraints involving equalities:
+    A common generalization of optimization problems is the addition of constraints involving equalities:
     \begin{gather}
         \label{data:constrained_problem}
         \argmin_x f(x) \qquad\text{such that}\qquad g_i(x)=0\qquad\forall 1\leq i\leq n\,.
     \end{gather}
-    The general approach to solving such constrained problems is by extending the loss function.
+    The general approach to solving such constrained problems is by extending the loss function $f$ (cf.~\cref{constraint:total_hamiltonian}).
     \begin{method}[Lagrange multipliers]\index{Lagrange!multipliers}
         Given a constrained optimization problem of the form~\eqref{data:constrained_problem}, one can construct the enhanced loss function
         \begin{gather}
@@ -379,7 +380,7 @@
             d^* := \max_{\alpha,\beta;\beta_i\geq0}\theta_D(\alpha,\beta) = \max_{\alpha,\beta\mid\beta_i\geq0}\min_x\mathcal{L}(x,\alpha,\beta)\,.
         \end{gather}
     }
-    From basic calculus, it is known that $\max\min\leq\min\max$ and, hence, that $d^*\leq p^*$. The difference $p^*-d^*$ is called the \textbf{duality gap}\index{duality gap} and, if $d^*=p^*$, one says that \textbf{strong duality} holds. The real question then becomes: ``\textit{When does strong duality hold?}''.
+    From basic calculus, it is known that $\max\min\leq\min\max$ and, hence, that $d^*\leq p^*$. The difference $p^*-d^*$ is called the \textbf{duality gap}\index{duality gap} and, if $d^*=p^*$, one says that \textbf{strong duality} holds. The real question then becomes: ``\textit{When does strong duality hold?}''
     \newdef{Slater conditions}{\index{Slater!conditions}
         Consider a convex optimization problem, i.e.~a problem of the form of \cref{data:constrained_optimization} where $f$ is convex, the $g_i$ are convex and the $h_j$ are affine. This problem is said to satisfy the Slater condition(s) if there exists an $x$ that is strictly \textbf{feasible}, i.e.~$h_j(x)<0$ for all $1\leq j\leq n$.
     }
@@ -389,7 +390,7 @@
 
     The following property gives a set of sufficient conditions for strong duality.
     \begin{property}[Karush--Kuhn--Tucker conditions]\index{Karush--Kuhn--Tucker conditions}\label{data:kkt}
-        If there exist $x,\alpha$ and $\beta$ such that strong duality holds, the following conditions are satisfied:
+        There exist $x,\alpha$ and $\beta$ such that strong duality holds if and only if the following conditions are satisfied:
         \begin{align}
             \begin{cases}
                 \ds\pderiv{\mathcal{L}}{x}=0\\
@@ -403,17 +404,16 @@
                 \beta_j\geq0
             \end{cases}
         \end{align}
-        Conversely, if there exists values $x,\alpha$ and $\beta$ that satisfy the KKT conditions, they give strongly dual solutions for the primal and dual problems.
     \end{property}
     \begin{remark}[Complementary slackness]\label{data:slackness}
-        The third equation in the KKT conditions has an important implication. It says that, if there is an index $j$ such that the constraint $h_j$ is not \textbf{active}, i.e.~$h_j(x)<0$, the associated Lagrange multiplier is 0 and, conversely, if there is an index $j$ such that the Lagrange multiplier $\beta_j>0$, the constraint $h_j$ is active.
+        The third equation in the KKT conditions (the upper one on the right-hand side) has an important implication. It says that, if there is an index $j$ such that the constraint $h_j$ is not \textbf{active}, i.e.~$h_j(x)<0$, the associated Lagrange multiplier is 0 and, conversely, if there is an index $j$ such that the Lagrange multiplier $\beta_j>0$, the constraint $h_j$ is active.
     \end{remark}
 
     \remark{It is not hard to see that the KKT conditions reduce to the conditions for Lagrange multipliers when all $h_j$ are identically 0. For this reason, the quantities $\alpha$ and $\beta$ are called the \textbf{KKT multipliers}.}
 
 \subsection{Riemannian gradient descent}
 
-    In many situations, the full parameter space of an optimization problem is constrained in such a way that the resulting admissible subset admits the structure of a smooth manifold and, in particular, that of a Riemannian manifold. When trying to extend gradient descent algorithms to this setting, one has to take into account that most manifolds are not linear spaces and, hence, that linear updates will often lead outside the manifold.
+    In many situations, the full parameter space of an optimization problem is constrained in such a way that the resulting admissible subset admits the structure of a smooth manifold and, in particular, that of a Riemannian manifold. When trying to extend gradient descent algorithms to this setting, one has to take into account that most manifolds are not linear spaces and, hence, that linear updates will often lead outside the manifold. (See also \labelref{section:probability_functional_descent})
 
     The first point that has to be treated is the occurrence of the gradient in these algorithms. In ordinary Euclidean space, one simply takes the gradient to be the vector of partial derivatives. However, on general smooth manifolds, this object is actually given by the de Rham differential, which acts on covariant vectors. However, a short proof shows that the Riemannian gradient from \cref{bundle:vector_calculus} actually gives the direction of steepest ascent. So, even on Riemannian manifolds, the (de Rham) gradient is the correct object to work with.
 
@@ -423,9 +423,13 @@
 \subsection{Bayes optimality}
 
     \newdef{Bayes risk}{\index{Bayes!risk}
-        Let $\mathcal{H}\subseteq\mathcal{Y}^{\mathcal{X}}$ be a collection of models. The Bayes risk (with respect to $\mathcal{H}$) is the minimal risk over all models:
+        Let $\mathcal{H}\subseteq\mathcal{Y}^{\mathcal{X}}$ be a collection of models and consider a loss function $\mathcal{L}:\mathcal{H}\times\mathcal{H}\rightarrow\mathbb{R}$. The Bayes risk (with respect to some prior distribution $\mathbb{P}(\mathcal{H})$) is the minimal risk over all models:
         \begin{gather}
-            R^* := \inf_{f\in\mathcal{H}}R(f)\,.
+            R^* := \inf_{f\in\mathcal{H}}R_\pi(f)\,,
+        \end{gather}
+        where the average risk of an estimate $f$ with respect to $\pi$ is defined as
+        \begin{gather}
+            R_\pi(f) = \mathrm{E}_{\theta\sim\pi}\bigl[\mathcal{L}(f,\theta)\bigr]\,.
         \end{gather}
         `The' Bayes risk is the Bayes risk with respect to $\mathcal{Y}^{\mathcal{X}}$.
     }
@@ -437,21 +441,21 @@
         \end{gather}
     }
     \begin{property}[Bayes optimality]
-        The risk of the pointwise Bayes predictor is minimal, i.e.~$R(f^*)=R^*$. In practice, however, one cannot achieve Bayes optimality (through the pointwise Bayes predictor), since this would require the knowledge of the distribution.
+        The risk of the pointwise Bayes predictor is minimal, i.e.~$R(f^*)=R^*$. In practice, however, one cannot achieve Bayes optimality (through the pointwise Bayes predictor), since this would require the knowledge of the data-generating distribution.
     \end{property}
 
     \newdef{Approximation error}{\index{error}
-        Given a data set $\mathcal{D}\subset\mathcal{X}\times\mathcal{Y}$, the empirical risk $R_{\text{emp}}$ is defined as follows:
+        Given a data set $\mathcal{D}\subset\mathcal{X}\times\mathcal{Y}$, the empirical risk $R_{\text{emp}}$ is defined as follows (it is simply the empirical approximation of the pointwise Bayes risk):
         \begin{gather}
             R_{\text{emp}}:\widehat{y}\mapsto\frac{1}{|\mathcal{D}|}\sum_{(x,y)\in\mathcal{D}}l(\widehat{y}(x),y).
         \end{gather}
-        Consider a hypothesis space $\mathcal{H}\subseteq\mathcal{Y}^{\mathcal{X}}$ (e.g.~determined by a choice of model architecture). The minimizer of the true risk in $\mathcal{H}$ is denoted by $h^*$, while the empirical risk minimizer is denoted by $\widehat{h}$. The \textbf{approximation error/uncertainty} is defined as the difference $R(\widehat{h})-R(h^*)$, while the \textbf{model uncertainty} is defined as the difference $R(h^*)-R^*$. The total error made by $\widehat{h}$ (with respect to the Bayes optimum) is then simply the sum of these two.
+        Consider a hypothesis space $\mathcal{H}\subseteq\mathcal{Y}^{\mathcal{X}}$ (e.g.~determined by a choice of model architecture). The minimizer of the true risk in $\mathcal{H}$ is denoted by $h^*$, whereas the empirical risk minimizer is denoted by $\widehat{h}$. The \textbf{approximation error/uncertainty} is defined as the difference $R(\widehat{h})-R(h^*)$, whereas the \textbf{model uncertainty} is defined as the difference $R(h^*)-R^*$. The total error made by $\widehat{h}$ (with respect to the Bayes optimum) is then simply the sum of these two, i.e.~$R(\widehat{h})-R^*$.
     }
 
 \subsection{PAC theory and empirical risk minimization}\index{PAC theory}\label{section:pac}
 
     \begin{property}
-        Note that, by the (strong) law of large numbers (\cref{prob:strong_lln}), the empirical risk converges to the true risk almost surely whenever the data points are sampled i.i.d. However, in practice, the true question becomes how fast this convergence happens.
+        Note that, by the (strong) law of large numbers~\ref{prob:strong_lln}, the empirical risk converges to the true risk almost surely whenever the data points are sampled i.i.d. However, in practice, the true question is how fast this convergence happens.
     \end{property}
 
     \newdef{Probably approximately correct}{
@@ -463,13 +467,13 @@
     \begin{result}
         If one can prove a PAC bound, one gets the following bound for free:
         \begin{gather}
-            R(\widehat{f})\leq\inf_{f\in\mathcal{H}}R(f)+2\varepsilon
+            \Prob\left(R(\widehat{f})\leq\inf_{f\in\mathcal{H}}R(f)+2\varepsilon\right)\geq1-\delta\,,
         \end{gather}
-        with probability $1-\delta$, i.e.~with high probability the true risk for the minimizer is only slightly higher than the empirical risk and, hence, the minimizer is a reasonably good estimate.
+        i.e.~with high probability, the true risk for the minimizer is only slightly greater than the empirical risk and, hence, the minimizer is a reasonably good estimate.
     \end{result}
 
     \begin{property}[Bounded losses]
-        Consider a hypothesis space $\mathcal{H}$ with a bounded loss function. The probability that, for a given number of data points $n\in\mathbb{N}_0$, their exists at least one model $f\in\mathcal{H}$ for which the empirical risk deviates significantly from the true risk is bounded as follows:
+        Consider a hypothesis space $\mathcal{H}$ with a bounded loss function. The probability that, for a given number of data points $n\in\mathbb{N}_0$, there exists at least one model $f\in\mathcal{H}$ for which the empirical risk deviates significantly from the true risk is bounded as follows:
         \begin{gather}
             \begin{aligned}
                 \Prob\bigl(\exists f\in\mathcal{H}:|R_{\text{emp}}(f)-R(f)|\geq\varepsilon\bigr) &= \Prob\bigl(\sup_{f\in\mathcal{H}}|R_{\text{emp}}(f)-R(f)|\geq\varepsilon\bigr)\nonumber\\
@@ -480,9 +484,9 @@
         \end{gather}
         where the second inequality comes from Hoeffding's inequality~\ref{prob:hoeffding_inequality} (since the empirical risk is an average). In combination with a similar expression for the one-sided tails, using the one-sided Hoeffding inequality, the PAC bound becomes
         \begin{gather}
-            R(f)\leq R_{\text{emp}}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}
+            \Prob\left(R(f)\leq R_{\text{emp}}(f) + \sqrt{\frac{\ln(|\mathcal{H}|)+\ln(1/\delta)}{2n}}\right)\geq1-\delta\,.
         \end{gather}
-        with probability at least $1-\delta$. Note that this bound is distribution-free, i.e.~it does not depend on the data-generating distribution.
+        Note that this bound is distribution free, i.e.~it does not depend on the data-generating distribution.
 
         This bound on the empirical risk also implies a bound on the expected risk of the minimizer $\widehat{f}$:
         \begin{gather}
@@ -497,11 +501,11 @@
         \begin{gather}
             \sum_{x\in\mathcal{X}}e^{-c(x)}\leq1\,.
         \end{gather}
-        A simple example would be the log-probabilities $c(x):=\ln(P(x))$ when a probability distribution $P$ on $\mathcal{X}$ is given.
+        A simple example would be the log-probabilities $c(x)=\ln(P(x))$ when a probability distribution $P$ on $\mathcal{X}$ is given.
     }
-    Using a complexity regularizer on $\mathcal{H}$, the following risk bound can be obtained with probability $1-\delta$:
+    Using a complexity regularizer on $\mathcal{H}$, the following risk bound can be obtained:
     \begin{gather}
-        R(f)\leq R_{\text{emp}}(f) + \sqrt{\frac{c(f)+\ln(1/\delta)}{2n}}\,.
+        \Prob\left(R(f)\leq R_{\text{emp}}(f) + \sqrt{\frac{c(f)+\ln(1/\delta)}{2n}}\right)\geq1-\delta\,.
     \end{gather}
 
 \section{Classification problems}
@@ -509,9 +513,9 @@
 
     Probably the most well-known and simplest algorithm for clustering in the unsupervised setting is the $k$-means algorithm.
     \begin{method}[$k$-means algorithm]
-        Assume that an unlabelled dataset $\mathcal{D}\subset\mathbb{R}^n$ is given. For every integer $k\in\mathbb{N}$, usually satisfying $k\ll|\mathcal{D}|$, and any choice of $k$ distinct \textbf{centroids} $\{c_i\in\mathbb{R}^n\}_{i\leq k}$, the $k$-means algorithm is defined through the following iterative scheme:
+        Consider an unlabelled dataset $\mathcal{D}\subset\mathbb{R}^n$. For every integer $k\in\mathbb{N}$, usually satisfying $k\ll|\mathcal{D}|$, and any choice of $k$ distinct \textbf{centroids} $\{c_i\in\mathbb{R}^n\}_{i\leq k}$, the $k$-means algorithm is defined through the following iterative scheme:
         \begin{enumerate}
-            \item To every point $d\in\mathcal{D}$, assign a cluster $C_i$ based on the following criterion:
+            \item To every element $d\in\mathcal{D}$, assign a cluster $C_i$ based on the following criterion:
             \begin{gather}
                 i = \argmin_{j\leq k}\|d-c_j\|^2\,.
             \end{gather}
@@ -535,10 +539,10 @@
         \begin{gather}
             \kappa = \frac{1}{k}\sum_{i=1}^kx_i\,.
         \end{gather}
-        If, instead of a cluster $C=\{x_i\in\mathbb{R}^n\}_{i\leq k}$, one is given a probability distribution $p$, one simply has to replace the arithmetic average by the expectation value with respect to $p$. Furthermore, it can be shown that, for any Bregman divergence, the $k$-means algorithm always converges in a finite number of steps (however, the clustering is not necessarily optimal).
+        If, instead of a cluster $C=\{x_i\in\mathbb{R}^n\}_{i\leq k}$, one is given a probability distribution $P$, one simply has to replace the arithmetic average by the expectation value with respect to $P$. Furthermore, it can be shown that, for any Bregman divergence, the $k$-means algorithm always converges in a finite number of steps (however, the clustering is not necessarily optimal).
     \end{property}
 
-    The cluster boundaries $H(c_1, c_2)=\{x\in\mathbb{R}^n\mid D_f(x\,\|\,c_1)=D_f(x\,\|\,c_2)\}$ admit a simple geometric construction.
+    The cluster boundaries $H(c_1, c_2)=\{x\in\mathbb{R}^n\mid D_f(x\,\|\,c_1)=D_f(x\,\|\,c_2)\}$ admit a simple geometric construction (see \labelref{chapter:info} for an introduction to information geometry).
     \begin{property}[Cluster boundaries]\index{Voronoi diagram}
         Let $D_f$ be a Bregman divergence and consider the $k$-means problem associated to $D_f$ for $k=2$ (higher-dimensional problems can be treated similarly). The boundary $H(c_1,c_2)$ is exactly the geodesic hypersurface orthogonal to the dual geodesic connecting $c_1$ and $c_2$. This partitioning of the data manifold is a generalization of \textit{Voronoi diagrams} to (Bregman) divergences.\footnote{See~\citet{boissonnat_bregman_2010} for more information. This is also introduced in~\citet{amari_information_2016}, but there the author has confusingly interchanged the affine and dual coordinates.}
     \end{property}
@@ -1183,12 +1187,12 @@
     Triangular means that the transformation can be expressed as follows:
     \begin{gather}
         \psi(x_1,\ldots,x_n)\equiv
-        \begin{pmatrix}
+        \begin{pmatrix*}[l]
             \psi_1(x_1)\\
             \psi_2(x_2\mid x_2)\\
-            \vdots\\
+            \quad\vdots\\
             \psi_n(x_n\mid x_1,\ldots,x_{n-1})
-        \end{pmatrix}\,,
+        \end{pmatrix*}\,,
     \end{gather}
     with $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ for all $i\leq n$. Increasing means that each of the functions $\psi_i:\mathbb{R}^i\rightarrow\mathbb{R}$ is increasing with respect to its first argument $x_i$. This is sufficient for the transformation to be invertible, since one can invert the functions stepwise, keeping the variables $x_1,\ldots,x_{i-1}$ fixed in the $i^{\text{th}}$ step (hence the suggestive conditional notation).
 

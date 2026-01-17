@@ -547,11 +547,12 @@
     }
 
     The least squares method is very useful to fit data that has been grouped in bins (histograms).
-    \newmethod{Binned least squares}{$ $
+    \newmethod{Binned least squares}{\label{statistics:binned_least_squares}
+        Consider the following steps:
         \begin{enumerate}
             \item $n\in\mathbb{N}$ i.i.d.~events with density $f(X;a)$ divided in $N_B\in\mathbb{N}$ bins, where the interval $j$ is centred on the value $x_j$, has a width $W_j$ and contains $n_j\in\mathbb{N}$ events.
             \item The ideally expected number of events in the $j^{\text{th}}$ interval: $f_j = NW_jf(x_j;a)$.
-            \item The real number of events has a Poisson distribution: $\overline{n}_j = \sigma_j^2 = f_j$.
+            \item The true number of events has a Poisson distribution: $\overline{n}_j = \sigma_j^2 = f_j$.
             \item Define the binned $\chi^2$ as
                 \begin{gather}
                     \chi^2 := \sum_{i=1}^{N_B}\frac{(n_i - f_i)^2}{f_i^2}\,.
@@ -607,7 +608,7 @@
         \begin{itemize}
             \item\textbf{symmetric interval}: $x_+ - \mu = \mu - x_-$,
             \item\textbf{shortest interval}: $|x_+ - x_-|$ is minimal, or
-            \item\textbf{central interval}: $\Int_{-\infty}^{x_-}f(x)\,dx = \Int_{x_+}^+{\infty}f(x)\,dx = \frac{1-C}{2}$.
+            \item\textbf{central interval}: $\Int_{-\infty}^{x_-}f(x)\,dx = \Int_{x_+}^{+\infty}f(x)\,dx = \frac{1-C}{2}$.
         \end{itemize}
         The central interval is the most widely used confidence interval.
     }
@@ -845,10 +846,35 @@
 
 \subsection{\texorpdfstring{$\chi^2$}{Chi squared}-test}\index{test!$\chi^2$}\label{section:chi_squared_test}
 
-    \begin{property}\label{statistics:chi_square}
-        If there are $N-n$ fitted parameters one has:
+    The quantity $\chi^2$ in \cref{statistics:binned_least_squares} can be turned into a goodness-of-fit statistic.
+    \newdef{Pearson $\chi^2$}{\index{Pearson!$\chi^2$}
+        Consider a categorical distribution $p$ with $k\in\mathbb{N}$ classes. Denote the fitted counts by $E_i$ (for `expected') and the observed counts by $O_i$ (for `observed').
         \begin{gather}
-            \Int_{\chi^2}^{+\infty}f_{\chi^2}(x\mid n)\,dx\approx 1\implies
+            \chi^2 = \sum_{i=1}^k\frac{(O_i-E_i)^2}{E_i}
+        \end{gather}
+    }
+    \begin{property}
+        Asymptotically in the number of observations, $\chi^2$ follows a $\chi^2$-distribution (\cref{statistics:chi_squared_distr}).
+        \begin{proof}
+            For simplicity, assume that the $E_i$ are the true expectation values given $p$. In this case, the individual terms in the above sum have mean $0$ and variance $1-p_i$, and their covariance is given by $\Sigma_{ij}=\delta_{ij}-\sqrt{p_ip_j}$. Note that $\Sigma$ is a projection matrix and, hence, can be diagonalized. In fact, its diagonal form is
+            \begin{gather*}
+                \Sigma'=
+                \begin{pmatrix}
+                    \mathbbm{1}_{k-1}&0\\
+                    0&0
+                \end{pmatrix}\,.
+            \end{gather*}
+            Accordingly, the observations can be transformed in such a way that $\chi^2$ becomes the sum (asymptotically) of $k-1$ standard normal distributions.
+        \end{proof}
+    \end{property}
+    \begin{remark}[Degrees of freedom]
+        When $P$ is modelled using $c\in\mathbb{N}$ parameters, the number of d.o.f.~should be reduced. In this case, $\chi^2$ follows a $\chi^2$-distribution with $k-c-1$ d.o.f.
+    \end{remark}
+
+    \begin{property}\label{statistics:chi_square}
+        If there are $c\in\mathbb{N}$ fitted parameters one has:
+        \begin{gather}
+            \Int_{\chi^2}^{+\infty}f_{\chi^2}(x\mid c)\,dx\approx 1\implies
             \begin{cases}
                 \circ\text{  good fit}\\
                 \circ\text{  errors were overestimated}\\

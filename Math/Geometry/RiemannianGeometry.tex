@@ -102,7 +102,7 @@
 \subsection{Riemannian manifolds}
 
     \newdef{Riemannian isometry}{\index{iso-!metry}
-        Consider two pseudo-Riemannian manifolds $(M,g_M)$ and $(N,g_N)$. A smooth function $f:M\rightarrow N$ is called an isometry if $f^*g_N = g_M$, i.e.~if it preserves the metric tensor.
+        Consider two pseudo-Riemannian manifolds $(M,g_M)$ and $(N,g_N)$. A smooth function $f:M\rightarrow N$ is called a local isometry if $f^*g_N = g_M$, i.e.~if it preserves the metric tensor. If it is also a diffeomorphism, it is called an isometry.
     }
 
     \begin{property}
@@ -260,7 +260,7 @@
     \newformula{Riemann curvature tensor}{\index{Riemann!curvature}
         The Riemann (curvature) tensor $R$ is defined as the following $(1,3)$-tensor:
         \begin{gather}
-            R(v,w)z := [\nabla_v,\nabla_w]z - \nabla_{[v,w]}z\,,
+            R(X,Y)Z := [\nabla_X,\nabla_Y]Z - \nabla_{[Y,X]}Z\,,
         \end{gather}
         where $\nabla$ is the Levi-Civita connection. Locally, it is given by
         \begin{gather}
@@ -340,6 +340,75 @@
         A Riemannian manifold for which the Ricci tensor is proportional to the metric.
     }
     \sremark{This name is justified by the fact that Einstein manifolds are exactly the solutions of the \textit{Einstein field equations}~\eqref{relativity:einstein_field_equations} (with a cosmological constant).}
+
+\section{Riemannian immersions}\label{section:riemannian_immersions}
+
+    This section will generalize many of the results of \labelref{chapter:curves_surfaces} to higher-dimensional submanifolds of Riemannian manifolds.
+
+    \newdef{Riemannian immersion}{\index{immersion!Riemannian}
+        An injective local isometry.
+    }
+
+    From here on, an immersion $\iota:(M,g)\hookrightarrow(\widetilde{M},\widetilde{g})$ is assumed.
+
+    \newdef{Second fundamental form}{\index{fundamental!form}
+        The symmetric, vector-valued form (taking values in the normal bundle of $M$):
+        \begin{gather}
+            B(X,Y) := \bigl(\widetilde{\nabla}_XY\bigr)^\perp\,.
+        \end{gather}
+    }
+
+    \begin{formula}
+        The second fundamental form relates the Levi-Civita connections on $M$ and $\widetilde{M}$ as follows:
+        \begin{gather}
+            \widetilde{\nabla}_XY = \nabla_XY+B(X,Y)
+        \end{gather}
+        for all $X,Y\in\mathfrak{X}(M)$.
+    \end{formula}
+
+    Similarly, the Riemann curvature can also be decomposed into tangential and normal parts.
+    \begin{formula}[Gauss' equations]\index{Gauss!equation in Riemannian geometry}\label{riemann:gauss_equations}
+        \begin{gather}
+            \widetilde{g}\bigl(\widetilde{R}(X,Y)Z,W\bigr) - \widetilde{g}\bigl(R(X,Y)Z,W\bigr) = \widetilde{g}\bigl(B(X,Z),B(Y,W)\bigr) - \widetilde{g}\bigl(B(X,W),B(Y,Z)\bigr)
+        \end{gather}
+        for all $X,Y,Z,W\in\mathfrak{X}(M)$.
+    \end{formula}
+    This immediately implies \cref{diff:gauss_equations}, since the curvature of the encompassing Euclidean space vanishes.
+
+    \begin{formula}[Codazzi--Mainardi equation]\index{connection!normal}\label{riemann:codazzi_equations}
+        \begin{gather}
+            \bigl(\widetilde{R}(X,Y)Z\bigr)^\perp = (\nabla_XB)(Y,Z) - (\nabla_YB)(X,Z)
+        \end{gather}
+        for all $X,Y,Z\in\mathfrak{X}(M)$, where the covariant derivative on a section of $T^*M\otimes T^*M\otimes NM$ is defined using the \textbf{normal connection} (which is a metric connection on the normal bundle)
+        \begin{gather}
+            \nabla^\perp_XN := \bigl(\widetilde{\nabla}_XN\bigr)^\perp\,.
+        \end{gather}
+    \end{formula}
+    This, in turn, implies \cref{diff:codazzi_mainardi} (although this might be less obvious).
+
+    As in \labelref{chapter:curves_surfaces}, the second fundamental form can be rephrased in terms of the Weingarten map.
+    \newdef{Shape operator}{\index{Weingarten!map}\index{shape!operator|see{Weingarten map}}\index{curvature!extrinsic}\label{riemann:shape_operator}
+        For every normal vector field $N\in\Gamma(NM)$, the shape operator is defined as follows:
+        \begin{gather}
+            S_N:\mathfrak{X}(M)\rightarrow\mathfrak{X}(M):X\mapsto-\bigl(\widetilde{\nabla}_XN\bigr)^\top\,.
+        \end{gather}
+        The relationship to the second fundamental form is given by
+        \begin{gather}
+            g\bigl(S_N(X),Y\bigr)=\widetilde{g}\bigl(B(X,Y),N\bigr)
+        \end{gather}
+        for all $X,Y\in\mathfrak{X}(M)$.
+    }
+
+    Associated to the normal connection, there is also a normal curvature. This relates to the intrinsic curvature on $\widetilde{M}$ through the less famous Ricci equations.
+    \begin{formula}[Ricci equations]\index{Ricci}\label{riemann:ricci_equations}
+        \begin{gather}
+            \widetilde{g}\bigl(\widetilde{R}(X,Y)N,N'\bigr) - \widetilde{g}\bigl(R^\perp(X,Y)N,N'\bigr) = -\widetilde{g}\bigl([S_N,S_{N'}]X,Y\bigr)
+        \end{gather}
+        for all $X,Y\in\mathfrak{X}(M)$ and $N,N'\in\Gamma(NM)$.
+    \end{formula}
+    \begin{remark}[Hypersurfaces]
+        In the case of a codimension-1 immersion, the Ricci equation becomes vacuous since all normal vector fields are scalar multiples and the normal curvature vanishes as well.
+    \end{remark}
 
 \section{Spinor bundles}\index{spinor}\index{spin}\label{section:spinor_bundles}
 

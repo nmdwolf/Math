@@ -1,12 +1,13 @@
 \chapter{General Relativity}\label{chapter:GR}
 
-    References for this chapter are~\citet{rovelli_covariant_2014,misner_gravitation_2017}. See \labelref{chapter:riemann} for an introduction to the theory of Riemannian geometry. The mathematical background for the section on the tetradic formulation of GR can be found in \cref{section:cartan_geometry}.
+    General references for this chapter are~\citet{rovelli_covariant_2014,misner_gravitation_2017,blau_lecture_2026}. For \labelref{section:GR_hamiltonian_framework}, see~\citet{tavakoli_lecture_2014}. See \labelref{chapter:riemann} for an introduction to the theory of Riemannian geometry. The mathematical background for the section on the tetradic formulation of GR can be found in \cref{section:cartan_geometry}.
 
     In this chapter, the signature convention of the previous chapter is reversed. For general relativity, it is often more convenient to use the mostly-pluses convention (this simply reduces the number of minus signs).
 
     \minitoc
 
 \section{Causal structure}\index{causal}
+\subsection{Geometry}
 
     \newdef{Null coordinate}{\index{null!vector}\index{lightlike}\index{timelike}\index{spacelike}
         Consider a vector $v\in T_pM$ on a Lorentzian manifold $(M,g)$. This vector is said to be null or \textbf{lightlike} if it satisfies the following condition:
@@ -47,7 +48,7 @@
 
         A subset $S\subset M$ is called a Cauchy surface if every inextensible timelike curve in $M$ intersects $S$ exactly once and $D(S)=M$.
     }
-    \begin{property}
+    \begin{property}[Geroch's splitting theorem]\label{gr:globally_hyperbolic_decomposition}
         For a Lorentzian manifold $M$, the following conditions are equivalent:
         \begin{itemize}
             \item $M$ is globally hyperbolic, and
@@ -57,14 +58,14 @@
     \end{property}
 
     \newdef{Stationary spacetime}{\index{stationary}
-        A Lorentzian manifod $M$ is said to be stationary if there exists a timelike Killing vector. By the \textit{flowbox theorem}, there always exists a coordinate chart such that, locally, one can choose the Killing vector field to be $\partial_0$ and, hence, $M$ is stationary if one can find a coordinate system for which the metric coefficients are time independent.
+        A Lorentzian manifold $M$ is said to be stationary if there exists a timelike Killing vector. By the \textit{flowbox theorem}, there always exists a coordinate chart such that, locally, one can choose the Killing vector field to be $\partial_0$ and, hence, $M$ is stationary if one can find a coordinate system for which the metric coefficients are time independent.
     }
 
     \newdef{Celestial sphere}{\index{sphere!celestial}
         Consider a 4-dimensional Lorentzian manifold $M$. The celestial sphere at a point $p\in M$ is given by the projectivization $\mathbb{P}\bigl(J^+(p)\bigr)\cong\mathbb{CP}^1\cong S^2$, i.e.~it consists of all rays in the future (or, equivalently, past) lightcone at $p$. As~\citet{schreiber_nlab_2008} so nicely phrases it ``\textit{your celestial sphere (the one around the point where your head is) is the sphere of which you directly perceive a portion when you look.}''.
     }
     \begin{property}
-        By the above definition and \cref{dirac:exceptional_isomorphism}, the celestial sphere is given by $\mathbb{CP}^1$ or, in the spinorial setting, by the Weyl spinors modulo rescalings.
+        By the above definition and \cref{dirac:exceptional_isomorphism}, the celestial sphere is given by $\mathbb{CP}^1$ or, in the spinorial setting, by the Weyl spinors modulo rescaling.
     \end{property}
 
     \begin{definition}[Fermi--Walker transport]
@@ -87,6 +88,23 @@
         \todo{CONTINUE (link with Thomas precession)}
     \end{definition}
 
+\subsection{Compactification}
+
+    Depicting all of spacetime is, in general, a difficult task. Lorentzian 4-manifolds are often infinite and noncompact. However, \indexauthor{Penrose} provided a way to map the spacetime manifold onto the two-dimensional plane (even in a conformal way).
+
+    \begin{example}[Minkowski space]\index{Penrose--Carter diagram}\index{time!retarded}
+        As a simple example, consider the flat Minkowski space with its canonical spherical coordinates $(t,r,\varphi,\theta)$. The angular coordinates are irrelevant since Minkowski space is spherically symmetric and their domain is compact.
+
+        For the time and radial coordinate, one passes to \textbf{retarded} and \textbf{advanced time}:
+        \begin{gather}
+            u := t-r \qquad\qquad\text{and}\qquad\qquad v:=t+r\,.
+        \end{gather}
+        These are then compactified using the arctangent:
+        \begin{gather}
+            U := \atan(u) \qquad\qquad\text{and}\qquad\qquad V:=\atan(V)\,.
+        \end{gather}
+    \end{example}
+
 \section{Einstein field equations}
 
     \newformula{Einstein field equations}{\index{Einstein!field equations}\index{stress-energy tensor}\label{relativity:einstein_field_equations}
@@ -103,7 +121,7 @@
         where $\widetilde{T}_{\mu\nu} := T_{\mu\nu} - \frac{1}{2}g_{\mu\nu}T$ is the \textbf{reduced stress-energy tensor}.
     }
 
-    \begin{formula}[Einstein--Hilbert action]\index{action!Einstein--Hilbert}
+    \begin{formula}[Einstein--Hilbert action]\index{action!Einstein--Hilbert}\label{gr:einstein_hilbert_action}
         The (vacuum) field equations can be obtained by applying the variational principle to the following action:
         \begin{gather}
             S_{\text{EH}}[g_{\mu\nu}] := \Int_M\sqrt{-g}R\,\vol.
@@ -213,3 +231,122 @@
         \end{align}
         The coupling constant $\gamma$ is called the \textbf{Barbero--Immirzi} constant.
     }
+
+\section{Hamiltonian framework}\label{section:GR_hamiltonian_framework}
+\subsection{ADM formalism}
+
+    Consider a globally hyperbolic Lorentzian manifold $M\cong\mathbb{R}\times\Sigma$. This decomposition also induces an intrinsic metric (still on $TM$):
+    \begin{gather*}
+        h_{\mu\nu}=g_{\mu\nu} - \varepsilon n_\mu n_\nu\,,
+    \end{gather*}
+    where $\varepsilon:=g(\widehat{n},\widehat{n})$. Restricted to $T\Sigma$, this coincides with the pullback $\iota^*g$.
+
+    This decomposition gives rise to an immersion in the sense of \cref{section:riemannian_immersions}. Since there is only a single normal vector field $\widehat{n}$, the Weingarten map (\cref{riemann:shape_operator}) takes on a simple form.
+    \newdef{Extrinsic curvature}{\index{curvature!extrinsic}
+        On $TM$, define the linear operator
+        \begin{gather}
+            K_M(X,Y) := -g\bigl(\nabla_X\widehat{n},Y\bigr)\,.
+        \end{gather}
+        The extrinsic curvature  on $\Sigma$ is defined by
+        \begin{gather}
+            K(X,Y) := K_M\circ\pi_\Sigma(X)\,,
+        \end{gather}
+        with $\pi(X):=X-\varepsilon g(X,\widehat{n})\widehat{n}$ the tangential projection onto $T\sigma$. In components, this becomes:
+        \begin{gather}
+            K_{\mu\nu} = -\nabla_\mu n_\nu -n_\mu a_\nu\,,
+        \end{gather}
+        where the normal `acceleration' $\widehat{a}$ is defined as the covariant derivative of the normal along itself:
+        \begin{gather}
+            \widehat{a} := \nabla_{\widehat{n}}\widehat{n}\,.
+        \end{gather}
+    }
+    \begin{remark}
+        The associated shape operator (or Weingarten map) is simply given by
+        \begin{gather}
+            S(X) = -\nabla_XN\,,
+        \end{gather}
+        i.e.~the normal component vanishes identically (as long as $N$ has constant norm).
+    \end{remark}
+
+    \begin{formula}
+        \begin{gather}
+            K = -\frac{1}{2}\mathcal{L}_{\widehat{n}}h
+        \end{gather}
+    \end{formula}
+
+    To determine the Riemann curvature, and eventually, the Ricci scalar for the Einstein--Hilbert action of general relativity, the Gauss, Codazzi--Mainardi and Ricci equations can be used (\namecref{riemann:ricci_equations}~\ref{riemann:gauss_equations}, \ref{riemann:codazzi_equations} and~\ref{riemann:ricci_equations}).\index{Codazzi--Mainardi equations}\index{Gauss!equation for Riemann curvature}\index{Ricci!equation}
+    
+    First, the total covariant derivative on $T\Sigma\subset TM$ can be decomposed in terms of the intrinsic covariant derivative and extrinsic curvature of a slice:
+    \begin{gather}
+        \nabla_XY = \,^{(3)}\nabla_XY + \varepsilon K(X,Y)\widehat{n}\,.
+    \end{gather}
+    This, in turn, also induces a decomposition of the Riemann curvature tensor (where $W,X,Y,Z\in T\Sigma$):
+    \begin{gather}
+        g\bigl(W,R(X,Y)Z\bigr) = g\bigl(W,\,^{(3)}R(X,Y)Z\bigr) - \varepsilon\bigl(K(X,Z)K(Y,W)-K(Y,Z)K(X,W)\bigr)\,.
+    \end{gather}
+    When one of the entries is the normal direction, i.e.~one projects onto the normal vector, one obtains
+    \begin{gather}
+        g\bigl(\widehat{n},R(X,Y)Z\bigr) = -\varepsilon\bigl(\,^{(3)}\nabla_XK(Y,Z)-\,^{(3)}\nabla_YK(X,Z)\bigr)\,.
+    \end{gather}
+    The case where two of the four entries are along the normal direction, the \textbf{Ricci equation} is obtained:
+    \begin{gather}
+        g\bigl(\widehat{n},R(X,Y)\widehat{n}\bigr) = \varepsilon\mathcal{L}_{\widehat{n}}K(X,Y) + g\bigl(S(X),S(Y)\bigr) + g(Y,\,^{(3)}\nabla_X\widehat{a}) - g(X,\widehat{a})g(Y,\widehat{a})
+    \end{gather}
+    \todo{FIX EPSILON FACTORS}
+
+    Using the expression for the induced metric, the Ricci scalar can then be rewritten as
+    \begin{gather}
+        R = h^{\mu\rho}h^{\nu\sigma}R_{\mu\nu\rho\sigma}+2\varepsilon h^{\mu\rho}n^\nu n^\sigma
+    \end{gather}
+    or, using the Gauss equations, as
+    \begin{gather}
+        R = \,^{(3)}R+\varepsilon\bigl(\tr K^2 - \tr(K)^2\bigr)+2\varepsilon h^{\mu\rho}n^\nu n^\sigma\,.
+    \end{gather}
+    To rewrite the last term, one could resort to the Ricci equation, but there is an easier approach. The term can be rewritten using a total derivative:
+    \begin{gather}
+        \nabla_\mu(n^\alpha\nabla_\alpha n^\beta-n^\beta\nabla_\alpha n^\alpha) = R_{\mu\nu}n^\mu n^\nu + \tr(K^2) - \tr(K)^2\,.
+    \end{gather}
+    Taken together, this gives:
+    \begin{gather}
+        R = \,^{(3)}R+\varepsilon\bigl(\tr(K)^2-\tr K^2\bigr)+2\varepsilon\nabla_\mu(n^\alpha\nabla_\alpha n^\beta-n^\beta\nabla_\alpha n^\alpha)\,.
+    \end{gather}
+
+    \begin{property}[Boundary terms]
+        The divergence term in the $(3+1)$-decomposition of the Ricci scalar coincides exactly with the Gibbons--Hawking--York boundary term in \cref{gr:einstein_hilbert_action}.
+    \end{property}
+
+\subsection{BMS}
+
+    In Minkowski space $\mathbb{M}^4$, such as for electromagnetism, it is often useful to pass to \textbf{null coordinates}:
+    \begin{itemize}
+        \item Retarded time: $u:=r-t$, and/or
+        \item Advanced time: $v:=r+t$.
+    \end{itemize}
+    In these coordinates, outgoing null rays satisfy $u=\text{const.}$, whereas incoming null rays satisfy $v=\text{const.}$.
+
+    For asymptotically flat spacetimes, one can pick any null ray to define a null coordinate $u$ (or, alternatively, $v$) and, at every point consider the 3-sphere around this point. For globally hyperbolic spacetimes, \cref{gr:globally_hyperbolic_decomposition} implies that one can take a foliation by null hypersurfaces and the Bondi--Sachs coordinates $(u,r,\phi,\theta)\equiv(u,r,x^A)$ are the ones induced by such a decomposition.
+
+    The Bondi gauge of the metric is the one that leads to
+    \begin{gather*}
+        g^{uu}=0\qquad\qquad\text{and}\qquad\qquad g^{uA}=0\,.
+    \end{gather*}
+    Using these conditions, the metric takes the following form
+    \begin{gather*}
+        \dr s^2 = -\frac{Ve^{2\beta}}{r}\dr u^2-2e^{2\beta}\dr u\dr r+r^2\gamma_{AB}\bigl(\dr x^A-U^A\dr u\bigr)\bigl(\dr x^B-U^B\dr u\bigr)
+    \end{gather*}
+    for suitable functions $\beta,V$ and $U^A$, where $h_{AB}$ is the unit sphere metric.
+
+    \begin{example}[Minkowski space]
+        In this case, the Bondi--Sachs metric has the following coefficients:
+        $V=r$, $\beta=0$ and $U^A=0$.
+    \end{example}
+
+    \todo{MORE DETAILS}
+
+    Consider the Hamiltonian action for general relativity:
+    \begin{gather*}
+        S[g,\pi] = \Int_{\mathbb{R}}dt\Int_{\Sigma_t}d^3x\bigl(\pi^{ij}\partial_tg_{ij}-N^iH_i^{\text{grav}}-NH^{\text{grav}}\bigr)-B_\infty\,,
+    \end{gather*}
+    where $N$ and $N^i$ are the lapse and shift functions, and $H$ and $H_i$ are the Hamiltonian and momentum constraints. The term $B_\infty$ is a surface term at (spatial) infinity.
+
+    To make this action well defined, the fields should satisfy suitable fall-off conditions at infinity.
